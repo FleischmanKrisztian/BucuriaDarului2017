@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+
+@{
+    ViewBag.Title = "Contract Expiration";
+}
+
+<h2>Contract Expiration!</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Firstname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lastname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Birthdate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contract.NumberOfRegistration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contract.RegistrationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contract.ExpirationDate)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var Day = Finalaplication.Models.Volunteer.Nowdate();
+        var volexp = Finalaplication.Models.Volunteer.Volexp(item);
+        if ((Day <= volexp && Day + 20 > volexp) || (Day > 345 && 365 - (Day + 365 - Day - 2) >= volexp))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contract.NumberOfRegistration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contract.RegistrationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.VolunteerID })
+                </td>
+            </tr>
+        }
+    }
+
+</table>

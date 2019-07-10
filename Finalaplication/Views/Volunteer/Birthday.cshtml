@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+@{
+    ViewBag.Title = "Birthday";
+}
+
+<h2>Birthdays</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Firstname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lastname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Birthdate)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var Day = Finalaplication.Models.Volunteer.Nowdate();
+        var voldays = Finalaplication.Models.Volunteer.Volbd(item);
+        if ((Day <= voldays && Day + 10 > voldays) || (Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthdate)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.VolunteerID })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
