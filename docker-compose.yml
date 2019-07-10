@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  finalaplication:
-    image: ${DOCKER_REGISTRY-}finalaplication
-    build:
-      context: .
-      dockerfile: Finalaplication/Dockerfile

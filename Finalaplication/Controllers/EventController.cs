@@ -29,48 +29,53 @@ namespace Finalaplication.Controllers
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
         }
 
-        public async System.Threading.Tasks.Task<ActionResult> ExportAsync()
+        public ActionResult Export()
         {
-            string json = eventcollection.ToString();
-            using (var streamWriter = new StreamWriter("./jsondata/event.json"))
-            {
-                await streamWriter.WriteAsync("[");
-                await eventcollection.Find(new BsonDocument())
-                    .ForEachAsync(async (document) =>
-                    {
-                        using (var stringWriter = new StringWriter())
-
-                        using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
-                        {
-                            var context = BsonSerializationContext.CreateRoot(jsonWriter);
-                            eventcollection.DocumentSerializer.Serialize(context, document);
-                            string line = stringWriter.ToString();
-                            int lngth = line.Count();
-                            line = line.Remove(lngth - 48);
-                            line = line + "},";
-                            await streamWriter.WriteLineAsync(line);
-                        }
-                    });
-                await streamWriter.WriteAsync("]");
-            }
-            using (var streamWriter = new StreamWriter("./jsondata/volunteer.json"))
-            {
-                await vollunteercollection.Find(new BsonDocument())
-                    .ForEachAsync(async (document) =>
-                    {
-                        using (var stringWriter = new StringWriter())
-                        using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
-                        {
-                            var context = BsonSerializationContext.CreateRoot(jsonWriter);
-                            vollunteercollection.DocumentSerializer.Serialize(context, document);
-                            var line = stringWriter.ToString();
-                            await streamWriter.WriteLineAsync(line);
-                        }
-                    });
-            }
-
+            System.IO.File.WriteAllText(@"jsondata\event.csv", "XDXDXDXDXD");
             return RedirectToAction("Index");
         }
+        //public async System.Threading.Tasks.Task<ActionResult> ExportAsync()
+        //{
+        //    string json = eventcollection.ToString();
+        //    using (var streamWriter = new StreamWriter("./jsondata/event.json"))
+        //    {
+        //        await streamWriter.WriteAsync("[");
+        //        await eventcollection.Find(new BsonDocument())
+        //            .ForEachAsync(async (document) =>
+        //            {
+        //                using (var stringWriter = new StringWriter())
+
+        //                using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
+        //                {
+        //                    var context = BsonSerializationContext.CreateRoot(jsonWriter);
+        //                    eventcollection.DocumentSerializer.Serialize(context, document);
+        //                    string line = stringWriter.ToString();
+        //                    int lngth = line.Count();
+        //                    line = line.Remove(lngth - 48);
+        //                    line = line + "},";
+        //                    await streamWriter.WriteLineAsync(line);
+        //                }
+        //            });
+        //        await streamWriter.WriteAsync("]");
+        //    }
+        //    using (var streamWriter = new StreamWriter("./jsondata/volunteer.json"))
+        //    {
+        //        await vollunteercollection.Find(new BsonDocument())
+        //            .ForEachAsync(async (document) =>
+        //            {
+        //                using (var stringWriter = new StringWriter())
+        //                using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
+        //                {
+        //                    var context = BsonSerializationContext.CreateRoot(jsonWriter);
+        //                    vollunteercollection.DocumentSerializer.Serialize(context, document);
+        //                    var line = stringWriter.ToString();
+        //                    await streamWriter.WriteLineAsync(line);
+        //                }
+        //            });
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
 
         public ActionResult Index(string searching)
         {
