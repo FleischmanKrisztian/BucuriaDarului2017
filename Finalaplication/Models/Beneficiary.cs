@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using VolCommon;
 
 namespace Finalaplication.Models
 {
@@ -29,6 +30,7 @@ namespace Finalaplication.Models
         public DateTime LastTimeActiv { get; set; }
             public string Coments { get; set; }
             public Personalinfo PersonalInfo { get; set; }
+        public Contract Contract { get; set; }
         }
 
         public class Adress
