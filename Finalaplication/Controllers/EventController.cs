@@ -35,47 +35,36 @@ namespace Finalaplication.Controllers
         {
 
             List<Event> events = eventcollection.AsQueryable().ToList();
-            string path = "C:/Users/Corina.Gramada/Desktop/FinalApp/Finalaplication/Event.csv";
-            // string firstLine = "AllocatedVolunteers,DateOfEvent,Duration,NameOfEvent,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent;";
-
-            //string EventToWrite = "";
-            //foreach(var Event in events)
-            //{
-
-
-            // EventToWrite =  Event.AllocatedVolunteers+","+Event.DateOfEvent.ToString() + "," + Event.Duration.ToString() + "," +Event.NameOfEvent + "," +Event.NumberOfVolunteersNeeded.ToString() + "," +Event.PlaceOfEvent + "," +Event.TypeOfActivities + "," +Event.TypeOfEvent ;
-
-            //    System.IO.File.AppendAllText(path, EventToWrite);
-            //}
-
-
-
-            var allLinese = (
+            string path = "./jsondata/Event.csv";
+           
+            var allLines = (
                             from Event in events
                             select new object[]
-                            { Event.AllocatedVolunteers,
+                            { string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                            Event.NameOfEvent,
                               Event.DateOfEvent.ToString(),
                               Event.Duration.ToString(),
-                              Event.NameOfEvent,
+                              
                               Event.NumberOfVolunteersNeeded.ToString(),
                               Event.PlaceOfEvent,
                               Event.TypeOfActivities,
                               Event.TypeOfEvent,
+                              Event.AllocatedVolunteers)
 
-                              $"{Event.AllocatedVolunteers},{Event.DateOfEvent.ToString()},{Event.Duration.ToString()},{Event.NameOfEvent},{Event.NumberOfVolunteersNeeded.ToString()},{Event.PlaceOfEvent},{Event.TypeOfActivities},{Event.TypeOfEvent}"
+
                             }
                              ).ToList();
             var csv1 = new StringBuilder();
 
 
-            allLinese.ForEach(line =>
+            allLines.ForEach(line =>
             {
                 csv1 = csv1.AppendLine(string.Join(";", line));
 
             }
            );
-         
-          System.IO.File.AppendAllText(path, allLinese.ToString());
+            System.IO.File.WriteAllText(path, "NameOfEvent,DateOfEvent,Duration,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent,AllocatedVolunteers\n");
+            System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
         }
 

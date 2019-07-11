@@ -26,29 +26,18 @@ namespace Finalaplication.Controllers
         public ActionResult ExportVolunteers()
         {
             List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-            string path = "C:/Users/Corina.Gramada/Desktop/FinalApp/Finalaplication/Volunteers.csv";
+            string path = "./jsondata/Volunteers.csv";
 
 
 
             var allLines = (from Volunteer in volunteers
                             select new object[]
-                            { Volunteer.Firstname,
+                            { 
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8};",Volunteer.Firstname,
                             Volunteer.Lastname,
                             Volunteer.Birthdate.ToString(),
                             Volunteer.Gender,
-                            Volunteer.Birthdate.ToString(),
-                            Volunteer.Occupation,
-                            Volunteer.Field_of_activity,
-                            Volunteer.Desired_workplace,
-                            Volunteer.InActivity.ToString(),
-                            Volunteer.HourCount.ToString(),
-                            
 
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9};",Volunteer.Firstname,
-                            Volunteer.Lastname,
-                            Volunteer.Birthdate.ToString(),
-                            Volunteer.Gender,
-                            Volunteer.Birthdate.ToString(),
                             Volunteer.Occupation,
                             Volunteer.Field_of_activity,
                             Volunteer.Desired_workplace,
@@ -66,7 +55,7 @@ namespace Finalaplication.Controllers
 
             }
            );
-
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
 
