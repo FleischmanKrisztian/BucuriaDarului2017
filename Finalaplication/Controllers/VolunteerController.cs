@@ -6,6 +6,7 @@ using Finalaplication.Models;
 using Finalaplication.App_Start;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace Finalaplication.Controllers
 {
@@ -21,6 +22,57 @@ namespace Finalaplication.Controllers
             eventcollection = dbcontext.database.GetCollection<Event>("events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
         }
+
+        public ActionResult ExportVolunteers()
+        {
+            List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
+            string path = "C:/Users/Corina.Gramada/Desktop/FinalApp/Finalaplication/Volunteers.csv";
+
+
+
+            var allLines = (from Volunteer in volunteers
+                            select new object[]
+                            { Volunteer.Firstname,
+                            Volunteer.Lastname,
+                            Volunteer.Birthdate.ToString(),
+                            Volunteer.Gender,
+                            Volunteer.Birthdate.ToString(),
+                            Volunteer.Occupation,
+                            Volunteer.Field_of_activity,
+                            Volunteer.Desired_workplace,
+                            Volunteer.InActivity.ToString(),
+                            Volunteer.HourCount.ToString(),
+                            
+
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9};",Volunteer.Firstname,
+                            Volunteer.Lastname,
+                            Volunteer.Birthdate.ToString(),
+                            Volunteer.Gender,
+                            Volunteer.Birthdate.ToString(),
+                            Volunteer.Occupation,
+                            Volunteer.Field_of_activity,
+                            Volunteer.Desired_workplace,
+                            Volunteer.InActivity.ToString(),
+                            Volunteer.HourCount.ToString())
+                            }
+                             ).ToList();
+
+            var csv1 = new StringBuilder();
+
+
+            allLines.ForEach(line =>
+            {
+                csv1 = csv1.AppendLine(string.Join(";", line));
+
+            }
+           );
+
+            System.IO.File.AppendAllText(path, csv1.ToString());
+            return RedirectToAction("Index");
+
+        }
+
+
 
         public ActionResult Index(string searching)
         {

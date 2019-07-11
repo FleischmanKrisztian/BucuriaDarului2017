@@ -1,0 +1,88 @@
+﻿@model Finalaplication.Models.Beneficiary
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Beneficiary</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Firstname" class="control-label"></label>
+                <input asp-for="Firstname" class="form-control" />
+                <span asp-validation-for="Firstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lastname" class="control-label"></label>
+                <input asp-for="Lastname" class="form-control" />
+                <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Weeklypackage" /> @Html.DisplayNameFor(model => model.Weeklypackage)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Canteen" /> @Html.DisplayNameFor(model => model.Canteen)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HomeDeliveryDriver" /> @Html.DisplayNameFor(model => model.HomeDeliveryDriver)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasGDPRAgreement" /> @Html.DisplayNameFor(model => model.HasGDPRAgreement)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CNP" class="control-label"></label>
+                <input asp-for="CNP" class="form-control" />
+                <span asp-validation-for="CNP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractPeriode" class="control-label"></label>
+                <input asp-for="ContractPeriode" class="form-control" />
+                <span asp-validation-for="ContractPeriode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfPortions" class="control-label"></label>
+                <input asp-for="NumberOfPortions" class="form-control" />
+                <span asp-validation-for="NumberOfPortions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastTimeActiv" class="control-label"></label>
+                <input asp-for="LastTimeActiv" class="form-control" />
+                <span asp-validation-for="LastTimeActiv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coments" class="control-label"></label>
+                <input asp-for="Coments" class="form-control" />
+                <span asp-validation-for="Coments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

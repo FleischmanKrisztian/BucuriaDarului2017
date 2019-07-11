@@ -13,6 +13,8 @@ using MongoDB.Bson.IO;
 using Newtonsoft.Json.Linq;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 using MongoDB.Bson.Serialization;
+using System.Text;
+using System;
 
 namespace Finalaplication.Controllers
 {
@@ -31,9 +33,53 @@ namespace Finalaplication.Controllers
 
         public ActionResult Export()
         {
-            System.IO.File.WriteAllText(@"jsondata\event.csv", "XDXDXDXDXD");
+
+            List<Event> events = eventcollection.AsQueryable().ToList();
+            string path = "C:/Users/Corina.Gramada/Desktop/FinalApp/Finalaplication/Event.csv";
+            // string firstLine = "AllocatedVolunteers,DateOfEvent,Duration,NameOfEvent,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent;";
+
+            //string EventToWrite = "";
+            //foreach(var Event in events)
+            //{
+
+
+            // EventToWrite =  Event.AllocatedVolunteers+","+Event.DateOfEvent.ToString() + "," + Event.Duration.ToString() + "," +Event.NameOfEvent + "," +Event.NumberOfVolunteersNeeded.ToString() + "," +Event.PlaceOfEvent + "," +Event.TypeOfActivities + "," +Event.TypeOfEvent ;
+
+            //    System.IO.File.AppendAllText(path, EventToWrite);
+            //}
+
+
+
+            var allLinese = (
+                            from Event in events
+                            select new object[]
+                            { Event.AllocatedVolunteers,
+                              Event.DateOfEvent.ToString(),
+                              Event.Duration.ToString(),
+                              Event.NameOfEvent,
+                              Event.NumberOfVolunteersNeeded.ToString(),
+                              Event.PlaceOfEvent,
+                              Event.TypeOfActivities,
+                              Event.TypeOfEvent,
+
+                              $"{Event.AllocatedVolunteers},{Event.DateOfEvent.ToString()},{Event.Duration.ToString()},{Event.NameOfEvent},{Event.NumberOfVolunteersNeeded.ToString()},{Event.PlaceOfEvent},{Event.TypeOfActivities},{Event.TypeOfEvent}"
+                            }
+                             ).ToList();
+            var csv1 = new StringBuilder();
+
+
+            allLinese.ForEach(line =>
+            {
+                csv1 = csv1.AppendLine(string.Join(";", line));
+
+            }
+           );
+         
+          System.IO.File.AppendAllText(path, allLinese.ToString());
             return RedirectToAction("Index");
         }
+
+
         //public async System.Threading.Tasks.Task<ActionResult> ExportAsync()
         //{
         //    string json = eventcollection.ToString();
