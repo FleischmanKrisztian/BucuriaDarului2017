@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using System.Configuration;
+using System;
 
 namespace Finalaplication.App_Start
 {
@@ -9,6 +10,7 @@ namespace Finalaplication.App_Start
 
         public MongoDBContext()
         {
+            Environment.SetEnvironmentVariable("mongoserver", "mongodb+srv://Krisztian:rock44ever@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority", EnvironmentVariableTarget.Machine);
             try
             {
                 var mongoClient = new MongoClient("mongodb+srv://Krisztian:rock44ever@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority");
@@ -16,7 +18,7 @@ namespace Finalaplication.App_Start
             }
             catch
             {
-                var client = new MongoClient();
+                var client = new MongoClient("");
                 database = client.GetDatabase("Incercareax");
             }   
         }
