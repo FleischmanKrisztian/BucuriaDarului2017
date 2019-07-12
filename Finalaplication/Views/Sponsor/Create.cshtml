@@ -1,0 +1,88 @@
+﻿@model Finalaplication.Models.Sponsor
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Sponsor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NameOfSponsor" class="control-label"></label>
+                <input asp-for="NameOfSponsor" class="form-control" />
+                <span asp-validation-for="NameOfSponsor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact.PhoneNumber" class="control-label"></label>
+                <input asp-for="Contact.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact.MailAdress" class="control-label"></label>
+                <input asp-for="Contact.MailAdress" class="form-control" />
+                <span asp-validation-for="Contact.MailAdress" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Contract.HasContract" /> @Html.DisplayNameFor(model => model.Contract.HasContract)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contract.NumberOfRegistration" class="control-label"></label>
+                <input asp-for="Contract.NumberOfRegistration" class="form-control" />
+                <span asp-validation-for="Contract.NumberOfRegistration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contract.RegistrationDate" class="control-label"></label>
+                <input asp-for="Contract.RegistrationDate" class="form-control" />
+                <span asp-validation-for="Contract.RegistrationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contract.ExpirationDate" class="control-label"></label>
+                <input asp-for="Contract.ExpirationDate" class="form-control" />
+                <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sponsorships.Date" class="control-label"></label>
+                <input asp-for="Sponsorships.Date" class="form-control" />
+                <span asp-validation-for="Sponsorships.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sponsorships.TypeOfSupport" class="control-label"></label>
+                <input asp-for="Sponsorships.TypeOfSupport" class="form-control" />
+                <span asp-validation-for="Sponsorships.TypeOfSupport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sponsorships.MoneyAmount" class="control-label"></label>
+                <input asp-for="Sponsorships.MoneyAmount" class="form-control" />
+                <span asp-validation-for="Sponsorships.MoneyAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sponsorships.GoodsAmount" class="control-label"></label>
+                <input asp-for="Sponsorships.GoodsAmount" class="form-control" />
+                <span asp-validation-for="Sponsorships.GoodsAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sponsorships.WhatGoods" class="control-label"></label>
+                <input asp-for="Sponsorships.WhatGoods" class="form-control" />
+                <span asp-validation-for="Sponsorships.WhatGoods" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

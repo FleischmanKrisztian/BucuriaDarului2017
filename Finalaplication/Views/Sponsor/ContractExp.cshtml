@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Finalaplication.Models.Sponsor>
+
+@{
+    ViewData["Title"] = "ContractExp";
+}
+
+<h1>ContractExp</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameOfSponsor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact.MailAdress)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    var Day = Finalaplication.Models.Volunteer.Nowdate();
+    var volexp = Finalaplication.Models.Sponsor.Sponsorexp(item);
+    if ((Day <= volexp && Day + 20 > volexp) || (Day > 345 && 365 - (Day + 365 - Day - 2) >= volexp))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameOfSponsor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact.MailAdress)
+            </td>
+
+        </tr>
+    }
+}
+    </tbody>
+</table>

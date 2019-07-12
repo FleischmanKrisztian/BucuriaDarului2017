@@ -23,12 +23,14 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
+        private IMongoCollection<Sponsor> sponsorcollection;
 
         public EventController()
         {
             dbcontext = new MongoDBContext();
             eventcollection = dbcontext.database.GetCollection<Event>("events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
+            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("sponsor");
         }
 
         public ActionResult Export()
@@ -156,10 +158,58 @@ namespace Finalaplication.Controllers
                     var volunteerId = new ObjectId(vols[i]);
                     var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
 
-                    volname = volname + volunteer.Firstname + " " + volunteer.Lastname + "; ";
+                    volname = volname + volunteer.Firstname + " " + volunteer.Lastname + "  ";
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
                     var update = Builders<Event>.Update
                         .Set("AllocatedVolunteers", volname);
+
+                    var result = eventcollection.UpdateOne(filter, update);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        public ActionResult SponsorsAllocation(string id, string searching)
+        {
+            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            List<Event> events = eventcollection.AsQueryable<Event>().ToList();
+            var names = events.Find(b => b.EventID.ToString() == id);
+            names.AllocatedSponsors = names.AllocatedSponsors + ".";
+            ViewBag.strname = names.AllocatedSponsors.ToString();
+            ViewBag.Eventname = names.NameOfEvent.ToString();
+            if (searching != null)
+            {
+                ViewBag.Evid = id;
+                return View(sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList());
+            }
+            else
+            {
+                ViewBag.Evid = id;
+                return View(sponsors);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SponsorAllocation(string[] spons, string Evid)
+        {
+            try
+            {
+                string sponsname = "";
+                for (int i = 0; i < spons.Length; i++)
+                {
+                    var sponsorId = new ObjectId(spons[i]);
+                    var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId);
+
+                    sponsname = sponsname+" " + sponsor.NameOfSponsor ;
+                    var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
+                    var update = Builders<Event>.Update
+                        .Set("AllocatedSponsors", sponsname);
 
                     var result = eventcollection.UpdateOne(filter, update);
                 }

@@ -1,26 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Finalaplication.App_Start;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace Finalaplication.Controllers
 {
     public class BeneficiaryController : Controller
     {
+       
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
 
         public BeneficiaryController()
         {
             dbcontext = new MongoDBContext();
-            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("beneficiaries");
         }
+
+
+        //public ActionResult ExportBeneficiaries()
+        //{
+        //    List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
+        //    string path = "./jsondata/Beneficiaries.csv";
+
+
+
+        //    var allLines = (from Beneficiary in beneficiaries
+        //                    select new object[]
+        //                    {
+        //                     string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41};",
+        //                     beneficiaries.Firstname},
+        //                  beneficiaries.Lastname,
+        //                   beneficiaries.Weeklypackage.ToString(),
+        //                    beneficiaries.Status.ToString(),
+        //                    beneficiaries.Canteen.ToString(),
+        //                    beneficiaries.HomeDeliveryDriver.ToString(),
+        //                    beneficiaries.HasGDPRAgreement.ToString(),
+        //                   beneficiaries.CNP.ToString(),
+        //                   beneficiaries.NumberOfPortions.ToString(),
+        //                   beneficiaries.Coments.ToString(),
+        //                   beneficiaries.Adress.City.ToString(),
+        //                  beneficiaries.Adress.Street.ToString(),
+        //                   beneficiaries.Adress.Number.ToString(),
+        //                   beneficiaries.CI.HasId.ToString(),
+        //                 beneficiaries.CI.CIExpirationDate.ToString(),
+        //                  beneficiaries.Marca.IdAplication.ToString(),
+        //                  beneficiaries.Marca.IdContract.ToString(),
+        //                  beneficiaries.Marca.IdInvestigation.ToString(),
+        //                  beneficiaries.LastTimeActiv.ToString(),
+        //                  beneficiaries.PersonalInfo.Birthdate.ToString(),
+        //                  beneficiaries.PersonalInfo.BirthPlace.ToString(),
+        //                  beneficiaries.PersonalInfo.ChronicCondition.ToString(),
+        //                   beneficiaries.PersonalInfo.Dependent.ToString(),
+        //                  beneficiaries.PersonalInfo.Disalility.ToString(),
+        //                   beneficiaries.PersonalInfo.Expences.ToString(),
+        //                  beneficiaries.PersonalInfo.HasHome.ToString(),
+        //                  beneficiaries.PersonalInfo.HealthCard.ToString(),
+        //                   beneficiaries.PersonalInfo.HealthInsurance.ToString(),
+        //                  beneficiaries.PersonalInfo.HealthState.ToString(),
+        //                  beneficiaries.PersonalInfo.HousingType.ToString(),
+        //                  beneficiaries.PersonalInfo.Income.ToString(),
+        //                   beneficiaries.PersonalInfo.IsMarried.ToString(),
+        //                   beneficiaries.PersonalInfo.Ocupation.ToString(),
+        //                  beneficiaries.PersonalInfo.PhoneNumber.ToString(),
+        //                  beneficiaries.PersonalInfo.Profesion.ToString(),
+        //                 beneficiaries.PersonalInfo.SeniorityInWorkField.ToString(),
+        //                  beneficiaries.PersonalInfo.SpouseName.ToString(),
+        //                  beneficiaries.PersonalInfo.Studies.ToString(),
+        //                   beneficiaries.Contract.HasContract.ToString(),
+        //                   beneficiaries.Contract.NumberOfRegistration.ToString(),
+        //                  beneficiaries.Contract.RegistrationDate.ToString(),
+        //                  beneficiaries.Contract.ExpirationDate.ToString()
+        //                    }
+        //                     ).ToList();
+
+        //    var csv1 = new StringBuilder();
+
+
+        //    allLines.ForEach(line =>
+        //    {
+        //        csv1 = csv1.AppendLine(string.Join(";", line));
+
+        //    }
+        //   );
+        //    System.IO.File.WriteAllText(path, "\n");
+        //    System.IO.File.AppendAllText(path, csv1.ToString());
+        //    return RedirectToAction("Index");
+
+        //}
 
 
         public IActionResult Index(string searching)
@@ -35,9 +110,13 @@ namespace Finalaplication.Controllers
                 return View(beneficiaries);
             }
         }
-        
-   
-            public ActionResult Details(string id)
+
+        public ActionResult ContractExp()
+        {
+            List<Beneficiary>beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+            return View(beneficiaries);
+        }
+        public ActionResult Details(string id)
             {
                 var beneficiaryId = new MongoDB.Bson.ObjectId(id);
                 var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
@@ -91,21 +170,19 @@ namespace Finalaplication.Controllers
                    .Set("HomeDeliveriDriver", beneficiary.HomeDeliveryDriver)
                    .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
                    .Set("CNP", beneficiary.CNP)
-                   .Set("ContractPeriode", beneficiary.ContractPeriode)
                    .Set("NumberOfPortions", beneficiary.NumberOfPortions)
                    .Set("Coments", beneficiary.Coments)
                    .Set("City", beneficiary.Adress.City)
                    .Set("Street", beneficiary.Adress.Street)
                    .Set("Number", beneficiary.Adress.Number)
                    .Set("HasId", beneficiary.CI.HasId)
-                   .Set("ExpirationDate", beneficiary.CI.ExpirationDate)
+                   .Set("ExpirationDate", beneficiary.CI.CIExpirationDate)
                    .Set("IdAplication)", beneficiary.Marca.IdAplication)
                    .Set("IdContract", beneficiary.Marca.IdContract)
                    .Set("IdInvestigation", beneficiary.Marca.IdInvestigation)
                    .Set("LastTimeActiv)", beneficiary.LastTimeActiv)
-                   .Set("Age", beneficiary.PersonalInfo.Age)
-                   .Set("BirthDate", beneficiary.PersonalInfo.BirthDate)
-                   .Set("BirthPLace", beneficiary.PersonalInfo.BirthPLace)
+                   .Set("Birthdate", beneficiary.PersonalInfo.Birthdate)
+                   .Set("BirthPLace", beneficiary.PersonalInfo.BirthPlace)
                    .Set("ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
                    .Set("Dependent", beneficiary.PersonalInfo.Dependent)
                    .Set("Disalility", beneficiary.PersonalInfo.Disalility)
@@ -116,7 +193,7 @@ namespace Finalaplication.Controllers
                    .Set("HealthState", beneficiary.PersonalInfo.HealthState)
                    .Set("HousingType", beneficiary.PersonalInfo.HousingType)
                    .Set("Income", beneficiary.PersonalInfo.Income)
-                   .Set("Married", beneficiary.PersonalInfo.Married)
+                   .Set("Married", beneficiary.PersonalInfo.IsMarried)
                    .Set("Ocupation", beneficiary.PersonalInfo.Ocupation)
                    .Set("PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
                    .Set("Profesion", beneficiary.PersonalInfo.Profesion)

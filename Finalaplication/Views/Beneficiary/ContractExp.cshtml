@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
+
+@{
+    ViewData["Title"] = "ContractExp";
+}
+
+<h1>ContractExp</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weeklypackage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Canteen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeDeliveryDriver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasGDPRAgreement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CNP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfPortions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastTimeActiv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coments)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    var Day = Finalaplication.Models.Volunteer.Nowdate();
+    var volexp = Finalaplication.Models.Beneficiary.Benefxp(item);
+    if ((Day <= volexp && Day + 20 > volexp) || (Day > 345 && 365 - (Day + 365 - Day - 2) >= volexp))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weeklypackage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Canteen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeDeliveryDriver)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasGDPRAgreement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPortions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastTimeActiv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Coments)
+            </td>
+           
+        </tr>
+    }
+}
+    </tbody>
+</table>

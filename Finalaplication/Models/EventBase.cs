@@ -24,5 +24,7 @@ namespace VolCommon
         public int Duration { get; set; }
 
         public string AllocatedVolunteers { get; set; }
+
+        public string AllocatedSponsors { get; set; }
     }
 }

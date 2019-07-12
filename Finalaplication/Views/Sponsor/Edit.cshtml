@@ -1,0 +1,113 @@
+﻿@model Finalaplication.Models.Sponsor
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Sponsor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NameOfSponsor" class="control-label"></label>
+                <input asp-for="NameOfSponsor" class="form-control" />
+                <span asp-validation-for="NameOfSponsor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contact.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contact.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contact.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contact.MailAdress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contact.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contact.MailAdress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contract.HasContract, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Contract.HasContract)
+                        @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contract.NumberOfRegistration, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contract.RegistrationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Contract.ExpirationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sponsorships.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorships.Date, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorships.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sponsorships.TypeOfSupport, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorships.TypeOfSupport, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorships.TypeOfSupport, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sponsorships.GoodsAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorships.MoneyAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorships.MoneyAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sponsorships.GoodsAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorships.GoodsAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorships.GoodsAmount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sponsorships.WhatGoods, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorships.WhatGoods, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorships.WhatGoods, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
