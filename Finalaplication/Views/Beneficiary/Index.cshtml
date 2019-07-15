@@ -1,18 +1,20 @@
 ﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
 
 @{
-    ViewBag.Title = "Index";
+    ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a asp-action="Create">Create New</a>
 </p>
+
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
     @Html.TextBox("searching")<input type="submit" value="Search" />
 }
+
 <table class="table">
     <thead>
         <tr>
@@ -34,15 +36,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.HomeDeliveryDriver)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfPortions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PersonalInfo.PhoneNumber)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -57,7 +51,7 @@
         }
         else
         {
-            foreach (var item in Model)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -78,22 +72,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.HomeDeliveryDriver)
                     </td>
-                    
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumberOfPortions)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Coments)
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PersonalInfo.PhoneNumber)
-                    </td>
+                   
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.BeneficiaryID }) |
                         @Html.ActionLink("Details", "Details", new { id = item.BeneficiaryID }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.BeneficiaryID })
                     </td>
                 </tr>
-            }
-        }
-        </tbody>
+            }}
+    </tbody>
 </table>
+

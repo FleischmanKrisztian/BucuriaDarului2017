@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.Models
 {
+    
     public class Beneficiary
     {
         [BsonId]
@@ -26,7 +28,7 @@ namespace Finalaplication.Models
         public Marca Marca { get; set; }
         public int NumberOfPortions { get; set; }
         [DataType(DataType.Date)]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LastTimeActiv { get; set; }
         public string Coments { get; set; }
         public Personalinfo PersonalInfo { get; set; }

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Finalaplication.Models.Sponsor>
 @{
-    ViewBag.Title = "SponsorAllocation";
+    ViewBag.Title = "SponsorsAllocation";
 }
 @{
     string evid = ViewBag.Evid.ToString();
@@ -9,12 +9,12 @@
 
 }
 <h2>SponsorAllocation to @eventname</h2>
-@using (Html.BeginForm("/", "Event/SponsorAllocation/" + evid, FormMethod.Get))
+@using (Html.BeginForm("/", "Event/SponsorsAllocation/" + evid, FormMethod.Get))
 {
     @Html.TextBox("searching")<input type="submit" value="Search" />
 }
 
-<form action="/Event/VolunteerAllocation" method="post">
+<form action="/Event/SponsorsAllocation" method="post">
     <table class="table">
         <thead>
             <tr>

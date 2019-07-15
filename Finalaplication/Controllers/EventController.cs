@@ -37,21 +37,23 @@ namespace Finalaplication.Controllers
         {
 
             List<Event> events = eventcollection.AsQueryable().ToList();
-            string path = "./jsondata/Event.csv";
-           
+            string path = "C:/Users/Corina.Gramada/Desktop/Finalaplication/Finalaplication/Events.csv";
             var allLines = (
                             from Event in events
                             select new object[]
-                            { string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                            {
+
+            string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
                             Event.NameOfEvent,
                               Event.DateOfEvent.ToString(),
                               Event.Duration.ToString(),
-                              
+
                               Event.NumberOfVolunteersNeeded.ToString(),
                               Event.PlaceOfEvent,
                               Event.TypeOfActivities,
                               Event.TypeOfEvent,
-                              Event.AllocatedVolunteers)
+                              Event.AllocatedVolunteers,
+                              Event.AllocatedSponsors)
 
 
                             }
@@ -196,7 +198,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult SponsorAllocation(string[] spons, string Evid)
+        public ActionResult SponsorsAllocation(string[] spons, string Evid)
         {
             try
             {
@@ -222,11 +224,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-        //public ActionResult returner(string evid, Volunteer vol)
-        //{
-
-        //}
-
+       
 
         // GET: Volunteer/Details/5
         public ActionResult Details(string id)

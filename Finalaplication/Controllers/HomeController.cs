@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Finalaplication.Models;
 using MongoDB.Driver;
 using Finalaplication.App_Start;
+using System.Threading;
+using System.Globalization;
 
 namespace Finalaplication.Controllers
 {
@@ -40,16 +42,19 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
         public IActionResult Contact()
         {
+            
             return View();
         }
 
         public IActionResult About()
         {
+            
             return View();
         }
 

@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Finalaplication.App_Start;
-using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver.Core;
+using System.Configuration;
+using Finalaplication.App_Start;
+using Finalaplication.Models;
 using MongoDB.Driver;
+using System.IO;
 
 namespace Finalaplication.Controllers
 {
     public class BeneficiaryController : Controller
     {
-       
+
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
 
@@ -26,79 +27,79 @@ namespace Finalaplication.Controllers
         }
 
 
-        //public ActionResult ExportBeneficiaries()
-        //{
-        //    List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
-        //    string path = "./jsondata/Beneficiaries.csv";
+//        public ActionResult ExportBeneficiaries()
+//        {
+//            List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
+//            string path = "./jsondata/Beneficiaries.csv";
 
 
 
-        //    var allLines = (from Beneficiary in beneficiaries
-        //                    select new object[]
-        //                    {
-        //                     string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41};",
-        //                     beneficiaries.Firstname},
-        //                  beneficiaries.Lastname,
-        //                   beneficiaries.Weeklypackage.ToString(),
-        //                    beneficiaries.Status.ToString(),
-        //                    beneficiaries.Canteen.ToString(),
-        //                    beneficiaries.HomeDeliveryDriver.ToString(),
-        //                    beneficiaries.HasGDPRAgreement.ToString(),
-        //                   beneficiaries.CNP.ToString(),
-        //                   beneficiaries.NumberOfPortions.ToString(),
-        //                   beneficiaries.Coments.ToString(),
-        //                   beneficiaries.Adress.City.ToString(),
-        //                  beneficiaries.Adress.Street.ToString(),
-        //                   beneficiaries.Adress.Number.ToString(),
-        //                   beneficiaries.CI.HasId.ToString(),
-        //                 beneficiaries.CI.CIExpirationDate.ToString(),
-        //                  beneficiaries.Marca.IdAplication.ToString(),
-        //                  beneficiaries.Marca.IdContract.ToString(),
-        //                  beneficiaries.Marca.IdInvestigation.ToString(),
-        //                  beneficiaries.LastTimeActiv.ToString(),
-        //                  beneficiaries.PersonalInfo.Birthdate.ToString(),
-        //                  beneficiaries.PersonalInfo.BirthPlace.ToString(),
-        //                  beneficiaries.PersonalInfo.ChronicCondition.ToString(),
-        //                   beneficiaries.PersonalInfo.Dependent.ToString(),
-        //                  beneficiaries.PersonalInfo.Disalility.ToString(),
-        //                   beneficiaries.PersonalInfo.Expences.ToString(),
-        //                  beneficiaries.PersonalInfo.HasHome.ToString(),
-        //                  beneficiaries.PersonalInfo.HealthCard.ToString(),
-        //                   beneficiaries.PersonalInfo.HealthInsurance.ToString(),
-        //                  beneficiaries.PersonalInfo.HealthState.ToString(),
-        //                  beneficiaries.PersonalInfo.HousingType.ToString(),
-        //                  beneficiaries.PersonalInfo.Income.ToString(),
-        //                   beneficiaries.PersonalInfo.IsMarried.ToString(),
-        //                   beneficiaries.PersonalInfo.Ocupation.ToString(),
-        //                  beneficiaries.PersonalInfo.PhoneNumber.ToString(),
-        //                  beneficiaries.PersonalInfo.Profesion.ToString(),
-        //                 beneficiaries.PersonalInfo.SeniorityInWorkField.ToString(),
-        //                  beneficiaries.PersonalInfo.SpouseName.ToString(),
-        //                  beneficiaries.PersonalInfo.Studies.ToString(),
-        //                   beneficiaries.Contract.HasContract.ToString(),
-        //                   beneficiaries.Contract.NumberOfRegistration.ToString(),
-        //                  beneficiaries.Contract.RegistrationDate.ToString(),
-        //                  beneficiaries.Contract.ExpirationDate.ToString()
-        //                    }
-        //                     ).ToList();
+//            var allLines = (from Beneficiary in beneficiaries
+//                            select new object[]
+//                            {
+//                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41};",
+//                             beneficiaries.Firstname},
+//                          beneficiaries.Lastname,
+//                           beneficiaries.Weeklypackage.ToString(),
+//                            beneficiaries.Status.ToString(),
+//                            beneficiaries.Canteen.ToString(),
+//                            beneficiaries.HomeDeliveryDriver.ToString(),
+//                            beneficiaries.HasGDPRAgreement.ToString(),
+//                           beneficiaries.CNP.ToString(),
+//                           beneficiaries.NumberOfPortions.ToString(),
+//                           beneficiaries.Coments.ToString(),
+//                           beneficiaries.Adress.City.ToString(),
+//                          beneficiaries.Adress.Street.ToString(),
+//                           beneficiaries.Adress.Number.ToString(),
+//                           beneficiaries.CI.HasId.ToString(),
+//                         beneficiaries.CI.CIExpirationDate.ToString(),
+//                          beneficiaries.Marca.IdAplication.ToString(),
+//                          beneficiaries.Marca.IdContract.ToString(),
+//                          beneficiaries.Marca.IdInvestigation.ToString(),
+//                          beneficiaries.LastTimeActiv.ToString(),
+//                          beneficiaries.PersonalInfo.Birthdate.ToString(),
+//                          beneficiaries.PersonalInfo.BirthPlace.ToString(),
+//                          beneficiaries.PersonalInfo.ChronicCondition.ToString(),
+//                           beneficiaries.PersonalInfo.Dependent.ToString(),
+//                          beneficiaries.PersonalInfo.Disalility.ToString(),
+//                           beneficiaries.PersonalInfo.Expences.ToString(),
+//                          beneficiaries.PersonalInfo.HasHome.ToString(),
+//                          beneficiaries.PersonalInfo.HealthCard.ToString(),
+//                           beneficiaries.PersonalInfo.HealthInsurance.ToString(),
+//                          beneficiaries.PersonalInfo.HealthState.ToString(),
+//                          beneficiaries.PersonalInfo.HousingType.ToString(),
+//                          beneficiaries.PersonalInfo.Income.ToString(),
+//                           beneficiaries.PersonalInfo.IsMarried.ToString(),
+//                           beneficiaries.PersonalInfo.Ocupation.ToString(),
+//                          beneficiaries.PersonalInfo.PhoneNumber.ToString(),
+//                          beneficiaries.PersonalInfo.Profesion.ToString(),
+//                         beneficiaries.PersonalInfo.SeniorityInWorkField.ToString(),
+//                          beneficiaries.PersonalInfo.SpouseName.ToString(),
+//                          beneficiaries.PersonalInfo.Studies.ToString(),
+//                           beneficiaries.Contract.HasContract.ToString(),
+//                           beneficiaries.Contract.NumberOfRegistration.ToString(),
+//                          beneficiaries.Contract.RegistrationDate.ToString(),
+//                          beneficiaries.Contract.ExpirationDate.ToString()
+//                            }
+//                             ).ToList();
 
-        //    var csv1 = new StringBuilder();
-
-
-        //    allLines.ForEach(line =>
-        //    {
-        //        csv1 = csv1.AppendLine(string.Join(";", line));
-
-        //    }
-        //   );
-        //    System.IO.File.WriteAllText(path, "\n");
-        //    System.IO.File.AppendAllText(path, csv1.ToString());
-        //    return RedirectToAction("Index");
-
-        //}
+//        var csv1 = new StringBuilder();
 
 
-        public IActionResult Index(string searching)
+//        allLines.ForEach(line =>
+//            {
+//                csv1 = csv1.AppendLine(string.Join(";", line));
+
+//            }
+//           );
+//            System.IO.File.WriteAllText(path, "\n");
+//            System.IO.File.AppendAllText(path, csv1.ToString());
+//            return RedirectToAction("Index");
+
+//}
+
+
+public IActionResult Index(string searching)
         {
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
             if (searching != null)
@@ -113,54 +114,54 @@ namespace Finalaplication.Controllers
 
         public ActionResult ContractExp()
         {
-            List<Beneficiary>beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+            List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
             return View(beneficiaries);
         }
         public ActionResult Details(string id)
+        {
+            var beneficiaryId = new MongoDB.Bson.ObjectId(id);
+            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
+
+            return View(beneficiary);
+        }
+
+        // GET: Volunteer/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Volunteer/Create
+        [HttpPost]
+        public ActionResult Create(Beneficiary beneficiary)
+        {
+            try
             {
-                var beneficiaryId = new MongoDB.Bson.ObjectId(id);
-                var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
 
-                return View(beneficiary);
+                beneficiarycollection.InsertOne(beneficiary);
+                return RedirectToAction("Index");
             }
-
-            // GET: Volunteer/Create
-            public ActionResult Create()
+            catch
             {
                 return View();
             }
+        }
 
-            // POST: Volunteer/Create
-            [HttpPost]
-            public ActionResult Create(Beneficiary beneficiary)
+        // GET: Beneficiary/Edit/5
+        public ActionResult Edit(string id)
+        {
+            var beneficiaryId = new ObjectId(id);
+            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == beneficiaryId);
+            return View(beneficiary);
+        }
+
+        // POST: Beneficiary/Edit/5
+        [HttpPost]
+        public ActionResult Edit(string id, Beneficiary beneficiary)
+        {
+            try
             {
-                try
-                {
-
-                    beneficiarycollection.InsertOne(beneficiary);
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-
-            // GET: Beneficiary/Edit/5
-            public ActionResult Edit(string id)
-            {
-                var beneficiaryId = new ObjectId(id);
-                var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == beneficiaryId);
-                return View(beneficiary);
-            }
-
-            // POST: Beneficiary/Edit/5
-            [HttpPost]
-            public ActionResult Edit(string id, Beneficiary beneficiary)
-            {
-                try
-                {
-                    var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
+                var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<Beneficiary>.Update
                     .Set("Firstname", beneficiary.Firstname)
                     .Set("Lastname", beneficiary.Lastname)
@@ -205,39 +206,38 @@ namespace Finalaplication.Controllers
                    .Set("RegistrationDate", beneficiary.Contract.RegistrationDate)
                    .Set("ExpirationDate", beneficiary.Contract.ExpirationDate);
 
-                    var result = beneficiarycollection.UpdateOne(filter, update);
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
+                var result = beneficiarycollection.UpdateOne(filter, update);
+                return RedirectToAction("Index");
             }
-
-            // GET: Beneficiary/Delete/5
-            public ActionResult Delete(string id)
+            catch
             {
-                var beneficiaryId = new ObjectId(id);
-                var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
-                return View(beneficiary);
+                return View();
             }
-
-            // POST: Beneficiary/Delete/5
-            [HttpPost]
-            public ActionResult Delete(string id, IFormCollection collection)
-            {
-                try
-                {
-                    beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
-
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-
         }
-    }
 
+        // GET: Beneficiary/Delete/5
+        public ActionResult Delete(string id)
+        {
+            var beneficiaryId = new ObjectId(id);
+            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
+            return View(beneficiary);
+        }
+
+        // POST: Beneficiary/Delete/5
+        [HttpPost]
+        public ActionResult Delete(string id, Beneficiary benficiary)
+        {
+            try
+            {
+                beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+    }
+}

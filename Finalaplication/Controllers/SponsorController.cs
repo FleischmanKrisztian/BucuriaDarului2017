@@ -160,7 +160,7 @@ namespace Finalaplication.Controllers
 
         // POST: Volunteer/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, IFormCollection collection)
+        public ActionResult Delete(string id, Sponsor sponsor)
         {
             try
             {
