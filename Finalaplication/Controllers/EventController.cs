@@ -35,93 +35,38 @@ namespace Finalaplication.Controllers
         {
 
             List<Event> events = eventcollection.AsQueryable().ToList();
-            string path = "C:/Users/Corina.Gramada/Desktop/FinalApp/Finalaplication/Event.csv";
-            // string firstLine = "AllocatedVolunteers,DateOfEvent,Duration,NameOfEvent,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent;";
+            string path = "./jsondata/Event.csv";
 
-            //string EventToWrite = "";
-            //foreach(var Event in events)
-            //{
-
-
-            // EventToWrite =  Event.AllocatedVolunteers+","+Event.DateOfEvent.ToString() + "," + Event.Duration.ToString() + "," +Event.NameOfEvent + "," +Event.NumberOfVolunteersNeeded.ToString() + "," +Event.PlaceOfEvent + "," +Event.TypeOfActivities + "," +Event.TypeOfEvent ;
-
-            //    System.IO.File.AppendAllText(path, EventToWrite);
-            //}
-
-
-
-            var allLinese = (
+            var allLines = (
                             from Event in events
                             select new object[]
-                            { Event.AllocatedVolunteers,
+                            { string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                            Event.NameOfEvent,
                               Event.DateOfEvent.ToString(),
                               Event.Duration.ToString(),
-                              Event.NameOfEvent,
+
                               Event.NumberOfVolunteersNeeded.ToString(),
                               Event.PlaceOfEvent,
                               Event.TypeOfActivities,
                               Event.TypeOfEvent,
+                              Event.AllocatedVolunteers)
 
-                              $"{Event.AllocatedVolunteers},{Event.DateOfEvent.ToString()},{Event.Duration.ToString()},{Event.NameOfEvent},{Event.NumberOfVolunteersNeeded.ToString()},{Event.PlaceOfEvent},{Event.TypeOfActivities},{Event.TypeOfEvent}"
+
                             }
                              ).ToList();
             var csv1 = new StringBuilder();
 
 
-            allLinese.ForEach(line =>
+            allLines.ForEach(line =>
             {
                 csv1 = csv1.AppendLine(string.Join(";", line));
 
             }
            );
-         
-          System.IO.File.AppendAllText(path, allLinese.ToString());
+            System.IO.File.WriteAllText(path, "NameOfEvent,DateOfEvent,Duration,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent,AllocatedVolunteers\n");
+            System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
         }
-
-
-        //public async System.Threading.Tasks.Task<ActionResult> ExportAsync()
-        //{
-        //    string json = eventcollection.ToString();
-        //    using (var streamWriter = new StreamWriter("./jsondata/event.json"))
-        //    {
-        //        await streamWriter.WriteAsync("[");
-        //        await eventcollection.Find(new BsonDocument())
-        //            .ForEachAsync(async (document) =>
-        //            {
-        //                using (var stringWriter = new StringWriter())
-
-        //                using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
-        //                {
-        //                    var context = BsonSerializationContext.CreateRoot(jsonWriter);
-        //                    eventcollection.DocumentSerializer.Serialize(context, document);
-        //                    string line = stringWriter.ToString();
-        //                    int lngth = line.Count();
-        //                    line = line.Remove(lngth - 48);
-        //                    line = line + "},";
-        //                    await streamWriter.WriteLineAsync(line);
-        //                }
-        //            });
-        //        await streamWriter.WriteAsync("]");
-        //    }
-        //    using (var streamWriter = new StreamWriter("./jsondata/volunteer.json"))
-        //    {
-        //        await vollunteercollection.Find(new BsonDocument())
-        //            .ForEachAsync(async (document) =>
-        //            {
-        //                using (var stringWriter = new StringWriter())
-        //                using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
-        //                {
-        //                    var context = BsonSerializationContext.CreateRoot(jsonWriter);
-        //                    vollunteercollection.DocumentSerializer.Serialize(context, document);
-        //                    var line = stringWriter.ToString();
-        //                    await streamWriter.WriteLineAsync(line);
-        //                }
-        //            });
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
 
         public ActionResult Index(string searching)
         {
@@ -167,7 +112,7 @@ namespace Finalaplication.Controllers
                     var volunteerId = new ObjectId(vols[i]);
                     var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
 
-                    volname = volname + volunteer.Firstname + " " + volunteer.Lastname + "; ";
+                    volname = volname + volunteer.Firstname + " " + volunteer.Lastname + "  ";
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
                     var update = Builders<Event>.Update
                         .Set("AllocatedVolunteers", volname);
