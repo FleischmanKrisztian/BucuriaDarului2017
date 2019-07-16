@@ -12,9 +12,10 @@ namespace Finalaplication.Controllers
 {
     public class HomeController : Controller
     {
+       
         private MongoDBContext dbcontext;
-        private IMongoCollection<Event> eventcollection;
-        private IMongoCollection<Volunteer> vollunteercollection;
+        private readonly IMongoCollection<Event> eventcollection;
+        private readonly IMongoCollection<Volunteer> vollunteercollection;
 
         public HomeController()
         {
@@ -22,21 +23,6 @@ namespace Finalaplication.Controllers
             eventcollection = dbcontext.database.GetCollection<Event>("events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
         }
-        [HttpPost]
-        public ActionResult Transport(Event eventt)
-        {
-            try
-            {
-                eventt.DateOfEvent = eventt.DateOfEvent.AddHours(5);
-                eventcollection.InsertOne(eventt);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
 
         public IActionResult Index()
         {

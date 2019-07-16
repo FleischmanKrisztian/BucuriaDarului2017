@@ -44,7 +44,6 @@ namespace Finalaplication.Controllers
                             Event.NameOfEvent,
                               Event.DateOfEvent.ToString(),
                               Event.Duration.ToString(),
-
                               Event.NumberOfVolunteersNeeded.ToString(),
                               Event.PlaceOfEvent,
                               Event.TypeOfActivities,

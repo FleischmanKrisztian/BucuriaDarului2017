@@ -37,7 +37,6 @@ namespace Finalaplication.Controllers
                             Volunteer.Lastname,
                             Volunteer.Birthdate.ToString(),
                             Volunteer.Gender,
-
                             Volunteer.Occupation,
                             Volunteer.Field_of_activity,
                             Volunteer.Desired_workplace,
