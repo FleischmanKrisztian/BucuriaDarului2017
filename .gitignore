@@ -59,6 +59,8 @@ artifacts/
 *.sbr
 *.tlb
 *.tli
+*.csv
+*.csv#
 *.tlh
 *.tmp
 *.tmp_proj
