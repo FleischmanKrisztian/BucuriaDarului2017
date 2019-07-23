@@ -146,20 +146,32 @@ namespace Finalaplication.Controllers
                     .Set("CI.HasID", beneficiary.CI.HasID)
                     .Set("CI.ICExpiration", beneficiary.CI.ICExpiration)
                     .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
-                    .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
-                    .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
-                    .Set("Field_of_activity", beneficiary.Field_of_activity)
-                    .Set("Occupation", beneficiary.Occupation)
-                    .Set("InActivity", beneficiary.InActivity)
-                    .Set("HourCount", beneficiary.HourCount)
+                    .Set("Marca.IdInvestigation", beneficiary.Marca.IdInvestigation)
+                    .Set("Marca.IdContract", beneficiary.Marca.IdContract)
                     .Set("Contract.HasContract", beneficiary.Contract.HasContract)
                     .Set("Contract.NumberOfRegistration", beneficiary.Contract.NumberOfRegistration)
                     .Set("Contract.RegistrationDate", beneficiary.Contract.RegistrationDate.AddHours(5))
                     .Set("Contract.ExpirationDate", beneficiary.Contract.ExpirationDate.AddHours(5))
-                    .Set("ContactInformation.PhoneNumber", beneficiary.ContactInformation.PhoneNumber)
-                    .Set("ContactInformation.MailAdress", beneficiary.ContactInformation.MailAdress)
-                    .Set("Additionalinfo.HasCar", beneficiary.Additionalinfo.HasCar)
-                    .Set("Additionalinfo.HasDrivingLicence", beneficiary.Additionalinfo.HasDrivingLicence);
+                    .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
+                    .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
+                    .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
+                    .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies)
+                    .Set("PersonalInfo.Profession", beneficiary.PersonalInfo.Profession)
+                    .Set("PersonalInfo.Occupation", beneficiary.PersonalInfo.Occupation)
+                    .Set("PersonalInfo.Healthstate", beneficiary.PersonalInfo.Healthstate)
+                    .Set("PersonalInfo.Disability", beneficiary.PersonalInfo.Disability)
+                    .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
+                    .Set("PersonalInfo.Addict", beneficiary.PersonalInfo.Addict)
+                    .Set("PersonalInfo.HealthInsurance", beneficiary.PersonalInfo.HealthInsurance)
+                    .Set("PersonalInfo.HealthCard", beneficiary.PersonalInfo.HealthCard)
+                    .Set("PersonalInfo.Married", beneficiary.PersonalInfo.Married)
+                    .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
+                    .Set("PersonalInfo.Homeless", beneficiary.PersonalInfo.Homeless)
+                    .Set("PersonalInfo.Income", beneficiary.PersonalInfo.Income)
+                    .Set("PersonalInfo.Expenses", beneficiary.PersonalInfo.Expenses)
+                    .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender);
+
+
                 var result = beneficiarycollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");
             }
