@@ -18,16 +18,16 @@
             @Html.DisplayFor(model => model.NameOfSponsor)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contact.PhoneNumber)
+            @Html.DisplayNameFor(model => model.ContactInformation.PhoneNumber)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contact.PhoneNumber)
+            @Html.DisplayFor(model => model.ContactInformation.PhoneNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contact.MailAdress)
+            @Html.DisplayNameFor(model => model.ContactInformation.MailAdress)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contact.MailAdress)
+            @Html.DisplayFor(model => model.ContactInformation.MailAdress)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Contract.HasContract)
@@ -54,28 +54,23 @@
             @Html.DisplayFor(model => model.Contract.ExpirationDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sponsorships.Date)
+            @Html.DisplayNameFor(model => model.Sponsorship.Date)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sponsorships.Date)
+            @Html.DisplayFor(model => model.Sponsorship.Date)
+        </dd>
+       
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sponsorship.MoneyAmount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sponsorship.MoneyAmount)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sponsorships.TypeOfSupport)
+            @Html.DisplayNameFor(model => model.Sponsorship.WhatGoods)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sponsorships.TypeOfSupport)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sponsorships.MoneyAmount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sponsorships.MoneyAmount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sponsorships.WhatGoods)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sponsorships.WhatGoods)
+            @Html.DisplayFor(model => model.Sponsorship.WhatGoods)
         </dd>
 
     </dl>

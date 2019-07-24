@@ -30,14 +30,14 @@ namespace Finalaplication.Controllers
             dbcontext = new MongoDBContext();
             eventcollection = dbcontext.database.GetCollection<Event>("events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
-            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("sponsor");
+            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("sponsors");
         }
 
         public ActionResult Export()
         {
 
             List<Event> events = eventcollection.AsQueryable().ToList();
-            string path = "C:/Users/Corina.Gramada/Desktop/Finalaplication/Finalaplication/Events.csv";
+            string path = "./jsondata/Events.csv";
             var allLines = (
                             from Event in events
                             select new object[]
@@ -47,7 +47,6 @@ namespace Finalaplication.Controllers
                             Event.NameOfEvent,
                               Event.DateOfEvent.ToString(),
                               Event.Duration.ToString(),
-
                               Event.NumberOfVolunteersNeeded.ToString(),
                               Event.PlaceOfEvent,
                               Event.TypeOfActivities,
@@ -67,54 +66,13 @@ namespace Finalaplication.Controllers
 
             }
            );
-            System.IO.File.WriteAllText(path, "NameOfEvent,DateOfEvent,Duration,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent,AllocatedVolunteers\n");
+            System.IO.File.WriteAllText(path, "NameOfEvent,DateOfEvent,Duration,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent,AllocatedVolunteers,AllocatedSponsors\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
         }
 
 
-        //public async System.Threading.Tasks.Task<ActionResult> ExportAsync()
-        //{
-        //    string json = eventcollection.ToString();
-        //    using (var streamWriter = new StreamWriter("./jsondata/event.json"))
-        //    {
-        //        await streamWriter.WriteAsync("[");
-        //        await eventcollection.Find(new BsonDocument())
-        //            .ForEachAsync(async (document) =>
-        //            {
-        //                using (var stringWriter = new StringWriter())
-
-        //                using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
-        //                {
-        //                    var context = BsonSerializationContext.CreateRoot(jsonWriter);
-        //                    eventcollection.DocumentSerializer.Serialize(context, document);
-        //                    string line = stringWriter.ToString();
-        //                    int lngth = line.Count();
-        //                    line = line.Remove(lngth - 48);
-        //                    line = line + "},";
-        //                    await streamWriter.WriteLineAsync(line);
-        //                }
-        //            });
-        //        await streamWriter.WriteAsync("]");
-        //    }
-        //    using (var streamWriter = new StreamWriter("./jsondata/volunteer.json"))
-        //    {
-        //        await vollunteercollection.Find(new BsonDocument())
-        //            .ForEachAsync(async (document) =>
-        //            {
-        //                using (var stringWriter = new StringWriter())
-        //                using (var jsonWriter = new MongoDB.Bson.IO.JsonWriter(stringWriter))
-        //                {
-        //                    var context = BsonSerializationContext.CreateRoot(jsonWriter);
-        //                    vollunteercollection.DocumentSerializer.Serialize(context, document);
-        //                    var line = stringWriter.ToString();
-        //                    await streamWriter.WriteLineAsync(line);
-        //                }
-        //            });
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
+        
 
         public ActionResult Index(string searching)
         {
@@ -177,9 +135,9 @@ namespace Finalaplication.Controllers
         }
 
 
-        public ActionResult SponsorsAllocation(string id, string searching)
+        public ActionResult SponsorAllocation(string id, string searching)
         {
-            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            List< Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             var names = events.Find(b => b.EventID.ToString() == id);
             names.AllocatedSponsors = names.AllocatedSponsors + ".";
@@ -198,7 +156,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult SponsorsAllocation(string[] spons, string Evid)
+        public ActionResult SponsorAllocation(string[] spons, string Evid)
         {
             try
             {
@@ -208,7 +166,7 @@ namespace Finalaplication.Controllers
                     var sponsorId = new ObjectId(spons[i]);
                     var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId);
 
-                    sponsname = sponsname+" " + sponsor.NameOfSponsor ;
+                    sponsname = sponsname +" "+ sponsor.NameOfSponsor;
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
                     var update = Builders<Event>.Update
                         .Set("AllocatedSponsors", sponsname);
@@ -224,7 +182,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-       
+
 
         // GET: Volunteer/Details/5
         public ActionResult Details(string id)

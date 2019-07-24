@@ -37,37 +37,33 @@ namespace Finalaplication.Controllers
             var allLines = (from Sponsor in sponsors
                             select new object[]
                             {
-                                 string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11};",
+                                 string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10};",
                                  Sponsor.NameOfSponsor,
-                                 Sponsor.Contact.PhoneNumber.ToString(),
-                                  Sponsor.Contact.MailAdress.ToString()),
+                                 Sponsor.ContactInformation.PhoneNumber,
+                                 Sponsor.ContactInformation.MailAdress,
                                  Sponsor.Contract.HasContract.ToString(),
                                  Sponsor.Contract.NumberOfRegistration.ToString(),
                                  Sponsor.Contract.RegistrationDate.ToString(),
                                  Sponsor.Contract.ExpirationDate.ToString(),
-                                 Sponsor.Sponsorships.Date.ToString(),
-                                 Sponsor.Sponsorships.TypeOfSupport,
-                                 Sponsor.Sponsorships.MoneyAmount.ToString(),
-                                 Sponsor.Sponsorships.GoodsAmount.ToString(),
-                                  Sponsor.Sponsorships.WhatGoods
-
+                                 Sponsor.Sponsorship.Date.ToString(),
+                                 Sponsor.Sponsorship.MoneyAmount.ToString(),
+                                 Sponsor.Sponsorship.WhatGoods,
+                                 Sponsor.Sponsorship.GoodsAmount)
                             }
                              ).ToList();
 
             var csv1 = new StringBuilder();
-
-
             allLines.ForEach(line =>
             {
                 csv1 = csv1.AppendLine(string.Join(";", line));
 
             }
            );
-            System.IO.File.WriteAllText(path, "NameOfSponsor,PhoneNumber,MailAdress,HasContract,NumberOfRegistration,RegistrationDate,ExpirationDate,DateOfSponsorships,TypeOfSuport,MoneyAmount,GoodsAmount,WhatGoods\n");
+            System.IO.File.WriteAllText(path, "NameOfSponsor,PhoneNumber,MailAdress,HasContract,NumberOfRegistration,RegistrationDate,ExpirationDate,DateOfSponsorships,MoneyAmount,WhatGoods,GoodsAmount\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
-
         }
+
 
         public IActionResult Index(string searching)
         {
@@ -130,17 +126,17 @@ namespace Finalaplication.Controllers
                 var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<Sponsor>.Update
                     .Set("NameOfSponsor", sponsor.NameOfSponsor)
-                    .Set("PhoneNumber",sponsor.Contact.PhoneNumber)
-                    .Set("MailAdress",sponsor.Contact.MailAdress)
-                    .Set("HasContract", sponsor.Contract.HasContract)
-                    .Set("NumberOfRegistration", sponsor.Contract.NumberOfRegistration)
-                    .Set("RegistrationDate", sponsor.Contract.RegistrationDate)
-                    .Set("ExpirationDate", sponsor.Contract.ExpirationDate)
-                    .Set("SponsorshipDate", sponsor.Sponsorships.Date)
-                    .Set("TypeOfSuport", sponsor.Sponsorships.TypeOfSupport)
-                    .Set("MoneyAmount", sponsor.Sponsorships.MoneyAmount)
-                    .Set("GoodsAmount", sponsor.Sponsorships.GoodsAmount)
-                     .Set("WhatGoods", sponsor.Sponsorships.WhatGoods);
+                    .Set("ContactInformation.PhoneNumber", sponsor.ContactInformation.PhoneNumber)
+                    .Set("ContactInformation.MailAdress", sponsor.ContactInformation.MailAdress)
+                    .Set("Contract.HasContract", sponsor.Contract.HasContract)
+                    .Set("Contract.NumberOfRegistration", sponsor.Contract.NumberOfRegistration)
+                    .Set("Contract.RegistrationDate", sponsor.Contract.RegistrationDate.AddHours(5))
+                    .Set("Contract.ExpirationDate", sponsor.Contract.ExpirationDate.AddHours(5))
+                    .Set("Sponsorship.Date", sponsor.Sponsorship.Date.AddHours(5))
+                
+                    .Set("Sponsorship.MoneyAmount", sponsor.Sponsorship.MoneyAmount)
+                    .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
+                     .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
                 var result = sponsorcollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");
             }

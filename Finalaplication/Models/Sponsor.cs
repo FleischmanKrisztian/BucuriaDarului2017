@@ -7,27 +7,18 @@ using VolCommon;
 
 namespace Finalaplication.Models
 {
-    public enum TypeOfSupport
-    {
-        Money, Goods
-    }
-    public class Sponsor
+   
+    public class Sponsor:SponsorBase
     {
         [BsonId]
         public ObjectId SponsorID { get; set; }
-        public string NameOfSponsor { get; set; }
-
-        public Sponsorship Sponsorships { get; set; }
-
-        public ContactInformation Contact { get; set; }
-
-        public Contract Contract { get; set; }
+       
 
         public static int Sponsorexp(Sponsor sponsor)
         {
             int sponsorexp;
             {
-                sponsorexp = (sponsor.Contract.ExpirationDate.Month - 1) * 30 + sponsor.Contract.ExpirationDate.Day;
+                sponsorexp = ((sponsor.Contract.ExpirationDate.Month - 1) * 30) + sponsor.Contract.ExpirationDate.Day;
             }
             return sponsorexp;
         }

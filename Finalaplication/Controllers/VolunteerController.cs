@@ -32,17 +32,32 @@ namespace Finalaplication.Controllers
 
             var allLines = (from Volunteer in volunteers
                             select new object[]
-                            { 
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8};",Volunteer.Firstname,
+                            {
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20};",
+                            Volunteer.Firstname,
                             Volunteer.Lastname,
                             Volunteer.Birthdate.ToString(),
-                            Volunteer.Gender,
-
+                            Volunteer.Gender.ToString(),
                             Volunteer.Occupation,
                             Volunteer.Field_of_activity,
                             Volunteer.Desired_workplace,
                             Volunteer.InActivity.ToString(),
-                            Volunteer.HourCount.ToString())
+                            Volunteer.HourCount.ToString(),
+                            Volunteer.Additionalinfo.HasCar.ToString(),
+                            Volunteer.Additionalinfo.HasDrivingLicence.ToString(),
+                              Volunteer.Additionalinfo.Remark,
+                             Volunteer.Address.Country,
+                            Volunteer.Address.City,
+                            Volunteer.Address.Number,
+                            Volunteer.Address.Street,
+                            Volunteer.Contract.NumberOfRegistration.ToString(),
+                            Volunteer.Contract.HasContract.ToString(),
+                            Volunteer.Contract.RegistrationDate.ToString(),
+                            Volunteer.Contract.ExpirationDate.ToString(),
+                            Volunteer.ContactInformation.MailAdress,
+                            Volunteer.ContactInformation.PhoneNumber)
+
+                            
                             }
                              ).ToList();
 
@@ -55,7 +70,7 @@ namespace Finalaplication.Controllers
 
             }
            );
-            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount\n");
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,Country,City,Number,Street,NumberOfRegistration,HasContract,RegistrationDate,ExpirationDate,MailAddres,PhoneNumber\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
 
@@ -158,6 +173,7 @@ namespace Finalaplication.Controllers
                     .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
                     .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
                     .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
+                     .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
                     .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
                 var result = vollunteercollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");

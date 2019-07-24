@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Finalaplication.Models
+namespace VolCommon
 {
     public class Personalinfo
     {
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string BirthPlace { get; set; }
         public string Studies { get; set; }
         public string Profesion { get; set; }
@@ -23,7 +23,7 @@ namespace Finalaplication.Models
         public bool Dependent { get; set; }
         public bool HealthInsurance { get; set; }
         public bool HealthCard { get; set; }
-        public bool IsMarried { get; set; }
+        public bool Married { get; set; }
         public string SpouseName { get; set; }
         public bool HasHome { get; set; }
         public string HousingType { get; set; }
