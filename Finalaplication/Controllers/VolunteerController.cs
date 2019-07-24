@@ -19,8 +19,8 @@ namespace Finalaplication.Controllers
         public VolunteerController()
         {
             dbcontext = new MongoDBContext();
-            eventcollection = dbcontext.database.GetCollection<Event>("events");
-            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
+            eventcollection = dbcontext.database.GetCollection<Event>("Events");
+            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
         }
 
         public ActionResult ExportVolunteers()
@@ -173,7 +173,7 @@ namespace Finalaplication.Controllers
                     .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
                     .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
                     .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
-                     .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
+                    .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
                     .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
                 var result = vollunteercollection.UpdateOne(filter, update);
                 return RedirectToAction("Index");
