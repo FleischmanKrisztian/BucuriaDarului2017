@@ -1,4 +1,4 @@
-#App
+# Bucuria Darului
 
 # In order to make the application work you have to add Environment variables:
 - databasename   ex: Bucuria Darului
