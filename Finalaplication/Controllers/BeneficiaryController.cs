@@ -24,7 +24,7 @@ namespace Finalaplication.Controllers
         public BeneficiaryController()
         {
             dbcontext = new MongoDBContext();
-            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("beneficiaries");
+            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
         }
 
 
@@ -166,16 +166,17 @@ public IActionResult Index(string searching)
             {
                 var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                 var update = Builders<Beneficiary>.Update
-                    .Set("Firstname", beneficiary.Firstname)
-                    .Set("Lastname", beneficiary.Lastname)
-                    .Set("Weeklypackage", beneficiary.Weeklypackage)
-                    .Set("Status", beneficiary.Status)
+                   .Set("Firstname", beneficiary.Firstname)
+                   .Set("Lastname", beneficiary.Lastname)
+                   .Set("Weeklypackage", beneficiary.Weeklypackage)
+                   .Set("Status", beneficiary.Status)
                    .Set("Canteen", beneficiary.Canteen)
                    .Set("HomeDeliveryDriver", beneficiary.HomeDeliveryDriver)
                    .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
                    .Set("CNP", beneficiary.CNP)
                    .Set("NumberOfPortions", beneficiary.NumberOfPortions)
                    .Set("Coments", beneficiary.Coments)
+                   .Set("Adress.Country", beneficiary.Adress.Country)
                    .Set("Adress.City", beneficiary.Adress.City)
                    .Set("Adress.Street", beneficiary.Adress.Street)
                    .Set("Adress.Number", beneficiary.Adress.Number)
@@ -186,6 +187,7 @@ public IActionResult Index(string searching)
                    .Set("Marca.IdInvestigation", beneficiary.Marca.IdInvestigation)
                    .Set("LastTimeActiv", beneficiary.LastTimeActiv)
                    .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
+                   .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
                    .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
                    .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
                    .Set("PersonalInfo.Dependent", beneficiary.PersonalInfo.Dependent)
@@ -199,7 +201,6 @@ public IActionResult Index(string searching)
                    .Set("PersonalInfo.Income", beneficiary.PersonalInfo.Income)
                    .Set("PersonalInfo.Married", beneficiary.PersonalInfo.Married)
                    .Set("PersonalInfo.Ocupation", beneficiary.PersonalInfo.Ocupation)
-                   .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
                    .Set("PersonalInfo.Profesion", beneficiary.PersonalInfo.Profesion)
                    .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
                    .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)

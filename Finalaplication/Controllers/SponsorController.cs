@@ -22,8 +22,8 @@ namespace Finalaplication.Controllers
         public SponsorController()
         {
             dbcontext = new MongoDBContext();
-            eventcollection = dbcontext.database.GetCollection<Event>("events");
-            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("sponsors");
+            eventcollection = dbcontext.database.GetCollection<Event>("Events");
+            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
             
         }
 

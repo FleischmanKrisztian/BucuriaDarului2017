@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
 
 @{
-    ViewData["Title"] = "ContractExp";
+    ViewData["Title"] = "Contract Expiration";
 }
 
-<h1>ContractExp</h1>
+<h1>Contract Expiraton</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -22,29 +19,10 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weeklypackage)
+                @Html.DisplayNameFor(model => model.Contract.ExpirationDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Canteen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HomeDeliveryDriver)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HasGDPRAgreement)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CNP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfPortions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastTimeActiv)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coments)
-            </th>
+
+
             <th></th>
         </tr>
     </thead>
@@ -66,30 +44,12 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Weeklypackage)
+                @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Canteen)
+                @Html.ActionLink("Details", "Details", new { id = item.BeneficiaryID })
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomeDeliveryDriver)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HasGDPRAgreement)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CNP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfPortions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastTimeActiv)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coments)
-            </td>
-           
+
         </tr>
     }
 }

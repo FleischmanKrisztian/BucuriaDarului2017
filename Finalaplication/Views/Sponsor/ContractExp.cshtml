@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Finalaplication.Models.Sponsor>
 
 @{
-    ViewData["Title"] = "ContractExp";
+    ViewData["Title"] = "Contract Expiration";
 }
 
-<h1>ContractExp</h1>
+<h1>Contract Expiration</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -20,6 +17,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ContactInformation.MailAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract.ExpirationDate)
             </th>
             <th></th>
         </tr>
@@ -40,6 +40,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ContactInformation.MailAdress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.SponsorID })
             </td>
 
         </tr>

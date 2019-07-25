@@ -16,13 +16,13 @@ namespace Finalaplication.Controllers
     {
         private MongoDBContext dbcontext;
         private IMongoCollection<Event> eventcollection;
-        private IMongoCollection<Volunteer> vollunteercollection;
+        private readonly IMongoCollection<Volunteer> vollunteercollection;
 
         public HomeController()
         {
             dbcontext = new MongoDBContext();
-            eventcollection = dbcontext.database.GetCollection<Event>("events");
-            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
+            eventcollection = dbcontext.database.GetCollection<Event>("Events");
+            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
         }
         [HttpPost]
         public ActionResult Transport(Event eventt)

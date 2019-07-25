@@ -28,9 +28,9 @@ namespace Finalaplication.Controllers
         public EventController()
         {
             dbcontext = new MongoDBContext();
-            eventcollection = dbcontext.database.GetCollection<Event>("events");
-            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("volunteers");
-            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("sponsors");
+            eventcollection = dbcontext.database.GetCollection<Event>("Events");
+            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
         }
 
         public ActionResult Export()
@@ -98,7 +98,7 @@ namespace Finalaplication.Controllers
             if (searching != null)
             {
                 ViewBag.Evid = id;
-                return View(volunteers.Where(x => x.Firstname.Contains(searching)).ToList());
+                return View(volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList());
             }
             else
             {
@@ -137,7 +137,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult SponsorAllocation(string id, string searching)
         {
-            List< Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             var names = events.Find(b => b.EventID.ToString() == id);
             names.AllocatedSponsors = names.AllocatedSponsors + ".";
