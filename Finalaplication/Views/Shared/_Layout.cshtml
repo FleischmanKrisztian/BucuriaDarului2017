@@ -44,11 +44,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Sponsor" asp-action="Index">Sponsor</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    More
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="./Home/Contact">Contact</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="./Home/About">About</a></li>
+                                    <li class="divider"></li>
+                                    @*<li><a href="#">Settings</a></li>*@
+                                </ul>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                        </li>
+
+
                     </ul>
                 </div>
             </div>

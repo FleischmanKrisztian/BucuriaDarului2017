@@ -13,58 +13,58 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NameOfSponsor" class="control-label"></label>
+              Name of sponsor:
                 <input asp-for="NameOfSponsor" class="form-control" />
                 <span asp-validation-for="NameOfSponsor" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContactInformation.PhoneNumber" class="control-label"></label>
+               Phone number:
                 <input asp-for="ContactInformation.PhoneNumber" class="form-control" />
                 <span asp-validation-for="ContactInformation.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContactInformation.MailAdress" class="control-label"></label>
+               Email address:
                 <input asp-for="ContactInformation.MailAdress" class="form-control" />
                 <span asp-validation-for="ContactInformation.MailAdress" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Contract.HasContract" /> @Html.DisplayNameFor(model => model.Contract.HasContract)
+                    <input class="form-check-input" asp-for="Contract.HasContract" /> @Html.DisplayName("Has Contract")
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Contract.NumberOfRegistration" class="control-label"></label>
+               Number of registration:
                 <input asp-for="Contract.NumberOfRegistration" class="form-control" />
                 <span asp-validation-for="Contract.NumberOfRegistration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contract.RegistrationDate" class="control-label"></label>
+               Registration date:
                 <input asp-for="Contract.RegistrationDate" class="form-control" />
                 <span asp-validation-for="Contract.RegistrationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contract.ExpirationDate" class="control-label"></label>
+               Expiration date:
                 <input asp-for="Contract.ExpirationDate" class="form-control" />
                 <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sponsorship.Date" class="control-label"></label>
+               Date:
                 <input asp-for="Sponsorship.Date" class="form-control" />
                 <span asp-validation-for="Sponsorship.Date" class="text-danger"></span>
             </div>
            
             <div class="form-group">
-                <label asp-for="Sponsorship.MoneyAmount" class="control-label"></label>
+               Money amount:
                 <input asp-for="Sponsorship.MoneyAmount" class="form-control" />
                 <span asp-validation-for="Sponsorship.MoneyAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sponsorship.GoodsAmount" class="control-label"></label>
+               Goods amount:
                 <input asp-for="Sponsorship.GoodsAmount" class="form-control" />
                 <span asp-validation-for="Sponsorship.GoodsAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sponsorship.WhatGoods" class="control-label"></label>
+               What goods?
                 <input asp-for="Sponsorship.WhatGoods" class="form-control" />
                 <span asp-validation-for="Sponsorship.WhatGoods" class="text-danger"></span>
             </div>

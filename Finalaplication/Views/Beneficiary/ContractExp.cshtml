@@ -10,16 +10,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Firstname)
+                @Html.DisplayName("First name")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lastname)
+                @Html.DisplayName("Last name")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayName("Active")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contract.ExpirationDate)
+                @Html.DisplayName("Expiration date")
             </th>
 
 
@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Lastname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.Active)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)

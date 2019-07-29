@@ -41,7 +41,7 @@ namespace Finalaplication.Controllers
                              string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42},{43};",
                             Beneficiary.Firstname,
                             Beneficiary.Lastname,
-                            Beneficiary.Status.ToString(),
+                            Beneficiary.Active,
                             Beneficiary.Weeklypackage.ToString(),
                             Beneficiary.Canteen.ToString(),
                             Beneficiary.HomeDeliveryDriver,
@@ -69,7 +69,7 @@ namespace Finalaplication.Controllers
                             Beneficiary.PersonalInfo.HealthState,
                             Beneficiary.PersonalInfo.Disalility,
                             Beneficiary.PersonalInfo.ChronicCondition,
-                            Beneficiary.PersonalInfo.Dependent.ToString(),
+                            Beneficiary.PersonalInfo.Addictions,
                             Beneficiary.PersonalInfo.HealthInsurance.ToString(),
                             Beneficiary.PersonalInfo.HealthCard.ToString(),
                             Beneficiary.PersonalInfo.Married.ToString(),
@@ -95,7 +95,7 @@ namespace Finalaplication.Controllers
 
             }
            );
-            System.IO.File.WriteAllText(path, "Firstname,Lastname,Status,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,Country,City,Street,Number,CNP,Has ID,ID Expiration,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Dependent,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,Country,City,Street,Number,CNP,Has ID,ID Expiration,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
 
@@ -169,7 +169,7 @@ public IActionResult Index(string searching)
                    .Set("Firstname", beneficiary.Firstname)
                    .Set("Lastname", beneficiary.Lastname)
                    .Set("Weeklypackage", beneficiary.Weeklypackage)
-                   .Set("Status", beneficiary.Status)
+                   .Set("Active", beneficiary.Active)
                    .Set("Canteen", beneficiary.Canteen)
                    .Set("HomeDeliveryDriver", beneficiary.HomeDeliveryDriver)
                    .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
@@ -190,7 +190,7 @@ public IActionResult Index(string searching)
                    .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
                    .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
                    .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
-                   .Set("PersonalInfo.Dependent", beneficiary.PersonalInfo.Dependent)
+                   .Set("PersonalInfo.Dependent", beneficiary.PersonalInfo.Addictions)
                    .Set("PersonalInfo.Disalility", beneficiary.PersonalInfo.Disalility)
                    .Set("PersonalInfo.Expences", beneficiary.PersonalInfo.Expences)
                    .Set("PersonalInfo.HasHome", beneficiary.PersonalInfo.HasHome)

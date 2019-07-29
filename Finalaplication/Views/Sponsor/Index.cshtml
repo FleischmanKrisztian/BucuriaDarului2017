@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h1>Index</h1>
+<h1>Sponsors</h1>
 
 
 <p>
@@ -17,26 +17,26 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NameOfSponsor)
+            <th> 
+                @Html.DisplayName("Name of sponsor")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactInformation.PhoneNumber)
+                @Html.DisplayName("Phone number")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactInformation.MailAdress)
+                @Html.DisplayName("Email adress")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contract.HasContract)
+                @Html.DisplayName("Has contract")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contract.NumberOfRegistration)
+                @Html.DisplayName("Number of registration")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contract.RegistrationDate)
+                @Html.DisplayName("Registration date")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contract.ExpirationDate)
+                @Html.DisplayName("Expiration date")
             </th>
             <th></th>
         </tr>

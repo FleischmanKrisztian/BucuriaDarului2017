@@ -20,7 +20,7 @@ namespace VolCommon
         public string HealthState { get; set; }
         public string Disalility { get; set; }
         public string ChronicCondition { get; set; }
-        public bool Dependent { get; set; }
+        public string Addictions { get; set; }
         public bool HealthInsurance { get; set; }
         public bool HealthCard { get; set; }
         public bool Married { get; set; }
@@ -29,6 +29,6 @@ namespace VolCommon
         public string HousingType { get; set; }
         public string Income { get; set; }
         public string Expences { get; set; }
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
     }
 }

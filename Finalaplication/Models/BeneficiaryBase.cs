@@ -16,7 +16,7 @@ namespace VolCommon
       
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public string Status { get; set; }
+        public bool Active { get; set; }
         public bool Weeklypackage { get; set; }
         public bool Canteen { get; set; }
         public string HomeDeliveryDriver { get; set; }

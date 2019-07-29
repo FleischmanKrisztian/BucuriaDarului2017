@@ -52,7 +52,8 @@ namespace Finalaplication.Controllers
                               Event.TypeOfActivities,
                               Event.TypeOfEvent,
                               Event.AllocatedVolunteers,
-                              Event.AllocatedSponsors)
+                              Event.AllocatedSponsors
+                              )
 
 
                             }
@@ -238,7 +239,8 @@ namespace Finalaplication.Controllers
                     .Set("NumberOfVolunteersNeeded", eventt.NumberOfVolunteersNeeded)
                     .Set("TypeOfActivities", eventt.TypeOfActivities)
                     .Set("TypeOfEvent", eventt.TypeOfEvent)
-                    .Set("Duration", eventt.Duration);
+                    .Set("Duration", eventt.Duration)
+                    ;
 
 
                 var result = eventcollection.UpdateOne(filter, update);

@@ -18,25 +18,26 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NameOfEvent)
+            @Html.DisplayName("Name of event:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlaceOfEvent)
+            @Html.DisplayName("Place of event:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateOfEvent)
+            @Html.DisplayName("Date of event:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NumberOfVolunteersNeeded)
+            @Html.DisplayName("Number of volunteers needed:")
+        </th>
+        
+        <th>
+            @Html.DisplayName("Type of activities:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TypeOfActivities)
+            @Html.DisplayName("Type of event:")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TypeOfEvent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Duration)
+            @Html.DisplayName("Duration:")
         </th>
         <th></th>
     </tr>
@@ -66,6 +67,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.NumberOfVolunteersNeeded)
                 </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.TypeOfActivities)
                 </td>
