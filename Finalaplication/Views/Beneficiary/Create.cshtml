@@ -24,6 +24,7 @@
                 <input asp-for="Lastname" class="form-control" />
                 <span asp-validation-for="Lastname" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 CNP:
                 <input asp-for="CNP" class="form-control" />
@@ -35,11 +36,13 @@
                 <input asp-for="PersonalInfo.Birthdate" class="form-control" />
                 <span asp-validation-for="PersonalInfo.Birthdate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 Birthplace
                 <input asp-for="PersonalInfo.BirthPlace" class="form-control" />
                 <span asp-validation-for="PersonalInfo.BirthPlace" class="text-danger"></span>
             </div>
+
             @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
             {
                 <div class="form-group">
@@ -66,7 +69,7 @@
             </div>
 
             <div class="form-group">
-                Weekley package:
+                Weekly package:
                 <div class="col-md-10">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.Weeklypackage)
@@ -80,7 +83,7 @@
                 <span asp-validation-for="NumberOfPortions" class="text-danger"></span>
             </div>
             <div class="form-group">
-                Last time activ:
+                Last time active:
                 <input asp-for="LastTimeActiv" class="form-control" />
                 <span asp-validation-for="LastTimeActiv" class="text-danger"></span>
             </div>
@@ -173,7 +176,7 @@
 
             <h4>Contract information:</h4>
             <div class="form-group">
-                Has contract?
+                Has contract
                 <div class="col-md-10">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.Contract.HasContract)
@@ -196,8 +199,6 @@
                 <input asp-for="Contract.ExpirationDate" class="form-control" />
                 <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
             </div>
-
-
 
             <h4>Marca details:</h4>
 
@@ -227,6 +228,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 Has health insurance?
                 <div class="col-md-10">
@@ -256,7 +258,6 @@
                 <input asp-for="PersonalInfo.Disalility" class="form-control" />
                 <span asp-validation-for="PersonalInfo.Disalility" class="text-danger"></span>
             </div>
-
 
             <h4>Housing information:</h4>
             <div class="form-group">

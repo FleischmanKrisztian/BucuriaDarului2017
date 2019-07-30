@@ -42,6 +42,14 @@
             @Html.DisplayFor(model => model.Contract.NumberOfRegistration)
         </dd>
 
+        <dt>
+            @Html.DisplayName("Active:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InActivity)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm())

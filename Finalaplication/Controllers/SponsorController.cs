@@ -133,7 +133,6 @@ namespace Finalaplication.Controllers
                     .Set("Contract.RegistrationDate", sponsor.Contract.RegistrationDate.AddHours(5))
                     .Set("Contract.ExpirationDate", sponsor.Contract.ExpirationDate.AddHours(5))
                     .Set("Sponsorship.Date", sponsor.Sponsorship.Date.AddHours(5))
-                
                     .Set("Sponsorship.MoneyAmount", sponsor.Sponsorship.MoneyAmount)
                     .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
                      .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
