@@ -1,7 +1,7 @@
 ﻿@model Finalaplication.Models.Beneficiary
 
 @{
-    ViewBag.Title = "Create";
+    ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
@@ -12,7 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <h4>Personal Information:</h4>
             <div class="form-group">
                 First name:
@@ -47,7 +46,6 @@
             {
                 <div class="form-group">
                     Gender:
-
                     <br />
                     Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
                     Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
