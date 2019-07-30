@@ -148,9 +148,10 @@
         <div class="form-group">
         Gender:
             <br />
-            
-            Male @Html.RadioButtonFor(m => m.Gender, "Male")
-            Female @Html.RadioButtonFor(m => m.Gender, "Female")
+            <div class="col-md-10">
+                Male @Html.RadioButtonFor(m => m.Gender, "Male")
+                Female @Html.RadioButtonFor(m => m.Gender, "Female")
+            </div>
         </div>
     }
     <div class="form-group">

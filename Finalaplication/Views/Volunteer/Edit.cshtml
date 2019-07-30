@@ -146,13 +146,14 @@
 
     @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
     {
-        <div class="form-group">
-            Gender:
-            <br/>
-            
+    <div class="form-group">
+        Gender:
+        <br />
+        <div class="col-md-10">
             Male @Html.RadioButtonFor(m => m.Gender, "Male")
             Female @Html.RadioButtonFor(m => m.Gender, "Female")
         </div>
+    </div>
     }
     <div class="form-group">
         Desired area:
