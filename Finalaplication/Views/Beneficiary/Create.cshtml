@@ -12,125 +12,127 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <h4>Personal Information:</h4>
-            <div class="form-group">
-                First name:
-                <input asp-for="Firstname" class="form-control" />
-                <span asp-validation-for="Firstname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Last name:
-                <input asp-for="Lastname" class="form-control" />
-                <span asp-validation-for="Lastname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                CNP:
-                <input asp-for="CNP" class="form-control" />
-                <span asp-validation-for="CNP" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                Birthdate
-                <input asp-for="PersonalInfo.Birthdate" class="form-control" />
-                <span asp-validation-for="PersonalInfo.Birthdate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Birthplace
-                <input asp-for="PersonalInfo.BirthPlace" class="form-control" />
-                <span asp-validation-for="PersonalInfo.BirthPlace" class="text-danger"></span>
-            </div>
-            @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
-            {
+            
+                <h4>Personal Information:</h4>
                 <div class="form-group">
-                    Gender:
-
-                    <br />
-                    Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
-                    Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
+                    First name:
+                    <input asp-for="Firstname" class="form-control" />
+                    <span asp-validation-for="Firstname" class="text-danger"></span>
                 </div>
-            }
-            <div class="form-group">
-                Phone number
-                <input asp-for="PersonalInfo.PhoneNumber" class="form-control" />
-                <span asp-validation-for="PersonalInfo.PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Active:
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Active)
-                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    Last name:
+                    <input asp-for="Lastname" class="form-control" />
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    CNP:
+                    <input asp-for="CNP" class="form-control" />
+                    <span asp-validation-for="CNP" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    Birthdate
+                    <input asp-for="PersonalInfo.Birthdate" class="form-control" />
+                    <span asp-validation-for="PersonalInfo.Birthdate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    Birthplace
+                    <input asp-for="PersonalInfo.BirthPlace" class="form-control" />
+                    <span asp-validation-for="PersonalInfo.BirthPlace" class="text-danger"></span>
+                </div>
+                @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        Gender:
+
+                        <br />
+                        Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
+                        Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
+                    </div>
+                }
+                <div class="form-group">
+                    Phone number
+                    <input asp-for="PersonalInfo.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PersonalInfo.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    Active:
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Active)
+                            @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                Weekley package:
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Weeklypackage)
-                        @Html.ValidationMessageFor(model => model.Weeklypackage, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    Weekley package:
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Weeklypackage)
+                            @Html.ValidationMessageFor(model => model.Weeklypackage, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                Number of portions:
-                <input asp-for="NumberOfPortions" class="form-control" />
-                <span asp-validation-for="NumberOfPortions" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Last time activ:
-                <input asp-for="LastTimeActiv" class="form-control" />
-                <span asp-validation-for="LastTimeActiv" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Comments:
-                <input asp-for="Coments" class="form-control" />
-                <span asp-validation-for="Coments" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    Number of portions:
+                    <input asp-for="NumberOfPortions" class="form-control" />
+                    <span asp-validation-for="NumberOfPortions" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    Last time activ:
+                    <input asp-for="LastTimeActiv" class="form-control" />
+                    <span asp-validation-for="LastTimeActiv" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    Comments:
+                    <input asp-for="Coments" class="form-control" />
+                    <span asp-validation-for="Coments" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                Canteen:
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.Canteen)
-                        @Html.ValidationMessageFor(model => model.Canteen, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    Canteen:
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Canteen)
+                            @Html.ValidationMessageFor(model => model.Canteen, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                Home delivery driver:
-                <input asp-for="HomeDeliveryDriver" class="form-control" />
-                <span asp-validation-for="HomeDeliveryDriver" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasGDPRAgreement" /> @Html.DisplayName("Has GDPR agreement?")
-                </label>
-            </div>
-            <h4>Address Information:</h4>
-            <div class="form-group">
-                Country:
-                <input asp-for="Adress.Country" class="form-control" />
-                <span asp-validation-for="Adress.Country" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                City:
-                <input asp-for="Adress.City" class="form-control" />
-                <span asp-validation-for="Adress.City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Street:
-                <input asp-for="Adress.Street" class="form-control" />
-                <span asp-validation-for="Adress.Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                Number:
-                <input asp-for="Adress.Number" class="form-control" />
-                <span asp-validation-for="Adress.Number" class="text-danger"></span>
-            </div>
-
+                <div class="form-group">
+                    Home delivery driver:
+                    <input asp-for="HomeDeliveryDriver" class="form-control" />
+                    <span asp-validation-for="HomeDeliveryDriver" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="HasGDPRAgreement" /> @Html.DisplayName("Has GDPR agreement?")
+                    </label>
+                </div>
+            
+            
+                <h4>Address Information:</h4>
+                <div class="form-group">
+                    Country:
+                    <input asp-for="Adress.Country" class="form-control" />
+                    <span asp-validation-for="Adress.Country" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    City:
+                    <input asp-for="Adress.City" class="form-control" />
+                    <span asp-validation-for="Adress.City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    Street:
+                    <input asp-for="Adress.Street" class="form-control" />
+                    <span asp-validation-for="Adress.Street" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    Number:
+                    <input asp-for="Adress.Number" class="form-control" />
+                    <span asp-validation-for="Adress.Number" class="text-danger"></span>
+                </div>
+            
             <h4>ID Information:</h4>
             <div class="form-group">
                 Has ID:
@@ -242,7 +244,7 @@
                 <span asp-validation-for="PersonalInfo.HealthState" class="text-danger"></span>
             </div>
             <div class="form-group">
-                Chronic Condition
+                Chronic Condition:
                 <input asp-for="PersonalInfo.ChronicCondition" class="form-control" />
                 <span asp-validation-for="PersonalInfo.ChronicCondition" class="text-danger"></span>
             </div>
