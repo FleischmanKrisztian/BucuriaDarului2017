@@ -1,7 +1,7 @@
 ﻿@model Finalaplication.Models.Beneficiary
 
 @{
-    ViewBag.Title = "Create";
+    ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
@@ -12,48 +12,43 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-                <h4>Personal Information:</h4>
-                <div class="form-group">
-                    First name:
-                    <input asp-for="Firstname" class="form-control" />
-                    <span asp-validation-for="Firstname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    Last name:
-                    <input asp-for="Lastname" class="form-control" />
-                    <span asp-validation-for="Lastname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    CNP:
-                    <input asp-for="CNP" class="form-control" />
-                    <span asp-validation-for="CNP" class="text-danger"></span>
-                </div>
+            <h4>Personal Information:</h4>
+            <div class="form-group">
+                First name:
+                <input asp-for="Firstname" class="form-control" />
+                <span asp-validation-for="Firstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Last name:
+                <input asp-for="Lastname" class="form-control" />
+                <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
 
-                <div class="form-group">
-                    Birthdate
-                    <input asp-for="PersonalInfo.Birthdate" class="form-control" />
-                    <span asp-validation-for="PersonalInfo.Birthdate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    Birthplace
-                    <input asp-for="PersonalInfo.BirthPlace" class="form-control" />
-                    <span asp-validation-for="PersonalInfo.BirthPlace" class="text-danger"></span>
-                </div>
-                @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
-                {
-                    <div class="form-group">
-                        Gender:
+            <div class="form-group">
+                CNP:
+                <input asp-for="CNP" class="form-control" />
+                <span asp-validation-for="CNP" class="text-danger"></span>
+            </div>
 
-                        <br />
-                        Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
-                        Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
-                    </div>
-                }
+            <div class="form-group">
+                Birthdate
+                <input asp-for="PersonalInfo.Birthdate" class="form-control" />
+                <span asp-validation-for="PersonalInfo.Birthdate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                Birthplace
+                <input asp-for="PersonalInfo.BirthPlace" class="form-control" />
+                <span asp-validation-for="PersonalInfo.BirthPlace" class="text-danger"></span>
+            </div>
+
+            @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
+            {
                 <div class="form-group">
-                    Phone number
-                    <input asp-for="PersonalInfo.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PersonalInfo.PhoneNumber" class="text-danger"></span>
+                    Gender:
+                    <br />
+                    Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
+                    Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
                 </div>
                 <div class="form-group">
                     Active:
@@ -65,30 +60,30 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    Weekley package:
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.Weeklypackage)
-                            @Html.ValidationMessageFor(model => model.Weeklypackage, "", new { @class = "text-danger" })
-                        </div>
+            <div class="form-group">
+                Weekly package:
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Weeklypackage)
+                        @Html.ValidationMessageFor(model => model.Weeklypackage, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="form-group">
-                    Number of portions:
-                    <input asp-for="NumberOfPortions" class="form-control" />
-                    <span asp-validation-for="NumberOfPortions" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    Last time activ:
-                    <input asp-for="LastTimeActiv" class="form-control" />
-                    <span asp-validation-for="LastTimeActiv" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    Comments:
-                    <input asp-for="Coments" class="form-control" />
-                    <span asp-validation-for="Coments" class="text-danger"></span>
-                </div>
+            </div>
+            <div class="form-group">
+                Number of portions:
+                <input asp-for="NumberOfPortions" class="form-control" />
+                <span asp-validation-for="NumberOfPortions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Last time active:
+                <input asp-for="LastTimeActiv" class="form-control" />
+                <span asp-validation-for="LastTimeActiv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Comments:
+                <input asp-for="Coments" class="form-control" />
+                <span asp-validation-for="Coments" class="text-danger"></span>
+            </div>
 
                 <div class="form-group">
                     Canteen:
@@ -175,7 +170,7 @@
 
             <h4>Contract information:</h4>
             <div class="form-group">
-                Has contract?
+                Has contract
                 <div class="col-md-10">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.Contract.HasContract)
@@ -198,8 +193,6 @@
                 <input asp-for="Contract.ExpirationDate" class="form-control" />
                 <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
             </div>
-
-
 
             <h4>Marca details:</h4>
 
@@ -229,6 +222,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 Has health insurance?
                 <div class="col-md-10">
@@ -258,7 +252,6 @@
                 <input asp-for="PersonalInfo.Disalility" class="form-control" />
                 <span asp-validation-for="PersonalInfo.Disalility" class="text-danger"></span>
             </div>
-
 
             <h4>Housing information:</h4>
             <div class="form-group">
@@ -299,7 +292,9 @@
                 <span asp-validation-for="PersonalInfo.SeniorityInWorkField" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" style="background-color:forestgreen" class="btn btn-default" />
+                </div>
             </div>
         </form>
     </div>
