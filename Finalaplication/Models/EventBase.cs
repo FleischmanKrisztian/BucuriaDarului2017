@@ -28,7 +28,7 @@ namespace VolCommon
         public string AllocatedSponsors { get; set; }
 
 
-        public int VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
+        public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
         {
             string[] split = AllocatedVolunteers.Split(" / ");
             int nr = 0;
@@ -36,9 +36,10 @@ namespace VolCommon
             {
                 nr++;
             }
+            nr--;
+            string rezstring = nr.ToString();
 
-            int rez = NumberOfVolunteersNeeded -nr;
-            return rez;
+            return rezstring;
         }
 
 

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Finalaplication.Models.Event>
-
 @{
     ViewBag.Title = "Events";
 }
@@ -30,7 +29,7 @@
             @Html.DisplayName("Number of volunteers needed:")
         </th>
         <th>
-            @Html.DisplayName("We need more volunteers:")
+            @Html.DisplayName("Currently allocated:")
         </th>
         <th>
             @Html.DisplayName("Type of activities:")
@@ -70,9 +69,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NumberOfVolunteersNeeded)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.VolunteerAllocateCounter(item.AllocatedVolunteers, item.NumberOfVolunteersNeeded))
-            </td>*@
+            <td>
+                @Html.Raw(item.VolunteerAllocateCounter(item.AllocatedVolunteers, item.NumberOfVolunteersNeeded))
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TypeOfActivities)
             </td>
