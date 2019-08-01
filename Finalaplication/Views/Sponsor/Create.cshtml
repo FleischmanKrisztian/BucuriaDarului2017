@@ -6,81 +6,110 @@
 
 <h1>Create</h1>
 
-<h4>Sponsor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-              Name of sponsor:
-                <input asp-for="NameOfSponsor" class="form-control" />
-                <span asp-validation-for="NameOfSponsor" class="text-danger"></span>
+@using (Html.BeginForm())
+
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Sponsor</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Name of sponsor:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NameOfSponsor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NameOfSponsor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Phone number:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactInformation.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Email addrss:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactInformation.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-               Phone number:
-                <input asp-for="ContactInformation.PhoneNumber" class="form-control" />
-                <span asp-validation-for="ContactInformation.PhoneNumber" class="text-danger"></span>
+                Has Contract?
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Contract.HasContract)
+                        @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-               Email address:
-                <input asp-for="ContactInformation.MailAdress" class="form-control" />
-                <span asp-validation-for="ContactInformation.MailAdress" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Contract.HasContract" /> @Html.DisplayName("Has Contract")
-                </label>
+                Number of registration:
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-               Number of registration:
-                <input asp-for="Contract.NumberOfRegistration" class="form-control" />
-                <span asp-validation-for="Contract.NumberOfRegistration" class="text-danger"></span>
+                Registration date:
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-               Registration date:
-                <input asp-for="Contract.RegistrationDate" class="form-control" />
-                <span asp-validation-for="Contract.RegistrationDate" class="text-danger"></span>
+                Expiration date:
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-               Expiration date:
-                <input asp-for="Contract.ExpirationDate" class="form-control" />
-                <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
+                Date:
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorship.Date, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                Money amount:
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorship.MoneyAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorship.MoneyAmount, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-               Date:
-                <input asp-for="Sponsorship.Date" class="form-control" />
-                <span asp-validation-for="Sponsorship.Date" class="text-danger"></span>
-            </div>
-           
-            <div class="form-group">
-               Money amount:
-                <input asp-for="Sponsorship.MoneyAmount" class="form-control" />
-                <span asp-validation-for="Sponsorship.MoneyAmount" class="text-danger"></span>
+                Goods amount:
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorship.GoodsAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorship.GoodsAmount, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-               Goods amount:
-                <input asp-for="Sponsorship.GoodsAmount" class="form-control" />
-                <span asp-validation-for="Sponsorship.GoodsAmount" class="text-danger"></span>
+                What goods?
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sponsorship.WhatGoods, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sponsorship.WhatGoods, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <div class="form-group">
-               What goods?
-                <input asp-for="Sponsorship.WhatGoods" class="form-control" />
-                <span asp-validation-for="Sponsorship.WhatGoods" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" style="background-color:forestgreen" class="btn btn-default" />
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+
+
+
+}
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+

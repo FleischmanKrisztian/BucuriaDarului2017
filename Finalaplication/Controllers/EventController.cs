@@ -93,7 +93,7 @@ namespace Finalaplication.Controllers
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             var names = events.Find(b => b.EventID.ToString() == id);
-            names.AllocatedVolunteers = names.AllocatedVolunteers + ".";
+            names.AllocatedVolunteers = names.AllocatedVolunteers + " / ";
             ViewBag.strname = names.AllocatedVolunteers.ToString();
             ViewBag.Eventname = names.NameOfEvent.ToString();
             if (searching != null)
@@ -119,7 +119,7 @@ namespace Finalaplication.Controllers
                     var volunteerId = new ObjectId(vols[i]);
                     var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
 
-                    volname = volname + volunteer.Firstname + " " + volunteer.Lastname + "  ";
+                    volname = volname + volunteer.Firstname + " " + volunteer.Lastname + " / ";
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
                     var update = Builders<Event>.Update
                         .Set("AllocatedVolunteers", volname);
@@ -141,7 +141,7 @@ namespace Finalaplication.Controllers
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             var names = events.Find(b => b.EventID.ToString() == id);
-            names.AllocatedSponsors = names.AllocatedSponsors + ".";
+            names.AllocatedSponsors = names.AllocatedSponsors + " ";
             ViewBag.strname = names.AllocatedSponsors.ToString();
             ViewBag.Eventname = names.NameOfEvent.ToString();
             if (searching != null)

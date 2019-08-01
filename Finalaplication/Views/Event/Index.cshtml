@@ -29,9 +29,9 @@
         <th>
             @Html.DisplayName("Number of volunteers needed:")
         </th>
-        @*<th>
-            @Html.DisplayName("Number of allocated volunteers:")
-        </th>*@
+        <th>
+            @Html.DisplayName("We need more volunteers:")
+        </th>
         <th>
             @Html.DisplayName("Type of activities:")
         </th>
@@ -56,6 +56,7 @@
     {
         foreach (var item in Model)
         {
+          
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.NameOfEvent)
