@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace VolCommon
 {
-    
+   
+
     public class BeneficiaryBase
     {
       

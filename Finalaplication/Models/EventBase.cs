@@ -28,6 +28,19 @@ namespace VolCommon
         public string AllocatedSponsors { get; set; }
 
 
+        //public int  VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
+        //{
+        //    int VolunteerAllocate = 0;
+        //    for (int i = 0; i <= AllocatedVolunteers.Length; i++)
+        //    {
+        //        VolunteerAllocate= VolunteerAllocate + 1;
+        //    }
+
+        //    int rez = NumberOfVolunteersNeeded - VolunteerAllocate;
+        //    return rez;
+        //}
+
+
 
     }
 }

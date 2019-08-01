@@ -128,19 +128,20 @@ public IActionResult Index(string searching)
             return View(beneficiary);
         }
 
-        // GET: Volunteer/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Volunteer/Create
+        // POST: Beneficiary/Create
         [HttpPost]
         public ActionResult Create(Beneficiary beneficiary)
         {
             try
             {
 
+                beneficiary.Contract.RegistrationDate = beneficiary.Contract.RegistrationDate.AddHours(5);
+                beneficiary.Contract.ExpirationDate = beneficiary.Contract.ExpirationDate.AddHours(5);
                 beneficiarycollection.InsertOne(beneficiary);
                 return RedirectToAction("Index");
             }
@@ -189,8 +190,9 @@ public IActionResult Index(string searching)
                    .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
                    .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
                    .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
+                    .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender)
                    .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
-                   .Set("PersonalInfo.Dependent", beneficiary.PersonalInfo.Addictions)
+                   .Set("PersonalInfo.Addictions", beneficiary.PersonalInfo.Addictions)
                    .Set("PersonalInfo.Disalility", beneficiary.PersonalInfo.Disalility)
                    .Set("PersonalInfo.Expences", beneficiary.PersonalInfo.Expences)
                    .Set("PersonalInfo.HasHome", beneficiary.PersonalInfo.HasHome)
