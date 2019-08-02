@@ -10,8 +10,8 @@
 <div>
     <h4>Beneficiary</h4>
     <hr />
+    <h3>Personal information:</h3>
     <dl class="row">
-        <h5>Personal information</h5>
         <dt class="col-sm-2">
             @Html.DisplayName("First name:")
         </dt>
@@ -54,7 +54,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalInfo.SpouseName)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayName("Active:")
         </dt>
@@ -127,7 +126,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Coments)
         </dd>
-        <h5>Address information:</h5>
+    </dl>
+    <h3>Address information:</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("Country:")
         </dt>
@@ -152,8 +153,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Adress.Number)
         </dd>
-
-        <h5>ID information:</h5>
+    </dl>
+    <h3>ID information:</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("Has ID:")
         </dt>
@@ -166,7 +168,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CI.ICExpirationDate)
         </dd>
-        <h5>Contract information</h5>
+    </dl>
+    <h3>Contract information</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("Has contract?")
         </dt>
@@ -191,9 +195,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contract.ExpirationDate)
         </dd>
-
-        <h5>Marca details:</h5>
-
+    </dl>
+    <h3>Marca details:</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("ID aplication:")
         </dt>
@@ -212,9 +216,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Marca.IdInvestigation)
         </dd>
-
-
-        <h5>Healrthstate information</h5>
+    </dl>
+    <h3>Healrthstate information</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("Health insurance:")
         </dt>
@@ -251,7 +255,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalInfo.Disalility)
         </dd>
-        <h5>Accommodation information:</h5>
+    </dl>
+    <h3>Accommodation information:</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("Has home?")
         </dt>
@@ -264,7 +270,9 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalInfo.HousingType)
         </dd>
-        <h5>Studies and job related information:</h5>
+    </dl>
+    <h3>Studies and job related information:</h3>
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayName("Studies:")
         </dt>
@@ -286,13 +294,11 @@
         <dt class="col-sm-2">
             @Html.DisplayName("Seniority in workfield:")
         </dt>
-
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalInfo.SeniorityInWorkField)
         </dd>
-
-
     </dl>
+
     
     <div class="form-actions no-color">
         <input type="submit" value="Delete" style="background-color:tomato" class="btn btn-default" /> |
