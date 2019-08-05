@@ -34,7 +34,7 @@
     {
         var Day = Finalaplication.Models.Volunteer.Nowdate();
         var volexp = Finalaplication.Models.Volunteer.Volexp(item);
-        if ((Day <= volexp && Day + 20 > volexp) || (Day > 345 && 365 - (Day + 365 - Day - 2) >= volexp))
+        if (((Day <= volexp && Day + 20 > volexp) && item.Birthdate.Year > 100) || ((Day > 345 && 365 - (Day + 365 - Day - 2) >= volexp) && item.Birthdate.Year > 100))
         {
             <tr>
                 <td>

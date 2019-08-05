@@ -16,11 +16,12 @@ namespace Finalaplication.App_Start
                 string EnvDatabaseName = Environment.GetEnvironmentVariable("databasename");
                 var mongoClient = new MongoClient(EnvServerAddress);
                 database = mongoClient.GetDatabase(EnvDatabaseName);
+                
             }
             catch
             {
-                var client = new MongoClient();
-                database = client.GetDatabase("VolMongo");
+                var clientoffline = new MongoClient();
+                database = clientoffline.GetDatabase("BucuriaDaruluiOffline");
             }
         }
     }

@@ -6,13 +6,12 @@ namespace Finalaplication.App_Start
 {
     public class MongoDBContextoffline
     {
-        public IMongoDatabase database;
+        public IMongoDatabase databaseoffline;
 
         public MongoDBContextoffline()
         {
-
-            var client = new MongoClient();
-            database = client.GetDatabase("VolMongo");
+            var clientoffline = new MongoClient();
+            databaseoffline = clientoffline.GetDatabase("BucuriaDaruluiOffline");
         }
     }
 }

@@ -20,10 +20,10 @@ namespace Finalaplication.Controllers
         private readonly IMongoCollection<Volunteer> vollunteercollection;
         private readonly IMongoCollection<Beneficiary> beneficiarycollection;
         private readonly IMongoCollection<Sponsor> sponsorcollection;
-        private  IMongoCollection<Event> eventcollectionoffline;
-        private  IMongoCollection<Volunteer> vollunteercollectionoffline;
-        private  IMongoCollection<Beneficiary> beneficiarycollectionoffline;
-        private  IMongoCollection<Sponsor> sponsorcollectionoffline;
+        private IMongoCollection<Event> eventcollectionoffline;
+        private IMongoCollection<Volunteer> vollunteercollectionoffline;
+        private IMongoCollection<Beneficiary> beneficiarycollectionoffline;
+        private IMongoCollection<Sponsor> sponsorcollectionoffline;
 
         public HomeController()
         {
@@ -34,12 +34,12 @@ namespace Finalaplication.Controllers
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
 
             dbcontextoffline = new MongoDBContextoffline();
-            eventcollectionoffline = dbcontext.database.GetCollection<Event>("Events");
-            vollunteercollectionoffline = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-            beneficiarycollectionoffline = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
-            sponsorcollectionoffline = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+            eventcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Event>("Events");
+            vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
+            beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
+            sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
         }
-        public ActionResult Transport()
+        public ActionResult Backup()
         {
             try
             {
@@ -48,15 +48,76 @@ namespace Finalaplication.Controllers
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
 
-                Event eve = new Event()
-                {
-                    NameOfEvent = "HALLo"
-                };
-                eventcollectionoffline.InsertOne(eve);
+                dbcontextoffline.databaseoffline.DropCollection("Volunteers");
+                dbcontextoffline.databaseoffline.DropCollection("Events");
+                dbcontextoffline.databaseoffline.DropCollection("Beneficiaries");
+                dbcontextoffline.databaseoffline.DropCollection("Sponsors");
 
-                //eventcollectionoffline.InsertOne(events[0]);
-                //eventcollectionoffline.InsertOne(events[1]);
-                //eventcollectionoffline.InsertOne(events[2]);
+
+
+                for (int i = 0; i < volunteers.Count(); i++)
+                {
+                    vollunteercollectionoffline.InsertOne(volunteers[i]);
+                }
+
+                for (int i = 0; i < events.Count(); i++)
+                {
+                    eventcollectionoffline.InsertOne(events[i]);
+                }
+
+                for (int i = 0; i < beneficiaries.Count(); i++)
+                {
+                    beneficiarycollectionoffline.InsertOne(beneficiaries[i]);
+                }
+
+                for (int i = 0; i < sponsors.Count(); i++)
+                {
+                    sponsorcollectionoffline.InsertOne(sponsors[i]);
+                }
+
+                return View("Index");
+            }
+            catch
+            {
+                return View("Index");
+            }
+        }
+
+        public ActionResult Restore()
+        {
+            try
+            {
+                List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
+                List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
+                List<Beneficiary> beneficiariesoffline =beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
+                List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
+
+                dbcontext.database.DropCollection("Volunteers");
+                dbcontext.database.DropCollection("Events");
+                dbcontext.database.DropCollection("Beneficiaries");
+                dbcontext.database.DropCollection("Sponsors");
+
+
+
+                for (int i = 0; i < volunteersoffline.Count(); i++)
+                {
+                    vollunteercollection.InsertOne(volunteersoffline[i]);
+                }
+
+                for (int i = 0; i < eventsoffline.Count(); i++)
+                {
+                    eventcollection.InsertOne(eventsoffline[i]);
+                }
+
+                for (int i = 0; i < beneficiariesoffline.Count(); i++)
+                {
+                    beneficiarycollection.InsertOne(beneficiariesoffline[i]);
+                }
+
+                for (int i = 0; i < sponsorsoffline.Count(); i++)
+                {
+                    sponsorcollection.InsertOne(sponsorsoffline[i]);
+                }
 
                 return View("Index");
             }
@@ -75,13 +136,13 @@ namespace Finalaplication.Controllers
 
         public IActionResult Contact()
         {
-            
+
             return View();
         }
 
         public IActionResult About()
         {
-            
+
             return View();
         }
 
