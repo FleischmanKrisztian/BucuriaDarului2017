@@ -30,16 +30,20 @@ namespace VolCommon
 
         public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
         {
-            string[] split = AllocatedVolunteers.Split(" / ");
-            int nr = 0;
-            foreach (string item in split)
+            if (AllocatedVolunteers != null)
             {
-                nr++;
-            }
-            nr--;
-            string rezstring = nr.ToString();
+                string[] split = AllocatedVolunteers.Split(" / ");
+                int nr = 0;
+                foreach (string item in split)
+                {
+                    nr++;
+                }
+                nr--;
+                string rezstring = nr.ToString();
 
-            return rezstring;
+                return rezstring;
+            }
+            return null;
         }
 
 
