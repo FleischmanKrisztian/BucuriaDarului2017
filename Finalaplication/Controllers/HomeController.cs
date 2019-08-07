@@ -15,7 +15,7 @@ namespace Finalaplication.Controllers
     public class HomeController : Controller
     {
         private MongoDBContext dbcontext;
-        private MongoDBContextoffline dbcontextoffline;
+        private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Event> eventcollection;
         private readonly IMongoCollection<Volunteer> vollunteercollection;
         private readonly IMongoCollection<Beneficiary> beneficiarycollection;
@@ -33,7 +33,7 @@ namespace Finalaplication.Controllers
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
 
-            dbcontextoffline = new MongoDBContextoffline();
+            dbcontextoffline = new MongoDBContextOffline();
             eventcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Event>("Events");
             vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
             beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
