@@ -9,8 +9,9 @@ namespace VolCommon
     }
     public class VolunteerBase
     {
+        [Required]
         public string Firstname { get; set; }
-
+        [Required]
         public string Lastname { get; set; }
 
         [DataType(DataType.Date)]

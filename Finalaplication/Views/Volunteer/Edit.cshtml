@@ -16,15 +16,16 @@
     <h4>Volunteer</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        Firstname:
+        First name:
         <div class="col-md-10">
             @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        Lastname:
+        Last name:
         <div class="col-md-10">
             @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
@@ -75,7 +76,7 @@
         </div>
     </div>
     <div class="form-group">
-        HasContract?
+        Has Contract?
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Contract.HasContract)
@@ -146,14 +147,14 @@
 
     @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
     {
-    <div class="form-group">
-        Gender:
-        <br />
-        <div class="col-md-10">
-            Male @Html.RadioButtonFor(m => m.Gender, "Male")
-            Female @Html.RadioButtonFor(m => m.Gender, "Female")
+        <div class="form-group">
+            Gender:
+            <br />
+            <div class="col-md-10">
+                Male @Html.RadioButtonFor(m => m.Gender, "Male")
+                Female @Html.RadioButtonFor(m => m.Gender, "Female")
+            </div>
         </div>
-    </div>
     }
     <div class="form-group">
         Desired area:
