@@ -206,9 +206,16 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                eventt.DateOfEvent = eventt.DateOfEvent.AddHours(5);
-                eventcollection.InsertOne(eventt);
-                return RedirectToAction("Index");
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                ModelState.Remove("Duration");
+                if (ModelState.IsValid)
+                {
+                    eventt.DateOfEvent = eventt.DateOfEvent.AddHours(5);
+                    eventcollection.InsertOne(eventt);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {
@@ -231,8 +238,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
-                var update = Builders<Event>.Update
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                ModelState.Remove("Duration");
+                if (ModelState.IsValid)
+                {
+                    var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<Event>.Update
                     .Set("NameOfEvent", eventt.NameOfEvent)
                     .Set("PlaceOfEvent", eventt.PlaceOfEvent)
                     .Set("DateOfEvent", eventt.DateOfEvent.AddHours(5))
@@ -243,8 +255,10 @@ namespace Finalaplication.Controllers
                     ;
 
 
-                var result = eventcollection.UpdateOne(filter, update);
-                return RedirectToAction("Index");
+                    var result = eventcollection.UpdateOne(filter, update);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {

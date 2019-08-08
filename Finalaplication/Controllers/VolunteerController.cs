@@ -125,11 +125,22 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
-                volunteer.Contract.RegistrationDate = volunteer.Contract.RegistrationDate.AddHours(5);
-                volunteer.Contract.ExpirationDate = volunteer.Contract.ExpirationDate.AddHours(5);
-                vollunteercollection.InsertOne(volunteer);
-                return RedirectToAction("Index");
+                ModelState.Remove("Birthdate");
+                ModelState.Remove("HourCount");
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                if (ModelState.IsValid)
+                {
+                    volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
+                    volunteer.Contract.RegistrationDate = volunteer.Contract.RegistrationDate.AddHours(5);
+                    volunteer.Contract.ExpirationDate = volunteer.Contract.ExpirationDate.AddHours(5);
+                    vollunteercollection.InsertOne(volunteer);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                return View();
+                }
             }
             catch
             {
@@ -151,32 +162,40 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
-                var update = Builders<Volunteer>.Update
-                    .Set("Firstname", volunteer.Firstname)
-                    .Set("Lastname", volunteer.Lastname)
-                    .Set("Birthdate", volunteer.Birthdate.AddHours(5))
-                    .Set("Address.Country", volunteer.Address.Country)
-                    .Set("Address.City", volunteer.Address.City)
-                    .Set("Address.Street", volunteer.Address.Street)
-                    .Set("Address.Number", volunteer.Address.Number)
-                    .Set("Gender", volunteer.Gender)
-                    .Set("Desired_workplace", volunteer.Desired_workplace)
-                    .Set("Field_of_activity", volunteer.Field_of_activity)
-                    .Set("Occupation", volunteer.Occupation)
-                    .Set("InActivity", volunteer.InActivity)
-                    .Set("HourCount", volunteer.HourCount)
-                    .Set("Contract.HasContract", volunteer.Contract.HasContract)
-                    .Set("Contract.NumberOfRegistration", volunteer.Contract.NumberOfRegistration)
-                    .Set("Contract.RegistrationDate", volunteer.Contract.RegistrationDate.AddHours(5))
-                    .Set("Contract.ExpirationDate", volunteer.Contract.ExpirationDate.AddHours(5))
-                    .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
-                    .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
-                    .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
-                    .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
-                    .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
-                var result = vollunteercollection.UpdateOne(filter, update);
-                return RedirectToAction("Index");
+                ModelState.Remove("Birthdate");
+                ModelState.Remove("HourCount");
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                if (ModelState.IsValid)
+                {
+                    var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<Volunteer>.Update
+                        .Set("Firstname", volunteer.Firstname)
+                        .Set("Lastname", volunteer.Lastname)
+                        .Set("Birthdate", volunteer.Birthdate.AddHours(5))
+                        .Set("Address.Country", volunteer.Address.Country)
+                        .Set("Address.City", volunteer.Address.City)
+                        .Set("Address.Street", volunteer.Address.Street)
+                        .Set("Address.Number", volunteer.Address.Number)
+                        .Set("Gender", volunteer.Gender)
+                        .Set("Desired_workplace", volunteer.Desired_workplace)
+                        .Set("Field_of_activity", volunteer.Field_of_activity)
+                        .Set("Occupation", volunteer.Occupation)
+                        .Set("InActivity", volunteer.InActivity)
+                        .Set("HourCount", volunteer.HourCount)
+                        .Set("Contract.HasContract", volunteer.Contract.HasContract)
+                        .Set("Contract.NumberOfRegistration", volunteer.Contract.NumberOfRegistration)
+                        .Set("Contract.RegistrationDate", volunteer.Contract.RegistrationDate.AddHours(5))
+                        .Set("Contract.ExpirationDate", volunteer.Contract.ExpirationDate.AddHours(5))
+                        .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
+                        .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
+                        .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
+                        .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
+                        .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
+                    var result = vollunteercollection.UpdateOne(filter, update);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {

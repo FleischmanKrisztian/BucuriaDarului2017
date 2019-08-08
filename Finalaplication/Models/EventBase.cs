@@ -6,7 +6,7 @@ namespace VolCommon
 {
     public class EventBase
     {
-
+        [Required]
         public string NameOfEvent { get; set; }
 
         public string PlaceOfEvent { get; set; }

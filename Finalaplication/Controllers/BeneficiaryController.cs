@@ -139,11 +139,25 @@ public IActionResult Index(string searching)
         {
             try
             {
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                ModelState.Remove("Marca.IdAplication");
+                ModelState.Remove("Marca.IdContract");
+                ModelState.Remove("Marca.IdInvestigation");
+                ModelState.Remove("NumberOfPortions");
+                ModelState.Remove("LastTimeActiv");
+                ModelState.Remove("Personalinfo.Birthdate");
+                ModelState.Remove("CI.ICExpirationDate");
 
-                beneficiary.Contract.RegistrationDate = beneficiary.Contract.RegistrationDate.AddHours(5);
-                beneficiary.Contract.ExpirationDate = beneficiary.Contract.ExpirationDate.AddHours(5);
-                beneficiarycollection.InsertOne(beneficiary);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    beneficiary.Contract.RegistrationDate = beneficiary.Contract.RegistrationDate.AddHours(5);
+                    beneficiary.Contract.ExpirationDate = beneficiary.Contract.ExpirationDate.AddHours(5);
+                    beneficiarycollection.InsertOne(beneficiary);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {
@@ -165,55 +179,69 @@ public IActionResult Index(string searching)
         {
             try
             {
-                var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
-                var update = Builders<Beneficiary>.Update
-                   .Set("Firstname", beneficiary.Firstname)
-                   .Set("Lastname", beneficiary.Lastname)
-                   .Set("Weeklypackage", beneficiary.Weeklypackage)
-                   .Set("Active", beneficiary.Active)
-                   .Set("Canteen", beneficiary.Canteen)
-                   .Set("HomeDeliveryDriver", beneficiary.HomeDeliveryDriver)
-                   .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
-                   .Set("CNP", beneficiary.CNP)
-                   .Set("NumberOfPortions", beneficiary.NumberOfPortions)
-                   .Set("Coments", beneficiary.Coments)
-                   .Set("Adress.Country", beneficiary.Adress.Country)
-                   .Set("Adress.City", beneficiary.Adress.City)
-                   .Set("Adress.Street", beneficiary.Adress.Street)
-                   .Set("Adress.Number", beneficiary.Adress.Number)
-                   .Set("CI.HasId", beneficiary.CI.HasId)
-                   .Set("CI.ICExpirationDate", beneficiary.CI.ICExpirationDate.AddHours(5))
-                   .Set("Marca.IdAplication", beneficiary.Marca.IdAplication )
-                   .Set("Marca.IdContract", beneficiary.Marca.IdContract)
-                   .Set("Marca.IdInvestigation", beneficiary.Marca.IdInvestigation)
-                   .Set("LastTimeActiv", beneficiary.LastTimeActiv)
-                   .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
-                   .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
-                   .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
-                    .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender)
-                   .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
-                   .Set("PersonalInfo.Addictions", beneficiary.PersonalInfo.Addictions)
-                   .Set("PersonalInfo.Disalility", beneficiary.PersonalInfo.Disalility)
-                   .Set("PersonalInfo.Expences", beneficiary.PersonalInfo.Expences)
-                   .Set("PersonalInfo.HasHome", beneficiary.PersonalInfo.HasHome)
-                   .Set("PersonalInfo.HealthCard", beneficiary.PersonalInfo.HealthCard)
-                   .Set("PersonalInfo.HealthInsurance", beneficiary.PersonalInfo.HealthInsurance)
-                   .Set("PersonalInfo.HealthState", beneficiary.PersonalInfo.HealthState)
-                   .Set("PersonalInfo.HousingType", beneficiary.PersonalInfo.HousingType)
-                   .Set("PersonalInfo.Income", beneficiary.PersonalInfo.Income)
-                   .Set("PersonalInfo.Married", beneficiary.PersonalInfo.Married)
-                   .Set("PersonalInfo.Ocupation", beneficiary.PersonalInfo.Ocupation)
-                   .Set("PersonalInfo.Profesion", beneficiary.PersonalInfo.Profesion)
-                   .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
-                   .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
-                   .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies)
-                   .Set("Contract.HasContract", beneficiary.Contract.HasContract)
-                   .Set("Contract.NumberOfRegistration", beneficiary.Contract.NumberOfRegistration)
-                   .Set("Contract.RegistrationDate", beneficiary.Contract.RegistrationDate.AddHours(5))
-                   .Set("Contract.ExpirationDate", beneficiary.Contract.ExpirationDate.AddHours(5));
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                ModelState.Remove("Marca.IdAplication");
+                ModelState.Remove("Marca.IdContract");
+                ModelState.Remove("Marca.IdInvestigation");
+                ModelState.Remove("NumberOfPortions");
+                ModelState.Remove("LastTimeActiv");
+                ModelState.Remove("Personalinfo.Birthdate");
+                ModelState.Remove("CI.ICExpirationDate");
 
-                var result = beneficiarycollection.UpdateOne(filter, update);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<Beneficiary>.Update
+                       .Set("Firstname", beneficiary.Firstname)
+                       .Set("Lastname", beneficiary.Lastname)
+                       .Set("Weeklypackage", beneficiary.Weeklypackage)
+                       .Set("Active", beneficiary.Active)
+                       .Set("Canteen", beneficiary.Canteen)
+                       .Set("HomeDeliveryDriver", beneficiary.HomeDeliveryDriver)
+                       .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
+                       .Set("CNP", beneficiary.CNP)
+                       .Set("NumberOfPortions", beneficiary.NumberOfPortions)
+                       .Set("Coments", beneficiary.Coments)
+                       .Set("Adress.Country", beneficiary.Adress.Country)
+                       .Set("Adress.City", beneficiary.Adress.City)
+                       .Set("Adress.Street", beneficiary.Adress.Street)
+                       .Set("Adress.Number", beneficiary.Adress.Number)
+                       .Set("CI.HasId", beneficiary.CI.HasId)
+                       .Set("CI.ICExpirationDate", beneficiary.CI.ICExpirationDate.AddHours(5))
+                       .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
+                       .Set("Marca.IdContract", beneficiary.Marca.IdContract)
+                       .Set("Marca.IdInvestigation", beneficiary.Marca.IdInvestigation)
+                       .Set("LastTimeActiv", beneficiary.LastTimeActiv)
+                       .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
+                       .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
+                       .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
+                        .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender)
+                       .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
+                       .Set("PersonalInfo.Addictions", beneficiary.PersonalInfo.Addictions)
+                       .Set("PersonalInfo.Disalility", beneficiary.PersonalInfo.Disalility)
+                       .Set("PersonalInfo.Expences", beneficiary.PersonalInfo.Expences)
+                       .Set("PersonalInfo.HasHome", beneficiary.PersonalInfo.HasHome)
+                       .Set("PersonalInfo.HealthCard", beneficiary.PersonalInfo.HealthCard)
+                       .Set("PersonalInfo.HealthInsurance", beneficiary.PersonalInfo.HealthInsurance)
+                       .Set("PersonalInfo.HealthState", beneficiary.PersonalInfo.HealthState)
+                       .Set("PersonalInfo.HousingType", beneficiary.PersonalInfo.HousingType)
+                       .Set("PersonalInfo.Income", beneficiary.PersonalInfo.Income)
+                       .Set("PersonalInfo.Married", beneficiary.PersonalInfo.Married)
+                       .Set("PersonalInfo.Ocupation", beneficiary.PersonalInfo.Ocupation)
+                       .Set("PersonalInfo.Profesion", beneficiary.PersonalInfo.Profesion)
+                       .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
+                       .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
+                       .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies)
+                       .Set("Contract.HasContract", beneficiary.Contract.HasContract)
+                       .Set("Contract.NumberOfRegistration", beneficiary.Contract.NumberOfRegistration)
+                       .Set("Contract.RegistrationDate", beneficiary.Contract.RegistrationDate.AddHours(5))
+                       .Set("Contract.ExpirationDate", beneficiary.Contract.ExpirationDate.AddHours(5));
+
+                    var result = beneficiarycollection.UpdateOne(filter, update);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {

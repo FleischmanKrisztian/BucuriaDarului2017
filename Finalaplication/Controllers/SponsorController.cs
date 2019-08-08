@@ -100,11 +100,17 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                
-                sponsor.Contract.RegistrationDate = sponsor.Contract.RegistrationDate.AddHours(5);
-                sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
-                sponsorcollection.InsertOne(sponsor);
-                return RedirectToAction("Index");
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                ModelState.Remove("Sponsorship.Date");
+                if (ModelState.IsValid)
+                {
+                    sponsor.Contract.RegistrationDate = sponsor.Contract.RegistrationDate.AddHours(5);
+                    sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
+                    sponsorcollection.InsertOne(sponsor);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {
@@ -123,21 +129,28 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
-                var update = Builders<Sponsor>.Update
-                    .Set("NameOfSponsor", sponsor.NameOfSponsor)
-                    .Set("ContactInformation.PhoneNumber", sponsor.ContactInformation.PhoneNumber)
-                    .Set("ContactInformation.MailAdress", sponsor.ContactInformation.MailAdress)
-                    .Set("Contract.HasContract", sponsor.Contract.HasContract)
-                    .Set("Contract.NumberOfRegistration", sponsor.Contract.NumberOfRegistration)
-                    .Set("Contract.RegistrationDate", sponsor.Contract.RegistrationDate.AddHours(5))
-                    .Set("Contract.ExpirationDate", sponsor.Contract.ExpirationDate.AddHours(5))
-                    .Set("Sponsorship.Date", sponsor.Sponsorship.Date.AddHours(5))
-                    .Set("Sponsorship.MoneyAmount", sponsor.Sponsorship.MoneyAmount)
-                    .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
-                     .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
-                var result = sponsorcollection.UpdateOne(filter, update);
-                return RedirectToAction("Index");
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                ModelState.Remove("Sponsorship.Date");
+                if (ModelState.IsValid)
+                {
+                    var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<Sponsor>.Update
+                        .Set("NameOfSponsor", sponsor.NameOfSponsor)
+                        .Set("ContactInformation.PhoneNumber", sponsor.ContactInformation.PhoneNumber)
+                        .Set("ContactInformation.MailAdress", sponsor.ContactInformation.MailAdress)
+                        .Set("Contract.HasContract", sponsor.Contract.HasContract)
+                        .Set("Contract.NumberOfRegistration", sponsor.Contract.NumberOfRegistration)
+                        .Set("Contract.RegistrationDate", sponsor.Contract.RegistrationDate.AddHours(5))
+                        .Set("Contract.ExpirationDate", sponsor.Contract.ExpirationDate.AddHours(5))
+                        .Set("Sponsorship.Date", sponsor.Sponsorship.Date.AddHours(5))
+                        .Set("Sponsorship.MoneyAmount", sponsor.Sponsorship.MoneyAmount)
+                        .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
+                         .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
+                    var result = sponsorcollection.UpdateOne(filter, update);
+                    return RedirectToAction("Index");
+                }
+                else return View();
             }
             catch
             {
