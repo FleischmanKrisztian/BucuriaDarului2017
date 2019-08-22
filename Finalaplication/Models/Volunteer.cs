@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.ComponentModel.DataAnnotations;
 using VolCommon;
 
 
@@ -21,7 +22,6 @@ namespace Finalaplication.Models
             return voldays;
         }
 
-        string currentlymodif;
         public static int Nowdate()
         {
             string todaydate = DateTime.Today.ToString("dd-MM-yyyy");

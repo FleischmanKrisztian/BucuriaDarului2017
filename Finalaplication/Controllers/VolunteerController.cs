@@ -79,10 +79,11 @@ namespace Finalaplication.Controllers
 
 
 
-        public ActionResult Index(string sortOrder, string searching,bool Active, bool HasCar,bool HasContract, DateTime lowerdate, DateTime upperdate)
+        public ActionResult Index(string sortOrder, string searching,bool Active, bool HasCar,bool HasContract, DateTime lowerdate, DateTime upperdate, int nrofresults=10)
         {
             ViewBag.searching = searching;
             ViewBag.active = Active;
+            ViewBag.Nrofresults = nrofresults;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
             ViewBag.hascar = HasCar;
@@ -120,6 +121,10 @@ namespace Finalaplication.Controllers
             if (HasContract == true)
             {
                 volunteers = volunteers.Where(x => x.Contract.HasContract == true).ToList();
+            }
+            if (nrofresults != 0)
+            {
+                volunteers = volunteers.AsQueryable().Take(nrofresults).ToList();
             }
             switch (sortOrder)
             {
@@ -222,20 +227,10 @@ namespace Finalaplication.Controllers
         }
 
         // GET: Volunteer/Edit/5
-        string currentlymodif;
         public ActionResult Edit(string id)
-        {
-            if (currentlymodif == id)
-            {
-                return View("Volunteerwarning");
-            }
-            currentlymodif = id;
-
-
-
+        { 
             var volunteerId = new ObjectId(id);
             var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
-
             return View(volunteer);
         }
 
