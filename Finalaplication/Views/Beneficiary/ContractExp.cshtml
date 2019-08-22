@@ -29,9 +29,8 @@
     <tbody>
 @foreach (var item in Model)
 {
-    var Day = Finalaplication.Models.Volunteer.Nowdate();
-    var volexp = Finalaplication.Models.Beneficiary.Benefxp(item);
-    if ((Day <= volexp && Day + 20 > volexp) || (Day > 345 && 365 - (Day + 365 - Day - 2) >= volexp))
+
+    if (item.GetDayExpiration(item.Contract.ExpirationDate)==true)
     {
         <tr>
             <td>

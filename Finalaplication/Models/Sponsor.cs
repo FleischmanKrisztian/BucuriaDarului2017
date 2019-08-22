@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,12 +8,12 @@ using VolCommon;
 
 namespace Finalaplication.Models
 {
-   
-    public class Sponsor:SponsorBase
+
+    public class Sponsor : SponsorBase
     {
         [BsonId]
         public ObjectId SponsorID { get; set; }
-       
+
 
         public static int Sponsorexp(Sponsor sponsor)
         {
@@ -21,6 +22,19 @@ namespace Finalaplication.Models
                 sponsorexp = ((sponsor.Contract.ExpirationDate.Month - 1) * 30) + sponsor.Contract.ExpirationDate.Day;
             }
             return sponsorexp;
+        }
+
+        public bool GetDayExpiration(DateTime date)
+        {  
+            var now = DateTime.Now;
+            var firstday = now.AddDays(-1);
+            var lastday = now.AddDays(10);
+            var answer = false;
+            if (date >= firstday && date <= lastday)
+            {
+                answer = true;
+            }
+            return answer;
         }
     }
 }
