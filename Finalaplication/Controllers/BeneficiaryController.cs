@@ -102,17 +102,81 @@ namespace Finalaplication.Controllers
 }
 
 
-public IActionResult Index(string searching)
+        public ActionResult Index(string sortOrder, string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate)
         {
+            ViewBag.searching = searching;
+            ViewBag.active = Active;
+            ViewBag.hascontract = HasContract;
+            ViewBag.Upperdate = upperdate;
+            ViewBag.Lowerdate = lowerdate;
+            ViewBag.Homeless = Homeless;
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
+            ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+            ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
+            DateTime d1 = new DateTime(0003, 1, 1);
+            if (upperdate > d1)
+            {
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate <= upperdate).ToList();
+            }
             if (searching != null)
             {
-                return View(beneficiaries.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList());
+               beneficiaries = beneficiaries.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
             }
-            else
+            if (Homeless == true)
             {
-                return View(beneficiaries);
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HasHome == false).ToList();
             }
+            if (lowerdate != null)
+            {
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate > lowerdate).ToList();
+            }
+            if (Active == true)
+            {
+                beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
+            }
+            if (HasContract == true)
+            {
+                beneficiaries = beneficiaries.Where(x => x.Contract.HasContract == true).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "Gender":
+                    beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Gender).ToList();
+                    break;
+                case "Gender_desc":
+                    beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Gender).ToList();
+                    break;
+                case "Lastname":
+                    beneficiaries = beneficiaries.OrderBy(s => s.Lastname).ToList();
+                    break;
+                case "Lastname_desc":
+                    beneficiaries = beneficiaries.OrderByDescending(s => s.Lastname).ToList();
+                    break;
+                case "Active":
+                    beneficiaries = beneficiaries.OrderBy(s => s.Active).ToList();
+                    break;
+                case "Active_desc":
+                    beneficiaries = beneficiaries.OrderByDescending(s => s.Active).ToList();
+                    break;
+                case "name_desc":
+                    beneficiaries = beneficiaries.OrderByDescending(s => s.Firstname).ToList();
+                    break;
+                case "Date":
+                    beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Birthdate).ToList();
+                    break;
+                case "date_desc":
+                    beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Birthdate).ToList();
+                    break;
+                default:
+                    beneficiaries = beneficiaries.OrderBy(s => s.Firstname).ToList();
+                    break;
+            }
+            return View(beneficiaries);
         }
 
         public ActionResult ContractExp()

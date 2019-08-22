@@ -12,20 +12,24 @@
 
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
+<p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;&emsp;&emsp;Has Contract:&emsp;&emsp;&emsp;Homeless:&emsp;&emsp;&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
+<p> @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("Homeless")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate"</p>
 }
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("First name")
+                @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
             </th>
             <th>
-                @Html.DisplayName("Last name")
+                @Html.ActionLink("Lastname", "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
             </th>
             <th>
-                @Html.DisplayName("Active")
+                @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            </th>
+            <th>
+                @Html.ActionLink("Gender", "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
             </th>
             <th>
                 @Html.DisplayName("Weekly package")
@@ -34,9 +38,9 @@
                 @Html.DisplayName("Canteen")
             </th>
             <th>
-                @Html.DisplayName("Home delivery driver")
+                @Html.ActionLink("Birthdate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
@@ -64,15 +68,18 @@
                         @Html.DisplayFor(modelItem => item.Active)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.PersonalInfo.Gender)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Weeklypackage)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Canteen)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.HomeDeliveryDriver)
+                        @Html.DisplayFor(modelItem => item.PersonalInfo.Birthdate)
                     </td>
-                   
+
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.BeneficiaryID }) |
                         @Html.ActionLink("Details", "Details", new { id = item.BeneficiaryID }) |

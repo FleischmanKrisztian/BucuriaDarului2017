@@ -21,6 +21,7 @@ namespace Finalaplication.Models
             return voldays;
         }
 
+        string currentlymodif;
         public static int Nowdate()
         {
             string todaydate = DateTime.Today.ToString("dd-MM-yyyy");

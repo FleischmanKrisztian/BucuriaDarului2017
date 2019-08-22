@@ -30,6 +30,17 @@
             @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
         </div>
     </div>
+    @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+            Gender:
+            <br />
+            <div class="col-md-10">
+                Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
+                Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
+            </div>
+        </div>
+    }
     <div class="form-group">
         CNP:
         <div class="col-md-10">
@@ -60,7 +71,7 @@
         </div>
     </div>
     <div class="form-group">
-        Active
+        Active:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Active)
@@ -70,7 +81,7 @@
     </div>
 
     <div class="form-group">
-        Weekley package:
+        Weekly package:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Weeklypackage)
@@ -148,7 +159,7 @@
 
 
     <div class="form-group">
-        Has GDPR agreement?
+        Has GDPR agreement:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.HasGDPRAgreement)
@@ -207,7 +218,7 @@
 
     <h4>Contract information:</h4>
     <div class="form-group">
-        Has Contract?
+        Has Contract:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Contract.HasContract)
@@ -267,7 +278,7 @@
 
     <h4>Health details:</h4>
     <div class="form-group">
-        Has health card?
+        Has health card:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.PersonalInfo.HealthCard)
@@ -276,7 +287,7 @@
         </div>
     </div>
     <div class="form-group">
-        Has health insurance?
+        Has health insurance
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.PersonalInfo.HealthInsurance)
@@ -316,7 +327,7 @@
 
     <h4>Housing information:</h4>
     <div class="form-group">
-        Has home?
+        Has home:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.PersonalInfo.HasHome)
