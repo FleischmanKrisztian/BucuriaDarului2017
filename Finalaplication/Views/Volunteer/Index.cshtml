@@ -1,15 +1,28 @@
-﻿@using ReflectionIT.Mvc.Paging;
-@model PagingList<Finalaplication.Models.Volunteer>
-@addTagHelper *, ReflectionIT.Mvc.Paging
+﻿@model IEnumerable<Finalaplication.Models.Volunteer>
 @{
     ViewBag.Title = "Volunteers";
 }
+<head>
+    <style>
 
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+    </style>
+</head>
 <h2>Volunteers</h2>
-
-<nav aria-label="Suppliers navigation example">
-    @await this.Component.InvokeAsync("Pager",new { PagingList = this.Model , sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-</nav>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -17,20 +30,35 @@
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
-<p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Has Contract:&emsp;&emsp;&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
-<p> @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;</p>
+    <p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Has Contract:&emsp;&emsp;&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
+    <p>
+        @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;
+        <div class="pagination">
+            @{
+                int x = 1;
+                for (int i = 0; i < ViewBag.counter; i++)
+                {
+                    if (i == 0 || i % 5 == 0)
+                    {
+                        @Html.ActionLink(x.ToString(), "Index", new { page = x, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                        x++;
+                    }
+                }
+            }
+        </div>
+    </p>
 }
 
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate})
+            @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
             @Html.ActionLink("Lastname", "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
-            @Html.ActionLink("BirthDate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate} )
+            @Html.ActionLink("BirthDate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
             @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
@@ -96,6 +124,3 @@
         }
     }
 </table>
-<nav>
-    <vc:pager paging-list="@Model"/>
-</nav>
