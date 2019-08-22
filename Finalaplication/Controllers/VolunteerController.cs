@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson;
+using System.Data.Entity;
 using MongoDB.Driver;
 using Finalaplication.Models;
 using Finalaplication.App_Start;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 using System;
+using System.Threading.Tasks;
+using ReflectionIT.Mvc.Paging;
 
 namespace Finalaplication.Controllers
 {
@@ -58,7 +61,7 @@ namespace Finalaplication.Controllers
                             Volunteer.ContactInformation.MailAdress,
                             Volunteer.ContactInformation.PhoneNumber)
 
-                            
+
                             }
                              ).ToList();
 
@@ -79,11 +82,99 @@ namespace Finalaplication.Controllers
 
 
 
-        public ActionResult Index(string sortOrder, string searching,bool Active, bool HasCar,bool HasContract, DateTime lowerdate, DateTime upperdate, int nrofresults=10)
+        //public ActionResult Index(string sortOrder, string searching, bool Active, bool HasCar, bool HasContract, DateTime lowerdate, DateTime upperdate, int nrofresults = 10)
+        //{
+        //    ViewBag.searching = searching;
+        //    ViewBag.active = Active;
+        //    ViewBag.Nrofresults = nrofresults;
+        //    ViewBag.Upperdate = upperdate;
+        //    ViewBag.Lowerdate = lowerdate;
+        //    ViewBag.hascar = HasCar;
+        //    ViewBag.hascontract = HasContract;
+
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+        //    ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
+        //    ViewBag.HourCountSort = sortOrder == "Hourcount" ? "Hourcount_desc" : "Hourcount";
+        //    ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+        //    ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+
+        //    List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
+        //    DateTime d1 = new DateTime(0003, 1, 1);
+        //    if (upperdate > d1)
+        //    {
+        //        volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
+        //    }
+        //    if (searching != null)
+        //    {
+        //        volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+        //    }
+        //    if (Active == true)
+        //    {
+        //        volunteers = volunteers.Where(x => x.InActivity == true).ToList();
+        //    }
+        //    if (lowerdate != null)
+        //    {
+        //        volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
+        //    }
+        //    if (HasCar == true)
+        //    {
+        //        volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
+        //    }
+        //    if (HasContract == true)
+        //    {
+        //        volunteers = volunteers.Where(x => x.Contract.HasContract == true).ToList();
+        //    }
+        //    if (nrofresults != 0)
+        //    {
+        //        volunteers = volunteers.AsQueryable().Take(nrofresults).ToList();
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "Gender":
+        //            volunteers = volunteers.OrderBy(s => s.Gender).ToList();
+        //            break;
+        //        case "Gender_desc":
+        //            volunteers = volunteers.OrderByDescending(s => s.Gender).ToList();
+        //            break;
+        //        case "Lastname":
+        //            volunteers = volunteers.OrderBy(s => s.Lastname).ToList();
+        //            break;
+        //        case "Lastname_desc":
+        //            volunteers = volunteers.OrderByDescending(s => s.Lastname).ToList();
+        //            break;
+        //        case "Hourcount":
+        //            volunteers = volunteers.OrderBy(s => s.HourCount).ToList();
+        //            break;
+        //        case "Hourcount_desc":
+        //            volunteers = volunteers.OrderByDescending(s => s.HourCount).ToList();
+        //            break;
+        //        case "Active":
+        //            volunteers = volunteers.OrderBy(s => s.InActivity).ToList();
+        //            break;
+        //        case "Active_desc":
+        //            volunteers = volunteers.OrderByDescending(s => s.InActivity).ToList();
+        //            break;
+        //        case "name_desc":
+        //            volunteers = volunteers.OrderByDescending(s => s.Firstname).ToList();
+        //            break;
+        //        case "Date":
+        //            volunteers = volunteers.OrderBy(s => s.Birthdate).ToList();
+        //            break;
+        //        case "date_desc":
+        //            volunteers = volunteers.OrderByDescending(s => s.Birthdate).ToList();
+        //            break;
+        //        default:
+        //            volunteers = volunteers.OrderBy(s => s.Firstname).ToList();
+        //            break;
+        //    }
+        //    return View(volunteers);
+        //}
+
+        public async Task<IActionResult> Index (string sortOrder, string searching, bool Active, bool HasCar, bool HasContract, DateTime lowerdate, DateTime upperdate, int page=1)
         {
             ViewBag.searching = searching;
             ViewBag.active = Active;
-            ViewBag.Nrofresults = nrofresults;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
             ViewBag.hascar = HasCar;
@@ -104,7 +195,7 @@ namespace Finalaplication.Controllers
             }
             if (searching != null)
             {
-                volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();               
+                volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
             }
             if (Active == true)
             {
@@ -121,10 +212,6 @@ namespace Finalaplication.Controllers
             if (HasContract == true)
             {
                 volunteers = volunteers.Where(x => x.Contract.HasContract == true).ToList();
-            }
-            if (nrofresults != 0)
-            {
-                volunteers = volunteers.AsQueryable().Take(nrofresults).ToList();
             }
             switch (sortOrder)
             {
@@ -165,9 +252,11 @@ namespace Finalaplication.Controllers
                     volunteers = volunteers.OrderBy(s => s.Firstname).ToList();
                     break;
             }
-            return View(volunteers);
+            var query = volunteers.AsQueryable().AsNoTracking();
+            var model = PagingList.Create(query,5,page);
+            return View(model);
         }
-    
+
 
         public ActionResult Birthday()
         {
@@ -217,7 +306,7 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                return View();
+                    return View();
                 }
             }
             catch
@@ -228,7 +317,7 @@ namespace Finalaplication.Controllers
 
         // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
-        { 
+        {
             var volunteerId = new ObjectId(id);
             var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
             return View(volunteer);
@@ -296,13 +385,26 @@ namespace Finalaplication.Controllers
 
         // POST: Volunteer/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, IFormCollection collection)
+        public ActionResult Delete(string id, IFormCollection collection, Volunteer volunteer, bool Inactive)
         {
             try
             {
-                vollunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id)));
+                if (Inactive == false)
+                {
 
-                return RedirectToAction("Index");
+                    vollunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id)));
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<Volunteer>.Update
+                        .Set("InActivity", volunteer.InActivity);
+                    var result = vollunteercollection.UpdateOne(filter, update);
+                    return RedirectToAction("Index");
+                }
+
             }
             catch
             {

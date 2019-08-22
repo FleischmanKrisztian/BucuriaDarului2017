@@ -299,9 +299,25 @@
         </dd>
     </dl>
 
-    
+
     <div class="form-actions no-color">
-        <input type="submit" value="Delete" style="background-color:tomato" class="btn btn-default" /> |
+        <span>
+
+            <input type="submit" value="Permanently delete" style="background-color:tomato" class="btn btn-default" /> |
+
+            @using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Get))
+            {
+                    <div class="form-group">
+                        Make this volunteer inactive
+                        @Html.CheckBox("Inactive")
+                        <br>
+                        <input type="submit" class="btn btn-primary" value="Apply" />
+                    </div>
+            }
+            <br>
+
+        </span>
+
         @Html.ActionLink("Back to List", "Index")
     </div>
 </div>

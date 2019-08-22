@@ -323,13 +323,26 @@ namespace Finalaplication.Controllers
 
         // POST: Beneficiary/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, Beneficiary benficiary)
+        public ActionResult Delete(string id, Beneficiary beneficiary, bool Inactive)
         {
             try
             {
-                beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
+                if (Inactive == false)
+                {
+                    beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<Beneficiary>.Update
+                        .Set("Active", beneficiary.Active);
+                    var result = beneficiarycollection.UpdateOne(filter, update);
+                    return RedirectToAction("Index");
+                }
+
             }
             catch
             {
@@ -338,4 +351,5 @@ namespace Finalaplication.Controllers
         }
 
     }
+
 }
