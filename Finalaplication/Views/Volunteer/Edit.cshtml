@@ -1,19 +1,21 @@
-﻿
-@model Finalaplication.Models.Volunteer
+﻿@model Finalaplication.Models.Volunteer
 
 @{
     ViewBag.Title = "Edit";
+    string originalsavedvol = ViewBag.originalsavedvol;
 }
 
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Volunteer/", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
     <h4>Volunteer</h4>
+    <input type="hidden" name="Originalsavedvol" value="@originalsavedvol" />
+
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -183,6 +185,7 @@
             @Html.ValidationMessageFor(model => model.HourCount, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
