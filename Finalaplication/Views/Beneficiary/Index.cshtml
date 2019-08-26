@@ -40,7 +40,7 @@
             {
                 if (i == 0 || i % 5 == 0)
                 {
-                    @Html.ActionLink(x.ToString(), "Index", new { page = x, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                     x++;
                 }
             }

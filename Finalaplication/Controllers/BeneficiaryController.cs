@@ -104,6 +104,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult Index(string sortOrder, string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, int page)
         {
+            ViewBag.SortOrder = sortOrder;
             ViewBag.searching = searching;
             ViewBag.active = Active;
             ViewBag.hascontract = HasContract;
@@ -132,7 +133,7 @@ namespace Finalaplication.Controllers
             {
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HasHome == false).ToList();
             }
-            if (lowerdate != null)
+            if (lowerdate > d1)
             {
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate > lowerdate).ToList();
             }

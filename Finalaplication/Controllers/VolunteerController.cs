@@ -84,6 +84,7 @@ namespace Finalaplication.Controllers
             ViewBag.searching = searching;
             ViewBag.active = Active;
             ViewBag.Page = page;
+            ViewBag.SortOrder = sortOrder;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
             ViewBag.hascar = HasCar;
@@ -110,7 +111,7 @@ namespace Finalaplication.Controllers
             {
                 volunteers = volunteers.Where(x => x.InActivity == true).ToList();
             }
-            if (lowerdate != null)
+            if (lowerdate > d1)
             {
                 volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
             }
