@@ -302,22 +302,28 @@
 
     <div class="form-actions no-color">
         <span>
-
-            <input type="submit" value="Permanently delete" style="background-color:tomato" class="btn btn-default" /> |
-
-            @using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Get))
+            @using (Html.BeginForm())
             {
-                    <div class="form-group">
-                        Make this volunteer inactive
-                        @Html.CheckBox("Inactive")
-                        <br>
-                        <input type="submit" class="btn btn-primary" value="Apply" />
-                    </div>
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <span>
+                        @using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Get))
+                        {
+                            <div class="form-group">
+                                Make this beneficiary inactive
+                                @Html.CheckBox("Inactive", checked(true))
+                                <br>
+                                <input type="submit" class="btn btn-primary" value="Apply" />
+                            </div>
+                        }
+
+                    </span>
+
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
             }
-            <br>
 
         </span>
-
-        @Html.ActionLink("Back to List", "Index")
     </div>
 </div>

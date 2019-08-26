@@ -56,22 +56,20 @@
     {
         @Html.AntiForgeryToken()
 
-        <h4>Are you sure you want to permanently delete this volunteer or make it inactive?</h4>
         <div class="form-actions no-color">
             <span>
 
-                <input type="submit" value="Permanently delete" style="background-color:tomato" class="btn btn-default" /> |
+               @* <input type="submit" value="Permanently delete" style="background-color:tomato" class="btn btn-default" /> |*@
 
                 @using (Html.BeginForm("Edit", "Volunteer/", FormMethod.Get))
                 {
                         <div class="form-group">
                             Make this volunteer inactive
-                            @Html.CheckBox("Inactive")
+                            @Html.CheckBox("Inactive", checked(true))
                             <br>
                             <input type="submit" class="btn btn-primary" value="Apply" />
                         </div>
                 }
-                <br>
 
             </span>
 

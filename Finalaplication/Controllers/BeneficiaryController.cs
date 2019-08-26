@@ -102,11 +102,12 @@ namespace Finalaplication.Controllers
 }
 
 
-        public ActionResult Index(string sortOrder, string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate)
+        public ActionResult Index(string sortOrder, string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, int page)
         {
             ViewBag.searching = searching;
             ViewBag.active = Active;
             ViewBag.hascontract = HasContract;
+            ViewBag.Page = page;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
             ViewBag.Homeless = Homeless;
@@ -176,6 +177,9 @@ namespace Finalaplication.Controllers
                     beneficiaries = beneficiaries.OrderBy(s => s.Firstname).ToList();
                     break;
             }
+            ViewBag.counter = beneficiaries.Count();
+            beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * 5).ToList();
+            beneficiaries = beneficiaries.AsQueryable().Take(5).ToList();
             return View(beneficiaries);
         }
 
