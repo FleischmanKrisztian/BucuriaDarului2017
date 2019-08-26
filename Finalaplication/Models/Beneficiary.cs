@@ -21,6 +21,19 @@ namespace Finalaplication.Models
                 benefexp = (beneficiary.Contract.ExpirationDate.Month - 1) * 30 + beneficiary.Contract.ExpirationDate.Day;
             }
             return benefexp;
+
+        }
+        public bool GetDayExpiration(DateTime date)
+        {
+            var now = DateTime.Now;
+            var firstday = now.AddDays(-1);
+            var lastday = now.AddDays(10);
+            var answer = false;
+            if (date >= firstday && date <= lastday)
+            {
+                answer = true;
+            }
+            return answer;
         }
     }
 }
