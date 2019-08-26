@@ -16,7 +16,6 @@
     <h4>Volunteer</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         First name:
         <div class="col-md-10">
@@ -76,7 +75,7 @@
         </div>
     </div>
     <div class="form-group">
-        Has Contract?
+        Has Contract:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Contract.HasContract)
@@ -120,7 +119,7 @@
         </div>
     </div>
     <div class="form-group">
-        Has car?
+        Has car:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Additionalinfo.HasCar)
@@ -129,7 +128,7 @@
         </div>
     </div>
     <div class="form-group">
-        Has driving licence?
+        Has driving licence:
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.Additionalinfo.HasDrivingLicence)
