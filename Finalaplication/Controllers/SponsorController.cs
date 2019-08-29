@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 
 namespace Finalaplication.Controllers
 {
@@ -85,8 +86,7 @@ namespace Finalaplication.Controllers
         }
         public ActionResult Details(string id)
         {
-            var sponsorId = new ObjectId(id);
-            var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId);
+            var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
 
             return View(sponsor);
         }
@@ -119,17 +119,23 @@ namespace Finalaplication.Controllers
         }
         public ActionResult Edit(string id)
         {
-            var sponsorId = new ObjectId(id);
-            var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId);
+            var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
+            Sponsor originalsavedvol = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
+            ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
             return View(sponsor);
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Sponsor sponsor)
+        public ActionResult Edit(string id, Sponsor sponsor, string Originalsavedvolstring)
         {
+            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
             try
             {
-                ModelState.Remove("Contract.RegistrationDate");
+                Sponsor currentsavedvol = sponsorcollection.Find(x => x.SponsorID == id).Single();
+                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
+                {
+                    ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
                 ModelState.Remove("Sponsorship.Date");
                 if (ModelState.IsValid)
@@ -148,21 +154,25 @@ namespace Finalaplication.Controllers
                         .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
                          .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
                     var result = sponsorcollection.UpdateOne(filter, update);
-                    return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+                    }
+                    else return View();
                 }
-                else return View();
+                else
+                {
+                    return RedirectToAction("Volunteerwarning");
+                }
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
 
         // GET: Volunteer/Delete/5
         public ActionResult Delete(string id)
         {
-            var sponsorId = new ObjectId(id);
-            var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId);
+            var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             return View(sponsor);
         }
 

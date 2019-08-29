@@ -12,6 +12,7 @@ using Finalaplication.Models;
 using MongoDB.Driver;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Finalaplication.Controllers
 {
@@ -191,8 +192,7 @@ namespace Finalaplication.Controllers
         }
         public ActionResult Details(string id)
         {
-            var beneficiaryId = new MongoDB.Bson.ObjectId(id);
-            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
+            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
 
             return View(beneficiary);
         }
@@ -237,18 +237,24 @@ namespace Finalaplication.Controllers
         // GET: Beneficiary/Edit/5
         public ActionResult Edit(string id)
         {
-            var beneficiaryId = new ObjectId(id);
-            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == beneficiaryId);
+            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == id);
+            Beneficiary originalsavedvol = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
+            ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
             return View(beneficiary);
         }
 
         // POST: Beneficiary/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Beneficiary beneficiary)
+        public ActionResult Edit(string id, Beneficiary beneficiary, string Originalsavedvolstring)
         {
+            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
             try
             {
-                ModelState.Remove("Contract.RegistrationDate");
+                Beneficiary currentsavedvol = beneficiarycollection.Find(x => x.BeneficiaryID == id).Single();
+                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
+                {
+                    ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
                 ModelState.Remove("Marca.IdAplication");
                 ModelState.Remove("Marca.IdContract");
@@ -285,7 +291,7 @@ namespace Finalaplication.Controllers
                        .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
                        .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
                        .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
-                        .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender)
+                       .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender)
                        .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
                        .Set("PersonalInfo.Addictions", beneficiary.PersonalInfo.Addictions)
                        .Set("PersonalInfo.Disalility", beneficiary.PersonalInfo.Disalility)
@@ -308,21 +314,25 @@ namespace Finalaplication.Controllers
                        .Set("Contract.ExpirationDate", beneficiary.Contract.ExpirationDate.AddHours(5));
 
                     var result = beneficiarycollection.UpdateOne(filter, update);
-                    return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+                    }
+                    else return View();
                 }
-                else return View();
+                else
+                {
+                    return RedirectToAction("Volunteerwarning");
+                }
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
 
         // GET: Beneficiary/Delete/5
         public ActionResult Delete(string id)
         {
-            var beneficiaryId = new ObjectId(id);
-            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == beneficiaryId);
+            var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
             return View(beneficiary);
         }
 

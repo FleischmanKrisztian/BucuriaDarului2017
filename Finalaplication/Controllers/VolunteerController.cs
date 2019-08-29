@@ -2,6 +2,7 @@
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using Finalaplication.Models;
 using Finalaplication.App_Start;
 using Microsoft.AspNetCore.Mvc;
@@ -186,7 +187,7 @@ namespace Finalaplication.Controllers
         public ActionResult Details(string id)
         {
             var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
 
             return View(volunteer);
         }
@@ -226,63 +227,78 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Volunteer/Edit/5
-        public ActionResult Edit(string id)
-        {
-            var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
-            return View(volunteer);
-        }
-
         public ActionResult Volunteerwarning()
         {
             return View();
         }
 
+
+        // GET: Volunteer/Edit/5
+        public ActionResult Edit(string id)
+        {
+            var volunteerId = new ObjectId(id);
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+            Volunteer originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+            ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+
+            return View(volunteer);
+        }
+
         // POST: Volunteer/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Volunteer volunteer)
+        public ActionResult Edit(string id, Volunteer volunteer, string Originalsavedvolstring)
         {
+            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
             try
             {
-                ModelState.Remove("Birthdate");
-                ModelState.Remove("HourCount");
-                ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
-                if (ModelState.IsValid)
+                var volunteerId = new ObjectId(id);
+                Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == id).Single();
+                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                 {
-                    var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
-                    var update = Builders<Volunteer>.Update
-                        .Set("Firstname", volunteer.Firstname)
-                        .Set("Lastname", volunteer.Lastname)
-                        .Set("Birthdate", volunteer.Birthdate.AddHours(5))
-                        .Set("Address.Country", volunteer.Address.Country)
-                        .Set("Address.City", volunteer.Address.City)
-                        .Set("Address.Street", volunteer.Address.Street)
-                        .Set("Address.Number", volunteer.Address.Number)
-                        .Set("Gender", volunteer.Gender)
-                        .Set("Desired_workplace", volunteer.Desired_workplace)
-                        .Set("Field_of_activity", volunteer.Field_of_activity)
-                        .Set("Occupation", volunteer.Occupation)
-                        .Set("InActivity", volunteer.InActivity)
-                        .Set("HourCount", volunteer.HourCount)
-                        .Set("Contract.HasContract", volunteer.Contract.HasContract)
-                        .Set("Contract.NumberOfRegistration", volunteer.Contract.NumberOfRegistration)
-                        .Set("Contract.RegistrationDate", volunteer.Contract.RegistrationDate.AddHours(5))
-                        .Set("Contract.ExpirationDate", volunteer.Contract.ExpirationDate.AddHours(5))
-                        .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
-                        .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
-                        .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
-                        .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
-                        .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
-                    var result = vollunteercollection.UpdateOne(filter, update);
-                    return RedirectToAction("Index");
+                    ModelState.Remove("Birthdate");
+                    ModelState.Remove("HourCount");
+                    ModelState.Remove("Contract.RegistrationDate");
+                    ModelState.Remove("Contract.ExpirationDate");
+                    if (ModelState.IsValid)
+                    {
+                        var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+                        var update = Builders<Volunteer>.Update
+                            .Set("Firstname", volunteer.Firstname)
+                            .Set("Lastname", volunteer.Lastname)
+                            .Set("Birthdate", volunteer.Birthdate.AddHours(5))
+                            .Set("Address.Country", volunteer.Address.Country)
+                            .Set("Address.City", volunteer.Address.City)
+                            .Set("Address.Street", volunteer.Address.Street)
+                            .Set("Address.Number", volunteer.Address.Number)
+                            .Set("Gender", volunteer.Gender)
+                            .Set("Desired_workplace", volunteer.Desired_workplace)
+                            .Set("Field_of_activity", volunteer.Field_of_activity)
+                            .Set("Occupation", volunteer.Occupation)
+                            .Set("InActivity", volunteer.InActivity)
+                            .Set("HourCount", volunteer.HourCount)
+                            .Set("Contract.HasContract", volunteer.Contract.HasContract)
+                            .Set("Contract.NumberOfRegistration", volunteer.Contract.NumberOfRegistration)
+                            .Set("Contract.RegistrationDate", volunteer.Contract.RegistrationDate.AddHours(5))
+                            .Set("Contract.ExpirationDate", volunteer.Contract.ExpirationDate.AddHours(5))
+                            .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
+                            .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
+                            .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
+                            .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
+                            .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
+                        var result = vollunteercollection.UpdateOne(filter, update);
+                        return RedirectToAction("Index");
+                    }
+                    else return View();
                 }
-                else return View();
+                else
+                {
+                    return RedirectToAction("Volunteerwarning");
+                }
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
 
@@ -290,7 +306,7 @@ namespace Finalaplication.Controllers
         public ActionResult Delete(string id)
         {
             var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
             return View(volunteer);
         }
 

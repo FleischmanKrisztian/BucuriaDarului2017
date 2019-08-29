@@ -12,7 +12,8 @@ namespace Finalaplication.Models
     public class Sponsor : SponsorBase
     {
         [BsonId]
-        public ObjectId SponsorID { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string SponsorID { get; set; }
 
 
         public static int Sponsorexp(Sponsor sponsor)
