@@ -11,7 +11,8 @@ namespace Finalaplication.Models
     public class Volunteer : VolunteerBase
     {
         [BsonId]
-        public ObjectId VolunteerID { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string VolunteerID { get; set; }
 
         public static int Volbd(Volunteer vol)
         {

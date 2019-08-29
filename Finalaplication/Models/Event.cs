@@ -7,7 +7,8 @@ namespace Finalaplication.Models
 {
     public class Event : EventBase
     {
-        [JsonIgnore][BsonId]
-        public ObjectId EventID { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string EventID { get; set; }
     }
 }

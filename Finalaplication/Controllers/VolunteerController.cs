@@ -187,7 +187,7 @@ namespace Finalaplication.Controllers
         public ActionResult Details(string id)
         {
             var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
 
             return View(volunteer);
         }
@@ -232,12 +232,13 @@ namespace Finalaplication.Controllers
             return View();
         }
 
+
         // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
         {
             var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
-            var originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+            Volunteer originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
 
             return View(volunteer);
@@ -245,14 +246,15 @@ namespace Finalaplication.Controllers
 
         // POST: Volunteer/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Volunteer volunteer,string Originalsavedvol)
+        public ActionResult Edit(string id, Volunteer volunteer, string Originalsavedvolstring)
         {
-            Volunteer Originalvolunteer = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvol);
+            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
             try
             {
                 var volunteerId = new ObjectId(id);
-                Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == volunteerId).Single();
-                if (currentsavedvol == Originalvolunteer)
+                Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == id).Single();
+                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                 {
                     ModelState.Remove("Birthdate");
                     ModelState.Remove("HourCount");
@@ -304,7 +306,7 @@ namespace Finalaplication.Controllers
         public ActionResult Delete(string id)
         {
             var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
             return View(volunteer);
         }
 

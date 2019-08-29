@@ -11,7 +11,8 @@ namespace Finalaplication.Models
     public class Beneficiary:BeneficiaryBase
     {
         [BsonId]
-        public ObjectId BeneficiaryID { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string BeneficiaryID { get; set; }
 
 
         public static int Benefxp(Beneficiary beneficiary)

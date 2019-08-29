@@ -3,7 +3,6 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.IO;
-
 using Finalaplication.Models;
 using Finalaplication.App_Start;
 using Microsoft.AspNetCore.Mvc;
@@ -117,7 +116,7 @@ namespace Finalaplication.Controllers
                 for (int i = 0; i < vols.Length; i++)
                 {
                     var volunteerId = new ObjectId(vols[i]);
-                    var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId);
+                    var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId.ToString());
 
                     volname = volname + volunteer.Firstname + " " + volunteer.Lastname + " / ";
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
@@ -165,7 +164,7 @@ namespace Finalaplication.Controllers
                 for (int i = 0; i < spons.Length; i++)
                 {
                     var sponsorId = new ObjectId(spons[i]);
-                    var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId);
+                    var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId.ToString());
 
                     sponsname = sponsname +" "+ sponsor.NameOfSponsor;
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
@@ -188,8 +187,7 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Details/5
         public ActionResult Details(string id)
         {
-            var eventId = new ObjectId(id);
-            var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == eventId);
+            var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
 
             return View(eventt);
         }
@@ -227,18 +225,24 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
         {
-            var eventId = new ObjectId(id);
-            var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == eventId);
+            var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
+            Event originalsavedevent = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
+            ViewBag.originalsavedevent = JsonConvert.SerializeObject(originalsavedevent);
+
             return View(eventt);
         }
 
         // POST: Volunteer/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Event eventt)
+        public ActionResult Edit(string id, Event eventt, string Originalsavedeventstring)
         {
+            Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(Originalsavedeventstring);
             try
             {
-                ModelState.Remove("NumberOfVolunteersNeeded");
+                Event currentsavedevent = eventcollection.Find(x => x.EventID == id).Single();
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedevent)))
+                {
+                    ModelState.Remove("NumberOfVolunteersNeeded");
                 ModelState.Remove("DateOfEvent");
                 ModelState.Remove("Duration");
                 if (ModelState.IsValid)
@@ -256,13 +260,18 @@ namespace Finalaplication.Controllers
 
 
                     var result = eventcollection.UpdateOne(filter, update);
-                    return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+                    }
+                    else return View();
                 }
-                else return View();
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
 
@@ -270,8 +279,7 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Delete/5
         public ActionResult Delete(string id)
         {
-            var eventId = new ObjectId(id);
-            var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == eventId);
+            var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             return View(eventt);
         }
 
