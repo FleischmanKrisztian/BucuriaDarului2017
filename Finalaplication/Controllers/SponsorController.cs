@@ -66,17 +66,18 @@ namespace Finalaplication.Controllers
         }
 
 
-        public IActionResult Index(string searching)
+        public IActionResult Index(string searching, int page)
         {
+            ViewBag.Page = page;
             List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
             if (searching != null)
             {
-                return View(sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList());
+                sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList();
             }
-            else
-            {
-                return View(sponsors);
-            }
+            ViewBag.counter = sponsors.Count();
+            sponsors = sponsors.AsQueryable().Skip((page - 1) * 5).ToList();
+            sponsors = sponsors.AsQueryable().Take(5).ToList();
+            return View(sponsors);
         }
 
         public ActionResult ContractExp()
@@ -128,14 +129,14 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Edit(string id, Sponsor sponsor, string Originalsavedvolstring)
         {
-            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
+            Sponsor Originalsavedvol = JsonConvert.DeserializeObject<Sponsor>(Originalsavedvolstring);
             try
             {
+                var volunteerId = new ObjectId(id);
                 Sponsor currentsavedvol = sponsorcollection.Find(x => x.SponsorID == id).Single();
-                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
                 if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                 {
-                    ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
                 ModelState.Remove("Sponsorship.Date");
                 if (ModelState.IsValid)
@@ -158,9 +159,9 @@ namespace Finalaplication.Controllers
                     }
                     else return View();
                 }
-                else
+                 else
                 {
-                    return RedirectToAction("Volunteerwarning");
+                    return View("Volunteerwarning");
                 }
             }
             catch

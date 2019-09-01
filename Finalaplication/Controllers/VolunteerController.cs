@@ -227,10 +227,10 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Volunteerwarning()
-        {
-            return View();
-        }
+        //public ActionResult Volunteerwarning()
+        //{
+        //    return View();
+        //}
 
 
         // GET: Volunteer/Edit/5
@@ -244,7 +244,6 @@ namespace Finalaplication.Controllers
             return View(volunteer);
         }
 
-        // POST: Volunteer/Edit/5
         [HttpPost]
         public ActionResult Edit(string id, Volunteer volunteer, string Originalsavedvolstring)
         {
@@ -253,7 +252,6 @@ namespace Finalaplication.Controllers
             {
                 var volunteerId = new ObjectId(id);
                 Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == id).Single();
-                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
                 if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                 {
                     ModelState.Remove("Birthdate");
@@ -293,7 +291,7 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Volunteerwarning");
+                    return View("Volunteerwarning");
                 }
             }
             catch

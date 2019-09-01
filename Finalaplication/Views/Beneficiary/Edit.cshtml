@@ -1,5 +1,4 @@
 ﻿@model Finalaplication.Models.Beneficiary
-
 @{
     ViewBag.Title = "Edit";
     string originalsavedvol = ViewBag.originalsavedvol;
@@ -8,379 +7,379 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Beneficiary</h4>
-    <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Beneficiary</h4>
+        <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <h4>Personal Information:</h4>
-    <div class="form-group">
-        Firstname:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Lastname:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
-    {
+        <h4>Personal Information:</h4>
         <div class="form-group">
-            Gender:
-            <br />
+            Firstname:
             <div class="col-md-10">
-                Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
-                Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
+                @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
-    <div class="form-group">
-        CNP:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        Birthdate:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Birthplace:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.BirthPlace, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.BirthPlace, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Phone number:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.PhoneNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Active
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Active)
-                @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Lastname:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        Weekley package:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Weeklypackage)
-                @Html.ValidationMessageFor(model => model.Weeklypackage, "", new { @class = "text-danger" })
+        @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
+        {
+            <div class="form-group">
+                Gender:
+                <br />
+                <div class="col-md-10">
+                    Male @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
+                    Female @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            CNP:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Number of portions:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NumberOfPortions, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NumberOfPortions, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Canteen:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Canteen)
-                @Html.ValidationMessageFor(model => model.Canteen, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            Birthdate:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Home delivery driver:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.HomeDeliveryDriver, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.HomeDeliveryDriver, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Last time active:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LastTimeActiv, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LastTimeActiv, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Married:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.PersonalInfo.Married)
-                @Html.ValidationMessageFor(model => model.PersonalInfo.Married, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Birthplace:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.BirthPlace, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.BirthPlace, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Spouse name:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.SpouseName, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.SpouseName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Expenses:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Expences, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Expences, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Income:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Income, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Income, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        Comments:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Coments, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Coments, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        Has GDPR agreement:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.HasGDPRAgreement)
-                @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Phone number:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.PhoneNumber, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <h4>Address Information:</h4>
-    <div class="form-group">
-        Country:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.Country, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.Country, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        City:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.City, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Street:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.Street, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.Street, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Number:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.Number, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.Number, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <h4>ID Information:</h4>
-    <div class="form-group">
-        Has ID:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.CI.HasId)
-                @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Active
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Active)
+                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        CI expiration date:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CI.ICExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CI.ICExpirationDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <h4>Contract information:</h4>
-    <div class="form-group">
-        Has Contract:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Contract.HasContract)
-                @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Weekley package:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Weeklypackage)
+                    @Html.ValidationMessageFor(model => model.Weeklypackage, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Number of registration:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Registration date:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Expiration date:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-
-    <h4>Marca details:</h4>
-
-    <div class="form-group">
-        ID application:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Marca.IdAplication, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Marca.IdAplication, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        ID contract:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Marca.IdContract, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Marca.IdContract, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        ID investigation:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Marca.IdInvestigation, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Marca.IdInvestigation, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <h4>Health details:</h4>
-    <div class="form-group">
-        Has health card:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.PersonalInfo.HealthCard)
-                @Html.ValidationMessageFor(model => model.PersonalInfo.HealthCard, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Number of portions:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfPortions, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberOfPortions, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Has health insurance:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.PersonalInfo.HealthInsurance)
-                @Html.ValidationMessageFor(model => model.PersonalInfo.HealthInsurance, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Canteen:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Canteen)
+                    @Html.ValidationMessageFor(model => model.Canteen, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Health state:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.HealthState, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.HealthState, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Chronic condition:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.ChronicCondition, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.ChronicCondition, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Addictions:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Addictions, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Addictions, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        Disability:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Disalility, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Disalility, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <h4>Housing information:</h4>
-    <div class="form-group">
-        Has home:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.PersonalInfo.HasHome)
-                @Html.ValidationMessageFor(model => model.PersonalInfo.HasHome, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Home delivery driver:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HomeDeliveryDriver, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HomeDeliveryDriver, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        Housing type:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.HousingType, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.HousingType, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Last time active:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastTimeActiv, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastTimeActiv, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+        <div class="form-group">
+            Married:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.PersonalInfo.Married)
+                    @Html.ValidationMessageFor(model => model.PersonalInfo.Married, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            Spouse name:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.SpouseName, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.SpouseName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Expenses:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Expences, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Expences, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Income:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Income, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Income, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Comments:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Coments, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Coments, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
 
-    <h4>Studies and job related information:</h4>
-    <div class="form-group">
-        Studies:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Studies, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Studies, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Has GDPR agreement:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.HasGDPRAgreement)
+                    @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        Occupation:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Ocupation, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Ocupation, "", new { @class = "text-danger" })
+        <h4>Address Information:</h4>
+        <div class="form-group">
+            Country:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Adress.Country, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Adress.Country, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        Profession:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.Profesion, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.Profesion, "", new { @class = "text-danger" })
+        <div class="form-group">
+            City:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Adress.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Adress.City, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        Seniority in workfield:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PersonalInfo.SeniorityInWorkField, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.PersonalInfo.SeniorityInWorkField, "", new { @class = "text-danger" })
+        <div class="form-group">
+            Street:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Adress.Street, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Adress.Street, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+        <div class="form-group">
+            Number:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Adress.Number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Adress.Number, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <h4>ID Information:</h4>
+        <div class="form-group">
+            Has ID:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.CI.HasId)
+                    @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            CI expiration date:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CI.ICExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CI.ICExpirationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <h4>Contract information:</h4>
+        <div class="form-group">
+            Has Contract:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Contract.HasContract)
+                    @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            Number of registration:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Registration date:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Expiration date:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <h4>Marca details:</h4>
+
+        <div class="form-group">
+            ID application:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Marca.IdAplication, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Marca.IdAplication, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            ID contract:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Marca.IdContract, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Marca.IdContract, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            ID investigation:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Marca.IdInvestigation, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Marca.IdInvestigation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <h4>Health details:</h4>
+        <div class="form-group">
+            Has health card:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.PersonalInfo.HealthCard)
+                    @Html.ValidationMessageFor(model => model.PersonalInfo.HealthCard, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            Has health insurance:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.PersonalInfo.HealthInsurance)
+                    @Html.ValidationMessageFor(model => model.PersonalInfo.HealthInsurance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            Health state:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.HealthState, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.HealthState, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Chronic condition:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.ChronicCondition, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.ChronicCondition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Addictions:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Addictions, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Addictions, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Disability:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Disalility, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Disalility, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <h4>Housing information:</h4>
+        <div class="form-group">
+            Has home:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.PersonalInfo.HasHome)
+                    @Html.ValidationMessageFor(model => model.PersonalInfo.HasHome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            Housing type:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.HousingType, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.HousingType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <h4>Studies and job related information:</h4>
+        <div class="form-group">
+            Studies:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Studies, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Studies, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Occupation:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Ocupation, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Ocupation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Profession:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.Profesion, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.Profesion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Seniority in workfield:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PersonalInfo.SeniorityInWorkField, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PersonalInfo.SeniorityInWorkField, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
     </div>
-</div>
 }
 
 <div>

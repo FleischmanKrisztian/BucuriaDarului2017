@@ -74,17 +74,17 @@ namespace Finalaplication.Controllers
 
         
 
-        public ActionResult Index(string searching)
+        public ActionResult Index(string searching, int page)
         {
             List<Event> events = eventcollection.AsQueryable().ToList();
             if (searching != null)
             {
-                return View(events.Where(x => x.NameOfEvent.Contains(searching)).ToList());
+                events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
             }
-            else
-            {
-                return View(events);
-            }
+            ViewBag.counter = events.Count();
+            events = events.AsQueryable().Skip((page - 1) * 5).ToList();
+            events = events.AsQueryable().Take(5).ToList();
+            return View(events);
         }
 
         public ActionResult VolunteerAllocation(string id, string searching)
@@ -266,7 +266,7 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Error");
+                    return View("Volunteerwarning");
                 }
             }
             catch
