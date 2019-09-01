@@ -3,6 +3,26 @@
 @{
     ViewBag.Title = "Index";
 }
+<head>
+    <style>
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+    </style>
+</head>
 
 <h1>Sponsors</h1>
 
@@ -10,14 +30,32 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
 {
     @Html.TextBox("searching")<input type="submit" value="Search" />
 }
+
+<br />
+<div class="pagination">
+    @{
+        int x = 1;
+        for (int i = 0; i < ViewBag.counter; i++)
+        {
+            if (i == 0 || i % 5 == 0)
+            {
+                @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                x++;
+            }
+        }
+    }
+</div>
+<br />
 <table class="table">
     <thead>
         <tr>
-            <th> 
+            <th>
                 @Html.DisplayName("Name of sponsor")
             </th>
             <th>
@@ -55,34 +93,34 @@
         {
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameOfSponsor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContactInformation.MailAdress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contract.HasContract)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contract.NumberOfRegistration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contract.RegistrationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.SponsorID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.SponsorID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.SponsorID })
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameOfSponsor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactInformation.MailAdress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contract.HasContract)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contract.NumberOfRegistration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contract.RegistrationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.SponsorID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.SponsorID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.SponsorID })
+                    </td>
+                </tr>
             }}
-        </tbody>
+    </tbody>
 </table>

@@ -247,23 +247,22 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Edit(string id, Beneficiary beneficiary, string Originalsavedvolstring)
         {
-            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
+            Beneficiary Originalsavedvol = JsonConvert.DeserializeObject<Beneficiary>(Originalsavedvolstring);
             try
             {
+                var volunteerId = new ObjectId(id);
                 Beneficiary currentsavedvol = beneficiarycollection.Find(x => x.BeneficiaryID == id).Single();
-                //if (Equals(currentsavedvol.Firstname,Originalsavedvol.Firstname) && Equals(currentsavedvol.Lastname, Originalsavedvol.Lastname) && Equals(currentsavedvol.Address, Originalsavedvol.Address))// && Equals(currentsavedvol.Birthdate, Originalsavedvol.Birthdate) && Equals(currentsavedvol.Contract, Originalsavedvol.Contract) && Equals(currentsavedvol.Additionalinfo, Originalsavedvol.Additionalinfo) && Equals(currentsavedvol.Desired_workplace, Originalsavedvol.Desired_workplace) && Equals(currentsavedvol.HourCount, Originalsavedvol.HourCount) && Equals(currentsavedvol.Occupation, Originalsavedvol.Occupation))
                 if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                 {
                     ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
-                ModelState.Remove("Marca.IdAplication");
-                ModelState.Remove("Marca.IdContract");
-                ModelState.Remove("Marca.IdInvestigation");
-                ModelState.Remove("NumberOfPortions");
-                ModelState.Remove("LastTimeActiv");
-                ModelState.Remove("Personalinfo.Birthdate");
-                ModelState.Remove("CI.ICExpirationDate");
-
+                    ModelState.Remove("Contract.ExpirationDate");
+                    ModelState.Remove("Marca.IdAplication");
+                    ModelState.Remove("Marca.IdContract");
+                    ModelState.Remove("Marca.IdInvestigation");
+                    ModelState.Remove("NumberOfPortions");
+                    ModelState.Remove("LastTimeActiv");
+                    ModelState.Remove("Personalinfo.Birthdate");
+                    ModelState.Remove("CI.ICExpirationDate");
                 if (ModelState.IsValid)
                 {
                     var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
@@ -320,7 +319,7 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Volunteerwarning");
+                    return View("Volunteerwarning");
                 }
             }
             catch
