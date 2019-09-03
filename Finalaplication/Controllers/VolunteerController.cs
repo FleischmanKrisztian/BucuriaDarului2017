@@ -17,12 +17,17 @@ namespace Finalaplication.Controllers
     public class VolunteerController : Controller
     {
         private MongoDBContext dbcontext;
+        private MongoDBContextOffline dbcontextoffline;
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
+        private IMongoCollection<Settings> settingcollection;
 
         public VolunteerController()
         {
-            dbcontext = new MongoDBContext();
+            dbcontextoffline = new MongoDBContextOffline();
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            dbcontext = new MongoDBContext(set);
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
         }

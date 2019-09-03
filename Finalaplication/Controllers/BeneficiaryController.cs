@@ -20,11 +20,16 @@ namespace Finalaplication.Controllers
     {
 
         private MongoDBContext dbcontext;
+        private MongoDBContextOffline dbcontextoffline;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
+        private IMongoCollection<Settings> settingcollection;
 
         public BeneficiaryController()
         {
-            dbcontext = new MongoDBContext();
+            dbcontextoffline = new MongoDBContextOffline();
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            dbcontext = new MongoDBContext(set);
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
         }
 

@@ -2,10 +2,17 @@
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="text-center">
     <h1 class="display-4">Volunteer-Event App</h1>
   
 </div>
+@if(ViewBag.env == "offline")
+{
+<h2 style="color:red">You are currently @ViewBag.env.</h2>
+}
+<br />
+
 
 <div>
     <h2><a href="../Volunteer/Birthday">Volunteers : Birthday Alert</a>.</h2>
