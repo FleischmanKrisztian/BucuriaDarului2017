@@ -10,6 +10,8 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using ReflectionIT.Mvc.Paging;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Finalaplication.Controllers
 {
@@ -192,17 +194,20 @@ namespace Finalaplication.Controllers
         }
 
         // GET: Volunteer/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+
         // POST: Volunteer/Create
         [HttpPost]
-        public ActionResult Create(Volunteer volunteer)
+        public ActionResult Create(Volunteer volunteer, List<IFormFile> Image)
         {
             try
             {
+
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
                 ModelState.Remove("Contract.RegistrationDate");
@@ -212,18 +217,57 @@ namespace Finalaplication.Controllers
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteer.Contract.RegistrationDate = volunteer.Contract.RegistrationDate.AddHours(5);
                     volunteer.Contract.ExpirationDate = volunteer.Contract.ExpirationDate.AddHours(5);
+
+                    foreach (var item in Image)
+                    {
+                        if (item.Length > 0)
+                        {
+                            using (var stream = new MemoryStream())
+                            {
+                                item.CopyTo(stream);
+                                volunteer.Image = stream.ToArray();
+                            }
+                        }
+                    }
                     vollunteercollection.InsertOne(volunteer);
+
                     return RedirectToAction("Index");
+
+                    //if (Path.Length > 0)
+                    //{
+
+
+                    ////byte[] imageBytes = null;
+                    ////BinaryReader reader = new BinaryReader(Path.InputStream);
+                    ////imageBytes = reader.ReadBytes((int)Path.ContentLength);
+
+                    //byte[] p1 = null;
+                    //using (Stream fs1 = Path.OpenReadStream())
+                    //using (var ms1 = new MemoryStream())
+                    //{
+                    //    fs1.CopyTo(ms1);
+                    //    p1 = ms1.ToArray();
+                    //}
+                    //volunteer.Image = p1;
+
+                    //}
+
                 }
-                else
-                {
-                    return View();
-                }
+
+
+                //else
+                //{
+                //    return View();
+                //}
             }
-            catch
+
+            catch(Exception e)
             {
-                return View();
+                //return View();
+                ModelState.AddModelError("", "Unable to save changes! ");
             }
+
+            return View(volunteer);
         }
 
         // GET: Volunteer/Edit/5
@@ -241,7 +285,7 @@ namespace Finalaplication.Controllers
 
         // POST: Volunteer/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Volunteer volunteer)
+        public ActionResult Edit(string id, Volunteer volunteer, IList<IFormFile> image)
         {
             try
             {
@@ -250,9 +294,23 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
                 if (ModelState.IsValid)
-                {
+                {                                     
                     var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+
+                    foreach (var item in image)
+                    {
+                        if (item.Length > 0)
+                        {
+                            using (var stream = new MemoryStream())
+                            {
+                                item.CopyTo(stream);
+                                volunteer.Image = stream.ToArray();
+                            }
+                        }
+                    }
+
                     var update = Builders<Volunteer>.Update
+                        .Set("Image", volunteer.Image)
                         .Set("Firstname", volunteer.Firstname)
                         .Set("Lastname", volunteer.Lastname)
                         .Set("Birthdate", volunteer.Birthdate.AddHours(5))
@@ -275,15 +333,21 @@ namespace Finalaplication.Controllers
                         .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
                         .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
                         .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
+
+                    
+
                     var result = vollunteercollection.UpdateOne(filter, update);
+
                     return RedirectToAction("Index");
                 }
-                else return View();
+               // else return View();
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                ModelState.AddModelError("", "Unable to save changes.");
             }
+
+            return View(volunteer);
         }
 
         // GET: Volunteer/Delete/5
