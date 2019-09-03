@@ -16,13 +16,18 @@ namespace Finalaplication.Controllers
     public class SponsorController : Controller
     {
         private MongoDBContext dbcontext;
+        private MongoDBContextOffline dbcontextoffline;
         private readonly IMongoCollection<Event> eventcollection;
+        private IMongoCollection<Settings> settingcollection;
         private IMongoCollection<Sponsor> sponsorcollection;
 
 
         public SponsorController()
         {
-            dbcontext = new MongoDBContext();
+            dbcontextoffline = new MongoDBContextOffline();
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            dbcontext = new MongoDBContext(set);
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
             

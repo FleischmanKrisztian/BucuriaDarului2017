@@ -17,9 +17,10 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Event> eventcollection;
-        private readonly IMongoCollection<Volunteer> vollunteercollection;
-        private readonly IMongoCollection<Beneficiary> beneficiarycollection;
-        private readonly IMongoCollection<Sponsor> sponsorcollection;
+        private IMongoCollection<Settings> settingcollection;
+        private IMongoCollection<Volunteer> vollunteercollection;
+        private IMongoCollection<Beneficiary> beneficiarycollection;
+        private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Event> eventcollectionoffline;
         private IMongoCollection<Volunteer> vollunteercollectionoffline;
         private IMongoCollection<Beneficiary> beneficiarycollectionoffline;
@@ -27,13 +28,29 @@ namespace Finalaplication.Controllers
 
         public HomeController()
         {
-            dbcontext = new MongoDBContext();
+            dbcontextoffline = new MongoDBContextOffline();
+            try
+            {
+                settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                dbcontext = new MongoDBContext(set);
+            }
+            catch
+            {
+                Settings set = new Settings();
+                set.Env = "offline";
+                set.Lang = "English";
+                set.Quantity = 15;
+                dbcontext = new MongoDBContext(set);
+            }
+           
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
 
             dbcontextoffline = new MongoDBContextOffline();
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
             eventcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Event>("Events");
             vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
             beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
@@ -43,6 +60,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                set.Env = "online";
+                dbcontext = new MongoDBContext(set);
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
@@ -87,6 +107,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                set.Env = "online";
+                dbcontext = new MongoDBContext(set);
                 List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
                 List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
                 List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
@@ -130,6 +153,11 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index()
         {
+            Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+            if (set.Env == "offline")
+                ViewBag.env = "offline";
+            else
+                ViewBag.env = "online";
 
             return View();
         }
@@ -145,6 +173,25 @@ namespace Finalaplication.Controllers
 
             return View();
         }
+
+        public IActionResult Settings()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Settings(string lang, string env, int quantity)
+        {
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            set.Env = env;
+            set.Quantity = quantity;
+            set.Lang = lang;
+            settingcollection.DeleteMany(x => x.Quantity >= 1);
+            settingcollection.InsertOne(set);
+            return RedirectToAction("Index");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
