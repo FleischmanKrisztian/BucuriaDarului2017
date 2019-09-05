@@ -10,7 +10,15 @@ namespace Finalaplication.App_Start
 
         public MongoDBContextOffline()
         {
-            var client = new MongoClient();
+            var clientSettings = new MongoClientSettings
+            {
+                Server = new MongoServerAddress("localhost", 27017),
+                ClusterConfigurator = builder =>
+                {
+                    builder.ConfigureCluster(settings => settings.With(serverSelectionTimeout: TimeSpan.FromSeconds(2)));
+                }
+            };
+            var client = new MongoClient(clientSettings);
             databaseoffline = client.GetDatabase("BucuriaDaruluiOffline");
         }
 

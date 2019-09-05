@@ -153,11 +153,23 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index()
         {
-            Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-            if (set.Env == "offline")
-                ViewBag.env = "offline";
-            else
-                ViewBag.env = "online";
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
+            return View();
+        }
+
+        public IActionResult Localserver()
+        {
 
             return View();
         }
