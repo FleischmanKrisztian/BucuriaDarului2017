@@ -24,7 +24,15 @@ namespace Finalaplication.App_Start
                 }
                 else
                 {
-                    var client = new MongoClient();
+                    var clientSettings = new MongoClientSettings
+                    {
+                        Server = new MongoServerAddress("localhost", 27017),
+                        ClusterConfigurator = builder =>
+                        {
+                            builder.ConfigureCluster(settings => settings.With(serverSelectionTimeout: TimeSpan.FromSeconds(2)));
+                        }
+                    };
+                    var client = new MongoClient(clientSettings);
                     database = client.GetDatabase("BucuriaDaruluiOffline");
                 }
             }

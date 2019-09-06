@@ -11,6 +11,7 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using ReflectionIT.Mvc.Paging;
+using System.IO;
 
 namespace Finalaplication.Controllers
 {
@@ -198,17 +199,21 @@ namespace Finalaplication.Controllers
         }
 
         // GET: Volunteer/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+
         // POST: Volunteer/Create
         [HttpPost]
-        public ActionResult Create(Volunteer volunteer)
+        [HttpPost]
+        public ActionResult Create(Volunteer volunteer, List<IFormFile> Image)
         {
             try
             {
+
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
                 ModelState.Remove("Contract.RegistrationDate");
@@ -218,18 +223,29 @@ namespace Finalaplication.Controllers
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteer.Contract.RegistrationDate = volunteer.Contract.RegistrationDate.AddHours(5);
                     volunteer.Contract.ExpirationDate = volunteer.Contract.ExpirationDate.AddHours(5);
+
+                    foreach (var item in Image)
+                    {
+                        if (item.Length > 0)
+                        {
+                            using (var stream = new MemoryStream())
+                            {
+                                item.CopyTo(stream);
+                                volunteer.Image = stream.ToArray();
+                            }
+                        }
+                    }
                     vollunteercollection.InsertOne(volunteer);
+
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    return View();
-                }
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                //return View();
+                ModelState.AddModelError("", "Unable to save changes! ");
             }
+            return View(volunteer);
         }
 
         //public ActionResult Volunteerwarning()
@@ -241,21 +257,20 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
         {
-            var volunteerId = new ObjectId(id);
             var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
             Volunteer originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+            ViewBag.id = id;
 
             return View(volunteer);
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Volunteer volunteer, string Originalsavedvolstring)
+        public ActionResult Edit(string id, Volunteer volunteer, string Originalsavedvolstring, IList<IFormFile> image)
         {
             Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
             try
             {
-                var volunteerId = new ObjectId(id);
                 Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == id).Single();
                 if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                 {
@@ -266,7 +281,21 @@ namespace Finalaplication.Controllers
                     if (ModelState.IsValid)
                     {
                         var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+
+                        foreach (var item in image)
+                        {
+                            if (item.Length > 0)
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    item.CopyTo(stream);
+                                    volunteer.Image = stream.ToArray();
+                                }
+                            }
+                        }
+
                         var update = Builders<Volunteer>.Update
+                            .Set("Image", volunteer.Image)
                             .Set("Firstname", volunteer.Firstname)
                             .Set("Lastname", volunteer.Lastname)
                             .Set("Birthdate", volunteer.Birthdate.AddHours(5))
@@ -301,7 +330,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Error");
             }
         }
 
