@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace VolCommon
@@ -37,6 +38,8 @@ namespace VolCommon
         public ContactInformation ContactInformation { get; set; }
 
         public Additionalinfo Additionalinfo { get; set; }
+
+        public byte[] Image { get; set; }
 
     }
 }
