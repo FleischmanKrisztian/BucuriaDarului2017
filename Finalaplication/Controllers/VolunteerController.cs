@@ -330,7 +330,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Error");
             }
         }
 
