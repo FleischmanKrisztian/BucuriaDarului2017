@@ -9,6 +9,8 @@ namespace VolCommon
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ICExpirationDate { get; set; }
+
+        public string CIseries { get; set; }
     }
 }
 

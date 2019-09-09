@@ -14,6 +14,10 @@ namespace VolCommon
         public string Firstname { get; set; }
         [Required]
         public string Lastname { get; set; }
+           
+        public string CNP { get; set; }
+
+        public CI CI { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
