@@ -156,6 +156,7 @@ namespace Finalaplication.Controllers
             try
             {
                 Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                
                 if (set.Env == "offline")
                     ViewBag.env = "offline";
                 else
@@ -199,8 +200,14 @@ namespace Finalaplication.Controllers
             set.Env = env;
             set.Quantity = quantity;
             set.Lang = lang;
-            settingcollection.DeleteMany(x => x.Quantity >= 1);
-            settingcollection.InsertOne(set);
+
+            settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
+            //var filter = Builders<Settings>.Filter.Eq("_id", ObjectId.Parse(id));
+            //var update = Builders<Settings>.Update
+            //               .Set("Lang", Settings.Lang)
+            //               .Set("Env", Settings.Env)
+            //               .Set("Quantity", Settings.Quantity);
+            //               var result = vollunteercollection.UpdateOne(filter, update);
             return RedirectToAction("Index");
         }
 
