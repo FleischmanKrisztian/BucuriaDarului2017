@@ -23,14 +23,12 @@ namespace Finalaplication.Controllers
         private MongoDBContextOffline dbcontextoffline;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Settings> settingcollection;
-
         public BeneficiaryController()
         {
             dbcontextoffline = new MongoDBContextOffline();
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            dbcontext = new MongoDBContext(set);
+            dbcontext = new MongoDBContext();
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
         }
 
 
@@ -185,8 +183,11 @@ namespace Finalaplication.Controllers
                     break;
             }
             ViewBag.counter = beneficiaries.Count();
-            beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * 5).ToList();
-            beneficiaries = beneficiaries.AsQueryable().Take(5).ToList();
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            int nrofdocs = set.Quantity;
+            ViewBag.nrofdocs = nrofdocs;
+            beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+            beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
             return View(beneficiaries);
         }
 

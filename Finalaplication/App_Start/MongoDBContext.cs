@@ -2,6 +2,7 @@
 using System.Configuration;
 using System;
 using Finalaplication.Models;
+using MongoDB.Bson;
 
 namespace Finalaplication.App_Start
 {
@@ -11,8 +12,21 @@ namespace Finalaplication.App_Start
         private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Settings> settingcollection;
 
-        public MongoDBContext(Settings set)
+        public MongoDBContext()
         {
+            dbcontextoffline = new MongoDBContextOffline();
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+            var totalCount = settingcollection.CountDocuments(new BsonDocument());
+            
+            if(totalCount==0)
+            {
+                Settings sett = new Settings();
+                sett.Env = "online";
+                sett.Lang = "English";
+                sett.Quantity = 15;
+                settingcollection.InsertOne(sett);
+            }
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
             try
             {
                 if (set.Env == "online")
@@ -43,9 +57,7 @@ namespace Finalaplication.App_Start
 
                 set.Env = "offline";
                 dbcontextoffline = new MongoDBContextOffline();
-                settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-                settingcollection.DeleteMany(x => x.Quantity >= 1);
-                settingcollection.InsertOne(set);
+                settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
             }
         }
     }

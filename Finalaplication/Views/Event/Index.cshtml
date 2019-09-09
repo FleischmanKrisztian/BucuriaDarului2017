@@ -42,7 +42,7 @@
         int x = 1;
         for (int i = 0; i < ViewBag.counter; i++)
         {
-            if (i == 0 || i % 5 == 0)
+            if (i == 0 || i % ViewBag.nrofdocs == 0)
             {
                 @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                 x++;

@@ -29,20 +29,9 @@ namespace Finalaplication.Controllers
         public HomeController()
         {
             dbcontextoffline = new MongoDBContextOffline();
-            try
-            {
-                settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                dbcontext = new MongoDBContext(set);
-            }
-            catch
-            {
-                Settings set = new Settings();
-                set.Env = "offline";
-                set.Lang = "English";
-                set.Quantity = 15;
-                dbcontext = new MongoDBContext(set);
-            }
+
+                dbcontext = new MongoDBContext();
+
            
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
@@ -60,9 +49,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                set.Env = "online";
-                dbcontext = new MongoDBContext(set);
+                //Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                //set.Env = "online";
+                dbcontext = new MongoDBContext();
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
@@ -107,9 +96,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                set.Env = "online";
-                dbcontext = new MongoDBContext(set);
+                //Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                //set.Env = "online";
+                dbcontext = new MongoDBContext();
                 List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
                 List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
                 List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
@@ -202,12 +191,6 @@ namespace Finalaplication.Controllers
             set.Lang = lang;
 
             settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
-            //var filter = Builders<Settings>.Filter.Eq("_id", ObjectId.Parse(id));
-            //var update = Builders<Settings>.Update
-            //               .Set("Lang", Settings.Lang)
-            //               .Set("Env", Settings.Env)
-            //               .Set("Quantity", Settings.Quantity);
-            //               var result = vollunteercollection.UpdateOne(filter, update);
             return RedirectToAction("Index");
         }
 

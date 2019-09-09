@@ -21,21 +21,18 @@ namespace Finalaplication.Controllers
     {
         private MongoDBContext dbcontext;
         private MongoDBContextOffline dbcontextoffline;
-
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Settings> settingcollection;
-
         public EventController()
         {
             dbcontextoffline = new MongoDBContextOffline();
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            dbcontext = new MongoDBContext(set);
+            dbcontext = new MongoDBContext();
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
         }
 
         public ActionResult Export()
@@ -88,8 +85,11 @@ namespace Finalaplication.Controllers
                 events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
             }
             ViewBag.counter = events.Count();
-            events = events.AsQueryable().Skip((page - 1) * 5).ToList();
-            events = events.AsQueryable().Take(5).ToList();
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            int nrofdocs = set.Quantity;
+            ViewBag.nrofdocs = nrofdocs;
+            events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+            events = events.AsQueryable().Take(nrofdocs).ToList();
             return View(events);
         }
 

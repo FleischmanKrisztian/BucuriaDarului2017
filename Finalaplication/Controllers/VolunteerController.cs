@@ -22,24 +22,19 @@ namespace Finalaplication.Controllers
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Settings> settingcollection;
-
         public VolunteerController()
         {
             dbcontextoffline = new MongoDBContextOffline();
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            dbcontext = new MongoDBContext(set);
+            dbcontext = new MongoDBContext();
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
         }
 
         public ActionResult ExportVolunteers()
         {
             List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
             string path = "./jsondata/Volunteers.csv";
-
-
-
             var allLines = (from Volunteer in volunteers
                             select new object[]
                             {
@@ -66,8 +61,6 @@ namespace Finalaplication.Controllers
                             Volunteer.Contract.ExpirationDate.ToString(),
                             Volunteer.ContactInformation.MailAdress,
                             Volunteer.ContactInformation.PhoneNumber)
-
-
                             }
                              ).ToList();
 
@@ -170,8 +163,11 @@ namespace Finalaplication.Controllers
                     break;
             }
             ViewBag.counter = volunteers.Count();
-            volunteers = volunteers.AsQueryable().Skip((page - 1) * 5).ToList();
-            volunteers = volunteers.AsQueryable().Take(5).ToList();
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            int nrofdocs = set.Quantity;
+            ViewBag.nrofdocs = nrofdocs;
+            volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+            volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
             return View(volunteers);
         }
 
