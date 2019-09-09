@@ -419,7 +419,13 @@ namespace Finalaplication.Controllers
                             .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress);
                         var result = vollunteercollection.UpdateOne(filter, update);
                         return RedirectToAction("Index");
+
+
+
                     }
+
+
+
                     else return View();
                 }
                 else
@@ -431,6 +437,8 @@ namespace Finalaplication.Controllers
             {
                 return RedirectToAction("Error");
             }
+
+
         }
 
     }
