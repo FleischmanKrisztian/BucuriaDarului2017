@@ -38,9 +38,9 @@
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
-    <p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Has Contract:&emsp;&emsp;&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
+    <p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
     <p>
-        @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;
+        @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;
         <div class="pagination">
             @{
                 int x = 1;
@@ -48,7 +48,7 @@
                 {
                     if (i == 0 || i % ViewBag.nrofdocs == 0)
                     {
-                        @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                        @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                         x++;
                     }
                 }
@@ -60,28 +60,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
-            @Html.ActionLink("Lastname", "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            @Html.ActionLink("Lastname", "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
-            @Html.ActionLink("BirthDate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            @Html.ActionLink("BirthDate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
-            @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-        </th>
-        <th>
-            @Html.DisplayName("Number of registration")
+            @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
             @Html.DisplayName("Phone number")
         </th>
         <th>
-            @Html.ActionLink("Gender", "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            @Html.ActionLink("Gender", "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th>
-            @Html.ActionLink("Hour Count", "Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            @Html.ActionLink("Hour Count", "Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
         </th>
         <th></th>
     </tr>
@@ -112,9 +109,6 @@
                     @Html.DisplayFor(modelItem => item.InActivity)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Contract.NumberOfRegistration)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
                 </td>
                 <td>
@@ -126,7 +120,10 @@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.VolunteerID }) |
                     @Html.ActionLink("Details", "Details", new { id = item.VolunteerID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.VolunteerID })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.VolunteerID }) |
+                    @Html.ActionLink("Contracts", "Contracts", new { id = item.VolunteerID })
+                    @*@using (Html.BeginForm("Index", "Volcontract/", FormMethod.Get, new { id = item.VolunteerID }))*@
+
                 </td>
             </tr>
         }

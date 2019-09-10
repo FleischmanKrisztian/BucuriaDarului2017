@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Finalaplication.Models.Volcontract>
+
+@{
+    ViewData["Title"] = "Contracts";
+    string idulvolului = ViewBag.idofvol;
+    string nameofvol = ViewBag.nameofvol;
+}
+
+<h2 style="color:black">Contracts of @nameofvol</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = idulvolului })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfRegistration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpirationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfRegistration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpirationDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ContractID }) |
+                    @Html.ActionLink("Print", "Print", new { id = item.ContractID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

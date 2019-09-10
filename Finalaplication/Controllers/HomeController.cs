@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using Finalaplication.App_Start;
 using System.Threading;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Finalaplication.Controllers
 {
@@ -25,6 +26,8 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Volunteer> vollunteercollectionoffline;
         private IMongoCollection<Beneficiary> beneficiarycollectionoffline;
         private IMongoCollection<Sponsor> sponsorcollectionoffline;
+        private IMongoCollection<Volcontract> volcontractcollection;
+        private IMongoCollection<Volcontract> volcontractcollectionoffline;
 
         public HomeController()
         {
@@ -36,6 +39,7 @@ namespace Finalaplication.Controllers
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
 
             dbcontextoffline = new MongoDBContextOffline();
             settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
@@ -43,23 +47,79 @@ namespace Finalaplication.Controllers
             vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
             beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
             sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
+            volcontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volcontract>("Contracts");
         }
+
+        public ActionResult Merge()
+        {
+
+            List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
+            List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
+            List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
+            List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
+            List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
+
+            List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+            List<Event> events = eventcollection.AsQueryable<Event>().ToList();
+            List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+
+            string onlinevols = JsonConvert.SerializeObject(volunteers);
+            string onlineevents = JsonConvert.SerializeObject(events);
+            string onlinebenefieciaries = JsonConvert.SerializeObject(beneficiaries);
+            string onlinesponsoprs = JsonConvert.SerializeObject(sponsors);
+            string onlinevolcontrcarts = JsonConvert.SerializeObject(volcontracts);
+
+            for (int i = 0; i < volunteersoffline.Count(); i++)
+            {
+                if (!(onlinevols.Contains(volunteersoffline[i].VolunteerID)))
+                vollunteercollection.InsertOne(volunteersoffline[i]);
+            }
+
+            for (int i = 0; i < eventsoffline.Count(); i++)
+            {
+                if (!(onlineevents.Contains(eventsoffline[i].EventID)))
+                    eventcollection.InsertOne(eventsoffline[i]);
+            }
+
+            for (int i = 0; i < beneficiariesoffline.Count(); i++)
+            {
+                if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
+                    beneficiarycollection.InsertOne(beneficiariesoffline[i]);
+            }
+
+            for (int i = 0; i < sponsorsoffline.Count(); i++)
+            {
+                if (!(onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
+                    sponsorcollection.InsertOne(sponsorsoffline[i]);
+            }
+
+            for (int i = 0; i < volcontractsoffline.Count(); i++)
+            {
+                if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
+                    volcontractcollection.InsertOne(volcontractsoffline[i]);
+            }
+            return RedirectToAction("Index");
+        }
+            
+
         public ActionResult Backup()
         {
             try
             {
-                //Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                //set.Env = "online";
                 dbcontext = new MongoDBContext();
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+                List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
 
                 dbcontextoffline.databaseoffline.DropCollection("Volunteers");
                 dbcontextoffline.databaseoffline.DropCollection("Events");
                 dbcontextoffline.databaseoffline.DropCollection("Beneficiaries");
                 dbcontextoffline.databaseoffline.DropCollection("Sponsors");
+                dbcontextoffline.databaseoffline.DropCollection("Contracts");
 
 
 
@@ -83,11 +143,16 @@ namespace Finalaplication.Controllers
                     sponsorcollectionoffline.InsertOne(sponsors[i]);
                 }
 
-                return View("Index");
+                for (int i = 0; i < volcontracts.Count(); i++)
+                {
+                    volcontractcollectionoffline.InsertOne(volcontracts[i]);
+                }
+
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View("Index");
+                return View("Error");
             }
         }
 
@@ -95,18 +160,18 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                //Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                //set.Env = "online";
                 dbcontext = new MongoDBContext();
                 List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
                 List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
                 List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
                 List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
+                List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
 
                 dbcontext.database.DropCollection("Volunteers");
                 dbcontext.database.DropCollection("Events");
                 dbcontext.database.DropCollection("Beneficiaries");
                 dbcontext.database.DropCollection("Sponsors");
+                dbcontext.database.DropCollection("Contracts");
 
 
 
@@ -130,17 +195,23 @@ namespace Finalaplication.Controllers
                     sponsorcollection.InsertOne(sponsorsoffline[i]);
                 }
 
-                return View("Index");
+                for (int i = 0; i < volcontractsoffline.Count(); i++)
+                {
+                    volcontractcollection.InsertOne(volcontractsoffline[i]);
+                }
+
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View("Index");
+                return View("Error");
             }
         }
 
 
         public IActionResult Index()
         {
+            List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
@@ -158,11 +229,14 @@ namespace Finalaplication.Controllers
                     bd++;
                 }
             }
-            ViewBag.nrofbds = bd;
+            if (bd != 0)
+                ViewBag.nrofbds = bd;
+            else
+                ViewBag.nrofbds = 0;
 
-            foreach (var item in volunteers)
+            foreach (var item in volcontracts)
             {
-                if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                if (item.GetDayExpiration(item.ExpirationDate) == true)
                 {
                     vc++;
                 }

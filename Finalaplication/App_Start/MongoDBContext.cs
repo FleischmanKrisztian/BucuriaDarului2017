@@ -21,7 +21,7 @@ namespace Finalaplication.App_Start
             if(totalCount==0)
             {
                 Settings sett = new Settings();
-                sett.Env = "online";
+                sett.Env = "offline";
                 sett.Lang = "English";
                 sett.Quantity = 15;
                 settingcollection.InsertOne(sett);

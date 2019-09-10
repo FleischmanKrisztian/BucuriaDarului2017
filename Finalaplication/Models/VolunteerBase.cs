@@ -25,6 +25,8 @@ namespace VolCommon
 
         public string Desired_workplace { get; set; }
 
+        public string CNP { get; set; }
+
         public string Field_of_activity { get; set; }
 
         public string Occupation { get; set; }
@@ -32,8 +34,6 @@ namespace VolCommon
         public bool InActivity { get; set; }
 
         public int HourCount { get; set; }
-
-        public Contract Contract { get; set; }
 
         public ContactInformation ContactInformation { get; set; }
 

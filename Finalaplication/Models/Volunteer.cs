@@ -37,14 +37,6 @@ namespace Finalaplication.Models
             return Day;
         }
 
-        public static int Volexp(Volunteer vol)
-        {
-            int volexp;
-            {
-                volexp = (vol.Contract.ExpirationDate.Month - 1) * 30 + vol.Contract.ExpirationDate.Day;
-            }
-            return volexp;
-        }
         public bool GetDayExpiration(DateTime date)
         {
             var now = DateTime.Now;

@@ -191,11 +191,12 @@ namespace Finalaplication.Controllers
             return View(beneficiaries);
         }
 
-        public ActionResult ContractExp()
+         public ActionResult ContractExp()
         {
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
             return View(beneficiaries);
         }
+
         public ActionResult Details(string id)
         {
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);

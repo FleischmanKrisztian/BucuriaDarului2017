@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Finalaplication.Models.Volcontract>
+
+@{
+    ViewData["Title"] = "ContractExp";
+}
+
+<h1>Contract Expirations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfRegistration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpirationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    if (item.GetDayExpiration(item.ExpirationDate) == true)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfRegistration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpirationDate)
+            </td>
+            <td>
+                @Html.ActionLink("Print", "Print", new { id = item.ContractID })
+            </td>
+        </tr>
+    }
+}
+    </tbody>
+</table>

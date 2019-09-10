@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 using System;
-using System.Threading.Tasks;
 using ReflectionIT.Mvc.Paging;
 using System.IO;
 
@@ -21,11 +20,14 @@ namespace Finalaplication.Controllers
         private MongoDBContextOffline dbcontextoffline;
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
-        private IMongoCollection<Settings> settingcollection;
+        private IMongoCollection<Volcontract> volcontractcollection;
+
+        private readonly IMongoCollection<Settings> settingcollection;
         public VolunteerController()
         {
             dbcontextoffline = new MongoDBContextOffline();
             dbcontext = new MongoDBContext();
+            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
@@ -38,11 +40,12 @@ namespace Finalaplication.Controllers
             var allLines = (from Volunteer in volunteers
                             select new object[]
                             {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20};",
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18};",
                             Volunteer.Firstname,
                             Volunteer.Lastname,
                             Volunteer.Birthdate.ToString(),
                             Volunteer.Gender.ToString(),
+                            Volunteer.CNP,
                             Volunteer.Occupation,
                             Volunteer.Field_of_activity,
                             Volunteer.Desired_workplace,
@@ -55,10 +58,6 @@ namespace Finalaplication.Controllers
                             Volunteer.Address.City,
                             Volunteer.Address.Number,
                             Volunteer.Address.Street,
-                            Volunteer.Contract.NumberOfRegistration.ToString(),
-                            Volunteer.Contract.HasContract.ToString(),
-                            Volunteer.Contract.RegistrationDate.ToString(),
-                            Volunteer.Contract.ExpirationDate.ToString(),
                             Volunteer.ContactInformation.MailAdress,
                             Volunteer.ContactInformation.PhoneNumber)
                             }
@@ -73,13 +72,13 @@ namespace Finalaplication.Controllers
 
             }
            );
-            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,Country,City,Number,Street,NumberOfRegistration,HasContract,RegistrationDate,ExpirationDate,MailAddres,PhoneNumber\n");
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,Country,City,Number,Street,MailAddres,PhoneNumber\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
 
         }
 
-        public ActionResult Index(string sortOrder, string searching, bool Active, bool HasCar, bool HasContract, DateTime lowerdate, DateTime upperdate, int page)
+        public ActionResult Index(string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, int page)
         {
             ViewBag.searching = searching;
             ViewBag.active = Active;
@@ -88,7 +87,6 @@ namespace Finalaplication.Controllers
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
             ViewBag.hascar = HasCar;
-            ViewBag.hascontract = HasContract;
 
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -118,10 +116,6 @@ namespace Finalaplication.Controllers
             if (HasCar == true)
             {
                 volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
-            }
-            if (HasContract == true)
-            {
-                volunteers = volunteers.Where(x => x.Contract.HasContract == true).ToList();
             }
             switch (sortOrder)
             {
@@ -178,20 +172,19 @@ namespace Finalaplication.Controllers
             return View(volunteers);
         }
 
-        public ActionResult ContractExp()
+        public ActionResult Contracts(string id)
         {
-            List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
-            return View(volunteers);
+            return RedirectToAction("Index","Volcontract", new { idofvol = id });
         }
 
 
         // GET: Volunteer/Details/5
         public ActionResult Details(string id)
         {
-            var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+        var volunteerId = new ObjectId(id);
+        var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
 
-            return View(volunteer);
+        return View(volunteer);
         }
 
         // GET: Volunteer/Create
@@ -204,7 +197,6 @@ namespace Finalaplication.Controllers
 
         // POST: Volunteer/Create
         [HttpPost]
-        [HttpPost]
         public ActionResult Create(Volunteer volunteer, List<IFormFile> Image)
         {
             try
@@ -212,13 +204,9 @@ namespace Finalaplication.Controllers
 
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
-                ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
                 if (ModelState.IsValid)
                 {
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
-                    volunteer.Contract.RegistrationDate = volunteer.Contract.RegistrationDate.AddHours(5);
-                    volunteer.Contract.ExpirationDate = volunteer.Contract.ExpirationDate.AddHours(5);
 
                     foreach (var item in Image)
                     {
@@ -272,8 +260,6 @@ namespace Finalaplication.Controllers
                 {
                     ModelState.Remove("Birthdate");
                     ModelState.Remove("HourCount");
-                    ModelState.Remove("Contract.RegistrationDate");
-                    ModelState.Remove("Contract.ExpirationDate");
                     if (ModelState.IsValid)
                     {
                         var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
@@ -300,15 +286,12 @@ namespace Finalaplication.Controllers
                             .Set("Address.Street", volunteer.Address.Street)
                             .Set("Address.Number", volunteer.Address.Number)
                             .Set("Gender", volunteer.Gender)
+                            .Set("CNP", volunteer.CNP)
                             .Set("Desired_workplace", volunteer.Desired_workplace)
                             .Set("Field_of_activity", volunteer.Field_of_activity)
                             .Set("Occupation", volunteer.Occupation)
                             .Set("InActivity", volunteer.InActivity)
                             .Set("HourCount", volunteer.HourCount)
-                            .Set("Contract.HasContract", volunteer.Contract.HasContract)
-                            .Set("Contract.NumberOfRegistration", volunteer.Contract.NumberOfRegistration)
-                            .Set("Contract.RegistrationDate", volunteer.Contract.RegistrationDate.AddHours(5))
-                            .Set("Contract.ExpirationDate", volunteer.Contract.ExpirationDate.AddHours(5))
                             .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
                             .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
                             .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
