@@ -36,7 +36,19 @@
             @Html.DisplayFor(model => model.Lastname)
         </dd>
         <dt>
-            @Html.DisplayName("Birthdate:")
+        <dt>
+            @Html.DisplayName("CNP:")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CNP)
+        </dd>
+        <dt>
+            @Html.DisplayName("CI:")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CI.CIseries)
+        </dd>
+        @Html.DisplayName("Birthdate:")
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Birthdate)

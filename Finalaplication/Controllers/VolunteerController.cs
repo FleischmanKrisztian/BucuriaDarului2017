@@ -349,5 +349,76 @@ namespace Finalaplication.Controllers
                 return View();
             }
         }
+        public ActionResult ExportContract(string id)
+        {
+            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+            Volunteer originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+            ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+            ViewBag.id = id;
+
+            return View(volunteer);
+        }
+
+        [HttpPost]
+        public ActionResult ExportContract(string id, Volunteer volunteer, string Originalsavedvolstring, IList<IFormFile> image)
+        {
+            Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
+            try
+            {
+                Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == id).Single();
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
+                {
+                    ModelState.Remove("Birthdate");
+                    ModelState.Remove("HourCount");
+                    ModelState.Remove("Contract.RegistrationDate");
+                    ModelState.Remove("Contract.ExpirationDate");
+                    if (ModelState.IsValid)
+                    {
+                        var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+
+                        foreach (var item in image)
+                        {
+                            if (item.Length > 0)
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    item.CopyTo(stream);
+                                    volunteer.Image = stream.ToArray();
+                                }
+                            }
+                        }
+
+                        var update = Builders<Volunteer>.Update
+                            
+                            .Set("Contract.HasContract", volunteer.Contract.HasContract)
+                            .Set("Contract.NumberOfRegistration", volunteer.Contract.NumberOfRegistration)
+                            .Set("Contract.RegistrationDate", volunteer.Contract.RegistrationDate.AddHours(5))
+                            .Set("Contract.ExpirationDate", volunteer.Contract.ExpirationDate.AddHours(5))
+                            .Set("ContactInformation.PhoneNumber", volunteer.ContactInformation.PhoneNumber)
+                            .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress);
+                        var result = vollunteercollection.UpdateOne(filter, update);
+                        return RedirectToAction("Index");
+
+
+
+                    }
+
+
+
+                    else return View();
+                }
+                else
+                {
+                    return View("Volunteerwarning");
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Error");
+            }
+
+
+        }
+
     }
 }
