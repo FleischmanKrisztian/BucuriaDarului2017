@@ -30,9 +30,8 @@ namespace Finalaplication.Controllers
         {
             dbcontextoffline = new MongoDBContextOffline();
 
-                dbcontext = new MongoDBContext();
-
-           
+            dbcontext = new MongoDBContext();
+                       
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
@@ -142,6 +141,52 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index()
         {
+            List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+            int bd = 0;
+            int vc = 0;
+            int sc = 0;
+            int bc = 0;
+
+            foreach (var item in volunteers)
+            {
+                var Day = Finalaplication.Models.Volunteer.Nowdate();
+                var voldays = Finalaplication.Models.Volunteer.Volbd(item);
+                if ((Day <= voldays && Day + 10 > voldays) || (Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays))
+                {
+                    bd++;
+                }
+            }
+            ViewBag.nrofbds = bd;
+
+            foreach (var item in volunteers)
+            {
+                if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                {
+                    vc++;
+                }
+            }
+            ViewBag.nrofvc = vc;
+
+            foreach (var item in sponsors)
+            {
+                if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                {
+                    sc++;
+                }
+            }
+            ViewBag.nrofsc = sc;
+
+            foreach (var item in beneficiaries)
+            {
+                if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                {
+                    bc++;
+                }
+            }
+            ViewBag.nrofbc = bc;
+
             try
             {
                 Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));

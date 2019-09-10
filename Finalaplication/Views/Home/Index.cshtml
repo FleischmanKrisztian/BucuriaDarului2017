@@ -1,24 +1,38 @@
 ﻿@{
     ViewData["Title"] = "Home page";
+    int nrbd = ViewBag.nrofbds;
+    int nrvc = ViewBag.nrofvc;
+    int nrsc = ViewBag.nrofsc;
+    int nrbc = ViewBag.nrofbc;
 }
 
 
 <div class="text-center">
     <h1 class="display-4">Volunteer-Event App</h1>
-  
+
 </div>
-@if(ViewBag.env == "offline")
+@if (ViewBag.env == "offline")
 {
-<h2 style="color:red">You are currently @ViewBag.env.</h2>
+    <h2 style="color:red">You are currently @ViewBag.env.</h2>
 }
 <br />
 
-
+<head>
+    <style>
+        .i-circle {
+            background: #ff0000;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 50%;
+            font-size: 25px;
+        }
+    </style>
+</head>
 <div>
-    <h2><a href="../Volunteer/Birthday">Volunteers : Birthday Alert</a>.</h2>
-    <h2><a href="../Volunteer/ContractExp">Volunteers : Contract Alert</a>.</h2>
-    <h2><a href="../Sponsor/ContractExp">Sponsors : Contract Alert</a>.</h2>
-    <h2><a href="../Beneficiary/ContractExp">Beneficiaries : Contract Alert</a>.</h2>
+    <h2><span class="i-circle"> @nrbd</span><a href="../Volunteer/Birthday">Volunteers : Birthday Alert</a>.</h2>
+    <h2><span class="i-circle"> @nrvc</span><a href="../Volunteer/ContractExp">Volunteers : Contract Alert</a>.</h2>
+    <h2><span class="i-circle"> @nrsc</span><a href="../Sponsor/ContractExp">Sponsors : Contract Alert</a>.</h2>
+    <h2><span class="i-circle"> @nrbc</span><a href="../Beneficiary/ContractExp">Beneficiaries : Contract Alert</a>.</h2>
     <h2><a href="../Event/Export">Export events to Excel</a>.</h2>
     <h2><a href="../Volunteer/ExportVolunteers">Export volunteers to Excel</a>.</h2>
     <h2><a href="../Sponsor/ExportSponsors">Export sponsors to Excel</a>.</h2>
