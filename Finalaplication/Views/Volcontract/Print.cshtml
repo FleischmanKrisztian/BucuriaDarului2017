@@ -13,37 +13,43 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
             @Html.DisplayName("Full name")
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(volname)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
             @Html.DisplayName("CNP")
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(volCNP)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
+            @Html.DisplayName("Birthdate")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayName(volbd)
+        </dd>
+        <dt class="col-sm-6">
             @Html.DisplayName("Address")
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(voladdress)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
             @Html.DisplayNameFor(model => model.NumberOfRegistration)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NumberOfRegistration)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
             @Html.DisplayNameFor(model => model.RegistrationDate)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RegistrationDate)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
             @Html.DisplayNameFor(model => model.ExpirationDate)
         </dt>
         <dd class="col-sm-10">
@@ -52,5 +58,13 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Back to list", "Index", new { idofvol = Model.OwnerID })
+    <form asp-action="Print" style="color:blue">
+        <input type="hidden" name="id" value="@Model.ContractID" />
+        <input type="hidden" name="volname" value="@volname" />
+        <input type="hidden" name="voladdress" value="@voladdress" />
+        <input type="hidden" name="volCNP" value="@volCNP" />
+        <input type="hidden" name="volbd" value="@volbd" />
+        <input type="submit" value="Create Print" class="btn btn-danger" /> |
+        @Html.ActionLink("Back to list", "Index", new { idofvol = Model.OwnerID })
+    </form>
 </div>

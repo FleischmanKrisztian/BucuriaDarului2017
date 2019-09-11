@@ -72,6 +72,7 @@ namespace Finalaplication.Controllers
             return View(volcontract);
         }
 
+        [HttpGet]
         public ActionResult Print(string id)
         {
             var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
@@ -79,11 +80,20 @@ namespace Finalaplication.Controllers
 
             ViewBag.volunteerName = volunteer.Firstname + " " + volunteer.Lastname;
             ViewBag.volunteerCNP = volunteer.CNP;
-            ViewBag.volunteerBd = volunteer.Birthdate;
+            ViewBag.volunteerBd = volunteer.Birthdate.ToShortDateString() ;
             ViewBag.volunteerAddress = volunteer.Address.Country + " " + volunteer.Address.City + " " +volunteer.Address.Street + " " + volunteer.Address.Number;
 
             return View(contract);
         }
+
+        [HttpPost]
+        public ActionResult Print(string id, string volname, string voladdress, string volCNP, string volbd)
+        {
+            Volcontract volcontract = volcontractcollection.AsQueryable().SingleOrDefault(x => x.ContractID == id);
+            string idofvol = volcontract.OwnerID;
+            return RedirectToAction("Index", new { idofvol });
+        }
+
 
         [HttpGet]
         public ActionResult Delete(string id)
