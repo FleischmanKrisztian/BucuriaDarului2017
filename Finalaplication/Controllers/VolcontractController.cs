@@ -91,6 +91,12 @@ namespace Finalaplication.Controllers
         {
             Volcontract volcontract = volcontractcollection.AsQueryable().SingleOrDefault(x => x.ContractID == id);
             string idofvol = volcontract.OwnerID;
+
+            //var application = new Microsoft.Office.Interop.Word.Application();
+            //var document = new Microsoft.Office.Interop.Word.Document();
+
+            //document = application.Documents.Add
+
             return RedirectToAction("Index", new { idofvol });
         }
 

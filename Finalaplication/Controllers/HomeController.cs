@@ -285,7 +285,11 @@ namespace Finalaplication.Controllers
 
         public IActionResult Contact()
         {
+            return View();
+        }
 
+        public IActionResult Servermanagement()
+        {
             return View();
         }
 

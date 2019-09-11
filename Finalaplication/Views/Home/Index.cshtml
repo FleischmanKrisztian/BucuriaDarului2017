@@ -39,8 +39,10 @@
     <h2><a href="../Beneficiary/ExportBeneficiaries">Export beneficiaries to Excel</a>.</h2>
     @if (ViewBag.env == "online")
     {
-        <h2><a href="../Home/Backup">Backup data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-        <h2><a href="../Home/Restore">Restore from previous backup</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-        <h2><a href="../Home/Merge">Merge data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-    }
-</div>
+        <h2>
+            <a href="../Home/Servermanagement">Backup data</a>.</h2>
+                @*<h2><a href="../Home/Backup">Backup data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
+                    <h2><a href="../Home/Restore">Restore from previous backup</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
+                    <h2><a href="../Home/Merge">Merge data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>*@
+                }
+    </div>
