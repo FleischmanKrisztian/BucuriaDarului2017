@@ -26,4 +26,14 @@
     <PackageReference Include="System.Globalization" Version="4.3.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Views.Volunteer.Index.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views.Volunteer.Index.ro.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

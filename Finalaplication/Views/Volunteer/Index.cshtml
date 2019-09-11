@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewBag.Title = "Volunteers";
 }
@@ -16,21 +18,23 @@
                 background-color: #4CAF50;
                 color: white;
             }
+
             .pagination a.active {
                 background-color: #4CAF50;
                 color: white;
             }
-            .pagination a.active:current {
-                background-color: #4CAF50;
-                color: white;
-            }
+
+                .pagination a.active:current {
+                    background-color: #4CAF50;
+                    color: white;
+                }
 
             .pagination a:hover:not(.active) {
                 background-color: #ddd;
             }
     </style>
 </head>
-<h2>Volunteers</h2>
+<h2>@Localizer["Volunteers"]</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -38,7 +42,7 @@
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
-    <p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
+    <p>@Localizer["Name"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
     <p>
         @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;
         <div class="pagination">
