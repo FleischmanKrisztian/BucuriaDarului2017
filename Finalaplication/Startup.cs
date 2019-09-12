@@ -46,7 +46,7 @@ namespace Finalaplication
                 
            };
 
-           opts.DefaultRequestCulture = new RequestCulture("en-GB");
+           opts.DefaultRequestCulture = new RequestCulture("en");
             // Formatting numbers, dates, etc.
             opts.SupportedCultures = supportedCultures;
             // UI strings that we have localized.
