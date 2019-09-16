@@ -84,15 +84,16 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Print(string id, string volname, string voladdress, string volCNP, string volbd)
         {
-            //Process.Start(@"D:\GithubProjects\hello\setup.exe", "a b");
-            string cPath = "D:\\GithubProjects\\hello";
-            string cParams = "a b c";
-            ProcessStartInfo startInfo = new ProcessStartInfo(string.Concat(cPath, "\\", "setup.exe"));
-            startInfo.Arguments = cParams;
-            startInfo.UseShellExecute = false;
-            System.Diagnostics.Process.Start(startInfo);
-
             return RedirectToAction("Index", "Home");
+
+            ////Process.Start(@"D:\GithubProjects\hello\setup.exe", "a b");
+            //string cPath = "D:\\GithubProjects\\hello";
+            //string cParams = "a b c";
+            //ProcessStartInfo startInfo = new ProcessStartInfo(string.Concat(cPath, "\\", "setup.exe"));
+            //startInfo.Arguments = cParams;
+            //startInfo.UseShellExecute = false;
+            //System.Diagnostics.Process.Start(startInfo);
+
         }
 
 
