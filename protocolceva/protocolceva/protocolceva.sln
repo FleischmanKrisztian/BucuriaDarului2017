@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "protocolceva", "protocolceva\protocolceva.csproj", "{8AFC59E3-E208-486C-B716-2266C834C7BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AFC59E3-E208-486C-B716-2266C834C7BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AFC59E3-E208-486C-B716-2266C834C7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AFC59E3-E208-486C-B716-2266C834C7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AFC59E3-E208-486C-B716-2266C834C7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C155D92D-3E72-4E8D-BFDF-EC4B1F84FC02}
+	EndGlobalSection
+EndGlobal
