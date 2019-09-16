@@ -2,15 +2,10 @@
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Newtonsoft.Json;
 using Finalaplication.Models;
 using Finalaplication.App_Start;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Text;
-using System;
-using ReflectionIT.Mvc.Paging;
-using System.IO;
+using System.Diagnostics;
 
 namespace Finalaplication.Controllers
 {
@@ -89,62 +84,15 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Print(string id, string volname, string voladdress, string volCNP, string volbd)
         {
-            Volcontract volcontract = volcontractcollection.AsQueryable().SingleOrDefault(x => x.ContractID == id);
-            string idofvol = volcontract.OwnerID;
+            //Process.Start(@"D:\GithubProjects\hello\setup.exe", "a b");
+            string cPath = "D:\\GithubProjects\\hello";
+            string cParams = "a b c";
+            ProcessStartInfo startInfo = new ProcessStartInfo(string.Concat(cPath, "\\", "setup.exe"));
+            startInfo.Arguments = cParams;
+            startInfo.UseShellExecute = false;
+            System.Diagnostics.Process.Start(startInfo);
 
-            var application = new Microsoft.Office.Interop.Word.Application();
-            var document = new Microsoft.Office.Interop.Word.Document();
-
-            document = application.Documents.Add(Template: @"D:\GithubProjects\BucuriaDarului\Finalaplication\jsondata\template2.docx");
-            application.Visible = true;
-
-            foreach (Microsoft.Office.Interop.Word.Field field in document.Fields)
-            {
-                if (field.Code.Text.Contains("Fullname"))
-                {
-                    field.Select();
-                    application.Selection.TypeText(volname);
-                }
-
-                else if (field.Code.Text.Contains("Address"))
-                {
-
-                    field.Select();
-                    application.Selection.TypeText(voladdress);
-                }
-                else if (field.Code.Text.Contains("Birthdate"))
-                {
-
-                    field.Select();
-                    application.Selection.TypeText(volbd);
-                }
-                else if (field.Code.Text.Contains("CNP"))
-                {
-
-                    field.Select();
-                    application.Selection.TypeText(volCNP);
-                }
-                else if (field.Code.Text.Contains("RegistrationNumber"))
-                {
-
-                    field.Select();
-                    application.Selection.TypeText(volcontract.NumberOfRegistration.ToString());
-                }
-                else if (field.Code.Text.Contains("Registration Date"))
-                {
-
-                    field.Select();
-                    application.Selection.TypeText(volcontract.RegistrationDate.ToShortDateString());
-                }
-                else if (field.Code.Text.Contains("ExpirationDate"))
-                {
-
-                    field.Select();
-                    application.Selection.TypeText(volcontract.ExpirationDate.ToShortDateString());
-                }
-            }
-            return RedirectToAction("Index", new { idofvol });
-
+            return RedirectToAction("Index", "Home");
         }
 
 

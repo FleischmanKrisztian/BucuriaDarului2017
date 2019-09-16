@@ -102,7 +102,70 @@ namespace Finalaplication.Controllers
             }
             return RedirectToAction("Index");
         }
-            
+
+        public ActionResult Mergelocal()
+        {
+
+            List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
+            List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
+            List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
+            List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
+            List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
+
+            List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+            List<Event> events = eventcollection.AsQueryable<Event>().ToList();
+            List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+
+            string onlinevols = JsonConvert.SerializeObject(volunteers);
+            string onlineevents = JsonConvert.SerializeObject(events);
+            string onlinebenefieciaries = JsonConvert.SerializeObject(beneficiaries);
+            string onlinesponsoprs = JsonConvert.SerializeObject(sponsors);
+            string onlinevolcontrcarts = JsonConvert.SerializeObject(volcontracts);
+
+            for (int i = 0; i < volunteersoffline.Count(); i++)
+            {
+                if (!(onlinevols.Contains(volunteersoffline[i].VolunteerID)))
+                    vollunteercollection.InsertOne(volunteersoffline[i]);
+                if ((onlinevols.Contains(volunteersoffline[i].VolunteerID)))
+                    vollunteercollection.ReplaceOne(z => z.VolunteerID == volunteersoffline[i].VolunteerID, volunteersoffline[i]);
+            }
+
+            for (int i = 0; i < eventsoffline.Count(); i++)
+            {
+                if (!(onlineevents.Contains(eventsoffline[i].EventID)))
+                    eventcollection.InsertOne(eventsoffline[i]);
+                if ((onlineevents.Contains(eventsoffline[i].EventID)))
+                    eventcollection.ReplaceOne(z => z.EventID == eventsoffline[i].EventID, eventsoffline[i]);
+            }
+
+            for (int i = 0; i < beneficiariesoffline.Count(); i++)
+            {
+                if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
+                    beneficiarycollection.InsertOne(beneficiariesoffline[i]);
+                if ((onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
+                    beneficiarycollection.ReplaceOne(z => z.BeneficiaryID == beneficiariesoffline[i].BeneficiaryID, beneficiariesoffline[i]);
+            }
+
+            for (int i = 0; i < sponsorsoffline.Count(); i++)
+            {
+                if (!(onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
+                    sponsorcollection.InsertOne(sponsorsoffline[i]);
+                if ((onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
+                    sponsorcollection.ReplaceOne(z => z.SponsorID == sponsorsoffline[i].SponsorID, sponsorsoffline[i]);
+            }
+
+            for (int i = 0; i < volcontractsoffline.Count(); i++)
+            {
+                if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
+                    volcontractcollection.InsertOne(volcontractsoffline[i]);
+                if ((onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
+                    volcontractcollection.ReplaceOne(z => z.ContractID == volcontractsoffline[i].ContractID, volcontractsoffline[i]);
+            }
+            return RedirectToAction("Index");
+        }
+
 
         public ActionResult Backup()
         {
