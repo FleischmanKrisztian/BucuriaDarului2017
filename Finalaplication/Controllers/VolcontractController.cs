@@ -81,22 +81,6 @@ namespace Finalaplication.Controllers
             return View(contract);
         }
 
-        [HttpPost]
-        public ActionResult Print(string id, string volname, string voladdress, string volCNP, string volbd)
-        {
-            return RedirectToAction("Index", "Home");
-
-            ////Process.Start(@"D:\GithubProjects\hello\setup.exe", "a b");
-            //string cPath = "D:\\GithubProjects\\hello";
-            //string cParams = "a b c";
-            //ProcessStartInfo startInfo = new ProcessStartInfo(string.Concat(cPath, "\\", "setup.exe"));
-            //startInfo.Arguments = cParams;
-            //startInfo.UseShellExecute = false;
-            //System.Diagnostics.Process.Start(startInfo);
-
-        }
-
-
         [HttpGet]
         public ActionResult Delete(string id)
         {
