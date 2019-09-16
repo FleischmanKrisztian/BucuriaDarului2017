@@ -3,52 +3,54 @@
 @{
     ViewData["Title"] = "Contract Expiration";
 }
-
-<h1>Contract Expiration</h1>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h1>@Localizer["ContractExpiration"]</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Name of sponsor")
+                @Localizer["Nameofsponsor"]
             </th>
             <th>
-                @Html.DisplayName("Phone number")
+                @Localizer["Phonenumber"]
             </th>
             <th>
-                @Html.DisplayName("Email address")
+                @Localizer["Emailaddress"]
             </th>
             <th>
-                @Html.DisplayName("Expiration date")
+                @Localizer["Expirationdate"]
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-   
-    if (item.GetDayExpiration(item.Contract.ExpirationDate)==true)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NameOfSponsor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactInformation.MailAdress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.SponsorID })
-            </td>
+        @foreach (var item in Model)
+        {
 
-        </tr>
-    }
-}
+            if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameOfSponsor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactInformation.MailAdress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
+                    </td>
+                    <td>
+                        <a href=@Url.Action( "Details", new { id = item.SponsorID })>@Localizer["Details"]</a> 
+                        
+                    </td>
+
+                </tr>
+            }
+        }
     </tbody>
 </table>

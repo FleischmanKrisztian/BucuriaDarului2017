@@ -117,8 +117,59 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Active" xml:space="preserve">
+    <value>Activ</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Data nașterii</value>
+  </data>
+  <data name="BornAfter" xml:space="preserve">
+    <value>Născut după data de </value>
+  </data>
+  <data name="BornBefore" xml:space="preserve">
+    <value>Născut înainte de data de </value>
+  </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>Contracte</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Crează o nouă înregistrare</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Șterge</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalii</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editează</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Nu există niciun voluntar cu acest nume în baza de date!</value>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Prenume</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gen</value>
+  </data>
+  <data name="HasCar" xml:space="preserve">
+    <value>Are mașina?</value>
+  </data>
+  <data name="HourCount" xml:space="preserve">
+    <value>Număr de ore</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Nume de familie</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Nume</value>
+  </data>
+  <data name="Phonenumber" xml:space="preserve">
+    <value>Număr de telefon</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Caută</value>
   </data>
   <data name="Volunteers" xml:space="preserve">
     <value>Voluntari</value>

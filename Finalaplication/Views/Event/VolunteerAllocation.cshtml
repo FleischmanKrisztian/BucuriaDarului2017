@@ -3,99 +3,101 @@
 @{
     ViewBag.Title = "VolunteerAllocation";
 }
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     string evid = ViewBag.Evid.ToString();
     string strname = ViewBag.strname.ToString();
     string eventname = ViewBag.Eventname.ToString();
 
 }
-<h2>VolunteerAllocation to @eventname</h2>
+<h2>
+    @Localizer["VolunteerAllocationto"]: @eventname</h2>
 
 @using (Html.BeginForm("/", "Event/VolunteerAllocation/" + evid, FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
-}
+   @Html.TextBox("searching")<input type="submit" value= @Localizer["Search"] />
+    }
 
 
-<form action="/Event/VolunteerAllocation" method="post">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayName("First name:")
-            </th>
-            <th>
-                @Html.DisplayName("Last name:")
-            </th>
-            <th>
-                @Html.DisplayName("Desired area:")
-            </th>
-            <th>
-                @Html.DisplayName("Active:")
-            </th>
-            <th>
-                @Html.DisplayName("Hour count:")
-            </th>
-            <th>
-                @Html.DisplayName("Allocation status:")
-            </th>
-            <th></th>
-        </tr>
-        @if (Model.Count() == 0)
-        {
+    <form action="/Event/VolunteerAllocation" method="post">
+        <table class="table">
             <tr>
-                <td colspan="3 " style="color:red">
-                    There is no Volunteer to Allocate with such name!
-                </td>
+                <th>
+                    @Localizer["Firstname"]:
+                </th>
+                <th>
+                    @Localizer["Lastname"]:
+                </th>
+                <th>
+                    @Localizer["Desiredarea"]:
+                </th>
+                <th>
+                    @Localizer["Active"]:
+                </th>
+                <th>
+                    @Localizer["Hourcount"]:
+                </th>
+                <th>
+                    @Localizer["Allocationstatus"]:
+                </th>
+                <th></th>
             </tr>
-        }
-        else
-        {
-            foreach (var item in Model)
+            @if (Model.Count() == 0)
             {
-
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Firstname)
+                    <td colspan="3 " style="color:red">
+                        @Localizer["There is no Volunteer to Allocate with such name!"]
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lastname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Desired_workplace)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InActivity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HourCount)
-                    </td>
-                    @if (strname.Contains(item.Firstname))
-                    {
-                        <td>
-                            <input type="checkbox" checked="checked" name="vols" value="@item.VolunteerID" />
-                        </td>
-                        <td>
-                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <input type="checkbox" name="vols" value="@item.VolunteerID" />
-                        </td>
-                        <td>
-                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                        </td>
-                    }
                 </tr>
             }
-        }
-    </table>
-    <input type="submit" name="submit" value="Allocate" /><br>
-</form>
+            else
+            {
+                foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Firstname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Lastname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Desired_workplace)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InActivity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HourCount)
+                        </td>
+                        @if (strname.Contains(item.Firstname))
+                        {
+                            <td>
+                                <input type="checkbox" checked="checked" name="vols" value="@item.VolunteerID" />
+                            </td>
+                            <td>
+                                <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="checkbox" name="vols" value="@item.VolunteerID" />
+                            </td>
+                            <td>
+                                <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+        <input type="submit" name="submit" value= @Localizer["Allocate"] /><br>
+    </form>
 
     <br />
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
+    </div>

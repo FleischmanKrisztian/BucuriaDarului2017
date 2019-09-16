@@ -3,74 +3,78 @@
 @{
     ViewBag.Title = "Details";
 }
-
-<h2>Details</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2>
+    @Localizer["Details"]</h2>
 
 <div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayName("Name of event:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NameOfEvent)
-        </dd>
-        <dt>
-            @Html.DisplayName("Place of event:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PlaceOfEvent)
-        </dd>
-        <dt>
-            @Html.DisplayName("Date of event:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DateOfEvent)
-        </dd>
-        <dt>
-            @Html.DisplayName("Number of volunteers needed:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NumberOfVolunteersNeeded)
-        </dd>
-       
-        <dt>
-            @Html.DisplayName("Type of activities:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfActivities)
-        </dd>
-        <dt>
-            @Html.DisplayName("Type of event:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfEvent)
-        </dd>
-        <dt>
-            @Html.DisplayName("Duration:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
-        <dt>
-            @Html.DisplayName("Allocated volunteers:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AllocatedVolunteers)
-        </dd>
-        <dt>
-            @Html.DisplayName("Allocated sponsors:")
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AllocatedSponsors)
-        </dd>
+    <h4>
+        @Localizer["Event"]</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Localizer["Nameofevent"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NameOfEvent)
+            </dd>
+            <dt>
+                @Localizer["Placeofevent"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PlaceOfEvent)
+            </dd>
+            <dt>
+                @Localizer["Dateofevent"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateOfEvent)
+            </dd>
+            <dt>
+                @Localizer["Numberofvolunteersneeded"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumberOfVolunteersNeeded)
+            </dd>
+
+            <dt>
+                @Localizer["Typeofactivities"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfActivities)
+            </dd>
+            <dt>
+                @Localizer["Typeofevent"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfEvent)
+            </dd>
+            <dt>
+                @Localizer["Duration"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Duration)
+            </dd>
+            <dt>
+                @Localizer["Allocatedvolunteers"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AllocatedVolunteers)
+            </dd>
+            <dt>
+                @Localizer["Allocatedsponsors"]:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AllocatedSponsors)
+            </dd>
 
 
-    </dl>
+        </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventID })|
-    @Html.ActionLink("Delete", "Delete", new { id = Model.EventID })|
-    @Html.ActionLink("Back to List", "Index")
+    <a href=@Url.Action( "Edit", new { id =  Model.EventID})>@Localizer["Edit"]</a> |
+    <a href=@Url.Action( "Delete", new { id =  Model.EventID})>@Localizer["Delete"]</a> |
+
+    <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
 </p>

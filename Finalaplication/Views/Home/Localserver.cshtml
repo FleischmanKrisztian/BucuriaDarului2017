@@ -1,17 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Localhost warning";
 }
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 <table class="table">
     <tr>
         <td colspan="3 " style="color:red">
-            <h1>The local server must be up and running!</h1>
+            <h1>@Localizer["Message1"]</h1>
         </td>
     </tr>
     <tr>
         <td>
-            <h2 style="color:black">Try typing mongod in command line and rerun the application</h2>
-        </td>
+            <h2 style="color:black">@Localizer["Message2"]</h2>
+</td>
     </tr>
 </table>
 

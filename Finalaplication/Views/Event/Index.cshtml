@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Events";
 }
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 <head>
     <style>
 
@@ -25,15 +26,16 @@
 </head>
 
 
-<h2>Events</h2>
+<h2>
+    @Localizer["Events"]</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
 @using (Html.BeginForm("Index", "Event/", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
+    @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] />
 }
 
 <br />
@@ -55,28 +57,28 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("Name of event:")
+            @Localizer["Nameofevent"]:
         </th>
         <th>
-            @Html.DisplayName("Place of event:")
+            @Localizer["Placeofevent"]:
         </th>
         <th>
-            @Html.DisplayName("Date of event:")
+            @Localizer["Dateofevent"]:
         </th>
         <th>
-            @Html.DisplayName("Number of volunteers needed:")
+            @Localizer["Numberofvolunteersneeded"]:
         </th>
         <th>
-            @Html.DisplayName("Currently allocated:")
+            @Localizer["Currentlyallocated"]:
         </th>
         <th>
-            @Html.DisplayName("Type of activities:")
+            @Localizer["Typeofactivities"]:
         </th>
         <th>
-            @Html.DisplayName("Type of event:")
+            @Localizer["Typeofevent"]:
         </th>
         <th>
-            @Html.DisplayName("Duration:")
+            @Localizer["Duration"]:
         </th>
         <th></th>
     </tr>
@@ -85,7 +87,7 @@
     {
         <tr>
             <td colspan="3 " style="color:red">
-                There is no event with such name!
+                @Localizer["IndexMessage"]
             </td>
         </tr>
     }
@@ -120,11 +122,12 @@
                     @Html.DisplayFor(modelItem => item.Duration)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.EventID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.EventID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.EventID }) |
-                    @Html.ActionLink("Allocate Volunteers", "VolunteerAllocation", new { id = item.EventID })|
-                    @Html.ActionLink("Allocate Sponsors", "SponsorAllocation", new { id = item.EventID })
+                    >
+                    <a href=@Url.Action( "Edit", new { id = item.EventID })>@Localizer["Edit"]</a> |
+                    <a href=@Url.Action( "Details", new { id = item.EventID })>@Localizer["Details"]</a> |
+                    <a href=@Url.Action( "Delete", new { id = item.EventID })>@Localizer["Delete"]</a> |
+                    <a href=@Url.Action( "VolunteerAllocation", new { id = item.EventID })>@Localizer["AllocateVolunteers"]</a> |
+                    <a href=@Url.Action( "SponsorAllocation", new { id = item.EventID })>@Localizer["AllocateSponsors"]</a>
                 </td>
             </tr>
         }

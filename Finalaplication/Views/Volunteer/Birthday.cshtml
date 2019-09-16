@@ -2,19 +2,20 @@
 @{
     ViewBag.Title = "Birthday";
 }
-
-<h2>Birthdays</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2>@Localizer["Birthdays"]</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("First name")
+            @Localizer["Firstname"]
         </th>
         <th>
-            @Html.DisplayName("Last name")
+            @Localizer["Lastname"]
         </th>
         <th>
-            @Html.DisplayName("Birthdate")
+            @Localizer["Birthdate"]
         </th>
 
         <th></th>
@@ -37,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.Birthdate)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.VolunteerID })
+                    <a href=@Url.Action( "Details", new { id = item.VolunteerID })>@Localizer["Details"]</a>
                 </td>
             </tr>
         }

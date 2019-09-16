@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Active" xml:space="preserve">
+    <value>Activ</value>
+  </data>
+  <data name="Addictions" xml:space="preserve">
+    <value>Dependențe</value>
+  </data>
+  <data name="AddressInformation" xml:space="preserve">
+    <value>Informații despre adresă</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Înapoi la listă</value>
+  </data>
+  <data name="Beneficiary" xml:space="preserve">
+    <value>Beneficiar</value>
+  </data>
+  <data name="Birthdate" xml:space="preserve">
+    <value>Data nașterii</value>
+  </data>
+  <data name="Birthplace" xml:space="preserve">
+    <value>Locul nașterii</value>
+  </data>
+  <data name="BornAfter" xml:space="preserve">
+    <value>Născut după data de </value>
+  </data>
+  <data name="BornBefore" xml:space="preserve">
+    <value>Născut înainte de data de</value>
+  </data>
+  <data name="Canteen" xml:space="preserve">
+    <value>Cantină</value>
+  </data>
+  <data name="Chroniccondition" xml:space="preserve">
+    <value>Boli cronice</value>
+  </data>
+  <data name="CIexpirationdate" xml:space="preserve">
+    <value>Data expirarii actului de identitate</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Oraș</value>
+  </data>
+  <data name="CNP" xml:space="preserve">
+    <value>CNP</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Observații</value>
+  </data>
+  <data name="ContractExpiraton" xml:space="preserve">
+    <value>Expirarea contractelor benficiarilor</value>
+  </data>
+  <data name="Contractinformation" xml:space="preserve">
+    <value>Informații despre contract</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Țară</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Crează</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Crează o nouă înregistrare</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Șterge</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>Ești sigur că vrei să ștergi acet document?</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalii</value>
+  </data>
+  <data name="Disability" xml:space="preserve">
+    <value>Dizabilități</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editează</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Cheltuieli</value>
+  </data>
+  <data name="Expirationdate" xml:space="preserve">
+    <value>Data expirării</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Feminin</value>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Prenume</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gen</value>
+  </data>
+  <data name="Generalinformation" xml:space="preserve">
+    <value>Informații generale</value>
+  </data>
+  <data name="HasContract" xml:space="preserve">
+    <value>Are contract</value>
+  </data>
+  <data name="HasGDPRagreement" xml:space="preserve">
+    <value>Are contract GDPR</value>
+  </data>
+  <data name="Hashealthcard" xml:space="preserve">
+    <value>Are card de sănătate</value>
+  </data>
+  <data name="Hashealthinsurance" xml:space="preserve">
+    <value>Are asigurare de sănătate</value>
+  </data>
+  <data name="Hashome" xml:space="preserve">
+    <value>Are locuință</value>
+  </data>
+  <data name="HasID" xml:space="preserve">
+    <value>Are carte de identitate</value>
+  </data>
+  <data name="Healthdetails" xml:space="preserve">
+    <value>Detalii despre sănătate</value>
+  </data>
+  <data name="Healthstate" xml:space="preserve">
+    <value>Starea sănătății</value>
+  </data>
+  <data name="Homedeliverydriver" xml:space="preserve">
+    <value>Numele șoferului care livrează la domiciliu</value>
+  </data>
+  <data name="Homeless" xml:space="preserve">
+    <value>Fără adăpost</value>
+  </data>
+  <data name="Housinginformation" xml:space="preserve">
+    <value>Informații </value>
+  </data>
+  <data name="Housingtype" xml:space="preserve">
+    <value>Locuință</value>
+  </data>
+  <data name="IDapplication" xml:space="preserve">
+    <value>ID cerere</value>
+  </data>
+  <data name="IDcontract" xml:space="preserve">
+    <value>ID anchetă</value>
+  </data>
+  <data name="IDInformation" xml:space="preserve">
+    <value>Informații carte de identitate</value>
+  </data>
+  <data name="IDinvestigation" xml:space="preserve">
+    <value>ID investigație</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Venit</value>
+  </data>
+  <data name="IndexMessage" xml:space="preserve">
+    <value>Nu există beneficiar cu acest nume in baza de date!</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Nume de familie</value>
+  </data>
+  <data name="Lasttimeactive" xml:space="preserve">
+    <value>Ultima dată activ</value>
+  </data>
+  <data name="Makethisbeneficiaryinactive" xml:space="preserve">
+    <value>Marchează ca inactiv</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Masculin</value>
+  </data>
+  <data name="Marcadetails" xml:space="preserve">
+    <value>Detalii despre marcă</value>
+  </data>
+  <data name="Married" xml:space="preserve">
+    <value>Căsătorit/ă</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nume</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Număr</value>
+  </data>
+  <data name="Numberofportions" xml:space="preserve">
+    <value>Numărul de porții</value>
+  </data>
+  <data name="Numberofregistration" xml:space="preserve">
+    <value>Numărul de înregistrare a contractului</value>
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value>Ocupația</value>
+  </data>
+  <data name="PersonalInformation" xml:space="preserve">
+    <value>Informații personale</value>
+  </data>
+  <data name="Phonenumber" xml:space="preserve">
+    <value>Număr de telefon</value>
+  </data>
+  <data name="Profession" xml:space="preserve">
+    <value>Profesia</value>
+  </data>
+  <data name="Registrationdate" xml:space="preserve">
+    <value>Data înregistrării</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvează</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Caută</value>
+  </data>
+  <data name="Seniorityinworkfield" xml:space="preserve">
+    <value>Vechime în cămpul muncii</value>
+  </data>
+  <data name="Spousename" xml:space="preserve">
+    <value>Numele soției/soțului</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Strada</value>
+  </data>
+  <data name="Studies" xml:space="preserve">
+    <value>Studii</value>
+  </data>
+  <data name="Studiesandjobrelatedinformation" xml:space="preserve">
+    <value>informații despre studii și activitatea profesională</value>
+  </data>
+  <data name="Weeklypackage" xml:space="preserve">
+    <value>Pachet săptămânal</value>
+  </data>
+</root>
