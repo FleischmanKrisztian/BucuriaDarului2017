@@ -14,38 +14,60 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+
+        <dt class="col-sm-6">
             @Localizer["Fullname"]
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(volname)
         </dd>
-        <dt class="col-sm-2">
+
+        <dt class="col-sm-6">
             @Localizer["CNP"]
+
+    
+
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(volCNP)
         </dd>
-        <dt class="col-sm-2">
+
+        <dt class="col-sm-6">
             @Localizer["Address"]
-        </dt>
-        <dd class="col-sm-10">
+</dt>
+<dd class="col-sm-10">
             @Html.DisplayName(voladdress)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-6">
+            @Html.DisplayName("Birthdate")
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayName(volbd)
+        </dd>
+        
+
+       
+
+        <dt class="col-sm-6">
             @Localizer["NumberOfRegistration"]
+
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NumberOfRegistration)
         </dd>
-        <dt class="col-sm-2">
+
+        <dt class="col-sm-6">
             @Localizer["RegistrationDate"]
+
+       
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RegistrationDate)
         </dd>
-        <dt class="col-sm-2">
+
+        <dt class="col-sm-6">
             @Localizer["ExpirationDate"]
+
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ExpirationDate)
@@ -53,6 +75,18 @@
     </dl>
 </div>
 <div>
+
     <a href=@Url.Action( "Index" ,new { idofvol = Model.OwnerID })>@Localizer["BackToList"]</a>
+
+
+    <form asp-action="Print" style="color:blue">
+        <input type="hidden" name="id" value="@Model.ContractID" />
+        <input type="hidden" name="volname" value="@volname" />
+        <input type="hidden" name="voladdress" value="@voladdress" />
+        <input type="hidden" name="volCNP" value="@volCNP" />
+        <input type="hidden" name="volbd" value="@volbd" />
+        <a href="myApp:@Model.ContractID">Print this contract</a> | 
+        
+    </form>
 
 </div>
