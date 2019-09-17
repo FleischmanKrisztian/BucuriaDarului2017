@@ -14,21 +14,23 @@ namespace Finalaplication.App_Start
 
         public MongoDBContext()
         {
-            dbcontextoffline = new MongoDBContextOffline();
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-            var totalCount = settingcollection.CountDocuments(new BsonDocument());
-            
-            if(totalCount==0)
-            {
-                Settings sett = new Settings();
-                sett.Env = "offline";
-                sett.Lang = "English";
-                sett.Quantity = 15;
-                settingcollection.InsertOne(sett);
-            }
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
             try
             {
+                dbcontextoffline = new MongoDBContextOffline();
+                settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+                var totalCount = settingcollection.CountDocuments(new BsonDocument());
+
+                if (totalCount == 0)
+                {
+                    Settings sett = new Settings();
+                    sett.Env = "offline";
+                    sett.Lang = "English";
+                    sett.Quantity = 15;
+                    settingcollection.InsertOne(sett);
+                }
+
+                Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+
                 if (set.Env == "online")
                 {
                     string EnvServerAddress = Environment.GetEnvironmentVariable("mongoserver");
@@ -52,12 +54,22 @@ namespace Finalaplication.App_Start
             }
             catch
             {
-                var client = new MongoClient();
-                database = client.GetDatabase("BucuriaDaruluiOffline");
+                Settings sett = new Settings();
+                try
+                {
+                    Settings set = settingcollection.AsQueryable().FirstOrDefault();
+                    sett.settingID = set.settingID;
+                    sett.Env = "offline";
+                    sett.Lang = set.Lang;
+                    sett.Quantity = set.Quantity;
+                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
+                    var client = new MongoClient();
+                    database = client.GetDatabase("BucuriaDaruluiOffline");
+                }
+                catch
+                {
 
-                set.Env = "offline";
-                dbcontextoffline = new MongoDBContextOffline();
-                settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
+                }
             }
         }
     }

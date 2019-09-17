@@ -21,7 +21,7 @@ namespace protocolceva
             //^the method posted before, that edits registry      
             try
             {
-                // Modify to siut your machine:
+                // Modify to suut your machine:
                 string fileName = @"D:\GithubProjects\BucuriaDarului\protocolceva\protocolceva\Docxfiles\template.docx";
 
                 // Create a document in memory:
@@ -31,6 +31,7 @@ namespace protocolceva
                 doc.ReplaceText("<age>", "22");
                 doc.ReplaceText("<hobby>", "fotbal");
                 doc.ReplaceText("<adjectiv>", "frumos");
+                doc.InsertParagraph(args[1]);
 
                 // Save to the output directory:
                 doc.Save();
