@@ -81,11 +81,11 @@ namespace Finalaplication.Controllers
 
         public ActionResult Index(string lang,string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, int page)
         {
-            if(lang==null || lang =="")
-            {
-                var setts = settingcollection.AsQueryable<Settings>().FirstOrDefault();
-                lang = setts.Lang;
-            }
+            //if(lang==null || lang =="")
+            //{
+            //    var setts = settingcollection.AsQueryable<Settings>().FirstOrDefault();
+            //    lang = setts.Lang;
+            //}
             ViewBag.lang = lang;
             ViewBag.searching = searching;
             ViewBag.active = Active;
@@ -163,11 +163,11 @@ namespace Finalaplication.Controllers
                     volunteers = volunteers.OrderBy(s => s.Firstname).ToList();
                     break;
             }
-            Response.Cookies.Append(
-           CookieRequestCultureProvider.DefaultCookieName,
-           CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
-           new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-       );
+       //     Response.Cookies.Append(
+       //    CookieRequestCultureProvider.DefaultCookieName,
+       //    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
+       //    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+       //);
             ViewBag.counter = volunteers.Count();
             Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
             int nrofdocs = set.Quantity;

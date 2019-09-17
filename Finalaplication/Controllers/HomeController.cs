@@ -378,7 +378,11 @@ namespace Finalaplication.Controllers
             set.Quantity = quantity;
             set.Lang = lang;
             ViewBag.Lang = lang;
-
+            Response.Cookies.Append(
+          CookieRequestCultureProvider.DefaultCookieName,
+          CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
+          new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+      );
             settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
             return RedirectToAction("Index");
         }

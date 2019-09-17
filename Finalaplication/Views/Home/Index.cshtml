@@ -9,14 +9,14 @@
 @inject IViewLocalizer Localizer
 
 <div class="text-center">
-    <h1 class="display-4">@Localizer["Volunteer-Event App"]</h1>
+    <h1 class="display-4">@Localizer["Title"]</h1>
 
 </div>
 @if (ViewBag.env == "offline")
 {
-    <h2 style="color:red">
+    <h4 style="color:red">
         @Localizer["You are currently"] @ViewBag.env.
-    </h2>
+    </h4>
 }
 <br />
 
@@ -35,37 +35,37 @@
     <h2>
         <span class="i-circle"> @nrbd</span><a href="../Volunteer/Birthday">
             @Localizer["Volunteers : Birthday Alert"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <span class="i-circle"> @nrvc</span><a href="../Volcontract/ContractExp">
             @Localizer["Volunteers : Contract Alert"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <span class="i-circle"> @nrsc</span><a href="../Sponsor/ContractExp">
             @Localizer["Sponsors : Contract Alert"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <span class="i-circle"> @nrbc</span><a href="../Beneficiary/ContractExp">
             @Localizer["Beneficiaries : Contract Alert"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <a href="../Event/Export">
             @Localizer["Export events to Excel"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <a href="../Volunteer/ExportVolunteers">
             @Localizer["Export volunteers to Excel"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <a href="../Sponsor/ExportSponsors">
             @Localizer["Export sponsors to Excel"]
-        </a>.
+        </a>
     </h2>
     <h2>
         <a href="../Beneficiary/ExportBeneficiaries">
@@ -74,36 +74,17 @@
     </h2>
     @if (ViewBag.env == "online")
     {
-        <h2>
-
-            <a href="../Home/Backup">
-                @Localizer["Backup data"]
-            </a>.<small style="font-size:12px;">
-                @Localizer["(internet access necessary)"]
-            </small>
-        </h2>
-        <h2>
-            <a href="../Home/Restore">
-                @Localizer["Restore from previous backup"]
-            </a>.<small style="font-size:12px;">
-                @Localizer["(internet access necessary)"]
-            </small>
-        </h2>
-        <h2>
-            <a href="../Home/Merge">
-                @Localizer["Merge data"]
-            </a>.<small style="font-size:12px;">
-                @Localizer["(internet access necessary)"]
-            </small>
-        </h2>
+    <h2>
+        <a href="../Home/Servermanagement">
+            @Localizer["Backupdata"]
+        </a>.
+    </h2>
     }
 </div>
 
 
-            <a href="../Home/Servermanagement">Backup data</a>.</h2>
-                @*<h2><a href="../Home/Backup">Backup data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-                    <h2><a href="../Home/Restore">Restore from previous backup</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-                    <h2><a href="../Home/Merge">Merge data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>*@
-                }
-    </div>
+
+
+  
+
 
