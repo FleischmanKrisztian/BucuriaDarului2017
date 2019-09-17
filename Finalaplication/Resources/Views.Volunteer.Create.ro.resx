@@ -141,7 +141,7 @@
   <data name="Desiredarea" xml:space="preserve">
     <value>Aria de lucru dorită</value>
   </data>
-  <data name="Emailaddrss" xml:space="preserve">
+  <data name="Emailaddress" xml:space="preserve">
     <value>Adresă de email</value>
   </data>
   <data name="Female" xml:space="preserve">
@@ -159,7 +159,7 @@
   <data name="Hascar" xml:space="preserve">
     <value>Mașină?</value>
   </data>
-  <data name="Hasdrivinglicence" xml:space="preserve">
+  <data name="Hasdrivinglicense" xml:space="preserve">
     <value>Permis de conducere?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
@@ -191,5 +191,8 @@
   </data>
   <data name="Create" xml:space="preserve">
     <value>Crează</value>
+  </data>
+  <data name="Uploadimage" xml:space="preserve">
+    <value>Încarcă imagine</value>
   </data>
 </root>

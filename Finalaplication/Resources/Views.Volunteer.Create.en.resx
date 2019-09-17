@@ -141,7 +141,7 @@
   <data name="Desiredarea" xml:space="preserve">
     <value>Desired area</value>
   </data>
-  <data name="Emailaddrss" xml:space="preserve">
+  <data name="Emailaddress" xml:space="preserve">
     <value>Email addrss</value>
   </data>
   <data name="Female" xml:space="preserve">
@@ -159,7 +159,7 @@
   <data name="Hascar" xml:space="preserve">
     <value>Has car?</value>
   </data>
-  <data name="Hasdrivinglicence" xml:space="preserve">
+  <data name="Hasdrivinglicense" xml:space="preserve">
     <value>Has driving licence?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
@@ -191,5 +191,8 @@
   </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="Uploadimage" xml:space="preserve">
+    <value>Upload image</value>
   </data>
 </root>
