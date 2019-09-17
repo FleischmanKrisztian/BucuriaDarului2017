@@ -3,11 +3,12 @@
 @{
     ViewBag.Title = "Details";
 }
-
-<h2>Details</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2> @Localizer["Details"]</h2>
 
 <div>
-    <h4>Volunteer</h4>
+    <h4>@Localizer["Volunteer"]</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -24,115 +25,115 @@
             }
         </dd>
         <dt>
-            @Html.DisplayName("First name:")
+            @Localizer["Firstname"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Firstname)
         </dd>
         <dt>
-            @Html.DisplayName("Last name:")
+            @Localizer["Lastname"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Lastname)
         </dd>
         <dt>
-            @Html.DisplayName("Birthdate:")
+            @Localizer["Birthdate"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Birthdate)
         </dd>
         <dt>
-            @Html.DisplayName("Gender:")
+            @Localizer["Gender"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Gender)
         </dd>
         <dt>
-            @Html.DisplayName("Active:")
+            @Localizer["Active"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.InActivity)
         </dd>
         <dt>
-            @Html.DisplayName("Country:")
+            @Localizer["Country"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Address.Country)
         </dd>
         <dt>
-            @Html.DisplayName("City:")
+            @Localizer["City"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Address.City)
         </dd>
         <dt>
-            @Html.DisplayName("Street:")
+            @Localizer["Street"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Address.Street)
         </dd>
         <dt>
-            @Html.DisplayName("Number:")
+            @Localizer["Number"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Address.Number)
         </dd>
         <dt>
-            @Html.DisplayName("CNP:")
+            @Localizer["CNP"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CNP)
         </dd>
         <dt>
-            @Html.DisplayName("Has car")
+            @Localizer["Hascar"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Additionalinfo.HasCar)
         </dd>
         <dt>
-            @Html.DisplayName("Has driving licence")
+            @Localizer["Hasdrivinglicence"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Additionalinfo.HasDrivingLicence)
         </dd>
         <dt>
-            @Html.DisplayName("Remarks:")
+            @Localizer["Remarks"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Additionalinfo.Remark)
         </dd>
         <dt>
-            @Html.DisplayName("Phone number:")
+            @Localizer["Phone number"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ContactInformation.PhoneNumber)
         </dd>
         <dt>
-            @Html.DisplayName("Email address:")
+            @Localizer["Emailaddress"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ContactInformation.MailAdress)
         </dd>
         <dt>
-            @Html.DisplayName("Desired area:")
+            @Localizer["Desiredarea"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Desired_workplace)
         </dd>
         <dt>
-            @Html.DisplayName("Field of activity:")
+            @Localizer["Field of activity"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Field_of_activity)
         </dd>
         <dt>
-            @Html.DisplayName("Occupation:")
+            @Localizer["Occupation"]:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Occupation)
         </dd>
         <dt>
-            @Html.DisplayName("Hour count:")
+            @Localizer["Hourcount"]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.HourCount)
@@ -143,7 +144,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.VolunteerID }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.VolunteerID }) |
-    @Html.ActionLink("Back to List", "Index")
+    <a href=@Url.Action( "Edit",  new { id = Model.VolunteerID })>@Localizer["Edit"]</a> |
+    <a href=@Url.Action( "Delete",  new { id = Model.VolunteerID })>@Localizer["Delete"]</a>
+
+    <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
 </p>

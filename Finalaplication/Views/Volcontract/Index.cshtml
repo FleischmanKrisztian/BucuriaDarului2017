@@ -5,23 +5,24 @@
     string idulvolului = ViewBag.idofvol;
     string nameofvol = ViewBag.nameofvol;
 }
-
-<h2 style="color:black">Contracts of @nameofvol</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2 style="color:black">@Localizer["Contractsof"] @nameofvol</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { id = idulvolului })
+    <a href=@Url.Action( "Create", new { id = idulvolului })>@Localizer["CreateNew"]</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NumberOfRegistration)
+                @Localizer["NumberOfRegistration"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegistrationDate)
+                @Localizer["RegistrationDate"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
+                @Localizer["ExpirationDate"]
             </th>
             <th></th>
         </tr>
@@ -40,8 +41,8 @@
                     @Html.DisplayFor(modelItem => item.ExpirationDate)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ContractID }) |
-                    @Html.ActionLink("Print", "Print", new { id = item.ContractID })
+                    <a href=@Url.Action( "Delete", new { id = item.ContractID })>@Localizer["Delete"]</a> |
+                    <a href=@Url.Action( "Print", new { id = item.ContractID })>@Localizer["Print"]</a>
                 </td>
             </tr>
         }

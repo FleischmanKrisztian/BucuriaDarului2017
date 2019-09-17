@@ -1,7 +1,16 @@
 ﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@inject IOptions<RequestLocalizationOptions> LocalizationOptions
 @{
-    ViewBag.Title = "Volunteers";
+    ViewBag.Title = Localizer["Volunteers"];
 }
+
+
 <head>
     <style>
 
@@ -16,31 +25,44 @@
                 background-color: #4CAF50;
                 color: white;
             }
+
             .pagination a.active {
                 background-color: #4CAF50;
                 color: white;
             }
-            .pagination a.active:current {
-                background-color: #4CAF50;
-                color: white;
-            }
+
+                .pagination a.active:current {
+                    background-color: #4CAF50;
+                    color: white;
+                }
 
             .pagination a:hover:not(.active) {
                 background-color: #ddd;
             }
     </style>
 </head>
-<h2>Volunteers</h2>
+<div>
+    @{
+        var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+        var cultureItems = LocalizationOptions.Value.SupportedUICultures
+            .Select(c => new SelectListItem { Value = c.Name, Text = Localizer.GetString(c.Name) })
+            .ToList();
+
+    }
+</div>
+<h2>@Localizer["Volunteers"]</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
-    <p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;Has Car:&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
     <p>
-        @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;
+        @Localizer["Name"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Localizer["Active"]:&emsp;@Localizer["HasCar"]&emsp;@Localizer["BornAfter"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Localizer["BornBefore"]:
+    </p>
+    <p>
+        @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"]/>&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasCar")&emsp;&emsp;&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate">&emsp;
         <div class="pagination">
             @{
                 int x = 1;
@@ -60,25 +82,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Firstname"]</a>
         </th>
         <th>
-            @Html.ActionLink("Lastname", "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            <a href=@Url.Action( "Index" , new { sortOrder=ViewBag.LastnameSort, searching=ViewBag.searching, HasCar=ViewBag.hascar, Active=ViewBag.active, lowerdate=ViewBag.Lowerdate, upperdate=ViewBag.Upperdate })>@Localizer["Lastname"]</a>
         </th>
         <th>
-            @Html.ActionLink("BirthDate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["BirthDate"]</a>
         </th>
         <th>
-            @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Active"]</a>
         </th>
         <th>
-            @Html.DisplayName("Phone number")
+            @Localizer["Phonenumber"]
         </th>
         <th>
-            @Html.ActionLink("Gender", "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Gender"]</a>
         </th>
         <th>
-            @Html.ActionLink("Hour Count", "Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["HourCount"]</a>
         </th>
         <th></th>
     </tr>
@@ -87,7 +109,7 @@
     {
         <tr>
             <td colspan="3 " style="color:red">
-                There is no Volunteer with such name!
+                @Localizer["Error"]
             </td>
         </tr>
     }
@@ -118,10 +140,10 @@
                     @Html.DisplayFor(modelItem => item.HourCount)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.VolunteerID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.VolunteerID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.VolunteerID }) |
-                    @Html.ActionLink("Contracts", "Contracts", new { id = item.VolunteerID })
+                    <a href=@Url.Action( "Edit", new { id = item.VolunteerID })>@Localizer["Edit"]</a> |
+                    <a href=@Url.Action( "Details", new { id = item.VolunteerID })>@Localizer["Details"]</a> |
+                    <a href=@Url.Action( "Delete", new { id = item.VolunteerID })>@Localizer["Delete"]</a> |
+                    <a href=@Url.Action( "Contracts", new { id = item.VolunteerID })>@Localizer["Contracts"]</a>
                     @*@using (Html.BeginForm("Index", "Volcontract/", FormMethod.Get, new { id = item.VolunteerID }))*@
 
                 </td>

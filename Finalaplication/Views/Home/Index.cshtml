@@ -5,15 +5,18 @@
     var nrsc = ViewBag.nrofsc;
     var nrbc = ViewBag.nrofbc;
 }
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="text-center">
-    <h1 class="display-4">Volunteer-Event App</h1>
+    <h1 class="display-4">@Localizer["Volunteer-Event App"]</h1>
 
 </div>
 @if (ViewBag.env == "offline")
 {
-    <h2 style="color:red">You are currently @ViewBag.env.</h2>
+    <h2 style="color:red">
+        @Localizer["You are currently"] @ViewBag.env.
+    </h2>
 }
 <br />
 
@@ -29,20 +32,78 @@
     </style>
 </head>
 <div>
-    <h2><span class="i-circle"> @nrbd</span><a href="../Volunteer/Birthday">Volunteers : Birthday Alert</a>.</h2>
-    <h2><span class="i-circle"> @nrvc</span><a href="../Volcontract/ContractExp">Volunteers : Contract Alert</a>.</h2>
-    <h2><span class="i-circle"> @nrsc</span><a href="../Sponsor/ContractExp">Sponsors : Contract Alert</a>.</h2>
-    <h2><span class="i-circle"> @nrbc</span><a href="../Beneficiary/ContractExp">Beneficiaries : Contract Alert</a>.</h2>
-    <h2><a href="../Event/Export">Export events to Excel</a>.</h2>
-    <h2><a href="../Volunteer/ExportVolunteers">Export volunteers to Excel</a>.</h2>
-    <h2><a href="../Sponsor/ExportSponsors">Export sponsors to Excel</a>.</h2>
-    <h2><a href="../Beneficiary/ExportBeneficiaries">Export beneficiaries to Excel</a>.</h2>
+    <h2>
+        <span class="i-circle"> @nrbd</span><a href="../Volunteer/Birthday">
+            @Localizer["Volunteers : Birthday Alert"]
+        </a>.
+    </h2>
+    <h2>
+        <span class="i-circle"> @nrvc</span><a href="../Volcontract/ContractExp">
+            @Localizer["Volunteers : Contract Alert"]
+        </a>.
+    </h2>
+    <h2>
+        <span class="i-circle"> @nrsc</span><a href="../Sponsor/ContractExp">
+            @Localizer["Sponsors : Contract Alert"]
+        </a>.
+    </h2>
+    <h2>
+        <span class="i-circle"> @nrbc</span><a href="../Beneficiary/ContractExp">
+            @Localizer["Beneficiaries : Contract Alert"]
+        </a>.
+    </h2>
+    <h2>
+        <a href="../Event/Export">
+            @Localizer["Export events to Excel"]
+        </a>.
+    </h2>
+    <h2>
+        <a href="../Volunteer/ExportVolunteers">
+            @Localizer["Export volunteers to Excel"]
+        </a>.
+    </h2>
+    <h2>
+        <a href="../Sponsor/ExportSponsors">
+            @Localizer["Export sponsors to Excel"]
+        </a>.
+    </h2>
+    <h2>
+        <a href="../Beneficiary/ExportBeneficiaries">
+            @Localizer["Export beneficiaries to Excel"]
+        </a>.
+    </h2>
     @if (ViewBag.env == "online")
     {
         <h2>
+
+            <a href="../Home/Backup">
+                @Localizer["Backup data"]
+            </a>.<small style="font-size:12px;">
+                @Localizer["(internet access necessary)"]
+            </small>
+        </h2>
+        <h2>
+            <a href="../Home/Restore">
+                @Localizer["Restore from previous backup"]
+            </a>.<small style="font-size:12px;">
+                @Localizer["(internet access necessary)"]
+            </small>
+        </h2>
+        <h2>
+            <a href="../Home/Merge">
+                @Localizer["Merge data"]
+            </a>.<small style="font-size:12px;">
+                @Localizer["(internet access necessary)"]
+            </small>
+        </h2>
+    }
+</div>
+
+
             <a href="../Home/Servermanagement">Backup data</a>.</h2>
                 @*<h2><a href="../Home/Backup">Backup data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
                     <h2><a href="../Home/Restore">Restore from previous backup</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
                     <h2><a href="../Home/Merge">Merge data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>*@
                 }
     </div>
+

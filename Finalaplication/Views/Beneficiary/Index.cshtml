@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Index";
 }
@@ -23,103 +24,106 @@
             }
     </style>
 </head>
-<h1>Beneficiaries</h1>
+<h1>
+    @Localizer["Beneficiaries"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
-    <p>Name:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Active:&emsp;&emsp;&emsp;Has Contract:&emsp;&emsp;&emsp;Homeless:&emsp;&emsp;&emsp;Born After:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Born Before:</p>
-    <p> @Html.TextBox("searching")<input type="submit" value="Search" />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("Homeless")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate" />
-    <div class="pagination">
-        @{
-            int x = 1;
-            for (int i = 0; i < ViewBag.counter; i++)
-            {
-                if (i == 0 || i % ViewBag.nrofdocs == 0)
+<p>@Localizer["Name"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Localizer["Active"]:&emsp;&emsp;&emsp;@Localizer["HasContract"]:&emsp;&emsp;&emsp;@Localizer["Homeless"]:&emsp;&emsp;&emsp;@Localizer["BornAfter"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Localizer["BornBefore"]:</p>
+<p>
+        @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("Homeless")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate" />
+        <div class="pagination">
+            @{
+                int x = 1;
+                for (int i = 0; i < ViewBag.counter; i++)
                 {
-                    @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                    x++;
+                    if (i == 0 || i % ViewBag.nrofdocs == 0)
+                    {
+                        @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                        x++;
+                    }
                 }
             }
-        }
         </div>
     </p>
- }
+}
 
-        <table class="table">
-            <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Firtsname"]</a>
+            </th>
+            <th>
+                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Lastname"]</a>
+            </th>
+            <th>
+                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Active"]</a>
+            </th>
+            <th>
+                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Gender"]</a>
+            </th>
+            <th>
+                @Localizer["Weeklypackage"]
+            </th>
+            <th>
+                @Localizer["Canteen"]
+            </th>
+            <th>
+                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Birthdate"]</a>
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["IndexMessage"]
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>
-                        @Html.ActionLink("Firstname", "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Lastname", "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Active", "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Gender", "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                    </th>
-                    <th>
-                        @Html.DisplayName("Weekly package")
-                    </th>
-                    <th>
-                        @Html.DisplayName("Canteen")
-                    </th>
-                    <th>
-                        @Html.ActionLink("Birthdate", "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lastname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonalInfo.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Weeklypackage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Canteen)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonalInfo.Birthdate)
+                    </td>
 
-                    <th></th>
+                    <td>
+                        <a href=@Url.Action( "Edit", new { id = item.BeneficiaryID })>@Localizer["Edit"]</a> |
+                        <a href=@Url.Action( "Details", new { id = item.BeneficiaryID })>@Localizer["Details"]</a> |
+                        <a href=@Url.Action( "Delete", new { id = item.BeneficiaryID })>@Localizer["Delete"]</a> 
+                        
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @if (Model.Count() == 0)
-                {
-                    <tr>
-                        <td colspan="3 " style="color:red">
-                            There is no Beneficiary with such name!
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Firstname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Lastname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Active)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PersonalInfo.Gender)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Weeklypackage)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Canteen)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PersonalInfo.Birthdate)
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.BeneficiaryID }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.BeneficiaryID }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.BeneficiaryID })
-                            </td>
-                        </tr>
-                    }}
-            </tbody>
-        </table>
+            }}
+    </tbody>
+</table>
 

@@ -3,84 +3,85 @@
 @{
     ViewData["Title"] = "Delete";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h1>@Localizer["Delete"]</h1>
 
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>@Localizer["Message1"]</h3>
 <div>
-    <h4>Sponsor</h4>
+    <h4>@Localizer["Sponsor"]</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayName("Name of sponsor:")
+            @Localizer["Nameofsponsor"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NameOfSponsor)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Phone number:")
+            @Localizer["Phonenumber"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ContactInformation.PhoneNumber)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Email address:")
+            @Localizer["Emailaddress"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ContactInformation.MailAdress)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Has contract?")
+            @Localizer["HasContract"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contract.HasContract)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Number of registration:")
+            @Localizer["Numberofregistration"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contract.NumberOfRegistration)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Registration date:")
+            @Localizer["Registrationdate"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contract.RegistrationDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Expiration date:")
+            @Localizer["Expirationdate"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contract.ExpirationDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("Date:")
+            @Localizer["Date"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sponsorship.Date)
         </dd>
-       
+
         <dt class="col-sm-2">
-            @Html.DisplayName("Money amount?")
+            @Localizer["Moneyamount"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sponsorship.MoneyAmount)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayName("What Goods?")
+            @Localizer["WhatGoods"]?
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Sponsorship.WhatGoods)
         </dd>
 
     </dl>
-  @using (Html.BeginForm())
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-actions no-color">
-        <input type="submit" value="Delete" style="background-color:tomato" class="btn btn-default" /> |
-        @Html.ActionLink("Back to List", "Index")
-    </div>
+        <div class="form-actions no-color">
+            <input type="submit" value=@Localizer["Delete"] style="background-color:tomato" class="btn btn-default" /> |
+            <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
+        </div>
     }
 </div>

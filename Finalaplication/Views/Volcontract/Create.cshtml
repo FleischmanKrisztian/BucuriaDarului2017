@@ -1,11 +1,12 @@
 ﻿@model Finalaplication.Models.Volcontract
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Create";
     string idofvol = ViewBag.idofvol;
 }
 
-<h1>Create</h1>
+<h1>@Localizer["Create"]</h1>
 
 <h4>Volcontract</h4>
 <hr />
@@ -15,28 +16,28 @@
             <input type="hidden" name="idofvol" value="@idofvol" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NumberOfRegistration" class="control-label"></label>
+                @Localizer["NumberOfRegistration"]
                 <input asp-for="NumberOfRegistration" class="form-control" />
                 <span asp-validation-for="NumberOfRegistration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RegistrationDate" class="control-label"></label>
+                @Localizer["RegistrationDate"]
                 <input asp-for="RegistrationDate" class="form-control" />
                 <span asp-validation-for="RegistrationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ExpirationDate" class="control-label"></label>
+                @Localizer["ExpirationDate"]
                 <input asp-for="ExpirationDate" class="form-control" />
                 <span asp-validation-for="ExpirationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
 </div>
 

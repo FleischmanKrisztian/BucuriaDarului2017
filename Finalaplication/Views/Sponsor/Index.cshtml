@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Finalaplication.Models.Sponsor>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewBag.Title = "Index";
 }
@@ -24,20 +25,21 @@
     </style>
 </head>
 
-<h1>Sponsors</h1>
+<h1>@Localizer["Sponsors"]</h1>
 
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
 
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
+    @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] />
 }
 
 <br />
+
 <div class="pagination">
     @{
         int x = 1;
@@ -56,25 +58,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayName("Name of sponsor")
+                @Localizer["Nameofsponsor"]
             </th>
             <th>
-                @Html.DisplayName("Phone number")
+                @Localizer["Phonenumber"]
             </th>
             <th>
-                @Html.DisplayName("Email adress")
+                @Localizer["Emailadress"]
             </th>
             <th>
-                @Html.DisplayName("Has contract")
+                @Localizer["Hascontract"]
             </th>
             <th>
-                @Html.DisplayName("Number of registration")
+                @Localizer["Numberofregistration"]
             </th>
             <th>
-                @Html.DisplayName("Registration date")
+                @Localizer["Registrationdate"]
             </th>
             <th>
-                @Html.DisplayName("Expiration date")
+                @Localizer["Expirationdate"]
             </th>
             <th></th>
         </tr>
@@ -85,7 +87,7 @@
         {
             <tr>
                 <td colspan="3 " style="color:red">
-                    There is no Sponsor with such name!
+                    @Localizer["Message"]
                 </td>
             </tr>
         }
@@ -116,9 +118,9 @@
                         @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.SponsorID }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.SponsorID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.SponsorID })
+                        <a href=@Url.Action( "Edit", new { id = item.SponsorID })>@Localizer["Edit"]</a> |
+                        <a href=@Url.Action( "Details", new { id = item.SponsorID })>@Localizer["Details"]</a> |
+                        <a href=@Url.Action( "Delete", new { id = item.SponsorID })>@Localizer["Delete"]</a>
                     </td>
                 </tr>
             }}

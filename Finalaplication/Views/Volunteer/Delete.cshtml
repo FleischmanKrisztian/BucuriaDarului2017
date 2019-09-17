@@ -3,15 +3,16 @@
 @{
     ViewBag.Title = "Delete";
 }
-
-<h2>Delete</h2>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2>@Localizer["Delete"]</h2>
 
 
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayName("First name:")
+            @Localizer["Firstname"]
         </dt>
 
         <dd>
@@ -19,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Last name:")
+            @Localizer["Lastname"]
         </dt>
 
         <dd>
@@ -27,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Birthdate:")
+            @Localizer["Birthdate"]
         </dt>
 
         <dd>
@@ -35,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Active:")
+            @Localizer["Active"]
         </dt>
 
         <dd>
@@ -48,22 +49,22 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <span>
+    <div class="form-actions no-color">
+        <span>
 
-                @using (Html.BeginForm("Edit", "Volunteer/", FormMethod.Get))
-                {
-                        <div class="form-group">
-                            Make this volunteer inactive
-                            @Html.CheckBox("Inactive", checked(true))
-                            <br>
-                            <input type="submit" class="btn btn-primary" value="Apply" />
-                        </div>
-                }
+            @using (Html.BeginForm("Edit", "Volunteer/", FormMethod.Get))
+            {
+                <div class="form-group">
+                     @Localizer["Error"]
+                    @Html.CheckBox("Inactive", checked(true))
+                    <br>
+                    <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
+                </div>
+            }
 
-            </span>
+        </span>
 
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+        <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
+    </div>
     }
 </div>
