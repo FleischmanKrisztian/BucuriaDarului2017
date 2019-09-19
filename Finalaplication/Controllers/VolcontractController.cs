@@ -72,7 +72,6 @@ namespace Finalaplication.Controllers
         {
             var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
             var volunteer = volunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == contract.OwnerID);
-
             ViewBag.volunteerName = volunteer.Firstname + " " + volunteer.Lastname;
             ViewBag.volunteerCNP = volunteer.CNP;
             ViewBag.volunteerBd = volunteer.Birthdate.ToShortDateString() ;

@@ -31,24 +31,38 @@ namespace Finalaplication.App_Start
 
                 Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
 
-                if (set.Env == "online")
+                try
                 {
-                    string EnvServerAddress = Environment.GetEnvironmentVariable("mongoserver");
-                    string EnvDatabaseName = Environment.GetEnvironmentVariable("databasename");
-                    var mongoClient = new MongoClient(EnvServerAddress);
-                    database = mongoClient.GetDatabase(EnvDatabaseName);
-                }
-                else
-                {
-                    var clientSettings = new MongoClientSettings
+                    if (set.Env == "online")
                     {
-                        Server = new MongoServerAddress("localhost", 27017),
-                        ClusterConfigurator = builder =>
+                        string EnvServerAddress = Environment.GetEnvironmentVariable("mongoserver");
+                        string EnvDatabaseName = Environment.GetEnvironmentVariable("databasename");
+                        var mongoClient = new MongoClient(EnvServerAddress);
+                        database = mongoClient.GetDatabase(EnvDatabaseName);
+                    }
+                    else
+                    {
+                        var clientSettings = new MongoClientSettings
                         {
-                            builder.ConfigureCluster(settings => settings.With(serverSelectionTimeout: TimeSpan.FromSeconds(2)));
-                        }
-                    };
-                    var client = new MongoClient(clientSettings);
+                            Server = new MongoServerAddress("localhost", 27017),
+                            ClusterConfigurator = builder =>
+                            {
+                                builder.ConfigureCluster(settings => settings.With(serverSelectionTimeout: TimeSpan.FromSeconds(2)));
+                            }
+                        };
+                        var client = new MongoClient(clientSettings);
+                        database = client.GetDatabase("BucuriaDaruluiOffline");
+                    }
+                }
+                catch
+                {
+                    Settings sett = new Settings();
+                    sett.settingID = set.settingID;
+                    sett.Env = "offline";
+                    sett.Lang = set.Lang;
+                    sett.Quantity = set.Quantity;
+                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
+                    var client = new MongoClient();
                     database = client.GetDatabase("BucuriaDaruluiOffline");
                 }
             }
