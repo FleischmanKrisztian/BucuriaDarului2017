@@ -55,6 +55,14 @@ namespace Finalaplication.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
+                    volcontract.ExpirationDate =  volcontract.ExpirationDate.AddDays(1);
+                    volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
+                    volcontract.Birthdate = vol.Birthdate;
+                    volcontract.Firstname = vol.Firstname;
+                    volcontract.Lastname = vol.Lastname;
+                    volcontract.CNP = vol.CNP;
+                    volcontract.Address = vol.Address.Country + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
                     volcontract.OwnerID = idofvol;
                     volcontractcollection.InsertOne(volcontract);
                     return RedirectToAction("Index", new { idofvol });
