@@ -1,11 +1,19 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
     ViewData["Title"] = "Servermanagement";
 }
 
-<h1>Server management</h1>
+<h1>@Localizer["Servermanagement"]</h1>
 
-<h2><a href="../Home/Backup">Backup data</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-<h2><a href="../Home/Restore">Restore from previous backup</a>.<small style="font-size:12px;">(internet access necessary)</small></h2>
-<h2><a href="../Home/Merge">Merge data</a>.<small style="font-size:12px;">(Remote server priority)</small></h2>
-<h2><a href="../Home/Mergelocal">Merge data</a>.<small style="font-size:12px;">(Local server priority)</small></h2>
+<h2><a href="../Home/Backup">
+    @Localizer["Backupdata"]</a>.<small style="font-size:12px;">
+    (@Localizer["internetaccessnecessary"])</small></h2>
+    <h2><a href="../Home/Restore">
+    @Localizer["Restorefrompreviousbackup"]</a>.<small style="font-size:12px;">
+    (@Localizer["internetaccessnecessary"])</small></h2>
+    <h2><a href="../Home/Merge">
+    @Localizer["Mergedata"]</a>.<small style="font-size:12px;">
+    (@Localizer["Remoteserverpriority"])</small></h2>
+    <h2><a href="../Home/Mergelocal">@Localizer["Mergedata"]</a>.<small style="font-size:12px;">(@Localizer["Localserverpriority"])</small></h2>
 

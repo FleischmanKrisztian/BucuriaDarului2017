@@ -2,80 +2,83 @@
 @{
     ViewBag.Title = "SponsorAllocation";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     string evid = ViewBag.Evid.ToString();
     string strname = ViewBag.strname.ToString();
     string eventname = ViewBag.Eventname.ToString();
 
 }
-<h2>Sponsor Allocation to @eventname</h2>
+<h2>
+    @Localizer["SponsorAllocationto"]: @eventname</h2>
 @using (Html.BeginForm("/", "Event/SponsorAllocation/" + evid, FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value="Search" />
-}
+   @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] />
+    }
 
-                              <form action="/Event/SponsorAllocation" method="post">
-                                  <table class="table">
-                                      <tr>
-                                          <th>
-                                              @Html.DisplayName("Name of sponsor:")
-                                          </th>
-                                          <th>
-                                              @Html.DisplayName("Phone number:")
-                                          </th>
+    <form action="/Event/SponsorAllocation" method="post">
+        <table class="table">
+            <tr>
+                <th>
+                    @Localizer["Nameofsponsor"]:
+                </th>
+                <th>
+                    @Localizer["Phonenumber"]:
+                </th>
 
-                                          <th>
-                                              @Html.DisplayName("Allocation status:")
-                                          </th>
-                                          <th></th>
-                                      </tr>
-                                      @if (Model.Count() == 0)
-                                      {
-                                          <tr>
-                                              <td colspan="3 " style="color:red">
-                                                  There is no Sponsor to Allocate with such name!
-                                              </td>
-                                          </tr>
-                                      }
-                                      else
-                                      {
-                                          foreach (var item in Model)
-                                          {
+                <th>
+                    @Localizer["Allocationstatus"]:
+                </th>
+                <th></th>
+            </tr>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3 " style="color:red">
+                        @Localizer["IndexMessage"]
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
 
-                                              <tr>
-                                                  <td>
-                                                      @Html.DisplayFor(modelItem => item.NameOfSponsor)
-                                                  </td>
-                                                  <td>
-                                                      @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
-                                                  </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameOfSponsor)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
+                        </td>
 
-                                                  @if (strname.Contains(item.NameOfSponsor))
-                                                  {
-                                                      <td>
-                                                          <input type="checkbox" checked="checked" name="spons" value="@item.SponsorID" />
-                                                      </td>
-                                                      <td>
-                                                          <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                                                      </td>
-                                                  }
-                                                  else
-                                                  {
-                                                      <td>
-                                                          <input type="checkbox" name="spons" value="@item.SponsorID" />
-                                                      </td>
-                                                      <td>
-                                                          <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                                                      </td>
-                                                  }
-                                              </tr>
-                                          }
-                                      }
-                                  </table>
-                                  <input type="submit" name="submit" value="Allocate" /><br/>
-                                 
-                              </form>
-<br/>
-                              <div>
-                                  @Html.ActionLink("Back to List", "Index")
-                              </div>
+                        @if (strname.Contains(item.NameOfSponsor))
+                        {
+                            <td>
+                                <input type="checkbox" checked="checked" name="spons" value="@item.SponsorID" />
+                            </td>
+                            <td>
+                                <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="checkbox" name="spons" value="@item.SponsorID" />
+                            </td>
+                            <td>
+                                <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        </table>
+        <input type="submit" name="submit" value=@Localizer["Allocate"] /><br />
+
+    </form>
+    <br />
+    <div>
+        <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
+    </div>

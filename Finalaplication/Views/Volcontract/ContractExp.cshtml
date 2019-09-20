@@ -1,52 +1,54 @@
 ﻿@model IEnumerable<Finalaplication.Models.Volcontract>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "ContractExp";
 }
 
-<h1>Contract Expirations</h1>
+<h1>@Localizer["ContractExpirations"]</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OwnerID)
+                @Localizer["OwnerID"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumberOfRegistration)
+                @Localizer["NumberOfRegistration"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegistrationDate)
+                @Localizer["RegistrationDate"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
+                @Localizer["ExpirationDate"]
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-    if (item.GetDayExpiration(item.ExpirationDate) == true)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OwnerID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfRegistration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpirationDate)
-            </td>
-            <td>
-                @Html.ActionLink("Print", "Print", new { id = item.ContractID })
-            </td>
-        </tr>
-    }
-}
+        @foreach (var item in Model)
+        {
+            if (item.GetDayExpiration(item.ExpirationDate) == true)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OwnerID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberOfRegistration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpirationDate)
+                    </td>
+                    <td>
+                        <a href=@Url.Action( "Print", new { id = item.ContractID })>@Localizer["Print"]</a>
+                        
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

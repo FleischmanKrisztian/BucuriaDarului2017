@@ -3,78 +3,82 @@
 @{
     ViewBag.Title = "Delete";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<h2>@Localizer["Delete"]</h2>
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>
+    @Localizer["DeleteMessage"]</h3>
 <div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayName("Name of event:")
-        </dt>
+    <h4>
+        @Localizer["Event"]</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Localizer["Nameofevent"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NameOfEvent)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.NameOfEvent)
+            </dd>
 
-        <dt>
-            @Html.DisplayName("Place of event:")
-        </dt>
+            <dt>
+                @Localizer["Placeofevent"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PlaceOfEvent)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.PlaceOfEvent)
+            </dd>
 
-        <dt>
-            @Html.DisplayName("Date of event:")
-        </dt>
+            <dt>
+                @Localizer["Dateofevent"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateOfEvent)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DateOfEvent)
+            </dd>
 
-        <dt>
-            @Html.DisplayName("Number of volunteers needed:")
-        </dt>
+            <dt>
+                @Localizer["Numberofvolunteersneeded"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NumberOfVolunteersNeeded)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.NumberOfVolunteersNeeded)
+            </dd>
 
-        <dt>
-            @Html.DisplayName("Type of activities:")
-        </dt>
+            <dt>
+                @Localizer["Typeofactivities"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfActivities)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfActivities)
+            </dd>
 
-        <dt>
-            @Html.DisplayName("Type of event:")
-        </dt>
+            <dt>
+                @Localizer["Typeofevent"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfEvent)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfEvent)
+            </dd>
 
-        <dt>
-            @Html.DisplayName("Duration:")
-        </dt>
+            <dt>
+                @Localizer["Duration"]:
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Duration)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" style="background-color:tomato" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+            <div class="form-actions no-color">
+                <input type="submit" value=@Localizer["Delete"] style="background-color:tomato" class="btn btn-default" /> |
+                <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
+            </div>
+        }
 </div>

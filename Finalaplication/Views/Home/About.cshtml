@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "About";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 <h2>@ViewBag.Title.</h2>
 
-<p><h2>This application was made during a SIEMENS internship by Corina Gramada and Fleischman Krisztian as charity for a non-profit organisation.</h2></p>
+<p><h2>@Localizer["Message"]</h2></p>

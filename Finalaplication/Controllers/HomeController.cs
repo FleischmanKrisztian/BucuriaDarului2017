@@ -10,6 +10,8 @@ using Finalaplication.App_Start;
 using System.Threading;
 using System.Globalization;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace Finalaplication.Controllers
 {
@@ -379,16 +381,34 @@ namespace Finalaplication.Controllers
 
         [HttpPost]
         public ActionResult Settings(string lang, string env, int quantity)
-        {
+        {   
             Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
             set.Env = env;
             set.Quantity = quantity;
             set.Lang = lang;
-
+            ViewBag.Lang = lang;
+            Response.Cookies.Append(
+          CookieRequestCultureProvider.DefaultCookieName,
+          CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
+          new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+      );
             settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
             return RedirectToAction("Index");
         }
 
+       
+            //[HttpPost]
+            //public IActionResult SelectCulture(string culture, string returnUrl)
+            //{
+            //    Response.Cookies.Append(
+            //        CookieRequestCultureProvider.DefaultCookieName,
+            //        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            //        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            //    );
+
+            //    return LocalRedirect(returnUrl);
+            //}
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
