@@ -27,7 +27,7 @@ namespace protocolceva
             //^the method posted before, that edits registry      
             //try
             //{
-                string fileName = @"D:\GithubProjects\BucuriaDarului\protocolceva\protocolceva\Docxfiles\template.docx";
+                string fileName = @"D:\GithubProjects\Final\protocolceva\protocolceva\Docxfiles\template.docx";
                 var doc = DocX.Load(fileName);
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 6);
@@ -48,7 +48,7 @@ namespace protocolceva
                 doc.ReplaceText("<nrofreg>", volc.NumberOfRegistration.ToString());
                 doc.ReplaceText("<startdate>", volc.RegistrationDate.ToString());
                 doc.ReplaceText("<expdate>", volc.ExpirationDate.ToString());
-                doc.SaveAs(@"D:\GithubProjects\BucuriaDarului\protocolceva\protocolceva\Docxfiles\Contractul" + volc.NumberOfRegistration.ToString() + ".docx");
+                doc.SaveAs(@"D:\GithubProjects\Final\protocolceva\protocolceva\Docxfiles\Contractul" + volc.NumberOfRegistration.ToString() + ".docx");
 
                 Console.WriteLine("Succesfully saved document");
             //}
