@@ -24,8 +24,7 @@ namespace Finalaplication.Controllers
 
         [HttpGet]
         public IActionResult Index(string idofvol)
-        {
-            
+        {           
             List<Volcontract> volcontracts = volcontractcollection.AsQueryable().ToList();
             Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
             volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
