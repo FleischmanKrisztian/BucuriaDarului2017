@@ -1,12 +1,18 @@
 ﻿using Microsoft.Office.Interop.Word;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Xceed.Words.NET;
+using static System.Net.WebRequestMethods;
 
 namespace protocolceva
 {
@@ -19,29 +25,37 @@ namespace protocolceva
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
             //^the method posted before, that edits registry      
-            try
-            {
-                // Modify to siut your machine:
-                string fileName = @"D:\GithubProjects\BucuriaDarului\protocolceva\protocolceva\Docxfiles\template.docx";
-
-                // Create a document in memory:
+            //try
+            //{
+                string fileName = @"D:\GithubProjects\Final\protocolceva\protocolceva\Docxfiles\template.docx";
                 var doc = DocX.Load(fileName);
+                HttpClient httpClient = new HttpClient();
+                args[1] = args[1].Remove(0, 6);
+                string url = "https://localhost:44395/api/Values/" + args[1];
+                var result = httpClient.GetStringAsync(url).Result.Normalize();
+                result = result.Replace("[", "");
+                result = result.Replace("]", "");
+                volcontract volc = new volcontract();
+                volc = JsonConvert.DeserializeObject<volcontract>(result);
 
-                doc.ReplaceText("<Fullname>", "Krisztian");
-                doc.ReplaceText("<age>", "22");
-                doc.ReplaceText("<hobby>", "fotbal");
-                doc.ReplaceText("<adjectiv>", "frumos");
 
-                // Save to the output directory:
-                doc.Save();
+                doc.ReplaceText("<fullname>", volc.Firstname + " " + volc.Lastname);
+                doc.ReplaceText("<birthdate>", volc.Birthdate.ToString());
+                if(volc.CNP!=null)
+                doc.ReplaceText("<cnp>", volc.CNP);
+                if(volc.Address !=null)
+                doc.ReplaceText("<address>", volc.Address);
+                doc.ReplaceText("<nrofreg>", volc.NumberOfRegistration.ToString());
+                doc.ReplaceText("<startdate>", volc.RegistrationDate.ToString());
+                doc.ReplaceText("<expdate>", volc.ExpirationDate.ToString());
+                doc.SaveAs(@"D:\GithubProjects\Final\protocolceva\protocolceva\Docxfiles\Contractul" + volc.NumberOfRegistration.ToString() + ".docx");
 
-
-                Console.WriteLine("Succesfully saved document");               
-            }
-            catch
-            {
-                Console.WriteLine("No argument(s)");  //if there's an exception, there's no argument
-            }
+                Console.WriteLine("Succesfully saved document");
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("No argument(s)");  //if there's an exception, there's no argument
+            //}
 
             Console.ReadLine(); //pauses the program - so you can see the result
         }

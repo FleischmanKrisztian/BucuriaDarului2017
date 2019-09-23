@@ -36,20 +36,22 @@ namespace Finalaplication.Controllers
             dbcontextoffline = new MongoDBContextOffline();
 
             dbcontext = new MongoDBContext();
-                       
-            eventcollection = dbcontext.database.GetCollection<Event>("Events");
-            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
-            sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
 
-            dbcontextoffline = new MongoDBContextOffline();
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-            eventcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Event>("Events");
-            vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
-            beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
-            sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
-            volcontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volcontract>("Contracts");
+            try
+            {
+                eventcollection = dbcontext.database.GetCollection<Event>("Events");
+                vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+                beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+                sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+                volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
+                settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+                eventcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Event>("Events");
+                vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
+                beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
+                sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
+                volcontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volcontract>("Contracts");
+            }
+            catch { }
         }
 
         public ActionResult Merge()
@@ -276,70 +278,77 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index()
         {
-            List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
-            List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
-            List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
-            List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
-            int bd = 0;
-            int vc = 0;
-            int sc = 0;
-            int bc = 0;
-
-            foreach (var item in volunteers)
-            {
-                var Day = Finalaplication.Models.Volunteer.Nowdate();
-                var voldays = Finalaplication.Models.Volunteer.Volbd(item);
-                if ((Day <= voldays && Day + 10 > voldays) || (Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays))
-                {
-                    bd++;
-                }
-            }
-            if (bd != 0)
-                ViewBag.nrofbds = bd;
-            else
-                ViewBag.nrofbds = 0;
-
-            foreach (var item in volcontracts)
-            {
-                if (item.GetDayExpiration(item.ExpirationDate) == true)
-                {
-                    vc++;
-                }
-            }
-            ViewBag.nrofvc = vc;
-
-            foreach (var item in sponsors)
-            {
-                if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
-                {
-                    sc++;
-                }
-            }
-            ViewBag.nrofsc = sc;
-
-            foreach (var item in beneficiaries)
-            {
-                if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
-                {
-                    bc++;
-                }
-            }
-            ViewBag.nrofbc = bc;
-
             try
             {
-                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                
-                if (set.Env == "offline")
-                    ViewBag.env = "offline";
+                List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+                List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+                List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+                int bd = 0;
+                int vc = 0;
+                int sc = 0;
+                int bc = 0;
+
+                foreach (var item in volunteers)
+                {
+                    var Day = Finalaplication.Models.Volunteer.Nowdate();
+                    var voldays = Finalaplication.Models.Volunteer.Volbd(item);
+                    if ((Day <= voldays && Day + 10 > voldays) || (Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays))
+                    {
+                        bd++;
+                    }
+                }
+                if (bd != 0)
+                    ViewBag.nrofbds = bd;
                 else
-                    ViewBag.env = "online";
+                    ViewBag.nrofbds = 0;
+
+                foreach (var item in volcontracts)
+                {
+                    if (item.GetDayExpiration(item.ExpirationDate) == true)
+                    {
+                        vc++;
+                    }
+                }
+                ViewBag.nrofvc = vc;
+
+                foreach (var item in sponsors)
+                {
+                    if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                    {
+                        sc++;
+                    }
+                }
+                ViewBag.nrofsc = sc;
+
+                foreach (var item in beneficiaries)
+                {
+                    if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                    {
+                        bc++;
+                    }
+                }
+                ViewBag.nrofbc = bc;
+
+                try
+                {
+                    Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                    if (set.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
+                return View();
             }
             catch
             {
                 return RedirectToAction("Localserver");
             }
-            return View();
         }
 
         public IActionResult Localserver()
