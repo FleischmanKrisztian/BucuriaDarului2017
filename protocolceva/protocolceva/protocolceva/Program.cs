@@ -22,15 +22,16 @@ namespace protocolceva
             try
             {
                 // Modify to siut your machine:
-                string fileName = @"D:\GithubProjects\BucuriaDarului\protocolceva\protocolceva\Docxfiles\template.docx";
+                string fileName = @"C:\Proiect\Finalapplication\protocolceva\protocolceva\Docxfiles\template.docx";
 
                 // Create a document in memory:
                 var doc = DocX.Load(fileName);
 
                 doc.ReplaceText("<Fullname>", "Krisztian");
                 doc.ReplaceText("<age>", "22");
-                doc.ReplaceText("<hobby>", "fotbal");
-                doc.ReplaceText("<adjectiv>", "frumos");
+                doc.ReplaceText("<hobby>", "15.07.2019");
+                doc.ReplaceText("<argument>", "20.12.2019");
+                doc.InsertParagraph(args[1]);
 
                 // Save to the output directory:
                 doc.Save();
