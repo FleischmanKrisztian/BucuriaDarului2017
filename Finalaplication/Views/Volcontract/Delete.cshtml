@@ -5,47 +5,41 @@
     ViewData["Title"] = "Delete";
     string idofvol = Model.OwnerID;
 }
-
-<h1>@Localizer["Delete"]</h1>
-
-<h3>@Localizer["message"]</h3>
+<h3>
+    @Localizer["Volcontract"]
+</h3>
+<h4>@Localizer["Message"]</h4>
 <div>
-    <h4>
-        @Localizer["Volcontract"]</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Localizer["NumberOfRegistration"]
-            </dt>
-            <dd class="col-sm-10">
-                @Localizer["NumberOfRegistration"]
-            </dd>
-            <dt class="col-sm-2">
-                @Localizer["RegistrationDate"]
-            </dt>
-            <dd class="col-sm-10">
-                @Localizer["RegistrationDate"]
-            </dd>
-            <dt class="col-sm-2">
-                @Localizer["ExpirationDate"]
-            </dt>
-            <dd class="col-sm-10">
-                @Localizer["ExpirationDate"]
-            </dd>
-        </dl>
 
-        <form asp-action="Delete">
-            <input type="hidden" name="idofvol" value="@idofvol" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a href=@Url.Action( "Delete", new { idofvol = Model.OwnerID})>@Localizer["Delete"]</a> 
-            
-        </form>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["NumberOfRegistration"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberOfRegistration)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["RegistrationDate"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RegistrationDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["ExpirationDate"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExpirationDate)
+        </dd>
+    </dl>
+
+
 
 
     <form asp-action="Delete">
         <input type="hidden" name="idofvol" value="@idofvol" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        @Html.ActionLink("Back to list", "Index", new { idofvol = Model.OwnerID })
-    </form>        
+        <a href=@Url.Action( "Delete", new { idofvol = Model.OwnerID})>@Localizer["Delete"]</a> |
+        <a href=@Url.Action( "Index", new { idofvol = Model.OwnerID })>@Localizer["BackToList"]</a>
+    </form>
 
 </div>

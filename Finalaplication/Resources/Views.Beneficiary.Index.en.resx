@@ -333,4 +333,7 @@
   <data name="Weeklypackage" xml:space="preserve">
     <value>Weekly package</value>
   </data>
+  <data name="Beneficiaries" xml:space="preserve">
+    <value>Beneficiaries</value>
+  </data>
 </root>

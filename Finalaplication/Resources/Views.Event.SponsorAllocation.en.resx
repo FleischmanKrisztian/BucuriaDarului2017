@@ -216,4 +216,7 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="Nameofsponsor" xml:space="preserve">
+    <value>Name of sponsor</value>
+  </data>
 </root>

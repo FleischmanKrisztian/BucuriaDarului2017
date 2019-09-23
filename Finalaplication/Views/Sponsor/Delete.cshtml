@@ -25,13 +25,13 @@
             @Html.DisplayFor(model => model.ContactInformation.PhoneNumber)
         </dd>
         <dt class="col-sm-2">
-            @Localizer["Emailaddress"]:
+            @Localizer["Emailaddrss"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ContactInformation.MailAdress)
         </dd>
         <dt class="col-sm-2">
-            @Localizer["HasContract"]:
+            @Localizer["HasContract"]
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contract.HasContract)
@@ -80,7 +80,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value=@Localizer["Delete"] style="background-color:tomato" class="btn btn-default" /> |
+            <input type="submit" value=@Localizer["Delete"]  class="btn btn-primary" /> |
             <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
         </div>
     }

@@ -159,6 +159,9 @@
   <data name="Print" xml:space="preserve">
     <value>Printează</value>
   </data>
+  <data name="Printthiscontract" xml:space="preserve">
+    <value>Printează acest contract</value>
+  </data>
   <data name="RegistrationDate" xml:space="preserve">
     <value>Data întocmirii contractului</value>
   </data>

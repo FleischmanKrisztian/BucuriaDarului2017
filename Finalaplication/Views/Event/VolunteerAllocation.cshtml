@@ -16,10 +16,12 @@
 
 @using (Html.BeginForm("/", "Event/VolunteerAllocation/" + evid, FormMethod.Get))
 {
-   @Html.TextBox("searching")<input type="submit" value= @Localizer["Search"] />
+   @Html.TextBox("searching")<input type="submit" value= @Localizer["Search"] class="btn btn-primary" />
     }
 
 
+
+                             <br />
     <form action="/Event/VolunteerAllocation" method="post">
         <table class="table">
             <tr>
@@ -94,7 +96,7 @@
                 }
             }
         </table>
-        <input type="submit" name="submit" value= @Localizer["Allocate"] /><br>
+        <input type="submit" name="submit" class="btn btn-primary"  value= @Localizer["Allocate"]  /><br>
     </form>
 
     <br />

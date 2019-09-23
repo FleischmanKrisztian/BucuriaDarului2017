@@ -35,7 +35,7 @@
 {
 <p>@Localizer["Name"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Localizer["Active"]:&emsp;&emsp;&emsp;@Localizer["HasContract"]:&emsp;&emsp;&emsp;@Localizer["Homeless"]:&emsp;&emsp;&emsp;@Localizer["BornAfter"]:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Localizer["BornBefore"]:</p>
 <p>
-        @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("Homeless")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate" />
+        @Html.TextBox("searching")<input type="submit" class="btn btn-primary" value=@Localizer["Search"] />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("Homeless")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate" />
         <div class="pagination">
             @{
                 int x = 1;

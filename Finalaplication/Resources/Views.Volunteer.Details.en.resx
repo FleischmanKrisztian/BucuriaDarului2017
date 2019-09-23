@@ -189,4 +189,10 @@
   <data name="Volunteer" xml:space="preserve">
     <value>Volunteer</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Emailaddress" xml:space="preserve">
+    <value>Email address</value>
+  </data>
 </root>

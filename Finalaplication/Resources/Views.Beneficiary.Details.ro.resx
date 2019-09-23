@@ -241,7 +241,7 @@
     <value>Fără adăpost</value>
   </data>
   <data name="Housinginformation" xml:space="preserve">
-    <value>Informații </value>
+    <value>Informații despre locuință</value>
   </data>
   <data name="Housingtype" xml:space="preserve">
     <value>Locuință</value>
@@ -332,5 +332,8 @@
   </data>
   <data name="Weeklypackage" xml:space="preserve">
     <value>Pachet săptămânal</value>
+  </data>
+  <data name="IDexpirationdate" xml:space="preserve">
+    <value>Data expirării CI</value>
   </data>
 </root>

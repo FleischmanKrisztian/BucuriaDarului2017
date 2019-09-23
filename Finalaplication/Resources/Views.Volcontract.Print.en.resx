@@ -159,6 +159,9 @@
   <data name="Print" xml:space="preserve">
     <value>Print</value>
   </data>
+  <data name="Printthiscontract" xml:space="preserve">
+    <value>Print this contract</value>
+  </data>
   <data name="RegistrationDate" xml:space="preserve">
     <value>Registration Date</value>
   </data>
