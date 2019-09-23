@@ -333,4 +333,7 @@
   <data name="Weeklypackage" xml:space="preserve">
     <value>Pachet săptămânal</value>
   </data>
+  <data name="Beneficiaries" xml:space="preserve">
+    <value>Beneficiari</value>
+  </data>
 </root>
