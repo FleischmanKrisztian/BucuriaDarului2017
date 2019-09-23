@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Bucuria Darului</title>
+    <title >@ViewData["Title"] - Bucuria Darului</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -21,7 +21,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm  navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bucuria Darului</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,59 +31,71 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Volunteer" asp-action="Index">@Localizer["Volunteers"]</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Volunteer" asp-action="Index">@Localizer["Volunteers"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Index">@Localizer["Events"]</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Event" asp-action="Index">@Localizer["Events"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Beneficiary" asp-action="Index">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Beneficiary" asp-action="Index">
                                 @Localizer["Beneficiaries"]
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sponsor" asp-action="Index">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Sponsor" asp-action="Index">
                                 @Localizer["Sponsor"]
                             </a>
                         </li>
                         <li>
-                        @*<li><a href="?culture=ro">Romanian</a></li>
-                        <li><a href="?culture=en-US">English</a></li>*@
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="nav-link text-dark dropdown-toggle" style="color:black;background-color:white;border:0px" type="button" data-toggle="dropdown">
-                                    @Localizer["More"]
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="../../Home/Contact" style="color:black">
-                                            @Localizer["Contact"]
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="../../Home/About" style="color:black">
-                                            @Localizer["About"]
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="../../Home/Settings" style="color:black">
-                                            @Localizer["Settings"]
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                   
-                                    
-                                </ul>
 
+                            @*<li class="nav-item">
+                <div class="dropdown">
+                    <button class="nav-link text-dark dropdown-toggle" ;border:0px" type="button" data-toggle="dropdown">
+                        @Localizer["More"]
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="../../Home/Contact" style="color:black">
+                                @Localizer["Contact"]
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="../../Home/About" style="color:black">
+                                @Localizer["About"]
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="../../Home/Settings" style="color:black">
+                                @Localizer["Settings"]
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+
+
+                    </ul>
+
+                </div>
+            </li>*@
+                        <li class="nav-item">
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Localizer["More"]
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="../../Home/Contact">@Localizer["Contact"]</a>
+                                    <a class="dropdown-item" href="../../Home/About">@Localizer["About"]</a>
+                                    <a class="dropdown-item" href="../../Home/Settings">@Localizer["Settings"]</a>
+                                </div>
                             </div>
                         </li>
-
+                        <li class="divider"></li>
                     </ul>
                 </div>
             </div>
@@ -96,7 +108,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-white bg-dark ">
+        
         <div class="container">
             &copy; 2019 - Bucuria Darului - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
         </div>
@@ -106,6 +119,8 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
+        
+    
     <environment exclude="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"

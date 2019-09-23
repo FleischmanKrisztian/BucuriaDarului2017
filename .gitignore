@@ -260,6 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 *.csv
-Finalaplication/jsondata/template2.docx
-Finalaplication/jsondata/template2.docx
 *.docx
