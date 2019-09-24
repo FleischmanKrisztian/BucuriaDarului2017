@@ -189,4 +189,7 @@
   <data name="Volunteer" xml:space="preserve">
     <value>Voluntar</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editează</value>
+  </data>
 </root>

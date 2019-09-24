@@ -333,4 +333,13 @@
   <data name="Weeklypackage" xml:space="preserve">
     <value>Pachet săptămânal</value>
   </data>
+  <data name="Emailaddress" xml:space="preserve">
+    <value>Adresă der email</value>
+  </data>
+  <data name="ICexpirationdate" xml:space="preserve">
+    <value>Data expirării CI</value>
+  </data>
+  <data name="WhatGoods" xml:space="preserve">
+    <value>Ce fel de bunuri</value>
+  </data>
 </root>

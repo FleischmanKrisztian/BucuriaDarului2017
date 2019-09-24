@@ -35,7 +35,7 @@
 
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] />
+    @Html.TextBox("searching")<input type="submit" class="btn btn-primary" value=@Localizer["Search"] />
 }
 
 <br />
@@ -64,10 +64,10 @@
                 @Localizer["Phonenumber"]
             </th>
             <th>
-                @Localizer["Emailadress"]
+                @Localizer["Emailaddrss"]
             </th>
             <th>
-                @Localizer["Hascontract"]
+                @Localizer["HasContract"]
             </th>
             <th>
                 @Localizer["Numberofregistration"]

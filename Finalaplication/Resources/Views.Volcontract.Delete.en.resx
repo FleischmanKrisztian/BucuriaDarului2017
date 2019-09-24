@@ -150,6 +150,9 @@
   <data name="Message" xml:space="preserve">
     <value>Are you sure you want to delete this?</value>
   </data>
+  <data name="no" xml:space="preserve">
+    <value />
+  </data>
   <data name="NumberOfRegistration" xml:space="preserve">
     <value>Number Of Registration</value>
   </data>

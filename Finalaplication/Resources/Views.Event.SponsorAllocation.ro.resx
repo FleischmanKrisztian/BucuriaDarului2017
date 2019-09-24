@@ -216,4 +216,7 @@
   <data name="Search" xml:space="preserve">
     <value>Caută</value>
   </data>
+  <data name="Nameofsponsor" xml:space="preserve">
+    <value>Numele sponsorului</value>
+  </data>
 </root>

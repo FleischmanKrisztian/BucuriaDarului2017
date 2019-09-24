@@ -16,14 +16,14 @@
     <dl class="row">
 
         <dt class="col-sm-6">
-            @Localizer["Fullname"]
+            @Localizer["Fullname"]:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(volname)
         </dd>
 
         <dt class="col-sm-6">
-            @Localizer["CNP"]
+            @Localizer["CNP"]:
 
     
 
@@ -33,13 +33,13 @@
         </dd>
 
         <dt class="col-sm-6">
-            @Localizer["Address"]
+            @Localizer["Address"]:
 </dt>
 <dd class="col-sm-10">
             @Html.DisplayName(voladdress)
         </dd>
         <dt class="col-sm-6">
-            @Html.DisplayName("Birthdate")
+            @Html.DisplayName("Birthdate"):
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(volbd)
@@ -49,7 +49,7 @@
        
 
         <dt class="col-sm-6">
-            @Localizer["NumberOfRegistration"]
+            @Localizer["NumberOfRegistration"]:
 
         </dt>
         <dd class="col-sm-10">
@@ -57,7 +57,7 @@
         </dd>
 
         <dt class="col-sm-6">
-            @Localizer["RegistrationDate"]
+            @Localizer["RegistrationDate"]:
 
        
         </dt>
@@ -66,7 +66,7 @@
         </dd>
 
         <dt class="col-sm-6">
-            @Localizer["ExpirationDate"]
+            @Localizer["ExpirationDate"]:
 
         </dt>
         <dd class="col-sm-10">
@@ -76,17 +76,21 @@
 </div>
 <div>
 
-    <a href=@Url.Action( "Index" ,new { idofvol = Model.OwnerID })>@Localizer["BackToList"]</a>
-
-
     <form asp-action="Print" style="color:blue">
         <input type="hidden" name="id" value="@Model.ContractID" />
         <input type="hidden" name="volname" value="@volname" />
         <input type="hidden" name="voladdress" value="@voladdress" />
         <input type="hidden" name="volCNP" value="@volCNP" />
         <input type="hidden" name="volbd" value="@volbd" />
-        <a href="myApp:@Model.ContractID">@Localizer["Print this contract"]</a> | 
-        
+
+
+
+        <a href="myApp:@Model.ContractID">@Localizer["Printthiscontract"]</a>|
+
+    
     </form>
+    <a href=@Url.Action( "Index" ,new { idofvol = Model.OwnerID })>@Localizer["BackToList"]</a>
+
+
 
 </div>

@@ -162,6 +162,9 @@
   <data name="RegistrationDate" xml:space="preserve">
     <value>Data întocmirii contractului</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value>Înapoi la listă</value>
+  </data>
   <data name="Volcontract" xml:space="preserve">
     <value>Contractul voluntarului</value>
   </data>

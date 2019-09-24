@@ -186,6 +186,9 @@
   <data name="Sponsor" xml:space="preserve">
     <value>Sponsor</value>
   </data>
+  <data name="Sponsors" xml:space="preserve">
+    <value>Sponsors</value>
+  </data>
   <data name="Whatgoods" xml:space="preserve">
     <value>What goods</value>
   </data>
