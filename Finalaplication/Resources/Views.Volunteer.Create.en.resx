@@ -195,4 +195,16 @@
   <data name="Uploadimage" xml:space="preserve">
     <value>Upload image</value>
   </data>
+  <data name="CIELIBERAT" xml:space="preserve">
+    <value>Date of making</value>
+  </data>
+  <data name="CIELIBERATOR" xml:space="preserve">
+    <value>Issued by</value>
+  </data>
+  <data name="CINR" xml:space="preserve">
+    <value>Id number</value>
+  </data>
+  <data name="CISERIE" xml:space="preserve">
+    <value>Id series</value>
+  </data>
 </root>

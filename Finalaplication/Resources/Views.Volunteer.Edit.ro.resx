@@ -192,4 +192,16 @@
   <data name="Edit" xml:space="preserve">
     <value>Editează</value>
   </data>
+  <data name="CIELIBERAT" xml:space="preserve">
+    <value>Data eliberării cărții de identitate</value>
+  </data>
+  <data name="CIELIBERATOR" xml:space="preserve">
+    <value>Emisă de </value>
+  </data>
+  <data name="CINR" xml:space="preserve">
+    <value>Număr carte de identitate</value>
+  </data>
+  <data name="CISERIE" xml:space="preserve">
+    <value>Serie carte de identitate</value>
+  </data>
 </root>
