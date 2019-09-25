@@ -136,13 +136,13 @@
     <value>CNP</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Country</value>
+    <value>District</value>
   </data>
   <data name="Desiredarea" xml:space="preserve">
     <value>Desired area</value>
   </data>
   <data name="Emailaddrss" xml:space="preserve">
-    <value>Email addrss</value>
+    <value>Email address</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>Female</value>
@@ -163,7 +163,7 @@
     <value>Has driving licence?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
-    <value>Hour count</value>
+    <value>Working hours</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Lastname</value>
@@ -191,5 +191,17 @@
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="CIELIBERAT" xml:space="preserve">
+    <value>Date of making</value>
+  </data>
+  <data name="CIELIBERATOR" xml:space="preserve">
+    <value>Issued by</value>
+  </data>
+  <data name="CINR" xml:space="preserve">
+    <value>Id number</value>
+  </data>
+  <data name="CISERIE" xml:space="preserve">
+    <value>Id series</value>
   </data>
 </root>

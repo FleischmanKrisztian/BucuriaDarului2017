@@ -10,132 +10,132 @@
 <div>
     <h4>@Localizer["Volunteer"]</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-sm-2">
             @Localizer["Avatar"]
         </dt>
-        <dd>
-            @{
-                if (Model.Image != null)
-                {
-                    var imageBase64 = Convert.ToBase64String(Model.Image);
-                    var imagesrc = string.Format("data:image/gif;base64,{0}", imageBase64);
-                    <img src="@imagesrc" style="width:20%;height:auto" />
-                }
-            }
-        </dd>
-        <dt>
+        <dd class="col-sm-10">
+    @{
+        if (Model.Image != null)
+        {
+            var imageBase64 = Convert.ToBase64String(Model.Image);
+            var imagesrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+            <img src="@imagesrc" style="width:20%;height:auto" />
+        }
+    }
+</dd>
+        <dt class="col-sm-2">
             @Localizer["Firstname"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Firstname)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Lastname"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Lastname)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Birthdate"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Birthdate)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Gender"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Active"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InActivity)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Country"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address.Country)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["City"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address.City)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Street"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address.Street)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Number"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address.Number)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["CNP"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CNP)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Hascar"]
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Additionalinfo.HasCar)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Hasdrivinglicence"]
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Additionalinfo.HasDrivingLicence)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Remarks"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Additionalinfo.Remark)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Phonenumber"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ContactInformation.PhoneNumber)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Emailaddress"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ContactInformation.MailAdress)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Desiredarea"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Desired_workplace)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Fieldofactivity"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Field_of_activity)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Occupation"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Occupation)
         </dd>
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Hourcount"]:
         </dt>
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.HourCount)
         </dd>
 

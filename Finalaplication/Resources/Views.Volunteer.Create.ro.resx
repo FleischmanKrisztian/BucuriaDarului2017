@@ -136,7 +136,7 @@
     <value>CNP</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Țară</value>
+    <value>Județ</value>
   </data>
   <data name="Desiredarea" xml:space="preserve">
     <value>Aria de lucru dorită</value>
@@ -163,7 +163,7 @@
     <value>Permis de conducere?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
-    <value>Număr de ore</value>
+    <value>Program de lucru (ore)</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Nume de familie</value>
@@ -194,5 +194,17 @@
   </data>
   <data name="Uploadimage" xml:space="preserve">
     <value>Încarcă imagine</value>
+  </data>
+  <data name="CIELIBERAT" xml:space="preserve">
+    <value>Data eliberării cărții de identitate</value>
+  </data>
+  <data name="CIELIBERATOR" xml:space="preserve">
+    <value>Emisă de</value>
+  </data>
+  <data name="CINR" xml:space="preserve">
+    <value>Număr carte de identitate</value>
+  </data>
+  <data name="CISERIE" xml:space="preserve">
+    <value>Serie carte de identitate</value>
   </data>
 </root>

@@ -139,7 +139,7 @@
     <value>Locul nașterii</value>
   </data>
   <data name="BornAfter" xml:space="preserve">
-    <value>Născut după data de </value>
+    <value>Născut după data de</value>
   </data>
   <data name="BornBefore" xml:space="preserve">
     <value>Născut înainte de data de</value>
@@ -169,7 +169,7 @@
     <value>Informații despre contract</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Țară</value>
+    <value>Județ</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Crează</value>

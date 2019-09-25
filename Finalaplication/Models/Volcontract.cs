@@ -22,6 +22,20 @@ namespace Finalaplication.Models
 
         public string Address { get; set; }
 
+        public int Hourcount { get; set; }
+
+        public string Nrtel { get; set; }
+
+        public string CIseria { get; set; }
+
+        public string CINr { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime CIEliberat { get; set; }
+
+        public string CIeliberator { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
