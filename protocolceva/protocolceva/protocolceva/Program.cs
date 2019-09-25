@@ -25,8 +25,8 @@ namespace protocolceva
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
             //^the method posted before, that edits registry      
-            //try
-            //{
+            try
+            {
                 string fileName = @"D:\GithubProjects\Final\protocolceva\protocolceva\Docxfiles\template.docx";
                 var doc = DocX.Load(fileName);
                 HttpClient httpClient = new HttpClient();
@@ -51,11 +51,11 @@ namespace protocolceva
                 doc.SaveAs(@"D:\GithubProjects\Final\protocolceva\protocolceva\Docxfiles\Contractul" + volc.NumberOfRegistration.ToString() + ".docx");
 
                 Console.WriteLine("Succesfully saved document");
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("No argument(s)");  //if there's an exception, there's no argument
-            //}
+            }
+            catch
+            {
+                Console.WriteLine("No argument(s)");  //if there's an exception, there's no argument
+            }
 
             Console.ReadLine(); //pauses the program - so you can see the result
         }
