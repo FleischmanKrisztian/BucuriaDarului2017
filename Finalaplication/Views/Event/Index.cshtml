@@ -71,15 +71,7 @@
         <th>
             @Localizer["Currentlyallocated"]:
         </th>
-        <th>
-            @Localizer["Typeofactivities"]:
-        </th>
-        <th>
-            @Localizer["Typeofevent"]:
-        </th>
-        <th>
-            @Localizer["Duration"]:
-        </th>
+       
         <th></th>
     </tr>
 
@@ -112,15 +104,7 @@
                 <td>
                     @Html.Raw(item.VolunteerAllocateCounter(item.AllocatedVolunteers, item.NumberOfVolunteersNeeded))
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TypeOfActivities)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TypeOfEvent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Duration)
-                </td>
+               
                 <td>
                     
                     <a href=@Url.Action( "Edit", new { id = item.EventID })>@Localizer["Edit"]</a> |

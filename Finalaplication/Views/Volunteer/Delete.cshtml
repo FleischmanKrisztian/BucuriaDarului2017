@@ -11,36 +11,37 @@
 
 <div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-sm-2">
             @Localizer["Firstname"]:
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Firstname)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2" >
+            
             @Localizer["Lastname"]:
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Lastname)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Birthdate"]:
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Birthdate)
         </dd>
 
-        <dt>
+        <dt class="col-sm-2">
             @Localizer["Active"]:
         </dt>
 
-        <dd>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InActivity)
         </dd>
 
