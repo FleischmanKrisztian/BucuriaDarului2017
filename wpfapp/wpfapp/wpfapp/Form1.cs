@@ -53,15 +53,34 @@ namespace wpfapp
                     result = result.Replace("]", "");
                     volcontract volc = new volcontract();
                     volc = JsonConvert.DeserializeObject<volcontract>(result);
-                    doc.ReplaceText("<fullname>", volc.Firstname + " " + volc.Lastname);
-                    doc.ReplaceText("<birthdate>", volc.Birthdate.ToString());
+                    string phrase = volc.Address;
+                    string[] words = phrase.Split(',');
+                    doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
+                    doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
+                    doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
                     if (volc.CNP != null)
-                        doc.ReplaceText("<cnp>", volc.CNP);
-                    if (volc.Address != null)
-                        doc.ReplaceText("<address>", volc.Address);
-                    doc.ReplaceText("<nrofreg>", volc.NumberOfRegistration.ToString());
-                    doc.ReplaceText("<startdate>", volc.RegistrationDate.ToString());
-                    doc.ReplaceText("<expdate>", volc.ExpirationDate.ToString());
+                        doc.ReplaceText("<CNP>", volc.CNP);
+                    if (volc.CIseria != null)
+                        doc.ReplaceText("<Seria>", volc.CIseria);
+                    if (volc.CINr != null)
+                        doc.ReplaceText("<Nr>", volc.CINr);
+                    if (volc.CIEliberat != null)
+                        doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
+                    if (volc.CIeliberator != null)
+                        doc.ReplaceText("<eliberator>", volc.CIeliberator);
+                    if (words[1] != null)
+                        doc.ReplaceText("<oras>", words[1]);
+                    if (words[2] != null)
+                        doc.ReplaceText("<str>", words[2]);
+                    if (words[3] != null)
+                        doc.ReplaceText("<nr>", words[3]);
+                    if (words[0] != null)
+                        doc.ReplaceText("<jud>", words[0]);
+                    if (volc.Nrtel != null)
+                        doc.ReplaceText("<tel>", volc.Nrtel);
+                    doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
+                    doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
+                        doc.ReplaceText("<hourcount>", volc.HourCount.ToString());
                     doc.SaveAs(saveFileDialog1.FileName);
                     richTextBox2.Text = saveFileDialog1.FileName;
                     richTextBox3.Text = "File Saved succesfully";

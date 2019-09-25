@@ -98,6 +98,39 @@
                 @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Localizer["CISERIE"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CIseria, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CIseria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Localizer["CINR"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CINr, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CINr, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Localizer["CIELIBERAT"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CIEliberat, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CIEliberat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Localizer["CIELIBERATOR"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CIeliberator, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CIeliberator, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Localizer["Phonenumber"]:
             <div class="col-md-10">
@@ -140,14 +173,14 @@
 
         @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
         {
-        <div class="form-group">
-            @Localizer[" Gender"]:
-            <br />
-            <div class="col-md-10">
-                @Localizer[" Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
-                @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
+            <div class="form-group">
+                @Localizer[" Gender"]:
+                <br />
+                <div class="col-md-10">
+                    @Localizer[" Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
+                    @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
+                </div>
             </div>
-        </div>
         }
         <div class="form-group">
             @Localizer["Desiredarea"]:

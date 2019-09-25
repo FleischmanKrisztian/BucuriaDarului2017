@@ -61,6 +61,12 @@ namespace Finalaplication.Controllers
                     volcontract.Firstname = vol.Firstname;
                     volcontract.Lastname = vol.Lastname;
                     volcontract.CNP = vol.CNP;
+                    volcontract.CIseria = vol.CIseria;
+                    volcontract.CINr = vol.CINr;
+                    volcontract.CIEliberat = vol.CIEliberat;
+                    volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
+                    volcontract.Hourcount = vol.HourCount;
+                    volcontract.CIeliberator = vol.CIeliberator;
                     volcontract.Address = vol.Address.Country + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
                     volcontract.OwnerID = idofvol;
                     volcontractcollection.InsertOne(volcontract);

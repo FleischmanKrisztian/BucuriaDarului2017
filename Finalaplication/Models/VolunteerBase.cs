@@ -31,6 +31,16 @@ namespace VolCommon
 
         public string Occupation { get; set; }
 
+        public string CIseria{ get; set; }
+
+        public string CINr { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime CIEliberat { get; set; }
+
+        public string CIeliberator { get; set; }
+
         public bool InActivity { get; set; }
 
         public int HourCount { get; set; }

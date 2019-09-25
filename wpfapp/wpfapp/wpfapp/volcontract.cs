@@ -16,6 +16,8 @@ namespace wpfapp
 
         public string Address { get; set; }
 
+        public string Nrtel { get; set; }
+
         public DateTime Birthdate { get; set; }
 
         public int NumberOfRegistration { get; set; }
@@ -23,5 +25,17 @@ namespace wpfapp
         public DateTime RegistrationDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
+
+        public string CIseria { get; set; }
+
+        public string CINr { get; set; }
+
+        public DateTime CIEliberat { get; set; }
+
+        public string CIeliberator { get; set; }
+
+        public bool InActivity { get; set; }
+
+        public int HourCount { get; set; }
     }
 }
