@@ -110,7 +110,25 @@
 }
 
 <div>
-    <a href=@Url.Action( "Index" )>@Localizer["BackToList"]</a>
+    <style>
+        .button {
+            background-color: dodgerblue;
+            border: none;
+            color: white;
+            padding: 10px 28px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            border-radius: 12%;
+        }
+    </style>
+    <a href=@Url.Action( "Index" ) class="button button1">@Localizer["BackToList"]</a>
 </div>
 
 
