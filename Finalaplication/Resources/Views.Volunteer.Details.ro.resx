@@ -163,7 +163,7 @@
     <value>Permis de conducere?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
-    <value>Număr de ore</value>
+    <value>Program de lucru (ore)</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Nume de familie</value>

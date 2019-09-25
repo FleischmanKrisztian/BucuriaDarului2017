@@ -163,7 +163,7 @@
     <value>Has driving licence?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
-    <value>Hour count</value>
+    <value>Working hours</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Lastname</value>
