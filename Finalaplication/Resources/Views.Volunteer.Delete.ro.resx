@@ -136,7 +136,7 @@
     <value>CNP</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Țară</value>
+    <value>Județ</value>
   </data>
   <data name="Desiredarea" xml:space="preserve">
     <value>Aria de lucru dorită</value>
@@ -163,7 +163,7 @@
     <value>Permis de conducere?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
-    <value>Număr de ore</value>
+    <value>Program de lucru (ore)</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Nume de familie</value>

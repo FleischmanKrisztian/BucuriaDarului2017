@@ -157,7 +157,7 @@
     <value>Has Car</value>
   </data>
   <data name="HourCount" xml:space="preserve">
-    <value>HourCount</value>
+    <value>Working hours</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Lastname</value>

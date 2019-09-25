@@ -136,13 +136,13 @@
     <value>CNP</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value>Country</value>
+    <value>District</value>
   </data>
   <data name="Desiredarea" xml:space="preserve">
     <value>Desired area</value>
   </data>
   <data name="Emailaddrss" xml:space="preserve">
-    <value>Email addrss</value>
+    <value>Email address</value>
   </data>
   <data name="Female" xml:space="preserve">
     <value>Female</value>
@@ -163,7 +163,7 @@
     <value>Has driving licence?</value>
   </data>
   <data name="Hourcount" xml:space="preserve">
-    <value>Hour count</value>
+    <value>Working hours</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Lastname</value>
