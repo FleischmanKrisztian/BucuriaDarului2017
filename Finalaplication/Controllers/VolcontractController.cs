@@ -84,11 +84,6 @@ namespace Finalaplication.Controllers
         public ActionResult Print(string id)
         {
             var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
-            var volunteer = volunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == contract.OwnerID);
-            ViewBag.volunteerName = volunteer.Firstname + " " + volunteer.Lastname;
-            ViewBag.volunteerCNP = volunteer.CNP;
-            ViewBag.volunteerBd = volunteer.Birthdate.ToShortDateString() ;
-            ViewBag.volunteerAddress = volunteer.Address.Country + " " + volunteer.Address.City + " " +volunteer.Address.Street + " " + volunteer.Address.Number;
 
             return View(contract);
         }
