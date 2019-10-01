@@ -16,7 +16,7 @@
 
             .pagination a.active {
                 background-color: #4CAF50;
-                color: white;
+                color: red;
             }
 
             .pagination a:hover:not(.active) {
@@ -41,6 +41,7 @@
 <br />
 
 <div class="pagination">
+    <pre style="white-space:pre-wrap;">
     @{
         int x = 1;
         for (int i = 0; i < ViewBag.counter; i++)
@@ -52,6 +53,7 @@
             }
         }
     }
+    </pre>
 </div>
 <br />
 <table class="table">

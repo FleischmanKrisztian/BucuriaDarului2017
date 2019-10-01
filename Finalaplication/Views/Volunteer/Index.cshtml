@@ -18,22 +18,24 @@
             color: black;
             float: left;
             padding: 8px 16px;
+            
+
             text-decoration: none;
         }
 
             .pagination a:active {
                 background-color: #4CAF50;
-                color: white;
+                color: red;
             }
 
             .pagination a.active {
                 background-color: #4CAF50;
-                color: white;
+                color: red;
             }
 
                 .pagination a.active:current {
                     background-color: #4CAF50;
-                    color: white;
+                    color: red;
                 }
 
             .pagination a:hover:not(.active) {
@@ -113,8 +115,9 @@
             </div>
         </div>
     </div>
-    <p>
-        <div class="pagination">
+
+    <div class="pagination">
+        <pre style="white-space:pre-wrap;">
             @{
                 int x = 1;
                 for (int i = 0; i < ViewBag.counter; i++)
@@ -126,8 +129,8 @@
                     }
                 }
             }
-        </div>
-    </p>
+        </pre>
+    </div>
 }
 
 <table class="table">

@@ -90,6 +90,19 @@ namespace Finalaplication.Controllers
             ViewBag.nrofdocs = nrofdocs;
             events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             events = events.AsQueryable().Take(nrofdocs).ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(events);
         }
 
@@ -104,10 +117,36 @@ namespace Finalaplication.Controllers
             if (searching != null)
             {
                 ViewBag.Evid = id;
+                try
+                {
+                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                    if (sett.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 return View(volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList());
             }
             else
             {
+                try
+                {
+                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                    if (sett.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 ViewBag.Evid = id;
                 return View(volunteers);
             }
@@ -131,7 +170,19 @@ namespace Finalaplication.Controllers
 
                     var result = eventcollection.UpdateOne(filter, update);
                 }
+                try
+                {
+                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                    if (sett.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -156,6 +207,19 @@ namespace Finalaplication.Controllers
             }
             else
             {
+                try
+                {
+                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                    if (sett.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 ViewBag.Evid = id;
                 return View(sponsors);
             }
@@ -179,7 +243,19 @@ namespace Finalaplication.Controllers
 
                     var result = eventcollection.UpdateOne(filter, update);
                 }
+                try
+                {
+                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                    if (sett.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -194,13 +270,38 @@ namespace Finalaplication.Controllers
         public ActionResult Details(string id)
         {
             var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(eventt);
         }
 
         // GET: Volunteer/Create
         public ActionResult Create()
         {
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
@@ -234,7 +335,19 @@ namespace Finalaplication.Controllers
             var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             Event originalsavedevent = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             ViewBag.originalsavedevent = JsonConvert.SerializeObject(originalsavedevent);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(eventt);
         }
 
@@ -286,6 +399,19 @@ namespace Finalaplication.Controllers
         public ActionResult Delete(string id)
         {
             var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(eventt);
         }
 

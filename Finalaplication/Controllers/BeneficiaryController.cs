@@ -188,19 +188,57 @@ namespace Finalaplication.Controllers
             ViewBag.nrofdocs = nrofdocs;
             beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(beneficiaries);
         }
 
          public ActionResult ContractExp()
         {
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(beneficiaries);
         }
 
         public ActionResult Details(string id)
         {
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(beneficiary);
         }
 
@@ -231,8 +269,22 @@ namespace Finalaplication.Controllers
                     beneficiary.Contract.RegistrationDate = beneficiary.Contract.RegistrationDate.AddHours(5);
                     beneficiary.Contract.ExpirationDate = beneficiary.Contract.ExpirationDate.AddHours(5);
                     beneficiarycollection.InsertOne(beneficiary);
+                    try
+                    {
+                        Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                        if (sett.Env == "offline")
+                            ViewBag.env = "offline";
+                        else
+                            ViewBag.env = "online";
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Localserver");
+                    }
                     return RedirectToAction("Index");
                 }
+
                 else return View();
             }
             catch
@@ -247,6 +299,19 @@ namespace Finalaplication.Controllers
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == id);
             Beneficiary originalsavedvol = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(beneficiary);
         }
 
@@ -320,6 +385,19 @@ namespace Finalaplication.Controllers
                        .Set("Contract.ExpirationDate", beneficiary.Contract.ExpirationDate.AddHours(5));
 
                     var result = beneficiarycollection.UpdateOne(filter, update);
+                        try
+                        {
+                            Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                            if (sett.Env == "offline")
+                                ViewBag.env = "offline";
+                            else
+                                ViewBag.env = "online";
+                        }
+                        catch
+                        {
+                            return RedirectToAction("Localserver");
+                        }
                         return RedirectToAction("Index");
                     }
                     else return View();
@@ -339,6 +417,19 @@ namespace Finalaplication.Controllers
         public ActionResult Delete(string id)
         {
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(beneficiary);
         }
 

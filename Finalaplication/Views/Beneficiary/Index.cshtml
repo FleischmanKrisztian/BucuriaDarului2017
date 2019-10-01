@@ -81,6 +81,7 @@
     <p>
         @*@Html.TextBox("searching")<input type="submit" class="btn btn-primary" value=@Localizer["Search"] />&emsp;&emsp; @Html.CheckBox("Active")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("HasContract")&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Html.CheckBox("Homeless")&emsp;&emsp;&emsp;<input type="date" name="lowerdate">&emsp;<input type="date" name="upperdate" />*@
         <div class="pagination">
+            <pre style="white-space:pre-wrap;">
             @{
                 int x = 1;
                 for (int i = 0; i < ViewBag.counter; i++)
@@ -92,6 +93,7 @@
                     }
                 }
             }
+            </pre>
         </div>
     </p>
 }
