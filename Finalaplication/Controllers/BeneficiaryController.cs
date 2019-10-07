@@ -23,12 +23,14 @@ namespace Finalaplication.Controllers
         private MongoDBContextOffline dbcontextoffline;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Settings> settingcollection;
+        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         public BeneficiaryController()
         {
             dbcontextoffline = new MongoDBContextOffline();
             dbcontext = new MongoDBContext();
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
         }
 
 
@@ -42,7 +44,7 @@ namespace Finalaplication.Controllers
             var allLines = (from Beneficiary in beneficiaries
                             select new object[]
                             {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42},{43};",
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42};",
                             Beneficiary.Firstname,
                             Beneficiary.Lastname,
                             Beneficiary.Active,
@@ -50,13 +52,16 @@ namespace Finalaplication.Controllers
                             Beneficiary.Canteen.ToString(),
                             Beneficiary.HomeDeliveryDriver,
                             Beneficiary.HasGDPRAgreement.ToString(),
-                            Beneficiary.Adress.Country,
+                            Beneficiary.Adress.District,
                             Beneficiary.Adress.City,
                             Beneficiary.Adress.Street,
                             Beneficiary.Adress.Number,
                             Beneficiary.CNP,
                             Beneficiary.CI.HasId.ToString(),
-                            Beneficiary.CI.ICExpirationDate.ToString(),
+                            Beneficiary.CI.CIseria,
+                            Beneficiary.CI.CINr.ToString(),
+                            Beneficiary.CI.CIEliberat.ToString(),
+                            Beneficiary.CI.CIeliberator,
                             Beneficiary.Marca.IdAplication.ToString(),
                             Beneficiary.Marca.IdContract.ToString(),
                             Beneficiary.Marca.IdInvestigation.ToString(),
@@ -82,11 +87,8 @@ namespace Finalaplication.Controllers
                             Beneficiary.PersonalInfo.HousingType,
                             Beneficiary.PersonalInfo.Income,
                             Beneficiary.PersonalInfo.Expences,
-                            Beneficiary.PersonalInfo.Gender,
-                            Beneficiary.Contract.HasContract.ToString(),
-                            Beneficiary.Contract.NumberOfRegistration.ToString(),
-                            Beneficiary.Contract.RegistrationDate.ToString(),
-                            Beneficiary.Contract.ExpirationDate.ToString())
+                            Beneficiary.PersonalInfo.Gender)
+                           
                             }
                              ).ToList();
 
@@ -99,12 +101,15 @@ namespace Finalaplication.Controllers
 
             }
            );
-            System.IO.File.WriteAllText(path, "Firstname,Lastname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,Country,City,Street,Number,CNP,Has ID,ID Expiration,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,District,City,Street,Number,CNP,Has ID,IDSerie,IDNr,IDEliberat,IdEliberator,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
 
 }
-
+        public ActionResult Contracts(string id)
+        {
+            return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
+        }
 
         public ActionResult Index(string sortOrder, string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, int page)
         {
@@ -145,10 +150,7 @@ namespace Finalaplication.Controllers
             {
                 beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
             }
-            if (HasContract == true)
-            {
-                beneficiaries = beneficiaries.Where(x => x.Contract.HasContract == true).ToList();
-            }
+            
             switch (sortOrder)
             {
                 case "Gender":
@@ -228,8 +230,7 @@ namespace Finalaplication.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    beneficiary.Contract.RegistrationDate = beneficiary.Contract.RegistrationDate.AddHours(5);
-                    beneficiary.Contract.ExpirationDate = beneficiary.Contract.ExpirationDate.AddHours(5);
+                    
                     beneficiarycollection.InsertOne(beneficiary);
                     return RedirectToAction("Index");
                 }
@@ -284,12 +285,15 @@ namespace Finalaplication.Controllers
                        .Set("CNP", beneficiary.CNP)
                        .Set("NumberOfPortions", beneficiary.NumberOfPortions)
                        .Set("Coments", beneficiary.Coments)
-                       .Set("Adress.Country", beneficiary.Adress.Country)
+                       .Set("Adress.District", beneficiary.Adress.District)
                        .Set("Adress.City", beneficiary.Adress.City)
                        .Set("Adress.Street", beneficiary.Adress.Street)
                        .Set("Adress.Number", beneficiary.Adress.Number)
                        .Set("CI.HasId", beneficiary.CI.HasId)
-                       .Set("CI.ICExpirationDate", beneficiary.CI.ICExpirationDate.AddHours(5))
+                       .Set("CI.CIseria", beneficiary.CI.CIseria)
+                       .Set("CI.CINr", beneficiary.CI.CINr)
+                       .Set("CI.CIEliberat", beneficiary.CI.CIEliberat.AddHours(5))
+                       .Set("CI.CIeliberator", beneficiary.CI.CIeliberator)
                        .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
                        .Set("Marca.IdContract", beneficiary.Marca.IdContract)
                        .Set("Marca.IdInvestigation", beneficiary.Marca.IdInvestigation)
@@ -314,10 +318,7 @@ namespace Finalaplication.Controllers
                        .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
                        .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
                        .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies)
-                       .Set("Contract.HasContract", beneficiary.Contract.HasContract)
-                       .Set("Contract.NumberOfRegistration", beneficiary.Contract.NumberOfRegistration)
-                       .Set("Contract.RegistrationDate", beneficiary.Contract.RegistrationDate.AddHours(5))
-                       .Set("Contract.ExpirationDate", beneficiary.Contract.ExpirationDate.AddHours(5));
+                       ;
 
                     var result = beneficiarycollection.UpdateOne(filter, update);
                         return RedirectToAction("Index");

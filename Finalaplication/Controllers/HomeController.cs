@@ -30,6 +30,8 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Sponsor> sponsorcollectionoffline;
         private IMongoCollection<Volcontract> volcontractcollection;
         private IMongoCollection<Volcontract> volcontractcollectionoffline;
+        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollectionoffline;
 
         public HomeController()
         {
@@ -44,12 +46,14 @@ namespace Finalaplication.Controllers
                 beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
+                beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
                 settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
                 eventcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Event>("Events");
                 vollunteercollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volunteer>("Volunteers");
                 beneficiarycollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiary>("Beneficiaries");
                 sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
                 volcontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volcontract>("Contracts");
+                beneficiarycontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             }
             catch { }
         }
@@ -62,18 +66,21 @@ namespace Finalaplication.Controllers
             List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
             List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
             List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
+            List<Beneficiarycontract> beneficiarycontractsoffline = beneficiarycontractcollectionoffline.AsQueryable<Beneficiarycontract>().ToList();
 
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+            List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
 
             string onlinevols = JsonConvert.SerializeObject(volunteers);
             string onlineevents = JsonConvert.SerializeObject(events);
             string onlinebenefieciaries = JsonConvert.SerializeObject(beneficiaries);
             string onlinesponsoprs = JsonConvert.SerializeObject(sponsors);
             string onlinevolcontrcarts = JsonConvert.SerializeObject(volcontracts);
+            string onlinebeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontracts);
 
             for (int i = 0; i < volunteersoffline.Count(); i++)
             {
@@ -104,6 +111,11 @@ namespace Finalaplication.Controllers
                 if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
                     volcontractcollection.InsertOne(volcontractsoffline[i]);
             }
+            for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
+            {
+                if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
+                    beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
+            }
             return RedirectToAction("Index");
         }
 
@@ -115,18 +127,21 @@ namespace Finalaplication.Controllers
             List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
             List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
             List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
+            List<Beneficiarycontract> beneficiarycontractsoffline = beneficiarycontractcollectionoffline.AsQueryable<Beneficiarycontract>().ToList();
 
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+            List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
 
             string onlinevols = JsonConvert.SerializeObject(volunteers);
             string onlineevents = JsonConvert.SerializeObject(events);
             string onlinebenefieciaries = JsonConvert.SerializeObject(beneficiaries);
             string onlinesponsoprs = JsonConvert.SerializeObject(sponsors);
             string onlinevolcontrcarts = JsonConvert.SerializeObject(volcontracts);
+            string onlinebeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontracts);
 
             for (int i = 0; i < volunteersoffline.Count(); i++)
             {
@@ -167,6 +182,13 @@ namespace Finalaplication.Controllers
                 if ((onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
                     volcontractcollection.ReplaceOne(z => z.ContractID == volcontractsoffline[i].ContractID, volcontractsoffline[i]);
             }
+            for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
+            {
+                if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
+                    beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
+                if ((onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
+                    beneficiarycontractcollection.ReplaceOne(z => z.ContractID == beneficiarycontractsoffline[i].ContractID, beneficiarycontractsoffline[i]);
+            }
             return RedirectToAction("Index");
         }
 
@@ -181,12 +203,14 @@ namespace Finalaplication.Controllers
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+                List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
 
                 dbcontextoffline.databaseoffline.DropCollection("Volunteers");
                 dbcontextoffline.databaseoffline.DropCollection("Events");
                 dbcontextoffline.databaseoffline.DropCollection("Beneficiaries");
                 dbcontextoffline.databaseoffline.DropCollection("Sponsors");
                 dbcontextoffline.databaseoffline.DropCollection("Contracts");
+                dbcontextoffline.databaseoffline.DropCollection("BeneficiariesContracts");
 
 
 
@@ -214,6 +238,10 @@ namespace Finalaplication.Controllers
                 {
                     volcontractcollectionoffline.InsertOne(volcontracts[i]);
                 }
+                for (int i = 0; i < beneficiarycontracts.Count(); i++)
+                {
+                    beneficiarycontractcollectionoffline.InsertOne(beneficiarycontracts[i]);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -233,12 +261,14 @@ namespace Finalaplication.Controllers
                 List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
                 List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
                 List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
+                List<Beneficiarycontract> beneficiarycontractsoffline = beneficiarycontractcollectionoffline.AsQueryable<Beneficiarycontract>().ToList();
 
                 dbcontext.database.DropCollection("Volunteers");
                 dbcontext.database.DropCollection("Events");
                 dbcontext.database.DropCollection("Beneficiaries");
                 dbcontext.database.DropCollection("Sponsors");
                 dbcontext.database.DropCollection("Contracts");
+                dbcontext.database.DropCollection("BeneficiariesContracts");
 
 
 
@@ -266,6 +296,10 @@ namespace Finalaplication.Controllers
                 {
                     volcontractcollection.InsertOne(volcontractsoffline[i]);
                 }
+                for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
+                {
+                    beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -281,6 +315,7 @@ namespace Finalaplication.Controllers
             try
             {
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+                List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
@@ -321,9 +356,9 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.nrofsc = sc;
 
-                foreach (var item in beneficiaries)
+                foreach (var item in beneficiarycontracts)
                 {
-                    if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                    if (item.GetDayExpiration(item.ExpirationDate) == true)
                     {
                         bc++;
                     }

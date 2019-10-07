@@ -13,11 +13,10 @@ namespace Finalaplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class BeneficiaryValuesController : ControllerBase
     {
         private MongoDBContext dbcontext;
-        private IMongoCollection<Volcontract> volcontractcollection;
-      
+        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
 
         // GET: api/Values
         [HttpGet]
@@ -25,10 +24,10 @@ namespace Finalaplication.Controllers
         {
             string blabla = "";
             dbcontext = new MongoDBContext();
-            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
+            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
 
-            var volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
-            foreach (var volcontract in volcontracts)
+            var beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
+            foreach (var volcontract in beneficiarycontracts)
             {
                 blabla = blabla + JsonConvert.SerializeObject(volcontract);
             }
@@ -41,9 +40,9 @@ namespace Finalaplication.Controllers
         {
             string jsonstring;
             dbcontext = new MongoDBContext();
-            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-            var volcontract = volcontractcollection.AsQueryable().Where(z => z.ContractID == id);
-            jsonstring = JsonConvert.SerializeObject(volcontract);
+            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            var beneficiarycontract = beneficiarycontractcollection.AsQueryable().Where(z => z.ContractID == id);
+            jsonstring = JsonConvert.SerializeObject(beneficiarycontract);
             return jsonstring ;
         }
     }

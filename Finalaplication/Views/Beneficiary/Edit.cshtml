@@ -177,10 +177,10 @@
         @Localizer["AddressInformation"]:
     </h4>
     <div class="form-group">
-        @Localizer["Country"]:
+        @Localizer["District"]:
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.Country, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.Country, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adress.District, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adress.District, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -209,7 +209,7 @@
         @Localizer["IDInformation"]:
     </h4>
     <div class="form-group">
-        @Localizer["HasID"]:
+        @Localizer["HasID"]?
         <div class="col-md-10">
             <div class="checkbox">
                 @Html.EditorFor(model => model.CI.HasId)
@@ -218,47 +218,35 @@
         </div>
     </div>
     <div class="form-group">
-        @Localizer["CIexpirationdate"]:
+        @Localizer["CISeria"]:
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CI.ICExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CI.ICExpirationDate, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.CI.CIseria, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CI.CIseria, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Localizer["CINr"]:
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CI.CINr, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CI.CINr, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Localizer["CIEliberat"]:
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CI.CIEliberat, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CI.CIEliberat, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Localizer[".CIeliberator"]:
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CI.CIeliberator, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CI.CIeliberator, "", new { @class = "text-danger" })
         </div>
     </div>
 
 
-    <h4>
-        @Localizer["Contractinformation"]:
-    </h4>
-    <div class="form-group">
-        @Localizer["HasContract"]:
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Contract.HasContract)
-                @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        @Localizer["Numberofregistration"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Localizer["Registrationdate"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Localizer["Expirationdate"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
 
 

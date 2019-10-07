@@ -33,7 +33,7 @@ namespace VolCommon
         public DateTime LastTimeActiv { get; set; }
         public string Coments { get; set; }
         public Personalinfo PersonalInfo { get; set; }
-        public Contract Contract { get; set; }
+        
 
 
         

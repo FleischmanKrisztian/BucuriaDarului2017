@@ -41,50 +41,96 @@ namespace wpfapp
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    string[] args = Environment.GetCommandLineArgs();
-                    RegisterMyProtocol(args[0]);
-                    var doc = DocX.Load(richTextBox1.Text);
-                    HttpClient httpClient = new HttpClient();
-                    args[1] = args[1].Remove(0, 6);
-                    string url = "https://localhost:44395/api/Values/" + args[1];
-                    var result = httpClient.GetStringAsync(url).Result.Normalize();
-                    result = result.Replace("[", "");
-                    result = result.Replace("]", "");
-                    volcontract volc = new volcontract();
-                    volc = JsonConvert.DeserializeObject<volcontract>(result);
-                    string phrase = volc.Address;
-                    string[] words = phrase.Split(',');
-                    doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
-                    doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
-                    doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
-                    if (volc.CNP != null)
-                        doc.ReplaceText("<CNP>", volc.CNP);
-                    if (volc.CIseria != null)
-                        doc.ReplaceText("<Seria>", volc.CIseria);
-                    if (volc.CINr != null)
-                        doc.ReplaceText("<Nr>", volc.CINr);
-                    if (volc.CIEliberat != null)
-                        doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
-                    if (volc.CIeliberator != null)
-                        doc.ReplaceText("<eliberator>", volc.CIeliberator);
-                    if (words[1] != null)
-                        doc.ReplaceText("<oras>", words[1]);
-                    if (words[2] != null)
-                        doc.ReplaceText("<str>", words[2]);
-                    if (words[3] != null)
-                        doc.ReplaceText("<nr>", words[3]);
-                    if (words[0] != null)
-                        doc.ReplaceText("<jud>", words[0]);
-                    if (volc.Nrtel != null)
-                        doc.ReplaceText("<tel>", volc.Nrtel);
-                    doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
-                    doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
+                {if(saveFileDialog1.FileName.Contains("beneficiary")==true)
+                        
+                    {
+                        string[] args = Environment.GetCommandLineArgs();
+                        RegisterMyProtocol(args[0]);
+                        var doc = DocX.Load(richTextBox1.Text);
+                        HttpClient httpClient = new HttpClient();
+                        args[1] = args[1].Remove(0, 6);
+                        string url = "https://localhost:44395/api/Values/" + args[1];
+                        var result = httpClient.GetStringAsync(url).Result.Normalize();
+                        result = result.Replace("[", "");
+                        result = result.Replace("]", "");
+                        beneficiarycontract volc = new beneficiarycontract();
+                        volc = JsonConvert.DeserializeObject<beneficiarycontract>(result);
+                        string phrase = volc.Address;
+                        string[] words = phrase.Split(',');
+                        doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
+                        doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
+                        doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
+                        if (volc.CNP != null)
+                            doc.ReplaceText("<CNP>", volc.CNP);
+                        if (volc.CIseria != null)
+                            doc.ReplaceText("<Seria>", volc.CIseria);
+                        if (volc.CINr != null)
+                            doc.ReplaceText("<Nr>", volc.CINr);
+                        if (volc.CIEliberat != null)
+                            doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
+                        if (volc.CIeliberator != null)
+                            doc.ReplaceText("<eliberator>", volc.CIeliberator);
+                        if (words[1] != null)
+                            doc.ReplaceText("<oras>", words[1]);
+                        if (words[2] != null)
+                            doc.ReplaceText("<str>", words[2]);
+                        if (words[3] != null)
+                            doc.ReplaceText("<nr>", words[3]);
+                        if (words[0] != null)
+                            doc.ReplaceText("<jud>", words[0]);
+                        if (volc.Nrtel != null)
+                            doc.ReplaceText("<tel>", volc.Nrtel);
+                        doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
+                        doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
+                        
+                        doc.SaveAs(saveFileDialog1.FileName);
+                        richTextBox2.Text = saveFileDialog1.FileName;
+                        richTextBox3.Text = "File Saved succesfully";
+                    }
+                    {
+                        string[] args = Environment.GetCommandLineArgs();
+                        RegisterMyProtocol(args[0]);
+                        var doc = DocX.Load(richTextBox1.Text);
+                        HttpClient httpClient = new HttpClient();
+                        args[1] = args[1].Remove(0, 6);
+                        string url = "https://localhost:44395/api/Values/" + args[1];
+                        var result = httpClient.GetStringAsync(url).Result.Normalize();
+                        result = result.Replace("[", "");
+                        result = result.Replace("]", "");
+                        volcontract volc = new volcontract();
+                        volc = JsonConvert.DeserializeObject<volcontract>(result);
+                        string phrase = volc.Address;
+                        string[] words = phrase.Split(',');
+                        doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
+                        doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
+                        doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
+                        if (volc.CNP != null)
+                            doc.ReplaceText("<CNP>", volc.CNP);
+                        if (volc.CIseria != null)
+                            doc.ReplaceText("<Seria>", volc.CIseria);
+                        if (volc.CINr != null)
+                            doc.ReplaceText("<Nr>", volc.CINr);
+                        if (volc.CIEliberat != null)
+                            doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
+                        if (volc.CIeliberator != null)
+                            doc.ReplaceText("<eliberator>", volc.CIeliberator);
+                        if (words[1] != null)
+                            doc.ReplaceText("<oras>", words[1]);
+                        if (words[2] != null)
+                            doc.ReplaceText("<str>", words[2]);
+                        if (words[3] != null)
+                            doc.ReplaceText("<nr>", words[3]);
+                        if (words[0] != null)
+                            doc.ReplaceText("<jud>", words[0]);
+                        if (volc.Nrtel != null)
+                            doc.ReplaceText("<tel>", volc.Nrtel);
+                        doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
+                        doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
                         doc.ReplaceText("<hourcount>", volc.HourCount.ToString());
-                    doc.SaveAs(saveFileDialog1.FileName);
-                    richTextBox2.Text = saveFileDialog1.FileName;
-                    richTextBox3.Text = "File Saved succesfully";
-
+                        doc.SaveAs(saveFileDialog1.FileName);
+                        richTextBox2.Text = saveFileDialog1.FileName;
+                        richTextBox3.Text = "File Saved succesfully";
+                    }
                 }
             }
             catch
