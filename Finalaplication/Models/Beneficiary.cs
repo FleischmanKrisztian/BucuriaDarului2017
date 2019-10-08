@@ -15,15 +15,7 @@ namespace Finalaplication.Models
         public string BeneficiaryID { get; set; }
 
 
-        public static int Benefxp(Beneficiary beneficiary)
-        {
-            int benefexp;
-            {
-                benefexp = (beneficiary.Contract.ExpirationDate.Month - 1) * 30 + beneficiary.Contract.ExpirationDate.Day;
-            }
-            return benefexp;
-
-        }
+       
         public bool GetDayExpiration(DateTime date)
         {
             var now = DateTime.Now;

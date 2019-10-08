@@ -138,10 +138,10 @@
     </h3>
     <dl class="row">
         <dt class="col-sm-4">
-            @Localizer["Country"]:
+            @Localizer["District"]:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Adress.Country)
+            @Html.DisplayFor(model => model.Adress.District)
         </dd>
         <dt class="col-sm-4">
             @Localizer["City"]:
@@ -166,48 +166,38 @@
         @Localizer["IDInformation"]:
     </h3>
     <dl class="row">
-        <dt class="col-sm-4">
-            @Localizer["HasID"]:
+        <dt class="col-sm-2">
+            @Localizer["HasID"]
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CI.HasId)
         </dd>
-        <dt class="col-sm-4">
-            @Localizer["IDexpirationdate"]:
+        <dt class="col-sm-2">
+            @Localizer["CIseria"]:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CI.ICExpirationDate)
+            @Html.DisplayFor(model => model.CI.CIseria)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["CINr"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CI.CINr)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["CIEliberat"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CI.CIEliberat)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["CIeliberator"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CI.CIeliberator)
         </dd>
     </dl>
-    <h3>
-        @Localizer["Contractinformation"]
-    </h3>
-    <dl class="row">
-        <dt class="col-sm-4">
-            @Localizer["HasContract"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.HasContract)
-        </dd>
-        <dt class="col-sm-4">
-            @Localizer["Numberofregistration"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.NumberOfRegistration)
-        </dd>
-        <dt class="col-sm-4">
-            @Localizer["Registrationdate"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.RegistrationDate)
-        </dd>
-        <dt class="col-sm-4">
-            @Localizer["Expirationdate"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.ExpirationDate)
-        </dd>
-    </dl>
+    
     <h3>
         @Localizer["Marcadetails"]
     </h3>

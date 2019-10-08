@@ -1,0 +1,61 @@
+﻿@model Finalaplication.Models.Beneficiarycontract
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Create";
+    string idofbeneficiary = ViewBag.idofbeneficiary;
+}
+
+<h1>@Localizer["Create"]</h1>
+
+<h4>@Localizer["beneficiary contract"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <input type="hidden" name="idofbeneficiary" value="@idofbeneficiary" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Localizer["NumberOfRegistration"]:
+                <input asp-for="NumberOfRegistration" class="form-control" />
+                <span asp-validation-for="NumberOfRegistration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Localizer["RegistrationDate"]:
+                <input asp-for="RegistrationDate" class="form-control" />
+                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Localizer["ExpirationDate"]:
+                <input asp-for="ExpirationDate" class="form-control" />
+                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <style>
+        .button {
+            background-color: dodgerblue;
+            border: none;
+            color: white;
+            padding: 10px 28px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            border-radius: 12%;
+        }
+    </style>
+    <a href=@Url.Action( "Index" ,new { idofbeneficiary }) class="button button1">@Localizer["BackToList"]</a>
+</div>
+

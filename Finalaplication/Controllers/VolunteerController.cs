@@ -55,7 +55,7 @@ namespace Finalaplication.Controllers
                             Volunteer.Additionalinfo.HasCar.ToString(),
                             Volunteer.Additionalinfo.HasDrivingLicence.ToString(),
                             Volunteer.Additionalinfo.Remark,
-                            Volunteer.Address.Country,
+                            Volunteer.Address.District,
                             Volunteer.Address.City,
                             Volunteer.Address.Number,
                             Volunteer.Address.Street,
@@ -73,7 +73,7 @@ namespace Finalaplication.Controllers
 
             }
            );
-            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,Country,City,Number,Street,MailAddres,PhoneNumber\n");
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
             return RedirectToAction("Index");
 
@@ -293,7 +293,7 @@ namespace Finalaplication.Controllers
                             .Set("Firstname", volunteer.Firstname)
                             .Set("Lastname", volunteer.Lastname)
                             .Set("Birthdate", volunteer.Birthdate.AddHours(5))
-                            .Set("Address.Country", volunteer.Address.Country)
+                            .Set("Address.District", volunteer.Address.District)
                             .Set("Address.City", volunteer.Address.City)
                             .Set("Address.Street", volunteer.Address.Street)
                             .Set("Address.Number", volunteer.Address.Number)

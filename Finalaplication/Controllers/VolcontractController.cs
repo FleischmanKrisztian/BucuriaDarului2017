@@ -67,7 +67,7 @@ namespace Finalaplication.Controllers
                     volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
                     volcontract.Hourcount = vol.HourCount;
                     volcontract.CIeliberator = vol.CIeliberator;
-                    volcontract.Address = vol.Address.Country + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
+                    volcontract.Address = vol.Address.District + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
                     volcontract.OwnerID = idofvol;
                     volcontractcollection.InsertOne(volcontract);
                     return RedirectToAction("Index", new { idofvol });
