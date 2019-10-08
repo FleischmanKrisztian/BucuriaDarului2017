@@ -14,12 +14,14 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Volcontract> volcontractcollection;
         private IMongoCollection<Volunteer> volunteercollection;
+        private readonly IMongoCollection<Settings> settingcollection;
 
         public VolcontractController()
         {
             dbcontext = new MongoDBContext();
             volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
             volunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+            settingcollection = dbcontext.database.GetCollection<Settings>("Settings");
         }
 
         [HttpGet]
@@ -30,13 +32,38 @@ namespace Finalaplication.Controllers
             volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
             ViewBag.nameofvol = vol.Firstname + " " + vol.Lastname; 
             ViewBag.idofvol = idofvol;
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volcontracts);
         }
 
         public ActionResult ContractExp()
         {
             List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volcontracts);
         }
 
@@ -44,6 +71,19 @@ namespace Finalaplication.Controllers
         public ActionResult Create(string id)
         {
             ViewBag.idofvol = id;
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
@@ -70,6 +110,19 @@ namespace Finalaplication.Controllers
                     volcontract.Address = vol.Address.District + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
                     volcontract.OwnerID = idofvol;
                     volcontractcollection.InsertOne(volcontract);
+                    try
+                    {
+                        Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                        if (sett.Env == "offline")
+                            ViewBag.env = "offline";
+                        else
+                            ViewBag.env = "online";
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Localserver");
+                    }
                     return RedirectToAction("Index", new { idofvol });
                 }
             }
@@ -84,7 +137,19 @@ namespace Finalaplication.Controllers
         public ActionResult Print(string id)
         {
             var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(contract);
         }
 
@@ -93,6 +158,19 @@ namespace Finalaplication.Controllers
         {
             var contractid = new ObjectId(id);
             var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(contract);
         }
 

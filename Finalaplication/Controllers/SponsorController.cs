@@ -72,7 +72,10 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index(string searching, int page)
         {
-            ViewBag.Page = page;
+            if (page > 0)
+                ViewBag.Page = page;
+            else
+                ViewBag.Page = 1;
             List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
             if (searching != null)
             {
@@ -84,22 +87,73 @@ namespace Finalaplication.Controllers
             ViewBag.nrofdocs = nrofdocs;
             sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(sponsors);
         }
 
         public ActionResult ContractExp()
         {
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(sponsors);
         }
         public ActionResult Details(string id)
         {
             var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(sponsor);
         }
         public ActionResult Create()
         {
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
@@ -116,6 +170,19 @@ namespace Finalaplication.Controllers
                     sponsor.Contract.RegistrationDate = sponsor.Contract.RegistrationDate.AddHours(5);
                     sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
                     sponsorcollection.InsertOne(sponsor);
+                    try
+                    {
+                        Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                        if (sett.Env == "offline")
+                            ViewBag.env = "offline";
+                        else
+                            ViewBag.env = "online";
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Localserver");
+                    }
                     return RedirectToAction("Index");
                 }
                 else return View();
@@ -130,6 +197,19 @@ namespace Finalaplication.Controllers
             var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             Sponsor originalsavedvol = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(sponsor);
         }
 
@@ -162,6 +242,19 @@ namespace Finalaplication.Controllers
                         .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
                          .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
                     var result = sponsorcollection.UpdateOne(filter, update);
+                        try
+                        {
+                            Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                            if (sett.Env == "offline")
+                                ViewBag.env = "offline";
+                            else
+                                ViewBag.env = "online";
+                        }
+                        catch
+                        {
+                            return RedirectToAction("Localserver");
+                        }
                         return RedirectToAction("Index");
                     }
                     else return View();
@@ -181,6 +274,19 @@ namespace Finalaplication.Controllers
         public ActionResult Delete(string id)
         {
             var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(sponsor);
         }
 

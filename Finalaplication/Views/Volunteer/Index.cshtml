@@ -8,48 +8,50 @@
 @inject IOptions<RequestLocalizationOptions> LocalizationOptions
 @{
     ViewBag.Title = Localizer["Volunteers"];
+    int currentpage = ViewBag.Page;
 }
 
 
 <head>
     <style>
 
+        <style >
+
+        .pagination {
+            display: inline-block;
+            width: 800px;
+        }
+
         .pagination a {
             color: black;
             float: left;
             padding: 8px 16px;
             text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #ddd; /* Gray */
+            transition: background-color .3s;
         }
 
-            .pagination a:active {
-                background-color: #4CAF50;
-                color: white;
-            }
-
             .pagination a.active {
-                background-color: #4CAF50;
-                color: white;
+                background-color: red;
+                color: red;
+                border-radius: 5px;
             }
-
-                .pagination a.active:current {
-                    background-color: #4CAF50;
-                    color: white;
-                }
 
             .pagination a:hover:not(.active) {
                 background-color: #ddd;
             }
 
-        .ten {
-            width: 10%;
-        }
-        .twentyfive {
-            width: 25%;
-        }
+            .pagination a:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
 
-        .td {
-            width: 30%;
-        }
+            .pagination a:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+    </style>
 
     </style>
 </head>
@@ -70,64 +72,99 @@
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-3">
-                @Localizer["Name"]:
-            </div>
-            <div class="col-1">
-                @Localizer["Active"]?
-            </div>
-            <div class="col-1">
-                @Localizer["HasCar"]
-            </div>
-            <div class="col-3">
-                @Localizer["BornAfter"]:
-            </div>
-            <div class="col-3">
-                @Localizer["BornBefore"]:
-            </div>
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-3">
+            @Localizer["Name"]:
         </div>
-        <div class="row align-items-center">
-            <div class="col-3">
-                @Html.TextBox("searching")
-            </div>
-            <div class="col-1">
-                @Html.CheckBox("Active")
-            </div>
-                <div class="col-1">
-                    @Html.CheckBox("HasCar")
-                </div>
-                <div class="col-3">
-                    <input type="date" name="lowerdate">
-                </div>
-                <div class="col-3">
-                    <input type="date" name="upperdate">
-                </div>
-
-            </div>
-        <div class="row align-items-center">
-            <div class="col-md-auto">
-                <br />
-                <input type="submit" value=@Localizer["Search"] class="btn-primary">
-            </div>
+        <div class="col-1">
+            @Localizer["Active"]?
+        </div>
+        <div class="col-1">
+            @Localizer["HasCar"]
+        </div>
+        <div class="col-3">
+            @Localizer["BornAfter"]:
+        </div>
+        <div class="col-3">
+            @Localizer["BornBefore"]:
         </div>
     </div>
-    <p>
-        <div class="pagination">
-            @{
-                int x = 1;
-                for (int i = 0; i < ViewBag.counter; i++)
-                {
-                    if (i == 0 || i % ViewBag.nrofdocs == 0)
-                    {
-                        @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                        x++;
-                    }
-                }
-            }
+    <div class="row align-items-center">
+        <div class="col-3">
+            @Html.TextBox("searching")
         </div>
-    </p>
+        <div class="col-1">
+            @Html.CheckBox("Active")
+        </div>
+        <div class="col-1">
+            @Html.CheckBox("HasCar")
+        </div>
+        <div class="col-3">
+            <input type="date" name="lowerdate">
+        </div>
+        <div class="col-3">
+            <input type="date" name="upperdate">
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row align-items-center">
+        <br />
+        <button type="submit" class="btn btn-info">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+        </button>
+    </div>
+    <br />
+</div>
+
+<p>
+    <div class="pagination">
+        <pre style="white-space:pre-wrap;">
+            @{ 
+                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
+                if (ViewBag.counter % ViewBag.nrofdocs == 0)
+                {
+                    maxpage--;
+                }
+
+
+                @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                if(currentpage>=5)
+                {
+                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage>3)
+                {
+                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage>2)
+                {
+                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage!=1 && currentpage!= maxpage)
+                {
+                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage<maxpage-1)
+                {
+                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage<maxpage-2)
+                {
+                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage<maxpage-3)
+                {
+                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+
+            }
+            </pre>
+    </div>
+</p>
 }
 
 <table class="table">

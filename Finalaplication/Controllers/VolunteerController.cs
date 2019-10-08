@@ -22,8 +22,8 @@ namespace Finalaplication.Controllers
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Volcontract> volcontractcollection;
-
         private readonly IMongoCollection<Settings> settingcollection;
+
         public VolunteerController()
         {
             dbcontextoffline = new MongoDBContextOffline();
@@ -89,7 +89,10 @@ namespace Finalaplication.Controllers
             ViewBag.lang = lang;
             ViewBag.searching = searching;
             ViewBag.active = Active;
-            ViewBag.Page = page;
+            if (page > 0)
+                ViewBag.Page = page;
+            else
+                ViewBag.Page = 1;
             ViewBag.SortOrder = sortOrder;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
@@ -163,17 +166,25 @@ namespace Finalaplication.Controllers
                     volunteers = volunteers.OrderBy(s => s.Firstname).ToList();
                     break;
             }
-       //     Response.Cookies.Append(
-       //    CookieRequestCultureProvider.DefaultCookieName,
-       //    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
-       //    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-       //);
             ViewBag.counter = volunteers.Count();
             Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
             int nrofdocs = set.Quantity;
             ViewBag.nrofdocs = nrofdocs;
             volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
+            try
+            {
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (sett.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volunteers);
         }
 
@@ -181,11 +192,37 @@ namespace Finalaplication.Controllers
         public ActionResult Birthday()
         {
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volunteers);
         }
 
         public ActionResult Contracts(string id)
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return RedirectToAction("Index","Volcontract", new { idofvol = id });
         }
 
@@ -196,13 +233,39 @@ namespace Finalaplication.Controllers
         var volunteerId = new ObjectId(id);
         var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
 
-        return View(volunteer);
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
+            return View(volunteer);
         }
 
         // GET: Volunteer/Create
         [HttpGet]
         public ActionResult Create()
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
@@ -241,13 +304,21 @@ namespace Finalaplication.Controllers
                 //return View();
                 ModelState.AddModelError("", "Unable to save changes! ");
             }
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volunteer);
         }
-
-        //public ActionResult Volunteerwarning()
-        //{
-        //    return View();
-        //}
 
 
         // GET: Volunteer/Edit/5
@@ -257,7 +328,19 @@ namespace Finalaplication.Controllers
             Volunteer originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
             ViewBag.id = id;
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volunteer);
         }
 
@@ -314,12 +397,39 @@ namespace Finalaplication.Controllers
                             .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
                             .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
                         var result = vollunteercollection.UpdateOne(filter, update);
+                        try
+                        {
+                            Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                            if (set.Env == "offline")
+                                ViewBag.env = "offline";
+                            else
+                                ViewBag.env = "online";
+                        }
+                        catch
+                        {
+                            return RedirectToAction("Localserver");
+                        }
                         return RedirectToAction("Index");
                     }
+
                     else return View();
                 }
                 else
                 {
+                    try
+                    {
+                        Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                        if (set.Env == "offline")
+                            ViewBag.env = "offline";
+                        else
+                            ViewBag.env = "online";
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Localserver");
+                    }
                     return View("Volunteerwarning");
                 }
             }
@@ -334,7 +444,21 @@ namespace Finalaplication.Controllers
         {
             var volunteerId = new ObjectId(id);
             var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View(volunteer);
+           
         }
 
         // POST: Volunteer/Delete/5
@@ -356,12 +480,38 @@ namespace Finalaplication.Controllers
                     var update = Builders<Volunteer>.Update
                         .Set("InActivity", volunteer.InActivity);
                     var result = vollunteercollection.UpdateOne(filter, update);
+                    try
+                    {
+                        Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                        if (set.Env == "offline")
+                            ViewBag.env = "offline";
+                        else
+                            ViewBag.env = "online";
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Localserver");
+                    }
                     return RedirectToAction("Index");
                 }
 
             }
             catch
             {
+                try
+                {
+                    Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                    if (set.Env == "offline")
+                        ViewBag.env = "offline";
+                    else
+                        ViewBag.env = "online";
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 return View();
             }
         }
