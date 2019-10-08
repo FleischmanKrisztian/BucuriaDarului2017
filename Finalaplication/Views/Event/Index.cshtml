@@ -101,7 +101,10 @@
                 {
                     @Html.ActionLink(">>", "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                 }
-                @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                 if(maxpage!=1)
+                {
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
 
             }
             </pre>
