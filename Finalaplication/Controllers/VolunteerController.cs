@@ -89,7 +89,10 @@ namespace Finalaplication.Controllers
             ViewBag.lang = lang;
             ViewBag.searching = searching;
             ViewBag.active = Active;
-            ViewBag.Page = page;
+            if (page > 0)
+                ViewBag.Page = page;
+            else
+                ViewBag.Page = 1;
             ViewBag.SortOrder = sortOrder;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;

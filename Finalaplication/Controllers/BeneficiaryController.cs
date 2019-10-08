@@ -112,7 +112,10 @@ namespace Finalaplication.Controllers
             ViewBag.searching = searching;
             ViewBag.active = Active;
             ViewBag.hascontract = HasContract;
+            if (page>0)
             ViewBag.Page = page;
+            else
+            ViewBag.Page = 1;
             ViewBag.Upperdate = upperdate;
             ViewBag.Lowerdate = lowerdate;
             ViewBag.Homeless = Homeless;

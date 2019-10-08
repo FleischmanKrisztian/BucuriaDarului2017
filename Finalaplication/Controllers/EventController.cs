@@ -79,6 +79,10 @@ namespace Finalaplication.Controllers
 
         public ActionResult Index(string searching, int page)
         {
+            if (page > 0)
+                ViewBag.Page = page;
+            else
+                ViewBag.Page = 1;
             List<Event> events = eventcollection.AsQueryable().ToList();
             if (searching != null)
             {

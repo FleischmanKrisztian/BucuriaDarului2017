@@ -3,25 +3,45 @@
 @inject IViewLocalizer Localizer
 @{
     ViewBag.Title = "Index";
+    int currentpage = ViewBag.Page;
 }
 <head>
     <style>
 
-        .pagination a {
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
+        .pagination {
+            display: inline-block;
+            width: 800px;
         }
 
-            .pagination a.active {
-                background-color: #4CAF50;
-                color: red;
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                border-radius: 5px;
+                border: 1px solid #ddd; /* Gray */
+                transition: background-color .3s;
             }
 
-            .pagination a:hover:not(.active) {
-                background-color: #ddd;
-            }
+                .pagination a.active {
+                    background-color: red;
+                    color: red;
+                    border-radius: 5px;
+                }
+
+                .pagination a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+
+                .pagination a:first-child {
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                }
+
+                .pagination a:last-child {
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                }
     </style>
 </head>
 
@@ -35,27 +55,60 @@
 
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" class="btn btn-primary" value=@Localizer["Search"] />
+    @Html.TextBox("searching")
+    <button type="submit" class="btn btn-info">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+    </button>
+
+    <p>
+        <div class="pagination">
+            <pre style="white-space:pre-wrap;">
+            @{ 
+                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
+                if (ViewBag.counter % ViewBag.nrofdocs == 0)
+                {
+                    maxpage--;
+                }
+
+
+                @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                if(currentpage>=5)
+                {
+                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage>3)
+                {
+                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage>2)
+                {
+                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage!=1 && currentpage!= maxpage)
+                {
+                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage<maxpage-1)
+                {
+                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage<maxpage-2)
+                {
+                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                if(currentpage<maxpage-3)
+                {
+                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                }
+                @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+
+            }
+            </pre>
+        </div>
+    </p>
 }
 
-<br />
 
-<div class="pagination">
-    <pre style="white-space:pre-wrap;">
-    @{
-        int x = 1;
-        for (int i = 0; i < ViewBag.counter; i++)
-        {
-            if (i == 0 || i % ViewBag.nrofdocs == 0)
-            {
-                @Html.ActionLink(x.ToString(), "Index", new { page = x, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
-                x++;
-            }
-        }
-    }
-    </pre>
-</div>
-<br />
 <table class="table">
     <thead>
         <tr>

@@ -72,7 +72,10 @@ namespace Finalaplication.Controllers
 
         public IActionResult Index(string searching, int page)
         {
-            ViewBag.Page = page;
+            if (page > 0)
+                ViewBag.Page = page;
+            else
+                ViewBag.Page = 1;
             List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
             if (searching != null)
             {
