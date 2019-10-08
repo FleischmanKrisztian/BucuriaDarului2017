@@ -41,7 +41,7 @@ namespace wpfapp
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {if(saveFileDialog1.FileName.Contains("beneficiary")==true)
+                {if(richTextBox1.Text.Contains("beneficiary")==true)
                         
                     {
                         string[] args = Environment.GetCommandLineArgs();
@@ -49,7 +49,7 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 6);
-                        string url = "https://localhost:44395/api/Values/" + args[1];
+                        string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
@@ -86,7 +86,7 @@ namespace wpfapp
                         doc.SaveAs(saveFileDialog1.FileName);
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
-                    }
+                    }else
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
@@ -164,6 +164,11 @@ namespace wpfapp
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
         {
 
         }

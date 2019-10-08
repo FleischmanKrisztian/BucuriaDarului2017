@@ -27,15 +27,15 @@ namespace Finalaplication.Controllers
             beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
 
             var beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
-            foreach (var volcontract in beneficiarycontracts)
+            foreach (var beneficiarycontract in beneficiarycontracts)
             {
-                blabla = blabla + JsonConvert.SerializeObject(volcontract);
+                blabla = blabla + JsonConvert.SerializeObject(beneficiarycontract);
             }
             return new string[] { blabla };
         }
 
         // GET: api/Values/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "Getbeneficiary")]
         public string Get(string id)
         {
             string jsonstring;

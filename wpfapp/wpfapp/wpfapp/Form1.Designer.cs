@@ -62,6 +62,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(467, 23);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged_1);
             // 
             // richTextBox2
             // 

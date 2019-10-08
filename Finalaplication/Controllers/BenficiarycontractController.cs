@@ -19,7 +19,7 @@ namespace Finalaplication.Controllers
         {
             dbcontext = new MongoDBContext();
             beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiary");
+            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
         }
 
         [HttpGet]
@@ -28,8 +28,8 @@ namespace Finalaplication.Controllers
             List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
             Beneficiary benenficiary  = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
             benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
-            ViewBag.nameofvol = benenficiary.Firstname + " " + benenficiary.Lastname; 
-            ViewBag.idofvol = idofbeneficiary;
+            ViewBag.nameofbeneficiary = benenficiary.Firstname + " " + benenficiary.Lastname; 
+            ViewBag.idofbeneficiary = idofbeneficiary;
             return View(benficiarycontracts);
         }
 
@@ -43,7 +43,7 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult Create(string id)
         {
-            ViewBag.idofbeenficiary = id;
+            ViewBag.idofbeneficiary = id;
             return View();
         }
 
