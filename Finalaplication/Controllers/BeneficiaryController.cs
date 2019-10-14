@@ -59,7 +59,7 @@ namespace Finalaplication.Controllers
                             Beneficiary.CNP,
                             Beneficiary.CI.HasId.ToString(),
                             Beneficiary.CI.CIseria,
-                            Beneficiary.CI.CINr.ToString(),
+                            Beneficiary.CI.CINr,
                             Beneficiary.CI.CIEliberat.ToString(),
                             Beneficiary.CI.CIeliberator,
                             Beneficiary.Marca.IdAplication.ToString(),
