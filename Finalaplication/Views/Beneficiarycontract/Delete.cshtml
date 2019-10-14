@@ -40,25 +40,7 @@
         <div class="form-actions no-color">
             <input type="hidden" name="idofbeneficiary" value="@idofbeneficiary" />
             <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
-            <style>
-                .button {
-                    background-color: dodgerblue;
-                    border: none;
-                    color: white;
-                    padding: 10px 28px;
-                    text-align: center;
-                    text-decoration: none;
-                    display: inline-block;
-                    font-size: 14px;
-                    margin: 4px 2px;
-                    cursor: pointer;
-                }
-
-                .button1 {
-                    border-radius: 12%;
-                }
-            </style>
-            <a href=@Url.Action( "Index", new { idofbeneficiary = idofbeneficiary } ) class="button button1">@Localizer["BackToList"]</a>
+            <a href=@Url.Action( "Index", new { idofbeneficiary = idofbeneficiary } ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     }
 </div>
