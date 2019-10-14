@@ -382,7 +382,10 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("Localserver");
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                set.Env = "offline";
+                settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
+                return RedirectToAction("Index");
             }
         }
 
