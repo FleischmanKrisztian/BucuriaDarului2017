@@ -44,9 +44,9 @@
                 }
     </style>
 </head>
-<h1>
-    @Localizer["Beneficiaries"]
-</h1>
+<h2>
+    @Localizer["Beneficiaries"] <small> (@ViewBag.counter)</small>
+</h2>
 
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
@@ -102,7 +102,7 @@
             <pre style="white-space:pre-wrap;">
             @{ 
                 int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
-                if (ViewBag.counter % ViewBag.nrofdocs == 0)
+                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
                 {
                     maxpage--;
                 }

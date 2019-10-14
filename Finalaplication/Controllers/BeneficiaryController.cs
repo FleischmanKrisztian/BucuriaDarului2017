@@ -261,6 +261,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
                 ModelState.Remove("Marca.IdAplication");
+                ModelState.Remove("CI.CIEliberat");
                 ModelState.Remove("Marca.IdContract");
                 ModelState.Remove("Marca.IdInvestigation");
                 ModelState.Remove("NumberOfPortions");

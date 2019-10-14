@@ -279,6 +279,7 @@ namespace Finalaplication.Controllers
 
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
+                ModelState.Remove("CIEliberat");
                 if (ModelState.IsValid)
                 {
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);

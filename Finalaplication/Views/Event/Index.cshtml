@@ -47,7 +47,7 @@
 
 
 <h2>
-    @Localizer["Events"]
+    @Localizer["Events"] <small> (@ViewBag.counter)</small>
 </h2>
 
 <p>
@@ -66,7 +66,7 @@
             <pre style="white-space:pre-wrap;">
             @{ 
                 int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
-                if (ViewBag.counter % ViewBag.nrofdocs == 0)
+                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
                 {
                     maxpage--;
                 }
