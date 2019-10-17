@@ -347,5 +347,9 @@
   </data>
   <data name="District" xml:space="preserve">
     <value>District</value>
+    <value>Number</value>
+  </data>
+  <data name="CISeria" xml:space="preserve">
+    <value>Series</value>
   </data>
 </root>

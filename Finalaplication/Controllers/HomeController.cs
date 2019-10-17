@@ -310,7 +310,7 @@ namespace Finalaplication.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(int failcounter)
         {
             try
             {
@@ -382,28 +382,21 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-                set.Env = "offline";
-                settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
-                return RedirectToAction("Index");
+                if (failcounter == 0)
+                {
+                    Settings sett = new Settings();
+                    sett.Env = "offline";
+                    sett.Lang = "English";
+                    sett.Quantity = 15;
+                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
+                    return RedirectToAction("Index", new { failcounter = 1 });
+                }
+                else return RedirectToAction("Localserver");
             }
         }
 
         public IActionResult Localserver()
         {
-            try
-            {
-                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (set.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
-            }
-            catch
-            {
-                return RedirectToAction("Localserver");
-            }
             return View();
         }
 

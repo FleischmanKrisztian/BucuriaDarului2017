@@ -350,5 +350,7 @@
   </data>
   <data name="District" xml:space="preserve">
     <value>District</value>
+    <value>Number</value>
   </data>
+  
 </root>
