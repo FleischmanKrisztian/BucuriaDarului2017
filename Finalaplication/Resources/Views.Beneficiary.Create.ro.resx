@@ -333,4 +333,19 @@
   <data name="Weeklypackage" xml:space="preserve">
     <value>Pachet săptămânal</value>
   </data>
+  <data name="CIEliberat" xml:space="preserve">
+    <value>Data eliberării carții de identitate</value>
+  </data>
+  <data name="CIeliberator" xml:space="preserve">
+    <value>Emisă de</value>
+  </data>
+  <data name="CINr" xml:space="preserve">
+    <value>Număr carte de identitate</value>
+  </data>
+  <data name="CISeria" xml:space="preserve">
+    <value>Serie carte de identitate</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>Municipiul</value>
+  </data>
 </root>

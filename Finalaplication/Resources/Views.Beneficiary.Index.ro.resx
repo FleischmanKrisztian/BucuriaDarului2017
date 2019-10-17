@@ -336,4 +336,10 @@
   <data name="Beneficiaries" xml:space="preserve">
     <value>Beneficiari</value>
   </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>Contracte</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>Municipiul</value>
+  </data>
 </root>

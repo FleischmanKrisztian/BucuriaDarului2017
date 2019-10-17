@@ -195,4 +195,7 @@
   <data name="Emailaddress" xml:space="preserve">
     <value>Email address</value>
   </data>
+  <data name="District" xml:space="preserve">
+    <value>District</value>
+  </data>
 </root>

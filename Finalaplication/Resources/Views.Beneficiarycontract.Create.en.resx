@@ -117,85 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Active" xml:space="preserve">
-    <value>Activ</value>
-  </data>
-  <data name="Avatar" xml:space="preserve">
-    <value>Poză de profil</value>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
   </data>
   <data name="BackToList" xml:space="preserve">
-    <value>Înapoi la listă</value>
+    <value>Back To List</value>
   </data>
-  <data name="Birthdate" xml:space="preserve">
-    <value>Data nașterii</value>
-  </data>
-  <data name="City" xml:space="preserve">
-    <value>Oraș</value>
+  <data name="beneficiarycontract" xml:space="preserve">
+    <value>Beneficiary contract</value>
   </data>
   <data name="CNP" xml:space="preserve">
     <value>CNP</value>
   </data>
-  <data name="Country" xml:space="preserve">
-    <value>Județ</value>
+  <data name="ContractExpirations" xml:space="preserve">
+    <value>Contract Expirations</value>
   </data>
-  <data name="Desiredarea" xml:space="preserve">
-    <value>Aria de lucru dorită</value>
+  <data name="Contractsof" xml:space="preserve">
+    <value>Contracts of</value>
   </data>
-  <data name="Emailaddrss" xml:space="preserve">
-    <value>Adresă de email</value>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
   </data>
-  <data name="Female" xml:space="preserve">
-    <value>Feminin</value>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create New</value>
   </data>
-  <data name="Fieldofactivity" xml:space="preserve">
-    <value>Domeniul de activitate</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="Firstname" xml:space="preserve">
-    <value>Prenume</value>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Expiration Date</value>
   </data>
-  <data name="Gender" xml:space="preserve">
-    <value>Gen</value>
+  <data name="Fullname" xml:space="preserve">
+    <value>Full name</value>
   </data>
-  <data name="Hascar" xml:space="preserve">
-    <value>Mașină?</value>
+  <data name="Message" xml:space="preserve">
+    <value>Are you sure you want to delete this?</value>
   </data>
-  <data name="Hasdrivinglicence" xml:space="preserve">
-    <value>Permis de conducere?</value>
+  <data name="NumberOfRegistration" xml:space="preserve">
+    <value>Number Of Registration</value>
   </data>
-  <data name="Hourcount" xml:space="preserve">
-    <value>Program de lucru (ore)</value>
+  <data name="OwnerID" xml:space="preserve">
+    <value>OwnerID</value>
   </data>
-  <data name="Lastname" xml:space="preserve">
-    <value>Nume de familie</value>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
   </data>
-  <data name="Male" xml:space="preserve">
-    <value>Masculin</value>
+  <data name="RegistrationDate" xml:space="preserve">
+    <value>Registration Date</value>
   </data>
-  <data name="Number" xml:space="preserve">
-    <value>Numărul</value>
-  </data>
-  <data name="Occupation" xml:space="preserve">
-    <value>Ocupația</value>
-  </data>
-  <data name="Phonenumber" xml:space="preserve">
-    <value>Numărul de telefon</value>
-  </data>
-  <data name="Remarks" xml:space="preserve">
-    <value>Observații</value>
-  </data>
-  <data name="Street" xml:space="preserve">
-    <value>Strada</value>
-  </data>
-  <data name="Volunteer" xml:space="preserve">
-    <value>Voluntar</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>Detalii</value>
-  </data>
-  <data name="Emailaddress" xml:space="preserve">
-    <value>Adresă de email</value>
-  </data>
-  <data name="District" xml:space="preserve">
-    <value>Municipiul</value>
+  <data name="Volcontract" xml:space="preserve">
+    <value>Volunteer's contract</value>
   </data>
 </root>

@@ -117,59 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Active" xml:space="preserve">
-    <value>Activ</value>
-  </data>
-  <data name="Addictions" xml:space="preserve">
-    <value>Dependențe</value>
-  </data>
-  <data name="AddressInformation" xml:space="preserve">
-    <value>Informații despre adresă</value>
+  <data name="Address" xml:space="preserve">
+    <value>Adresă</value>
   </data>
   <data name="BackToList" xml:space="preserve">
     <value>Înapoi la listă</value>
   </data>
-  <data name="Beneficiary" xml:space="preserve">
-    <value>Beneficiar</value>
-  </data>
-  <data name="Birthdate" xml:space="preserve">
-    <value>Data nașterii</value>
-  </data>
-  <data name="Birthplace" xml:space="preserve">
-    <value>Locul nașterii</value>
-  </data>
-  <data name="BornAfter" xml:space="preserve">
-    <value>Născut după data de </value>
-  </data>
-  <data name="BornBefore" xml:space="preserve">
-    <value>Născut înainte de data de</value>
-  </data>
-  <data name="Canteen" xml:space="preserve">
-    <value>Cantină</value>
-  </data>
-  <data name="Chroniccondition" xml:space="preserve">
-    <value>Boli cronice</value>
-  </data>
-  <data name="CIexpirationdate" xml:space="preserve">
-    <value>Data expirarii actului de identitate</value>
-  </data>
-  <data name="City" xml:space="preserve">
-    <value>Oraș</value>
-  </data>
   <data name="CNP" xml:space="preserve">
     <value>CNP</value>
   </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Observații</value>
+  <data name="ContractExpirations" xml:space="preserve">
+    <value>Data expirării contractului</value>
   </data>
-  <data name="ContractExpiraton" xml:space="preserve">
-    <value>Expirarea contractelor benficiarilor</value>
-  </data>
-  <data name="Contractinformation" xml:space="preserve">
-    <value>Informații despre contract</value>
-  </data>
-  <data name="Country" xml:space="preserve">
-    <value>Țară</value>
+  <data name="Contractsof" xml:space="preserve">
+    <value>Contractele beneficiarului:</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Crează</value>
@@ -180,157 +141,34 @@
   <data name="Delete" xml:space="preserve">
     <value>Șterge</value>
   </data>
-  <data name="DeleteMessage" xml:space="preserve">
-    <value>Ești sigur că vrei să ștergi acet document?</value>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Data expirării contractului</value>
   </data>
-  <data name="Details" xml:space="preserve">
-    <value>Detalii</value>
+  <data name="Fullname" xml:space="preserve">
+    <value>Numele</value>
   </data>
-  <data name="Disability" xml:space="preserve">
-    <value>Dizabilități</value>
+  <data name="Message" xml:space="preserve">
+    <value>Sunteți sigur că doriți să ștergeți acest voluntar?</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Editează</value>
+  <data name="NumberOfRegistration" xml:space="preserve">
+    <value>Numărul de înregistrare</value>
   </data>
-  <data name="Expenses" xml:space="preserve">
-    <value>Cheltuieli</value>
+  <data name="OwnerID" xml:space="preserve">
+    <value>Id-ul proprietarului </value>
   </data>
-  <data name="Expirationdate" xml:space="preserve">
-    <value>Data expirării</value>
+  <data name="Print" xml:space="preserve">
+    <value>Printează</value>
   </data>
-  <data name="Female" xml:space="preserve">
-    <value>Feminin</value>
-  </data>
-  <data name="Firstname" xml:space="preserve">
-    <value>Prenume</value>
-  </data>
-  <data name="Gender" xml:space="preserve">
-    <value>Gen</value>
-  </data>
-  <data name="Generalinformation" xml:space="preserve">
-    <value>Informații generale</value>
-  </data>
-  <data name="HasContract" xml:space="preserve">
-    <value>Are contract</value>
-  </data>
-  <data name="HasGDPRagreement" xml:space="preserve">
-    <value>Are contract GDPR</value>
-  </data>
-  <data name="Hashealthcard" xml:space="preserve">
-    <value>Are card de sănătate</value>
-  </data>
-  <data name="Hashealthinsurance" xml:space="preserve">
-    <value>Are asigurare de sănătate</value>
-  </data>
-  <data name="Hashome" xml:space="preserve">
-    <value>Are locuință</value>
-  </data>
-  <data name="HasID" xml:space="preserve">
-    <value>Are carte de identitate</value>
-  </data>
-  <data name="Healthdetails" xml:space="preserve">
-    <value>Detalii despre sănătate</value>
-  </data>
-  <data name="Healthstate" xml:space="preserve">
-    <value>Starea sănătății</value>
-  </data>
-  <data name="Homedeliverydriver" xml:space="preserve">
-    <value>Numele șoferului care livrează la domiciliu</value>
-  </data>
-  <data name="Homeless" xml:space="preserve">
-    <value>Fără adăpost</value>
-  </data>
-  <data name="Housinginformation" xml:space="preserve">
-    <value>Informații </value>
-  </data>
-  <data name="Housingtype" xml:space="preserve">
-    <value>Locuință</value>
-  </data>
-  <data name="IDapplication" xml:space="preserve">
-    <value>ID cerere</value>
-  </data>
-  <data name="IDcontract" xml:space="preserve">
-    <value>ID anchetă</value>
-  </data>
-  <data name="IDInformation" xml:space="preserve">
-    <value>Informații carte de identitate</value>
-  </data>
-  <data name="IDinvestigation" xml:space="preserve">
-    <value>ID investigație</value>
-  </data>
-  <data name="Income" xml:space="preserve">
-    <value>Venit</value>
-  </data>
-  <data name="IndexMessage" xml:space="preserve">
-    <value>Nu există beneficiar cu acest nume in baza de date!</value>
-  </data>
-  <data name="Lastname" xml:space="preserve">
-    <value>Nume de familie</value>
-  </data>
-  <data name="Lasttimeactive" xml:space="preserve">
-    <value>Ultima dată activ</value>
-  </data>
-  <data name="Makethisbeneficiaryinactive" xml:space="preserve">
-    <value>Marchează ca inactiv</value>
-  </data>
-  <data name="Male" xml:space="preserve">
-    <value>Masculin</value>
-  </data>
-  <data name="Marcadetails" xml:space="preserve">
-    <value>Detalii despre marcă</value>
-  </data>
-  <data name="Married" xml:space="preserve">
-    <value>Căsătorit/ă</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Nume</value>
-  </data>
-  <data name="Number" xml:space="preserve">
-    <value>Număr</value>
-  </data>
-  <data name="Numberofportions" xml:space="preserve">
-    <value>Numărul de porții</value>
-  </data>
-  <data name="Numberofregistration" xml:space="preserve">
-    <value>Numărul de înregistrare a contractului</value>
-  </data>
-  <data name="Occupation" xml:space="preserve">
-    <value>Ocupația</value>
-  </data>
-  <data name="PersonalInformation" xml:space="preserve">
-    <value>Informații personale</value>
-  </data>
-  <data name="Phonenumber" xml:space="preserve">
-    <value>Număr de telefon</value>
-  </data>
-  <data name="Profession" xml:space="preserve">
-    <value>Profesia</value>
-  </data>
-  <data name="Registrationdate" xml:space="preserve">
-    <value>Data înregistrării</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Salvează</value>
+  <data name="RegistrationDate" xml:space="preserve">
+    <value>Data întocmirii contractului</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Caută</value>
   </data>
-  <data name="Seniorityinworkfield" xml:space="preserve">
-    <value>Vechime în cămpul muncii</value>
+  <data name="Title" xml:space="preserve">
+    <value>Bucuria darului</value>
   </data>
-  <data name="Spousename" xml:space="preserve">
-    <value>Numele soției/soțului</value>
-  </data>
-  <data name="Street" xml:space="preserve">
-    <value>Strada</value>
-  </data>
-  <data name="Studies" xml:space="preserve">
-    <value>Studii</value>
-  </data>
-  <data name="Studiesandjobrelatedinformation" xml:space="preserve">
-    <value>informații despre studii și activitatea profesională</value>
-  </data>
-  <data name="Weeklypackage" xml:space="preserve">
-    <value>Pachet săptămânal</value>
+  <data name="Volcontract" xml:space="preserve">
+    <value>Contractul voluntarului</value>
   </data>
 </root>

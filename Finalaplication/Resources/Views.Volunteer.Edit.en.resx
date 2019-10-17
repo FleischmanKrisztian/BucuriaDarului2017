@@ -204,4 +204,10 @@
   <data name="CISERIE" xml:space="preserve">
     <value>Id series</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>District</value>
+  </data>
 </root>

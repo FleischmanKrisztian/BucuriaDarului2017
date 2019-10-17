@@ -336,4 +336,7 @@
   <data name="Beneficiaries" xml:space="preserve">
     <value>Beneficiaries</value>
   </data>
+  <data name="Contracts" xml:space="preserve">
+    <value>Contracts</value>
+  </data>
 </root>

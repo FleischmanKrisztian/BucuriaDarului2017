@@ -342,4 +342,25 @@
   <data name="WhatGoods" xml:space="preserve">
     <value>What goods</value>
   </data>
+  <data name="CIEliberat" xml:space="preserve">
+    <value>Issue date</value>
+  </data>
+  <data name="CIeliberator" xml:space="preserve">
+    <value>Issued by</value>
+  </data>
+  <data name="CINr" xml:space="preserve">
+    <value>Identity card number</value>
+  </data>
+  <data name="CISeria" xml:space="preserve">
+    <value>Seria</value>
+  </data>
+  <data name="City1" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
 </root>
