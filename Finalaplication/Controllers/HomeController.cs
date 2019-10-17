@@ -391,29 +391,91 @@ namespace Finalaplication.Controllers
 
         public IActionResult Localserver()
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
         public IActionResult Contact()
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
         public IActionResult Servermanagement()
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
         public IActionResult About()
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
         public IActionResult Settings()
         {
+            try
+            {
+                Settings set = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
 
+                if (set.Env == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
