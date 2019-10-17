@@ -38,7 +38,7 @@
                         @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        @Localizer["HasContract"]
+                        @Localizer["HasContract"]:
                         <div class="col-md-10">
                             <div class="checkbox">
                                 @Html.EditorFor(model => model.Contract.HasContract)
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        @Localizer["Whatgoods"]?
+                        @Localizer["Whatgoods"]:
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Sponsorship.WhatGoods, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Sponsorship.WhatGoods, "", new { @class = "text-danger" })

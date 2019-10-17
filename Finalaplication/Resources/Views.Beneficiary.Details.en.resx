@@ -336,4 +336,16 @@
   <data name="IDexpirationdate" xml:space="preserve">
     <value>IDe xpiration date</value>
   </data>
+  <data name="CIEliberat" xml:space="preserve">
+    <value>Issue date</value>
+  </data>
+  <data name="CIeliberator" xml:space="preserve">
+    <value>Issued by</value>
+  </data>
+  <data name="CINr" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="CISeria" xml:space="preserve">
+    <value>Series</value>
+  </data>
 </root>
