@@ -202,7 +202,7 @@
     <EmbeddedResource Update="Resources\Views.Volcontract.ContractExp.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views .Volcontract.ContractExp.ro.resx">
+    <EmbeddedResource Update="Resources\Views.Volcontract.ContractExp.ro.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Volcontract.Delete.en.resx">

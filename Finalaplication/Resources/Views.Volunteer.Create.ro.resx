@@ -207,4 +207,7 @@
   <data name="CISERIE" xml:space="preserve">
     <value>Serie carte de identitate</value>
   </data>
+  <data name="District" xml:space="preserve">
+    <value>Municipiul</value>
+  </data>
 </root>

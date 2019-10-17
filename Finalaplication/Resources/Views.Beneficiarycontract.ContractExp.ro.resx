@@ -127,7 +127,7 @@
     <value>CNP</value>
   </data>
   <data name="ContractExpirations" xml:space="preserve">
-    <value>Data expirării contractului</value>
+    <value>Contracte care vor expira</value>
   </data>
   <data name="Contractsof" xml:space="preserve">
     <value>Contractele voluntarului:</value>
