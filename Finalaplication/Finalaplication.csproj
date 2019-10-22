@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="MongoDB.Driver" Version="2.9.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="OrchardCore.Localization.Core" Version="1.0.0-beta3-71075" />
     <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.5.0" />
     <PackageReference Include="SWE.Culture" Version="1.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
@@ -95,12 +96,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Beneficiary.Index.ro.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views.Beneficiary.Create.ro.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views.Beneficiary.Create.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views.Event.Details.en.resx">
