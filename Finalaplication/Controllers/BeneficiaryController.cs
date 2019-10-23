@@ -20,16 +20,12 @@ namespace Finalaplication.Controllers
     {
 
         private MongoDBContext dbcontext;
-        private MongoDBContextOffline dbcontextoffline;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
-        private IMongoCollection<Settings> settingcollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         public BeneficiaryController()
         {
-            dbcontextoffline = new MongoDBContextOffline();
             dbcontext = new MongoDBContext();
             beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
             beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
         }
 
@@ -188,16 +184,22 @@ namespace Finalaplication.Controllers
                     break;
             }
             ViewBag.counter = beneficiaries.Count();
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            int nrofdocs = set.Quantity;
+
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
+
             ViewBag.nrofdocs = nrofdocs;
             beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -210,13 +212,19 @@ namespace Finalaplication.Controllers
         }
 
          public ActionResult ContractExp()
-        {
+         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -230,12 +238,18 @@ namespace Finalaplication.Controllers
 
         public ActionResult Details(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -249,6 +263,25 @@ namespace Finalaplication.Controllers
 
         public ActionResult Create()
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
+            try
+            {
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
+
+                if (message == "offline")
+                    ViewBag.env = "offline";
+                else
+                    ViewBag.env = "online";
+            }
+            catch
+            {
+                return RedirectToAction("Localserver");
+            }
             return View();
         }
 
@@ -256,6 +289,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Create(Beneficiary beneficiary)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 ModelState.Remove("Contract.RegistrationDate");
@@ -276,9 +313,11 @@ namespace Finalaplication.Controllers
                     beneficiarycollection.InsertOne(beneficiary);
                     try
                     {
-                        Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                        string message = TempData["environment"].ToString();
+                        TempData["environment"] = environment;
+                        TempData["numberofdocuments"] = nrofdocs;
 
-                        if (sett.Env == "offline")
+                        if (message == "offline")
                             ViewBag.env = "offline";
                         else
                             ViewBag.env = "online";
@@ -301,14 +340,20 @@ namespace Finalaplication.Controllers
         // GET: Beneficiary/Edit/5
         public ActionResult Edit(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == id);
             Beneficiary originalsavedvol = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -324,6 +369,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Edit(string id, Beneficiary beneficiary, string Originalsavedvolstring)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             Beneficiary Originalsavedvol = JsonConvert.DeserializeObject<Beneficiary>(Originalsavedvolstring);
             try
             {
@@ -392,9 +441,11 @@ namespace Finalaplication.Controllers
                     var result = beneficiarycollection.UpdateOne(filter, update);
                         try
                         {
-                            Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                            string message = TempData["environment"].ToString();
+                            TempData["environment"] = environment;
+                            TempData["numberofdocuments"] = nrofdocs;
 
-                            if (sett.Env == "offline")
+                            if (message == "offline")
                                 ViewBag.env = "offline";
                             else
                                 ViewBag.env = "online";
@@ -421,12 +472,18 @@ namespace Finalaplication.Controllers
         // GET: Beneficiary/Delete/5
         public ActionResult Delete(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -442,14 +499,32 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Delete(string id, Beneficiary beneficiary, bool Inactive)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 if (Inactive == false)
                 {
                     beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
 
-                    return RedirectToAction("Index");
+                    try
+                    {
+                        string message = TempData["environment"].ToString();
+                        TempData["environment"] = environment;
+                        TempData["numberofdocuments"] = nrofdocs;
 
+                        if (message == "offline")
+                            ViewBag.env = "offline";
+                        else
+                            ViewBag.env = "online";
+                    }
+                    catch
+                    {
+                        return RedirectToAction("Localserver");
+                    }
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -459,7 +534,6 @@ namespace Finalaplication.Controllers
                     var result = beneficiarycollection.UpdateOne(filter, update);
                     return RedirectToAction("Index");
                 }
-
             }
             catch
             {

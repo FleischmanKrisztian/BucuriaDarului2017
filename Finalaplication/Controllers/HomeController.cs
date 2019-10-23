@@ -39,6 +39,7 @@ namespace Finalaplication.Controllers
 
             dbcontext = new MongoDBContext();
 
+
             try
             {
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
@@ -54,8 +55,11 @@ namespace Finalaplication.Controllers
                 sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
                 volcontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volcontract>("Contracts");
                 beneficiarycontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+                Settings set = settingcollection.AsQueryable().FirstOrDefault();
             }
-            catch { }
+            catch (Exception e)
+            {
+            }
         }
 
         public ActionResult Merge()
@@ -319,6 +323,11 @@ namespace Finalaplication.Controllers
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault();
+                TempData["environment"] = sett.Env;
+                TempData["numberofdocuments"] = sett.Quantity;
+
                 int bd = 0;
                 int vc = 0;
                 int sc = 0;

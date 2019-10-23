@@ -16,19 +16,15 @@ namespace Finalaplication.Controllers
     public class SponsorController : Controller
     {
         private MongoDBContext dbcontext;
-        private MongoDBContextOffline dbcontextoffline;
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Sponsor> sponsorcollection;
-        private IMongoCollection<Settings> settingcollection;
 
 
         public SponsorController()
         {
-            dbcontextoffline = new MongoDBContextOffline();
             dbcontext = new MongoDBContext();
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
 
         }
 
@@ -82,16 +78,23 @@ namespace Finalaplication.Controllers
                 sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList();
             }
             ViewBag.counter = sponsors.Count();
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            int nrofdocs = set.Quantity;
+
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
+
+
             ViewBag.nrofdocs = nrofdocs;
             sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -105,12 +108,18 @@ namespace Finalaplication.Controllers
 
         public ActionResult ContractExp()
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -123,12 +132,18 @@ namespace Finalaplication.Controllers
         }
         public ActionResult Details(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -141,11 +156,17 @@ namespace Finalaplication.Controllers
         }
         public ActionResult Create()
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -160,6 +181,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Create(Sponsor sponsor)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 ModelState.Remove("Contract.RegistrationDate");
@@ -172,9 +197,11 @@ namespace Finalaplication.Controllers
                     sponsorcollection.InsertOne(sponsor);
                     try
                     {
-                        Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                        string message = TempData["environment"].ToString();
+                        TempData["environment"] = environment;
+                        TempData["numberofdocuments"] = nrofdocs;
 
-                        if (sett.Env == "offline")
+                        if (message == "offline")
                             ViewBag.env = "offline";
                         else
                             ViewBag.env = "online";
@@ -194,14 +221,20 @@ namespace Finalaplication.Controllers
         }
         public ActionResult Edit(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             Sponsor originalsavedvol = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -216,6 +249,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Edit(string id, Sponsor sponsor, string Originalsavedvolstring)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             Sponsor Originalsavedvol = JsonConvert.DeserializeObject<Sponsor>(Originalsavedvolstring);
             try
             {
@@ -244,9 +281,11 @@ namespace Finalaplication.Controllers
                     var result = sponsorcollection.UpdateOne(filter, update);
                         try
                         {
-                            Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                            string message = TempData["environment"].ToString();
+                            TempData["environment"] = environment;
+                            TempData["numberofdocuments"] = nrofdocs;
 
-                            if (sett.Env == "offline")
+                            if (message == "offline")
                                 ViewBag.env = "offline";
                             else
                                 ViewBag.env = "online";
@@ -273,12 +312,18 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Delete/5
         public ActionResult Delete(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
+                string message = TempData["environment"].ToString();
+                TempData["environment"] = environment;
+                TempData["numberofdocuments"] = nrofdocs;
 
-                if (sett.Env == "offline")
+                if (message == "offline")
                     ViewBag.env = "offline";
                 else
                     ViewBag.env = "online";
@@ -294,6 +339,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Delete(string id, Sponsor sponsor)
         {
+            int nrofdocs = 0;
+            String Am = TempData["numberofdocuments"].ToString();
+            String environment = TempData["environment"].ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id)));
