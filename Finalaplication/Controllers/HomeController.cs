@@ -382,16 +382,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                if (failcounter == 0)
-                {
-                    Settings sett = new Settings();
-                    sett.Env = "offline";
-                    sett.Lang = "English";
-                    sett.Quantity = 15;
-                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
-                    return RedirectToAction("Index", new { failcounter = 1 });
-                }
-                else return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver");
             }
         }
 
