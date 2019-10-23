@@ -12,7 +12,7 @@ namespace Finalaplication.App_Start
         private IMongoCollection<Settings> settingcollection;
 
         /// <summary>
-        /// Creates a new Mongo client and returns the conection.
+        /// Creates a new Mongo client and returns the connection.
         /// </summary>
         /// <param name="address"></param>
         /// <param name="dbName"></param>
@@ -75,6 +75,7 @@ namespace Finalaplication.App_Start
                 settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
                 var totalCount = settingcollection.CountDocuments(new BsonDocument());
 
+                //In case there is no settings saved it initializes one with these default values.
                 if (totalCount == 0)
                 {
                     Settings sett = new Settings();
@@ -107,12 +108,9 @@ namespace Finalaplication.App_Start
                 }
                 catch (Exception e)
                 {
-                    Settings sett = new Settings();
-                    sett.settingID = set.settingID;
-                    sett.Env = "offline";
-                    sett.Lang = set.Lang;
-                    sett.Quantity = set.Quantity;
-                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
+                    //In case there is no internet it changes the environment to offline so it will not try to connect a second time.
+                    set.Env = "offline";
+                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
                     var client = new MongoClient();
                     database = client.GetDatabase("BucuriaDaruluiOffline");
                 }

@@ -71,7 +71,6 @@ namespace Finalaplication.Controllers
             List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
             List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
             List<Beneficiarycontract> beneficiarycontractsoffline = beneficiarycontractcollectionoffline.AsQueryable<Beneficiarycontract>().ToList();
-
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
