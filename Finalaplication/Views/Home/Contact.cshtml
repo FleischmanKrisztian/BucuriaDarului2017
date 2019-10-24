@@ -3,14 +3,15 @@
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h2>@ViewBag.Title</h2>
+<h2>@Localizer["Contact"]</h2>
 
 <address>
     Siemens<br />
     Brasov, Romania<br />
-                   <strong abbr title="Phone">
-                       @Localizer["Phone"]:</strong>
-0755 296 273
+    <strong abbr title="Phone">
+        @Localizer["Phone"]:
+    </strong>
+    0755 296 273
 </address>
 
 <address>

@@ -3,7 +3,7 @@
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h1>Settings</h1>
+<h1>@Localizer["Settings"]</h1>
 
 @using (Html.BeginForm("Settings", "Home/", FormMethod.Post))
 {
