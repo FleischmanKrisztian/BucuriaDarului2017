@@ -41,8 +41,9 @@ namespace wpfapp
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {if(richTextBox1.Text.Contains("beneficiary")==true)
-                        
+                {if(richTextBox1.Text.Contains("beneficiary")==true || richTextBox1.Text.Contains("beneficiar")==true )
+
+
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
