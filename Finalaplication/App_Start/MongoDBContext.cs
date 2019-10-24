@@ -1,4 +1,5 @@
-﻿using Finalaplication.Models;
+﻿using Finalaplication.Common;
+using Finalaplication.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -93,17 +94,17 @@ namespace Finalaplication.App_Start
                     if (useOnline)
                     {
                         database = getDatabaseForEnvironmentVars(
-                            VolMongoConstants.VOLMONGO_SERVER_NAME_MAIN,
-                            VolMongoConstants.VOLMONGO_DATABASE_NAME_MAIN,
+                            VolMongoConstants.SERVER_NAME_MAIN,
+                            VolMongoConstants.DATABASE_NAME_MAIN,
                             "");
                     }
                     else
                     {
                         // Offline mode considered secondary
                         database = getDatabaseForEnvironmentVars(
-                            VolMongoConstants.VOLMONGO_SERVER_NAME_SECONDARY,
-                            VolMongoConstants.VOLMONGO_DATABASE_NAME_SECONDARY,
-                            VolMongoConstants.VOLMONGO_SERVER_PORT_SECONDARY);
+                            VolMongoConstants.SERVER_NAME_SECONDARY,
+                            VolMongoConstants.DATABASE_NAME_SECONDARY,
+                            VolMongoConstants.SERVER_PORT_SECONDARY);
                     }
                 }
                 catch (Exception e)

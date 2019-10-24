@@ -1,18 +1,31 @@
 ﻿@{
+    Layout = null;
+}
+@{
     ViewData["Title"] = "Localhost warning";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<table class="table">
+<table class="table" style="text-align:center">
     <tr>
-        <td colspan="3 " style="color:red">
+        <td colspan="20" style="color:red">
             <h1>@Localizer["Message1"]</h1>
         </td>
     </tr>
     <tr>
-        <td>
+        <td colspan="8">
             <h2 style="color:black">@Localizer["Message2"]</h2>
-</td>
+        </td>
+        <td>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <h1><a href="../../Home/" style="color:blue">PRESS HERE TO RELOAD</a></h1>
+        </td>
+        
     </tr>
 </table>
 
