@@ -174,10 +174,10 @@
         @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
         {
             <div class="form-group">
-                @Localizer[" Gender"]:
+                @Localizer["Gender"]:
                 <br />
                 <div class="col-md-10">
-                    @Localizer[" Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
+                    @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
                     @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
                 </div>
             </div>
@@ -211,7 +211,7 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" /> |
+            <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
             <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     </div>
