@@ -483,3 +483,6 @@ msgid "SponsorAllocation"
 msgstr "Sponsor Allocation"
 msgid "VolunteerAllocation"
 msgstr "Volunteer Allocation"
+
+msgid "PRESS HERE TO RELOAD"
+msgstr "Press here to reload"
