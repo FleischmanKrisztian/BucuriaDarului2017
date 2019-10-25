@@ -181,7 +181,7 @@ msgstr "Contractele voluntarilor care urmează să expire"
 msgid "You are currently"
 msgstr "Momentan ești"	
 
-msgid "Message1"	
+msgid "MessageLocalServer"	
 msgstr "Server-ul local trebuie să ruleze!"
 msgid "Message2"	
 msgstr "Introduceți comanda mongod în linia de comandă și apoi rulați aplicația."
