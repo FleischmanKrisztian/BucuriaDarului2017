@@ -486,3 +486,6 @@ msgstr "Volunteer Allocation"
 
 msgid "PRESS HERE TO RELOAD"
 msgstr "Press here to reload"
+
+msgid "Choose image"
+msgstr  "Choose image"
