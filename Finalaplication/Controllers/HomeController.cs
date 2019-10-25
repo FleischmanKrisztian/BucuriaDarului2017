@@ -39,6 +39,7 @@ namespace Finalaplication.Controllers
 
             dbcontext = new MongoDBContext();
 
+
             try
             {
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
@@ -54,8 +55,11 @@ namespace Finalaplication.Controllers
                 sponsorcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Sponsor>("Sponsors");
                 volcontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Volcontract>("Contracts");
                 beneficiarycontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+                Settings set = settingcollection.AsQueryable().FirstOrDefault();
             }
-            catch { }
+            catch (Exception e)
+            {
+            }
         }
 
         public ActionResult Merge()
@@ -67,7 +71,6 @@ namespace Finalaplication.Controllers
             List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
             List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
             List<Beneficiarycontract> beneficiarycontractsoffline = beneficiarycontractcollectionoffline.AsQueryable<Beneficiarycontract>().ToList();
-
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
@@ -319,6 +322,11 @@ namespace Finalaplication.Controllers
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+
+                Settings sett = settingcollection.AsQueryable().FirstOrDefault();
+                TempData["environment"] = sett.Env;
+                TempData["numberofdocuments"] = sett.Quantity;
+
                 int bd = 0;
                 int vc = 0;
                 int sc = 0;
@@ -382,16 +390,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                if (failcounter == 0)
-                {
-                    Settings sett = new Settings();
-                    sett.Env = "offline";
-                    sett.Lang = "English";
-                    sett.Quantity = 15;
-                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
-                    return RedirectToAction("Index", new { failcounter = 1 });
-                }
-                else return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver");
             }
         }
 

@@ -1,50 +1,42 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Finalaplication.App_Start;
+using Finalaplication.Common;
+using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System.IO;
-using Finalaplication.Models;
-using Finalaplication.App_Start;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using MongoDB.Bson.IO;
-using Newtonsoft.Json.Linq;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
-using MongoDB.Bson.Serialization;
-using System.Text;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
 {
     public class EventController : Controller
     {
         private MongoDBContext dbcontext;
-        private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
-        private IMongoCollection<Settings> settingcollection;
+
         public EventController()
         {
-            dbcontextoffline = new MongoDBContextOffline();
             dbcontext = new MongoDBContext();
             eventcollection = dbcontext.database.GetCollection<Event>("Events");
             vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
         }
 
         public ActionResult Export()
         {
-
             List<Event> events = eventcollection.AsQueryable().ToList();
             string path = "./jsondata/Events.csv";
             var allLines = (
                             from Event in events
                             select new object[]
                             {
-
             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
                             Event.NameOfEvent,
                               Event.DateOfEvent.ToString(),
@@ -56,17 +48,13 @@ namespace Finalaplication.Controllers
                               Event.AllocatedVolunteers,
                               Event.AllocatedSponsors
                               )
-
-
                             }
                              ).ToList();
             var csv1 = new StringBuilder();
 
-
             allLines.ForEach(line =>
             {
                 csv1 = csv1.AppendLine(string.Join(";", line));
-
             }
            );
             System.IO.File.WriteAllText(path, "NameOfEvent,DateOfEvent,Duration,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent,AllocatedVolunteers,AllocatedSponsors\n");
@@ -74,11 +62,12 @@ namespace Finalaplication.Controllers
             return RedirectToAction("Index");
         }
 
-
-        
-
         public ActionResult Index(string searching, int page)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             if (page > 0)
                 ViewBag.Page = page;
             else
@@ -89,19 +78,13 @@ namespace Finalaplication.Controllers
                 events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
             }
             ViewBag.counter = events.Count();
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            int nrofdocs = set.Quantity;
+
             ViewBag.nrofdocs = nrofdocs;
             events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
             events = events.AsQueryable().Take(nrofdocs).ToList();
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
             }
             catch
             {
@@ -112,6 +95,10 @@ namespace Finalaplication.Controllers
 
         public ActionResult VolunteerAllocation(string id, string searching)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             var names = events.Find(b => b.EventID.ToString() == id);
@@ -123,12 +110,7 @@ namespace Finalaplication.Controllers
                 ViewBag.Evid = id;
                 try
                 {
-                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                    if (sett.Env == "offline")
-                        ViewBag.env = "offline";
-                    else
-                        ViewBag.env = "online";
+                    ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
                 }
                 catch
                 {
@@ -140,12 +122,7 @@ namespace Finalaplication.Controllers
             {
                 try
                 {
-                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                    if (sett.Env == "offline")
-                        ViewBag.env = "offline";
-                    else
-                        ViewBag.env = "online";
+                    ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
                 }
                 catch
                 {
@@ -156,9 +133,15 @@ namespace Finalaplication.Controllers
             }
         }
 
+        
+
         [HttpPost]
         public ActionResult VolunteerAllocation(string[] vols, string Evid)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 string volname = "";
@@ -176,12 +159,7 @@ namespace Finalaplication.Controllers
                 }
                 try
                 {
-                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                    if (sett.Env == "offline")
-                        ViewBag.env = "offline";
-                    else
-                        ViewBag.env = "online";
+                    ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
                 }
                 catch
                 {
@@ -195,9 +173,12 @@ namespace Finalaplication.Controllers
             }
         }
 
-
         public ActionResult SponsorAllocation(string id, string searching)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
             List<Event> events = eventcollection.AsQueryable<Event>().ToList();
             var names = events.Find(b => b.EventID.ToString() == id);
@@ -213,12 +194,7 @@ namespace Finalaplication.Controllers
             {
                 try
                 {
-                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                    if (sett.Env == "offline")
-                        ViewBag.env = "offline";
-                    else
-                        ViewBag.env = "online";
+                    ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
                 }
                 catch
                 {
@@ -232,6 +208,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult SponsorAllocation(string[] spons, string Evid)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 string sponsname = "";
@@ -240,7 +220,7 @@ namespace Finalaplication.Controllers
                     var sponsorId = new ObjectId(spons[i]);
                     var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId.ToString());
 
-                    sponsname = sponsname +" "+ sponsor.NameOfSponsor;
+                    sponsname = sponsname + " " + sponsor.NameOfSponsor;
                     var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
                     var update = Builders<Event>.Update
                         .Set("AllocatedSponsors", sponsname);
@@ -249,12 +229,7 @@ namespace Finalaplication.Controllers
                 }
                 try
                 {
-                    Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                    if (sett.Env == "offline")
-                        ViewBag.env = "offline";
-                    else
-                        ViewBag.env = "online";
+                    ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
                 }
                 catch
                 {
@@ -268,20 +243,17 @@ namespace Finalaplication.Controllers
             }
         }
 
-
-
         // GET: Volunteer/Details/5
         public ActionResult Details(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
             }
             catch
             {
@@ -293,14 +265,13 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Create
         public ActionResult Create()
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
             }
             catch
             {
@@ -313,6 +284,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Create(Event eventt)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 ModelState.Remove("NumberOfVolunteersNeeded");
@@ -332,21 +307,19 @@ namespace Finalaplication.Controllers
             }
         }
 
-
         // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             Event originalsavedevent = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             ViewBag.originalsavedevent = JsonConvert.SerializeObject(originalsavedevent);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
             }
             catch
             {
@@ -359,6 +332,10 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Edit(string id, Event eventt, string Originalsavedeventstring)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(Originalsavedeventstring);
             try
             {
@@ -366,23 +343,22 @@ namespace Finalaplication.Controllers
                 if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedevent)))
                 {
                     ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
-                ModelState.Remove("Duration");
-                if (ModelState.IsValid)
-                {
-                    var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
-                    var update = Builders<Event>.Update
-                    .Set("NameOfEvent", eventt.NameOfEvent)
-                    .Set("PlaceOfEvent", eventt.PlaceOfEvent)
-                    .Set("DateOfEvent", eventt.DateOfEvent.AddHours(5))
-                    .Set("NumberOfVolunteersNeeded", eventt.NumberOfVolunteersNeeded)
-                    .Set("TypeOfActivities", eventt.TypeOfActivities)
-                    .Set("TypeOfEvent", eventt.TypeOfEvent)
-                    .Set("Duration", eventt.Duration)
-                    ;
+                    ModelState.Remove("DateOfEvent");
+                    ModelState.Remove("Duration");
+                    if (ModelState.IsValid)
+                    {
+                        var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+                        var update = Builders<Event>.Update
+                        .Set("NameOfEvent", eventt.NameOfEvent)
+                        .Set("PlaceOfEvent", eventt.PlaceOfEvent)
+                        .Set("DateOfEvent", eventt.DateOfEvent.AddHours(5))
+                        .Set("NumberOfVolunteersNeeded", eventt.NumberOfVolunteersNeeded)
+                        .Set("TypeOfActivities", eventt.TypeOfActivities)
+                        .Set("TypeOfEvent", eventt.TypeOfEvent)
+                        .Set("Duration", eventt.Duration)
+                        ;
 
-
-                    var result = eventcollection.UpdateOne(filter, update);
+                        var result = eventcollection.UpdateOne(filter, update);
                         return RedirectToAction("Index");
                     }
                     else return View();
@@ -398,19 +374,17 @@ namespace Finalaplication.Controllers
             }
         }
 
-
         // GET: Volunteer/Delete/5
         public ActionResult Delete(string id)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
             }
             catch
             {
@@ -423,10 +397,22 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection collection)
         {
+            int nrofdocs = 0;
+            String Am = TempData.Peek("numberofdocuments").ToString();
+            String environment = TempData.Peek("environment").ToString();
+            nrofdocs = Convert.ToInt16(Am);
             try
             {
                 eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id)));
 
+                try
+                {
+                    ControllerHelper.setViewBagEnvironment(TempData, ViewBag);
+                }
+                catch
+                {
+                    return RedirectToAction("Localserver");
+                }
                 return RedirectToAction("Index");
             }
             catch
