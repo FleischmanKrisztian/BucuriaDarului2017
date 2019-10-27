@@ -487,3 +487,6 @@ msgid "PRESS HERE TO RELOAD"
 msgstr "Apasați aici pentru reîncărcare"
 msgid "Choose image"
 msgstr "Alege imaginea"
+
+msgid "MakeItInactive"
+msgstr "Marchează ca inactiv"

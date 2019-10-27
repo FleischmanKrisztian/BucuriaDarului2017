@@ -489,3 +489,6 @@ msgstr "Press here to reload"
 
 msgid "Choose image"
 msgstr  "Choose image"
+
+msgid "MakeItInactive"
+msgstr "Make this volunteer inactive"
