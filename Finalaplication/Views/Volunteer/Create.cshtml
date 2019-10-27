@@ -19,9 +19,9 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="container" >
-            <div class="col-md-10">
-                 @Localizer["Avatar"]
-                <div class="row align-items-center">
+            
+         @Localizer["Avatar"]:
+                
                     <div class="col-10">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -29,22 +29,23 @@
                             </div>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="inputGroupFile01"
-                                       aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)"></br>
-                                <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label></br>
+                                       aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)">
+                                <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label><br />
 </div>
                         </div>
                     </div> 
-                    <div class="row align-items-center">
+                    
+                    <div class="col-10">
                         <div>
-                            </br>
-                            <img id="image-preview" alt="uploaded image preview" style="width:20%;height:auto" /><br />
+                          <br />
+                            <img id="image-preview" alt="uploaded image preview" style="width:150px;height:200px" /><br />
                             <span asp-validation-for="Image"></span>
-                            </br>
+                            
                         </div>
                     </div>
 
-                    </div>
-                </div>
+                    
+              
 
                 <div class="form-group">
                     @Localizer["Firstname"]:

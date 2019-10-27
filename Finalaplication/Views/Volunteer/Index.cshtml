@@ -64,7 +64,7 @@
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
-    <div class="container">
+    
         <div class="row align-items-center">
             <div class="col-3">
                 @Localizer["Name"]:
@@ -100,16 +100,18 @@
             </div>
         </div>
 
-        <br />
+       
 
         <div class="row align-items-center">
-            <br />
-            <button type="submit" class="btn btn-info">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
-            </button>
+            <div class="col-3">
+                <br />
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
+                </button>
+            </div>
         </div>
         <br />
-    </div>
+    
 
     <p>
         <div class="pagination">

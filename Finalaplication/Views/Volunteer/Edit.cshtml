@@ -9,7 +9,6 @@
 
 <h2>@Localizer["Edit"]</h2>
 
-
 <form method="post" action="/Volunteer/Edit" enctype="multipart/form-data">
     <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
     <input type="hidden" name="id" value="@id" />
@@ -20,14 +19,38 @@
 
         <div class="form-group">
             @Localizer["Avatar"]:
-            <div class="col-md-10">
-                <input type="file" asp-for="Image" onchange="ShowImagePreview(this)" /><br />
+
+            <div class="col-10">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">@Localizer["Uploadimage"]</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01"
+                               aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)">
+                        <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label><br />
+                    </div>
+                </div>
+
+                <br />
+
                 @{
                     if (Model.Image != null)
                     {
                         var imageBase64 = Convert.ToBase64String(Model.Image);
                         var imagesrc = string.Format("data:image/gif;base64,{0}", imageBase64);
                         <img src="@imagesrc" id="image-preview" alt="uploaded image preview" style="width:20%;height:auto" />
+                    }
+                    else
+                    {
+                        <br />
+                        <div class="col-10">
+                            <div>
+                                <br />
+                                <img id="image-preview" alt="uploaded image preview" style="width:150px;height:200px" /><br />
+                                <span asp-validation-for="Image"></span>
+                            </div>
+                        </div>
                     }
                 }
             </div>
