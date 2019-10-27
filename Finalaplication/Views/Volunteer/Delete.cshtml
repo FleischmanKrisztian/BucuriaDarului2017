@@ -8,7 +8,6 @@
 
 <h2>@Localizer["Delete"]</h2>
 
-
 <div>
     <hr />
     <dl class="row">
@@ -20,8 +19,8 @@
             @Html.DisplayFor(model => model.Firstname)
         </dd>
 
-        <dt class="col-sm-2" >
-            
+        <dt class="col-sm-2">
+
             @Localizer["Lastname"]:
         </dt>
 
@@ -44,7 +43,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InActivity)
         </dd>
-
     </dl>
 
     @using (Html.BeginForm())
@@ -63,7 +61,6 @@
                 <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
             </div>
         }
-
     </span>
     <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
 </div>

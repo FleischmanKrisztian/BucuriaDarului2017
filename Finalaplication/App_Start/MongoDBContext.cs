@@ -46,7 +46,7 @@ namespace Finalaplication.App_Start
 
         /// <summary>
         /// Creates a MongoDb Client and retrieves the Database.
-        /// 
+        ///
         /// </summary>
         /// <param name="envVarNameServer"></param>
         /// <param name="envVarDbName"></param>
@@ -107,7 +107,7 @@ namespace Finalaplication.App_Start
                             VolMongoConstants.SERVER_PORT_SECONDARY);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //In case there is no internet it changes the environment to offline so it will not try to connect a second time.
                     set.Env = "offline";

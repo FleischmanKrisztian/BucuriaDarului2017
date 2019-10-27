@@ -1,13 +1,10 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.ComponentModel.DataAnnotations;
 using VolCommon;
-
 
 namespace Finalaplication.Models
 {
-
     public class Volunteer : VolunteerBase
     {
         [BsonId]
@@ -42,13 +39,12 @@ namespace Finalaplication.Models
             var now = DateTime.Now;
             var firstday = now.AddDays(-1);
             var lastday = now.AddDays(10);
-            var answer=false;
-            if(date>=firstday && date<=lastday)
+            var answer = false;
+            if (date >= firstday && date <= lastday)
             {
-             answer = true;
+                answer = true;
             }
             return answer;
         }
-
     }
 }

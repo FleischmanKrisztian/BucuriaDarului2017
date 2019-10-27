@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Finalaplication.App_Start;
+﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -43,7 +40,7 @@ namespace Finalaplication.Controllers
             beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             var beneficiarycontract = beneficiarycontractcollection.AsQueryable().Where(z => z.ContractID == id);
             jsonstring = JsonConvert.SerializeObject(beneficiarycontract);
-            return jsonstring ;
+            return jsonstring;
         }
     }
 }

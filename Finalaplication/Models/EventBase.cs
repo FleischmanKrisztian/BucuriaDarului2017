@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace VolCommon
 {
     public class EventBase
@@ -27,7 +26,6 @@ namespace VolCommon
 
         public string AllocatedSponsors { get; set; }
 
-
         public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
         {
             if (AllocatedVolunteers != null)
@@ -45,8 +43,5 @@ namespace VolCommon
             }
             return null;
         }
-
-
-
     }
 }

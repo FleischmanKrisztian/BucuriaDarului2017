@@ -6,8 +6,7 @@ namespace VolCommon
     public class CI
     {
         public bool HasId { get; set; }
-        
-        
+
         public string CIseria { get; set; }
 
         public string CINr { get; set; }
@@ -19,5 +18,3 @@ namespace VolCommon
         public string CIeliberator { get; set; }
     }
 }
-
-

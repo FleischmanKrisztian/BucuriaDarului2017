@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Finalaplication.App_Start;
+using Finalaplication.Common;
+using Finalaplication.Models;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Finalaplication.Models;
-using Finalaplication.App_Start;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -14,77 +14,65 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Volcontract> volcontractcollection;
         private IMongoCollection<Volunteer> volunteercollection;
-        private readonly IMongoCollection<Settings> settingcollection;
 
         public VolcontractController()
         {
-            dbcontext = new MongoDBContext();
-            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-            volunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-            settingcollection = dbcontext.database.GetCollection<Settings>("Settings");
+            try
+            {
+                dbcontext = new MongoDBContext();
+                volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
+                volunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+            }
+            catch { }
         }
 
         [HttpGet]
         public IActionResult Index(string idofvol)
-        {           
-            List<Volcontract> volcontracts = volcontractcollection.AsQueryable().ToList();
-            Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
-            volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
-            ViewBag.nameofvol = vol.Firstname + " " + vol.Lastname; 
-            ViewBag.idofvol = idofvol;
+        {
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                List<Volcontract> volcontracts = volcontractcollection.AsQueryable().ToList();
+                Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
+                volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
+                ViewBag.nameofvol = vol.Firstname + " " + vol.Lastname;
+                ViewBag.idofvol = idofvol;
+                return View(volcontracts);
             }
             catch
             {
-                return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View(volcontracts);
         }
 
         public ActionResult ContractExp()
         {
-            List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+                return View(volcontracts);
             }
             catch
             {
-                return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View(volcontracts);
         }
 
         [HttpGet]
         public ActionResult Create(string id)
         {
-            ViewBag.idofvol = id;
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                ViewBag.idofvol = id;
+                return View();
             }
             catch
             {
-                return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View();
         }
 
         [HttpPost]
@@ -92,95 +80,87 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                try
                 {
-                    Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
-                    volcontract.ExpirationDate =  volcontract.ExpirationDate.AddDays(1);
-                    volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
-                    volcontract.Birthdate = vol.Birthdate;
-                    volcontract.Firstname = vol.Firstname;
-                    volcontract.Lastname = vol.Lastname;
-                    volcontract.CNP = vol.CNP;
-                    volcontract.CIseria = vol.CIseria;
-                    volcontract.CINr = vol.CINr;
-                    volcontract.CIEliberat = vol.CIEliberat;
-                    volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
-                    volcontract.Hourcount = vol.HourCount;
-                    volcontract.CIeliberator = vol.CIeliberator;
-                    volcontract.Address = vol.Address.District + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
-                    volcontract.OwnerID = idofvol;
-                    volcontractcollection.InsertOne(volcontract);
-                    try
+                    if (ModelState.IsValid)
                     {
-                        Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                        if (sett.Env == "offline")
-                            ViewBag.env = "offline";
-                        else
-                            ViewBag.env = "online";
+                        Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
+                        volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
+                        volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
+                        volcontract.Birthdate = vol.Birthdate;
+                        volcontract.Firstname = vol.Firstname;
+                        volcontract.Lastname = vol.Lastname;
+                        volcontract.CNP = vol.CNP;
+                        volcontract.CIseria = vol.CIseria;
+                        volcontract.CINr = vol.CINr;
+                        volcontract.CIEliberat = vol.CIEliberat;
+                        volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
+                        volcontract.Hourcount = vol.HourCount;
+                        volcontract.CIeliberator = vol.CIeliberator;
+                        volcontract.Address = vol.Address.District + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
+                        volcontract.OwnerID = idofvol;
+                        volcontractcollection.InsertOne(volcontract);
+                        return RedirectToAction("Index", new { idofvol });
                     }
-                    catch
-                    {
-                        return RedirectToAction("Localserver");
-                    }
-                    return RedirectToAction("Index", new { idofvol });
                 }
+                catch
+                {
+                    ModelState.AddModelError("", "Unable to save changes! ");
+                }
+                return View(volcontract);
             }
             catch
             {
-                ModelState.AddModelError("", "Unable to save changes! ");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View(volcontract);
         }
 
         [HttpGet]
         public ActionResult Print(string id)
         {
-            var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
+                return View(contract);
             }
             catch
             {
-                return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View(contract);
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
-            var contractid = new ObjectId(id);
-            var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
             try
             {
-                Settings sett = settingcollection.AsQueryable().FirstOrDefault(x => x.Env.Contains("i"));
-
-                if (sett.Env == "offline")
-                    ViewBag.env = "offline";
-                else
-                    ViewBag.env = "online";
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                var contractid = new ObjectId(id);
+                var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
+                return View(contract);
             }
             catch
             {
-                return RedirectToAction("Localserver");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View(contract);
         }
 
         // POST: Volunteer/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, string idofvol)
         {
-            volcontractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", ObjectId.Parse(id)));
-
-            return RedirectToAction("Index", new { idofvol });
+            try
+            {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                volcontractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", ObjectId.Parse(id)));
+                return RedirectToAction("Index", new { idofvol });
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
     }
 }

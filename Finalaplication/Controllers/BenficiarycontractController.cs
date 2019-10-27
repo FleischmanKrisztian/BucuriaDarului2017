@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Finalaplication.App_Start;
+using Finalaplication.Common;
+using Finalaplication.Models;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Finalaplication.Models;
-using Finalaplication.App_Start;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -17,34 +17,61 @@ namespace Finalaplication.Controllers
 
         public BeneficiarycontractController()
         {
-            dbcontext = new MongoDBContext();
-            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+            try
+            {
+                dbcontext = new MongoDBContext();
+                beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+                beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+            }
+            catch { }
         }
 
         [HttpGet]
         public IActionResult Index(string idofbeneficiary)
-        {           
-            List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
-            Beneficiary benenficiary  = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
-            benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
-            ViewBag.nameofbeneficiary = benenficiary.Firstname + " " + benenficiary.Lastname; 
-            ViewBag.idofbeneficiary = idofbeneficiary;
-            return View(benficiarycontracts);
+        {
+            try
+            {
+                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
+                Beneficiary benenficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
+                benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
+                ViewBag.nameofbeneficiary = benenficiary.Firstname + " " + benenficiary.Lastname;
+                ViewBag.idofbeneficiary = idofbeneficiary;
+                return View(benficiarycontracts);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         public ActionResult ContractExp()
         {
-            List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
+            try
+            {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
 
-            return View(beneficiarycontracts);
+                return View(beneficiarycontracts);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         [HttpGet]
         public ActionResult Create(string id)
         {
-            ViewBag.idofbeneficiary = id;
-            return View();
+            try
+            {
+                ViewBag.idofbeneficiary = id;
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         [HttpPost]
@@ -52,57 +79,85 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    Beneficiary beneficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
-                    benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
-                    benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
-                    benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
-                    benenficiarycontract.Firstname = beneficiary.Firstname;
-                    benenficiarycontract.Lastname = beneficiary.Lastname;
-                    benenficiarycontract.CNP = beneficiary.CNP;
-                    benenficiarycontract.CIseria = beneficiary.CI.CIseria;
-                    benenficiarycontract.CINr = beneficiary.CI.CINr;
-                    benenficiarycontract.CIEliberat = beneficiary.CI.CIEliberat;
-                    benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
-                    
-                    benenficiarycontract.CIeliberator = beneficiary.CI.CIeliberator;
-                    benenficiarycontract.Address = beneficiary.Adress.District + ", " + beneficiary.Adress.City + ", " + beneficiary.Adress.Street + ", " + beneficiary.Adress.Number;
-                    benenficiarycontract.OwnerID = idofbeneficiary;
-                    beneficiarycontractcollection.InsertOne(benenficiarycontract);
-                    return RedirectToAction("Index", new { idofbeneficiary });
+                    if (ModelState.IsValid)
+                    {
+                        Beneficiary beneficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
+                        benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
+                        benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
+                        benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
+                        benenficiarycontract.Firstname = beneficiary.Firstname;
+                        benenficiarycontract.Lastname = beneficiary.Lastname;
+                        benenficiarycontract.CNP = beneficiary.CNP;
+                        benenficiarycontract.CIseria = beneficiary.CI.CIseria;
+                        benenficiarycontract.CINr = beneficiary.CI.CINr;
+                        benenficiarycontract.CIEliberat = beneficiary.CI.CIEliberat;
+                        benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
+
+                        benenficiarycontract.CIeliberator = beneficiary.CI.CIeliberator;
+                        benenficiarycontract.Address = beneficiary.Adress.District + ", " + beneficiary.Adress.City + ", " + beneficiary.Adress.Street + ", " + beneficiary.Adress.Number;
+                        benenficiarycontract.OwnerID = idofbeneficiary;
+                        beneficiarycontractcollection.InsertOne(benenficiarycontract);
+                        return RedirectToAction("Index", new { idofbeneficiary });
+                    }
                 }
+                catch
+                {
+                    ModelState.AddModelError("", "Unable to save changes! ");
+                }
+                return View(benenficiarycontract);
             }
             catch
             {
-                ModelState.AddModelError("", "Unable to save changes! ");
+                return RedirectToAction("Localserver", "Home");
             }
-            return View(benenficiarycontract);
         }
 
         [HttpGet]
         public ActionResult Print(string id)
         {
-            var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
+            try
+            {
+                var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
 
-            return View(contract);
+                return View(contract);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         [HttpGet]
         public ActionResult Delete(string id)
         {
-            var contractid = new ObjectId(id);
-            var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
-            return View(contract);
+            try
+            {
+                var contractid = new ObjectId(id);
+                var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
+                return View(contract);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         // POST: Volunteer/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, string idofbeneficiary)
         {
-            beneficiarycontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id)));
+            try
+            {
+                beneficiarycontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id)));
 
-            return RedirectToAction("Index", new { idofbeneficiary });
+                return RedirectToAction("Index", new { idofbeneficiary });
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
     }
 }

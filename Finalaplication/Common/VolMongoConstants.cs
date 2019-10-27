@@ -13,5 +13,9 @@
         public const string CONNECTION_MODE_ONLINE = "online";
         public const string CONNECTION_MODE_OFFLINE = "offline";
 
+        public const string NUMBER_OF_ITEMS_PER_PAGE = "numberofdocuments";
+        public const string CONNECTION_ENVIRONMENT = "environment";
+
+        public const int DEFAULT_NUMBER_OF_ITEMS_PER_PAGE = 15;
     }
 }

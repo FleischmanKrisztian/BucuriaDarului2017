@@ -3,7 +3,6 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace Finalaplication.Models
 {
     public class Beneficiarycontract
@@ -47,7 +46,6 @@ namespace Finalaplication.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
-
 
         public bool GetDayExpiration(DateTime date)
         {

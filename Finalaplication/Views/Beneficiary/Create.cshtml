@@ -7,7 +7,6 @@
 @inject IViewLocalizer Localizer
 <h2>@Localizer["Create"]</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -162,7 +161,6 @@
         </div>
     </div>
 
-
     <div class="form-group">
         @Localizer["HasGDPRagreement"]:
         <div class="col-md-10">
@@ -245,10 +243,6 @@
         </div>
     </div>
 
-
-
-
-
     <h4>
         @Localizer["Marcadetails"]:
     </h4>
@@ -327,7 +321,6 @@
         </div>
     </div>
 
-
     <h4>
         @Localizer["Housinginformation"]:
     </h4>
@@ -347,7 +340,6 @@
             @Html.ValidationMessageFor(model => model.PersonalInfo.HousingType, "", new { @class = "text-danger" })
         </div>
     </div>
-
 
     <h4>
         @Localizer["Studiesandjobrelatedinformation"]:
@@ -381,7 +373,6 @@
         </div>
     </div>
 
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value=@Localizer["Create"] style="background-color:forestgreen" class="btn btn-default" />
@@ -393,7 +384,3 @@
 <div>
     <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
 </div>
-
-
-
-

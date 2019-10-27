@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Finalaplication.App_Start;
+﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -17,7 +14,6 @@ namespace Finalaplication.Controllers
     {
         private MongoDBContext dbcontext;
         private IMongoCollection<Volcontract> volcontractcollection;
-      
 
         // GET: api/Values
         [HttpGet]
@@ -44,7 +40,7 @@ namespace Finalaplication.Controllers
             volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
             var volcontract = volcontractcollection.AsQueryable().Where(z => z.ContractID == id);
             jsonstring = JsonConvert.SerializeObject(volcontract);
-            return jsonstring ;
+            return jsonstring;
         }
     }
 }

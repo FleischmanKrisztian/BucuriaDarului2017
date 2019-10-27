@@ -1,5 +1,4 @@
-﻿
-namespace VolCommon
+﻿namespace VolCommon
 {
     public class Marca
     {
@@ -7,6 +6,4 @@ namespace VolCommon
         public int IdInvestigation { get; set; }
         public int IdContract { get; set; }
     }
-
 }
-

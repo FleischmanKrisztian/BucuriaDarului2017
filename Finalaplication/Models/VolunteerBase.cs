@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace VolCommon
@@ -8,10 +7,12 @@ namespace VolCommon
     {
         Male, Female
     }
+
     public class VolunteerBase
     {
         [Required]
         public string Firstname { get; set; }
+
         [Required]
         public string Lastname { get; set; }
 
@@ -31,7 +32,7 @@ namespace VolCommon
 
         public string Occupation { get; set; }
 
-        public string CIseria{ get; set; }
+        public string CIseria { get; set; }
 
         public string CINr { get; set; }
 
@@ -50,6 +51,5 @@ namespace VolCommon
         public Additionalinfo Additionalinfo { get; set; }
 
         public byte[] Image { get; set; }
-
     }
 }
