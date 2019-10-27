@@ -3,8 +3,9 @@
     ViewBag.Title = "Events";
     int currentpage = ViewBag.Page;
 }
-@using Microsoft.AspNetCore.Mvc.Localization
+
 @inject IViewLocalizer Localizer
+@using Microsoft.AspNetCore.Mvc.Localization
 <head>
     <style>
 
@@ -33,6 +34,10 @@
                     background-color: #ddd;
                 }
 
+                .pagination a:current {
+                    background-color: red;
+                }
+
                 .pagination a:first-child {
                     border-top-left-radius: 5px;
                     border-bottom-left-radius: 5px;
@@ -44,7 +49,6 @@
                 }
     </style>
 </head>
-
 
 <h2>
     @Localizer["Events"] <small> (@ViewBag.counter)</small>
@@ -64,14 +68,12 @@
     <p>
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
-            @{ 
+            @{
                 int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
                 if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
                 {
                     maxpage--;
                 }
-
-
                 @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                 if(currentpage>=5)
                 {
@@ -87,7 +89,7 @@
                 }
                 if(currentpage!=1 && currentpage!= maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(currentpage.ToString(), " Index", new { page = currentpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                 }
                 if(currentpage<maxpage-1)
                 {

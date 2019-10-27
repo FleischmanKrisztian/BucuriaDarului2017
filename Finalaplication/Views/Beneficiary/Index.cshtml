@@ -88,7 +88,6 @@
             <div class="col-3">
                 <input type="date" name="upperdate">
             </div>
-
         </div>
         <br />
         <div class="row align-items-center">
@@ -101,13 +100,12 @@
     <p>
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
-            @{ 
+            @{
                 int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
                 if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
                 {
                     maxpage--;
                 }
-
 
                 @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
                 if(currentpage>=5)
@@ -224,4 +222,3 @@
             }}
     </tbody>
 </table>
-

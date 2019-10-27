@@ -13,7 +13,7 @@ a.navbar-brand {
 }
 .navbar-custom {
     background-color: black;
-} 
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -65,15 +65,12 @@ body {
 
 .ten {
     width: 10%;
-    
 }
 
 .twentyfive {
     width: 25%;
-    
 }
 
 .td {
     width: 30%;
 }
-

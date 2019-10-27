@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Finalaplication.App_Start;
+using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Finalaplication.Models;
-using MongoDB.Driver;
-using Finalaplication.App_Start;
-using System.Threading;
-using System.Globalization;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Http;
 
 namespace Finalaplication.Controllers
 {
@@ -39,7 +36,6 @@ namespace Finalaplication.Controllers
 
             dbcontext = new MongoDBContext();
 
-
             try
             {
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
@@ -57,14 +53,13 @@ namespace Finalaplication.Controllers
                 beneficiarycontractcollectionoffline = dbcontextoffline.databaseoffline.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
                 Settings set = settingcollection.AsQueryable().FirstOrDefault();
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
 
         public ActionResult Merge()
         {
-
             List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
             List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
             List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
@@ -88,7 +83,7 @@ namespace Finalaplication.Controllers
             for (int i = 0; i < volunteersoffline.Count(); i++)
             {
                 if (!(onlinevols.Contains(volunteersoffline[i].VolunteerID)))
-                vollunteercollection.InsertOne(volunteersoffline[i]);
+                    vollunteercollection.InsertOne(volunteersoffline[i]);
             }
 
             for (int i = 0; i < eventsoffline.Count(); i++)
@@ -124,7 +119,6 @@ namespace Finalaplication.Controllers
 
         public ActionResult Mergelocal()
         {
-
             List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
             List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
             List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
@@ -195,7 +189,6 @@ namespace Finalaplication.Controllers
             return RedirectToAction("Index");
         }
 
-
         public ActionResult Backup()
         {
             try
@@ -214,8 +207,6 @@ namespace Finalaplication.Controllers
                 dbcontextoffline.databaseoffline.DropCollection("Sponsors");
                 dbcontextoffline.databaseoffline.DropCollection("Contracts");
                 dbcontextoffline.databaseoffline.DropCollection("BeneficiariesContracts");
-
-
 
                 for (int i = 0; i < volunteers.Count(); i++)
                 {
@@ -273,8 +264,6 @@ namespace Finalaplication.Controllers
                 dbcontext.database.DropCollection("Contracts");
                 dbcontext.database.DropCollection("BeneficiariesContracts");
 
-
-
                 for (int i = 0; i < volunteersoffline.Count(); i++)
                 {
                     vollunteercollection.InsertOne(volunteersoffline[i]);
@@ -311,7 +300,6 @@ namespace Finalaplication.Controllers
                 return View("Error");
             }
         }
-
 
         public IActionResult Index(int failcounter)
         {
@@ -473,7 +461,7 @@ namespace Finalaplication.Controllers
 
         [HttpPost]
         public ActionResult Settings(string lang, string env, int quantity)
-        {   
+        {
             Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
             set.Env = env;
             set.Quantity = quantity;
@@ -488,19 +476,17 @@ namespace Finalaplication.Controllers
             return RedirectToAction("Index");
         }
 
-       
-            //[HttpPost]
-            //public IActionResult SelectCulture(string culture, string returnUrl)
-            //{
-            //    Response.Cookies.Append(
-            //        CookieRequestCultureProvider.DefaultCookieName,
-            //        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-            //        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-            //    );
+        //[HttpPost]
+        //public IActionResult SelectCulture(string culture, string returnUrl)
+        //{
+        //    Response.Cookies.Append(
+        //        CookieRequestCultureProvider.DefaultCookieName,
+        //        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+        //        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+        //    );
 
-            //    return LocalRedirect(returnUrl);
-            //}
-        
+        //    return LocalRedirect(returnUrl);
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

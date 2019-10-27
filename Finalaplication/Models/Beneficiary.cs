@@ -1,21 +1,16 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.Models
 {
-    public class Beneficiary:BeneficiaryBase
+    public class Beneficiary : BeneficiaryBase
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string BeneficiaryID { get; set; }
 
-
-       
         public bool GetDayExpiration(DateTime date)
         {
             var now = DateTime.Now;

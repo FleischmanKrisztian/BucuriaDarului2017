@@ -38,7 +38,7 @@
         @Html.AntiForgeryToken()
 
     <div class="form-actions no-color">
-        <input type="hidden" name="idofvol" value="@idofvol"/>
+        <input type="hidden" name="idofvol" value="@idofvol" />
         <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
         <a href=@Url.Action( "Index", new { idofvol = idofvol } ) class="btn btn-primary">@Localizer["BackToList"]</a>
     </div>

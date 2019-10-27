@@ -1,20 +1,15 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.Models
 {
-
     public class Sponsor : SponsorBase
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string SponsorID { get; set; }
-
 
         public static int Sponsorexp(Sponsor sponsor)
         {
@@ -26,7 +21,7 @@ namespace Finalaplication.Models
         }
 
         public bool GetDayExpiration(DateTime date)
-        {  
+        {
             var now = DateTime.Now;
             var firstday = now.AddDays(-1);
             var lastday = now.AddDays(10);
@@ -39,8 +34,3 @@ namespace Finalaplication.Models
         }
     }
 }
-
-       
-
-    
-

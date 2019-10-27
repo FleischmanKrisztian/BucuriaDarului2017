@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ReflectionIT.Mvc.Paging;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Finalaplication
 {
@@ -43,14 +38,13 @@ namespace Finalaplication
            {
                 new CultureInfo("en"),
                 new CultureInfo("ro"),
-                
            };
 
            opts.DefaultRequestCulture = new RequestCulture("en");
-            // Formatting numbers, dates, etc.
-            opts.SupportedCultures = supportedCultures;
-            // UI strings that we have localized.
-            opts.SupportedUICultures = supportedCultures;
+           // Formatting numbers, dates, etc.
+           opts.SupportedCultures = supportedCultures;
+           // UI strings that we have localized.
+           opts.SupportedUICultures = supportedCultures;
        });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
@@ -72,7 +66,6 @@ namespace Finalaplication
                 app.UseHsts();
             }
 
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -84,7 +77,7 @@ namespace Finalaplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"  );
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
