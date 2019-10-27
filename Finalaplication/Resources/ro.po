@@ -121,6 +121,7 @@ msgid "Married"
 msgstr "Căsătorit/ă"
 msgid "Name"	
 msgstr "Nume"
+
 msgid "Number"
 msgstr "Număr"
 msgid "Numberofportions"
@@ -181,10 +182,12 @@ msgstr "Contractele voluntarilor care urmează să expire"
 msgid "You are currently"
 msgstr "Momentan ești"	
 
-msgid "Message1"	
+msgid "MessageLocalServer"	
 msgstr "Server-ul local trebuie să ruleze!"
+
 msgid "Message2"	
 msgstr "Introduceți comanda mongod în linia de comandă și apoi rulați aplicația."
+
 msgid "message"	
 msgstr "Folosește această pagină pentru a detalia politica aplicației."
 msgid "Apply"
@@ -271,6 +274,8 @@ msgid "Lastname"
 msgstr "Nume de familie"
 msgid "Name"	
 msgstr "Nume"
+
+ 
 msgid "Phonenumber"
 msgstr "Număr de telefon"
 msgid "Search"
@@ -480,3 +485,5 @@ msgstr "Alocați voluntari evenimentului"
 
 msgid "PRESS HERE TO RELOAD"
 msgstr "Apasați aici pentru reîncărcare"
+msgid "Choose image"
+msgstr "Alege imaginea"

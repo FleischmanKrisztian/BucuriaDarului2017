@@ -189,7 +189,7 @@ msgstr "Volunteers : Contract Alert"
 msgid "You are currently"
 msgstr "You are currently"	
 
-msgid "Message1"	
+msgid "MessageLocalServer"	
 msgstr "The local server must be up and running!"
 msgid "Message2"
 msgstr "Try typing mongod in command line and rerun the application."
@@ -486,3 +486,6 @@ msgstr "Volunteer Allocation"
 
 msgid "PRESS HERE TO RELOAD"
 msgstr "Press here to reload"
+
+msgid "Choose image"
+msgstr  "Choose image"

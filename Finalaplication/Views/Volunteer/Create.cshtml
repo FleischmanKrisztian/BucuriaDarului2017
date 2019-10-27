@@ -16,199 +16,218 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
+        <div class="container" >
             <div class="col-md-10">
-                <p> @Localizer["Uploadimage"]</p>
-                <input type="file" asp-for="Image" onchange="ShowImagePreview(this)" /><br />
-                <img id="image-preview" alt="uploaded image preview" style="width:20%;height:auto" /><br />
-                <span asp-validation-for="Image"></span>
-            </div>
-        </div>
+                 @Localizer["Avatar"]
+                <div class="row align-items-center">
+                    <div class="col-10">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">@Localizer["Uploadimage"]</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                                       aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)"></br>
+                                <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label></br>
+</div>
+                        </div>
+                    </div> 
+                    <div class="row align-items-center">
+                        <div>
+                            </br>
+                            <img id="image-preview" alt="uploaded image preview" style="width:20%;height:auto" /><br />
+                            <span asp-validation-for="Image"></span>
+                            </br>
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Localizer["Firstname"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Lastname"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Active"]:
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.InActivity)
-                    @Html.ValidationMessageFor(model => model.InActivity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["Firstname"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Lastname"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Active"]:
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.InActivity)
+                            @Html.ValidationMessageFor(model => model.InActivity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Birthdate"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["District"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Address.District, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address.District, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["City"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Address.City, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Street"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Address.Street, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address.Street, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Number"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Address.Number, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Address.Number, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["CNP"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["CISERIE"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CIseria, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CIseria, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["CINR"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CINr, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CINr, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["CIELIBERAT"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CIEliberat, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CIEliberat, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["CIELIBERATOR"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CIeliberator, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CIeliberator, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Localizer["Phonenumber"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContactInformation.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Emailaddress"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ContactInformation.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Hascar"]
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Additionalinfo.HasCar)
+                            @Html.ValidationMessageFor(model => model.Additionalinfo.HasCar, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Hasdrivinglicense"]
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Additionalinfo.HasDrivingLicence)
+                            @Html.ValidationMessageFor(model => model.Additionalinfo.HasDrivingLicence, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Remarks"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Additionalinfo.Remark, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Additionalinfo.Remark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Localizer["Gender"]:
+                        <br />
+                        <div class="col-md-10">
+                            @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
+                            @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    @Localizer["Desiredarea"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Desired_workplace, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Desired_workplace, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Fieldofactivity"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Field_of_activity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Field_of_activity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Occupation"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Localizer["Hourcount"]:
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HourCount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value=@Localizer["Create"] class="btn-primary" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Birthdate"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["District"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address.District, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address.District, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["City"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address.City, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address.City, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Street"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address.Street, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address.Street, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Number"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address.Number, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address.Number, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["CNP"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["CISERIE"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CIseria, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CIseria, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["CINR"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CINr, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CINr, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["CIELIBERAT"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CIEliberat, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CIEliberat, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["CIELIBERATOR"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CIeliberator, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CIeliberator, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["Phonenumber"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContactInformation.PhoneNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Emailaddress"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContactInformation.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Hascar"]
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Additionalinfo.HasCar)
-                    @Html.ValidationMessageFor(model => model.Additionalinfo.HasCar, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Hasdrivinglicense"]
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Additionalinfo.HasDrivingLicence)
-                    @Html.ValidationMessageFor(model => model.Additionalinfo.HasDrivingLicence, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Remarks"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Additionalinfo.Remark, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Additionalinfo.Remark, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
-        {
-            <div class="form-group">
-                @Localizer["Gender"]:
-                <br />
-                <div class="col-md-10">
-                    @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
-                    @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
-                </div>
-            </div>
-        }
-        <div class="form-group">
-            @Localizer["Desiredarea"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Desired_workplace, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Desired_workplace, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Fieldofactivity"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Field_of_activity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Field_of_activity, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Occupation"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Localizer["Hourcount"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HourCount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value=@Localizer["Create"] class="btn-primary" />
-            </div>
-        </div>
-    </div>
 </form>
 
 <div>
