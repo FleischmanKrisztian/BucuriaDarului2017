@@ -10,6 +10,7 @@ namespace Finalaplication.Models
     {
         public CsvEventMapping() : base()
         {
+
             MapProperty(1, x => x.NameOfEvent);
             MapProperty(2, x => x.PlaceOfEvent);
             MapProperty(3, x => x.DateOfEvent);

@@ -26,7 +26,8 @@ namespace VolCommon
         public string AllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
-       
+
+        public IFormFile Files { get; set; }
 
         public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
         {

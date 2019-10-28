@@ -57,6 +57,25 @@
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
+<form action="./Event/FileUpload"
+      enctype="multipart/form-data"
+      method="post">
+    <dl>
+        <dt>
+            <label for="files">File</label>
+        </dt>
+        <dd>
+            <input id="files" type="file"
+                   name="files" onchange="processData(this)" />
+        </dd>
+    </dl>
+
+    <input class="btn btn-info" type="submit" value="Upload" />
+
+    <div style="margin-top:15px">
+        <output name="result"></output>
+    </div>
+</form>
 
 @using (Html.BeginForm("Index", "Event/", FormMethod.Get))
 {
@@ -65,23 +84,7 @@
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
     </button>
 
-    <form action="./Event/FileUpload" enctype="multipart/form-data"  method="post">
-        <dl>
-            <dt>
-                <label for="Files">File</label>
-            </dt>
-            <dd>
-                <input id="Files" type="file"
-                       name="Files" onchange="processData(this)">
-            </dd>
-        </dl>
 
-        <input class="btn btn-info" type="submit" value="Upload" />
-
-        <div style="margin-top:15px">
-            <output name="result"></output>
-        </div>
-    </form>
     <p>
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
