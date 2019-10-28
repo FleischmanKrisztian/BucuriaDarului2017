@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using TinyCsvParser;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -30,6 +32,40 @@ namespace Finalaplication.Controllers
             }
             catch { }
         }
+
+        public ActionResult FileUpload(IFormFile Files)
+        {
+           
+            if (Files.Length > 0)
+            {
+                var filePath = Path.GetTempFileName();
+                CsvParserOptions csvParserOptions = new CsvParserOptions(true, ';');
+                CsvEventMapping csvMapper = new CsvEventMapping();
+                CsvParser<Event> csvParser = new CsvParser<Event>(csvParserOptions, csvMapper);
+                var result = csvParser
+                             .ReadFromFile(filePath, Encoding.ASCII)
+                             .ToList();
+               
+                foreach (var details in result)
+                {
+                    Event eventt = new Event();
+                    eventt.NameOfEvent = details.Result.NameOfEvent;
+                    eventt.PlaceOfEvent = details.Result.PlaceOfEvent;
+                    eventt.NumberOfVolunteersNeeded = details.Result.NumberOfVolunteersNeeded;
+                    eventt.TypeOfActivities = details.Result.TypeOfActivities;
+                    eventt.TypeOfEvent = details.Result.TypeOfEvent;
+                    eventt.DateOfEvent = details.Result.DateOfEvent;
+                    eventt.Duration = details.Result.Duration;
+                    eventcollection.InsertOne(eventt);
+                }
+
+
+            }
+
+            return RedirectToAction("Index");
+
+        }
+
 
         public ActionResult Export()
         {
