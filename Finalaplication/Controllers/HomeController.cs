@@ -16,9 +16,7 @@ namespace Finalaplication.Controllers
     public class HomeController : Controller
     {
         private MongoDBContext dbcontext;
-        private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
-        private IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Volcontract> volcontractcollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
@@ -29,9 +27,7 @@ namespace Finalaplication.Controllers
 
             try
             {
-                eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-                beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
@@ -45,12 +41,15 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                if(dbcontext.nointernet==true)
+                {
+                    TempData["environment"] = VolMongoConstants.CONNECTION_MODE_OFFLINE;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
                 List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
-                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
 
                 int bd = 0;
                 int vc = 0;
@@ -103,7 +102,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("Localserver", "Home");
+                return RedirectToAction("Changeenvironment", "Settings");
             }
         }
 

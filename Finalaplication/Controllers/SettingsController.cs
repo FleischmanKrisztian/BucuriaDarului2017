@@ -53,5 +53,21 @@ namespace Finalaplication.Controllers
             settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Changeenvironment()
+        {
+            try
+            {
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
+            settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
+            TempData["environment"] = set.Env;
+            return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+               return RedirectToAction("Localserver", "Home");
+            }
+        }
     }
 }
