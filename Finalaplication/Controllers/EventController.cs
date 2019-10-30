@@ -31,38 +31,31 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
+        public ActionResult Exportwithfiltersevent(string searching)
+        {
+            try
+            {
+            List<Event> events = eventcollection.AsQueryable().ToList();
+            if (searching != null)
+            {
+                events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
+            }
+            ControllerHelper.ExportEvents(events);
+
+            return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
+        }
+
         public ActionResult Export()
         {
             try
             {
                 List<Event> events = eventcollection.AsQueryable().ToList();
-                string path = "./Excelfiles/Events.csv";
-                var allLines = (
-                                from Event in events
-                                select new object[]
-                                {
-            string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
-                            Event.NameOfEvent,
-                              Event.DateOfEvent.ToString(),
-                              Event.Duration.ToString(),
-                              Event.NumberOfVolunteersNeeded.ToString(),
-                              Event.PlaceOfEvent,
-                              Event.TypeOfActivities,
-                              Event.TypeOfEvent,
-                              Event.AllocatedVolunteers,
-                              Event.AllocatedSponsors
-                              )
-                                }
-                                 ).ToList();
-                var csv1 = new StringBuilder();
-
-                allLines.ForEach(line =>
-                {
-                    csv1 = csv1.AppendLine(string.Join(";", line));
-                }
-               );
-                System.IO.File.WriteAllText(path, "NameOfEvent,DateOfEvent,Duration,NumberOfVolunteersNeeded,PlaceOfEvent,TypeOfActivities,TypeOfEvent,AllocatedVolunteers,AllocatedSponsors\n");
-                System.IO.File.AppendAllText(path, csv1.ToString());
+                ControllerHelper.ExportEvents(events);
                 return RedirectToAction("Index");
             }
             catch
@@ -75,6 +68,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                ViewBag.searching = searching;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 if (page > 0)

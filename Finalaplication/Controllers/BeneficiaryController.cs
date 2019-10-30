@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Finalaplication.Controllers
 {
@@ -29,73 +28,48 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
+        public ActionResult Exportwithfiltersbeneficiary(string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate)
+        {
+            try
+            {
+                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
+                DateTime d1 = new DateTime(0003, 1, 1);
+                if (upperdate > d1)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate <= upperdate).ToList();
+                }
+                if (searching != null)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+                }
+                if (Homeless == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HasHome == false).ToList();
+                }
+                if (lowerdate > d1)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate > lowerdate).ToList();
+                }
+                if (Active == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
+                }
+                ControllerHelper.ExportBeneficiaries(beneficiaries);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
+        }
+
         public ActionResult ExportBeneficiaries()
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
-                string path = "./Excelfiles/Beneficiaries.csv";
-
-                var allLines = (from Beneficiary in beneficiaries
-                                select new object[]
-                                {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42};",
-                            Beneficiary.Firstname,
-                            Beneficiary.Lastname,
-                            Beneficiary.Active,
-                            Beneficiary.Weeklypackage.ToString(),
-                            Beneficiary.Canteen.ToString(),
-                            Beneficiary.HomeDeliveryDriver,
-                            Beneficiary.HasGDPRAgreement.ToString(),
-                            Beneficiary.Adress.District,
-                            Beneficiary.Adress.City,
-                            Beneficiary.Adress.Street,
-                            Beneficiary.Adress.Number,
-                            Beneficiary.CNP,
-                            Beneficiary.CI.HasId.ToString(),
-                            Beneficiary.CI.CIseria,
-                            Beneficiary.CI.CINr,
-                            Beneficiary.CI.CIEliberat.ToString(),
-                            Beneficiary.CI.CIeliberator,
-                            Beneficiary.Marca.IdAplication.ToString(),
-                            Beneficiary.Marca.IdContract.ToString(),
-                            Beneficiary.Marca.IdInvestigation.ToString(),
-                            Beneficiary.NumberOfPortions.ToString(),
-                            Beneficiary.LastTimeActiv.ToString(),
-                            Beneficiary.Coments,
-                            Beneficiary.PersonalInfo.Birthdate.ToString(),
-                            Beneficiary.PersonalInfo.PhoneNumber,
-                            Beneficiary.PersonalInfo.BirthPlace,
-                            Beneficiary.PersonalInfo.Studies,
-                            Beneficiary.PersonalInfo.Profesion,
-                            Beneficiary.PersonalInfo.Ocupation,
-                            Beneficiary.PersonalInfo.SeniorityInWorkField,
-                            Beneficiary.PersonalInfo.HealthState,
-                            Beneficiary.PersonalInfo.Disalility,
-                            Beneficiary.PersonalInfo.ChronicCondition,
-                            Beneficiary.PersonalInfo.Addictions,
-                            Beneficiary.PersonalInfo.HealthInsurance.ToString(),
-                            Beneficiary.PersonalInfo.HealthCard.ToString(),
-                            Beneficiary.PersonalInfo.Married.ToString(),
-                            Beneficiary.PersonalInfo.SpouseName,
-                            Beneficiary.PersonalInfo.HasHome.ToString(),
-                            Beneficiary.PersonalInfo.HousingType,
-                            Beneficiary.PersonalInfo.Income,
-                            Beneficiary.PersonalInfo.Expences,
-                            Beneficiary.PersonalInfo.Gender)
-                                }
-                                 ).ToList();
-
-                var csv1 = new StringBuilder();
-
-                allLines.ForEach(line =>
-                    {
-                        csv1 = csv1.AppendLine(string.Join(";", line));
-                    }
-                   );
-                System.IO.File.WriteAllText(path, "Firstname,Lastname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,District,City,Street,Number,CNP,Has ID,IDSerie,IDNr,IDEliberat,IdEliberator,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
-                System.IO.File.AppendAllText(path, csv1.ToString());
+                ControllerHelper.ExportBeneficiaries(beneficiaries);
                 return RedirectToAction("Index");
             }
             catch
