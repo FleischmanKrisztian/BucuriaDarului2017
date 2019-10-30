@@ -75,6 +75,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                ViewBag.searching = searching;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 if (page > 0)
