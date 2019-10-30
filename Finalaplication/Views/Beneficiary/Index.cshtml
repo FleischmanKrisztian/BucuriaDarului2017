@@ -48,50 +48,52 @@
     @Localizer["Beneficiaries"] <small> (@ViewBag.counter)</small>
 </h2>
 
+@Html.ActionLink("Exportme", "Exportwithfiltersbeneficiary", new {searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
- 
-        <div class="row align-items-center">
-            <div class="col-3">
-                @Localizer["Name"]:
-            </div>
-            <div class="col-1">
-                @Localizer["Active"]:
-            </div>
-            <div class="col-1">
-                @Localizer["Homeless"]:
-            </div>
-            <div class="col-3">
-                @Localizer["BornAfter"]:
-            </div>
-            <div class="col-3">
-                @Localizer["BornBefore"]:
-            </div>
+
+    <div class="row align-items-center">
+        <div class="col-3">
+            @Localizer["Name"]:
         </div>
-        <div class="row align-items-center">
-            <div class="col-3">
-                @Html.TextBox("searching")
-            </div>
-            <div class="col-1">
-                @Html.CheckBox("Active")
-            </div>
-            <div class="col-1">
-                @Html.CheckBox("Homeless")
-            </div>
-            <div class="col-3">
-                <input type="date" name="lowerdate">
-            </div>
-            <div class="col-3">
-                <input type="date" name="upperdate">
-            </div>
+        <div class="col-1">
+            @Localizer["Active"]:
         </div>
-        <br />
-        <div class="row align-items-center">
-            <div class="col-3">
+        <div class="col-1">
+            @Localizer["Homeless"]:
+        </div>
+        <div class="col-3">
+            @Localizer["BornAfter"]:
+        </div>
+        <div class="col-3">
+            @Localizer["BornBefore"]:
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-3">
+            @Html.TextBox("searching")
+        </div>
+        <div class="col-1">
+            @Html.CheckBox("Active")
+        </div>
+        <div class="col-1">
+            @Html.CheckBox("Homeless")
+        </div>
+        <div class="col-3">
+            <input type="date" name="lowerdate">
+        </div>
+        <div class="col-3">
+            <input type="date" name="upperdate">
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-3">
             <button type="submit" class="btn btn-info">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
             </button>

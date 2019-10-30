@@ -47,6 +47,8 @@
 
 <h2>@Localizer["Sponsors"] <small> (@ViewBag.counter)</small></h2>
 
+@Html.ActionLink("Exportme", "Exportwithfilterssponsor", new {searching = ViewBag.searching })
+
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>

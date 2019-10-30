@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Finalaplication.Controllers
 {
@@ -34,48 +33,49 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
+        public ActionResult Exportwithfiltersvolunteer(string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate)
+        {
+            try
+            {
+                List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
+                DateTime d1 = new DateTime(0003, 1, 1);
+                if (upperdate > d1)
+                {
+                    volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
+                }
+                if (searching != null)
+                {
+                    volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+                }
+                if (Active == true)
+                {
+                    volunteers = volunteers.Where(x => x.InActivity == true).ToList();
+                }
+                if (lowerdate > d1)
+                {
+                    volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
+                }
+                if (HasCar == true)
+                {
+                    volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
+                }
+
+                ControllerHelper.Exportvolunteers(volunteers);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
+        }
+
         public ActionResult ExportVolunteers()
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                string path = "./Excelfiles/Volunteers.csv";
-                var allLines = (from Volunteer in volunteers
-                                select new object[]
-                                {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18};",
-                            Volunteer.Firstname,
-                            Volunteer.Lastname,
-                            Volunteer.Birthdate.ToString(),
-                            Volunteer.Gender.ToString(),
-                            Volunteer.CNP,
-                            Volunteer.Occupation,
-                            Volunteer.Field_of_activity,
-                            Volunteer.Desired_workplace,
-                            Volunteer.InActivity.ToString(),
-                            Volunteer.HourCount.ToString(),
-                            Volunteer.Additionalinfo.HasCar.ToString(),
-                            Volunteer.Additionalinfo.HasDrivingLicence.ToString(),
-                            Volunteer.Additionalinfo.Remark,
-                            Volunteer.Address.District,
-                            Volunteer.Address.City,
-                            Volunteer.Address.Number,
-                            Volunteer.Address.Street,
-                            Volunteer.ContactInformation.MailAdress,
-                            Volunteer.ContactInformation.PhoneNumber)
-                                }
-                                 ).ToList();
-
-                var csv1 = new StringBuilder();
-
-                allLines.ForEach(line =>
-                {
-                    csv1 = csv1.AppendLine(string.Join(";", line));
-                }
-               );
-                System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n");
-                System.IO.File.AppendAllText(path, csv1.ToString());
+                ControllerHelper.Exportvolunteers(volunteers);
                 return RedirectToAction("Index");
             }
             catch
