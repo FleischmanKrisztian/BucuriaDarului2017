@@ -60,7 +60,7 @@ namespace Finalaplication.Controllers
                     volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
                 }
 
-                ControllerHelper.Exportvolunteers(volunteers);
+                ControllerHelper.ExportvolunteersAsDefaultCsv(volunteers);
 
                 return RedirectToAction("Index");
             }
@@ -75,7 +75,7 @@ namespace Finalaplication.Controllers
             try
             {
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                ControllerHelper.Exportvolunteers(volunteers);
+                ControllerHelper.ExportvolunteersAsDefaultCsv(volunteers);
                 return RedirectToAction("Index");
             }
             catch

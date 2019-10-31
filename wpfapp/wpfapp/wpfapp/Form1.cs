@@ -155,7 +155,6 @@ namespace wpfapp
                 key = Registry.ClassesRoot.CreateSubKey("myApp");
                 key.SetValue(string.Empty, "URL: myApp Protocol");
                 key.SetValue("URL Protocol", string.Empty);
-
                 key = key.CreateSubKey(@"shell\open\command");
                 key.SetValue(string.Empty, myAppPath + " " + "%1");
                 //%1 represents the argument - this tells windows to open this program with an argument / parameter

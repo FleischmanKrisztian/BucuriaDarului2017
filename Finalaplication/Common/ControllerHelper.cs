@@ -28,12 +28,11 @@ namespace Finalaplication.Common
             }
         }
 
-        public static void Exportvolunteers(List<Volunteer> volunteers)
+        public static string VolunteersToCSVFormat(List<Volunteer> volunteers)
         {
-                string path = "./Excelfiles/Volunteers.csv";
-                var allLines = (from Volunteer in volunteers
-                                select new object[]
-                                {
+            var allLines = (from Volunteer in volunteers
+                            select new object[]
+                            {
                              string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18};",
                             Volunteer.Firstname,
                             Volunteer.Lastname,
@@ -54,20 +53,31 @@ namespace Finalaplication.Common
                             Volunteer.Address.Street,
                             Volunteer.ContactInformation.MailAdress,
                             Volunteer.ContactInformation.PhoneNumber)
-                                }
-                                 ).ToList();
+                            }
+                             ).ToList();
 
-                var csv1 = new StringBuilder();
+            var csv1 = new StringBuilder();
 
-                allLines.ForEach(line =>
-                {
-                    csv1 = csv1.AppendLine(string.Join(";", line));
-                }
-               );
-                System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n");
-                System.IO.File.AppendAllText(path, csv1.ToString());
+            allLines.ForEach(line =>
+            {
+                csv1 = csv1.AppendLine(string.Join(";", line));
+            });
+            return csv1.ToString();
         }
 
+        public static void ExportvolunteersAsCsv(List<Volunteer> volunteers, string outputFileName)
+        {
+            string path = outputFileName; // "./Excelfiles/Volunteers.csv";
+
+            // Add the header
+            System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n");
+            System.IO.File.AppendAllText(path, VolunteersToCSVFormat(volunteers));
+        }
+
+        public static void ExportvolunteersAsDefaultCsv(List<Volunteer> volunteers)
+        {
+            ExportvolunteersAsCsv(volunteers, "./Excelfiles/Volunteers.csv");
+        }
 
         public static void ExportBeneficiaries(List<Beneficiary> beneficiaries)
         {
@@ -196,6 +206,5 @@ namespace Finalaplication.Common
             System.IO.File.WriteAllText(path, "NameOfSponsor,PhoneNumber,MailAdress,HasContract,NumberOfRegistration,RegistrationDate,ExpirationDate,DateOfSponsorships,MoneyAmount,WhatGoods,GoodsAmount\n");
             System.IO.File.AppendAllText(path, csv1.ToString());
         }
-
     }
 }
