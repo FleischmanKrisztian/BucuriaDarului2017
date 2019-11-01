@@ -490,3 +490,6 @@ msgstr "Alege imaginea"
 
 msgid "MakeItInactive"
 msgstr "Marchează ca inactiv"
+
+msgid "ExportToExcel"
+msgstr "Exportă in Excel"

@@ -58,7 +58,6 @@
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
-@Html.ActionLink("Exportme", "Exportwithfiltersvolunteer", new {searching = ViewBag.searching, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
 
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
@@ -104,14 +103,17 @@
     <div class="row align-items-center">
         <div class="col-3">
             <br />
-            <button type="submit" class="btn btn-info">
+            <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
             </button>
         </div>
     </div>
     <br />
 
-
+    <div>
+        <a href='@Url.Action("Exportwithfiltersvolunteer", "Volunteer",  new { searching = ViewBag.searching, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>
+        <br />
+    </div>
     <p>
         <div class="pagination">
             <pre style="white-space:pre-wrap;">

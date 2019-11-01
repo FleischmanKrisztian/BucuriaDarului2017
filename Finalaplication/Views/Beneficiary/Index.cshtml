@@ -48,7 +48,6 @@
     @Localizer["Beneficiaries"] <small> (@ViewBag.counter)</small>
 </h2>
 
-@Html.ActionLink("Exportme", "Exportwithfiltersbeneficiary", new {searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
 
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
@@ -94,10 +93,15 @@
     <br />
     <div class="row align-items-center">
         <div class="col-3">
-            <button type="submit" class="btn btn-info">
+            <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
             </button>
         </div>
+    </div>
+    <br />
+    <div>
+        <a href='@Url.Action("Exportwithfiltersbeneficiary", "Beneficiary", new { searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>
+        <br />
     </div>
     <p>
         <div class="pagination">

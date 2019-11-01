@@ -54,7 +54,7 @@
     @Localizer["Events"] <small> (@ViewBag.counter)</small>
 </h2>
 
-@Html.ActionLink("Exportme", "Exportwithfiltersevent", new { searching = ViewBag.searching })
+
 
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
@@ -63,10 +63,14 @@
 @using (Html.BeginForm("Index", "Event/", FormMethod.Get))
 {
     @Html.TextBox("searching")
-    <button type="submit" class="btn btn-info">
+    <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
     </button>
-
+    <br/>
+    <div>
+        <a href='@Url.Action("Exportwithfiltersevent", "Event",  new { searching = ViewBag.searching })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>
+        <br />
+    </div>
     <p>
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
