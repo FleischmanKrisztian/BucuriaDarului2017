@@ -27,6 +27,8 @@ namespace VolCommon
 
         public string AllocatedSponsors { get; set; }
 
+        public string Date { get; set; }
+
      
 
         public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)

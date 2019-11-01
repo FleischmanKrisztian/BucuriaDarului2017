@@ -73,8 +73,8 @@ namespace Finalaplication.Controllers
                     eventt.NumberOfVolunteersNeeded = details.Result.NumberOfVolunteersNeeded;
                     eventt.TypeOfActivities = details.Result.TypeOfActivities;
                     eventt.TypeOfEvent = details.Result.TypeOfEvent;
-                    eventt.DateOfEvent = details.Result.DateOfEvent;
-                    eventt.Duration = details.Result.Duration;
+                    eventt.Date = details.Result.Date;
+                   // eventt.Duration = details.Result.Duration;
                     eventcollection.InsertOne(eventt);
                 }
             }
