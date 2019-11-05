@@ -19,20 +19,20 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            string blabla = "";
+            string volcontractsasjson = "";
             dbcontext = new MongoDBContext();
             volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
 
             var volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
             foreach (var volcontract in volcontracts)
             {
-                blabla = blabla + JsonConvert.SerializeObject(volcontract);
+                volcontractsasjson = volcontractsasjson + JsonConvert.SerializeObject(volcontract);
             }
-            return new string[] { blabla };
+            return new string[] { volcontractsasjson };
         }
 
         // GET: api/Values/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetExcelparams")]
         public string Get(string id)
         {
             string jsonstring;
