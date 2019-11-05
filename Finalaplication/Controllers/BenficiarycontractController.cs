@@ -32,6 +32,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
                 Beneficiary benenficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
                 benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
@@ -65,6 +66,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.idofbeneficiary = id;
                 return View();
             }
@@ -119,6 +121,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
 
                 return View(contract);
@@ -134,6 +137,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contractid = new ObjectId(id);
                 var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
                 return View(contract);
@@ -150,6 +154,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 beneficiarycontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id)));
 
                 return RedirectToAction("Index", new { idofbeneficiary });

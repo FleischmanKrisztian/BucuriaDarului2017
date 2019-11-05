@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Net.Http;
-using Xceed.Words.NET;
-using Newtonsoft.Json;
-using Microsoft.Win32;
-using static System.Net.WebRequestMethods;
+using System.Windows.Forms;
 
 namespace wpfapp
 {
@@ -21,13 +18,13 @@ namespace wpfapp
             string[] args = Environment.GetCommandLineArgs();
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
-            //^the method posted before, that edits registry 
-            
+            //^the method posted before, that edits registry
+
             Stream myStream;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if((myStream = openFileDialog1.OpenFile()) != null)
+                if ((myStream = openFileDialog1.OpenFile()) != null)
                 {
                     string strfilename = openFileDialog1.FileName;
                     richTextBox1.Text = strfilename;
@@ -41,9 +38,10 @@ namespace wpfapp
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {if(richTextBox1.Text.Contains("beneficiary")==true || richTextBox1.Text.Contains("beneficiar")==true )
+                {
+                    //Trebuie facut pentru contract Beneficiar
 
-
+                    /*if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
@@ -83,11 +81,12 @@ namespace wpfapp
                             doc.ReplaceText("<tel>", volc.Nrtel);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
-                        
+
                         doc.SaveAs(saveFileDialog1.FileName);
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
-                    }else
+                    }
+                    else*/
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
@@ -139,14 +138,12 @@ namespace wpfapp
                 richTextBox3.Text = "an error has occured";
             }
         }
-        
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
-        static void RegisterMyProtocol(string myAppPath)  //myAppPath = full path to your application
+        private static void RegisterMyProtocol(string myAppPath)  //myAppPath = full path to your application
         {
             RegistryKey key = Registry.ClassesRoot.OpenSubKey("myApp");  //open myApp protocol's subkey
 
@@ -165,13 +162,10 @@ namespace wpfapp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void richTextBox1_TextChanged_1(object sender, EventArgs e)
         {
-
         }
     }
 }
-

@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finalaplication", "Finalaplication\Finalaplication.csproj", "{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractPrinter", "wpfapp\wpfapp\wpfapp\ContractPrinter.csproj", "{92A4EB40-99C9-48C0-85F2-8C327CD04319}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvExporter", "CsvExporter\CsvExporter.csproj", "{D927F137-4BA4-4118-BF9B-A3A5FDC2DB2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D927F137-4BA4-4118-BF9B-A3A5FDC2DB2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D927F137-4BA4-4118-BF9B-A3A5FDC2DB2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D927F137-4BA4-4118-BF9B-A3A5FDC2DB2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D927F137-4BA4-4118-BF9B-A3A5FDC2DB2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
