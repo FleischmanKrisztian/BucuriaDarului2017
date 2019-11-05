@@ -66,7 +66,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("Localserver", "Home");
+                return RedirectToAction("ExportFailed", "Home");
             }
         }
 
