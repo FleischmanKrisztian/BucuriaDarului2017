@@ -52,6 +52,26 @@
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
+<form action="./Beneficiary/FileUpload"
+      enctype="multipart/form-data"
+      method="post">
+    <dl>
+        <dt>
+            <label for="files">File</label>
+        </dt>
+        <dd>
+            <input id="files" type="file"
+                   name="files" onchange="processData(this)" />
+        </dd>
+    </dl>
+
+    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
+    <div style="margin-top:15px">
+        <output name="result"></output>
+    </div>
+</form>
+
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
  
@@ -222,3 +242,33 @@
             }}
     </tbody>
 </table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "data.txt",
+            dataType: "text",
+            success: function (data) { processData(data); }
+        });
+    });
+
+    function processData(allText) {
+        var allTextLines = allText.split(/\r\n|\n/);
+        var headers = allTextLines[0].split(',');
+        var lines = [];
+
+        for (var i = 1; i < allTextLines.length; i++) {
+            var data = allTextLines[i].split(',');
+            if (data.length == headers.length) {
+
+                var tarr = [];
+                for (var j = 0; j < headers.length; j++) {
+                    tarr.push(headers[j] + ":" + data[j]);
+                }
+                lines.push(tarr);
+            }
+        }
+        // alert(lines);
+    }
+</script>

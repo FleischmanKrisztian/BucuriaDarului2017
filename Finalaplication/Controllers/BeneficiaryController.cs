@@ -1,14 +1,18 @@
-﻿using Finalaplication.App_Start;
+﻿using CsvHelper;
+using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using TinyCsvParser;
 
 namespace Finalaplication.Controllers
 {
@@ -27,6 +31,185 @@ namespace Finalaplication.Controllers
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             }
             catch { }
+        }
+
+        public ActionResult FileUpload(IFormFile Files)
+        {
+
+            if (Files.Length > 0)
+            {
+                var filename = "baza date Siemens.xlsx";
+               
+                var filePath = Path.GetFullPath(filename);
+                
+
+                CsvParserOptions csvParserOptions = new CsvParserOptions(true, ',');
+                CsvReaderOptions csvReaderOptions = new CsvReaderOptions(new[] { Environment.NewLine });
+                CsvBeneficiaryMapping csvMapper = new CsvBeneficiaryMapping();
+                CsvParser<BeneficiaryFromCsv> csvParser = new CsvParser<BeneficiaryFromCsv>(csvParserOptions, csvMapper);
+                var result = csvParser
+                             .ReadFromFile(filePath, Encoding.UTF8)
+                             .ToList();
+                //CsvReader csv = new CsvReader(new StreamReader(Files.OpenReadStream()));
+                // csv.Configuration.RegisterClassMap<CsvBeneficiaryMapping>();
+                // csv.Configuration.Delimiter = ";";
+                // csv.Configuration.HasHeaderRecord = true;
+                // csv.Configuration.IgnoreBlankLines = true;
+                // csv.Configuration.MissingFieldFound =null;
+                // csv.Configuration.HeaderValidated = null;
+                //  csv.Configuration.BadDataFound = null;
+                // List<BeneficiaryFromCsv> result = csv.GetRecords<BeneficiaryFromCsv>().ToList();
+
+                Beneficiary beneficiary = new Beneficiary();
+                BeneficiaryFromCsv beneficiaryFromCsv = new BeneficiaryFromCsv();
+                foreach (var details in result)
+                {
+                    beneficiaryFromCsv.Index = details.Result.Index;
+                    beneficiaryFromCsv.Fullname = details.Result.Fullname;
+                    beneficiaryFromCsv.Active = details.Result.Active;
+                    beneficiaryFromCsv.Weeklypackage = details.Result.Weeklypackage;
+                    beneficiaryFromCsv.HomeDeliveryDriver = details.Result.HomeDeliveryDriver;
+                    beneficiaryFromCsv.Adress = details.Result.Adress;
+                    beneficiaryFromCsv.CNP = details.Result.CNP;
+                    beneficiaryFromCsv.NumberOfPortions = details.Result.NumberOfPortions;
+                    beneficiaryFromCsv.Coments = details.Result.Coments;
+                    //beneficiaryFromCsv.Birthdate = details.Result.Birthdate;
+                    beneficiaryFromCsv.PhoneNumber = details.Result.PhoneNumber;
+                    beneficiaryFromCsv.BirthPlace = details.Result.BirthPlace;
+                    beneficiaryFromCsv.Studies = details.Result.Studies;
+                    beneficiaryFromCsv.Profesion = details.Result.Profesion;
+                    beneficiaryFromCsv.Ocupation = details.Result.Ocupation;
+                    beneficiaryFromCsv.SeniorityInWorkField = details.Result.SeniorityInWorkField;
+                    beneficiaryFromCsv.HealthState = details.Result.HealthState;
+                    beneficiaryFromCsv.Disalility = details.Result.Disalility;
+                    beneficiaryFromCsv.ChronicCondition = details.Result.ChronicCondition;
+                    beneficiaryFromCsv.Addictions = details.Result.Addictions;
+                    beneficiaryFromCsv.HealthInsurance = details.Result.HealthInsurance;
+                    beneficiaryFromCsv.HealthCard = details.Result.HealthCard;
+                    beneficiaryFromCsv.Married = details.Result.Married;
+                    beneficiaryFromCsv.SpouseName = details.Result.SpouseName;
+                    beneficiaryFromCsv.HasHome = details.Result.HasHome;
+                    beneficiaryFromCsv.HousingType = details.Result.HousingType;
+                    beneficiaryFromCsv.Income = details.Result.Income;
+                    beneficiaryFromCsv.Expences = details.Result.Expences;
+                    beneficiaryFromCsv.Gender = details.Result.Gender;
+                    beneficiary.Lastname = " ";
+                    beneficiary.Firstname = " ";
+                    if (details.Result.Fullname != null)
+                    {
+                        String[] splited = details.Result.Fullname.Split("\\s+");
+                        beneficiary.Lastname = splited[0];
+                        if (splited.Count() == 2)
+                        {
+
+                            beneficiary.Firstname = splited[1];
+                        }
+                        if (splited.Count() == 3)
+                        {
+
+                            beneficiary.Firstname = splited[1] +"-"+ splited[2];
+                        }
+                        
+
+                    }
+                    if (beneficiaryFromCsv.Active == " ")
+                    {
+                        beneficiary.Active = false;
+                    }
+                  
+                    if (beneficiaryFromCsv.Active == "activ" )
+                    {
+                        beneficiary.Active = true;
+                    }
+                    else
+                    {
+                        beneficiary.Active = false;
+                    }
+                    if (beneficiaryFromCsv.Weeklypackage == "nu" || beneficiaryFromCsv.Weeklypackage == "NU" || beneficiaryFromCsv.Weeklypackage == " ")
+                    {
+                        beneficiary.Active = false;
+                    }
+                    else
+                    {
+                        beneficiary.Active = true;
+                    }
+
+                    beneficiary.HomeDeliveryDriver = beneficiaryFromCsv.HomeDeliveryDriver;
+                    beneficiary.CNP = beneficiaryFromCsv.CNP;
+                    Int32 portions = 0;
+                    if (int.TryParse(beneficiaryFromCsv.NumberOfPortions, out portions) )
+                    {
+                        beneficiary.NumberOfPortions = portions;
+                    }
+                    if (beneficiaryFromCsv.PhoneNumber == null || beneficiaryFromCsv.PhoneNumber == " ")
+                    {
+                        beneficiary.PersonalInfo.PhoneNumber = " ";
+                    }
+                    else
+                    {
+                        beneficiary.PersonalInfo.PhoneNumber = beneficiaryFromCsv.PhoneNumber;
+                    }
+                    beneficiary.PersonalInfo.BirthPlace = beneficiaryFromCsv.BirthPlace;
+                    beneficiary.PersonalInfo.Studies = beneficiaryFromCsv.Studies;
+                    beneficiary.PersonalInfo.Profesion = beneficiaryFromCsv.Profesion;
+                    beneficiary.PersonalInfo.Ocupation = beneficiaryFromCsv.Ocupation;
+                    beneficiary.PersonalInfo.SeniorityInWorkField = beneficiaryFromCsv.SeniorityInWorkField;
+                    beneficiary.PersonalInfo.HealthState = beneficiaryFromCsv.HealthState;
+                    beneficiary.PersonalInfo.Disalility = beneficiaryFromCsv.Disalility;
+                    beneficiary.PersonalInfo.ChronicCondition = beneficiaryFromCsv.ChronicCondition;
+                    beneficiary.PersonalInfo.Addictions = beneficiaryFromCsv.Addictions;
+                    if (beneficiaryFromCsv.HealthInsurance == "nu" || beneficiaryFromCsv.HealthInsurance == "NU" || beneficiaryFromCsv.HealthInsurance == " ")
+                    {
+                        beneficiary.PersonalInfo.HealthInsurance = true;
+                    }
+                    else
+                    {
+                        beneficiary.PersonalInfo.HealthInsurance = false;
+                    }
+
+                    if (beneficiaryFromCsv.HealthCard == "nu" || beneficiaryFromCsv.HealthCard == "NU"  || beneficiaryFromCsv.HealthCard == " ")
+                    {
+                        beneficiary.PersonalInfo.HealthCard = false;
+                    }
+                    else
+                    {
+                        beneficiary.PersonalInfo.HealthCard = true;
+                    }
+
+                    beneficiary.PersonalInfo.SpouseName = beneficiaryFromCsv.SpouseName;
+                    if (beneficiary.PersonalInfo.SpouseName == " ")
+                    {
+                        beneficiary.PersonalInfo.Married = false;
+                    }
+                    else
+                    {
+                        beneficiary.PersonalInfo.Married = true;
+                    }
+
+                    beneficiary.PersonalInfo.HousingType = beneficiaryFromCsv.HousingType;
+
+                    if (beneficiaryFromCsv.HasHome== "nu" || beneficiaryFromCsv.HasHome == "NU" || beneficiaryFromCsv.HasHome == " ")
+                    {
+                        beneficiary.PersonalInfo.HasHome = false;
+                    }
+                    else
+                    {
+                        beneficiary.PersonalInfo.HasHome = true;
+                    }
+
+                    beneficiary.PersonalInfo.Income = beneficiaryFromCsv.Income;
+                    beneficiary.PersonalInfo.Expences = beneficiaryFromCsv.Expences;
+
+                    beneficiarycollection.InsertOne(beneficiary);
+
+
+                }
+                
+            }
+           
+
+            return RedirectToAction("Index");
+
         }
 
         public ActionResult ExportBeneficiaries()
