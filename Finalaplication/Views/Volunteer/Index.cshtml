@@ -8,6 +8,7 @@
 @{
     ViewBag.Title = Localizer["Volunteers"];
     int currentpage = ViewBag.Page;
+    string stringofids = ViewBag.stringofids;
 }
 
 <head>
@@ -111,7 +112,8 @@
     <br />
 
     <div>
-        <a href='@Url.Action("Exportwithfiltersvolunteer", "Volunteer",  new { searching = ViewBag.searching, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>
+        @*<a href='@Url.Action("Exportwithfiltersvolunteer", "Volunteer",  new { searching = ViewBag.searching, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>*@
+        <a href="ExcelPrinter:@stringofids">Press this to export to csv</a>
         <br />
     </div>
     <p>

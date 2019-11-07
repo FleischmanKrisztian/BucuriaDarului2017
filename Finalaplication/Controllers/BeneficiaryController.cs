@@ -28,56 +28,6 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
-        public ActionResult Exportwithfiltersbeneficiary(string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate)
-        {
-            try
-            {
-                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
-                DateTime d1 = new DateTime(0003, 1, 1);
-                if (upperdate > d1)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate <= upperdate).ToList();
-                }
-                if (searching != null)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
-                }
-                if (Homeless == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HasHome == false).ToList();
-                }
-                if (lowerdate > d1)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate > lowerdate).ToList();
-                }
-                if (Active == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
-                }
-                ControllerHelper.ExportBeneficiaries(beneficiaries);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
-        public ActionResult ExportBeneficiaries()
-        {
-            try
-            {
-                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
-                ControllerHelper.ExportBeneficiaries(beneficiaries);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
         public ActionResult Contracts(string id)
         {
             try
@@ -182,7 +132,12 @@ namespace Finalaplication.Controllers
                 ViewBag.counter = beneficiaries.Count();
 
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-
+                string stringofids = "beneficiaries";
+                foreach (Beneficiary ben in beneficiaries)
+                {
+                    stringofids= stringofids + "," + ben.BeneficiaryID;
+                }
+                ViewBag.stringofids = stringofids;
                 ViewBag.nrofdocs = nrofdocs;
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();

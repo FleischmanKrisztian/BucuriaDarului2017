@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CsvExporter.Properties
+namespace CSVExporter.Properties
 {
 
 

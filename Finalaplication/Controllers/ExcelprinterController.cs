@@ -24,8 +24,9 @@ namespace Finalaplication.Controllers
         {
             dbcontext = new MongoDBContext();
             string jsonstring="";
+            id = id.Replace("\"","");
             string[] ids = id.Split(",");
-            if (ids[0]=="sponsors")
+            if (ids[0].Contains("sponsors"))
             {
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 for (int i = 1; i < ids.Length; i++)
@@ -34,7 +35,7 @@ namespace Finalaplication.Controllers
                     jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
                 }
             }
-            else if (ids[0] == "beneficiaries")
+            else if (ids[0].Contains("beneficiaries"))
             {
                 benefeciarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 for (int i = 1; i < ids.Length; i++)
@@ -43,7 +44,7 @@ namespace Finalaplication.Controllers
                     jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
                 }
             }
-            else if (ids[0] == "volunteers")
+            else if (ids[0].Contains("volunteers"))
             {
                 volunteerscollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 for(int i=1;i<ids.Length;i++)
@@ -52,7 +53,7 @@ namespace Finalaplication.Controllers
                     jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
                 }
             }
-            else if (ids[0] == "events")
+            else if (ids[0].Contains("events"))
             {
                 eventscollection = dbcontext.database.GetCollection<Event>("Events");
                 for (int i = 1; i < ids.Length; i++)
@@ -61,6 +62,7 @@ namespace Finalaplication.Controllers
                     jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
                 }
             }
+            jsonstring = jsonstring.Replace("][", ",");
             return jsonstring;
         }
     }

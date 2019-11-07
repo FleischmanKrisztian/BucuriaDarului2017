@@ -31,39 +31,6 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
-        public ActionResult Exportwithfiltersevent(string searching)
-        {
-            try
-            {
-            List<Event> events = eventcollection.AsQueryable().ToList();
-            if (searching != null)
-            {
-                events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
-            }
-            ControllerHelper.ExportEvents(events);
-
-            return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
-        public ActionResult Export()
-        {
-            try
-            {
-                List<Event> events = eventcollection.AsQueryable().ToList();
-                ControllerHelper.ExportEvents(events);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
         public ActionResult Index(string searching, int page)
         {
             try
@@ -83,6 +50,12 @@ namespace Finalaplication.Controllers
                 ViewBag.counter = events.Count();
 
                 ViewBag.nrofdocs = nrofdocs;
+                string stringofids="events";
+                foreach (Event eve in events)
+                {
+                    stringofids = stringofids + "," + eve.EventID;
+                }
+                ViewBag.stringofids = stringofids;
                 events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 events = events.AsQueryable().Take(nrofdocs).ToList();
                 return View(events);

@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Index";
     int currentpage = ViewBag.Page;
+    string stringofids = ViewBag.stringofids;
 }
 <head>
     <style>
@@ -58,7 +59,8 @@
     </button>
     <br />
     <div>
-        <a href='@Url.Action("Exportwithfilterssponsor", "Sponsor", new { searching = ViewBag.searching })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>
+        @*<a href='@Url.Action("Exportwithfilterssponsor", "Sponsor", new { searching = ViewBag.searching })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>*@
+        <a href="ExcelPrinter:@stringofids">Press this to export to csv</a>
         <br />
     </div>
 

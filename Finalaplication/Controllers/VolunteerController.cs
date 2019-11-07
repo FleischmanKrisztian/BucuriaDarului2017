@@ -33,56 +33,56 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
-        public ActionResult Exportwithfiltersvolunteer(string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate)
-        {
-            try
-            {
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                DateTime d1 = new DateTime(0003, 1, 1);
-                if (upperdate > d1)
-                {
-                    volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
-                }
-                if (searching != null)
-                {
-                    volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
-                }
-                if (Active == true)
-                {
-                    volunteers = volunteers.Where(x => x.InActivity == true).ToList();
-                }
-                if (lowerdate > d1)
-                {
-                    volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
-                }
-                if (HasCar == true)
-                {
-                    volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
-                }
+        //public ActionResult Exportwithfiltersvolunteer(string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate)
+        //{
+        //    try
+        //    {
+        //        List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
+        //        DateTime d1 = new DateTime(0003, 1, 1);
+        //        if (upperdate > d1)
+        //        {
+        //            volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
+        //        }
+        //        if (searching != null)
+        //        {
+        //            volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+        //        }
+        //        if (Active == true)
+        //        {
+        //            volunteers = volunteers.Where(x => x.InActivity == true).ToList();
+        //        }
+        //        if (lowerdate > d1)
+        //        {
+        //            volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
+        //        }
+        //        if (HasCar == true)
+        //        {
+        //            volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
+        //        }
 
-                ControllerHelper.ExportvolunteersAsDefaultCsv(volunteers);
+        //        ControllerHelper.ExportvolunteersAsDefaultCsv(volunteers);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Localserver", "Home");
+        //    }
+        //}
 
-        public ActionResult ExportVolunteers()
-        {
-            try
-            {
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                ControllerHelper.ExportvolunteersAsDefaultCsv(volunteers);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
+        //public ActionResult ExportVolunteers()
+        //{
+        //    try
+        //    {
+        //        List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
+        //        ControllerHelper.ExportvolunteersAsDefaultCsv(volunteers);
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Localserver", "Home");
+        //    }
+        //}
 
         public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, int page)
         {
@@ -182,6 +182,12 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.counter = volunteers.Count();
                 ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "volunteers";
+                foreach (Volunteer ben in volunteers)
+                {
+                    stringofids = stringofids + "," + ben.VolunteerID;
+                }
+                ViewBag.stringofids = stringofids;
                 volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
                 return View(volunteers);

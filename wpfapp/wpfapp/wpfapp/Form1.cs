@@ -168,5 +168,10 @@ namespace wpfapp
         private void richTextBox1_TextChanged_1(object sender, EventArgs e)
         {
         }
+
+        private void richTextBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
