@@ -1,23 +1,20 @@
-﻿using CsvHelper;
+﻿using ChoETL;
+using CsvHelper;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CSVExporter.StringtoCsv
 {
-    class Methods
+    internal class Methods
     {
         public static string VolunteersToCSVFormat(string result)
         {
             string csvasstring = "";
-           //string csvasstring = "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n";
-            csvasstring = csvasstring + jsonToCSV(result);
+            //string csvasstring = "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n";
+            csvasstring = csvasstring + jsontocsvlasttry(result);
             return csvasstring;
         }
 
@@ -49,12 +46,26 @@ namespace CSVExporter.StringtoCsv
             return dt;
         }
 
+        public static string jsontocsvlasttry(string jsonContent)
+        {
+            StringBuilder csv = new StringBuilder();
+            using (var p = new ChoJSONReader(new StringReader(jsonContent)))
+            {
+                using (var w = new ChoCSVWriter(new StringWriter(csv))
+                    .WithFirstLineHeader()
+                    )
+                {
+                    w.Write(p);
+                }
+            }
+            return csv.ToString();
+        }
+
         //public static string jsonToCSV(string jsonContent)
         //{
         //    StringWriter csvString = new StringWriter();
         //    using (var csv = new CsvWriter(csvString))
         //    {
-
         //        using (var dt = jsonStringToTable(jsonContent))
         //        {
         //            foreach (DataColumn column in dt.Columns)
@@ -75,7 +86,7 @@ namespace CSVExporter.StringtoCsv
         //    }
         //    return csvString.ToString();
         //}
-        public static string jsonToCSV(string jsonContent, string delimiter=",")
+        public static string jsonToCSV(string jsonContent, string delimiter = ",")
         {
             StringWriter csvString = new StringWriter();
             using (var csv = new CsvWriter(csvString))

@@ -38,11 +38,12 @@ namespace CSVExporter
             //^the method posted before, that edits registry
 
             Stream myStream;
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if ((myStream = saveFileDialog1.OpenFile()) != null)
                 {
+                    myStream.Close();
                     string strfilename = saveFileDialog1.FileName;
                     richTextBox1.Text = strfilename;
                 }
@@ -51,32 +52,44 @@ namespace CSVExporter
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string[] args = Environment.GetCommandLineArgs();
-            RegisterMyProtocol(args[0]);
-            HttpClient httpClient = new HttpClient();
-            args[1] = args[1].Remove(0, 13);
-            //probabil trebuie modificat
-            string url = "https://localhost:44395/api/ExcelPrinter/" + args[1];
-            var result = httpClient.GetStringAsync(url).Result.Normalize();
-            string path = richTextBox1.Text;
-            string csvasstring = "";
-            if (args[1].Contains("volunteers"))
+            try
             {
-               csvasstring = StringtoCsv.Methods.VolunteersToCSVFormat(result);
+                string[] args = Environment.GetCommandLineArgs();
+                RegisterMyProtocol(args[0]);
+                HttpClient httpClient = new HttpClient();
+                args[1] = args[1].Remove(0, 13);
+                //probabil trebuie modificat
+                string url = "https://localhost:44395/api/ExcelPrinter/" + args[1];
+                var result = httpClient.GetStringAsync(url).Result.Normalize();
+                string path = richTextBox1.Text;
+                string csvasstring = "";
+                if (args[1].Contains("volunteers"))
+                {
+                    csvasstring = StringtoCsv.Methods.VolunteersToCSVFormat(result);
+                }
+                if (args[1].Contains("beneficiaries"))
+                {
+                    csvasstring = StringtoCsv.Methods.BeneficiariesToCSVFormat(result);
+                }
+                if (args[1].Contains("sponsors"))
+                {
+                    csvasstring = StringtoCsv.Methods.SponsorsToCSVFormat(result);
+                }
+                if (args[1].Contains("events"))
+                {
+                    csvasstring = StringtoCsv.Methods.EventsToCSVFormat(result);
+                }
+                //File.WriteAllText(path, "Name,Email,Phone Number,Address
+                System.IO.StreamWriter objWriter;
+                objWriter = new StreamWriter(path);
+                objWriter.Write("Name, Email, Phone Number, Address \nBob Smith, bob@example.com, 123 - 456 - 7890, 123 Fake Street \nMike Jones, mike@example.com, 098 - 765 - 4321, 321 Fake Avenue");
+                objWriter.Close();
+                richTextBox2.Text = "Your file has been successfully saved";
             }
-            if (args[1].Contains("beneficiaries"))
+            catch
             {
-                csvasstring = StringtoCsv.Methods.BeneficiariesToCSVFormat(result);
+                richTextBox2.Text = "An error has been encountered";
             }
-            if (args[1].Contains("sponsors"))
-            {
-                csvasstring = StringtoCsv.Methods.SponsorsToCSVFormat(result);
-            }
-            if (args[1].Contains("events"))
-            {
-                csvasstring = StringtoCsv.Methods.EventsToCSVFormat(result);
-            }
-            File.WriteAllText(path, csvasstring);
         }
     }
 }
