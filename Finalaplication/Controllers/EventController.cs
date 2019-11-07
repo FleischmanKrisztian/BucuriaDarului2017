@@ -54,29 +54,29 @@ namespace Finalaplication.Controllers
 
                 //}
 
-                CsvParserOptions csvParserOptions = new CsvParserOptions(true, ',');
-                CsvReaderOptions csvReaderOptions = new CsvReaderOptions(new[] { Environment.NewLine });
-                CsvEventMapping csvMapper = new CsvEventMapping();
-                CsvParser<Event> csvParser = new CsvParser<Event>(csvParserOptions, csvMapper);
-                var result = csvParser
-                             .ReadFromFile(filePath, Encoding.UTF8)
-                             .ToList();
+                //CsvParserOptions csvParserOptions = new CsvParserOptions(true, ',');
+                //CsvReaderOptions csvReaderOptions = new CsvReaderOptions(new[] { Environment.NewLine });
+                //CsvEventMapping csvMapper = new CsvEventMapping();
+                //CsvParser<Event> csvParser = new CsvParser<Event>(csvParserOptions, csvMapper);
+                //var result = csvParser
+                //             .ReadFromFile(filePath, Encoding.UTF8)
+                //             .ToList();
                 // var result = csvParser
                 //.ReadFromString(csvReaderOptions, fileContent)
                 //.ToList();
                 Event eventt = new Event();
 
-                foreach (var details in result)
-                {
-                    eventt.NameOfEvent = details.Result.NameOfEvent;
-                    eventt.PlaceOfEvent = details.Result.PlaceOfEvent;
-                    eventt.NumberOfVolunteersNeeded = details.Result.NumberOfVolunteersNeeded;
-                    eventt.TypeOfActivities = details.Result.TypeOfActivities;
-                    eventt.TypeOfEvent = details.Result.TypeOfEvent;
-                    eventt.Date = details.Result.Date;
-                   // eventt.Duration = details.Result.Duration;
-                    eventcollection.InsertOne(eventt);
-                }
+                //foreach (var details in result)
+                //{
+                //    eventt.NameOfEvent = details.Result.NameOfEvent;
+                //    eventt.PlaceOfEvent = details.Result.PlaceOfEvent;
+                //    eventt.NumberOfVolunteersNeeded = details.Result.NumberOfVolunteersNeeded;
+                //    eventt.TypeOfActivities = details.Result.TypeOfActivities;
+                //    eventt.TypeOfEvent = details.Result.TypeOfEvent;
+                //    eventt.Date = details.Result.Date;
+                //   // eventt.Duration = details.Result.Duration;
+                //    eventcollection.InsertOne(eventt);
+                //}
             }
             //List<Event> result;
             //string jsonString;

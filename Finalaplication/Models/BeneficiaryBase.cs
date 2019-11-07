@@ -14,6 +14,7 @@ namespace VolCommon
         public bool Active { get; set; }
         public bool Weeklypackage { get; set; }
         public bool Canteen { get; set; }
+        public bool HomeDelivery { get; set; }
         public string HomeDeliveryDriver { get; set; }
         public bool HasGDPRAgreement { get; set; }
         public Address Adress { get; set; }

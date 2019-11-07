@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
@@ -39,65 +40,20 @@ namespace Finalaplication.Controllers
             if (Files.Length > 0)
             {
                 var filename = "baza date Siemens.xlsx";
-               
-                var filePath = Path.GetFullPath(filename);
-                
 
-                CsvParserOptions csvParserOptions = new CsvParserOptions(true, ',');
-                CsvReaderOptions csvReaderOptions = new CsvReaderOptions(new[] { Environment.NewLine });
-                CsvBeneficiaryMapping csvMapper = new CsvBeneficiaryMapping();
-                CsvParser<BeneficiaryFromCsv> csvParser = new CsvParser<BeneficiaryFromCsv>(csvParserOptions, csvMapper);
-                var result = csvParser
-                             .ReadFromFile(filePath, Encoding.UTF8)
-                             .ToList();
-                //CsvReader csv = new CsvReader(new StreamReader(Files.OpenReadStream()));
-                // csv.Configuration.RegisterClassMap<CsvBeneficiaryMapping>();
-                // csv.Configuration.Delimiter = ";";
-                // csv.Configuration.HasHeaderRecord = true;
-                // csv.Configuration.IgnoreBlankLines = true;
-                // csv.Configuration.MissingFieldFound =null;
-                // csv.Configuration.HeaderValidated = null;
-                //  csv.Configuration.BadDataFound = null;
-                // List<BeneficiaryFromCsv> result = csv.GetRecords<BeneficiaryFromCsv>().ToList();
+                string filePath = Path.GetFileName(Files.FileName);
+
+                CSVImportParser cSV = new CSVImportParser(filePath);
+                List<string[]> result = cSV.ExtractDataFromFile(filePath);
+
 
                 Beneficiary beneficiary = new Beneficiary();
-                BeneficiaryFromCsv beneficiaryFromCsv = new BeneficiaryFromCsv();
+
                 foreach (var details in result)
                 {
-                    beneficiaryFromCsv.Index = details.Result.Index;
-                    beneficiaryFromCsv.Fullname = details.Result.Fullname;
-                    beneficiaryFromCsv.Active = details.Result.Active;
-                    beneficiaryFromCsv.Weeklypackage = details.Result.Weeklypackage;
-                    beneficiaryFromCsv.HomeDeliveryDriver = details.Result.HomeDeliveryDriver;
-                    beneficiaryFromCsv.Adress = details.Result.Adress;
-                    beneficiaryFromCsv.CNP = details.Result.CNP;
-                    beneficiaryFromCsv.NumberOfPortions = details.Result.NumberOfPortions;
-                    beneficiaryFromCsv.Coments = details.Result.Coments;
-                    //beneficiaryFromCsv.Birthdate = details.Result.Birthdate;
-                    beneficiaryFromCsv.PhoneNumber = details.Result.PhoneNumber;
-                    beneficiaryFromCsv.BirthPlace = details.Result.BirthPlace;
-                    beneficiaryFromCsv.Studies = details.Result.Studies;
-                    beneficiaryFromCsv.Profesion = details.Result.Profesion;
-                    beneficiaryFromCsv.Ocupation = details.Result.Ocupation;
-                    beneficiaryFromCsv.SeniorityInWorkField = details.Result.SeniorityInWorkField;
-                    beneficiaryFromCsv.HealthState = details.Result.HealthState;
-                    beneficiaryFromCsv.Disalility = details.Result.Disalility;
-                    beneficiaryFromCsv.ChronicCondition = details.Result.ChronicCondition;
-                    beneficiaryFromCsv.Addictions = details.Result.Addictions;
-                    beneficiaryFromCsv.HealthInsurance = details.Result.HealthInsurance;
-                    beneficiaryFromCsv.HealthCard = details.Result.HealthCard;
-                    beneficiaryFromCsv.Married = details.Result.Married;
-                    beneficiaryFromCsv.SpouseName = details.Result.SpouseName;
-                    beneficiaryFromCsv.HasHome = details.Result.HasHome;
-                    beneficiaryFromCsv.HousingType = details.Result.HousingType;
-                    beneficiaryFromCsv.Income = details.Result.Income;
-                    beneficiaryFromCsv.Expences = details.Result.Expences;
-                    beneficiaryFromCsv.Gender = details.Result.Gender;
-                    beneficiary.Lastname = " ";
-                    beneficiary.Firstname = " ";
-                    if (details.Result.Fullname != null)
+                    if (details[1] != null)
                     {
-                        String[] splited = details.Result.Fullname.Split("\\s+");
+                        String[] splited = details[1].Split(' ');
                         beneficiary.Lastname = splited[0];
                         if (splited.Count() == 2)
                         {
@@ -107,110 +63,172 @@ namespace Finalaplication.Controllers
                         if (splited.Count() == 3)
                         {
 
-                            beneficiary.Firstname = splited[1] +"-"+ splited[2];
+                            beneficiary.Firstname = splited[1] + "-" + splited[2];
                         }
-                        
+
+
+                        if (details[3] == "activ" || details[3] == "da " || details[3] == "DA ")
+                        {
+                            beneficiary.Active = true;
+                        }
+                        else { beneficiary.Active = false; }
+
+                        if (details[4] == "Da " || details[4] == " da")
+                        {
+                            beneficiary.HomeDelivery = true;
+                        }
+                        else
+                        {
+                            beneficiary.HomeDelivery = false;
+                        }
+
+                        if (details[5] == "da" || details[5] == "DA")
+                        {
+                            beneficiary.Weeklypackage = true;
+                        }
+                        else
+                        { beneficiary.Weeklypackage = false; }
+                        if (details[7] != null)
+                        {
+                            beneficiary.HomeDeliveryDriver = details[7];
+                        }
+                        else
+                        {
+                            beneficiary.HomeDeliveryDriver = " ";
+                        }
+
+
+                        if (details[9] != null || details[9] != " ")
+                        {
+                            beneficiary.CNP = details[9];
+                        }
+
+                        beneficiary.NumberOfPortions = 0;
+                        if (details[18] != null || details[18] != " ")
+                        {
+                            if (int.TryParse(details[18], out int portions))
+                            {
+                                beneficiary.NumberOfPortions = portions;
+                            }
+                        }
+
+                        if (details[19] != null || details[19] != " ")
+                        {
+                            beneficiary.PersonalInfo.PhoneNumber = details[19];
+                        }
+
+                        if (details[20] != null || details[20] != " ")
+                        {
+                            beneficiary.PersonalInfo.BirthPlace = details[2];
+                        }
+
+                        if (details[21] != null)
+                        {
+                            beneficiary.PersonalInfo.Studies = details[21];
+                        }
+
+
+                        beneficiary.PersonalInfo.Profesion = details[22];
+                        beneficiary.PersonalInfo.Ocupation = details[23];
+                        beneficiary.PersonalInfo.SeniorityInWorkField = details[24];
+                        beneficiary.PersonalInfo.HealthState = details[25];
+                        if (details[26] != " " || details[26] != null)
+                        {
+                            beneficiary.PersonalInfo.Disalility = details[26];
+                        }
+                        else { beneficiary.PersonalInfo.Disalility = " "; }
+
+                        if (details[27] != " " || details[27] != null)
+                        {
+                            beneficiary.PersonalInfo.ChronicCondition = details[27];
+                        }
+                        else { beneficiary.PersonalInfo.ChronicCondition = " "; }
+
+                        if (details[28] != " " || details[28] != null)
+                        {
+                            beneficiary.PersonalInfo.Addictions = details[29];
+
+                        }
+                        else { beneficiary.PersonalInfo.Addictions = " "; }
+
+                        if (details[29] == "da" || details[29] == "Da")
+                        {
+                            beneficiary.PersonalInfo.HealthInsurance = true;
+                        }
+                        else { beneficiary.PersonalInfo.HealthInsurance = false; }
+
+                        if (details[30] == "da" || details[30] == "Da")
+                        {
+                            beneficiary.PersonalInfo.HealthCard = true;
+                        }
+                        else { beneficiary.PersonalInfo.HealthCard = false; }
+
+
+
+                        if (details[31] != " " || details[31] != null)
+                        {
+                            beneficiary.PersonalInfo.Married = details[31];
+                        }
+                        else { beneficiary.PersonalInfo.Married = " "; }
+
+                        if (details[32] != " " || details[32] != null)
+                        {
+                            beneficiary.PersonalInfo.SpouseName = details[32];
+                        }
+                        else { beneficiary.PersonalInfo.SpouseName = " "; }
+
+                        if (details[33] != " " || details[33] != null)
+                        {
+                            beneficiary.PersonalInfo.HousingType = details[33];
+                        }
+                        else { beneficiary.PersonalInfo.HousingType = " "; }
+
+                        if (details[34] == "da" || details[34] == "Da")
+                        {
+                            beneficiary.PersonalInfo.HasHome = true;
+                        }
+                        else { beneficiary.PersonalInfo.HasHome = false; }
+
+                        if (details[35] != " " || details[35] != null)
+                        {
+                            beneficiary.PersonalInfo.Income = details[35];
+                        }
+                        else { beneficiary.PersonalInfo.Income = " "; }
+
+                        if (details[36] != " " || details[36] != null)
+                        {
+                            beneficiary.PersonalInfo.Expences = details[36];
+                        }
+                        else { beneficiary.PersonalInfo.Expences = " "; }
+
+                        if (details[37] != null || details[37] != " " || details[38] != null || details[38] != " " || details[39] != null || details[39] != " ")
+                        {
+                            beneficiary.PersonalInfo.Birthdate = Convert.ToDateTime(details[37] + "-" + details[38] + "- " + details[39]);
+                        }
+
+                        if (details[40] == "F" || details[40] == "f" || details[40] == "feminin" || details[40] == "Feminin")
+                        {
+                            beneficiary.PersonalInfo.Gender = VolCommon.Gender.Female;
+                        }
+                        else
+                        {
+                            beneficiary.PersonalInfo.Gender = VolCommon.Gender.Male;
+                        }
+
+                        beneficiarycollection.InsertOne(beneficiary);
+
+
 
                     }
-                    if (beneficiaryFromCsv.Active == " ")
-                    {
-                        beneficiary.Active = false;
-                    }
-                  
-                    if (beneficiaryFromCsv.Active == "activ" )
-                    {
-                        beneficiary.Active = true;
-                    }
-                    else
-                    {
-                        beneficiary.Active = false;
-                    }
-                    if (beneficiaryFromCsv.Weeklypackage == "nu" || beneficiaryFromCsv.Weeklypackage == "NU" || beneficiaryFromCsv.Weeklypackage == " ")
-                    {
-                        beneficiary.Active = false;
-                    }
-                    else
-                    {
-                        beneficiary.Active = true;
-                    }
-
-                    beneficiary.HomeDeliveryDriver = beneficiaryFromCsv.HomeDeliveryDriver;
-                    beneficiary.CNP = beneficiaryFromCsv.CNP;
-                    Int32 portions = 0;
-                    if (int.TryParse(beneficiaryFromCsv.NumberOfPortions, out portions) )
-                    {
-                        beneficiary.NumberOfPortions = portions;
-                    }
-                    if (beneficiaryFromCsv.PhoneNumber == null || beneficiaryFromCsv.PhoneNumber == " ")
-                    {
-                        beneficiary.PersonalInfo.PhoneNumber = " ";
-                    }
-                    else
-                    {
-                        beneficiary.PersonalInfo.PhoneNumber = beneficiaryFromCsv.PhoneNumber;
-                    }
-                    beneficiary.PersonalInfo.BirthPlace = beneficiaryFromCsv.BirthPlace;
-                    beneficiary.PersonalInfo.Studies = beneficiaryFromCsv.Studies;
-                    beneficiary.PersonalInfo.Profesion = beneficiaryFromCsv.Profesion;
-                    beneficiary.PersonalInfo.Ocupation = beneficiaryFromCsv.Ocupation;
-                    beneficiary.PersonalInfo.SeniorityInWorkField = beneficiaryFromCsv.SeniorityInWorkField;
-                    beneficiary.PersonalInfo.HealthState = beneficiaryFromCsv.HealthState;
-                    beneficiary.PersonalInfo.Disalility = beneficiaryFromCsv.Disalility;
-                    beneficiary.PersonalInfo.ChronicCondition = beneficiaryFromCsv.ChronicCondition;
-                    beneficiary.PersonalInfo.Addictions = beneficiaryFromCsv.Addictions;
-                    if (beneficiaryFromCsv.HealthInsurance == "nu" || beneficiaryFromCsv.HealthInsurance == "NU" || beneficiaryFromCsv.HealthInsurance == " ")
-                    {
-                        beneficiary.PersonalInfo.HealthInsurance = true;
-                    }
-                    else
-                    {
-                        beneficiary.PersonalInfo.HealthInsurance = false;
-                    }
-
-                    if (beneficiaryFromCsv.HealthCard == "nu" || beneficiaryFromCsv.HealthCard == "NU"  || beneficiaryFromCsv.HealthCard == " ")
-                    {
-                        beneficiary.PersonalInfo.HealthCard = false;
-                    }
-                    else
-                    {
-                        beneficiary.PersonalInfo.HealthCard = true;
-                    }
-
-                    beneficiary.PersonalInfo.SpouseName = beneficiaryFromCsv.SpouseName;
-                    if (beneficiary.PersonalInfo.SpouseName == " ")
-                    {
-                        beneficiary.PersonalInfo.Married = false;
-                    }
-                    else
-                    {
-                        beneficiary.PersonalInfo.Married = true;
-                    }
-
-                    beneficiary.PersonalInfo.HousingType = beneficiaryFromCsv.HousingType;
-
-                    if (beneficiaryFromCsv.HasHome== "nu" || beneficiaryFromCsv.HasHome == "NU" || beneficiaryFromCsv.HasHome == " ")
-                    {
-                        beneficiary.PersonalInfo.HasHome = false;
-                    }
-                    else
-                    {
-                        beneficiary.PersonalInfo.HasHome = true;
-                    }
-
-                    beneficiary.PersonalInfo.Income = beneficiaryFromCsv.Income;
-                    beneficiary.PersonalInfo.Expences = beneficiaryFromCsv.Expences;
-
-                    beneficiarycollection.InsertOne(beneficiary);
-
 
                 }
-                
+
             }
            
 
             return RedirectToAction("Index");
 
-        }
+    }
 
         public ActionResult ExportBeneficiaries()
         {
