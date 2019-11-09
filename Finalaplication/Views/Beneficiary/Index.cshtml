@@ -102,7 +102,7 @@
     <br />
     <div>
         @*<a href='@Url.Action("Exportwithfiltersbeneficiary", "Beneficiary", new { searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>*@
-        <a href="ExcelPrinter:@stringofids">Press this to export to csv</a>
+        <a href="CSVExporterapp:@stringofids">Press this to export to csv</a>
             <br />
 </div>
     <p>

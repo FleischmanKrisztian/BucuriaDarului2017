@@ -11,6 +11,10 @@ namespace CSVExporter
         public Form1()
         {
             InitializeComponent();
+            string[] args = Environment.GetCommandLineArgs();
+            //args[0] is always the path to the application
+            RegisterMyProtocol(args[0]);
+            //^the method posted before, that edits registry
         }
 
         private static void RegisterMyProtocol(string CSVExporterappPath)  //myAppPath = full path to your application
@@ -32,10 +36,7 @@ namespace CSVExporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] args = Environment.GetCommandLineArgs();
-            //args[0] is always the path to the application
-            RegisterMyProtocol(args[0]);
-            //^the method posted before, that edits registry
+
 
             Stream myStream;
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -55,9 +56,8 @@ namespace CSVExporter
             try
             {
                 string[] args = Environment.GetCommandLineArgs();
-                RegisterMyProtocol(args[0]);
                 HttpClient httpClient = new HttpClient();
-                args[1] = args[1].Remove(0, 13);
+                args[1] = args[1].Remove(0, 15);
                 //probabil trebuie modificat
                 string url = "https://localhost:44395/api/ExcelPrinter/" + args[1];
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
@@ -82,7 +82,7 @@ namespace CSVExporter
                 //File.WriteAllText(path, "Name,Email,Phone Number,Address
                 System.IO.StreamWriter objWriter;
                 objWriter = new StreamWriter(path);
-                objWriter.Write("Name, Email, Phone Number, Address \nBob Smith, bob@example.com, 123 - 456 - 7890, 123 Fake Street \nMike Jones, mike@example.com, 098 - 765 - 4321, 321 Fake Avenue");
+                objWriter.Write(csvasstring);
                 objWriter.Close();
                 richTextBox2.Text = "Your file has been successfully saved";
             }
