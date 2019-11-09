@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Events";
     int currentpage = ViewBag.Page;
+    string stringofids = ViewBag.stringofids;
 }
 
 @inject IViewLocalizer Localizer
@@ -68,7 +69,8 @@
     </button>
     <br/>
     <div>
-        <a href='@Url.Action("Exportwithfiltersevent", "Event",  new { searching = ViewBag.searching })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>
+        @*<a href='@Url.Action("Exportwithfiltersevent", "Event",  new { searching = ViewBag.searching })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>*@
+        <a href="CSVExporterapp:@stringofids">Press this to export to csv</a>
         <br />
     </div>
     <p>

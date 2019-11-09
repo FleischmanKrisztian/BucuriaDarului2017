@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Net.Http;
-using Xceed.Words.NET;
+﻿using Microsoft.Win32;
 using Newtonsoft.Json;
-using Microsoft.Win32;
-using static System.Net.WebRequestMethods;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Windows.Forms;
+using Xceed.Words.NET;
 
 namespace wpfapp
 {
@@ -14,20 +13,21 @@ namespace wpfapp
         public Form1()
         {
             InitializeComponent();
+            string[] args = Environment.GetCommandLineArgs();
+            //args[0] is always the path to the application
+            RegisterMyProtocol(args[0]);
+            //^the method posted before, that edits registry
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] args = Environment.GetCommandLineArgs();
-            //args[0] is always the path to the application
-            RegisterMyProtocol(args[0]);
-            //^the method posted before, that edits registry 
-            
+
+
             Stream myStream;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if((myStream = openFileDialog1.OpenFile()) != null)
+                if ((myStream = openFileDialog1.OpenFile()) != null)
                 {
                     string strfilename = openFileDialog1.FileName;
                     richTextBox1.Text = strfilename;
@@ -41,9 +41,10 @@ namespace wpfapp
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {if(richTextBox1.Text.Contains("beneficiary")==true || richTextBox1.Text.Contains("beneficiar")==true )
+                {
+                    //Trebuie facut pentru contract Beneficiar
 
-
+                    /*if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
@@ -83,17 +84,18 @@ namespace wpfapp
                             doc.ReplaceText("<tel>", volc.Nrtel);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
-                        
+
                         doc.SaveAs(saveFileDialog1.FileName);
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
-                    }else
+                    }
+                    else*/
                     {
                         string[] args = Environment.GetCommandLineArgs();
-                        RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
-                        args[1] = args[1].Remove(0, 6);
+                        args[1] = args[1].Remove(0, 16);
+                        //probabil trebuie modificat
                         string url = "https://localhost:44395/api/Values/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
@@ -139,24 +141,22 @@ namespace wpfapp
                 richTextBox3.Text = "an error has occured";
             }
         }
-        
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
-        static void RegisterMyProtocol(string myAppPath)  //myAppPath = full path to your application
+        private static void RegisterMyProtocol(string ContractPrinterPath)  //myAppPath = full path to your application
         {
-            RegistryKey key = Registry.ClassesRoot.OpenSubKey("myApp");  //open myApp protocol's subkey
+            RegistryKey key = Registry.ClassesRoot.OpenSubKey("ContractPrinter");  //open myApp protocol's subkey
 
             if (key == null)  //if the protocol is not registered yet...we register it
             {
-                key = Registry.ClassesRoot.CreateSubKey("myApp");
-                key.SetValue(string.Empty, "URL: myApp Protocol");
+                key = Registry.ClassesRoot.CreateSubKey("ContractPrinter");
+                key.SetValue(string.Empty, "URL:ContractPrinter Protocol");
                 key.SetValue("URL Protocol", string.Empty);
                 key = key.CreateSubKey(@"shell\open\command");
-                key.SetValue(string.Empty, myAppPath + " " + "%1");
+                key.SetValue(string.Empty, ContractPrinterPath + " " + "%1");
                 //%1 represents the argument - this tells windows to open this program with an argument / parameter
             }
 
@@ -165,13 +165,15 @@ namespace wpfapp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void richTextBox1_TextChanged_1(object sender, EventArgs e)
+        {
+        }
+
+        private void richTextBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
     }
 }
-

@@ -28,42 +28,6 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
-        public ActionResult Exportwithfilterssponsor(string searching)
-        {
-            try
-            {
-
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
-
-                if (searching != null)
-                {
-                    sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList();
-                }
-
-                ControllerHelper.ExportSponsors(sponsors);
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("ExportFailed", "Home");
-            }
-        }
-
-        public ActionResult ExportSponsors()
-        {
-            try
-            {
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
-                ControllerHelper.ExportSponsors(sponsors);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
         public IActionResult Index(string searching, int page)
         {
             try
@@ -82,6 +46,12 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.counter = sponsors.Count();
                 ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "sponsors";
+                foreach (Sponsor ben in sponsors)
+                {
+                    stringofids = stringofids + "," + ben.SponsorID;
+                }
+                ViewBag.stringofids = stringofids;
                 sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
                 return View(sponsors);
