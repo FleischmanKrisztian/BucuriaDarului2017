@@ -495,3 +495,9 @@ msgstr "Make this volunteer inactive"
 
 msgid "ExportToExcel"
 msgstr "Export To Excel"
+
+msgid "MessageFailedExport"
+msgstr"Could not open file,it might be open somewhere"
+
+msgid "MessageFailedExport2"
+msgstr "Please,close the file,then load."

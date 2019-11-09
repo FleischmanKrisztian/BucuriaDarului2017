@@ -111,6 +111,11 @@ namespace Finalaplication.Controllers
             return View();
         }
 
+        public IActionResult ExportFailed()
+        {
+            return View();
+        }
+
         public IActionResult Contact()
         {
             try

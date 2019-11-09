@@ -493,3 +493,10 @@ msgstr "Marchează ca inactiv"
 
 msgid "ExportToExcel"
 msgstr "Exportă in Excel"
+
+msgid "MessageFailedExport"
+msgstr "Fisierul nu poate fi deschis.Este posibil să fie deschis."
+
+
+msgid "MessageFailedExport2"
+msgstr "Inchideți fisierul și încercați incă o dată"
