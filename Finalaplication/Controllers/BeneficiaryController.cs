@@ -39,7 +39,7 @@ namespace Finalaplication.Controllers
 
             if (Files.Length > 0)
             {
-                var filename = "baza date Siemens.xlsx";
+                //var filename = "baza date Siemens.xlsx";
 
                 string filePath = Path.GetFileName(Files.FileName);
 
@@ -295,6 +295,7 @@ namespace Finalaplication.Controllers
                         csv1 = csv1.AppendLine(string.Join(";", line));
                     }
                    );
+                
                 System.IO.File.WriteAllText(path, "Firstname,Lastname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,District,City,Street,Number,CNP,Has ID,IDSerie,IDNr,IDEliberat,IdEliberator,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
                 System.IO.File.AppendAllText(path, csv1.ToString());
                 return RedirectToAction("Index");

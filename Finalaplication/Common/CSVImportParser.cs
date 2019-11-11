@@ -11,7 +11,7 @@ namespace Elm.Core.Parsers
         #region private functions
 
         private readonly char[] SeparatorChars = new char[]
-                                                        {
+                                                        {   
                                                             ',',
                                                             ';',
                                                             '!',
@@ -22,12 +22,11 @@ namespace Elm.Core.Parsers
                                                    {
                                                        '"',
                                                        '\'',
-                                                       ' ',
-                                                      
-                                               
+                                                       ' '
                                                    };
 
-        private readonly string SEPARATOR = "\"";
+        private readonly string SEPARATOR = "\"" ;
+        private readonly string SEPARATOR2 = ",";
 
         private char AutoDetectColumnSeparator(string line)
         {
@@ -76,28 +75,30 @@ namespace Elm.Core.Parsers
             List<string[]> list = new List<string[]>();
             RowsData = new List<string[]>();
 
-            using (StreamReader sr = new StreamReader(filename, System.Text.Encoding.Default))
+            using (StreamReader sr = new StreamReader(filename))
             {
-                sr.ReadLine();
                 int totalLines = File.ReadAllLines(filename).Length;
                 int lineCnt = 0;
-                string line = " ";
-                
+                string line = string.Empty;
+                string firstLine = sr.ReadLine();
                 while ((line = sr.ReadLine()) != null)
                 {
                     var ImportColumnSeparator = AutoDetectColumnSeparator(line);
 
                     string[] splits;
-                    if (!line.Contains(SEPARATOR + ImportColumnSeparator))
+                    if (!line.Contains(SEPARATOR + ImportColumnSeparator) || !line.Contains(SEPARATOR2 + ImportColumnSeparator))
                     {
                         splits = line.Split(new char[] { ImportColumnSeparator });
                     }
                     else
                     {
                         splits = line.Split(new string[]
-                        {
+                        {  SEPARATOR,
                             SEPARATOR + ImportColumnSeparator,
-                            ImportColumnSeparator + SEPARATOR
+                            ImportColumnSeparator + SEPARATOR,
+                            SEPARATOR2+ImportColumnSeparator,
+                            ImportColumnSeparator+SEPARATOR2,
+                            SEPARATOR2
                         },
                         StringSplitOptions.None);
                     }
