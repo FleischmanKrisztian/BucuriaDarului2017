@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using TinyCsvParser;
 
@@ -34,203 +35,224 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
+        [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
 
+            string path = " ";
+            //var filename = "baza date Siemens.xlsx";
+
             if (Files.Length > 0)
             {
-                //var filename = "baza date Siemens.xlsx";
+                path = Path.Combine(
+                           Directory.GetCurrentDirectory(), "wwwroot",
+                           Files.FileName);
 
-                string filePath = Path.GetFileName(Files.FileName);
-
-                CSVImportParser cSV = new CSVImportParser(filePath);
-                List<string[]> result = cSV.ExtractDataFromFile(filePath);
-
-
-                Beneficiary beneficiary = new Beneficiary();
-
-                foreach (var details in result)
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    if (details[1] != null)
-                    {
-                        String[] splited = details[1].Split(' ');
-                        beneficiary.Lastname = splited[0];
-                        if (splited.Count() == 2)
-                        {
-
-                            beneficiary.Firstname = splited[1];
-                        }
-                        if (splited.Count() == 3)
-                        {
-
-                            beneficiary.Firstname = splited[1] + "-" + splited[2];
-                        }
-
-
-                        if (details[3] == "activ" || details[3] == "da " || details[3] == "DA ")
-                        {
-                            beneficiary.Active = true;
-                        }
-                        else { beneficiary.Active = false; }
-
-                        if (details[4] == "Da " || details[4] == " da")
-                        {
-                            beneficiary.HomeDelivery = true;
-                        }
-                        else
-                        {
-                            beneficiary.HomeDelivery = false;
-                        }
-
-                        if (details[5] == "da" || details[5] == "DA")
-                        {
-                            beneficiary.Weeklypackage = true;
-                        }
-                        else
-                        { beneficiary.Weeklypackage = false; }
-                        if (details[7] != null)
-                        {
-                            beneficiary.HomeDeliveryDriver = details[7];
-                        }
-                        else
-                        {
-                            beneficiary.HomeDeliveryDriver = " ";
-                        }
-
-
-                        if (details[9] != null || details[9] != " ")
-                        {
-                            beneficiary.CNP = details[9];
-                        }
-
-                        beneficiary.NumberOfPortions = 0;
-                        if (details[18] != null || details[18] != " ")
-                        {
-                            if (int.TryParse(details[18], out int portions))
-                            {
-                                beneficiary.NumberOfPortions = portions;
-                            }
-                        }
-
-                        if (details[19] != null || details[19] != " ")
-                        {
-                            beneficiary.PersonalInfo.PhoneNumber = details[19];
-                        }
-
-                        if (details[20] != null || details[20] != " ")
-                        {
-                            beneficiary.PersonalInfo.BirthPlace = details[2];
-                        }
-
-                        if (details[21] != null)
-                        {
-                            beneficiary.PersonalInfo.Studies = details[21];
-                        }
-
-
-                        beneficiary.PersonalInfo.Profesion = details[22];
-                        beneficiary.PersonalInfo.Ocupation = details[23];
-                        beneficiary.PersonalInfo.SeniorityInWorkField = details[24];
-                        beneficiary.PersonalInfo.HealthState = details[25];
-                        if (details[26] != " " || details[26] != null)
-                        {
-                            beneficiary.PersonalInfo.Disalility = details[26];
-                        }
-                        else { beneficiary.PersonalInfo.Disalility = " "; }
-
-                        if (details[27] != " " || details[27] != null)
-                        {
-                            beneficiary.PersonalInfo.ChronicCondition = details[27];
-                        }
-                        else { beneficiary.PersonalInfo.ChronicCondition = " "; }
-
-                        if (details[28] != " " || details[28] != null)
-                        {
-                            beneficiary.PersonalInfo.Addictions = details[29];
-
-                        }
-                        else { beneficiary.PersonalInfo.Addictions = " "; }
-
-                        if (details[29] == "da" || details[29] == "Da")
-                        {
-                            beneficiary.PersonalInfo.HealthInsurance = true;
-                        }
-                        else { beneficiary.PersonalInfo.HealthInsurance = false; }
-
-                        if (details[30] == "da" || details[30] == "Da")
-                        {
-                            beneficiary.PersonalInfo.HealthCard = true;
-                        }
-                        else { beneficiary.PersonalInfo.HealthCard = false; }
-
-
-
-                        if (details[31] != " " || details[31] != null)
-                        {
-                            beneficiary.PersonalInfo.Married = details[31];
-                        }
-                        else { beneficiary.PersonalInfo.Married = " "; }
-
-                        if (details[32] != " " || details[32] != null)
-                        {
-                            beneficiary.PersonalInfo.SpouseName = details[32];
-                        }
-                        else { beneficiary.PersonalInfo.SpouseName = " "; }
-
-                        if (details[33] != " " || details[33] != null)
-                        {
-                            beneficiary.PersonalInfo.HousingType = details[33];
-                        }
-                        else { beneficiary.PersonalInfo.HousingType = " "; }
-
-                        if (details[34] == "da" || details[34] == "Da")
-                        {
-                            beneficiary.PersonalInfo.HasHome = true;
-                        }
-                        else { beneficiary.PersonalInfo.HasHome = false; }
-
-                        if (details[35] != " " || details[35] != null)
-                        {
-                            beneficiary.PersonalInfo.Income = details[35];
-                        }
-                        else { beneficiary.PersonalInfo.Income = " "; }
-
-                        if (details[36] != " " || details[36] != null)
-                        {
-                            beneficiary.PersonalInfo.Expences = details[36];
-                        }
-                        else { beneficiary.PersonalInfo.Expences = " "; }
-
-                        if (details[37] != null || details[37] != " " || details[38] != null || details[38] != " " || details[39] != null || details[39] != " ")
-                        {
-                            beneficiary.PersonalInfo.Birthdate = Convert.ToDateTime(details[37] + "-" + details[38] + "- " + details[39]);
-                        }
-
-                        if (details[40] == "F" || details[40] == "f" || details[40] == "feminin" || details[40] == "Feminin")
-                        {
-                            beneficiary.PersonalInfo.Gender = VolCommon.Gender.Female;
-                        }
-                        else
-                        {
-                            beneficiary.PersonalInfo.Gender = VolCommon.Gender.Male;
-                        }
-
-                        beneficiarycollection.InsertOne(beneficiary);
-
-
-
-                    }
-
+                    Files.CopyTo(stream);
                 }
 
+
             }
-           
 
+            // string filePath = Path.GetFileName(Files.FileName);
+            // var filePath = ContentDispositionHeaderValue.Parse(Files.ContentDisposition).FileName.Replace("\"", string.Empty);
+
+
+            CSVImportParser cSV = new CSVImportParser(path);
+            List<string[]> result = cSV.ExtractDataFromFile(path);
+
+
+            Beneficiary beneficiary = new Beneficiary();
+
+            foreach (var details in result)
+            {
+                if (details[1] != null)
+                {
+                    String[] splited = details[1].Split(' ');
+                    beneficiary.Lastname = splited[0];
+                    if (splited.Count() == 2)
+                    {
+
+                        beneficiary.Firstname = splited[1];
+                    }
+                    if (splited.Count() == 3)
+                    {
+
+                        beneficiary.Firstname = splited[1] + "-" + splited[2];
+                    }
+
+
+                    if (details[3] == "activ" || details[3] == "da " || details[3] == "DA ")
+                    {
+                        beneficiary.Active = true;
+                    }
+                    else { beneficiary.Active = false; }
+
+                    if (details[4] == "Da " || details[4] == " da")
+                    {
+                        beneficiary.HomeDelivery = true;
+                    }
+                    else
+                    {
+                        beneficiary.HomeDelivery = false;
+                    }
+
+                    if (details[5] == "da" || details[5] == "DA")
+                    {
+                        beneficiary.Weeklypackage = true;
+                    }
+                    else
+                    { beneficiary.Weeklypackage = false; }
+                    if (details[6] != null)
+                    {
+                        beneficiary.HomeDeliveryDriver = details[6];
+                    }
+                    else
+                    {
+                        beneficiary.HomeDeliveryDriver = " ";
+                    }
+
+
+                    if (details[13] != null || details[13] != " ")
+                    {
+                        beneficiary.CNP = details[13];
+                    }
+
+                    beneficiary.NumberOfPortions = 0;
+                    if (details[23] != null || details[23] != " ")
+                    {
+                        if (int.TryParse(details[23], out int portions))
+                        {
+                            beneficiary.NumberOfPortions = portions;
+                        }
+                    }
+
+                    if (details[24] != null || details[24] != " ")
+                    {
+                        beneficiary.PersonalInfo.PhoneNumber = details[19];
+                    }
+
+                    if (details[20] != null || details[20] != " ")
+                    {
+                        beneficiary.PersonalInfo.BirthPlace = details[2];
+                    }
+
+                    if (details[21] != null)
+                    {
+                        beneficiary.PersonalInfo.Studies = details[21];
+                    }
+
+
+                    beneficiary.PersonalInfo.Profesion = details[22];
+                    beneficiary.PersonalInfo.Ocupation = details[23];
+                    beneficiary.PersonalInfo.SeniorityInWorkField = details[24];
+                    beneficiary.PersonalInfo.HealthState = details[25];
+                    if (details[26] != " " || details[26] != null)
+                    {
+                        beneficiary.PersonalInfo.Disalility = details[26];
+                    }
+                    else { beneficiary.PersonalInfo.Disalility = " "; }
+
+                    if (details[27] != " " || details[27] != null)
+                    {
+                        beneficiary.PersonalInfo.ChronicCondition = details[27];
+                    }
+                    else { beneficiary.PersonalInfo.ChronicCondition = " "; }
+
+                    if (details[28] != " " || details[28] != null)
+                    {
+                        beneficiary.PersonalInfo.Addictions = details[29];
+
+                    }
+                    else { beneficiary.PersonalInfo.Addictions = " "; }
+
+                    if (details[29] == "da" || details[29] == "Da")
+                    {
+                        beneficiary.PersonalInfo.HealthInsurance = true;
+                    }
+                    else { beneficiary.PersonalInfo.HealthInsurance = false; }
+
+                    if (details[30] == "da" || details[30] == "Da")
+                    {
+                        beneficiary.PersonalInfo.HealthCard = true;
+                    }
+                    else { beneficiary.PersonalInfo.HealthCard = false; }
+
+
+
+                    if (details[31] != " " || details[31] != null)
+                    {
+                        beneficiary.PersonalInfo.Married = details[31];
+                    }
+                    else { beneficiary.PersonalInfo.Married = " "; }
+
+                    if (details[32] != " " || details[32] != null)
+                    {
+                        beneficiary.PersonalInfo.SpouseName = details[32];
+                    }
+                    else { beneficiary.PersonalInfo.SpouseName = " "; }
+
+                    if (details[33] != " " || details[33] != null)
+                    {
+                        beneficiary.PersonalInfo.HousingType = details[33];
+                    }
+                    else { beneficiary.PersonalInfo.HousingType = " "; }
+
+                    if (details[34] == "da" || details[34] == "Da")
+                    {
+                        beneficiary.PersonalInfo.HasHome = true;
+                    }
+                    else { beneficiary.PersonalInfo.HasHome = false; }
+
+                    if (details[35] != " " || details[35] != null)
+                    {
+                        beneficiary.PersonalInfo.Income = details[35];
+                    }
+                    else { beneficiary.PersonalInfo.Income = " "; }
+
+                    if (details[36] != " " || details[36] != null)
+                    {
+                        beneficiary.PersonalInfo.Expences = details[36];
+                    }
+                    else { beneficiary.PersonalInfo.Expences = " "; }
+
+                    if (details[37] != null || details[37] != " " || details[38] != null || details[38] != " " || details[39] != null || details[39] != " ")
+                    {
+                        beneficiary.PersonalInfo.Birthdate = Convert.ToDateTime(details[37] + "-" + details[38] + "- " + details[39]);
+                    }
+
+                    if (details[40] == "F" || details[40] == "f" || details[40] == "feminin" || details[40] == "Feminin")
+                    {
+                        beneficiary.PersonalInfo.Gender = VolCommon.Gender.Female;
+                    }
+                    else
+                    {
+                        beneficiary.PersonalInfo.Gender = VolCommon.Gender.Male;
+                    }
+
+                    beneficiarycollection.InsertOne(beneficiary);
+                   
+
+
+                  }
+               
+            }
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
             return RedirectToAction("Index");
+        }
+      
+            
 
-    }
 
-        public ActionResult ExportBeneficiaries()
+    
+
+    public ActionResult ExportBeneficiaries()
         {
             try
             {
