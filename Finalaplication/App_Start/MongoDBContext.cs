@@ -61,7 +61,7 @@ namespace Finalaplication.App_Start
             // Offline mode considered secondary
             string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
             string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
-            Int32.TryParse(envServerPort, out int numServerPort);
+            int numServerPort = Int32.Parse(envServerPort);
             string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
 
             return getDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
