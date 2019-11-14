@@ -59,10 +59,13 @@ namespace Finalaplication.App_Start
             string envVarNamePort)
         {
             // Offline mode considered secondary
-            string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
-            string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
-            Int32.TryParse(envServerPort, out int numServerPort);
-            string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
+            //string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
+            string envServerAddress = "172.17.0.2";
+            string envDatabaseName = "BucuriaDaruluiOffline";
+            int numServerPort = 27017;
+           // string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
+           // int numServerPort = Int32.Parse(envServerPort);
+           // string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
 
             return getDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
         }
