@@ -188,7 +188,6 @@ msgid "Volunteers : Contract Alert"
 msgstr "Volunteers : Contract Alert"
 msgid "You are currently"
 msgstr "You are currently"	
-
 msgid "MessageLocalServer"	
 msgstr "The local server must be up and running!"
 msgid "Message2"
@@ -484,7 +483,7 @@ msgstr "Sponsor Allocation"
 msgid "VolunteerAllocation"
 msgstr "Volunteer Allocation"
 
-msgid "PRESS HERE TO RELOAD"
+msgid "PRESSHERETORELOAD"
 msgstr "Press here to reload"
 
 msgid "Choose image"

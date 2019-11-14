@@ -483,7 +483,7 @@ msgstr "Alocați sponsori evenimentului"
 msgid "VolunteerAllocation"
 msgstr "Alocați voluntari evenimentului"
 
-msgid "PRESS HERE TO RELOAD"
+msgid "PRESSHERETORELOAD"
 msgstr "Apasați aici pentru reîncărcare"
 msgid "Choose image"
 msgstr "Alege imaginea"
