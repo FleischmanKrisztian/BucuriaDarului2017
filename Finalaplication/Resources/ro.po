@@ -16,7 +16,6 @@ msgid "BornAfter"
 msgstr "Născut după data de"
 msgid "BornBefore"	
 msgstr "Născut înainte de data de"
-
 msgid "Canteen"
 msgstr "Cantină"
 msgid "Chroniccondition"

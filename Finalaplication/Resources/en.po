@@ -27,28 +27,40 @@ msgstr "Born before"
 
 msgid "Canteen"	
 msgstr "Canteen"
+
 msgid "Chroniccondition"	
 msgstr "Chronic condition"
+
 msgid "CIEliberat"	
 msgstr "Issue date"
+
 msgid "CIeliberator"	
 msgstr "Issued by"
+
 msgid "CIexpirationdate"
 msgstr "CI expiration date"
+
 msgid "CINr"	
 msgstr "Identity card number"
+
 msgid "CISeria"
 msgstr "Series"
+
 msgid "City"	
 msgstr "City"
+
 msgid "CNP"
 msgstr "CNP"
+
 msgid "Comments"
 msgstr "Comments"
+
 msgid "ContractExpiraton"
 msgstr "Contract Expiraton"
+
 msgid "Contractinformation"
 msgstr "Contract information"
+
 msgid "Country"	
 msgstr "District"
 msgid "Create"
@@ -161,7 +173,6 @@ msgid "Studiesandjobrelatedinformation"
 msgstr "Studies and job related information"
 msgid "Weeklypackage"	
 msgstr "Weekly package"
-
 msgid "(internet access necessary)"
 msgstr "(internet access necessary)"
 msgid "Backupdata"	

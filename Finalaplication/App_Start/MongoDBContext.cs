@@ -64,7 +64,7 @@ namespace Finalaplication.App_Start
             //int numServerPort = 27017;
             string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
             string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
-            int numServerPort = Int32.Parse(envVarNamePort);
+            int numServerPort = Convert.ToInt32(envServerPort);
             string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
 
             return getDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
