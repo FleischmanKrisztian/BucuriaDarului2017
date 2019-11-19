@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using TinyCsvParser;
+using VolCommon;
 
 namespace Finalaplication.Controllers
 {
@@ -64,24 +65,19 @@ namespace Finalaplication.Controllers
             List<string[]> result = cSV.ExtractDataFromFile(path);
 
 
-            Beneficiary beneficiary = new Beneficiary();
+           
 
             foreach (var details in result)
             {
+                Beneficiary beneficiary = new Beneficiary();
                 if (details[1] != null)
                 {
-                    String[] splited = details[1].Split(' ');
-                    beneficiary.Lastname = splited[0];
-                    if (splited.Count() == 2)
-                    {
-
-                        beneficiary.Firstname = splited[1];
-                    }
-                    if (splited.Count() == 3)
-                    {
-
-                        beneficiary.Firstname = splited[1] + "-" + splited[2];
-                    }
+                    
+                        beneficiary.Fullname = details[1];
+                }
+                if (details[8] != null)
+                { beneficiary.Adress = details[8];
+                }
 
 
                     if (details[3] == "activ" || details[3] == "da " || details[3] == "DA ")
@@ -129,114 +125,114 @@ namespace Finalaplication.Controllers
                         }
                     }
 
+                Personalinfo personal = new Personalinfo();
+
                     if (details[24] != null || details[24] != " ")
                     {
-                        beneficiary.PersonalInfo.PhoneNumber = details[19];
+                       personal.PhoneNumber = details[19];
                     }
 
                     if (details[20] != null || details[20] != " ")
                     {
-                        beneficiary.PersonalInfo.BirthPlace = details[2];
+                    personal.BirthPlace = details[2];
                     }
 
                     if (details[21] != null)
                     {
-                        beneficiary.PersonalInfo.Studies = details[21];
+                    personal.Studies = details[21];
                     }
 
 
-                    beneficiary.PersonalInfo.Profesion = details[22];
-                    beneficiary.PersonalInfo.Ocupation = details[23];
-                    beneficiary.PersonalInfo.SeniorityInWorkField = details[24];
-                    beneficiary.PersonalInfo.HealthState = details[25];
+                personal.Profesion = details[22];
+                personal.Ocupation = details[23];
+                personal.SeniorityInWorkField = details[24];
+                personal.HealthState = details[25];
                     if (details[26] != " " || details[26] != null)
                     {
-                        beneficiary.PersonalInfo.Disalility = details[26];
+                    personal.Disalility = details[26];
                     }
-                    else { beneficiary.PersonalInfo.Disalility = " "; }
+                    else { personal.Disalility = " "; }
 
                     if (details[27] != " " || details[27] != null)
                     {
-                        beneficiary.PersonalInfo.ChronicCondition = details[27];
+                    personal.ChronicCondition = details[27];
                     }
-                    else { beneficiary.PersonalInfo.ChronicCondition = " "; }
+                    else { personal.ChronicCondition = " "; }
 
                     if (details[28] != " " || details[28] != null)
                     {
-                        beneficiary.PersonalInfo.Addictions = details[29];
+                    personal.Addictions = details[29];
 
                     }
-                    else { beneficiary.PersonalInfo.Addictions = " "; }
+                    else { personal.Addictions = " "; }
 
                     if (details[29] == "da" || details[29] == "Da")
                     {
-                        beneficiary.PersonalInfo.HealthInsurance = true;
+                    personal.HealthInsurance = true;
                     }
-                    else { beneficiary.PersonalInfo.HealthInsurance = false; }
+                    else { personal.HealthInsurance = false; }
 
                     if (details[30] == "da" || details[30] == "Da")
                     {
-                        beneficiary.PersonalInfo.HealthCard = true;
+                    personal.HealthCard = true;
                     }
-                    else { beneficiary.PersonalInfo.HealthCard = false; }
+                    else { personal.HealthCard = false; }
 
 
 
                     if (details[31] != " " || details[31] != null)
                     {
-                        beneficiary.PersonalInfo.Married = details[31];
+                    personal.Married = details[31];
                     }
-                    else { beneficiary.PersonalInfo.Married = " "; }
+                    else { personal.Married = " "; }
 
                     if (details[32] != " " || details[32] != null)
                     {
-                        beneficiary.PersonalInfo.SpouseName = details[32];
+                    personal.SpouseName = details[32];
                     }
-                    else { beneficiary.PersonalInfo.SpouseName = " "; }
+                    else { personal.SpouseName = " "; }
 
                     if (details[33] != " " || details[33] != null)
                     {
-                        beneficiary.PersonalInfo.HousingType = details[33];
+                    personal.HousingType = details[33];
                     }
-                    else { beneficiary.PersonalInfo.HousingType = " "; }
+                    else { personal.HousingType = " "; }
 
                     if (details[34] == "da" || details[34] == "Da")
                     {
-                        beneficiary.PersonalInfo.HasHome = true;
+                    personal.HasHome = true;
                     }
-                    else { beneficiary.PersonalInfo.HasHome = false; }
+                    else { personal.HasHome = false; }
 
                     if (details[35] != " " || details[35] != null)
                     {
-                        beneficiary.PersonalInfo.Income = details[35];
+                    personal.Income = details[35];
                     }
-                    else { beneficiary.PersonalInfo.Income = " "; }
+                    else { personal.Income = " "; }
 
                     if (details[36] != " " || details[36] != null)
                     {
-                        beneficiary.PersonalInfo.Expences = details[36];
+                    personal.Expences = details[36];
                     }
-                    else { beneficiary.PersonalInfo.Expences = " "; }
+                    else { personal.Expences = " "; }
 
-                    if (details[37] != null || details[37] != " " || details[38] != null || details[38] != " " || details[39] != null || details[39] != " ")
-                    {
-                        beneficiary.PersonalInfo.Birthdate = Convert.ToDateTime(details[37] + "-" + details[38] + "- " + details[39]);
-                    }
+                    //if (details[37] != null || details[37] != " " || details[38] != null || details[38] != " " || details[39] != null || details[39] != " ")
+                    //{
+                    //personal.Birthdate = Convert.ToDateTime(details[37] + "-" + details[38] + "- " + details[39]);
+                    //}
 
                     if (details[40] == "F" || details[40] == "f" || details[40] == "feminin" || details[40] == "Feminin")
                     {
-                        beneficiary.PersonalInfo.Gender = VolCommon.Gender.Female;
+                    personal.Gender = VolCommon.Gender.Female;
                     }
                     else
                     {
-                        beneficiary.PersonalInfo.Gender = VolCommon.Gender.Male;
+                    personal.Gender = VolCommon.Gender.Male;
                     }
+                beneficiary.PersonalInfo = personal;
 
                     beneficiarycollection.InsertOne(beneficiary);
                    
-
-
-                  }
                
             }
             FileInfo file = new FileInfo(path);
@@ -263,19 +259,16 @@ namespace Finalaplication.Controllers
                 var allLines = (from Beneficiary in beneficiaries
                                 select new object[]
                                 {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38},{39},{40},{41},{42};",
-                            Beneficiary.Firstname,
-                            Beneficiary.Lastname,
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38};",
+                            Beneficiary.Fullname,
+                           
                             Beneficiary.Active,
                             Beneficiary.Weeklypackage.ToString(),
                             Beneficiary.Canteen.ToString(),
                             Beneficiary.HomeDeliveryDriver,
                             Beneficiary.HasGDPRAgreement.ToString(),
-                            Beneficiary.Adress.District,
-                            Beneficiary.Adress.City,
-                            Beneficiary.Adress.Street,
-                            Beneficiary.Adress.Number,
-                            Beneficiary.CNP,
+                            Beneficiary.Adress,
+                           Beneficiary.CNP,
                             Beneficiary.CI.HasId.ToString(),
                             Beneficiary.CI.CIseria,
                             Beneficiary.CI.CINr,
@@ -360,7 +353,7 @@ namespace Finalaplication.Controllers
 
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-                ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
+                ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
                 ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
                 ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
 
@@ -372,7 +365,7 @@ namespace Finalaplication.Controllers
                 }
                 if (searching != null)
                 {
-                    beneficiaries = beneficiaries.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+                    beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(searching) ).ToList();
                 }
                 if (Homeless == true)
                 {
@@ -397,13 +390,11 @@ namespace Finalaplication.Controllers
                         beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Gender).ToList();
                         break;
 
-                    case "Lastname":
-                        beneficiaries = beneficiaries.OrderBy(s => s.Lastname).ToList();
+                    case "Fullname":
+                        beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
                         break;
 
-                    case "Lastname_desc":
-                        beneficiaries = beneficiaries.OrderByDescending(s => s.Lastname).ToList();
-                        break;
+                  
 
                     case "Active":
                         beneficiaries = beneficiaries.OrderBy(s => s.Active).ToList();
@@ -414,7 +405,7 @@ namespace Finalaplication.Controllers
                         break;
 
                     case "name_desc":
-                        beneficiaries = beneficiaries.OrderByDescending(s => s.Firstname).ToList();
+                        beneficiaries = beneficiaries.OrderByDescending(s => s.Fullname).ToList();
                         break;
 
                     case "Date":
@@ -426,7 +417,7 @@ namespace Finalaplication.Controllers
                         break;
 
                     default:
-                        beneficiaries = beneficiaries.OrderBy(s => s.Firstname).ToList();
+                        beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
                         break;
                 }
                 ViewBag.counter = beneficiaries.Count();
@@ -561,8 +552,8 @@ namespace Finalaplication.Controllers
                         {
                             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                             var update = Builders<Beneficiary>.Update
-                               .Set("Firstname", beneficiary.Firstname)
-                               .Set("Lastname", beneficiary.Lastname)
+                               .Set("Firstname", beneficiary.Fullname)
+                               
                                .Set("Weeklypackage", beneficiary.Weeklypackage)
                                .Set("Active", beneficiary.Active)
                                .Set("Canteen", beneficiary.Canteen)
@@ -571,10 +562,8 @@ namespace Finalaplication.Controllers
                                .Set("CNP", beneficiary.CNP)
                                .Set("NumberOfPortions", beneficiary.NumberOfPortions)
                                .Set("Coments", beneficiary.Coments)
-                               .Set("Adress.District", beneficiary.Adress.District)
-                               .Set("Adress.City", beneficiary.Adress.City)
-                               .Set("Adress.Street", beneficiary.Adress.Street)
-                               .Set("Adress.Number", beneficiary.Adress.Number)
+                               .Set("Adress.District", beneficiary.Adress)
+                              
                                .Set("CI.HasId", beneficiary.CI.HasId)
                                .Set("CI.CIseria", beneficiary.CI.CIseria)
                                .Set("CI.CINr", beneficiary.CI.CINr)

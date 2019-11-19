@@ -25,8 +25,8 @@ namespace Elm.Core.Parsers
                                                        ' '
                                                    };
 
-        private readonly string SEPARATOR = "\"" ;
-        private readonly string SEPARATOR2 = ",";
+        private readonly string SEPARATOR = ";" ;
+        
 
         private char AutoDetectColumnSeparator(string line)
         {
@@ -80,13 +80,16 @@ namespace Elm.Core.Parsers
                 int totalLines = File.ReadAllLines(filename).Length;
                 int lineCnt = 0;
                 string line = string.Empty;
-                string firstLine = sr.ReadLine();
+                string firstrow = sr.ReadLine();
+
+
                 while ((line = sr.ReadLine()) != null)
                 {
+                   
                     var ImportColumnSeparator = AutoDetectColumnSeparator(line);
 
                     string[] splits;
-                    if (!line.Contains(SEPARATOR + ImportColumnSeparator) || !line.Contains(SEPARATOR2 + ImportColumnSeparator))
+                    if (!line.Contains(SEPARATOR + ImportColumnSeparator) )
                     {
                         splits = line.Split(new char[] { ImportColumnSeparator });
                     }
@@ -96,9 +99,9 @@ namespace Elm.Core.Parsers
                         {  SEPARATOR,
                             SEPARATOR + ImportColumnSeparator,
                             ImportColumnSeparator + SEPARATOR,
-                            SEPARATOR2+ImportColumnSeparator,
-                            ImportColumnSeparator+SEPARATOR2,
-                            SEPARATOR2
+                            //SEPARATOR2+ImportColumnSeparator,
+                            //ImportColumnSeparator+SEPARATOR2,
+                            //SEPARATOR2
                         },
                         StringSplitOptions.None);
                     }

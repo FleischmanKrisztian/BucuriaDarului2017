@@ -490,3 +490,6 @@ msgstr "Alege imaginea"
 
 msgid "MakeItInactive"
 msgstr "Marchează ca inactiv"
+
+msgid "Fullname"
+msgstr "Nume și prenume"
