@@ -16,7 +16,6 @@ msgid "BornAfter"
 msgstr "Născut după data de"
 msgid "BornBefore"	
 msgstr "Născut înainte de data de"
-
 msgid "Canteen"
 msgstr "Cantină"
 msgid "Chroniccondition"
@@ -483,7 +482,7 @@ msgstr "Alocați sponsori evenimentului"
 msgid "VolunteerAllocation"
 msgstr "Alocați voluntari evenimentului"
 
-msgid "PRESS HERE TO RELOAD"
+msgid "PRESSHERETORELOAD"
 msgstr "Apasați aici pentru reîncărcare"
 msgid "Choose image"
 msgstr "Alege imaginea"
@@ -491,8 +490,20 @@ msgstr "Alege imaginea"
 msgid "MakeItInactive"
 msgstr "Marchează ca inactiv"
 
+
 msgid "Fullname"
 msgstr "Nume și prenume"
 
 msgid "ExpirationDateCI"
 msgstr "Data expirării CI"
+
+msgid "ExportToExcel"
+msgstr "Exportă in Excel"
+
+msgid "MessageFailedExport"
+msgstr "Fisierul nu poate fi deschis.Este posibil să fie deschis."
+
+
+msgid "MessageFailedExport2"
+msgstr "Inchideți fisierul și încercați incă o dată"
+

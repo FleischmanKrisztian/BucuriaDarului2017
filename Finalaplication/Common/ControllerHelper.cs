@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Finalaplication.Models;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Finalaplication.Common
 {

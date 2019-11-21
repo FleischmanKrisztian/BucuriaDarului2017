@@ -12,10 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Text;
 using TinyCsvParser;
 using VolCommon;
+
 
 namespace Finalaplication.Controllers
 {
@@ -35,6 +35,7 @@ namespace Finalaplication.Controllers
             }
             catch { }
         }
+
 
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
@@ -287,7 +288,7 @@ namespace Finalaplication.Controllers
                 var allLines = (from Beneficiary in beneficiaries
                                 select new object[]
                                 {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34},{35},{36},{37},{38};",
+                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28},{29},{30},{31},{32},{33},{34};",
                             Beneficiary.Fullname,
                            
                             Beneficiary.Active,
@@ -298,10 +299,8 @@ namespace Finalaplication.Controllers
                             Beneficiary.Adress,
                            Beneficiary.CNP,
                             Beneficiary.CI.HasId.ToString(),
-                            Beneficiary.CI.CIseria,
-                            Beneficiary.CI.CINr,
-                            Beneficiary.CI.CIEliberat.ToString(),
-                            Beneficiary.CI.CIeliberator,
+                            Beneficiary.CI.CIinfo,
+                            
                             Beneficiary.Marca.IdAplication.ToString(),
                             Beneficiary.Marca.IdContract.ToString(),
                             Beneficiary.Marca.IdInvestigation.ToString(),
@@ -339,7 +338,7 @@ namespace Finalaplication.Controllers
                     }
                    );
                 
-                System.IO.File.WriteAllText(path, "Firstname,Lastname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,District,City,Street,Number,CNP,Has ID,IDSerie,IDNr,IDEliberat,IdEliberator,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
+                System.IO.File.WriteAllText(path, "Fullname,Active,Weekly package,Canteen,Home Delivery Driver,HAS GDPR,Adress,CNP,Has ID,IDInfo,IDAplication,IDInvestigation,IDContract,Number Of Portions,Last Time Active,Comments,Birthdate,Phone Number,Birth place,Studies,Profession,Occupation,Seniority In Workfield,Health State,Disability,Chronic Condition,Addictions,Health Insurance,Health Card,Married,Spouse Name,Has Home,Housing Type,Income,Expenses,Gender,Has Contract,Number Of Registration,Registration Date,Expiration Date\n");
                 System.IO.File.AppendAllText(path, csv1.ToString());
                 return RedirectToAction("Index");
             }
@@ -348,6 +347,7 @@ namespace Finalaplication.Controllers
                 return RedirectToAction("Localserver", "Home");
             }
         }
+
 
         public ActionResult Contracts(string id)
         {
@@ -451,7 +451,12 @@ namespace Finalaplication.Controllers
                 ViewBag.counter = beneficiaries.Count();
 
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-
+                string stringofids = "beneficiaries";
+                foreach (Beneficiary ben in beneficiaries)
+                {
+                    stringofids= stringofids + "," + ben.BeneficiaryID;
+                }
+                ViewBag.stringofids = stringofids;
                 ViewBag.nrofdocs = nrofdocs;
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
@@ -590,12 +595,9 @@ namespace Finalaplication.Controllers
                                .Set("CNP", beneficiary.CNP)
                                .Set("NumberOfPortions", beneficiary.NumberOfPortions)
                                .Set("Coments", beneficiary.Coments)
-                               .Set("Adress.District", beneficiary.Adress)
+                               .Set("Adress.Adress", beneficiary.Adress)
                               
-                               .Set("CI.HasId", beneficiary.CI.HasId)
-                               .Set("CI.CIseria", beneficiary.CI.CIseria)
-                               .Set("CI.CINr", beneficiary.CI.CINr)
-                               .Set("CI.CIEliberat", beneficiary.CI.CIEliberat.AddHours(5))
+                               .Set("CI.CIinfo",beneficiary.CI.CIinfo)
                                .Set("CI.CIeliberator", beneficiary.CI.CIeliberator)
                                .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
                                .Set("Marca.IdContract", beneficiary.Marca.IdContract)

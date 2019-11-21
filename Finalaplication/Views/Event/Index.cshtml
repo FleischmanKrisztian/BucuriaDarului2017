@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Events";
     int currentpage = ViewBag.Page;
+    string stringofids = ViewBag.stringofids;
 }
 
 @inject IViewLocalizer Localizer
@@ -54,6 +55,8 @@
     @Localizer["Events"] <small> (@ViewBag.counter)</small>
 </h2>
 
+
+
 <p>
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
@@ -62,10 +65,17 @@
 @using (Html.BeginForm("Index", "Event/", FormMethod.Get))
 {
     @Html.TextBox("searching")
-    <button type="submit" class="btn btn-info">
+    <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
     </button>
 
+
+    <br/>
+    <div>
+        @*<a href='@Url.Action("Exportwithfiltersevent", "Event",  new { searching = ViewBag.searching })' class="btn btn-primary">@Localizer["ExportToExcel"]</a>*@
+        <a href="CSVExporterapp:@stringofids">Press this to export to csv</a>
+        <br />
+    </div>
 
     <p>
         <div class="pagination">
@@ -76,40 +86,51 @@
                 {
                     maxpage--;
                 }
-                @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+
+                if(currentpage==1)
+                {
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                }
+                else
+                {
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching })
+                }
                 if(currentpage>=5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, searching = ViewBag.searching })
                 }
                 if(currentpage>3)
                 {
-                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, searching = ViewBag.searching })
                 }
                 if(currentpage>2)
                 {
-                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, searching = ViewBag.searching })
                 }
                 if(currentpage!=1 && currentpage!= maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), " Index", new { page = currentpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searching = ViewBag.searching }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if(currentpage<maxpage-1)
                 {
-                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, searching = ViewBag.searching })
                 }
                 if(currentpage<maxpage-2)
                 {
-                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, searching = ViewBag.searching })
                 }
                 if(currentpage<maxpage-3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, searching = ViewBag.searching })
                 }
-                 if(maxpage!=1)
+                 if(maxpage!=1 && currentpage==maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-
+                else if (maxpage != 1)
+                {
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching })
+                }
             }
             </pre>
         </div>

@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Finalaplication.Controllers
 {
@@ -32,56 +31,6 @@ namespace Finalaplication.Controllers
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
             }
             catch { }
-        }
-
-        public ActionResult ExportVolunteers()
-        {
-            try
-            {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                string path = "./Excelfiles/Volunteers.csv";
-                var allLines = (from Volunteer in volunteers
-                                select new object[]
-                                {
-                             string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18};",
-                            Volunteer.Firstname,
-                            Volunteer.Lastname,
-                            Volunteer.Birthdate.ToString(),
-                            Volunteer.Gender.ToString(),
-                            Volunteer.CNP,
-                            Volunteer.Occupation,
-                            Volunteer.Field_of_activity,
-                            Volunteer.Desired_workplace,
-                            Volunteer.InActivity.ToString(),
-                            Volunteer.HourCount.ToString(),
-                            Volunteer.Additionalinfo.HasCar.ToString(),
-                            Volunteer.Additionalinfo.HasDrivingLicence.ToString(),
-                            Volunteer.Additionalinfo.Remark,
-                            Volunteer.Address.District,
-                            Volunteer.Address.City,
-                            Volunteer.Address.Number,
-                            Volunteer.Address.Street,
-                            Volunteer.ContactInformation.MailAdress,
-                            Volunteer.ContactInformation.PhoneNumber)
-                                }
-                                 ).ToList();
-
-                var csv1 = new StringBuilder();
-
-                allLines.ForEach(line =>
-                {
-                    csv1 = csv1.AppendLine(string.Join(";", line));
-                }
-               );
-                System.IO.File.WriteAllText(path, "Firstname,Lastname,Birthdate,Gender,CNP,Occupation,Filed_of_activity,Desired_workplace,InActivity,HourCount,HasCar,HasDrivingLicence,Remark,District,City,Number,Street,MailAddres,PhoneNumber\n");
-                System.IO.File.AppendAllText(path, csv1.ToString());
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
         }
 
         public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, int page)
@@ -182,6 +131,12 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.counter = volunteers.Count();
                 ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "volunteers";
+                foreach (Volunteer ben in volunteers)
+                {
+                    stringofids = stringofids + "," + ben.VolunteerID;
+                }
+                ViewBag.stringofids = stringofids;
                 volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
                 return View(volunteers);

@@ -8,6 +8,7 @@ namespace Finalaplication.App_Start
 {
     public class MongoDBContext
     {
+        public bool nointernet = false;
         public IMongoDatabase database;
         private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Settings> settingcollection;
@@ -58,10 +59,12 @@ namespace Finalaplication.App_Start
             string envVarNamePort)
         {
             // Offline mode considered secondary
+            //string envServerAddress = "172.17.0.2";
+            //string envDatabaseName = "BucuriaDaruluiOffline";
+            //int numServerPort = 27017;
             string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
             string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
-            int numServerPort = 0;
-            Int32.TryParse(envServerPort, out numServerPort);
+            int numServerPort = Convert.ToInt32(envServerPort);
             string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
 
             return getDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
@@ -79,16 +82,19 @@ namespace Finalaplication.App_Start
                 //In case there is no settings saved it initializes one with these default values.
                 if (totalCount == 0)
                 {
-                    Settings sett = new Settings();
-                    sett.Env = "offline";
-                    sett.Lang = "English";
-                    sett.Quantity = 15;
+                    Settings sett = new Settings
+                    {
+                        Env = VolMongoConstants.CONNECTION_MODE_OFFLINE,
+                        Lang = "English",
+                        Quantity = 15
+                    };
                     settingcollection.InsertOne(sett);
+                    nointernet = true;
                 }
 
                 Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
 
-                bool useOnline = (set.Env == "online");
+                bool useOnline = (set.Env == VolMongoConstants.CONNECTION_MODE_ONLINE);
                 try
                 {
                     if (useOnline)
@@ -105,15 +111,17 @@ namespace Finalaplication.App_Start
                             VolMongoConstants.SERVER_NAME_SECONDARY,
                             VolMongoConstants.DATABASE_NAME_SECONDARY,
                             VolMongoConstants.SERVER_PORT_SECONDARY);
+                            nointernet = true;
                     }
                 }
                 catch (Exception)
                 {
                     //In case there is no internet it changes the environment to offline so it will not try to connect a second time.
-                    set.Env = "offline";
+                    set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
                     settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
                     var client = new MongoClient();
                     database = client.GetDatabase("BucuriaDaruluiOffline");
+                    nointernet = true; 
                 }
             }
             catch
@@ -124,7 +132,7 @@ namespace Finalaplication.App_Start
                 {
                     Settings set = settingcollection.AsQueryable().FirstOrDefault();
                     sett.settingID = set.settingID;
-                    sett.Env = "offline";
+                    sett.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
                     sett.Lang = set.Lang;
                     sett.Quantity = set.Quantity;
                     settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);

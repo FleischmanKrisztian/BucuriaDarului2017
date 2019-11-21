@@ -28,51 +28,11 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
-        public ActionResult ExportSponsors()
-        {
-            try
-            {
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
-                string path = "./Excelfiles/Sponsors.csv";
-
-                var allLines = (from Sponsor in sponsors
-                                select new object[]
-                                {
-                                 string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10};",
-                                 Sponsor.NameOfSponsor,
-                                 Sponsor.ContactInformation.PhoneNumber,
-                                 Sponsor.ContactInformation.MailAdress,
-                                 Sponsor.Contract.HasContract.ToString(),
-                                 Sponsor.Contract.NumberOfRegistration.ToString(),
-                                 Sponsor.Contract.RegistrationDate.ToString(),
-                                 Sponsor.Contract.ExpirationDate.ToString(),
-                                 Sponsor.Sponsorship.Date.ToString(),
-                                 Sponsor.Sponsorship.MoneyAmount.ToString(),
-                                 Sponsor.Sponsorship.WhatGoods,
-                                 Sponsor.Sponsorship.GoodsAmount)
-                                }
-                                 ).ToList();
-
-                var csv1 = new StringBuilder();
-                allLines.ForEach(line =>
-                {
-                    csv1 = csv1.AppendLine(string.Join(";", line));
-                }
-                );
-                System.IO.File.WriteAllText(path, "NameOfSponsor,PhoneNumber,MailAdress,HasContract,NumberOfRegistration,RegistrationDate,ExpirationDate,DateOfSponsorships,MoneyAmount,WhatGoods,GoodsAmount\n");
-                System.IO.File.AppendAllText(path, csv1.ToString());
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
         public IActionResult Index(string searching, int page)
         {
             try
             {
+                ViewBag.searching = searching;
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (page > 0)
@@ -86,6 +46,12 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.counter = sponsors.Count();
                 ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "sponsors";
+                foreach (Sponsor ben in sponsors)
+                {
+                    stringofids = stringofids + "," + ben.SponsorID;
+                }
+                ViewBag.stringofids = stringofids;
                 sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
                 return View(sponsors);
