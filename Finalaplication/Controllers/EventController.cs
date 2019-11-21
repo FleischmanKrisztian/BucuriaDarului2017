@@ -1,13 +1,19 @@
-﻿using Finalaplication.App_Start;
+﻿using CsvHelper;
+using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using TinyCsvParser;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -18,8 +24,9 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
+       
 
-        public EventController()
+        public EventController(IHostingEnvironment env)
         {
             try
             {
@@ -27,6 +34,7 @@ namespace Finalaplication.Controllers
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+             
             }
             catch { }
         }

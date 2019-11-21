@@ -1,9 +1,9 @@
 ﻿namespace VolCommon
 {
     public class Marca
-    {
-        public int IdAplication { get; set; }
-        public int IdInvestigation { get; set; }
-        public int IdContract { get; set; }
+    {  public string marca { get; set; }
+        public string IdAplication { get; set; }
+        public string IdInvestigation { get; set; }
+        public string IdContract { get; set; }
     }
 }

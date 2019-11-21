@@ -54,6 +54,26 @@
     <a href=@Url.Action( "Create")>@Localizer["CreateNew"]</a>
 </p>
 
+<form action="./Beneficiary/FileUpload"
+      enctype="multipart/form-data"
+      method="post">
+    <dl>
+        <dt>
+            <label for="files">File</label>
+        </dt>
+        <dd>
+            <input id="files" type="file"
+                   name="files" onchange=" ShowImagePreview(this)" />
+        </dd>
+    </dl>
+
+    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
+    <div style="margin-top:15px">
+        <output name="result"></output>
+    </div>
+</form>
+
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
 
@@ -169,11 +189,9 @@
     <thead>
         <tr>
             <th>
-                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Firstname"]</a>
+                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Fullname"]</a>
             </th>
-            <th>
-                <a href=@Url.Action( "Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Lastname"]</a>
-            </th>
+          
             <th>
                 <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Active"]</a>
             </th>
@@ -208,11 +226,9 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Firstname)
+                        @Html.DisplayFor(modelItem => item.Fullname)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lastname)
-                    </td>
+                   
                     <td>
                         @Html.DisplayFor(modelItem => item.Active)
                     </td>
@@ -240,3 +256,15 @@
             }}
     </tbody>
 </table>
+
+<script type="text/javascript">
+    function ShowImagePreview(input) {
+        if (input.files && input.files[0]) {
+            var filerd = new FileReader();
+            filerd.onload = function (e) {
+                $('#image-preview').attr('src', e.target.result);
+            }
+            filerd.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

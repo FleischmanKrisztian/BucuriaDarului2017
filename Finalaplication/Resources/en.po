@@ -503,6 +503,13 @@ msgstr  "Choose image"
 msgid "MakeItInactive"
 msgstr "Make this volunteer inactive"
 
+msgrid "Fullname"
+msgstr "Fullname"
+
+
+msgid "ExpirationDateCI"
+msgstr "Expiration date of CI"
+
 msgid "ExportToExcel"
 msgstr "Export To Excel"
 
@@ -511,3 +518,4 @@ msgstr"Could not open file,it might be open somewhere"
 
 msgid "MessageFailedExport2"
 msgstr "Please,close the file,then load."
+

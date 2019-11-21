@@ -36,7 +36,7 @@ namespace Finalaplication.Controllers
                 List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
                 Beneficiary benenficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
                 benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
-                ViewBag.nameofbeneficiary = benenficiary.Firstname + " " + benenficiary.Lastname;
+                ViewBag.nameofbeneficiary = benenficiary.Fullname ;
                 ViewBag.idofbeneficiary = idofbeneficiary;
                 return View(benficiarycontracts);
             }
@@ -89,16 +89,16 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
                         benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
-                        benenficiarycontract.Firstname = beneficiary.Firstname;
-                        benenficiarycontract.Lastname = beneficiary.Lastname;
-                        benenficiarycontract.CNP = beneficiary.CNP;
-                        benenficiarycontract.CIseria = beneficiary.CI.CIseria;
-                        benenficiarycontract.CINr = beneficiary.CI.CINr;
-                        benenficiarycontract.CIEliberat = beneficiary.CI.CIEliberat;
+                        benenficiarycontract.Fullname = beneficiary.Fullname;
+                         benenficiarycontract.CNP = beneficiary.CNP;
+                        //benenficiarycontract.CIseria = beneficiary.CI.CIseria;
+                        //benenficiarycontract.CINr = beneficiary.CI.CINr;
+                        //benenficiarycontract.CIEliberat = beneficiary.CI.CIEliberat;
+                        benenficiarycontract.CIinfo = beneficiary.CI.CIinfo;
                         benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
 
-                        benenficiarycontract.CIeliberator = beneficiary.CI.CIeliberator;
-                        benenficiarycontract.Address = beneficiary.Adress.District + ", " + beneficiary.Adress.City + ", " + beneficiary.Adress.Street + ", " + beneficiary.Adress.Number;
+                        //benenficiarycontract.CIeliberator = beneficiary.CI.CIeliberator;
+                        benenficiarycontract.Address = beneficiary.Adress;
                         benenficiarycontract.OwnerID = idofbeneficiary;
                         beneficiarycontractcollection.InsertOne(benenficiarycontract);
                         return RedirectToAction("Index", new { idofbeneficiary });

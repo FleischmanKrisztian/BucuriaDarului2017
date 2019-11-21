@@ -13,6 +13,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="Json.Net" Version="1.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
@@ -27,6 +28,7 @@
     <PackageReference Include="SWE.Culture" Version="1.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     <PackageReference Include="System.Globalization" Version="4.3.0" />
+    <PackageReference Include="TinyCsvParser" Version="2.5.2" />
   </ItemGroup>
 
 

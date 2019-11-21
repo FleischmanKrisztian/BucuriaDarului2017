@@ -490,6 +490,13 @@ msgstr "Alege imaginea"
 msgid "MakeItInactive"
 msgstr "Marchează ca inactiv"
 
+
+msgid "Fullname"
+msgstr "Nume și prenume"
+
+msgid "ExpirationDateCI"
+msgstr "Data expirării CI"
+
 msgid "ExportToExcel"
 msgstr "Exportă in Excel"
 
@@ -499,3 +506,4 @@ msgstr "Fisierul nu poate fi deschis.Este posibil să fie deschis."
 
 msgid "MessageFailedExport2"
 msgstr "Inchideți fisierul și încercați incă o dată"
+

@@ -61,17 +61,11 @@ namespace wpfapp
                         string[] words = phrase.Split(',');
                         doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
                         doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
-                        doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
+                        doc.ReplaceText("<Fullname>", volc.Fullname);
                         if (volc.CNP != null)
                             doc.ReplaceText("<CNP>", volc.CNP);
-                        if (volc.CIseria != null)
-                            doc.ReplaceText("<Seria>", volc.CIseria);
-                        if (volc.CINr != null)
-                            doc.ReplaceText("<Nr>", volc.CINr);
-                        if (volc.CIEliberat != null)
-                            doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
-                        if (volc.CIeliberator != null)
-                            doc.ReplaceText("<eliberator>", volc.CIeliberator);
+                        if (volc.CIinfo != null)
+                            doc.ReplaceText("<Seria>", volc.CIinfo);
                         if (words[1] != null)
                             doc.ReplaceText("<oras>", words[1]);
                         if (words[2] != null)
