@@ -152,35 +152,31 @@
             @Html.DisplayFor(model => model.CI.HasId)
         </dd>
         <dt class="col-sm-2">
-            @Localizer["CIseria"]:
+            @Localizer["CiInfo"]:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CI.CIseria)
+            @Html.DisplayFor(model => model.CI.CIinfo)
         </dd>
+
         <dt class="col-sm-2">
-            @Localizer["CINr"]:
+            @Localizer["ExpirationDateCI"]:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CI.CINr)
+            @Html.DisplayFor(model => model.CI.ExpirationDateCI)
         </dd>
-        <dt class="col-sm-2">
-            @Localizer["CIEliberat"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CI.CIEliberat)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["CIeliberator"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CI.CIeliberator)
-        </dd>
+
     </dl>
 
     <h3>
         @Localizer["Marcadetails"]:
     </h3>
     <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["Marca"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Marca.marca)
+        </dd>
         <dt class="col-sm-2">
             @Localizer["IDapplication"]:
         </dt>

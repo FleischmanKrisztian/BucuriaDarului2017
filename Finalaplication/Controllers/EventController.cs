@@ -24,7 +24,7 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
-        private IHostingEnvironment hostingEnv;
+       
 
         public EventController(IHostingEnvironment env)
         {
@@ -34,80 +34,12 @@ namespace Finalaplication.Controllers
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-                this.hostingEnv = env;
+             
             }
             catch { }
         }
 
-        public ActionResult FileUpload(IFormFile Files)
-        {
-
-            if (Files.Length > 0)
-            {
-                var filename = "evenimenteTest.csv";
-                //string path = Path.Combine(IHostingEnvironment.WebRootPath("~/UploadedFiles"), fileName);
-                //string fileContent = "";
-               var filePath = Path.GetFullPath(filename);
-                //using (System.IO.StreamReader Reader = new System.IO.StreamReader(filePath))
-                //{
-                //    fileContent = Reader.ReadToEnd();
-
-                //}
-
-                //CsvParserOptions csvParserOptions = new CsvParserOptions(true, ',');
-                //CsvReaderOptions csvReaderOptions = new CsvReaderOptions(new[] { Environment.NewLine });
-                //CsvEventMapping csvMapper = new CsvEventMapping();
-                //CsvParser<Event> csvParser = new CsvParser<Event>(csvParserOptions, csvMapper);
-                //var result = csvParser
-                //             .ReadFromFile(filePath, Encoding.UTF8)
-                //             .ToList();
-                // var result = csvParser
-                //.ReadFromString(csvReaderOptions, fileContent)
-                //.ToList();
-                Event eventt = new Event();
-
-                //foreach (var details in result)
-                //{
-                //    eventt.NameOfEvent = details.Result.NameOfEvent;
-                //    eventt.PlaceOfEvent = details.Result.PlaceOfEvent;
-                //    eventt.NumberOfVolunteersNeeded = details.Result.NumberOfVolunteersNeeded;
-                //    eventt.TypeOfActivities = details.Result.TypeOfActivities;
-                //    eventt.TypeOfEvent = details.Result.TypeOfEvent;
-                //    eventt.Date = details.Result.Date;
-                //   // eventt.Duration = details.Result.Duration;
-                //    eventcollection.InsertOne(eventt);
-                //}
-            }
-            //List<Event> result;
-            //string jsonString;
-            //var filePath = Path.GetTempPath();
-            //using (var reader = new StreamReader(filePath))
-            //        using (var csv = new CsvReader(reader))
-            //       {
-
-            //    csv.Configuration.HasHeaderRecord = true;
-            //    csv.Read();
-            //    result = csv.GetRecords<Event>().ToList();
-            //}
-            ////Csv data as Json string if needed
-            //jsonString = JsonConvert.SerializeObject(result);
-            //foreach (Event details in result)
-            //{
-            //    Event eventt = new Event();
-            //    eventt.NameOfEvent = details.NameOfEvent;
-            //    eventt.PlaceOfEvent = details.PlaceOfEvent;
-            //    eventt.NumberOfVolunteersNeeded = details.NumberOfVolunteersNeeded;
-            //    eventt.TypeOfActivities = details.TypeOfActivities;
-            //    eventt.TypeOfEvent = details.TypeOfEvent;
-            //    eventt.DateOfEvent = details.DateOfEvent;
-            //    eventt.Duration = details.Duration;
-            //    eventcollection.InsertOne(eventt);
-
-            //}
-
-            return RedirectToAction("Index");
-
-        }
+       
 
 
         public ActionResult Export()

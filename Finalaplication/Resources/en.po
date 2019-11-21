@@ -495,3 +495,7 @@ msgstr "Make this volunteer inactive"
 
 msgrid "Fullname"
 msgstr "Fullname"
+
+
+msgid "ExpirationDateCI"
+msgstr "Expiration date of CI"

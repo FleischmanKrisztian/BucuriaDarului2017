@@ -13,25 +13,26 @@ namespace Finalaplication.Models
 
         public string OwnerID { get; set; }
 
-        public string Firstname { get; set; }
+        public string Fullname { get; set; }
 
-        public string Lastname { get; set; }
+        
 
         public string CNP { get; set; }
 
         public string Address { get; set; }
 
         public string Nrtel { get; set; }
+        public string CIinfo { get; set; }
 
-        public string CIseria { get; set; }
+        //public string CIseria { get; set; }
 
-        public string CINr { get; set; }
+        //public string CINr { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime CIEliberat { get; set; }
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        //public DateTime CIEliberat { get; set; }
 
-        public string CIeliberator { get; set; }
+        //public string CIeliberator { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

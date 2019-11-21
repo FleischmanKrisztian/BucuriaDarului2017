@@ -12,7 +12,7 @@ namespace Elm.Core.Parsers
 
         private readonly char[] SeparatorChars = new char[]
                                                         {   
-                                                            ',',
+                                                            
                                                             ';',
                                                             '!',
                                                             '\t'

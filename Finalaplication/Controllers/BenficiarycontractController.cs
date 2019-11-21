@@ -87,14 +87,15 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
                         benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
-                        benenficiarycontract.Firstname = beneficiary.Fullname;
+                        benenficiarycontract.Fullname = beneficiary.Fullname;
                          benenficiarycontract.CNP = beneficiary.CNP;
-                        benenficiarycontract.CIseria = beneficiary.CI.CIseria;
-                        benenficiarycontract.CINr = beneficiary.CI.CINr;
-                        benenficiarycontract.CIEliberat = beneficiary.CI.CIEliberat;
+                        //benenficiarycontract.CIseria = beneficiary.CI.CIseria;
+                        //benenficiarycontract.CINr = beneficiary.CI.CINr;
+                        //benenficiarycontract.CIEliberat = beneficiary.CI.CIEliberat;
+                        benenficiarycontract.CIinfo = beneficiary.CI.CIinfo;
                         benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
 
-                        benenficiarycontract.CIeliberator = beneficiary.CI.CIeliberator;
+                        //benenficiarycontract.CIeliberator = beneficiary.CI.CIeliberator;
                         benenficiarycontract.Address = beneficiary.Adress;
                         benenficiarycontract.OwnerID = idofbeneficiary;
                         beneficiarycontractcollection.InsertOne(benenficiarycontract);
