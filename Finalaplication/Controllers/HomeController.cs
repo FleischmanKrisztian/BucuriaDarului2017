@@ -43,7 +43,7 @@ namespace Finalaplication.Controllers
             {
                 if(dbcontext.nointernet==true)
                 {
-                    TempData["environment"] = VolMongoConstants.CONNECTION_MODE_OFFLINE;
+                    TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = VolMongoConstants.CONNECTION_MODE_OFFLINE;
                 }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
