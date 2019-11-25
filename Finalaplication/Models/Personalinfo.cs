@@ -9,6 +9,7 @@ namespace VolCommon
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
 
+       
         public string PhoneNumber { get; set; }
         public string BirthPlace { get; set; }
         public string Studies { get; set; }
@@ -21,7 +22,7 @@ namespace VolCommon
         public string Addictions { get; set; }
         public bool HealthInsurance { get; set; }
         public bool HealthCard { get; set; }
-        public bool Married { get; set; }
+        public string Married { get; set; }
         public string SpouseName { get; set; }
         public bool HasHome { get; set; }
         public string HousingType { get; set; }

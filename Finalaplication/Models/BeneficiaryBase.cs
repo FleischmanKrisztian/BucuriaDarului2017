@@ -6,17 +6,15 @@ namespace VolCommon
     public class BeneficiaryBase
     {
         [Required]
-        public string Firstname { get; set; }
-
-        [Required]
-        public string Lastname { get; set; }
+        public string Fullname { get; set; }
 
         public bool Active { get; set; }
         public bool Weeklypackage { get; set; }
         public bool Canteen { get; set; }
+        public bool HomeDelivery { get; set; }
         public string HomeDeliveryDriver { get; set; }
         public bool HasGDPRAgreement { get; set; }
-        public Address Adress { get; set; }
+        public string Adress { get; set; }
         public string CNP { get; set; }
         public CI CI { get; set; }
         public Marca Marca { get; set; }

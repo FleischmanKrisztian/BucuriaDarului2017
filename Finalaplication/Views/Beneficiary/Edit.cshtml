@@ -22,20 +22,13 @@
         @Localizer["PersonalInformation"]:
     </h4>
     <div class="form-group">
-        @Localizer["Firstname"]:
+        @Localizer["Fullname"]:
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
 
-        @Localizer["Lastname"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
-        </div>
-    </div>
     @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
     {
         <div class="form-group">
@@ -172,37 +165,15 @@
             </div>
         </div>
     </div>
-    <h4>
+
+    <div class="form-group">
         @Localizer["AddressInformation"]:
-    </h4>
-    <div class="form-group">
-        @Localizer["District"]:
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.District, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.District, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adress, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adress, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
-        @Localizer["City"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.City, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Localizer["Street"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.Street, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.Street, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Localizer["Number"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Adress.Number, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Adress.Number, "", new { @class = "text-danger" })
-        </div>
-    </div>
+
 
     <h4>
         @Localizer["IDInformation"]:
@@ -217,37 +188,31 @@
         </div>
     </div>
     <div class="form-group">
-        @Localizer["CISeria"]:
+        @Localizer["CiInfo"]:
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CI.CIseria, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CI.CIseria, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.CI.CIinfo, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CI.CIinfo, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Localizer["CINr"]:
+        @Localizer["ExpirationDateCI"]:
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CI.CINr, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CI.CINr, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.CI.ExpirationDateCI, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CI.ExpirationDateCI, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
-        @Localizer["CIEliberat"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CI.CIEliberat, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CI.CIEliberat, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Localizer["CIeliberator"]:
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CI.CIeliberator, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CI.CIeliberator, "", new { @class = "text-danger" })
-        </div>
-    </div>
+  
 
     <h4>
         @Localizer["Marcadetails"]:
     </h4>
+    <div class="form-group">
+        @Localizer["Marca"]:
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Marca.marca, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Marca.marca, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         @Localizer["IDapplication"]:
