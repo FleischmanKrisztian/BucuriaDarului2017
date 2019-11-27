@@ -17,5 +17,7 @@
         public const string CONNECTION_ENVIRONMENT = "environment";
 
         public const int DEFAULT_NUMBER_OF_ITEMS_PER_PAGE = 15;
+
+        public const string CONNECTION_LANGUAGE = "Language";
     }
 }
