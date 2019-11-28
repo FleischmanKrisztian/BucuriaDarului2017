@@ -36,29 +36,35 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
+        public ActionResult FileUpload()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public ActionResult FileUpload(IFormFile Files)
+            public ActionResult FileUpload(IFormFile Files)
         {
 
             string path = " ";
-            //var filename = "baza date Siemens.xlsx";
-
-            if (Files.Length > 0)
-            {
-                path = Path.Combine(
-                           Directory.GetCurrentDirectory(), "wwwroot",
-                           Files.FileName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
+            
+          
+                if (Files.Length > 0)
                 {
-                    Files.CopyTo(stream);
+                    path = Path.Combine(
+                               Directory.GetCurrentDirectory(), "wwwroot",
+                               Files.FileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        Files.CopyTo(stream);
+                    }
+
+                } 
+                else
+                {
+                    return View();
                 }
-
-
-            }
-
-
+            
 
             CSVImportParser cSV = new CSVImportParser(path);
             List<string[]> result = cSV.ExtractDataFromFile(path);

@@ -522,4 +522,14 @@ msgstr "Please,close the file,then load."
 msgid "CiInfo"
 msgstr "CI information"
 
+msgid "Choose"
+msgstr "Choose a file"
+
+msgid "Upload"
+msgstr "Upload"
+
+msgid "Choosefile"
+msgstr "Choose file"
+
+
 

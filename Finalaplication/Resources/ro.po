@@ -510,3 +510,12 @@ msgstr "Inchideți fisierul și încercați incă o dată"
 
 msgid "CiInfo"
 msgstr "Informații carte de identitate"
+
+msgid "Choose"
+msgstr "Alege fișierul dorit"
+
+msgid "Upload"
+msgstr "Încarcă"
+
+msgid "Choosefile"
+msgstr "Caută"
