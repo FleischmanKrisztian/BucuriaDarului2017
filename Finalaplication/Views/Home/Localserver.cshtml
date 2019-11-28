@@ -6,24 +6,20 @@
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<table class="table" style="text-align:center">
-    <tr>
-        <td colspan="20" style="color:red">
-            <h1>@Localizer["MessageLocalServer"]</h1>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="8">
-            <h2 style="color:black">@Localizer["Message2"]</h2>
-        </td>
-        <td>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <h1><a href="../../Home/" style="color:blue">@Localizer["PRESSHERETORELOAD"]</a></h1>
-        </td>
-    </tr>
-</table>
+<div>
+  
+    <div class="container">
+        <div class="row">
+            <div colspan="20" style="color:black">
+                <h2>@Localizer["MessageLocalServer"]</h2>
+            </div>
+            @*<div colspan="8">
+                <h4 >@Localizer["Message2"]</h4>
+            </div>*@
+            <div colspan="8">
+                <h4 ><a href="../../Home/" style="color:blue">@Localizer["PRESSHERETORELOAD"]</a></h4>
+            </div>
+
+        </div>
+    </div>
+</div>

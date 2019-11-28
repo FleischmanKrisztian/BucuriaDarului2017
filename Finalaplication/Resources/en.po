@@ -510,7 +510,7 @@ msgstr "Fullname"
 msgid "ExpirationDateCI"
 msgstr "Expiration date of CI"
 
-msgid "ExportToExcel"
+msgid "ExportToCsv"
 msgstr "Export To Excel"
 
 msgid "MessageFailedExport"
@@ -518,4 +518,8 @@ msgstr"Could not open file,it might be open somewhere"
 
 msgid "MessageFailedExport2"
 msgstr "Please,close the file,then load."
+
+msgid "CiInfo"
+msgstr "CI information"
+
 

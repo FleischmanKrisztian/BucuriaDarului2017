@@ -497,7 +497,7 @@ msgstr "Nume și prenume"
 msgid "ExpirationDateCI"
 msgstr "Data expirării CI"
 
-msgid "ExportToExcel"
+msgid "ExportToCsv"
 msgstr "Exportă in Excel"
 
 msgid "MessageFailedExport"
@@ -507,3 +507,6 @@ msgstr "Fisierul nu poate fi deschis.Este posibil să fie deschis."
 msgid "MessageFailedExport2"
 msgstr "Inchideți fisierul și încercați incă o dată"
 
+
+msgid "CiInfo"
+msgstr "Informații carte de identitate"
