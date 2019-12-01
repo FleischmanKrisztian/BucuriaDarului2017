@@ -44,7 +44,7 @@ namespace wpfapp
                 {
                     //Trebuie facut pentru contract Beneficiar
 
-                    /*if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true)
+                    if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
@@ -65,15 +65,9 @@ namespace wpfapp
                         if (volc.CNP != null)
                             doc.ReplaceText("<CNP>", volc.CNP);
                         if (volc.CIinfo != null)
-                            doc.ReplaceText("<Seria>", volc.CIinfo);
-                        if (words[1] != null)
-                            doc.ReplaceText("<oras>", words[1]);
-                        if (words[2] != null)
-                            doc.ReplaceText("<str>", words[2]);
-                        if (words[3] != null)
-                            doc.ReplaceText("<nr>", words[3]);
-                        if (words[0] != null)
-                            doc.ReplaceText("<jud>", words[0]);
+                            doc.ReplaceText("<CiInfo>", volc.CIinfo);
+                        if (volc.Address != null)
+                            doc.ReplaceText("<Adresa>",volc.Address);
                         if (volc.Nrtel != null)
                             doc.ReplaceText("<tel>", volc.Nrtel);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
@@ -83,7 +77,7 @@ namespace wpfapp
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }
-                    else*/
+                    else
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         var doc = DocX.Load(richTextBox1.Text);
