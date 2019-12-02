@@ -44,7 +44,7 @@ namespace wpfapp
                 {
                     //Trebuie facut pentru contract Beneficiar
 
-                    if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true)
+                    if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("Beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
