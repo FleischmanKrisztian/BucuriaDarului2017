@@ -59,7 +59,7 @@ namespace CSVExporter.StringtoCsv
             return csv.ToString();
         }
 
-        public static string jsonToCSV(string jsonContent, string delimiter = ",")
+        public static string jsonToCSV(string jsonContent, string delimiter = ";")
         {
             StringWriter csvString = new StringWriter();
             using (var csv = new CsvWriter(csvString))
