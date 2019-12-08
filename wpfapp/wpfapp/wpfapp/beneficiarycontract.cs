@@ -16,7 +16,7 @@ namespace wpfapp
         public string Nrtel { get; set; }
         public string CIinfo { get; set; }
         public DateTime Birthdate { get; set; }
-        public int NumberOfRegistration { get; set; }
+        public string NumberOfRegistration { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime ExpirationDate { get; set; }
 

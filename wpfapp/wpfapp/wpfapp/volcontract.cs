@@ -20,7 +20,7 @@ namespace wpfapp
 
         public DateTime Birthdate { get; set; }
 
-        public int NumberOfRegistration { get; set; }
+        public string NumberOfRegistration { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 
