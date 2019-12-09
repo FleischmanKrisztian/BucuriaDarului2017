@@ -1,13 +1,18 @@
-﻿using Finalaplication.App_Start;
+﻿using Elm.Core.Parsers;
+using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using VolCommon;
 
 namespace Finalaplication.Controllers
 {
@@ -27,6 +32,146 @@ namespace Finalaplication.Controllers
             }
             catch { }
         }
+        public ActionResult FileUpload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FileUpload(IFormFile Files)
+        {
+
+            string path = " ";
+
+
+            if (Files.Length > 0)
+            {
+                path = Path.Combine(
+                           Directory.GetCurrentDirectory(), "wwwroot",
+                           Files.FileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    Files.CopyTo(stream);
+                }
+
+            }
+            else
+            {
+                return View();
+            }
+
+
+            CSVImportParser cSV = new CSVImportParser(path);
+            List<string[]> result = cSV.ExtractDataFromFile(path);
+
+            foreach (var details in result)
+            {
+                Sponsor sponsor=new Sponsor();
+                sponsor.NameOfSponsor = details[1];
+                Sponsorship s = new Sponsorship();
+
+                if (details[2] == null || details[2] == "")
+                {
+                    s.Date = DateTime.MinValue;
+                }
+                else
+                {
+                    DateTime data;
+                    if (details[2].Contains("/") == true)
+                    {
+                        string[] date = details[2].Split(" ");
+                        string[] FinalDate = date[0].Split("/");
+                        data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                    }
+                    else
+                    {
+                        string[] anotherDate = details[2].Split('.');
+                        data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                    }
+
+                    s.Date = data;
+                }
+                    s.MoneyAmount = details[3].Replace("/", ","); ;
+                    s.WhatGoods = details[4].Replace("/", ","); ;
+                    s.GoodsAmount = details[5].Replace("/", ","); ;
+                    sponsor.Sponsorship = s;
+
+                    Contract c = new Contract();
+                    if (details[6] == "True" || details[6] == "true")
+                    {
+                        c.HasContract = true;
+                    }
+                    else
+                    {
+                        c.HasContract = false;
+                    }
+
+                c.NumberOfRegistration = details[7];
+
+
+                     if(details[8] == null || details[8] == "")
+                    {
+                        c.RegistrationDate = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        DateTime dataS;
+                        if (details[8].Contains("/") == true)
+                        {
+                            string[] date = details[8].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[8].Split('.');
+                            dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
+
+                        c.RegistrationDate = dataS;
+                    } 
+
+                    if(details[9] == null || details[9] == "")
+                    {
+                        c.ExpirationDate = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        DateTime dataS;
+                        if (details[9].Contains("/") == true)
+                        {
+                            string[] date = details[9].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[9].Split('.');
+                            dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
+
+                        c.ExpirationDate = dataS;
+                    }
+                    sponsor.Contract = c;
+
+                    ContactInformation ci = new ContactInformation();
+                    ci.PhoneNumber = details[10].Replace("/",",");
+                    ci.MailAdress= details[11].Replace("/", ","); ;
+                sponsor.ContactInformation = ci;
+                sponsorcollection.InsertOne(sponsor);
+
+
+
+                }
+                FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            return RedirectToAction("Index");
+        }
+
 
         public IActionResult Index(string searching, int page)
         {
