@@ -51,7 +51,7 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 6);
-                        string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
+                        string url = "https://localhost:5000/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
@@ -59,7 +59,7 @@ namespace wpfapp
                         volc = JsonConvert.DeserializeObject<beneficiarycontract>(result);
                         string phrase = volc.Address;
                         string[] words = phrase.Split(',');
-                        doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
+                        doc.ReplaceText("<nrreg>", volc.NumberOfRegistration);
                         doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<Fullname>", volc.Fullname);
                         if (volc.CNP != null)
@@ -92,7 +92,7 @@ namespace wpfapp
                         volc = JsonConvert.DeserializeObject<volcontract>(result);
                         string phrase = volc.Address;
                         string[] words = phrase.Split(',');
-                        doc.ReplaceText("<nrreg>", volc.NumberOfRegistration.ToString());
+                        doc.ReplaceText("<nrreg>", volc.NumberOfRegistration);
                         doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
                         if (volc.CNP != null)

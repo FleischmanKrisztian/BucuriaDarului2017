@@ -21,13 +21,13 @@ namespace VolCommon
 
         public string TypeOfEvent { get; set; }
 
-        public int Duration { get; set; }
+        public string Duration { get; set; }
 
         public string AllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
 
-        public string Date { get; set; }
+        
 
      
 
