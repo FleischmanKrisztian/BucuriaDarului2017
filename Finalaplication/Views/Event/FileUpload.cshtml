@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "FileUpload";
+}
+
+<form action="./FileUpload"
+      enctype="multipart/form-data"
+      method="post">
+    <dl>
+        
+        <dt>
+            <label for="files">@Localizer["Choose"]:</label>
+        </dt>
+        
+        <dd>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="files" id="customFile">
+                <label class="custom-file-label" for="customFile">@Localizer["Choosefile"]</label>
+</div>
+            
+        </dd>
+    </dl>
+
+    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
+    <div style="margin-top:15px">
+        <output name="result"></output>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    function ShowImagePreview(input) {
+        if (input.files && input.files[0]) {
+            var filerd = new FileReader();
+            filerd.onload = function (e) {
+                $('#image-preview').attr('src', e.target.result);
+            }
+            filerd.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+

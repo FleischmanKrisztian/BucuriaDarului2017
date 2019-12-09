@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
@@ -37,6 +38,88 @@ namespace Finalaplication.Controllers
              
             }
             catch { }
+        }
+
+        public ActionResult FileUpload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FileUpload(IFormFile Files)
+        {
+
+            string path = " ";
+
+
+            if (Files.Length > 0)
+            {
+                path = Path.Combine(
+                           Directory.GetCurrentDirectory(), "wwwroot",
+                           Files.FileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    Files.CopyTo(stream);
+                }
+
+            }
+            else
+            {
+                return View();
+            }
+            CSVImportParser cSV = new CSVImportParser(path);
+            List<string[]> result = cSV.ExtractDataFromFile(path);
+            foreach (var details in result)
+            {
+                Event ev = new Event();
+
+                ev.NameOfEvent = details[1].Replace("/", ",");
+                ev.PlaceOfEvent = details[2].Replace("/", ",");
+
+
+                if (details[3] == null || details[3] == "")
+                {
+                    ev.DateOfEvent = DateTime.MinValue;
+                }
+                else
+                {
+                    DateTime data;
+                    if (details[3].Contains("/") == true)
+                    {
+                        string[] date = details[3].Split(" ");
+                        string[] FinalDate = date[0].Split("/");
+                        data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                    }
+                    else
+                    {
+                        string[] anotherDate = details[3].Split('.');
+                        data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                    }
+                    ev.DateOfEvent = data;
+                }
+
+                if (details[4] != null || details[4] != "")
+                {
+                    ev.NumberOfVolunteersNeeded = Convert.ToInt16(details[4]);
+                }
+                else
+                { ev.NumberOfVolunteersNeeded = 0; }
+                ev.TypeOfActivities = details[5].Replace("/", ",");
+                ev.TypeOfEvent = details[6].Replace("/", ",");
+                ev.Duration = details[7].Replace("/", ",");
+                ev.AllocatedVolunteers = details[8];
+                ev.AllocatedSponsors = details[9];
+
+                eventcollection.InsertOne(ev);
+
+            }
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Index(string searching, int page)
