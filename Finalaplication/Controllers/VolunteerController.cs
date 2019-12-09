@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using VolCommon;
@@ -76,10 +77,17 @@ namespace Finalaplication.Controllers
                
                     volunteer.Firstname = details[1];
                 volunteer.Lastname = details[2];
-                //if (details[3] != null || details[3] != "")
-                //{ volunteer.Birthdate = Convert.ToDateTime(details[3]); }
-                //else
-                //{ volunteer.Birthdate = DateTime.MinValue;  }
+                if (details[3] != null || details[3] != "")
+                {
+                    string[] date;
+                    date = details[3].Split(" ");
+                    
+                    string[] FinalDate=date[0].Split("/");
+                    DateTime data= Convert.ToDateTime(FinalDate[2]+"-"+ FinalDate[0] + "-"+ FinalDate[1] );
+                    
+                    volunteer.Birthdate= data; }
+                else
+                { volunteer.Birthdate = DateTime.MinValue; }
 
                 Address a = new Address();
                 if (details[4] == null || details[4] == "")
@@ -111,46 +119,52 @@ namespace Finalaplication.Controllers
                     volunteer.Gender = VolCommon.Gender.Male;
                 }
 
-                if (details[8] != null || details[8] != "")
+                if (details[9] != null || details[9] != "")
                 {
                     volunteer.Desired_workplace = details[8];
                 }
 
-                if (details[9] != null || details[9] != "")
+                if (details[10] != null || details[10] != "")
                 {
                     volunteer.CNP = details[9];
                 }
 
-                if (details[10] != null || details[10] != "")
+                if (details[11] != null || details[11] != "")
                 {
                     volunteer.Field_of_activity = details[10];
                 }
 
-                if (details[11] != null || details[11] != "")
+                if (details[12] != null || details[12] != "")
                 {
                     volunteer.Occupation = details[11];
                 }
 
-                if (details[12] != null || details[12] != "")
+                if (details[13] != null || details[13] != "")
                 {
-                    volunteer.CIseria = details[12];
+                    volunteer.CIseria = details[13];
                 }
 
-                if (details[13] != null || details[13] != "")
+                if (details[14] != null || details[14] != "")
                 {
                     volunteer.CINr = details[13];
                 }
-                //if (details[14] != null || details[14] != "")
-                //{
-                //    volunteer.CIEliberat = Convert.ToDateTime(details[14]);
-                //}
-                //else
-                //{ volunteer.CIEliberat= DateTime.MinValue; }
+                if (details[15] != null || details[15] != "")
+                {
+                    string[] date;
+                    date = details[15].Split(" ");
+
+                    string[] FinalDate = date[0].Split("/");
+                    DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                    volunteer.CIEliberat = data;
+                }
+                else
+                { volunteer.CIEliberat = DateTime.MinValue; }
+
                 if (details[16] != null || details[16] != "")
                 {
                     volunteer.CIeliberator = details[15];
                 }
-                if (details[16] == "True")
+                if (details[17] == "True")
                 {
                     volunteer.InActivity = true;
                 }
@@ -158,23 +172,27 @@ namespace Finalaplication.Controllers
                     volunteer.InActivity = false;
                 }
 
-                //if (details[17] != null || details[17] != "")
-                //{
-                //    volunteer.HourCount = Convert.ToInt16(details[17]);
-                //}
-                ContactInformation c = new ContactInformation();
-                if (details[18] != null || details[18] != "")
+                if (details[18] != null || details[18] != "0" || details[18] != "")
                 {
-                    c.PhoneNumber = details[18];
+                    volunteer.HourCount = Convert.ToInt16(details[18]);
                 }
+                else
+                {
+                    volunteer.HourCount = 0;
+                }
+                ContactInformation c = new ContactInformation();
                 if (details[19] != null || details[19] != "")
                 {
-                    c.MailAdress = details[19];
+                    c.PhoneNumber = details[19];
+                }
+                if (details[20] != null || details[20] != "")
+                {
+                    c.MailAdress = details[20];
                 }
                 volunteer.ContactInformation = c;
                 Additionalinfo ai = new Additionalinfo();
 
-                if (details[20] == "True")
+                if (details[21] == "True")
                 {
                     ai.HasDrivingLicence = true;
                 }
@@ -183,7 +201,7 @@ namespace Finalaplication.Controllers
                     ai.HasDrivingLicence = false;
                 }
 
-                if (details[21] == "True")
+                if (details[22] == "True")
                 {
                     ai.HasCar = true;
                 }
@@ -192,9 +210,9 @@ namespace Finalaplication.Controllers
                     ai.HasCar = false;
                 }
 
-                if (details[22] != null || details[22] != "")
+                if (details[23] != null || details[23] != "")
                 {
-                    ai.Remark = details[22];
+                    ai.Remark = details[23];
                 }
                 volunteer.Additionalinfo = ai;
                 vollunteercollection.InsertOne(volunteer);
