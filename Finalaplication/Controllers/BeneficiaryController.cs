@@ -229,7 +229,7 @@ namespace Finalaplication.Controllers
                     }
                     else { personal.Expences = " "; }
 
-                    if (details[36] != null || details[36] != " " || details[36] != "-" || details[37] != null || details[37] != " " || details[37] != "-" || details[38] != null || details[38] != " " || details[38] != "-")
+                    if (details[36] != null || details[36] != "" || details[36] != "-" || details[37] != null || details[37] != " " || details[37] != "-" || details[38] != null || details[38] != " " || details[38] != "-")
                     {
                         personal.Birthdate = Convert.ToDateTime(details[36] + "-" + details[37] + "- " + details[38]);
                     }
