@@ -51,6 +51,7 @@ namespace CSVExporter.StringtoCsv
             {
                 using (var w = new ChoCSVWriter(new StringWriter(csv))
                     .WithFirstLineHeader()
+                    .WithDelimiter(";")
                     )
                 {
                     w.Write(p);
