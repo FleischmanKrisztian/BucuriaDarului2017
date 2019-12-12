@@ -72,8 +72,15 @@ namespace wpfapp
                             doc.ReplaceText("<tel>", volc.Nrtel);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
-
-                        doc.SaveAs(saveFileDialog1.FileName);
+                        if (saveFileDialog1.FileName.Contains(".docx") == true)
+                        {
+                            doc.SaveAs(saveFileDialog1.FileName );
+                        }
+                        else
+                        {
+                            doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
+                        }
+                        
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }
@@ -118,7 +125,15 @@ namespace wpfapp
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
                         doc.ReplaceText("<hourcount>", volc.HourCount.ToString());
-                        doc.SaveAs(saveFileDialog1.FileName);
+                        if (saveFileDialog1.FileName.Contains(".docx") == true)
+                        {
+                            doc.SaveAs(saveFileDialog1.FileName);
+                        }
+                        else
+                        {
+                            doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
+                        }
+                       
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }

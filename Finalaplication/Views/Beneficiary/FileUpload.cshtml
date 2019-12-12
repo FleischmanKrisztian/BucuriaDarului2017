@@ -15,10 +15,7 @@
         </dt>
         
         <dd>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" name="files" id="customFile">
-                <label class="custom-file-label" for="customFile">@Localizer["Choosefile"]</label>
-</div>
+            <input type="file" id="myFile" name="Files">
             
         </dd>
     </dl>
@@ -32,14 +29,9 @@
 
 
 <script type="text/javascript">
-    function ShowImagePreview(input) {
-        if (input.files && input.files[0]) {
-            var filerd = new FileReader();
-            filerd.onload = function (e) {
-                $('#image-preview').attr('src', e.target.result);
-            }
-            filerd.readAsDataURL(input.files[0]);
-        }
-    }
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
 </script>
 

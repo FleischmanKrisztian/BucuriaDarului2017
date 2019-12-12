@@ -36,8 +36,6 @@ namespace CSVExporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-
             Stream myStream;
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -45,7 +43,16 @@ namespace CSVExporter
                 if ((myStream = saveFileDialog1.OpenFile()) != null)
                 {
                     myStream.Close();
-                    string strfilename = saveFileDialog1.FileName;
+                    string strfilename;
+                    if (saveFileDialog1.FileName.Contains(".csv") == true)
+                    {
+                        strfilename = saveFileDialog1.FileName;
+                    }
+                    else
+                    {
+                        strfilename = saveFileDialog1.FileName + "." + "csv";
+                    }
+
                     richTextBox1.Text = strfilename;
                 }
             }
