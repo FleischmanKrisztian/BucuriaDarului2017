@@ -133,6 +133,7 @@ namespace Finalaplication.App_Start
                     sett.Quantity = set.Quantity;
                     settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
                     var client = new MongoClient();
+                    nointernet = true;
                     database = client.GetDatabase("BucuriaDaruluiOffline");
                 }
                 catch
