@@ -58,10 +58,6 @@ namespace Finalaplication.App_Start
             string envVarDbName,
             string envVarNamePort)
         {
-            // Offline mode considered secondary
-            //string envServerAddress = "172.17.0.2";
-            //string envDatabaseName = "BucuriaDaruluiOffline";
-            //int numServerPort = 27017;
             string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
             string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
             int numServerPort = Convert.ToInt32(envServerPort);

@@ -855,6 +855,7 @@ namespace Finalaplication.Controllers
                     if (Inactive == false)
                     {
                         beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
+                        beneficiarycontractcollection.DeleteMany(zzz => zzz.OwnerID == id);
                         return RedirectToAction("Index");
                     }
                     else

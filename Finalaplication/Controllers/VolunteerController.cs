@@ -555,7 +555,7 @@ public ActionResult Index(string lang, string sortOrder, string searching, bool 
                     if (Inactive == false)
                     {
                         vollunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id)));
-
+                        volcontractcollection.DeleteMany(zzz => zzz.OwnerID == id);
                         return RedirectToAction("Index");
                     }
                     else
