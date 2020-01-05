@@ -394,13 +394,13 @@ namespace Finalaplication.Controllers
                     }
                     else { personal.Addictions = " "; }
 
-                    if (details[34] == "da" || details[34] == "Da")
+                    if (details[34] == "da" || details[34] == "Da" || details[34] == "true" || details[34] == "True")
                     {
                         personal.HealthInsurance = true;
                     }
                     else { personal.HealthInsurance = false; }
 
-                    if (details[35] == "da" || details[35] == "Da")
+                    if (details[35] == "da" || details[35] == "Da" || details[35] == "true" || details[35] == "True")
                     {
                         personal.HealthCard = true;
                     }
@@ -426,7 +426,7 @@ namespace Finalaplication.Controllers
                     }
                     else { personal.HousingType = " "; }
 
-                    if (details[38] == "da" || details[38] == "Da")
+                    if (details[38] == "da" || details[38] == "Da" || details[38] == "true" || details[38] == "True")
                     {
                         personal.HasHome = true;
                     }
@@ -469,7 +469,7 @@ namespace Finalaplication.Controllers
                     }
 
 
-                    if (details[42] == "F" || details[42] == "f" || details[42] == "feminin" || details[42] == "Feminin")
+                    if (details[42] == "F" || details[42] == "f" || details[42] == "feminin" || details[42] == "Feminin" || details[42] == "1")
                     {
                         personal.Gender = VolCommon.Gender.Female;
                     }
