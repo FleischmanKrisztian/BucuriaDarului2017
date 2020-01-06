@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using VolCommon;
 
 namespace Finalaplication.Controllers
@@ -32,6 +31,7 @@ namespace Finalaplication.Controllers
             }
             catch { }
         }
+
         public ActionResult FileUpload()
         {
             return View();
@@ -40,58 +40,56 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-
-            string path = " ";
-
-
-            if (Files.Length > 0)
+            try
             {
-                path = Path.Combine(
-                           Directory.GetCurrentDirectory(), "wwwroot",
-                           Files.FileName);
+                string path = " ";
 
-                using (var stream = new FileStream(path, FileMode.Create))
+                if (Files.Length > 0)
                 {
-                    Files.CopyTo(stream);
-                }
+                    path = Path.Combine(
+                               Directory.GetCurrentDirectory(), "wwwroot",
+                               Files.FileName);
 
-            }
-            else
-            {
-                return View();
-            }
-
-
-            CSVImportParser cSV = new CSVImportParser(path);
-            List<string[]> result = cSV.ExtractDataFromFile(path);
-
-            foreach (var details in result)
-            {
-                Sponsor sponsor=new Sponsor();
-                sponsor.NameOfSponsor = details[1];
-                Sponsorship s = new Sponsorship();
-
-                if (details[2] == null || details[2] == "")
-                {
-                    s.Date = DateTime.MinValue;
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        Files.CopyTo(stream);
+                    }
                 }
                 else
                 {
-                    DateTime data;
-                    if (details[2].Contains("/") == true)
+                    return View();
+                }
+
+                CSVImportParser cSV = new CSVImportParser(path);
+                List<string[]> result = cSV.ExtractDataFromFile(path);
+
+                foreach (var details in result)
+                {
+                    Sponsor sponsor = new Sponsor();
+                    sponsor.NameOfSponsor = details[1];
+                    Sponsorship s = new Sponsorship();
+
+                    if (details[2] == null || details[2] == "")
                     {
-                        string[] date = details[2].Split(" ");
-                        string[] FinalDate = date[0].Split("/");
-                        data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        s.Date = DateTime.MinValue;
                     }
                     else
                     {
-                        string[] anotherDate = details[2].Split('.');
-                        data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                    }
+                        DateTime data;
+                        if (details[2].Contains("/") == true)
+                        {
+                            string[] date = details[2].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[2].Split('.');
+                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
 
-                    s.Date = data;
-                }
+                        s.Date = data;
+                    }
                     s.MoneyAmount = details[3].Replace("/", ","); ;
                     s.WhatGoods = details[4].Replace("/", ","); ;
                     s.GoodsAmount = details[5].Replace("/", ","); ;
@@ -107,10 +105,9 @@ namespace Finalaplication.Controllers
                         c.HasContract = false;
                     }
 
-                c.NumberOfRegistration = details[7];
+                    c.NumberOfRegistration = details[7];
 
-
-                     if(details[8] == null || details[8] == "")
+                    if (details[8] == null || details[8] == "")
                     {
                         c.RegistrationDate = DateTime.MinValue;
                     }
@@ -130,9 +127,9 @@ namespace Finalaplication.Controllers
                         }
 
                         c.RegistrationDate = dataS;
-                    } 
+                    }
 
-                    if(details[9] == null || details[9] == "")
+                    if (details[9] == null || details[9] == "")
                     {
                         c.ExpirationDate = DateTime.MinValue;
                     }
@@ -156,22 +153,23 @@ namespace Finalaplication.Controllers
                     sponsor.Contract = c;
 
                     ContactInformation ci = new ContactInformation();
-                    ci.PhoneNumber = details[10].Replace("/",",");
-                    ci.MailAdress= details[11].Replace("/", ","); ;
-                sponsor.ContactInformation = ci;
-                sponsorcollection.InsertOne(sponsor);
-
-
-
+                    ci.PhoneNumber = details[10].Replace("/", ",");
+                    ci.MailAdress = details[11].Replace("/", ","); ;
+                    sponsor.ContactInformation = ci;
+                    sponsorcollection.InsertOne(sponsor);
                 }
                 FileInfo file = new FileInfo(path);
-            if (file.Exists)
-            {
-                file.Delete();
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch
+            {
+                return RedirectToAction("IncorrectFile", "Home");
+            }
         }
-
 
         public IActionResult Index(string searching, int page)
         {
