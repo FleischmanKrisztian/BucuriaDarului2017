@@ -261,3 +261,13 @@ __pycache__/
 *.csv
 *.docx
 *.docx#
+Finalaplication/mongo-storage/WiredTiger.wt.5
+Finalaplication/mongo-storage/WiredTiger.wt.4
+Finalaplication/mongo-storage/WiredTiger.wt.3
+Finalaplication/mongo-storage/WiredTiger.wt.2
+Finalaplication/mongo-storage/WiredTiger.wt.1
+Finalaplication/mongo-storage/WiredTiger.wt
+Finalaplication/mongo-storage/WiredTiger.lock
+Finalaplication/mongo-storage/WiredTiger
+Finalaplication/mongo-storage/mongod.lock
+*.4

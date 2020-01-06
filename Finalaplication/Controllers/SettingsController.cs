@@ -47,6 +47,7 @@ namespace Finalaplication.Controllers
             ViewBag.Lang = lang;
             TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
             TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
+            TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
             Response.Cookies.Append(
           CookieRequestCultureProvider.DefaultCookieName,
           CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
@@ -69,6 +70,31 @@ namespace Finalaplication.Controllers
             catch
             {
                return RedirectToAction("Localserver", "Home");
+            }
+        }
+
+        public ActionResult Firststartup()
+        {
+            try
+            {
+                Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+                TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
+                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
+                TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch
+            {
+                Settings set = new Settings();
+                set.Lang = "en";
+                set.Quantity = 10;
+                set.Env = "offline";
+                TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
+                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
+                TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
+
+                return RedirectToAction("Index", "Home");
             }
         }
     }
