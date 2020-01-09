@@ -139,7 +139,7 @@ namespace Elm.Core.Parsers
             {
                 this.RawData = this.ExtractDataFromFile(filename);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //ApplicationLogger.Logger.ErrorFormat("CSVImportParser function exit with message: {0}", ex.Message);
             }

@@ -45,6 +45,11 @@ namespace Finalaplication.Controllers
                 {
                     TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = VolMongoConstants.CONNECTION_MODE_OFFLINE;
                 }
+                if(dbcontext.english==true)
+                {
+                    TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "en";
+                }
+                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = dbcontext.numberofdocsperpage;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
                 List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();

@@ -9,6 +9,8 @@ namespace Finalaplication.App_Start
     public class MongoDBContext
     {
         public bool nointernet = false;
+        public bool english = false;
+        public int numberofdocsperpage;
         public IMongoDatabase database;
         private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Settings> settingcollection;
@@ -86,6 +88,8 @@ namespace Finalaplication.App_Start
                     };
                     settingcollection.InsertOne(sett);
                     nointernet = true;
+                    numberofdocsperpage = 15;
+                    english = true;
                 }
 
                 Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
@@ -139,6 +143,16 @@ namespace Finalaplication.App_Start
                 catch
                 {
                 }
+            }
+            Settings settin = settingcollection.AsQueryable().FirstOrDefault();
+            if (settin.Env == VolMongoConstants.CONNECTION_MODE_OFFLINE)
+            {
+                nointernet = true;
+            }
+            numberofdocsperpage = settin.Quantity;
+            if(settin.Lang == "en")
+            {
+            english = true;
             }
         }
     }
