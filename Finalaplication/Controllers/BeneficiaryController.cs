@@ -220,7 +220,7 @@ namespace Finalaplication.Controllers
                             personal.Birthdate = Convert.ToDateTime(details[36] + "-" + details[37] + "- " + details[38]);
                         }
 
-                        if (details[41] == "F" || details[41] == "f" || details[41] == "feminin" || details[41] == "Feminin")
+                        if (details[42] == "F" || details[42] == "f" || details[42] == "feminin" || details[42] == "Feminin")
                         {
                             personal.Gender = VolCommon.Gender.Female;
                         }
@@ -228,7 +228,7 @@ namespace Finalaplication.Controllers
                         {
                             personal.Gender = VolCommon.Gender.Male;
                         }
-                        beneficiary.Coments = details[42];
+                        beneficiary.Coments = details[43];
 
                         beneficiary.PersonalInfo = personal;
 
