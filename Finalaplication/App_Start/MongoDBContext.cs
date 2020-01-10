@@ -8,12 +8,12 @@ namespace Finalaplication.App_Start
 {
     public class MongoDBContext
     {
-        public bool nointernet = false;
-        public bool english = false;
-        public int numberofdocsperpage;
         public IMongoDatabase database;
         private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Settings> settingcollection;
+        public bool nointernet = false;
+        public bool english = false;
+        public int numberofdocsperpage;
 
         /// <summary>
         /// Creates a new Mongo client and returns the connection.
@@ -87,9 +87,6 @@ namespace Finalaplication.App_Start
                         Quantity = 15
                     };
                     settingcollection.InsertOne(sett);
-                    nointernet = true;
-                    numberofdocsperpage = 15;
-                    english = true;
                 }
 
                 Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
@@ -111,7 +108,6 @@ namespace Finalaplication.App_Start
                             VolMongoConstants.SERVER_NAME_SECONDARY,
                             VolMongoConstants.DATABASE_NAME_SECONDARY,
                             VolMongoConstants.SERVER_PORT_SECONDARY);
-                            nointernet = true;
                     }
                 }
                 catch (Exception)
@@ -121,7 +117,6 @@ namespace Finalaplication.App_Start
                     settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
                     var client = new MongoClient();
                     database = client.GetDatabase("BucuriaDaruluiOffline");
-                    nointernet = true; 
                 }
             }
             catch
@@ -137,7 +132,6 @@ namespace Finalaplication.App_Start
                     sett.Quantity = set.Quantity;
                     settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
                     var client = new MongoClient();
-                    nointernet = true;
                     database = client.GetDatabase("BucuriaDaruluiOffline");
                 }
                 catch
