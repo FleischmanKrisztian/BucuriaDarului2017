@@ -37,9 +37,10 @@ namespace wpfapp
 
         private void button2_Click(object sender, EventArgs e)
         {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             try
             {
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     //Trebuie facut pentru contract Beneficiar
@@ -50,15 +51,19 @@ namespace wpfapp
                         RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
-                        args[1] = args[1].Remove(0, 6);
-                        string url = "https://localhost:5000/api/BeneficiaryValues/" + args[1];
+                        args[1] = args[1].Remove(0, 16);
+                        string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
                         beneficiarycontract volc = new beneficiarycontract();
                         volc = JsonConvert.DeserializeObject<beneficiarycontract>(result);
-                        string phrase = volc.Address;
-                        string[] words = phrase.Split(',');
+                        try
+                        {
+                            string phrase = volc.Address;
+                            string[] words = phrase.Split(',');
+                        }
+                        catch { }
                         doc.ReplaceText("<nrreg>", volc.NumberOfRegistration);
                         doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<Fullname>", volc.Fullname);
@@ -132,6 +137,7 @@ namespace wpfapp
                         else
                         {
                             doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
+                            saveFileDialog1.FileName = saveFileDialog1.FileName + ".docx";
                         }
                        
                         richTextBox2.Text = saveFileDialog1.FileName;
@@ -141,6 +147,7 @@ namespace wpfapp
             }
             catch
             {
+                richTextBox2.Text = saveFileDialog1.FileName;
                 richTextBox3.Text = "an error has occured";
             }
         }
