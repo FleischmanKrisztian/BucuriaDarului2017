@@ -37,6 +37,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult FileUpload()
         {
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
