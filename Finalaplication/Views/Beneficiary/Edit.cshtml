@@ -21,6 +21,42 @@
     <h4>
         @Localizer["PersonalInformation"]:
     </h4>
+
+
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">@Localizer["Uploadimage"]</span>
+        </div>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                   aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)">
+            <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label><br />
+        </div>
+    </div>
+
+    <br />
+
+    @{
+        if (Model.Image != null)
+        {
+            var imageBase64 = Convert.ToBase64String(Model.Image);
+            var imagesrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+            <img src="@imagesrc" id="image-preview" alt="uploaded image preview" style="width:20%;height:auto" />
+        }
+        else
+        {
+            <br />
+            <div class="col-10">
+                <div>
+                    <br />
+                    <img id="image-preview" alt="uploaded image preview" style="width:150px;height:200px" /><br />
+                    <span asp-validation-for="Image"></span>
+                </div>
+            </div>
+        }
+    }
+
+
     <div class="form-group">
         @Localizer["Fullname"]:
         <div class="col-md-10">
@@ -344,3 +380,14 @@
     </div>
 </div>
 }
+<script type="text/javascript">
+    function ShowImagePreview(input) {
+        if (input.files && input.files[0]) {
+            var filerd = new FileReader();
+            filerd.onload = function (e) {
+                $('#image-preview').attr('src', e.target.result);
+            }
+            filerd.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

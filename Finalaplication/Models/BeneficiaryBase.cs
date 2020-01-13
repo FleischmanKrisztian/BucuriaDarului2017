@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace VolCommon
@@ -26,5 +27,8 @@ namespace VolCommon
 
         public string Coments { get; set; }
         public Personalinfo PersonalInfo { get; set; }
+
+        [JsonIgnore]
+        public byte[] Image { get; set; }
     }
 }
