@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System;
 using VolCommon;
 
@@ -8,6 +9,7 @@ namespace Finalaplication.Models
     public class Sponsor : SponsorBase
     {
         [BsonId]
+        [JsonIgnore]
         [BsonRepresentation(BsonType.ObjectId)]
         public string SponsorID { get; set; }
 

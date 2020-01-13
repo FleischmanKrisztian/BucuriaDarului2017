@@ -67,97 +67,128 @@ namespace Finalaplication.Controllers
                 foreach (var details in result)
                 {
                     Sponsor sponsor = new Sponsor();
-                    sponsor.NameOfSponsor = details[1];
                     Sponsorship s = new Sponsorship();
 
-                    if (details[2] == null || details[2] == "")
+                    try
+                    {
+                        sponsor.NameOfSponsor = details[0];
+                    }
+                    catch
+                    {
+                        sponsor.NameOfSponsor = "Invalid name";
+                    }
+                    try
+                    {
+                        if (details[1] == null || details[1] == "")
+                        {
+                            s.Date = DateTime.MinValue;
+                        }
+                        else
+                        {
+                            DateTime data;
+                            if (details[1].Contains("/") == true)
+                            {
+                                string[] date = details[1].Split(" ");
+                                string[] FinalDate = date[0].Split("/");
+                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            }
+                            else
+                            {
+                                string[] anotherDate = details[1].Split('.');
+                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            }
+
+                            s.Date = data;
+                        }
+                    }
+                    catch
                     {
                         s.Date = DateTime.MinValue;
                     }
-                    else
+
+                    try
                     {
-                        DateTime data;
-                        if (details[2].Contains("/") == true)
+                        s.MoneyAmount = details[2];
+                        s.WhatGoods = details[3];
+                        s.GoodsAmount = details[4];
+                        sponsor.Sponsorship = s;
+                    }
+                    catch
+                    {
+                        s.MoneyAmount = "Invalid entry";
+                        s.WhatGoods = "Invalid entry";
+                        s.GoodsAmount = "Invalid entry";
+                        sponsor.Sponsorship = s;
+                    }
+
+                    try
+                    {
+                        Contract c = new Contract();
+                        if (details[5] == "True" || details[5] == "true")
                         {
-                            string[] date = details[2].Split(" ");
-                            string[] FinalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            c.HasContract = true;
                         }
                         else
                         {
-                            string[] anotherDate = details[2].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            c.HasContract = false;
                         }
 
-                        s.Date = data;
-                    }
-                    s.MoneyAmount = details[3].Replace("/", ","); ;
-                    s.WhatGoods = details[4].Replace("/", ","); ;
-                    s.GoodsAmount = details[5].Replace("/", ","); ;
-                    sponsor.Sponsorship = s;
+                        c.NumberOfRegistration = details[6];
 
-                    Contract c = new Contract();
-                    if (details[6] == "True" || details[6] == "true")
-                    {
-                        c.HasContract = true;
-                    }
-                    else
-                    {
-                        c.HasContract = false;
-                    }
-
-                    c.NumberOfRegistration = details[7];
-
-                    if (details[8] == null || details[8] == "")
-                    {
-                        c.RegistrationDate = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime dataS;
-                        if (details[8].Contains("/") == true)
+                        if (details[7] == null || details[7] == "")
                         {
-                            string[] date = details[8].Split(" ");
-                            string[] FinalDate = date[0].Split("/");
-                            dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            c.RegistrationDate = DateTime.MinValue;
                         }
                         else
                         {
-                            string[] anotherDate = details[8].Split('.');
-                            dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            DateTime dataS;
+                            if (details[7].Contains("/") == true)
+                            {
+                                string[] date = details[7].Split(" ");
+                                string[] FinalDate = date[0].Split("/");
+                                dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            }
+                            else
+                            {
+                                string[] anotherDate = details[7].Split('.');
+                                dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            }
+
+                            c.RegistrationDate = dataS;
                         }
 
-                        c.RegistrationDate = dataS;
-                    }
-
-                    if (details[9] == null || details[9] == "")
-                    {
-                        c.ExpirationDate = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime dataS;
-                        if (details[9].Contains("/") == true)
+                        if (details[9] == null || details[8] == "")
                         {
-                            string[] date = details[9].Split(" ");
-                            string[] FinalDate = date[0].Split("/");
-                            dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            c.ExpirationDate = DateTime.MinValue;
                         }
                         else
                         {
-                            string[] anotherDate = details[9].Split('.');
-                            dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            DateTime dataS;
+                            if (details[8].Contains("/") == true)
+                            {
+                                string[] date = details[8].Split(" ");
+                                string[] FinalDate = date[0].Split("/");
+                                dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            }
+                            else
+                            {
+                                string[] anotherDate = details[8].Split('.');
+                                dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            }
+
+                            c.ExpirationDate = dataS;
                         }
+                        sponsor.Contract = c;
 
-                        c.ExpirationDate = dataS;
+                        ContactInformation ci = new ContactInformation();
+                        ci.PhoneNumber = details[9];
+                        ci.MailAdress = details[10];
+                        sponsor.ContactInformation = ci;
+                        sponsorcollection.InsertOne(sponsor);
                     }
-                    sponsor.Contract = c;
-
-                    ContactInformation ci = new ContactInformation();
-                    ci.PhoneNumber = details[10].Replace("/", ",");
-                    ci.MailAdress = details[11].Replace("/", ","); ;
-                    sponsor.ContactInformation = ci;
-                    sponsorcollection.InsertOne(sponsor);
+                    catch
+                    {
+                    }
                 }
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
