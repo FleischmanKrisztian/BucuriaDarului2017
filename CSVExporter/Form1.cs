@@ -36,25 +36,20 @@ namespace CSVExporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Stream myStream;
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                string strfilename;
+                if (saveFileDialog1.FileName.Contains(".csv") == true)
                 {
-                    myStream.Close();
-                    string strfilename;
-                    if (saveFileDialog1.FileName.Contains(".csv") == true)
-                    {
-                        strfilename = saveFileDialog1.FileName;
-                    }
-                    else
-                    {
-                        strfilename = saveFileDialog1.FileName + "." + "csv";
-                    }
-
-                    richTextBox1.Text = strfilename;
+                    strfilename = saveFileDialog1.FileName;
                 }
+                else
+                {
+                    strfilename = saveFileDialog1.FileName + "." + "csv";
+                }
+
+                richTextBox1.Text = strfilename;
             }
         }
 
@@ -65,28 +60,13 @@ namespace CSVExporter
                 string[] args = Environment.GetCommandLineArgs();
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
-                //probabil trebuie modificat
+                //probabil trebuie modifica
                 string url = "http://localhost:5000/api/ExcelPrinter/" + args[1];
+                //string url = "https://localhost:44395/api/ExcelPrinter/" + args[1];
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
                 string path = richTextBox1.Text;
                 string csvasstring = "";
-                if (args[1].Contains("volunteers"))
-                {
-                    csvasstring = StringtoCsv.Methods.VolunteersToCSVFormat(result);
-                }
-                if (args[1].Contains("beneficiaries"))
-                {
-                    csvasstring = StringtoCsv.Methods.BeneficiariesToCSVFormat(result);
-                }
-                if (args[1].Contains("sponsors"))
-                {
-                    csvasstring = StringtoCsv.Methods.SponsorsToCSVFormat(result);
-                }
-                if (args[1].Contains("events"))
-                {
-                    csvasstring = StringtoCsv.Methods.EventsToCSVFormat(result);
-                }
-                //File.WriteAllText(path, "Name,Email,Phone Number,Address
+                csvasstring = StringtoCsv.Methods.JsontoCSV(result);
                 System.IO.StreamWriter objWriter;
                 objWriter = new StreamWriter(path);
                 objWriter.Write(csvasstring);

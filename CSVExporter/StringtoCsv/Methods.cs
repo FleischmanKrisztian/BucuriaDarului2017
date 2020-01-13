@@ -9,29 +9,7 @@ namespace CSVExporter.StringtoCsv
 {
     internal class Methods
     {
-        public static string VolunteersToCSVFormat(string result)
-        {
-            string csvasstring = "";
-            csvasstring = csvasstring + jsontocsvlasttry(result);
-            return csvasstring;
-        }
-
-        public static string BeneficiariesToCSVFormat(string result)
-        {
-            string csvasstring = "";
-            csvasstring = csvasstring + jsontocsvlasttry(result);
-            return csvasstring;
-        }
-
-        public static string SponsorsToCSVFormat(string result)
-        {
-            string csvasstring = "";
-            csvasstring = csvasstring + jsontocsvlasttry(result);
-
-            return csvasstring;
-        }
-
-        public static string EventsToCSVFormat(string result)
+        public static string JsontoCSV(string result)
         {
             string csvasstring = "";
             csvasstring = csvasstring + jsontocsvlasttry(result);

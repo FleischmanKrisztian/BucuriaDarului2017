@@ -40,11 +40,8 @@ namespace wpfapp
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             try
             {
-                
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    //Trebuie facut pentru contract Beneficiar
-
                     if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("Beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
