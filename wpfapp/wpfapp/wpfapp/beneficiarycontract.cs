@@ -19,6 +19,10 @@ namespace wpfapp
         public string NumberOfRegistration { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime ExpirationDate { get; set; }
+        public string NumberOfPortion { get; set; }
+        public string IdInvestigation { get; set; }
+        public string IdApplication { get; set; }
+        public string ContractOption { get; set; }
 
 
     }

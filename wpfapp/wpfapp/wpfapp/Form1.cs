@@ -42,19 +42,21 @@ namespace wpfapp
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    if (richTextBox1.Text.Contains("beneficiary") == true || richTextBox1.Text.Contains("Beneficiary") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
+                    if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
+                        //string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
+                        string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
                         beneficiarycontract volc = new beneficiarycontract();
                         volc = JsonConvert.DeserializeObject<beneficiarycontract>(result);
+                        
                         try
                         {
                             string phrase = volc.Address;
@@ -69,11 +71,21 @@ namespace wpfapp
                         if (volc.CIinfo != null)
                             doc.ReplaceText("<CiInfo>", volc.CIinfo);
                         if (volc.Address != null)
-                            doc.ReplaceText("<Adresa>",volc.Address);
+                            doc.ReplaceText("<Address>", volc.Address);
                         if (volc.Nrtel != null)
                             doc.ReplaceText("<tel>", volc.Nrtel);
-                        doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
-                        doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
+                        if (volc.IdApplication != null)
+                            doc.ReplaceText("<IdAplication>", volc.IdApplication);
+                        if (volc.IdInvestigation != null)
+                            doc.ReplaceText("<IdInvestigation>", volc.IdInvestigation);
+                        
+                         doc.ReplaceText("<NumberOfPortions>", volc.NumberOfPortion); 
+                        
+                        
+                            //string ct = "0";
+                            //doc.ReplaceText("<NumberOfPortions>", ct); 
+                        doc.ReplaceText("<RegistrationDate> ", volc.RegistrationDate.ToShortDateString());
+                        doc.ReplaceText("<ExpirationDate>", volc.ExpirationDate.ToShortDateString());
                         if (saveFileDialog1.FileName.Contains(".docx") == true)
                         {
                             doc.SaveAs(saveFileDialog1.FileName );

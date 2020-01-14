@@ -14,7 +14,7 @@ namespace Finalaplication.Models
         public string OwnerID { get; set; }
 
         public string Fullname { get; set; }
-
+        public string NumberOfPortion { get; set; }
         
 
         public string CNP { get; set; }
@@ -60,5 +60,8 @@ namespace Finalaplication.Models
             }
             return answer;
         }
+
+        public string IdInvestigation { get; set; }
+        public string IdApplication { get; set; }
     }
 }
