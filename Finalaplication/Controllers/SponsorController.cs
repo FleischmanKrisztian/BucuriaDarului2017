@@ -98,7 +98,7 @@ namespace Finalaplication.Controllers
                                 data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                             }
 
-                            s.Date = data;
+                            s.Date = data.AddDays(1);
                         }
                     }
                     catch
@@ -154,7 +154,7 @@ namespace Finalaplication.Controllers
                                 dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                             }
 
-                            c.RegistrationDate = dataS;
+                            c.RegistrationDate = dataS.AddDays(1); ;
                         }
 
                         if (details[9] == null || details[8] == "")
@@ -176,7 +176,7 @@ namespace Finalaplication.Controllers
                                 dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                             }
 
-                            c.ExpirationDate = dataS;
+                            c.ExpirationDate = dataS.AddDays(1); ;
                         }
                         sponsor.Contract = c;
 
