@@ -106,7 +106,7 @@ namespace Finalaplication.Controllers
                                 string[] anotherDate = details[2].Split('.');
                                 data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                             }
-                            ev.DateOfEvent = data;
+                            ev.DateOfEvent = data.AddDays(1);
                         }
                     }
                     catch

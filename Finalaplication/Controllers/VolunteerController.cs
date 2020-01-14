@@ -69,28 +69,50 @@ namespace Finalaplication.Controllers
 
                 foreach (var details in result)
                 {
-                    Volunteer volunteer = new Volunteer();
-
-                    volunteer.Firstname = details[1];
-                    volunteer.Lastname = details[2];
-                    if (details[3] != null || details[3] != "")
+                    var aux = details[22];
+                    for (int i = details.Length - 1; i > 0; i--)
                     {
-                        string[] date;
-                        date = details[3].Split(" ");
-
-                        string[] FinalDate = date[0].Split("/");
-                        DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-
-                        volunteer.Birthdate = data;
+                        details[i] = details[i - 1];
                     }
-                    else
-                    { volunteer.Birthdate = DateTime.MinValue; }
+                    Volunteer volunteer = new Volunteer();
+                    try
+                    {
+                        volunteer.Firstname = details[1];
+                        volunteer.Lastname = details[2];
+                    }
+                    catch
+                    {
+                        volunteer.Firstname = "Error";
+                        volunteer.Lastname = "Error";
+                    }
+                    
+                    try
+                    {
+                        if (details[3] != null || details[3] != "")
+                        {
+                            string[] date;
+                            date = details[3].Split(" ");
+
+                            string[] FinalDate = date[0].Split("/");
+                            DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+
+                            volunteer.Birthdate = data.AddDays(1);
+                        }
+                        else
+                        { volunteer.Birthdate = DateTime.MinValue; }
+                    }
+                    catch
+                    {
+                        volunteer.Birthdate = DateTime.MinValue;
+                    }
+                    
 
                     Address a = new Address();
-                    if (details[4] == null || details[4] == "")
-                    { a.District = ""; }
-                    else
-                    { a.District = details[4].ToString(); }
+
+                    if (details[4] != null || details[4] != "")
+                    {
+                        a.District = details[4];
+                    }
 
                     if (details[5] != null || details[5] != "")
                     {
@@ -106,34 +128,42 @@ namespace Finalaplication.Controllers
                     {
                         a.Number = details[7];
                     }
-                    volunteer.Address = a;
-                    if (details[8] == "F" || details[8] == "1")
+                    
+                    try
                     {
-                        volunteer.Gender = VolCommon.Gender.Female;
+                        if (details[8] == "True" || details[8] == "1")
+                        {
+                            volunteer.Gender = VolCommon.Gender.Female;
+                        }
+                        else
+                        {
+                            volunteer.Gender = VolCommon.Gender.Male;
+                        }
                     }
-                    else
+                    catch
                     {
-                        volunteer.Gender = VolCommon.Gender.Male;
+                        volunteer.Gender = Gender.Male;
                     }
+                   
 
                     if (details[9] != null || details[9] != "")
                     {
-                        volunteer.Desired_workplace = details[8];
+                        volunteer.Desired_workplace = details[9];
                     }
 
                     if (details[10] != null || details[10] != "")
                     {
-                        volunteer.CNP = details[9];
+                        volunteer.CNP = details[10];
                     }
 
                     if (details[11] != null || details[11] != "")
                     {
-                        volunteer.Field_of_activity = details[10];
+                        volunteer.Field_of_activity = details[11];
                     }
 
                     if (details[12] != null || details[12] != "")
                     {
-                        volunteer.Occupation = details[11];
+                        volunteer.Occupation = details[12];
                     }
 
                     if (details[13] != null || details[13] != "")
@@ -145,21 +175,28 @@ namespace Finalaplication.Controllers
                     {
                         volunteer.CINr = details[13];
                     }
-                    if (details[15] != null || details[15] != "")
+                    try
                     {
-                        string[] date;
-                        date = details[15].Split(" ");
+                        if (details[15] != null || details[15] != "")
+                        {
+                            string[] date;
+                            date = details[15].Split(" ");
 
-                        string[] FinalDate = date[0].Split("/");
-                        DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                        volunteer.CIEliberat = data;
+                            string[] FinalDate = date[0].Split("/");
+                            DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            volunteer.CIEliberat = data.AddDays(1);
+                        }
+                        else
+                        { volunteer.CIEliberat = DateTime.MinValue; }
                     }
-                    else
-                    { volunteer.CIEliberat = DateTime.MinValue; }
+                    catch
+                    {
+                        volunteer.CIEliberat = DateTime.MinValue;
+                    }
 
                     if (details[16] != null || details[16] != "")
                     {
-                        volunteer.CIeliberator = details[15];
+                        volunteer.CIeliberator = details[16];
                     }
                     if (details[17] == "True")
                     {
@@ -208,10 +245,9 @@ namespace Finalaplication.Controllers
                         ai.HasCar = false;
                     }
 
-                    if (details[23] != null || details[23] != "")
-                    {
-                        ai.Remark = details[23];
-                    }
+                    ai.Remark = aux;
+                   
+                    volunteer.Address = a;
                     volunteer.Additionalinfo = ai;
                     vollunteercollection.InsertOne(volunteer);
                 }
