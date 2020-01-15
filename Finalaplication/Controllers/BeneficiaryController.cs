@@ -63,345 +63,365 @@ namespace Finalaplication.Controllers
 
                 CSVImportParser cSV = new CSVImportParser(path);
                 List<string[]> result = cSV.ExtractDataFromFile(path);
+                string duplicates = "";
+                int documentsimported = 0;
 
                 foreach (var details in result)
                 {
-                    var aux = details[42];
-                    for (int i = details.Length - 1; i > 0; i--)
+                    if (beneficiarycollection.CountDocuments(z => z.CNP == details[8])>=1 && details[8]!="")
                     {
-                        details[i] = details[i - 1];
+                        duplicates = duplicates + details[0] + ", ";
                     }
-                    Beneficiary beneficiary = new Beneficiary();
-                    if (details[7] == "True")
+                    else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                     {
-                        beneficiary.HasGDPRAgreement = true;
+                        duplicates = duplicates + details[0] + ", ";
                     }
                     else
                     {
-                        beneficiary.HasGDPRAgreement = false;
-                    }
-                    try
-                    {
-                        beneficiary.Fullname = details[1];
-                    }
-                    catch
-                    {
-                        beneficiary.Fullname = "Incorrect Name";
-                    }
-                    try
-                    {
-                        beneficiary.Adress = details[8];
-                    }
-                    catch
-                    {
-                        beneficiary.Adress = "Incorrect address";
-                    }
-
-                    if (details[2] == "true" || details[2] == "True")
-                    {
-                        beneficiary.Active = true;
-                    }
-                    else
-                    {
-                        beneficiary.Active = false;
-                    }
-
-                    if (details[4] == "true" || details[4] == "True")
-                    {
-                        beneficiary.Canteen = true;
-                    }
-                    else
-                    {
-                        beneficiary.Canteen = false;
-                    }
-
-                    if (details[5] == "true" || details[5] == "True")
-                    {
-                        beneficiary.HomeDelivery = true;
-                    }
-                    else
-                    {
-                        beneficiary.HomeDelivery = false;
-                    }
-
-                    if (details[3] == "true" || details[3] == "True")
-                    {
-                        beneficiary.Weeklypackage = true;
-                    }
-                    else
-                    {
-                        beneficiary.Weeklypackage = false;
-                    }
-
-                    if (details[6] != null || details[6] != "")
-                    {
-                        beneficiary.HomeDeliveryDriver = details[6];
-                    }
-                    else
-                    {
-                        beneficiary.HomeDeliveryDriver = " ";
-                    }
-
-                    if (details[9] != null || details[9] != "")
-                    {
-                        beneficiary.CNP = details[9];
-                    }
-
-                    try
-                    {
-                        if (details[21] != null || details[21] != " ")
+                        documentsimported++;
+                        var aux = details[42];
+                        for (int i = details.Length - 1; i > 0; i--)
                         {
-                            if (int.TryParse(details[21], out int portions))
+                            details[i] = details[i - 1];
+                        }
+                        Beneficiary beneficiary = new Beneficiary();
+                        if (details[7] == "True")
+                        {
+                            beneficiary.HasGDPRAgreement = true;
+                        }
+                        else
+                        {
+                            beneficiary.HasGDPRAgreement = false;
+                        }
+                        try
+                        {
+                            beneficiary.Fullname = details[1];
+                        }
+                        catch
+                        {
+                            beneficiary.Fullname = "Incorrect Name";
+                        }
+                        try
+                        {
+                            beneficiary.Adress = details[8];
+                        }
+                        catch
+                        {
+                            beneficiary.Adress = "Incorrect address";
+                        }
+
+                        if (details[2] == "true" || details[2] == "True")
+                        {
+                            beneficiary.Active = true;
+                        }
+                        else
+                        {
+                            beneficiary.Active = false;
+                        }
+
+                        if (details[4] == "true" || details[4] == "True")
+                        {
+                            beneficiary.Canteen = true;
+                        }
+                        else
+                        {
+                            beneficiary.Canteen = false;
+                        }
+
+                        if (details[5] == "true" || details[5] == "True")
+                        {
+                            beneficiary.HomeDelivery = true;
+                        }
+                        else
+                        {
+                            beneficiary.HomeDelivery = false;
+                        }
+
+                        if (details[3] == "true" || details[3] == "True")
+                        {
+                            beneficiary.Weeklypackage = true;
+                        }
+                        else
+                        {
+                            beneficiary.Weeklypackage = false;
+                        }
+
+                        if (details[6] != null || details[6] != "")
+                        {
+                            beneficiary.HomeDeliveryDriver = details[6];
+                        }
+                        else
+                        {
+                            beneficiary.HomeDeliveryDriver = " ";
+                        }
+
+                        if (details[9] != null || details[9] != "")
+                        {
+                            beneficiary.CNP = details[9];
+                        }
+
+                        try
+                        {
+                            if (details[21] != null || details[21] != " ")
                             {
-                                beneficiary.NumberOfPortions = portions;
+                                if (int.TryParse(details[21], out int portions))
+                                {
+                                    beneficiary.NumberOfPortions = portions;
+                                }
                             }
                         }
-                    }
-                    catch
-                    {
-                        beneficiary.NumberOfPortions = 0;
-                    }
-
-                    try
-                    {
-                        Marca MarcaDetails = new Marca();
-                        if (details[17] != null) { MarcaDetails.marca = details[17]; }
-                        if (details[18] != null) { MarcaDetails.IdAplication = details[18]; }
-                        if (details[19] != null) { MarcaDetails.IdInvestigation = details[19]; }
-                        if (details[20] != null) { MarcaDetails.IdContract = details[20]; }
-                        beneficiary.Marca = MarcaDetails;
-                    }
-                    catch
-                    {
-                        beneficiary.Marca.marca = "error";
-                        beneficiary.Marca.IdAplication = "error";
-                        beneficiary.Marca.IdInvestigation = "error";
-                        beneficiary.Marca.IdContract = "error";
-                    }
-
-                    Personalinfo personal = new Personalinfo();
-                    try
-                    {
-                        if (details[25] != null || details[25] != "")
+                        catch
                         {
-                            personal.PhoneNumber = details[25];
+                            beneficiary.NumberOfPortions = 0;
                         }
 
-                        if (details[26] != null || details[26] != "")
+                        try
                         {
-                            personal.BirthPlace = details[26];
+                            Marca MarcaDetails = new Marca();
+                            if (details[17] != null) { MarcaDetails.marca = details[17]; }
+                            if (details[18] != null) { MarcaDetails.IdAplication = details[18]; }
+                            if (details[19] != null) { MarcaDetails.IdInvestigation = details[19]; }
+                            if (details[20] != null) { MarcaDetails.IdContract = details[20]; }
+                            beneficiary.Marca = MarcaDetails;
+                        }
+                        catch
+                        {
+                            beneficiary.Marca.marca = "error";
+                            beneficiary.Marca.IdAplication = "error";
+                            beneficiary.Marca.IdInvestigation = "error";
+                            beneficiary.Marca.IdContract = "error";
                         }
 
-                        if (details[27] != null)
+                        Personalinfo personal = new Personalinfo();
+                        try
                         {
-                            personal.Studies = details[27];
+                            if (details[25] != null || details[25] != "")
+                            {
+                                personal.PhoneNumber = details[25];
+                            }
+
+                            if (details[26] != null || details[26] != "")
+                            {
+                                personal.BirthPlace = details[26];
+                            }
+
+                            if (details[27] != null)
+                            {
+                                personal.Studies = details[27];
+                            }
+
+                            personal.Profesion = details[28];
+                            personal.Ocupation = details[29];
+                            personal.SeniorityInWorkField = details[30];
+                            personal.HealthState = details[31];
+                        }
+                        catch
+                        {
+                            beneficiary.PersonalInfo.Profesion = "Error";
+                            beneficiary.PersonalInfo.Ocupation = "Error";
+                            beneficiary.PersonalInfo.SeniorityInWorkField = "Error";
+                            beneficiary.PersonalInfo.HealthState = "Error";
                         }
 
-                        personal.Profesion = details[28];
-                        personal.Ocupation = details[29];
-                        personal.SeniorityInWorkField = details[30];
-                        personal.HealthState = details[31];
-                    }
-                    catch
-                    {
-                        beneficiary.PersonalInfo.Profesion = "Error";
-                        beneficiary.PersonalInfo.Ocupation = "Error";
-                        beneficiary.PersonalInfo.SeniorityInWorkField = "Error";
-                        beneficiary.PersonalInfo.HealthState = "Error";
-                    }
+                        if (details[32] != " " || details[32] != null)
+                        {
+                            personal.Disalility = details[32];
+                        }
+                        else { personal.Disalility = " "; }
 
-                    if (details[32] != " " || details[32] != null)
-                    {
-                        personal.Disalility = details[32];
-                    }
-                    else { personal.Disalility = " "; }
+                        if (details[33] != " " || details[33] != null)
+                        {
+                            personal.ChronicCondition = details[33];
+                        }
+                        else { personal.ChronicCondition = " "; }
 
-                    if (details[33] != " " || details[33] != null)
-                    {
-                        personal.ChronicCondition = details[33];
-                    }
-                    else { personal.ChronicCondition = " "; }
+                        if (details[34] != " " || details[34] != null)
+                        {
+                            personal.Addictions = details[34];
+                        }
+                        else { personal.Addictions = " "; }
 
-                    if (details[34] != " " || details[34] != null)
-                    {
-                        personal.Addictions = details[34];
-                    }
-                    else { personal.Addictions = " "; }
+                        if (details[35] == "true" || details[35] == "True")
+                        {
+                            personal.HealthInsurance = true;
+                        }
+                        else { personal.HealthInsurance = false; }
 
-                    if (details[35] == "true" || details[35] == "True")
-                    {
-                        personal.HealthInsurance = true;
-                    }
-                    else { personal.HealthInsurance = false; }
+                        if (details[36] == "true" || details[36] == "True")
+                        {
+                            personal.HealthCard = true;
+                        }
+                        else { personal.HealthCard = false; }
 
-                    if (details[36] == "true" || details[36] == "True")
-                    {
-                        personal.HealthCard = true;
-                    }
-                    else { personal.HealthCard = false; }
+                        if (details[37] != " " || details[37] != null)
+                        {
+                            personal.Married = details[37];
+                        }
+                        else { personal.Married = " "; }
 
-                    if (details[37] != " " || details[37] != null)
-                    {
-                        personal.Married = details[37];
-                    }
-                    else { personal.Married = " "; }
+                        if (details[38] != " " || details[38] != null)
+                        {
+                            personal.SpouseName = details[38];
+                        }
+                        else { personal.SpouseName = " "; }
 
-                    if (details[38] != " " || details[38] != null)
-                    {
-                        personal.SpouseName = details[38];
-                    }
-                    else { personal.SpouseName = " "; }
+                        if (details[40] != " " || details[40] != null)
+                        {
+                            personal.HousingType = details[40];
+                        }
+                        else { personal.HousingType = " "; }
 
-                    if (details[40] != " " || details[40] != null)
-                    {
-                        personal.HousingType = details[40];
-                    }
-                    else { personal.HousingType = " "; }
+                        if (details[39] == "true" || details[39] == "True")
+                        {
+                            personal.HasHome = true;
+                        }
+                        else { personal.HasHome = false; }
 
-                    if (details[39] == "true" || details[39] == "True")
-                    {
-                        personal.HasHome = true;
-                    }
-                    else { personal.HasHome = false; }
+                        if (details[41] != " " || details[41] != null)
+                        {
+                            personal.Income = details[41];
+                        }
+                        else { personal.Income = " "; }
 
-                    if (details[41] != " " || details[41] != null)
-                    {
-                        personal.Income = details[41];
-                    }
-                    else { personal.Income = " "; }
+                        if (details[42] != " " || details[42] != null)
+                        {
+                            personal.Expences = details[42];
+                        }
+                        else { personal.Expences = " "; }
 
-                    if (details[42] != " " || details[42] != null)
-                    {
-                        personal.Expences = details[42];
-                    }
-                    else { personal.Expences = " "; }
-
-                    try
-                    {
-                        if (details[24] == null || details[24] == "")
+                        try
+                        {
+                            if (details[24] == null || details[24] == "")
+                            {
+                                personal.Birthdate = DateTime.MinValue;
+                            }
+                            else
+                            {
+                                DateTime data;
+                                if (details[24].Contains("/") == true)
+                                {
+                                    string[] date = details[24].Split(" ");
+                                    string[] FinalDate = date[0].Split("/");
+                                    data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                }
+                                else
+                                {
+                                    string[] anotherDate = details[24].Split('.');
+                                    data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                                }
+                                personal.Birthdate = data.AddDays(1);
+                            }
+                        }
+                        catch
                         {
                             personal.Birthdate = DateTime.MinValue;
                         }
+
+                        try
+                        {
+                            if (aux == "1" || aux == "True")
+                            {
+                                personal.Gender = VolCommon.Gender.Female;
+                            }
+                            else
+                            {
+                                personal.Gender = VolCommon.Gender.Male;
+                            }
+                            beneficiary.Coments = details[23];
+                        }
+                        catch
+                        {
+                            beneficiary.Coments = "";
+                        }
+
+                        if (details[22] == null || details[22] == "")
+                        {
+                            beneficiary.LastTimeActiv = DateTime.MinValue;
+                        }
                         else
                         {
                             DateTime data;
-                            if (details[24].Contains("/") == true)
+                            if (details[22].Contains("/") == true)
                             {
-                                string[] date = details[24].Split(" ");
+                                string[] date = details[22].Split(" ");
                                 string[] FinalDate = date[0].Split("/");
                                 data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
                             }
                             else
                             {
-                                string[] anotherDate = details[24].Split('.');
+                                string[] anotherDate = details[22].Split('.');
                                 data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                             }
-                            personal.Birthdate = data.AddDays(1);
+                            beneficiary.LastTimeActiv = data.AddDays(1);
                         }
-                    }
-                    catch
-                    {
-                        personal.Birthdate = DateTime.MinValue;
-                    }
 
-                    try
-                    {
-                        if (aux == "1" || aux == "True")
+                        CI ciInfo = new CI();
+
+                        try
                         {
-                            personal.Gender = VolCommon.Gender.Female;
+                            if (details[16] == null || details[16] == "")
+                            {
+                                ciInfo.ExpirationDateCI = DateTime.MinValue;
+                            }
+                            else
+                            {
+                                DateTime data;
+                                if (details[16].Contains("/") == true)
+                                {
+                                    string[] date = details[16].Split(" ");
+                                    string[] FinalDate = date[0].Split("/");
+                                    data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                }
+                                else
+                                {
+                                    string[] anotherDate = details[16].Split('.');
+                                    data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                                }
+                                ciInfo.ExpirationDateCI = data.AddDays(1);
+                            }
                         }
-                        else
-                        {
-                            personal.Gender = VolCommon.Gender.Male;
-                        }
-                        beneficiary.Coments = details[23];
-                    }
-                    catch
-                    {
-                        beneficiary.Coments = "";
-                    }
-
-                    
-
-                    if (details[22] == null || details[22] == "")
-                    {
-                        beneficiary.LastTimeActiv = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime data;
-                        if (details[22].Contains("/") == true)
-                        {
-                            string[] date = details[22].Split(" ");
-                            string[] FinalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                        }
-                        else
-                        {
-                            string[] anotherDate = details[22].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                        }
-                        beneficiary.LastTimeActiv = data.AddDays(1);
-                    }
-
-                    CI ciInfo = new CI();
-
-                    try
-                    {
-                        if (details[16] == null || details[16] == "")
+                        catch
                         {
                             ciInfo.ExpirationDateCI = DateTime.MinValue;
                         }
-                        else
+
+                        try
                         {
-                            DateTime data;
-                            if (details[16].Contains("/") == true)
-                            {
-                                string[] date = details[16].Split(" ");
-                                string[] FinalDate = date[0].Split("/");
-                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                            }
-                            else
-                            {
-                                string[] anotherDate = details[16].Split('.');
-                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                            }
-                            ciInfo.ExpirationDateCI = data.AddDays(1);
+                            ciInfo.CIinfo = details[15];
+
+                            if (details[10] != "True" || details[10] != "true")
+                            { ciInfo.HasId = true; }
+                        }
+                        catch
+                        {
+                            ciInfo.CIinfo = "";
+                        }
+                        beneficiary.PersonalInfo = personal;
+                        beneficiary.CI = ciInfo;
+                        beneficiarycollection.InsertOne(beneficiary);
+                        FileInfo file = new FileInfo(path);
+                        if (file.Exists)
+                        {
+                            file.Delete();
                         }
                     }
-                    catch
-                    {
-                        ciInfo.ExpirationDateCI = DateTime.MinValue;
-                    }
-                    
-                    try
-                    {
-                        ciInfo.CIinfo = details[15];
-
-                        if (details[10] != "True" || details[10] != "true")
-                        { ciInfo.HasId = true; } 
-                    }
-                    catch
-                    {
-                        ciInfo.CIinfo = "";
-                    }
-                    beneficiary.PersonalInfo = personal;
-                    beneficiary.CI = ciInfo;
-                    beneficiarycollection.InsertOne(beneficiary);
-
                 }
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-                return RedirectToAction("Index");
+                string docsimported = documentsimported.ToString();
+                return RedirectToAction("ImportUpdate", new { duplicates , docsimported });
             }
             catch
             {
                 return RedirectToAction("IncorrectFile", "Home");
             }
         }
+
+        public ActionResult ImportUpdate(string duplicates, string docsimported)
+        {
+            ViewBag.duplicates = duplicates;
+            ViewBag.documentsimported = docsimported;
+            return View();
+        }
+                       
 
         public ActionResult Contracts(string id)
         {
