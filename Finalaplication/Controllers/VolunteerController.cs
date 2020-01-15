@@ -71,9 +71,13 @@ namespace Finalaplication.Controllers
 
                 foreach (var details in result)
                 {
-                    if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1)
+                    if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
                     {
-                        duplicates = duplicates + details[0] + ", ";
+                        duplicates = duplicates + details[0] + " " + details[1]+ ", ";
+                    }
+                    else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "")
+                    {
+                        duplicates = duplicates + details[0] + " " + details[1] + ", ";
                     }
                     else
                     {
