@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "MergeView";
+}
+
+<h1>Backup</h1>
+
+<h3 style="color:red">Warning! This action is unreversible!</h3>
+
+<br />
+<h4>This action will Merge the two databases data on the local database.</h4>
+
+<br /><br />
+
+<h4>Are you sure you want to continue ?</h4>
+<div>
+    <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
+        @Html.ActionLink("Yes", "Merge")
+    </button>
+    <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
+        @Html.ActionLink("No", "Servermanagement")
+    </button>
+</div>
+<br />

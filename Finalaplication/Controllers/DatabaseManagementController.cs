@@ -70,6 +70,26 @@ namespace Finalaplication.Controllers
             }
         }
 
+        public ActionResult Backupview()
+        {
+            return View();
+        }
+
+        public ActionResult Restoreview()
+        {
+            return View();
+        }
+
+        public ActionResult Mergeview()
+        {
+            return View();
+        }
+
+        public ActionResult Mergeview2()
+        {
+            return View();
+        }
+
         public ActionResult Merge()
         {
             List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
