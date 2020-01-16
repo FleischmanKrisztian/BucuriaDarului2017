@@ -9,7 +9,6 @@ namespace Finalaplication.Models
     public class Beneficiary : BeneficiaryBase
     {
         [BsonId]
-        [JsonIgnore]
         [BsonRepresentation(BsonType.ObjectId)]
         public string BeneficiaryID { get; set; }
 
