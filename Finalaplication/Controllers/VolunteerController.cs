@@ -66,163 +66,211 @@ namespace Finalaplication.Controllers
 
                 CSVImportParser cSV = new CSVImportParser(path);
                 List<string[]> result = cSV.ExtractDataFromFile(path);
+                string duplicates = "";
+                int documentsimported = 0;
 
                 foreach (var details in result)
                 {
-                    Volunteer volunteer = new Volunteer();
-
-                    volunteer.Firstname = details[1];
-                    volunteer.Lastname = details[2];
-                    if (details[3] != null || details[3] != "")
+                    if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
                     {
-                        string[] date;
-                        date = details[3].Split(" ");
-
-                        string[] FinalDate = date[0].Split("/");
-                        DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-
-                        volunteer.Birthdate = data;
+                        duplicates = duplicates + details[0] + " " + details[1]+ ", ";
                     }
-                    else
-                    { volunteer.Birthdate = DateTime.MinValue; }
-
-                    Address a = new Address();
-                    if (details[4] == null || details[4] == "")
-                    { a.District = ""; }
-                    else
-                    { a.District = details[4].ToString(); }
-
-                    if (details[5] != null || details[5] != "")
+                    else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "")
                     {
-                        a.City = details[5];
-                    }
-
-                    if (details[6] != null || details[6] != "")
-                    {
-                        a.Street = details[6];
-                    }
-
-                    if (details[7] != null || details[7] != "")
-                    {
-                        a.Number = details[7];
-                    }
-                    volunteer.Address = a;
-                    if (details[8] == "F" || details[8] == "1")
-                    {
-                        volunteer.Gender = VolCommon.Gender.Female;
+                        duplicates = duplicates + details[0] + " " + details[1] + ", ";
                     }
                     else
                     {
-                        volunteer.Gender = VolCommon.Gender.Male;
+                        documentsimported++;
+                        var aux = details[22];
+                        for (int i = details.Length - 1; i > 0; i--)
+                        {
+                            details[i] = details[i - 1];
+                        }
+                        Volunteer volunteer = new Volunteer();
+                        try
+                        {
+                            volunteer.Firstname = details[1];
+                            volunteer.Lastname = details[2];
+                        }
+                        catch
+                        {
+                            volunteer.Firstname = "Error";
+                            volunteer.Lastname = "Error";
+                        }
+
+                        try
+                        {
+                            if (details[3] != null || details[3] != "")
+                            {
+                                string[] date;
+                                date = details[3].Split(" ");
+
+                                string[] FinalDate = date[0].Split("/");
+                                DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+
+                                volunteer.Birthdate = data.AddDays(1);
+                            }
+                            else
+                            { volunteer.Birthdate = DateTime.MinValue; }
+                        }
+                        catch
+                        {
+                            volunteer.Birthdate = DateTime.MinValue;
+                        }
+
+                        Address a = new Address();
+
+                        if (details[4] != null || details[4] != "")
+                        {
+                            a.District = details[4];
+                        }
+
+                        if (details[5] != null || details[5] != "")
+                        {
+                            a.City = details[5];
+                        }
+
+                        if (details[6] != null || details[6] != "")
+                        {
+                            a.Street = details[6];
+                        }
+
+                        if (details[7] != null || details[7] != "")
+                        {
+                            a.Number = details[7];
+                        }
+
+                        try
+                        {
+                            if (details[8] == "True" || details[8] == "1")
+                            {
+                                volunteer.Gender = VolCommon.Gender.Female;
+                            }
+                            else
+                            {
+                                volunteer.Gender = VolCommon.Gender.Male;
+                            }
+                        }
+                        catch
+                        {
+                            volunteer.Gender = Gender.Male;
+                        }
+
+                        if (details[9] != null || details[9] != "")
+                        {
+                            volunteer.Desired_workplace = details[9];
+                        }
+
+                        if (details[10] != null || details[10] != "")
+                        {
+                            volunteer.CNP = details[10];
+                        }
+
+                        if (details[11] != null || details[11] != "")
+                        {
+                            volunteer.Field_of_activity = details[11];
+                        }
+
+                        if (details[12] != null || details[12] != "")
+                        {
+                            volunteer.Occupation = details[12];
+                        }
+
+                        if (details[13] != null || details[13] != "")
+                        {
+                            volunteer.CIseria = details[13];
+                        }
+
+                        if (details[14] != null || details[14] != "")
+                        {
+                            volunteer.CINr = details[13];
+                        }
+                        try
+                        {
+                            if (details[15] != null || details[15] != "")
+                            {
+                                string[] date;
+                                date = details[15].Split(" ");
+
+                                string[] FinalDate = date[0].Split("/");
+                                DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                volunteer.CIEliberat = data.AddDays(1);
+                            }
+                            else
+                            { volunteer.CIEliberat = DateTime.MinValue; }
+                        }
+                        catch
+                        {
+                            volunteer.CIEliberat = DateTime.MinValue;
+                        }
+
+                        if (details[16] != null || details[16] != "")
+                        {
+                            volunteer.CIeliberator = details[16];
+                        }
+                        if (details[17] == "True")
+                        {
+                            volunteer.InActivity = true;
+                        }
+                        else
+                        {
+                            volunteer.InActivity = false;
+                        }
+
+                        if (details[18] != null || details[18] != "0" || details[18] != "")
+                        {
+                            volunteer.HourCount = Convert.ToInt16(details[18]);
+                        }
+                        else
+                        {
+                            volunteer.HourCount = 0;
+                        }
+                        ContactInformation c = new ContactInformation();
+                        if (details[19] != null || details[19] != "")
+                        {
+                            c.PhoneNumber = details[19];
+                        }
+                        if (details[20] != null || details[20] != "")
+                        {
+                            c.MailAdress = details[20];
+                        }
+                        volunteer.ContactInformation = c;
+                        Additionalinfo ai = new Additionalinfo();
+
+                        if (details[21] == "True")
+                        {
+                            ai.HasDrivingLicence = true;
+                        }
+                        else
+                        {
+                            ai.HasDrivingLicence = false;
+                        }
+
+                        if (details[22] == "True")
+                        {
+                            ai.HasCar = true;
+                        }
+                        else
+                        {
+                            ai.HasCar = false;
+                        }
+
+                        ai.Remark = aux;
+
+                        volunteer.Address = a;
+                        volunteer.Additionalinfo = ai;
+                        vollunteercollection.InsertOne(volunteer);
                     }
 
-                    if (details[9] != null || details[9] != "")
+                    FileInfo file = new FileInfo(path);
+                    if (file.Exists)
                     {
-                        volunteer.Desired_workplace = details[8];
+                        file.Delete();
                     }
-
-                    if (details[10] != null || details[10] != "")
-                    {
-                        volunteer.CNP = details[9];
-                    }
-
-                    if (details[11] != null || details[11] != "")
-                    {
-                        volunteer.Field_of_activity = details[10];
-                    }
-
-                    if (details[12] != null || details[12] != "")
-                    {
-                        volunteer.Occupation = details[11];
-                    }
-
-                    if (details[13] != null || details[13] != "")
-                    {
-                        volunteer.CIseria = details[13];
-                    }
-
-                    if (details[14] != null || details[14] != "")
-                    {
-                        volunteer.CINr = details[13];
-                    }
-                    if (details[15] != null || details[15] != "")
-                    {
-                        string[] date;
-                        date = details[15].Split(" ");
-
-                        string[] FinalDate = date[0].Split("/");
-                        DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                        volunteer.CIEliberat = data;
-                    }
-                    else
-                    { volunteer.CIEliberat = DateTime.MinValue; }
-
-                    if (details[16] != null || details[16] != "")
-                    {
-                        volunteer.CIeliberator = details[15];
-                    }
-                    if (details[17] == "True")
-                    {
-                        volunteer.InActivity = true;
-                    }
-                    else
-                    {
-                        volunteer.InActivity = false;
-                    }
-
-                    if (details[18] != null || details[18] != "0" || details[18] != "")
-                    {
-                        volunteer.HourCount = Convert.ToInt16(details[18]);
-                    }
-                    else
-                    {
-                        volunteer.HourCount = 0;
-                    }
-                    ContactInformation c = new ContactInformation();
-                    if (details[19] != null || details[19] != "")
-                    {
-                        c.PhoneNumber = details[19];
-                    }
-                    if (details[20] != null || details[20] != "")
-                    {
-                        c.MailAdress = details[20];
-                    }
-                    volunteer.ContactInformation = c;
-                    Additionalinfo ai = new Additionalinfo();
-
-                    if (details[21] == "True")
-                    {
-                        ai.HasDrivingLicence = true;
-                    }
-                    else
-                    {
-                        ai.HasDrivingLicence = false;
-                    }
-
-                    if (details[22] == "True")
-                    {
-                        ai.HasCar = true;
-                    }
-                    else
-                    {
-                        ai.HasCar = false;
-                    }
-
-                    if (details[23] != null || details[23] != "")
-                    {
-                        ai.Remark = details[23];
-                    }
-                    volunteer.Additionalinfo = ai;
-                    vollunteercollection.InsertOne(volunteer);
                 }
-
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-
-                return RedirectToAction("Index");
+                string docsimported = documentsimported.ToString();
+                return RedirectToAction("ImportUpdate","Beneficiary", new { duplicates, docsimported });
             }
             catch
             {
@@ -344,7 +392,54 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Birthday()
+        [HttpGet]
+        public ActionResult CSVSaver(string ids)
+        {
+            ViewBag.IDS = ids;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CSVSaver(string IDS, bool All, bool Name, bool Birthdate,bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
+        {
+            string ids_and_options = IDS + "(((";
+            if (All == true)
+                ids_and_options = ids_and_options + "0";
+            if (Name == true)
+                ids_and_options = ids_and_options + "1";
+            if (Birthdate == true)
+                ids_and_options = ids_and_options + "2";
+            if (Address == true)
+                ids_and_options = ids_and_options + "3";
+            if (Gender == true)
+                ids_and_options = ids_and_options + "4";
+            if (Desired_Workplace == true)
+                ids_and_options = ids_and_options + "5";
+            if (CNP == true)
+                ids_and_options = ids_and_options + "6";
+            if (Field_of_Activity == true)
+                ids_and_options = ids_and_options + "7";
+            if (Occupation == true)
+                ids_and_options = ids_and_options + "8";
+            if (CI_Info == true)
+                ids_and_options = ids_and_options + "9";
+            if (Activity == true)
+                ids_and_options = ids_and_options + "A";
+            if (Hour_Count == true)
+                ids_and_options = ids_and_options + "B";
+            if (Contact_Information == true)
+                ids_and_options = ids_and_options + "C";
+            if (Additional_info == true)
+                ids_and_options = ids_and_options + "D";
+            ids_and_options = "csvexporterapp:" + ids_and_options;
+
+            return Redirect(ids_and_options);
+
+
+            //return RedirectToAction("Index");
+        }
+
+            public ActionResult Birthday()
         {
             try
             {
@@ -408,6 +503,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(volunteer);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
@@ -431,6 +533,7 @@ namespace Finalaplication.Controllers
 
                     return RedirectToAction("Index");
                 }
+                ViewBag.containsspecialchar = containsspecialchar;
                 return View(volunteer);
             }
             catch
@@ -462,6 +565,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(volunteer);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
 
                 Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
@@ -516,7 +626,12 @@ namespace Finalaplication.Controllers
                             var result = vollunteercollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-                        else return View();
+
+                        else
+                        {
+                            ViewBag.containsspecialchar = containsspecialchar;
+                            return View();
+                        }
                     }
                     else
                     {

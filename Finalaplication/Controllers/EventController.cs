@@ -1,10 +1,8 @@
-﻿using CsvHelper;
-using Elm.Core.Parsers;
+﻿using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -13,8 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using TinyCsvParser;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -25,7 +21,6 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
-       
 
         public EventController(IHostingEnvironment env)
         {
@@ -35,7 +30,6 @@ namespace Finalaplication.Controllers
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-             
             }
             catch { }
         }
@@ -63,7 +57,6 @@ namespace Finalaplication.Controllers
                     {
                         Files.CopyTo(stream);
                     }
-
                 }
                 else
                 {
@@ -75,45 +68,78 @@ namespace Finalaplication.Controllers
                 {
                     Event ev = new Event();
 
-                    ev.NameOfEvent = details[1].Replace("/", ",");
-                    ev.PlaceOfEvent = details[2].Replace("/", ",");
-
-
-                    if (details[3] == null || details[3] == "")
+                    try
                     {
-                        ev.DateOfEvent = DateTime.MinValue;
+                        ev.NameOfEvent = details[0];
                     }
-                    else
+                    catch
                     {
-                        DateTime data;
-                        if (details[3].Contains("/") == true)
+                        ev.NameOfEvent = "Invalid name";
+
+                    }
+                    try
+                    {
+                        ev.PlaceOfEvent = details[1];
+                    }
+                    catch
+                    {
+                        ev.PlaceOfEvent = "Invalid Place";
+                    }
+
+                    try
+                    {
+                        if (details[2] == null || details[2] == "" || details[2] == "0")
                         {
-                            string[] date = details[3].Split(" ");
-                            string[] FinalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            ev.DateOfEvent = DateTime.MinValue;
                         }
                         else
                         {
-                            string[] anotherDate = details[3].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            DateTime data;
+                            if (details[2].Contains("/") == true)
+                            {
+                                string[] date = details[2].Split(" ");
+                                string[] FinalDate = date[0].Split("/");
+                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            }
+                            else
+                            {
+                                string[] anotherDate = details[2].Split('.');
+                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                            }
+                            ev.DateOfEvent = data.AddDays(1);
                         }
-                        ev.DateOfEvent = data;
+                    }
+                    catch
+                    {
+                        ev.DateOfEvent = DateTime.MinValue;
                     }
 
-                    if (details[4] != null || details[4] != "")
+                    if (details[3] == "" || details[3] == null)
                     {
-                        ev.NumberOfVolunteersNeeded = Convert.ToInt16(details[4]);
+                        ev.NumberOfVolunteersNeeded = 0;
                     }
                     else
-                    { ev.NumberOfVolunteersNeeded = 0; }
-                    ev.TypeOfActivities = details[5].Replace("/", ",");
-                    ev.TypeOfEvent = details[6].Replace("/", ",");
-                    ev.Duration = details[7].Replace("/", ",");
-                    ev.AllocatedVolunteers = details[8];
-                    ev.AllocatedSponsors = details[9];
+                    {
+                        ev.NumberOfVolunteersNeeded = Convert.ToInt16(details[3]);
+                    }
+                    try
+                    {
+                    ev.TypeOfActivities = details[4];
+                    ev.TypeOfEvent = details[5];
+                    ev.Duration = details[6];
+                    ev.AllocatedVolunteers = details[7];
+                    ev.AllocatedSponsors = details[8];
+                    }
+                    catch
+                    {
+                        ev.TypeOfActivities = "An error has occured";
+                        ev.TypeOfEvent = "An error has occured";
+                        ev.Duration = "0";
+                        ev.AllocatedVolunteers = "An error has occured";
+                        ev.AllocatedSponsors = "An error has occured";
+                    }
 
                     eventcollection.InsertOne(ev);
-
                 }
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
@@ -124,10 +150,8 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("IncorrectFile","Home");
+                return RedirectToAction("IncorrectFile", "Home");
             }
-
-            
         }
 
         public ActionResult Index(string searching, int page)
@@ -149,7 +173,7 @@ namespace Finalaplication.Controllers
                 ViewBag.counter = events.Count();
 
                 ViewBag.nrofdocs = nrofdocs;
-                string stringofids="events";
+                string stringofids = "events";
                 foreach (Event eve in events)
                 {
                     stringofids = stringofids + "," + eve.EventID;
@@ -324,6 +348,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(eventt);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 try
                 {
                     ModelState.Remove("NumberOfVolunteersNeeded");
@@ -335,7 +366,12 @@ namespace Finalaplication.Controllers
                         eventcollection.InsertOne(eventt);
                         return RedirectToAction("Index");
                     }
-                    else return View();
+
+                    else
+                    {
+                        ViewBag.containsspecialchar = containsspecialchar;
+                        return View();
+                    }
                 }
                 catch
                 {
@@ -371,6 +407,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(eventt);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(Originalsavedeventstring);
                 try
                 {
@@ -396,7 +439,12 @@ namespace Finalaplication.Controllers
                             var result = eventcollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-                        else return View();
+
+                        else
+                        {
+                            ViewBag.containsspecialchar = containsspecialchar;
+                            return View();
+                        }
                     }
                     else
                     {

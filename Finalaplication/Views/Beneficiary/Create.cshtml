@@ -7,6 +7,12 @@
 @inject IViewLocalizer Localizer
 <h2>@Localizer["Create"]</h2>
 
+
+@if (ViewBag.containsspecialchar == true)
+{
+    <div><h3 style="color:red">Cannot contain Special character ";"</h3></div>
+}
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -52,6 +58,11 @@
             </div>
         </div>
 
+        
+
+ 
+    
+
         @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
         {
             <div class="form-group">
@@ -70,6 +81,7 @@
                 @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         <div class="form-group">
             @Localizer["Birthdate"]:
@@ -169,6 +181,7 @@
                 @Html.EditorFor(model => model.PersonalInfo.Income, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PersonalInfo.Income, "", new { @class = "text-danger" })
             </div>
+
         </div>
         <div class="form-group">
             @Localizer["Comments"]:
@@ -185,6 +198,19 @@
                     @Html.EditorFor(model => model.HasGDPRAgreement)
                     @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
                 </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Localizer["HasGDPRagreement"]:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.HasGDPRAgreement)
+                    @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
+                </div>
+
             </div>
         </div>
 
@@ -366,7 +392,9 @@
             </div>
         </div>
     </div>
+
 </form>
+
 <div>
     <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
 </div>

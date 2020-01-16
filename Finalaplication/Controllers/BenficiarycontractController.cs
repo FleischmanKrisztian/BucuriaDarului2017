@@ -90,7 +90,7 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
                         benenficiarycontract.Fullname = beneficiary.Fullname;
-                         benenficiarycontract.CNP = beneficiary.CNP;
+                        benenficiarycontract.CNP = beneficiary.CNP;
                         benenficiarycontract.CIinfo = beneficiary.CI.CIinfo;
                         benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
                         benenficiarycontract.NumberOfPortion= beneficiary.NumberOfPortions.ToString();

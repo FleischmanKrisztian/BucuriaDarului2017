@@ -8,7 +8,6 @@ namespace VolCommon
     {
         Male, Female
     }
-
     public class VolunteerBase
     {
         [Required]
