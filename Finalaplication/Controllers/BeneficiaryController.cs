@@ -583,7 +583,7 @@ namespace Finalaplication.Controllers
 
         // POST: Beneficiary/Create
         [HttpPost]
-        public ActionResult Create(Beneficiary beneficiary)
+        public ActionResult Create(Beneficiary beneficiary, List<IFormFile> Image)
         {
             try
             {
@@ -608,7 +608,18 @@ namespace Finalaplication.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    beneficiarycollection.InsertOne(beneficiary);
+                    foreach (var item in Image)
+                    {
+                        if (item.Length > 0)
+                        {
+                            using (var stream = new MemoryStream())
+                            {
+                                item.CopyTo(stream);
+                                beneficiary.Image = stream.ToArray();
+                            }
+                        }
+                    }
+                        beneficiarycollection.InsertOne(beneficiary);
                     return RedirectToAction("Index");
                 }
                 else
@@ -642,7 +653,7 @@ namespace Finalaplication.Controllers
 
         // POST: Beneficiary/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Beneficiary beneficiary, string Originalsavedvolstring)
+        public ActionResult Edit(string id, Beneficiary beneficiary, string Originalsavedvolstring, IList<IFormFile> image)
         {
             try
             {
@@ -670,12 +681,23 @@ namespace Finalaplication.Controllers
                         ModelState.Remove("LastTimeActiv");
                         ModelState.Remove("Personalinfo.Birthdate");
                         ModelState.Remove("CI.ICExpirationDate");
+                        foreach (var item in image)
+                        {
+                            if (item.Length > 0)
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    item.CopyTo(stream);
+                                    beneficiary.Image = stream.ToArray();
+                                }
+                            }
+                        }
                         if (ModelState.IsValid)
                         {
                             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                             var update = Builders<Beneficiary>.Update
                                .Set("Firstname", beneficiary.Fullname)
-
+                               .Set("Image",beneficiary.Image)
                                .Set("Weeklypackage", beneficiary.Weeklypackage)
                                .Set("Active", beneficiary.Active)
                                .Set("Canteen", beneficiary.Canteen)

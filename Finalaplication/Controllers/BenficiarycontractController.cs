@@ -93,8 +93,10 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.CNP = beneficiary.CNP;
                         benenficiarycontract.CIinfo = beneficiary.CI.CIinfo;
                         benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
+                        benenficiarycontract.NumberOfPortion= beneficiary.NumberOfPortions.ToString();
+                        benenficiarycontract.IdApplication = beneficiary.Marca.IdAplication;
+                        benenficiarycontract.IdInvestigation = beneficiary.Marca.IdInvestigation;
 
-                        
                         benenficiarycontract.Address = beneficiary.Adress;
                         benenficiarycontract.OwnerID = idofbeneficiary;
                         beneficiarycontractcollection.InsertOne(benenficiarycontract);

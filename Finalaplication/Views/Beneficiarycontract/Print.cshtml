@@ -27,13 +27,31 @@
 
         <dt class="col-sm-2">
             @Localizer["Address"]:
-</dt>
-<dd class="col-sm-10">
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayName(Model.Address)
         </dd>
-<dt class="col-sm-2">
-    @Localizer["Birthdate"]:
-</dt>
+        <dt class="col-sm-2">
+            @Localizer["NumberOfPortions"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayName(Model.NumberOfPortion)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["IdApplication"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayName(Model.IdApplication)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["IdInvestigation"]:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayName(Model.IdInvestigation)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["Birthdate"]:
+        </dt>
         <dd class="col-sm-10">
             @Html.DisplayName(Model.Birthdate.ToShortDateString())
         </dd>

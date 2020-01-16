@@ -16,7 +16,9 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+}
+<form method="post" action="/Beneficiary/Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-horizontal">
         <h4>
             @Localizer["Beneficiary"]
@@ -26,6 +28,28 @@
         <h4>
             @Localizer["PersonalInformation"]:
         </h4>
+
+        @Localizer["Avatar"]:
+
+        <div class="col-10">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">@Localizer["Uploadimage"]</span>
+                </div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile01"
+                           aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)" />
+                    <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label><br />
+                </div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div>
+                <br />
+                <img id="image-preview" alt="uploaded image preview" style="width:150px;height:200px" /><br />
+                <span asp-validation-for="Image"></span>
+            </div>
+        </div>
         <div class="form-group">
             @Localizer["Fullname"]:
             <div class="col-md-10">
@@ -33,6 +57,11 @@
                 @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        
+
+ 
+    
 
         @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
         {
@@ -52,6 +81,7 @@
                 @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         <div class="form-group">
             @Localizer["Birthdate"]:
@@ -151,6 +181,7 @@
                 @Html.EditorFor(model => model.PersonalInfo.Income, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PersonalInfo.Income, "", new { @class = "text-danger" })
             </div>
+
         </div>
         <div class="form-group">
             @Localizer["Comments"]:
@@ -167,6 +198,19 @@
                     @Html.EditorFor(model => model.HasGDPRAgreement)
                     @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
                 </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Localizer["HasGDPRagreement"]:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.HasGDPRAgreement)
+                    @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
+                </div>
+
             </div>
         </div>
 
@@ -177,7 +221,6 @@
                 @Html.ValidationMessageFor(model => model.Adress, "", new { @class = "text-danger" })
             </div>
         </div>
-
 
         <h4>
             @Localizer["IDInformation"]:
@@ -206,7 +249,6 @@
                 @Html.ValidationMessageFor(model => model.CI.ExpirationDateCI, "", new { @class = "text-danger" })
             </div>
         </div>
-
 
         <h4>
             @Localizer["Marcadetails"]:
@@ -350,8 +392,21 @@
             </div>
         </div>
     </div>
-}
+
+</form>
 
 <div>
     <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
 </div>
+
+<script type="text/javascript">
+    function ShowImagePreview(input) {
+        if (input.files && input.files[0]) {
+            var filerd = new FileReader();
+            filerd.onload = function (e) {
+                $('#image-preview').attr('src', e.target.result);
+            }
+            filerd.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
