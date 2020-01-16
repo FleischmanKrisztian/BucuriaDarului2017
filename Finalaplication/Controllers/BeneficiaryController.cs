@@ -68,7 +68,7 @@ namespace Finalaplication.Controllers
 
                 foreach (var details in result)
                 {
-                    if (beneficiarycollection.CountDocuments(z => z.CNP == details[8])>=1 && details[8]!="")
+                    if (beneficiarycollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                     {
                         duplicates = duplicates + details[0] + ", ";
                     }
@@ -407,7 +407,7 @@ namespace Finalaplication.Controllers
                     }
                 }
                 string docsimported = documentsimported.ToString();
-                return RedirectToAction("ImportUpdate", new { duplicates , docsimported });
+                return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
             }
             catch
             {
@@ -421,7 +421,6 @@ namespace Finalaplication.Controllers
             ViewBag.documentsimported = docsimported;
             return View();
         }
-                       
 
         public ActionResult Contracts(string id)
         {
@@ -588,6 +587,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(beneficiary);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
@@ -605,7 +611,11 @@ namespace Finalaplication.Controllers
                     beneficiarycollection.InsertOne(beneficiary);
                     return RedirectToAction("Index");
                 }
-                else return View();
+                else
+                {
+                    ViewBag.containsspecialchar = containsspecialchar;
+                    return View();
+                }
             }
             catch
             {
@@ -636,6 +646,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(beneficiary);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Beneficiary Originalsavedvol = JsonConvert.DeserializeObject<Beneficiary>(Originalsavedvolstring);
                 try
@@ -700,7 +717,11 @@ namespace Finalaplication.Controllers
                             var result = beneficiarycollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-                        else return View();
+                        else
+                        {
+                            ViewBag.containsspecialchar = containsspecialchar;
+                            return View();
+                        }
                     }
                     else
                     {

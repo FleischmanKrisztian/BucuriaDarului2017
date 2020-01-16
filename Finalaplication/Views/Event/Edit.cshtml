@@ -7,15 +7,23 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h2>
-    @Localizer["Edit"]</h2>
+    @Localizer["Edit"]
+</h2>
+
+
+@if (ViewBag.containsspecialchar == true)
+{
+    <div><h3 style="color:red">Cannot contain Special character ";"</h3></div>
+}
 
 @using (Html.BeginForm())
 {
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>
-        @Localizer["Event"]</h4>
+    <div class="form-horizontal">
+        <h4>
+            @Localizer["Event"]
+        </h4>
         <input type="hidden" name="Originalsavedeventstring" value="@originalsavedevent" />
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -79,5 +87,5 @@
             <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
             <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
-</div>
+    </div>
 }

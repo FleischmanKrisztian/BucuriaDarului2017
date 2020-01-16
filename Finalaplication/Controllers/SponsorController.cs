@@ -283,6 +283,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(sponsor);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 try
                 {
@@ -296,7 +303,12 @@ namespace Finalaplication.Controllers
                         sponsorcollection.InsertOne(sponsor);
                         return RedirectToAction("Index");
                     }
-                    else return View();
+
+                    else
+                    {
+                        ViewBag.containsspecialchar = containsspecialchar;
+                        return View();
+                    }
                 }
                 catch
                 {
@@ -333,6 +345,13 @@ namespace Finalaplication.Controllers
                 Sponsor Originalsavedvol = JsonConvert.DeserializeObject<Sponsor>(Originalsavedvolstring);
                 try
                 {
+                    string volasstring = JsonConvert.SerializeObject(sponsor);
+                    bool containsspecialchar = false;
+                    if (volasstring.Contains(";"))
+                    {
+                        ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                        containsspecialchar = true;
+                    }
                     var volunteerId = new ObjectId(id);
                     Sponsor currentsavedvol = sponsorcollection.Find(x => x.SponsorID == id).Single();
                     if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
@@ -358,7 +377,12 @@ namespace Finalaplication.Controllers
                             var result = sponsorcollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-                        else return View();
+
+                        else
+                        {
+                            ViewBag.containsspecialchar = containsspecialchar;
+                            return View();
+                        }
                     }
                     else
                     {

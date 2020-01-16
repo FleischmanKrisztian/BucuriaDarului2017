@@ -503,6 +503,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(volunteer);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
@@ -526,6 +533,7 @@ namespace Finalaplication.Controllers
 
                     return RedirectToAction("Index");
                 }
+                ViewBag.containsspecialchar = containsspecialchar;
                 return View(volunteer);
             }
             catch
@@ -557,6 +565,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(volunteer);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
 
                 Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
@@ -611,7 +626,12 @@ namespace Finalaplication.Controllers
                             var result = vollunteercollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-                        else return View();
+
+                        else
+                        {
+                            ViewBag.containsspecialchar = containsspecialchar;
+                            return View();
+                        }
                     }
                     else
                     {

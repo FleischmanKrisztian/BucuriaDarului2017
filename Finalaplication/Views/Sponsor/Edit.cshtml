@@ -7,100 +7,107 @@
 @inject IViewLocalizer Localizer
 <h2>@Localizer["Edit"]</h2>
 
+
+@if (ViewBag.containsspecialchar == true)
+{
+    <div><h3 style="color:red">Cannot contain Special character ";"</h3></div>
+}
+
 @using (Html.BeginForm("Edit", "Sponsor/", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <h4>
-            @Localizer["Sponsor"]</h4>
-                <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Localizer["Sponsor"]
+        </h4>
+        <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    @Localizer["Nameofsponsor"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NameOfSponsor, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NameOfSponsor, "", new { @class = "text-danger" })
-                    </div>
+        <div class="form-group">
+            @Localizer["Nameofsponsor"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NameOfSponsor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NameOfSponsor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Phonenumber"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactInformation.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Emailaddrss"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ContactInformation.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["HasContract"]
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Contract.HasContract)
+                    @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    @Localizer["Phonenumber"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ContactInformation.PhoneNumber, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Emailaddrss"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.ContactInformation.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["HasContract"]
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.Contract.HasContract)
-                            @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Numberofregistration"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Registrationdate"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Expirationdate"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Date"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sponsorship.Date, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Numberofregistration"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract.NumberOfRegistration, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract.NumberOfRegistration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Registrationdate"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Expirationdate"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Date"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sponsorship.Date, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-                <div class="form-group">
-                    @Localizer["Moneyamount"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sponsorship.MoneyAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Sponsorship.MoneyAmount, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Goodsamount"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sponsorship.GoodsAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Sponsorship.GoodsAmount, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Localizer["Whatgoods"]:
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Sponsorship.WhatGoods, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Sponsorship.WhatGoods, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
-                    <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
-                </div>
+        <div class="form-group">
+            @Localizer["Moneyamount"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sponsorship.MoneyAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sponsorship.MoneyAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Goodsamount"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sponsorship.GoodsAmount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sponsorship.GoodsAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Localizer["Whatgoods"]:
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sponsorship.WhatGoods, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sponsorship.WhatGoods, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
+            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+        </div>
     </div>
 }

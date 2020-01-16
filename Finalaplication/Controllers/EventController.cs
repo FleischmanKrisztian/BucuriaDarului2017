@@ -348,6 +348,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(eventt);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 try
                 {
                     ModelState.Remove("NumberOfVolunteersNeeded");
@@ -359,7 +366,12 @@ namespace Finalaplication.Controllers
                         eventcollection.InsertOne(eventt);
                         return RedirectToAction("Index");
                     }
-                    else return View();
+
+                    else
+                    {
+                        ViewBag.containsspecialchar = containsspecialchar;
+                        return View();
+                    }
                 }
                 catch
                 {
@@ -395,6 +407,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                string volasstring = JsonConvert.SerializeObject(eventt);
+                bool containsspecialchar = false;
+                if (volasstring.Contains(";"))
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                    containsspecialchar = true;
+                }
                 Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(Originalsavedeventstring);
                 try
                 {
@@ -420,7 +439,12 @@ namespace Finalaplication.Controllers
                             var result = eventcollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-                        else return View();
+
+                        else
+                        {
+                            ViewBag.containsspecialchar = containsspecialchar;
+                            return View();
+                        }
                     }
                     else
                     {
