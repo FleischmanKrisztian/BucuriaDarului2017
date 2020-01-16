@@ -23,6 +23,7 @@ namespace wpfapp
         public string IdInvestigation { get; set; }
         public string IdApplication { get; set; }
         public string ContractOption { get; set; }
+        public string myOption { get; set; }
 
 
     }

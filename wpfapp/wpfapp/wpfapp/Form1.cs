@@ -40,11 +40,30 @@ namespace wpfapp
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             try
             {
+                //Object myOption = "";
+                //ComboBox comboBox = new ComboBox();
+                //comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+                //comboBox.Items.Add(240);
+                //comboBox.Items.Add(241);
+                //comboBox.Items.Add(242);
+                //comboBox.Items.Add(243);
+                //comboBox.Items.Add(244);
+
+                //if (comboBox.SelectedIndex > -1)
+                //{ myOption = comboBox.Items[comboBox.SelectedIndex]; }
+                //if (myOption != null)
+                //{
+                //    myOption = myOption.ToString();
+                //}
+
+
+
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
-                        string[] args = Environment.GetCommandLineArgs();
+                        
+                            string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
@@ -78,12 +97,17 @@ namespace wpfapp
                             doc.ReplaceText("<IdAplication>", volc.IdApplication);
                         if (volc.IdInvestigation != null)
                             doc.ReplaceText("<IdInvestigation>", volc.IdInvestigation);
+                        string aaa = comboBox1.Text;
+                        volc.myOption = aaa;
                         
-                         doc.ReplaceText("<NumberOfPortions>", volc.NumberOfPortion); 
                         
+                        doc.ReplaceText("<option>", volc.myOption);
+                        doc.ReplaceText("<NumberOfPortions>", volc.NumberOfPortion);
                         
-                            //string ct = "0";
-                            //doc.ReplaceText("<NumberOfPortions>", ct); 
+
+
+                        //string ct = "0";
+                        //doc.ReplaceText("<NumberOfPortions>", ct); 
                         doc.ReplaceText("<RegistrationDate> ", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<ExpirationDate>", volc.ExpirationDate.ToShortDateString());
                         if (saveFileDialog1.FileName.Contains(".docx") == true)
@@ -191,6 +215,23 @@ namespace wpfapp
         }
 
         private void richTextBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+            
+                
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
