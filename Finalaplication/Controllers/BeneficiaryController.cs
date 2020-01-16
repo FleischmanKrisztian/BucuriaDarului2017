@@ -595,6 +595,7 @@ namespace Finalaplication.Controllers
                     containsspecialchar = true;
                 }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                ModelState.Remove("CI.ExpirationDateCI");
                 ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
                 ModelState.Remove("Marca.IdAplication");
@@ -675,6 +676,7 @@ namespace Finalaplication.Controllers
                         ModelState.Remove("Contract.RegistrationDate");
                         ModelState.Remove("Contract.ExpirationDate");
                         ModelState.Remove("Marca.IdAplication");
+                        ModelState.Remove("CI.ExpirationDateCI");
                         ModelState.Remove("Marca.IdContract");
                         ModelState.Remove("Marca.IdInvestigation");
                         ModelState.Remove("NumberOfPortions");
