@@ -392,7 +392,54 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Birthday()
+        [HttpGet]
+        public ActionResult CSVSaver(string ids)
+        {
+            ViewBag.IDS = ids;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CSVSaver(string IDS, bool All, bool Name, bool Birthdate,bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
+        {
+            string ids_and_options = IDS + "(((";
+            if (All == true)
+                ids_and_options = ids_and_options + "0";
+            if (Name == true)
+                ids_and_options = ids_and_options + "1";
+            if (Birthdate == true)
+                ids_and_options = ids_and_options + "2";
+            if (Address == true)
+                ids_and_options = ids_and_options + "3";
+            if (Gender == true)
+                ids_and_options = ids_and_options + "4";
+            if (Desired_Workplace == true)
+                ids_and_options = ids_and_options + "5";
+            if (CNP == true)
+                ids_and_options = ids_and_options + "6";
+            if (Field_of_Activity == true)
+                ids_and_options = ids_and_options + "7";
+            if (Occupation == true)
+                ids_and_options = ids_and_options + "8";
+            if (CI_Info == true)
+                ids_and_options = ids_and_options + "9";
+            if (Activity == true)
+                ids_and_options = ids_and_options + "A";
+            if (Hour_Count == true)
+                ids_and_options = ids_and_options + "B";
+            if (Contact_Information == true)
+                ids_and_options = ids_and_options + "C";
+            if (Additional_info == true)
+                ids_and_options = ids_and_options + "D";
+            ids_and_options = "csvexporterapp:" + ids_and_options;
+
+            return Redirect(ids_and_options);
+
+
+            //return RedirectToAction("Index");
+        }
+
+            public ActionResult Birthday()
         {
             try
             {
