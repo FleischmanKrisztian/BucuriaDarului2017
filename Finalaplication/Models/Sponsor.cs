@@ -9,7 +9,6 @@ namespace Finalaplication.Models
     public class Sponsor : SponsorBase
     {
         [BsonId]
-        [JsonIgnore]
         [BsonRepresentation(BsonType.ObjectId)]
         public string SponsorID { get; set; }
 

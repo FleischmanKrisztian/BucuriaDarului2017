@@ -9,7 +9,6 @@ namespace Finalaplication.Models
     public class Volunteer : VolunteerBase
     {
         [BsonId]
-        [JsonIgnore]
         [BsonRepresentation(BsonType.ObjectId)]
         public string VolunteerID { get; set; }
 

@@ -3,7 +3,6 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Finalaplication.Controllers
@@ -23,8 +22,8 @@ namespace Finalaplication.Controllers
         public string Get(string id)
         {
             dbcontext = new MongoDBContext();
-            string jsonstring="";
-            id = id.Replace("\"","");
+            string jsonstring = "";
+            id = id.Replace("\"", "");
             string[] ids = id.Split(",");
             if (ids[0].Contains("sponsors"))
             {
@@ -33,6 +32,8 @@ namespace Finalaplication.Controllers
                 {
                     var sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]);
                     jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
+                    var aux = jsonstring.IndexOf("SponsorID");
+                    jsonstring = jsonstring.Remove(aux - 1, 39);
                 }
             }
             else if (ids[0].Contains("beneficiaries"))
@@ -42,19 +43,23 @@ namespace Finalaplication.Controllers
                 {
                     var beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]);
                     jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
+                    var aux = jsonstring.IndexOf("BeneficiaryID");
+                    jsonstring = jsonstring.Remove(aux - 1, 43);
                 }
             }
             else if (ids[0].Contains("volunteers"))
             {
-                string properties = ids[ids.Length-1].Substring(27);
-                ids[ids.Length-1] = ids[ids.Length-1].Substring(0, 24);
+                string properties = ids[ids.Length - 1].Substring(27);
+                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 volunteerscollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-                for(int i=1;i<ids.Length;i++)
+                for (int i = 1; i < ids.Length; i++)
                 {
-                    if(properties.Contains("0"))
+                    if (properties.Contains("0"))
                     {
-                    var volunteer = volunteerscollection.AsQueryable().Where(z => z.VolunteerID == ids[i]);
-                    jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
+                        var volunteer = volunteerscollection.AsQueryable().Where(z => z.VolunteerID == ids[i]);
+                        jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
+                        var aux = jsonstring.IndexOf("VolunteerID");
+                        jsonstring = jsonstring.Remove(aux - 1, 41);
                     }
                     else
                     {
@@ -63,7 +68,7 @@ namespace Finalaplication.Controllers
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
-                            if(!first)
+                            if (!first)
                             {
                                 jsonstring = jsonstring + ",";
                             }
@@ -170,7 +175,7 @@ namespace Finalaplication.Controllers
                                 jsonstring = jsonstring + ",";
                             }
                             jsonstring = jsonstring + "\"ContactInformation\":{" + "\"PhoneNumber\":\"" + volunteer.ContactInformation.PhoneNumber + "\",\"MailAdress\":\"" + volunteer.ContactInformation.MailAdress + "\"}";
-                                first = false;
+                            first = false;
                         }
                         if (properties.Contains("D"))
                         {
@@ -192,6 +197,8 @@ namespace Finalaplication.Controllers
                 {
                     var eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]);
                     jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
+                    var aux = jsonstring.IndexOf("EventID");
+                    jsonstring = jsonstring.Remove(aux - 1, 37);
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
