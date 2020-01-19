@@ -71,196 +71,314 @@ namespace Finalaplication.Controllers
 
                 foreach (var details in result)
                 {
-                    if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                    try
                     {
-                        duplicates = duplicates + details[0] + " " + details[1]+ ", ";
-                    }
-                    else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "")
-                    {
-                        duplicates = duplicates + details[0] + " " + details[1] + ", ";
-                    }
-                    else
-                    {
-                        documentsimported++;
-                        var aux = details[22];
-                        for (int i = details.Length - 1; i > 0; i--)
+                        if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
                         {
-                            details[i] = details[i - 1];
+                            duplicates = duplicates + details[0] + " " + details[1] + ", ";
                         }
-                        Volunteer volunteer = new Volunteer();
-                        try
+                        else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "")
                         {
-                            volunteer.Firstname = details[1];
-                            volunteer.Lastname = details[2];
+                            duplicates = duplicates + details[0] + " " + details[1] + ", ";
                         }
-                        catch
+                        else
                         {
-                            volunteer.Firstname = "Error";
-                            volunteer.Lastname = "Error";
-                        }
-
-                        try
-                        {
-                            if (details[3] != null || details[3] != "")
+                            documentsimported++;
+                            //Mistake;we added a new aux in order to save the value from the last cell;
+                            var aux = details[22];
+                            for (int i = details.Length - 1; i > 0; i--)
                             {
-                                string[] date;
-                                date = details[3].Split(" ");
+                                details[i] = details[i - 1];
+                            }
+                            Volunteer volunteer = new Volunteer();
+                            try
+                            {
+                                volunteer.Firstname = details[1];
+                                volunteer.Lastname = details[2];
+                            }
+                            catch
+                            {
+                                volunteer.Firstname = "Error";
+                                volunteer.Lastname = "Error";
+                            }
 
-                                string[] FinalDate = date[0].Split("/");
-                                DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            try
+                            {
+                                if (details[3] != null || details[3] != "")
+                                {
+                                    string[] date;
+                                    date = details[3].Split(" ");
 
-                                volunteer.Birthdate = data.AddDays(1);
+                                    string[] FinalDate = date[0].Split("/");
+                                    DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+
+                                    volunteer.Birthdate = data.AddDays(1);
+                                }
+                                else
+                                { volunteer.Birthdate = DateTime.MinValue; }
+                            }
+                            catch
+                            {
+                                volunteer.Birthdate = DateTime.MinValue;
+                            }
+
+                            Address a = new Address();
+
+                            if (details[4] != null || details[4] != "")
+                            {
+                                a.District = details[4];
+                            }
+
+                            if (details[5] != null || details[5] != "")
+                            {
+                                a.City = details[5];
+                            }
+
+                            if (details[6] != null || details[6] != "")
+                            {
+                                a.Street = details[6];
+                            }
+
+                            if (details[7] != null || details[7] != "")
+                            {
+                                a.Number = details[7];
+                            }
+
+                            try
+                            {
+                                if (details[8] == "True" || details[8] == "1")
+                                {
+                                    volunteer.Gender = VolCommon.Gender.Female;
+                                }
+                                else
+                                {
+                                    volunteer.Gender = VolCommon.Gender.Male;
+                                }
+                            }
+                            catch
+                            {
+                                volunteer.Gender = Gender.Male;
+                            }
+
+                            if (details[9] != null || details[9] != "")
+                            {
+                                volunteer.Desired_workplace = details[9];
+                            }
+
+                            if (details[10] != null || details[10] != "")
+                            {
+                                volunteer.CNP = details[10];
+                            }
+
+                            if (details[11] != null || details[11] != "")
+                            {
+                                volunteer.Field_of_activity = details[11];
+                            }
+
+                            if (details[12] != null || details[12] != "")
+                            {
+                                volunteer.Occupation = details[12];
+                            }
+
+                            if (details[13] != null || details[13] != "")
+                            {
+                                volunteer.CIseria = details[13];
+                            }
+
+                            if (details[14] != null || details[14] != "")
+                            {
+                                volunteer.CINr = details[13];
+                            }
+                            try
+                            {
+                                if (details[15] != null || details[15] != "")
+                                {
+                                    string[] date;
+                                    date = details[15].Split(" ");
+
+                                    string[] FinalDate = date[0].Split("/");
+                                    DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                    volunteer.CIEliberat = data.AddDays(1);
+                                }
+                                else
+                                { volunteer.CIEliberat = DateTime.MinValue; }
+                            }
+                            catch
+                            {
+                                volunteer.CIEliberat = DateTime.MinValue;
+                            }
+
+                            if (details[16] != null || details[16] != "")
+                            {
+                                volunteer.CIeliberator = details[16];
+                            }
+                            if (details[17] == "True")
+                            {
+                                volunteer.InActivity = true;
                             }
                             else
-                            { volunteer.Birthdate = DateTime.MinValue; }
-                        }
-                        catch
-                        {
-                            volunteer.Birthdate = DateTime.MinValue;
-                        }
-
-                        Address a = new Address();
-
-                        if (details[4] != null || details[4] != "")
-                        {
-                            a.District = details[4];
-                        }
-
-                        if (details[5] != null || details[5] != "")
-                        {
-                            a.City = details[5];
-                        }
-
-                        if (details[6] != null || details[6] != "")
-                        {
-                            a.Street = details[6];
-                        }
-
-                        if (details[7] != null || details[7] != "")
-                        {
-                            a.Number = details[7];
-                        }
-
-                        try
-                        {
-                            if (details[8] == "True" || details[8] == "1")
                             {
-                                volunteer.Gender = VolCommon.Gender.Female;
+                                volunteer.InActivity = false;
+                            }
+
+                            if (details[18] != null || details[18] != "0" || details[18] != "")
+                            {
+                                volunteer.HourCount = Convert.ToInt16(details[18]);
                             }
                             else
                             {
-                                volunteer.Gender = VolCommon.Gender.Male;
+                                volunteer.HourCount = 0;
                             }
-                        }
-                        catch
-                        {
-                            volunteer.Gender = Gender.Male;
-                        }
-
-                        if (details[9] != null || details[9] != "")
-                        {
-                            volunteer.Desired_workplace = details[9];
-                        }
-
-                        if (details[10] != null || details[10] != "")
-                        {
-                            volunteer.CNP = details[10];
-                        }
-
-                        if (details[11] != null || details[11] != "")
-                        {
-                            volunteer.Field_of_activity = details[11];
-                        }
-
-                        if (details[12] != null || details[12] != "")
-                        {
-                            volunteer.Occupation = details[12];
-                        }
-
-                        if (details[13] != null || details[13] != "")
-                        {
-                            volunteer.CIseria = details[13];
-                        }
-
-                        if (details[14] != null || details[14] != "")
-                        {
-                            volunteer.CINr = details[13];
-                        }
-                        try
-                        {
-                            if (details[15] != null || details[15] != "")
+                            ContactInformation c = new ContactInformation();
+                            if (details[19] != null || details[19] != "")
                             {
-                                string[] date;
-                                date = details[15].Split(" ");
+                                c.PhoneNumber = details[19];
+                            }
+                            if (details[20] != null || details[20] != "")
+                            {
+                                c.MailAdress = details[20];
+                            }
+                            volunteer.ContactInformation = c;
+                            Additionalinfo ai = new Additionalinfo();
 
-                                string[] FinalDate = date[0].Split("/");
-                                DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                                volunteer.CIEliberat = data.AddDays(1);
+                            if (details[21] == "True")
+                            {
+                                ai.HasDrivingLicence = true;
                             }
                             else
-                            { volunteer.CIEliberat = DateTime.MinValue; }
-                        }
-                        catch
-                        {
-                            volunteer.CIEliberat = DateTime.MinValue;
-                        }
+                            {
+                                ai.HasDrivingLicence = false;
+                            }
 
-                        if (details[16] != null || details[16] != "")
-                        {
-                            volunteer.CIeliberator = details[16];
+                            if (details[22] == "True")
+                            {
+                                ai.HasCar = true;
+                            }
+                            else
+                            {
+                                ai.HasCar = false;
+                            }
+
+                            ai.Remark = aux;
+
+                            volunteer.Address = a;
+                            volunteer.Additionalinfo = ai;
+                            vollunteercollection.InsertOne(volunteer);
                         }
-                        if (details[17] == "True")
+                    }catch
+                    {
+                        if (vollunteercollection.CountDocuments(z => z.CNP == details[1]) >= 1 && details[1] != "")
                         {
-                            volunteer.InActivity = true;
+                            duplicates = duplicates + details[0] +  ", ";
+                        }
+                        else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[1] == "")
+                        {
+                            duplicates = duplicates + details[0] + ", ";
                         }
                         else
                         {
-                            volunteer.InActivity = false;
-                        }
+                            documentsimported++;
+                            
+                            Volunteer volunteer = new Volunteer();
+                            try
+                            {if(details[0].Contains(" ")==true)
+                                   
+                                   {string[] splitName= details[0].Split();
+                                    volunteer.Lastname= splitName[0] ;
+                                    if (splitName.Count() == 2)
+                                    {
+                                        volunteer.Firstname = splitName[1];
+                                    }else
+                                    { volunteer.Firstname = splitName[1] + " " + splitName[2]; }
+                                }
+                               
+                            }
+                            catch
+                            {
+                                volunteer.Firstname = "Error";
+                                volunteer.Lastname = "Error";
+                            }
 
-                        if (details[18] != null || details[18] != "0" || details[18] != "")
-                        {
-                            volunteer.HourCount = Convert.ToInt16(details[18]);
-                        }
-                        else
-                        {
-                            volunteer.HourCount = 0;
-                        }
-                        ContactInformation c = new ContactInformation();
-                        if (details[19] != null || details[19] != "")
-                        {
-                            c.PhoneNumber = details[19];
-                        }
-                        if (details[20] != null || details[20] != "")
-                        {
-                            c.MailAdress = details[20];
-                        }
-                        volunteer.ContactInformation = c;
-                        Additionalinfo ai = new Additionalinfo();
+                           
+                           
+                                volunteer.Birthdate = DateTime.MinValue;
+                            
 
-                        if (details[21] == "True")
-                        {
-                            ai.HasDrivingLicence = true;
-                        }
-                        else
-                        {
-                            ai.HasDrivingLicence = false;
-                        }
 
-                        if (details[22] == "True")
-                        {
-                            ai.HasCar = true;
-                        }
-                        else
-                        {
-                            ai.HasCar = false;
-                        }
+                            Address a = new Address();
 
-                        ai.Remark = aux;
 
-                        volunteer.Address = a;
-                        volunteer.Additionalinfo = ai;
-                        vollunteercollection.InsertOne(volunteer);
+                            if (details[2] != null || details[2] != "")
+                            {
+                              a.District=  details[2];
+                                  
+                            }
+
+                            
+
+                                volunteer.Gender = Gender.Male;
+                            
+
+                            if (details[9] != null || details[9] != "")
+                            {
+                                volunteer.Desired_workplace = details[9];
+                            }
+
+                            if (details[1] != null || details[1] != "")
+                            {
+                                volunteer.CNP = details[1];
+                            }
+
+
+
+
+                            if (details[3] != null)
+                            { if (details[3] != "")
+                                {
+                                    string[] splited = details[3].Split(" ");
+                                    volunteer.CIseria = splited[0];
+                                    volunteer.CINr = splited[1];
+                                }
+                                else
+                                {
+                                    volunteer.CIseria = "Error";
+                                    volunteer.CINr = "Error";
+                                }
+
+                            }
+
+                            
+                                volunteer.CIEliberat = DateTime.MinValue;
+                            
+
+                           
+
+                            
+                                volunteer.HourCount = 0;
+                            
+                           ContactInformation c = new ContactInformation();
+                            if (details[4] != null || details[4] != "")
+                            {
+                                c.PhoneNumber = details[4];
+                            }
+                            
+                            volunteer.ContactInformation = c;
+                            Additionalinfo ai = new Additionalinfo();
+
+                            
+                                ai.HasDrivingLicence = false;
+
+                            ai.Remark = details[8];
+                           
+                                ai.HasCar = false;
+                            
+
+                            
+
+                            volunteer.Address = a;
+                            volunteer.Additionalinfo = ai;
+                            vollunteercollection.InsertOne(volunteer);
+                        }
                     }
 
                     FileInfo file = new FileInfo(path);

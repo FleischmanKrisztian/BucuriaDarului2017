@@ -40,22 +40,7 @@ namespace wpfapp
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             try
             {
-                //Object myOption = "";
-                //ComboBox comboBox = new ComboBox();
-                //comboBox.DropDownStyle = ComboBoxStyle.DropDown;
-                //comboBox.Items.Add(240);
-                //comboBox.Items.Add(241);
-                //comboBox.Items.Add(242);
-                //comboBox.Items.Add(243);
-                //comboBox.Items.Add(244);
-
-                //if (comboBox.SelectedIndex > -1)
-                //{ myOption = comboBox.Items[comboBox.SelectedIndex]; }
-                //if (myOption != null)
-                //{
-                //    myOption = myOption.ToString();
-                //}
-
+                
 
 
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -69,7 +54,7 @@ namespace wpfapp
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
                         string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
-                        
+                        //string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
