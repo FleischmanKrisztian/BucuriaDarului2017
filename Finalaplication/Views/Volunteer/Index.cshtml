@@ -65,23 +65,23 @@
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
 
-    <div class="row align-items-center">
-        <div class="col-3">
-            @Localizer["Name"]:
-        </div>
-        <div class="col-1">
-            @Localizer["Active"]:
-        </div>
-        <div class="col-1">
-            @Localizer["HasCar"]
-        </div>
-        <div class="col-3">
-            @Localizer["BornAfter"]:
-        </div>
-        <div class="col-3">
-            @Localizer["BornBefore"]:
-        </div>
+<div class="row align-items-center">
+    <div class="col-3">
+        @Localizer["Name"]:
     </div>
+    <div class="col-1">
+        @Localizer["Active"]:
+    </div>
+    <div class="col-1">
+        @Localizer["HasCar"]
+    </div>
+    <div class="col-3">
+        @Localizer["BornAfter"]:
+    </div>
+    <div class="col-3">
+        @Localizer["BornBefore"]:
+    </div>
+</div>
     <div class="row align-items-center">
         <div class="col-3">
             @Html.TextBox("searching")
@@ -97,6 +97,15 @@
         </div>
         <div class="col-3">
             <input type="date" name="upperdate">
+        </div>
+        <br />
+        <div class="col-3">
+            <br />
+            <input type="date" name="activesince">
+        </div>
+        <div class="col-3">
+            <br />
+            <input type="date" name="activetill">
         </div>
     </div>
 
@@ -129,47 +138,47 @@
 
                if(currentpage==1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                 if(currentpage>=5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                 if(currentpage>3)
                 {
-                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                 if(currentpage>2)
                 {
-                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                 if(currentpage!=1 && currentpage!= maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if(currentpage<maxpage-1)
                 {
-                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                 if(currentpage<maxpage-2)
                 {
-                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                 if(currentpage<maxpage-3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
                  if(maxpage!=1 && currentpage==maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })
                 }
             }
             </pre>
@@ -180,25 +189,25 @@
 <table class="table">
     <tr>
         <th>
-            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Firstname"]</a>
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })>@Localizer["Firstname"]</a>
         </th>
         <th>
-            <a href=@Url.Action( "Index" , new { sortOrder=ViewBag.LastnameSort, searching=ViewBag.searching, HasCar=ViewBag.hascar, Active=ViewBag.active, lowerdate=ViewBag.Lowerdate, upperdate=ViewBag.Upperdate })>@Localizer["Lastname"]</a>
+            <a href=@Url.Action( "Index" , new { sortOrder=ViewBag.LastnameSort, searching=ViewBag.searching, HasCar=ViewBag.hascar, Active=ViewBag.active, lowerdate=ViewBag.Lowerdate, upperdate=ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })>@Localizer["Lastname"]</a>
         </th>
         <th>
-            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["BirthDate"]</a>
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })>@Localizer["BirthDate"]</a>
         </th>
         <th>
-            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Active"]</a>
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })>@Localizer["Active"]</a>
         </th>
         <th>
             @Localizer["Phonenumber"]
         </th>
         <th>
-            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Gender"]</a>
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })>@Localizer["Gender"]</a>
         </th>
         <th>
-            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["HourCount"]</a>
+            <a href=@Url.Action( "Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill })>@Localizer["HourCount"]</a>
         </th>
         <th></th>
     </tr>

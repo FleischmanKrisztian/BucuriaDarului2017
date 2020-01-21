@@ -77,7 +77,7 @@ namespace Finalaplication.Controllers
                         {
                             duplicates = duplicates + details[0] + " " + details[1] + ", ";
                         }
-                        else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "")
+                        else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "" && vollunteercollection.CountDocuments(z => z.Lastname == details[1]) >=1)
                         {
                             duplicates = duplicates + details[0] + " " + details[1] + ", ";
                         }
@@ -396,7 +396,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, int page)
+        public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page)
         {
             try
             {
@@ -412,6 +412,8 @@ namespace Finalaplication.Controllers
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
+                ViewBag.Activesince = activesince;
+                ViewBag.Activetill = activetill;
                 ViewBag.hascar = HasCar;
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -422,10 +424,6 @@ namespace Finalaplication.Controllers
 
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
                 DateTime d1 = new DateTime(0003, 1, 1);
-                if (upperdate > d1)
-                {
-                    volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
-                }
                 if (searching != null)
                 {
                     volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
@@ -438,6 +436,22 @@ namespace Finalaplication.Controllers
                 {
                     volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
                 }
+                if (upperdate > d1)
+                {
+                    volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
+                }
+                //IN CASE THERE IS NO END DATE
+                    if (activesince > d1 && activetill <= d1 )
+                    {
+                    }
+                    //IN CASE THERE IS NO START DATE
+                    if (activesince < d1 && activetill > d1)
+                    {
+                    }
+                    //IN CASE THERE ARE BOTH
+                    if (activesince > d1 && activetill > d1)
+                    {
+                    }
                 if (HasCar == true)
                 {
                     volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
@@ -647,6 +661,10 @@ namespace Finalaplication.Controllers
                             }
                         }
                     }
+                    if(volunteer.InActivity==true)
+                    {
+                        volunteer.Activedates = volunteer.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                    }
                     vollunteercollection.InsertOne(volunteer);
 
                     return RedirectToAction("Index");
@@ -715,6 +733,20 @@ namespace Finalaplication.Controllers
                                     }
                                 }
                             }
+                            bool wasactive = false;
+
+                            if (Originalsavedvol.InActivity == true)
+                            {
+                                wasactive = true;   
+                            }
+                            if (volunteer.InActivity == false && wasactive == true)
+                            {
+                                volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                            }
+                            if (volunteer.InActivity == true && wasactive == false)
+                            {
+                                volunteer.Activedates = volunteer.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                            }
 
                             var update = Builders<Volunteer>.Update
                                 .Set("Image", volunteer.Image)
@@ -740,7 +772,9 @@ namespace Finalaplication.Controllers
                                 .Set("ContactInformation.MailAdress", volunteer.ContactInformation.MailAdress)
                                 .Set("Additionalinfo.HasCar", volunteer.Additionalinfo.HasCar)
                                 .Set("Additionalinfo.Remark", volunteer.Additionalinfo.Remark)
+                                .Set("Activedates",volunteer.Activedates)
                                 .Set("Additionalinfo.HasDrivingLicence", volunteer.Additionalinfo.HasDrivingLicence);
+
                             var result = vollunteercollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
@@ -793,9 +827,14 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
+                        if (volunteer.InActivity == false)
+                        {
+                            volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                        }
                         var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
                         var update = Builders<Volunteer>.Update
-                            .Set("InActivity", volunteer.InActivity);
+                            .Set("InActivity", volunteer.InActivity)
+                            .Set("Activedates", volunteer.Activedates);
                         var result = vollunteercollection.UpdateOne(filter, update);
                         return RedirectToAction("Index");
                     }

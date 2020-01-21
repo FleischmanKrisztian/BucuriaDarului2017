@@ -69,6 +69,7 @@
                 @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
             </div>
         </div>
+        @Html.HiddenFor(model => model.Activedates)
         <div class="form-group">
             @Localizer["Lastname"]:
             <div class="col-md-10">
