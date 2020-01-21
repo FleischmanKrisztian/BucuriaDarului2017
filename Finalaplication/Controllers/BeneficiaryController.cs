@@ -323,11 +323,11 @@ namespace Finalaplication.Controllers
                                 {
                                     personal.Gender = VolCommon.Gender.Male;
                                 }
-                                beneficiary.Coments = details[23];
+                                beneficiary.Comments = details[23];
                             }
                             catch
                             {
-                                beneficiary.Coments = "";
+                                beneficiary.Comments = "";
                             }
 
                             if (details[22] == null || details[22] == "")
@@ -617,11 +617,11 @@ namespace Finalaplication.Controllers
                                 {
                                     personal.Gender = VolCommon.Gender.Male;
                                 }
-                                beneficiary.Coments = details[42];
+                                beneficiary.Comments = details[42];
                             }
                             catch
                             {
-                                beneficiary.Coments = "";
+                                beneficiary.Comments = "";
                             }
 
                             
@@ -921,6 +921,7 @@ namespace Finalaplication.Controllers
                 var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == id);
                 Beneficiary originalsavedvol = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
                 ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+                ViewBag.id = id;
                 return View(beneficiary);
             }
             catch
@@ -975,7 +976,7 @@ namespace Finalaplication.Controllers
                         {
                             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                             var update = Builders<Beneficiary>.Update
-                               .Set("Firstname", beneficiary.Fullname)
+                               .Set("Fullname", beneficiary.Fullname)
                                .Set("Image",beneficiary.Image)
                                .Set("Weeklypackage", beneficiary.Weeklypackage)
                                .Set("Active", beneficiary.Active)
@@ -984,9 +985,8 @@ namespace Finalaplication.Controllers
                                .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
                                .Set("CNP", beneficiary.CNP)
                                .Set("NumberOfPortions", beneficiary.NumberOfPortions)
-                               .Set("Coments", beneficiary.Coments)
-                               .Set("Adress.Adress", beneficiary.Adress)
-
+                               .Set("Comments", beneficiary.Comments)
+                               .Set("Adress", beneficiary.Adress)
                                .Set("CI.CIinfo", beneficiary.CI.CIinfo)
                                .Set("CI.CIeliberator", beneficiary.CI.CIeliberator)
                                .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
