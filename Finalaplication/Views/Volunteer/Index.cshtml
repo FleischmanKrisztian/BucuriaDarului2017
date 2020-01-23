@@ -60,7 +60,10 @@
     
 </p>
 
-
+@if(ViewBag.wrongorder == true)
+{
+ <h3 style="color:red">The date of active till cant be smaller that that of activesince!</h3>
+}
 
 @using (Html.BeginForm("Index", "Volunteer/", FormMethod.Get))
 {
@@ -101,10 +104,12 @@
         <br />
         <div class="col-3">
             <br />
+            activesince
             <input type="date" name="activesince">
         </div>
         <div class="col-3">
             <br />
+            activetill
             <input type="date" name="activetill">
         </div>
     </div>
