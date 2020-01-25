@@ -269,7 +269,7 @@ namespace Finalaplication.Controllers
                     {
                         if (vollunteercollection.CountDocuments(z => z.CNP == details[1]) >= 1 && details[1] != "")
                         {
-                            duplicates = duplicates + details[0] +  ", ";
+                            duplicates = duplicates + details[1] +  ", ";
                         }
                         else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[1] == "")
                         {

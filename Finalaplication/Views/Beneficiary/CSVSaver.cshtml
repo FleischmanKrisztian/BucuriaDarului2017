@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+@{
+    ViewData["Title"] = "CSVSaver";
+    string IDS = ViewBag.IDS;
+}
+
+<h1>CSVSaver</h1>
+
+<head>
+    <style>
+        text {
+            color: white;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<h1>CSVSaver</h1>
+
+<h3>Please choose what you want the Excel to contain: </h3>
+<br />
+
+@using (Html.BeginForm("CSVSaver", "Benrficiary/", FormMethod.Post))
+{
+
+    <div class="col-12">
+        <h4>Check this for all fields: @Html.CheckBox("All", isChecked: true)</h4>
+    </div>
+    <br />
+    <br />
+    <div class="col-12">
+        <h4>Select the properties:</h4>
+        <br />
+        <table>
+            <tr>
+                <th>Fullname</th>
+                <th>Active</th>
+                <th>Canteen</th>
+                <th>HomeDelivery</th>
+                <th>HomeDeliveryDriver</th>
+                <th>HasGDPRAgreement</th>
+                <th>Adress</th>
+                <th>CNP</th>
+                <th>CI_Info</th>
+                <th>marca</th>
+                <th>IdInvestigation </th>
+                <th>IdAplication</th>
+                <th>NumberOfPortions</th>
+                <th>LastTimeActiv</th>
+                <th>PhoneNumber</th>
+                <th>BirthPlace</th>
+                <th>Studies</th>
+                <th>Profesion</th>
+                <th>Ocupation</th>
+                <th>SeniorityInWorkField</th>
+                <th>HealthState</th>
+                <th>Disalility</th>
+                <th>ChronicCondition</th>
+                <th>Addictions</th>
+                <th>HealthInsurance</th>
+                <th>HealthCard</th>
+                <th>Married</th>
+                <th>SpouseName</th>
+                <th>HasHome</th>
+                <th>HousingType</th>
+                <th>Income</th>
+                <th>Expences</th>
+                <th>Gender</th>
+            </tr>
+            <tr>
+                <td> @Html.CheckBox("Fullname")</td>
+                <td> @Html.CheckBox("Active")</td>
+                <td> @Html.CheckBox("Canteen")</td>
+                <td> @Html.CheckBox("HomeDelivery")</td>
+                <td> @Html.CheckBox("HomeDeliveryDriver")</td>
+                <td> @Html.CheckBox("HasGDPRAgreement")</td>
+                <td> @Html.CheckBox("Adress")</td>
+                <td> @Html.CheckBox("CNP")</td>
+                <td> @Html.CheckBox("CI_Info")</td>
+                <td> @Html.CheckBox("marca")</td>
+                <td> @Html.CheckBox("IdInvestigation")</td>
+                <td> @Html.CheckBox("IdAplication")</td>
+                <td> @Html.CheckBox("NumberOfPortions")</td>
+                <td> @Html.CheckBox("BirthPlace")</td>
+                <td> @Html.CheckBox("Studies")</td>
+                <td> @Html.CheckBox("Profesion")</td>
+                <td> @Html.CheckBox("Ocupation")</td>
+                <td> @Html.CheckBox("SeniorityInWorkField")</td>
+                <td> @Html.CheckBox("HealthState")</td>
+                <td> @Html.CheckBox("Disalility")</td>
+                <td> @Html.CheckBox("ChronicCondition")</td>
+                <td> @Html.CheckBox("Addictions")</td>
+                <td> @Html.CheckBox("HealthInsurance")</td>
+                <td> @Html.CheckBox("HealthCard")</td>
+                <td> @Html.CheckBox("Married")</td>
+                <td> @Html.CheckBox("SpouseName")</td>
+                <td> @Html.CheckBox("HasHome")</td>
+                <td> @Html.CheckBox("HousingType")</td>
+                <td> @Html.CheckBox("Income")</td>
+                <td> @Html.CheckBox("Expences")</td>
+                <td> @Html.CheckBox("Gender")</td>
+            </tr>
+        </table>
+    </div>
+
+    @Html.Hidden("IDS", IDS)
+
+    <div class="row align-items-center">
+        <div class="col-3">
+            <br />
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
+            </button>
+            <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
+                @Html.ActionLink("Back", "Index")
+            </button>
+        </div>
+    </div>
+    <br />
+}
+<br />
