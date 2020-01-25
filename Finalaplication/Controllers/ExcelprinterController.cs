@@ -27,14 +27,108 @@ namespace Finalaplication.Controllers
             string[] ids = id.Split(",");
             if (ids[0].Contains("sponsors"))
             {
+                string properties = ids[ids.Length - 1].Substring(13);
+                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 for (int i = 1; i < ids.Length; i++)
                 {
-                    var sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]);
-                    jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
-                    var aux = jsonstring.IndexOf("SponsorID");
-                    jsonstring = jsonstring.Remove(aux - 1, 39);
-                }
+                    if (properties.Contains("0"))
+                    {
+                        var sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]);
+                        jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
+                        var aux = jsonstring.IndexOf("SponsorID");
+                        jsonstring = jsonstring.Remove(aux - 1, 39);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        Sponsor sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]).First();
+                        jsonstring = jsonstring + "[{";
+                        if (properties.Contains("1"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"NameOfSponsor\":" + "\"" + sponsor.NameOfSponsor + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("2"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"Date\":" + "\"" + sponsor.Sponsorship.Date + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("3"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"HasContract \":" + "\"" + sponsor.Contract.HasContract + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("4"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            var ContractDetails = sponsor.Contract.NumberOfRegistration + "," + sponsor.Contract.RegistrationDate + "," + sponsor.Contract.ExpirationDate + ",";
+                            jsonstring = jsonstring + "\"ContractDetails \":" + "\"" + ContractDetails + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("5"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"PhoneNumber\":" + "\"" + sponsor.ContactInformation.PhoneNumber + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("6"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"MailAdress \":" + "\"" + sponsor.ContactInformation.MailAdress + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("7"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"MoneyAmount\":" + "\"" + sponsor.Sponsorship.MoneyAmount + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("8"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"WhatGoods\":" + "\"" + sponsor.Sponsorship.WhatGoods + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("9"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"GoodsAmount\":" + "\"" + sponsor.Sponsorship.GoodsAmount + "\"";
+                            first = false;
+                        }
+                        jsonstring = jsonstring + "}]";
+                    }
+                    }
             }
             else if (ids[0].Contains("beneficiaries"))
             { string properties = ids[ids.Length - 1].Substring(44);
@@ -506,13 +600,101 @@ namespace Finalaplication.Controllers
             }
             else if (ids[0].Contains("events"))
             {
+                string properties = ids[ids.Length - 1].Substring(10);
+                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 eventscollection = dbcontext.database.GetCollection<Event>("Events");
                 for (int i = 1; i < ids.Length; i++)
                 {
-                    var eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]);
-                    jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
-                    var aux = jsonstring.IndexOf("EventID");
-                    jsonstring = jsonstring.Remove(aux - 1, 37);
+                    if (properties.Contains("0"))
+                    {
+                        var eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]);
+                        jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
+                        var aux = jsonstring.IndexOf("EventID");
+                        jsonstring = jsonstring.Remove(aux - 1, 37);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        Event eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]).First();
+                        jsonstring = jsonstring + "[{";
+                        if (properties.Contains("1"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"NameOfEvent\":" + "\"" + eventt.NameOfEvent + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("2"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"PlaceOfEvent\":" + "\"" + eventt.PlaceOfEvent + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("3"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"DateOfEvent\":" + "\"" + eventt.DateOfEvent + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("4"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"TypeOfActivities\":" + "\"" + eventt.TypeOfActivities + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("5"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"TypeOfEvent\":" + "\"" + eventt.TypeOfEvent + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("6"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"Duration\":" + "\"" + eventt.Duration + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("7"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"AllocatedVolunteers\":" + "\"" + eventt.AllocatedVolunteers + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("8"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"AllocatedSponsors \":" + "\"" + eventt.AllocatedSponsors + "\"";
+                            first = false;
+                        }
+                       
+
+
+                        jsonstring = jsonstring + "}]";
+                    }
+                        
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Finalaplication.Models.Event>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+@{
+    ViewData["Title"] = "CSVSaver";
+    string IDS = ViewBag.IDS;
+}
+
+<h1>CSVSaver</h1>
+<head>
+    <style>
+        text {
+            color: white;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<h1>@Localizer["CSVSaver"]</h1>
+
+<h3>
+    @Localizer["Please choose what you want the Excel to contain"]:
+</h3>
+<br />
+
+@using (Html.BeginForm("CSVSaver", "Event/", FormMethod.Post))
+{
+
+    <div class="col-12">
+        <h4>@Localizer["Check this for all fields"]: @Html.CheckBox("All", isChecked: true)</h4>
+    </div>
+    <br />
+    <br />
+    <div class="col-12">
+        <h4>
+            @Localizer["Select the properties"]:
+        </h4>
+        <br />
+        <table>
+            <tr>
+                <th>@Localizer["NameOfEvent"]</th>
+                <th>@Localizer["PlaceOfEvent"]</th>
+                <th>@Localizer["DateOfEvent"]</th>
+                <th>@Localizer["TypeOfActivities"]</th>
+                <th>@Localizer["TypeOfEvent"]</th>
+                <th>@Localizer["Duration"]</th>
+                <th>@Localizer["AllocatedVolunteers"]</th>
+                <th>@Localizer["AllocatedSponsors"]</th>
+                
+               
+            </tr>
+            <tr>
+                <td> @Html.CheckBox("NameOfEvent")</td>
+                <td> @Html.CheckBox("PlaceOfEvent")</td>
+                <td> @Html.CheckBox("DateOfEvent")</td>
+                <td> @Html.CheckBox("TypeOfActivities")</td>
+                <td> @Html.CheckBox("TypeOfEvent")</td>
+                <td> @Html.CheckBox("Duration")</td>
+                <td> @Html.CheckBox("AllocatedVolunteers")</td>
+                <td> @Html.CheckBox("AllocatedSponsors")</td>
+                
+                
+            </tr>
+        </table>
+    </div>
+
+    @Html.Hidden("IDS", IDS)
+
+    <div class="row align-items-center">
+        <div class="col-3">
+            <br />
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
+            </button>
+            <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
+                @Html.ActionLink("Back", "Index")
+            </button>
+        </div>
+    </div>
+    <br />
+}
+<br />
