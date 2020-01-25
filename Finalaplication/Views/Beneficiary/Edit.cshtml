@@ -9,7 +9,7 @@
 
 @if (ViewBag.containsspecialchar == true)
 {
-    <div><h3 style="color:red">Cannot contain Special character ";"</h3></div>
+    <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
 
 <form method="post" action="/Beneficiary/Edit" enctype="multipart/form-data">
@@ -377,11 +377,16 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
-        <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value=@Localizer["Save"] style="background-color:cornflowerblue" class="btn btn-default" />
+        </div>
     </div>
-   
+    
+
 </form>
+
+<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+
 
 <script type="text/javascript">
     function ShowImagePreview(input) {

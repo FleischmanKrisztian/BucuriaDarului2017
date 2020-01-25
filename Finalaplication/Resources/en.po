@@ -544,6 +544,8 @@ msgstr "Select the properties"
 msgid "ContractDetails"
 msgstr "Contract Details"
 
+msgid "Cannot contain Special character ';'"
+msgstr "Cannot contain Special character ';'"
 
 
 

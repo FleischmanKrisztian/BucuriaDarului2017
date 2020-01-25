@@ -534,3 +534,6 @@ msgstr "Selectează câmpurile"
 
 msgid "ContractDetails"
 msgstr "Detalii contract"
+
+msgid "Cannot contain Special character ';'"
+msgstr "Câmpurile nu pot conține caracterul ';'"
