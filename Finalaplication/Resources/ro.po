@@ -519,3 +519,18 @@ msgstr "Încarcă"
 
 msgid "Choosefile"
 msgstr "Caută"
+
+msgid "CSVSaver"
+msgstr "CSVSaver"
+
+msgid "Please choose what you want the Excel to contain"
+msgstr "Alege câmpurile pe care doriți să le conțina fișierul Excel"
+
+msgid "Check this for all fields"
+msgstr "Bifează căsuța pentru toate câmpurile"
+
+msgid "Select the properties"
+msgstr "Selectează câmpurile"
+
+msgid "ContractDetails"
+msgstr "Detalii contract"

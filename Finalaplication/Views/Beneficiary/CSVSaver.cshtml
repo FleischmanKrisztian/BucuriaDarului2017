@@ -35,93 +35,95 @@
     </style>
 </head>
 
-<h1>CSVSaver</h1>
+<h1>@Localizer["CSVSaver"]</h1>
 
-<h3>Please choose what you want the Excel to contain: </h3>
+<h3>
+    @Localizer["Please choose what you want the Excel to contain"]: </h3>
 <br />
 
 @using (Html.BeginForm("CSVSaver", "Benrficiary/", FormMethod.Post))
 {
 
     <div class="col-12">
-        <h4>Check this for all fields: @Html.CheckBox("All", isChecked: true)</h4>
+        <h4>@Localizer["Check this for all fields"]: @Html.CheckBox("All", isChecked: true)</h4>
     </div>
     <br />
     <br />
     <div class="col-12">
-        <h4>Select the properties:</h4>
-        <br />
-        <table>
-            <tr>
-                <th>Fullname</th>
-                <th>Active</th>
-                <th>Canteen</th>
-                <th>HomeDelivery</th>
-                <th>HomeDeliveryDriver</th>
-                <th>HasGDPRAgreement</th>
-                <th>Adress</th>
-                <th>CNP</th>
-                <th>CI_Info</th>
-                <th>marca</th>
-                <th>IdInvestigation </th>
-                <th>IdAplication</th>
-                <th>NumberOfPortions</th>
-                <th>LastTimeActiv</th>
-                <th>PhoneNumber</th>
-                <th>BirthPlace</th>
-                <th>Studies</th>
-                <th>Profesion</th>
-                <th>Ocupation</th>
-                <th>SeniorityInWorkField</th>
-                <th>HealthState</th>
-                <th>Disalility</th>
-                <th>ChronicCondition</th>
-                <th>Addictions</th>
-                <th>HealthInsurance</th>
-                <th>HealthCard</th>
-                <th>Married</th>
-                <th>SpouseName</th>
-                <th>HasHome</th>
-                <th>HousingType</th>
-                <th>Income</th>
-                <th>Expences</th>
-                <th>Gender</th>
-            </tr>
-            <tr>
-                <td> @Html.CheckBox("Fullname")</td>
-                <td> @Html.CheckBox("Active")</td>
-                <td> @Html.CheckBox("Canteen")</td>
-                <td> @Html.CheckBox("HomeDelivery")</td>
-                <td> @Html.CheckBox("HomeDeliveryDriver")</td>
-                <td> @Html.CheckBox("HasGDPRAgreement")</td>
-                <td> @Html.CheckBox("Adress")</td>
-                <td> @Html.CheckBox("CNP")</td>
-                <td> @Html.CheckBox("CI_Info")</td>
-                <td> @Html.CheckBox("marca")</td>
-                <td> @Html.CheckBox("IdInvestigation")</td>
-                <td> @Html.CheckBox("IdAplication")</td>
-                <td> @Html.CheckBox("NumberOfPortions")</td>
-                <td> @Html.CheckBox("BirthPlace")</td>
-                <td> @Html.CheckBox("Studies")</td>
-                <td> @Html.CheckBox("Profesion")</td>
-                <td> @Html.CheckBox("Ocupation")</td>
-                <td> @Html.CheckBox("SeniorityInWorkField")</td>
-                <td> @Html.CheckBox("HealthState")</td>
-                <td> @Html.CheckBox("Disalility")</td>
-                <td> @Html.CheckBox("ChronicCondition")</td>
-                <td> @Html.CheckBox("Addictions")</td>
-                <td> @Html.CheckBox("HealthInsurance")</td>
-                <td> @Html.CheckBox("HealthCard")</td>
-                <td> @Html.CheckBox("Married")</td>
-                <td> @Html.CheckBox("SpouseName")</td>
-                <td> @Html.CheckBox("HasHome")</td>
-                <td> @Html.CheckBox("HousingType")</td>
-                <td> @Html.CheckBox("Income")</td>
-                <td> @Html.CheckBox("Expences")</td>
-                <td> @Html.CheckBox("Gender")</td>
-            </tr>
-        </table>
-    </div>
+        <h4>
+            @Localizer["Select the properties"]:</h4>
+                <br />
+                <table>
+                    <tr>
+                        <th>@Localizer["Fullname"]</th>
+                        <th>@Localizer["Active"]</th>
+                        <th>@Localizer["Canteen"]</th>
+                        <th>@Localizer["HomeDelivery"]</th>
+                        <th>@Localizer["HomeDeliveryDriver"]</th>
+                        <th>@Localizer["HasGDPRAgreement"]</th>
+                        <th>@Localizer["Adress"]</th>
+                        <th>@Localizer["CNP"]</th>
+                        <th>@Localizer["CI_Info"]</th>
+                        <th>@Localizer["marca"]</th>
+                        <th>@Localizer["IdInvestigation"]</th>
+                        <th>@Localizer["IdAplication"]</th>
+                        <th>@Localizer["NumberOfPortions"]</th>
+                        <th>@Localizer["LastTimeActiv"]</th>
+                        <th>@Localizer["PhoneNumber"]</th>
+                        <th>@Localizer["BirthPlace"]</th>
+                        <th>@Localizer["Studies"]</th>
+                        <th>@Localizer["Profesion"]</th>
+                        <th>@Localizer["Ocupation"]</th>
+                        <th>@Localizer["SeniorityInWorkField"]</th>
+                        <th>@Localizer["HealthState"]</th>
+                        <th>@Localizer["Disalility"]</th>
+                        <th>@Localizer["ChronicCondition"]</th>
+                        <th>@Localizer["Addictions"]</th>
+                        <th>@Localizer["HealthInsurance"]</th>
+                        <th>@Localizer["HealthCard"]</th>
+                        <th>@Localizer["Married"]</th>
+                        <th>@Localizer["SpouseName"]</th>
+                        <th>@Localizer["HasHome"]</th>
+                        <th>@Localizer["HousingType"]</th>
+                        <th>@Localizer["Income"]</th>
+                        <th>@Localizer["Expences"]</th>
+                        <th>@Localizer["Gender"]</th>
+                    </tr>
+                    <tr>
+                        <td> @Html.CheckBox("Fullname")</td>
+                        <td> @Html.CheckBox("Active")</td>
+                        <td> @Html.CheckBox("Canteen")</td>
+                        <td> @Html.CheckBox("HomeDelivery")</td>
+                        <td> @Html.CheckBox("HomeDeliveryDriver")</td>
+                        <td> @Html.CheckBox("HasGDPRAgreement")</td>
+                        <td> @Html.CheckBox("Adress")</td>
+                        <td> @Html.CheckBox("CNP")</td>
+                        <td> @Html.CheckBox("CI_Info")</td>
+                        <td> @Html.CheckBox("marca")</td>
+                        <td> @Html.CheckBox("IdInvestigation")</td>
+                        <td> @Html.CheckBox("IdAplication")</td>
+                        <td> @Html.CheckBox("NumberOfPortions")</td>
+                        <td> @Html.CheckBox("BirthPlace")</td>
+                        <td> @Html.CheckBox("Studies")</td>
+                        <td> @Html.CheckBox("Profesion")</td>
+                        <td> @Html.CheckBox("Ocupation")</td>
+                        <td> @Html.CheckBox("SeniorityInWorkField")</td>
+                        <td> @Html.CheckBox("HealthState")</td>
+                        <td> @Html.CheckBox("Disalility")</td>
+                        <td> @Html.CheckBox("ChronicCondition")</td>
+                        <td> @Html.CheckBox("Addictions")</td>
+                        <td> @Html.CheckBox("HealthInsurance")</td>
+                        <td> @Html.CheckBox("HealthCard")</td>
+                        <td> @Html.CheckBox("Married")</td>
+                        <td> @Html.CheckBox("SpouseName")</td>
+                        <td> @Html.CheckBox("HasHome")</td>
+                        <td> @Html.CheckBox("HousingType")</td>
+                        <td> @Html.CheckBox("Income")</td>
+                        <td> @Html.CheckBox("Expences")</td>
+                        <td> @Html.CheckBox("Gender")</td>
+                    </tr>
+                </table>
+</div>
 
     @Html.Hidden("IDS", IDS)
 

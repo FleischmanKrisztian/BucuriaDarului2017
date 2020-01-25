@@ -203,6 +203,46 @@ namespace Finalaplication.Controllers
             }
         }
 
+
+        [HttpGet]
+        public ActionResult CSVSaver(string ids)
+        {
+            ViewBag.IDS = ids;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CSVSaver(string IDS, bool All,bool NameOfSponsor,bool Date,bool MoneyAmount, bool WhatGoods,bool GoodsAmount,bool HasContract,bool ContractDetails,bool PhoneNumber,bool MailAdress)
+        {
+            string ids_and_options = IDS + "(((";
+            if (All == true)
+                ids_and_options = ids_and_options + "0";
+            if (NameOfSponsor == true)
+                ids_and_options = ids_and_options + "1";
+            if (Date == true)
+                ids_and_options = ids_and_options + "2";
+            if (HasContract == true)
+                ids_and_options = ids_and_options + "3";
+            if (ContractDetails== true)
+                ids_and_options = ids_and_options + "4";
+            if (PhoneNumber == true)
+                ids_and_options = ids_and_options + "5";
+            if (MailAdress == true)
+                ids_and_options = ids_and_options + "6";
+            if (MoneyAmount == true)
+                ids_and_options = ids_and_options + "7";
+            if (WhatGoods == true)
+                ids_and_options = ids_and_options + "8";
+            if (GoodsAmount == true)
+                ids_and_options = ids_and_options + "9";
+
+
+            ids_and_options = "csvexporterapp:" + ids_and_options;
+
+            return Redirect(ids_and_options);
+
+        }
+
+
         public IActionResult Index(string searching, int page)
         {
             try

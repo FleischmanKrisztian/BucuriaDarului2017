@@ -38,7 +38,7 @@ namespace Finalaplication.Controllers
             }
             else if (ids[0].Contains("beneficiaries"))
             { string properties = ids[ids.Length - 1].Substring(44);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 43);
+                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 benefeciarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 for (int i = 1; i < ids.Length; i++)
                 {
@@ -48,7 +48,7 @@ namespace Finalaplication.Controllers
                             var beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]);
                             jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
                             var aux = jsonstring.IndexOf("BeneficiaryID");
-                            jsonstring = jsonstring.Remove(aux - 1, 44);
+                            jsonstring = jsonstring.Remove(aux - 1, 43);
                         }
                         else
                         {
