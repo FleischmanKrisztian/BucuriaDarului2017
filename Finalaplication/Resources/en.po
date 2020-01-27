@@ -529,5 +529,23 @@ msgstr "Upload"
 msgid "Choosefile"
 msgstr "Choose file"
 
+msgid "CSVSaver"
+msgstr "CSVSaver"
+
+msgid "Please choose what you want the Excel to contain"
+msgstr "Please choose what you want the Excel to contain"
+
+msgid "Check this for all fields"
+msgstr "Check this for all fields"
+
+msgid "Select the properties"
+msgstr "Select the properties"
+
+msgid "ContractDetails"
+msgstr "Contract Details"
+
+msgid "Cannot contain Special character ';'"
+msgstr "Cannot contain Special character ';'"
+
 
 

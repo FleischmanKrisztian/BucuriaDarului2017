@@ -11,7 +11,7 @@
 
 @if (ViewBag.containsspecialchar == true)
 {
-    <div><h3 style="color:red">Cannot contain Special character ";"</h3></div>
+    <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
 
 <form method="post" action="/Volunteer/Edit" enctype="multipart/form-data">

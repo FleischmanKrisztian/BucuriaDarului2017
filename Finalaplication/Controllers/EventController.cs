@@ -189,6 +189,41 @@ namespace Finalaplication.Controllers
             }
         }
 
+
+        [HttpGet]
+        public ActionResult CSVSaver(string ids)
+        {
+            ViewBag.IDS = ids;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CSVSaver(string IDS, bool All,bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent,bool NameOfEvent,bool PlaceOfEvent,bool DateOfEvent,bool TypeOfActivities)
+        {
+            string ids_and_options = IDS + "(((";
+            if (All == true)
+                ids_and_options = ids_and_options + "0";
+            if (NameOfEvent == true)
+                ids_and_options = ids_and_options + "1";
+            if (PlaceOfEvent == true)
+                ids_and_options = ids_and_options + "2";
+            if (DateOfEvent == true)
+                ids_and_options = ids_and_options + "3";
+            if (TypeOfActivities == true)
+                ids_and_options = ids_and_options + "4";
+            if (TypeOfEvent == true)
+                ids_and_options = ids_and_options + "5";
+            if (Duration == true)
+                ids_and_options = ids_and_options + "6";
+            if (AllocatedVolunteers == true)
+                ids_and_options = ids_and_options + "7";
+            if (AllocatedSponsors == true)
+                ids_and_options = ids_and_options + "8";
+
+            ids_and_options = "csvexporterapp:" + ids_and_options;
+
+            return Redirect(ids_and_options);
+        }
+
         public ActionResult VolunteerAllocation(string id, string searching)
         {
             try
