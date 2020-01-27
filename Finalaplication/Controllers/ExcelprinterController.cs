@@ -27,7 +27,7 @@ namespace Finalaplication.Controllers
             string[] ids = id.Split(",");
             if (ids[0].Contains("sponsors"))
             {
-                string properties = ids[ids.Length - 1].Substring(13);
+                string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 for (int i = 1; i < ids.Length; i++)
@@ -128,147 +128,147 @@ namespace Finalaplication.Controllers
                         }
                         jsonstring = jsonstring + "}]";
                     }
-                    }
+                }
             }
             else if (ids[0].Contains("beneficiaries"))
-            { string properties = ids[ids.Length - 1].Substring(44);
+            {
+                string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 benefeciarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 for (int i = 1; i < ids.Length; i++)
                 {
-                    
-                        if (properties.Contains("0"))
+                    if (properties.Contains("0"))
+                    {
+                        var beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]);
+                        jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
+                        var aux = jsonstring.IndexOf("BeneficiaryID");
+                        jsonstring = jsonstring.Remove(aux - 1, 43);
+                    }
+                    else
+                    {
+                        bool first = true;
+                        Beneficiary beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]).First();
+                        jsonstring = jsonstring + "[{";
+                        if (properties.Contains("1"))
                         {
-                            var beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]);
-                            jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
-                            var aux = jsonstring.IndexOf("BeneficiaryID");
-                            jsonstring = jsonstring.Remove(aux - 1, 43);
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"Fullname\":" + "\"" + beneficiary.Fullname + "\"";
+                            first = false;
                         }
-                        else
+                        if (properties.Contains("2"))
                         {
-                            bool first = true;
-                            Beneficiary beneficiary= benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]).First();
-                            jsonstring = jsonstring + "[{";
-                            if (properties.Contains("1"))
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Fullname\":" + "\"" + beneficiary.Fullname + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("2"))
+                            jsonstring = jsonstring + "\"In Activity\":" + "\"" + beneficiary.Active + "\""; ;
+                            first = false;
+                        }
+                        if (properties.Contains("3"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"In Activity\":" + "\"" + beneficiary.Active + "\""; ;
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("3"))
+                            jsonstring = jsonstring + "\"Canteen\":" + "\"" + beneficiary.Canteen + "\""; ;
+                            first = false;
+                        }
+                        if (properties.Contains("4"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Canteen\":" + "\"" + beneficiary.Canteen + "\""; ;
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("4"))
+                            jsonstring = jsonstring + "\"Home Delivery\":" + "\"" + beneficiary.HomeDelivery + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("5"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Home Delivery\":" + "\"" + beneficiary.HomeDelivery + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("5"))
+                            jsonstring = jsonstring + "\"Home Delivery Driver\":" + "\"" + beneficiary.HomeDeliveryDriver + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("6"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Home Delivery Driver\":" + "\"" + beneficiary.HomeDeliveryDriver + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("6"))
+                            jsonstring = jsonstring + "\"Has GDPR Agreement\":" + "\"" + beneficiary.HasGDPRAgreement + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("7"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Has GDPR Agreement\":" + "\"" + beneficiary.HasGDPRAgreement + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("7"))
+                            jsonstring = jsonstring + "\"Address\":" + "\"" + beneficiary.Adress + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("8"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Address\":" + "\"" + beneficiary.Adress + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("8"))
+                            jsonstring = jsonstring + "\"CNP\":" + "\"" + beneficiary.CNP + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("9"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"CNP\":" + "\"" + beneficiary.CNP + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("9"))
+                            jsonstring = jsonstring + "\"CIseria\":" + "\"" + beneficiary.CI.CIinfo + "\","; ;
+
+                            jsonstring = jsonstring + "\"CIEliberat\":" + "\"" + beneficiary.CI.CIEliberat + "\"";
+
+                            first = false;
+                        }
+                        if (properties.Contains("A"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"CIseria\":" + "\"" + beneficiary.CI.CIinfo + "\","; ;
-                                
-                                jsonstring = jsonstring + "\"CIEliberat\":" + "\"" + beneficiary.CI.CIEliberat + "\"";
-                                
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("A"))
+                            jsonstring = jsonstring + "\"Marca\":" + "\"" + beneficiary.Marca.marca + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("B"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"Marca\":" + "\"" + beneficiary.Marca.marca + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("B"))
+                            jsonstring = jsonstring + "\"IdInvestigation\":" + "\"" + beneficiary.Marca.IdInvestigation + "\"";
+                            first = false;
+                        }
+                        if (properties.Contains("C"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
-                                jsonstring = jsonstring + "\"IdInvestigation\":" + "\"" + beneficiary.Marca.IdInvestigation + "\"";
-                                first = false;
+                                jsonstring = jsonstring + ",";
                             }
-                            if (properties.Contains("C"))
-                            {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
                             jsonstring = jsonstring + "\"IdAplication\":" + "\"" + beneficiary.Marca.IdAplication + "\"";
                             first = false;
-                            }
-                            if (properties.Contains("D"))
+                        }
+                        if (properties.Contains("D"))
+                        {
+                            if (!first)
                             {
-                                if (!first)
-                                {
-                                    jsonstring = jsonstring + ",";
-                                }
+                                jsonstring = jsonstring + ",";
+                            }
                             jsonstring = jsonstring + "\"Number Of Portions\":" + "\"" + beneficiary.NumberOfPortions + "\"";
                             first = false;
-                            }
+                        }
                         if (properties.Contains("E"))
                         {
                             if (!first)
@@ -449,11 +449,10 @@ namespace Finalaplication.Controllers
                             jsonstring = jsonstring + "\"Gender\":" + "\"" + beneficiary.PersonalInfo.Gender + "\"";
                             first = false;
                         }
-                       
 
                         jsonstring = jsonstring + "}]";
-                        }
                     }
+                }
             }
             else if (ids[0].Contains("volunteers"))
             {
@@ -600,7 +599,7 @@ namespace Finalaplication.Controllers
             }
             else if (ids[0].Contains("events"))
             {
-                string properties = ids[ids.Length - 1].Substring(10);
+                string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 eventscollection = dbcontext.database.GetCollection<Event>("Events");
                 for (int i = 1; i < ids.Length; i++)
@@ -689,12 +688,9 @@ namespace Finalaplication.Controllers
                             jsonstring = jsonstring + "\"AllocatedSponsors \":" + "\"" + eventt.AllocatedSponsors + "\"";
                             first = false;
                         }
-                       
-
 
                         jsonstring = jsonstring + "}]";
                     }
-                        
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
