@@ -397,7 +397,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page)
+        public ActionResult Index(string lang,bool HasDrivingLicence, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress)
         {
             try
             {
@@ -416,11 +416,14 @@ namespace Finalaplication.Controllers
                 else
                     ViewBag.Page = 1;
                 ViewBag.SortOrder = sortOrder;
+                ViewBag.Address = searchedAddress;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.Activesince = activesince;
                 ViewBag.Activetill = activetill;
+                ViewBag.Gender = gender;
                 ViewBag.hascar = HasCar;
+                ViewBag.hasDriverLicence = HasDrivingLicence;
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
                 ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
@@ -437,6 +440,10 @@ namespace Finalaplication.Controllers
                 if (Active == true)
                 {
                     volunteers = volunteers.Where(x => x.InActivity == true).ToList();
+                }
+                if (searching != null)
+                {
+                    volunteers = volunteers.Where(x => x.Address.District.Contains(searchedAddress)|| x.Address.City.Contains(searchedAddress)|| x.Address.Street.Contains(searchedAddress)|| x.Address.Number.Contains(searchedAddress)).ToList();
                 }
                 if (lowerdate > d1)
                 {
@@ -521,20 +528,20 @@ namespace Finalaplication.Controllers
                             }
                         }
                         bool passed = false;
-                        for(int j=i-1;j>=0;j--)
+                        for (int j = i - 1; j >= 0; j--)
                         {
-                            if(startdates[j]>activesince || enddates[j]>activesince)
+                            if (startdates[j] > activesince || enddates[j] > activesince)
                             {
                                 passed = true;
                                 break;
                             }
                         }
-                        if(!passed)
+                        if (!passed)
                         {
                             ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
                         }
                     }
-                        List<string> ids = ids_to_remove.Split(',').ToList();
+                    List<string> ids = ids_to_remove.Split(',').ToList();
                     foreach (string id in ids)
                     {
                         Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
@@ -640,7 +647,7 @@ namespace Finalaplication.Controllers
                 if (activesince > d1 && activetill > d1)
                 {
                     string ids_to_remove = "";
-                    
+
                     foreach (Volunteer vol in volunteers)
                     {
                         int i = 0;
@@ -715,12 +722,12 @@ namespace Finalaplication.Controllers
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
-                            if (startdates[j]>activesince && startdates[j]<activetill)
+                            if (startdates[j] > activesince && startdates[j] < activetill)
                             {
                                 passed = true;
                                 break;
                             }
-                            else if(enddates[j] > activesince && enddates[j] < activetill)
+                            else if (enddates[j] > activesince && enddates[j] < activetill)
                             {
                                 passed = true;
                                 break;
@@ -742,6 +749,20 @@ namespace Finalaplication.Controllers
                         Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
                         volunteers.Remove(voltodelete);
                     }
+                }
+                if (gender !=" All")
+                {
+                    if (gender =="Male")
+                    {
+                        volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Male)).ToList();
+                    }
+                    if(gender=="Female")
+                    { volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Female)).ToList(); }
+                }
+               
+                if (HasDrivingLicence == true)
+                {
+                    volunteers = volunteers.Where(x => x.Additionalinfo.HasDrivingLicence == true).ToList();
                 }
                 if (HasCar == true)
                 {
