@@ -486,7 +486,7 @@ namespace Finalaplication.Controllers
                                 {
                                     startdatestring = startdatestring.Insert(0, "0");
                                 }
-                                else if (enddatestring.Length == 9)
+                                else if (startdatestring.Length == 9)
                                 {
                                     startdatestring = startdatestring.Insert(2, "0");
                                 }
@@ -504,10 +504,10 @@ namespace Finalaplication.Controllers
                                 {
                                     enddatestring = enddatestring.Insert(2, "0");
                                 }
-                                startdates[i] = DateTime.ParseExact(startdatestring, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                                startdates[i] = DateTime.ParseExact(startdatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                 if (!enddatestring.Contains("currently"))
                                 {
-                                    enddates[i] = DateTime.ParseExact(enddatestring, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                                    enddates[i] = DateTime.ParseExact(enddatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
@@ -581,7 +581,7 @@ namespace Finalaplication.Controllers
                                 {
                                     startdatestring = startdatestring.Insert(0, "0");
                                 }
-                                else if (enddatestring.Length == 9)
+                                else if (startdatestring.Length == 9)
                                 {
                                     startdatestring = startdatestring.Insert(2, "0");
                                 }
@@ -599,10 +599,10 @@ namespace Finalaplication.Controllers
                                 {
                                     enddatestring = enddatestring.Insert(2, "0");
                                 }
-                                startdates[i] = DateTime.ParseExact(startdatestring, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                                startdates[i] = DateTime.ParseExact(startdatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                 if (!enddatestring.Contains("currently"))
                                 {
-                                    enddates[i] = DateTime.ParseExact(enddatestring, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                                    enddates[i] = DateTime.ParseExact(enddatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
@@ -680,7 +680,7 @@ namespace Finalaplication.Controllers
                                 }
                                 else if (startdatestring.Length == 9)
                                 {
-                                    enddatestring = startdatestring.Insert(2, "0");
+                                    startdatestring = startdatestring.Insert(2, "0");
                                 }
                                 //sa fie formatul bun la enddate
                                 if (enddatestring.Length == 8)
@@ -696,10 +696,10 @@ namespace Finalaplication.Controllers
                                 {
                                     enddatestring = enddatestring.Insert(2, "0");
                                 }
-                                startdates[i] = DateTime.ParseExact(startdatestring, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                                startdates[i] = DateTime.ParseExact(startdatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                 if (!enddatestring.Contains("currently"))
                                 {
-                                    enddates[i] = DateTime.ParseExact(enddatestring, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                                    enddates[i] = DateTime.ParseExact(enddatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
@@ -955,6 +955,8 @@ namespace Finalaplication.Controllers
                     if(volunteer.InActivity==true)
                     {
                         volunteer.Activedates = volunteer.Activedates + "," + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                        volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
+                        volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
                     }
                     vollunteercollection.InsertOne(volunteer);
 
@@ -1033,10 +1035,15 @@ namespace Finalaplication.Controllers
                             if (volunteer.InActivity == false && wasactive == true)
                             {
                                 volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                                volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
+                                volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
+
                             }
                             if (volunteer.InActivity == true && wasactive == false)
                             {
                                 volunteer.Activedates = volunteer.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                                volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
+                                volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
                             }
 
                             var update = Builders<Volunteer>.Update
@@ -1121,6 +1128,8 @@ namespace Finalaplication.Controllers
                         if (volunteer.InActivity == false)
                         {
                             volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                            volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
+                            volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
                         }
                         var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
                         var update = Builders<Volunteer>.Update
