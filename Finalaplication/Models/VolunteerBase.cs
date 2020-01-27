@@ -52,5 +52,8 @@ namespace VolCommon
 
         [JsonIgnore]
         public byte[] Image { get; set; }
+
+        [JsonIgnore]
+        public string Activedates { get; set; }
     }
 }

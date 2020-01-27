@@ -8,7 +8,6 @@ namespace VolCommon
     {
         [Required]
         public string Fullname { get; set; }
-
         public bool Active { get; set; }
         public bool Weeklypackage { get; set; }
         public bool Canteen { get; set; }
@@ -25,7 +24,7 @@ namespace VolCommon
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LastTimeActiv { get; set; }
 
-        public string Coments { get; set; }
+        public string Comments { get; set; }
         public Personalinfo PersonalInfo { get; set; }
 
         [JsonIgnore]

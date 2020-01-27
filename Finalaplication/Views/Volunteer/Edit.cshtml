@@ -21,8 +21,6 @@
     <div class="form-horizontal">
         <h4>@Localizer["Volunteer"]</h4>
 
-
-
         <hr />
 
         <div class="form-group">
@@ -71,6 +69,7 @@
                 @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
             </div>
         </div>
+        @Html.HiddenFor(model => model.Activedates)
         <div class="form-group">
             @Localizer["Lastname"]:
             <div class="col-md-10">
