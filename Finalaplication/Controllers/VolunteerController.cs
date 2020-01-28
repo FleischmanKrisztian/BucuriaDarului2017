@@ -397,7 +397,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string lang,bool HasDrivingLicence, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress)
+        public ActionResult Index(string lang,bool HasDrivingLicence,string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
         {
             try
             {
@@ -415,14 +415,19 @@ namespace Finalaplication.Controllers
                     ViewBag.Page = page;
                 else
                     ViewBag.Page = 1;
+                ViewBag.ContactInfo = searchedContact;
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.Address = searchedAddress;
+                ViewBag.Occupation = searchedOccupation;
+                ViewBag.Remarks = searchedRemarks;
+                ViewBag.HourCount = searchedHourCount;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.Activesince = activesince;
                 ViewBag.Activetill = activetill;
                 ViewBag.Gender = gender;
                 ViewBag.hascar = HasCar;
+                ViewBag.DesiredWorkplace = searchedworkplace;
                 ViewBag.hasDriverLicence = HasDrivingLicence;
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -441,11 +446,33 @@ namespace Finalaplication.Controllers
                 {
                     volunteers = volunteers.Where(x => x.InActivity == true).ToList();
                 }
-                if (searching != null)
+                if (searchedAddress != null)
                 {
                     volunteers = volunteers.Where(x => x.Address.District.Contains(searchedAddress)|| x.Address.City.Contains(searchedAddress)|| x.Address.Street.Contains(searchedAddress)|| x.Address.Number.Contains(searchedAddress)).ToList();
                 }
-                if (lowerdate > d1)
+                if (searchedworkplace != null)
+                {
+                    volunteers = volunteers.Where(x => x.Desired_workplace.Contains(searchedworkplace)).ToList();
+                }
+                if (searchedOccupation != null)
+                {
+                    volunteers = volunteers.Where(x => x.Field_of_activity.Contains(searchedOccupation)|| x.Occupation.Contains(searchedOccupation)).ToList();
+                }
+                if (searchedRemarks != null)
+                {
+                    volunteers = volunteers.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks)).ToList();
+                }
+                if(searchedContact!=null)
+                {
+                    volunteers = volunteers.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact) || x.ContactInformation.MailAdress.Contains(searchedContact)).ToList();
+                }
+                if (searchedHourCount != 0)
+                {
+                    volunteers = volunteers.Where(x => x.HourCount.Equals(searchedHourCount)).ToList();
+                }
+               
+              
+                 if (lowerdate > d1)
                 {
                     volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
                 }

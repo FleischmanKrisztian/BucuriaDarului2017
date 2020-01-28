@@ -243,11 +243,18 @@ namespace Finalaplication.Controllers
         }
 
 
-        public IActionResult Index(string searching, int page)
+        public IActionResult Index(string searching, int page,string ContactInfo, DateTime lowerdate, DateTime upperdate,bool HasContract,string WhatGoods,string MoneyAmount, string GoodsAmount)
         {
             try
             {
+                ViewBag.Contact = ContactInfo;
                 ViewBag.searching = searching;
+                ViewBag.Upperdate = upperdate;
+                ViewBag.Lowerdate = lowerdate;
+                ViewBag.HasContract = HasContract;
+                ViewBag.WhatGoods = WhatGoods;
+                ViewBag.GoodsAmount = GoodsAmount;
+                ViewBag.MoneyAmount = MoneyAmount;
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (page > 0)
@@ -255,9 +262,38 @@ namespace Finalaplication.Controllers
                 else
                     ViewBag.Page = 1;
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
+                DateTime d1 = new DateTime(0003, 1, 1);
                 if (searching != null)
                 {
                     sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList();
+                }
+                if (ContactInfo != null)
+                {
+                    sponsors = sponsors.Where(x => x.ContactInformation.PhoneNumber.Contains(searching)|| x.ContactInformation.MailAdress.Contains(searching)).ToList();
+                }
+                if (lowerdate > d1)
+                {
+                    sponsors = sponsors.Where(x => x.Sponsorship.Date> lowerdate).ToList();
+                }
+                if (upperdate > d1)
+                {
+                    sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
+                }
+                if (HasContract ==true)
+                {
+                    sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
+                }
+                if (WhatGoods != null)
+                {
+                    sponsors = sponsors.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods)).ToList();
+                }
+                if (GoodsAmount != null)
+                {
+                    sponsors = sponsors.Where(x=>x.Sponsorship.WhatGoods.Contains(GoodsAmount)).ToList();
+                }
+                if (MoneyAmount != null)
+                {
+                    sponsors = sponsors.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount)).ToList();
                 }
                 ViewBag.counter = sponsors.Count();
                 ViewBag.nrofdocs = nrofdocs;
