@@ -194,6 +194,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver(string ids)
         {
             ViewBag.IDS = ids;
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
         [HttpPost]

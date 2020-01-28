@@ -397,6 +397,31 @@ namespace Finalaplication.Controllers
             }
         }
 
+        private DateTime Dateformatter(string datestring)
+        {
+            DateTime date;
+            if (datestring.Contains("currently"))
+            {
+                date = DateTime.Today;
+                return date;
+            }
+            else if (datestring.Length == 8)
+            {
+                datestring = datestring.Insert(0, "0");
+                datestring = datestring.Insert(3, "0");
+            }
+            else if (datestring.Length == 9 && datestring[2] != '/')
+            {
+                datestring = datestring.Insert(0, "0");
+            }
+            else if (datestring.Length == 9)
+            {
+                datestring = datestring.Insert(2, "0");
+            }
+            date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            return date;
+        }
+
         public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page)
         {
             try
@@ -452,8 +477,8 @@ namespace Finalaplication.Controllers
                     string ids_to_remove = "";
                     foreach (Volunteer vol in volunteers)
                     {
-                        DateTime[] startdates = new DateTime[10];
-                        DateTime[] enddates = new DateTime[10];
+                        DateTime[] startdates = new DateTime[20];
+                        DateTime[] enddates = new DateTime[20];
                         int i = 0;
 
                         if (vol.Activedates != null)
@@ -475,44 +500,8 @@ namespace Finalaplication.Controllers
                                 int lastcharstart = end - aux;
                                 string startdatestring = vol.Activedates.Substring(aux, lastcharstart);
                                 string enddatestring = vol.Activedates.Substring(lastcharstart + 1, lastcharend - 1);
-
-                                //sa fie formatul bun
-                                if (startdatestring.Length == 8)
-                                {
-                                    startdatestring = startdatestring.Insert(0, "0");
-                                    startdatestring = startdatestring.Insert(3, "0");
-                                }
-                                else if (startdatestring.Length == 9 && startdatestring[2] != '/')
-                                {
-                                    startdatestring = startdatestring.Insert(0, "0");
-                                }
-                                else if (startdatestring.Length == 9)
-                                {
-                                    startdatestring = startdatestring.Insert(2, "0");
-                                }
-                                //sa fie formatul bun la enddate
-                                if (enddatestring.Length == 8)
-                                {
-                                    enddatestring = enddatestring.Insert(0, "0");
-                                    enddatestring = enddatestring.Insert(3, "0");
-                                }
-                                else if (enddatestring.Length == 9 && enddatestring[2] != '/')
-                                {
-                                    enddatestring = enddatestring.Insert(0, "0");
-                                }
-                                else if (enddatestring.Length == 9)
-                                {
-                                    enddatestring = enddatestring.Insert(2, "0");
-                                }
-                                startdates[i] = DateTime.ParseExact(startdatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                if (!enddatestring.Contains("currently"))
-                                {
-                                    enddates[i] = DateTime.ParseExact(enddatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                }
-                                else
-                                {
-                                    enddates[i] = DateTime.Today;
-                                }
+                                startdates[i] = Dateformatter(startdatestring);
+                                enddates[i] = Dateformatter(enddatestring);
                                 //checks if it was the last if it was it doesn't do the following steps not to break
                                 if (!last)
                                     vol.Activedates = vol.Activedates.Substring(vol.Activedates.IndexOf(','));
@@ -570,44 +559,9 @@ namespace Finalaplication.Controllers
                                 int lastcharstart = end - aux;
                                 string startdatestring = vol.Activedates.Substring(aux, lastcharstart);
                                 string enddatestring = vol.Activedates.Substring(lastcharstart + 1, lastcharend - 1);
+                                startdates[i] = Dateformatter(startdatestring);
+                                enddates[i] = Dateformatter(enddatestring);
 
-                                //sa fie formatul bun
-                                if (startdatestring.Length == 8)
-                                {
-                                    startdatestring = startdatestring.Insert(0, "0");
-                                    startdatestring = startdatestring.Insert(3, "0");
-                                }
-                                else if (startdatestring.Length == 9 && startdatestring[2] != '/')
-                                {
-                                    startdatestring = startdatestring.Insert(0, "0");
-                                }
-                                else if (startdatestring.Length == 9)
-                                {
-                                    startdatestring = startdatestring.Insert(2, "0");
-                                }
-                                //sa fie formatul bun la enddate
-                                if (enddatestring.Length == 8)
-                                {
-                                    enddatestring = enddatestring.Insert(0, "0");
-                                    enddatestring = enddatestring.Insert(3, "0");
-                                }
-                                else if (enddatestring.Length == 9 && enddatestring[2] != '/')
-                                {
-                                    enddatestring = enddatestring.Insert(0, "0");
-                                }
-                                else if (enddatestring.Length == 9)
-                                {
-                                    enddatestring = enddatestring.Insert(2, "0");
-                                }
-                                startdates[i] = DateTime.ParseExact(startdatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                if (!enddatestring.Contains("currently"))
-                                {
-                                    enddates[i] = DateTime.ParseExact(enddatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                }
-                                else
-                                {
-                                    enddates[i] = DateTime.Today;
-                                }
                                 //checks if it was the last if it was it doesn't do the following steps not to break
                                 if (!last)
                                     vol.Activedates = vol.Activedates.Substring(vol.Activedates.IndexOf(','));
@@ -637,112 +591,76 @@ namespace Finalaplication.Controllers
                     }
                 }
                 //IN CASE THERE ARE BOTH
-                if (activesince > d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
+                    if (activesince > d1 && activetill > d1)
+                    {
+                        string ids_to_remove = "";
                     
-                    foreach (Volunteer vol in volunteers)
-                    {
-                        int i = 0;
-                        DateTime[] startdates = new DateTime[10];
-                        DateTime[] enddates = new DateTime[10];
-
-
-                        if (vol.Activedates != null)
+                        foreach (Volunteer vol in volunteers)
                         {
-                            while (vol.Activedates.Contains(","))
+                            int i = 0;
+                            DateTime[] startdates = new DateTime[10];
+                            DateTime[] enddates = new DateTime[10];
+
+
+                            if (vol.Activedates != null)
                             {
-                                bool last = false;
-                                int aux = vol.Activedates.IndexOf(",");
-                                vol.Activedates = vol.Activedates.Remove(0, 1);
-                                int end = vol.Activedates.IndexOf("-");
-                                int lastcharend = vol.Activedates.IndexOf(",");
-                                //in the case where there are are no dates left
-                                if (lastcharend == -1)
+                                while (vol.Activedates.Contains(","))
                                 {
-                                    last = true;
-                                    lastcharend = vol.Activedates.Length;
-                                }
-                                lastcharend = lastcharend - end;
-                                int lastcharstart = end - aux;
-                                string startdatestring = vol.Activedates.Substring(aux, lastcharstart);
-                                string enddatestring = vol.Activedates.Substring(lastcharstart + 1, lastcharend - 1);
+                                    bool last = false;
+                                    int aux = vol.Activedates.IndexOf(",");
+                                    vol.Activedates = vol.Activedates.Remove(0, 1);
+                                    int end = vol.Activedates.IndexOf("-");
+                                    int lastcharend = vol.Activedates.IndexOf(",");
+                                    //in the case where there are are no dates left
+                                    if (lastcharend == -1)
+                                    {
+                                        last = true;
+                                        lastcharend = vol.Activedates.Length;
+                                    }
+                                    lastcharend = lastcharend - end;
+                                    int lastcharstart = end - aux;
+                                    string startdatestring = vol.Activedates.Substring(aux, lastcharstart);
+                                    string enddatestring = vol.Activedates.Substring(lastcharstart + 1, lastcharend - 1);
+                                    startdates[i] = Dateformatter(startdatestring);
+                                    enddates[i] = Dateformatter(enddatestring);
+                                    //checks if it was the last if it was it doesn't do the following steps not to break
+                                    if (!last)
+                                        vol.Activedates = vol.Activedates.Substring(vol.Activedates.IndexOf(','));
 
-                                //sa fie formatul bun
-                                if (startdatestring.Length == 8)
-                                {
-                                    startdatestring = startdatestring.Insert(0, "0");
-                                    startdatestring = startdatestring.Insert(3, "0");
+                                    i++;
                                 }
-                                else if (startdatestring.Length == 9 && startdatestring[2] != '/')
+                            }
+                            bool passed = false;
+                            for (int j = i - 1; j >= 0; j--)
+                            {
+                                if (startdates[j]>activesince && startdates[j]<activetill)
                                 {
-                                    startdatestring = startdatestring.Insert(0, "0");
+                                    passed = true;
+                                    break;
                                 }
-                                else if (startdatestring.Length == 9)
+                                else if(enddates[j] > activesince && enddates[j] < activetill)
                                 {
-                                    startdatestring = startdatestring.Insert(2, "0");
+                                    passed = true;
+                                    break;
                                 }
-                                //sa fie formatul bun la enddate
-                                if (enddatestring.Length == 8)
+                                else if (startdates[j] < activesince && enddates[j] > activetill)
                                 {
-                                    enddatestring = enddatestring.Insert(0, "0");
-                                    enddatestring = enddatestring.Insert(3, "0");
+                                    passed = true;
+                                    break;
                                 }
-                                else if (enddatestring.Length == 9 && enddatestring[2] != '/')
-                                {
-                                    enddatestring = enddatestring.Insert(0, "0");
-                                }
-                                else if (enddatestring.Length == 9)
-                                {
-                                    enddatestring = enddatestring.Insert(2, "0");
-                                }
-                                startdates[i] = DateTime.ParseExact(startdatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                if (!enddatestring.Contains("currently"))
-                                {
-                                    enddates[i] = DateTime.ParseExact(enddatestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                                }
-                                else
-                                {
-                                    enddates[i] = DateTime.Today;
-                                }
-                                //checks if it was the last if it was it doesn't do the following steps not to break
-                                if (!last)
-                                    vol.Activedates = vol.Activedates.Substring(vol.Activedates.IndexOf(','));
-
-                                i++;
+                            }
+                            if (!passed)
+                            {
+                                ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
                             }
                         }
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
+                        List<string> ids = ids_to_remove.Split(',').ToList();
+                        foreach (string id in ids)
                         {
-                            if (startdates[j]>activesince && startdates[j]<activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                            else if(enddates[j] > activesince && enddates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                            else if (startdates[j] < activesince && enddates[j] > activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
+                            Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
+                            volunteers.Remove(voltodelete);
                         }
                     }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
-                        volunteers.Remove(voltodelete);
-                    }
-                }
                 if (HasCar == true)
                 {
                     volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
@@ -819,6 +737,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver(string ids)
         {
             ViewBag.IDS = ids;
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
