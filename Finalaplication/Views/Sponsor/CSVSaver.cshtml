@@ -29,57 +29,46 @@
         td {
             text-align: center;
         }
+        .scrollable-menu {
+            height: auto;
+            max-height: 200px;
+            overflow-x: hidden;
+        }
     </style>
 </head>
+<h1>CSVSaver</h1>
 
-<h1>
-    @Localizer["CSVSaver"]</h1>
-
-<h3>
-    @Localizer["Please choose what you want the Excel to contain"]:
-</h3>
-<br />
 
 @using (Html.BeginForm("CSVSaver", "Sponsor/", FormMethod.Post))
 {
 
-    <div class="col-12">
-        <h4>@Localizer["Check this for all fields"]: @Html.CheckBox("All", isChecked: true)</h4>
-    </div>
-    <br />
-    <br />
-    <div class="col-12">
-        <h4>
+    <h3>
+        @Localizer["Please choose what you want the Excel to contain"]:
+    </h3>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
             @Localizer["Select the properties"]:
-        </h4>
-        <br />
-        <table>
-            <tr>
-                <th>@Localizer["NameOfSponsor"]</th>
-                <th>@Localizer["Date"]</th>
-                <th>@Localizer["MoneyAmount"]</th>
-                <th>@Localizer["WhatGoods"]</th>
-                <th>@Localizer["GoodsAmount"]</th>
-                <th>@Localizer["HasContract"]</th>
-                <th>@Localizer["ContractDetails"]</th>
-                <th>@Localizer["PhoneNumber"]</th>
-                <th>@Localizer["MailAdress"]</th>
 
-            </tr>
-            <tr>
-                <td> @Html.CheckBox("NameOfSponsor")</td>
-                <td> @Html.CheckBox("Date")</td>
-                <td> @Html.CheckBox("MoneyAmount")</td>
-                <td> @Html.CheckBox("WhatGoods")</td>
-                <td> @Html.CheckBox("GoodsAmount")</td>
-                <td> @Html.CheckBox("HasContract")</td>
-                <td> @Html.CheckBox("ContractDetails")</td>
-                <td> @Html.CheckBox("PhoneNumber")</td>
-                <td> @Html.CheckBox("MailAdress")</td>
-
-            </tr>
-        </table>
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfSponsor", isChecked: false)  @Localizer["NameOfSponsor"] </a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Date", isChecked: false) @Localizer["Date"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("MoneyAmount", isChecked: false)  @Localizer["MoneyAmount"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("WhatGoods", isChecked: false) @Localizer["WhatGoods"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("GoodsAmount", isChecked: false)  @Localizer["GoodsAmount"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HasContract", isChecked: false) @Localizer["HasContract"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("ContractDetails", isChecked: false) @Localizer["ContractDetails"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("PhoneNumber", isChecked: false) @Localizer["PhoneNumber"]</a>
+            <a class="dropdown-item" href="#">  @Html.CheckBox("MailAdress", isChecked: false) @Localizer["MailAdress"]</a>
+           
+        </div>
     </div>
+
+
+
+
 
     @Html.Hidden("IDS", IDS)
 
