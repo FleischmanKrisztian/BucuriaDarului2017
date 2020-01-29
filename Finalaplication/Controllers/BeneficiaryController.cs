@@ -1110,6 +1110,8 @@ namespace Finalaplication.Controllers
                         }
                         else
                         {
+                            ViewBag.originalsavedvol = Originalsavedvolstring;
+                            ViewBag.id = id;
                             ViewBag.containsspecialchar = containsspecialchar;
                             return View();
                         }

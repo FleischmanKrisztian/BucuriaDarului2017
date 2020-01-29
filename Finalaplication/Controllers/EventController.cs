@@ -75,7 +75,6 @@ namespace Finalaplication.Controllers
                     catch
                     {
                         ev.NameOfEvent = "Invalid name";
-
                     }
                     try
                     {
@@ -124,11 +123,11 @@ namespace Finalaplication.Controllers
                     }
                     try
                     {
-                    ev.TypeOfActivities = details[4];
-                    ev.TypeOfEvent = details[5];
-                    ev.Duration = details[6];
-                    ev.AllocatedVolunteers = details[7];
-                    ev.AllocatedSponsors = details[8];
+                        ev.TypeOfActivities = details[4];
+                        ev.TypeOfEvent = details[5];
+                        ev.Duration = details[6];
+                        ev.AllocatedVolunteers = details[7];
+                        ev.AllocatedSponsors = details[8];
                     }
                     catch
                     {
@@ -189,7 +188,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-
         [HttpGet]
         public ActionResult CSVSaver(string ids)
         {
@@ -197,8 +195,9 @@ namespace Finalaplication.Controllers
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
+
         [HttpPost]
-        public ActionResult CSVSaver(string IDS, bool All,bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent,bool NameOfEvent,bool PlaceOfEvent,bool DateOfEvent,bool TypeOfActivities)
+        public ActionResult CSVSaver(string IDS, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
             string ids_and_options = IDS + "(((";
             if (All == true)
@@ -402,7 +401,6 @@ namespace Finalaplication.Controllers
                         eventcollection.InsertOne(eventt);
                         return RedirectToAction("Index");
                     }
-
                     else
                     {
                         ViewBag.containsspecialchar = containsspecialchar;
@@ -429,6 +427,7 @@ namespace Finalaplication.Controllers
                 var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
                 Event originalsavedevent = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
                 ViewBag.originalsavedevent = JsonConvert.SerializeObject(originalsavedevent);
+                ViewBag.id = id;
                 return View(eventt);
             }
             catch
@@ -475,9 +474,10 @@ namespace Finalaplication.Controllers
                             var result = eventcollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-
                         else
                         {
+                            ViewBag.originalsavedvol = Originalsavedeventstring;
+                            ViewBag.id = id;
                             ViewBag.containsspecialchar = containsspecialchar;
                             return View();
                         }
