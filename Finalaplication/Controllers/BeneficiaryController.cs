@@ -707,6 +707,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+              
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.searching = searching;
@@ -718,6 +719,7 @@ namespace Finalaplication.Controllers
                     ViewBag.Page = 1;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
+               
                 ViewBag.Homeless = Homeless;
                 ViewBag.Weeklypackage = Weeklypackage;
                 ViewBag.Canteen = Canteen;
@@ -962,6 +964,9 @@ namespace Finalaplication.Controllers
                     }
                     beneficiaries = bene.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences)).ToList();
                 }
+
+               
+
                 switch (sortOrder)
                 {
                     case "Gender":

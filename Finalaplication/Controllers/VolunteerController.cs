@@ -556,7 +556,7 @@ namespace Finalaplication.Controllers
                     {
                         if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.PhoneNumber == "")
                             v.ContactInformation.PhoneNumber = "-";
-                        if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.MailAdress == "")
+                        if (v.ContactInformation.MailAdress == null || v.ContactInformation.MailAdress == "")
                             v.ContactInformation.MailAdress = "-";
                     }
                     try

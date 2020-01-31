@@ -78,9 +78,9 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
             </button>
-            <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
-                @Html.ActionLink("Back", "Index")
-            </button>
+      
+                <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+            
         </div>
     </div>
     <br />

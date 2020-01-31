@@ -278,7 +278,7 @@ namespace Finalaplication.Controllers
                     }
                     try
                     {
-                        sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(searching) || x.ContactInformation.MailAdress.Contains(searching)).ToList();
+                        sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo) || x.ContactInformation.MailAdress.Contains(ContactInfo)).ToList();
                     }
                     catch { }
                     }

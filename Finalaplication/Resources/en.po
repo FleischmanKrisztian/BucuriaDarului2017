@@ -256,7 +256,7 @@ msgstr "Volunteers"
 msgid "ConcurrencyWarning"
 msgstr "Concurrency warning"
 msgid "Error"	
-msgstr "Someone else Has already modified this document while you were editing"
+msgstr "Someone else has already modified this document while you were editing"
 msgid "Active"	
 msgstr "Active"
 msgid "BirthDate"	
@@ -547,5 +547,39 @@ msgstr "Contract Details"
 msgid "Cannot contain Special character ';'"
 msgstr "Cannot contain Special character ';'"
 
+msgid "Filters"
+msgstr "Order by"
+
+msgid "The date of active till cant be smaller that that of activesince!"
+msgstr "The date of active till cant be smaller that that of activesince!"
 
 
+msgid "activesince"
+msgstr "Begining date of activity"
+
+msgid "activetill"
+msgstr "Final date of activity"
+
+msgid "All"
+msgstr"All"
+
+msgid "ContactInfo"
+msgstr "Contact information"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Additional_info"
+msgstr "Additional information"
+
+msgid "CI_Info"
+msgstr "CI informations"
+
+msgid "Additional_info"
+msgstr "Aditional informations"
+
+msgid "Inntinf"
+msgstr "Lower range"
+
+msgid "intsuo"
+msgstr "Upper range"
