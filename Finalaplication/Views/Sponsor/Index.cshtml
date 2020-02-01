@@ -68,25 +68,45 @@
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
             @Localizer["Filters"]:
-
         </button>
         <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#"> @Localizer["Nameofsponsor"] @Html.TextBox("searching") </a>
-            <a class="dropdown-item" href="#"> @Localizer["ContactInfo"] @Html.TextBox("ContactInfo")</a>
-            <a class="dropdown-item" href="#">  @Localizer["Inntinf"]  :<input type="date" name="lowerdate"></a>
-            <a class="dropdown-item" href="#">  @Localizer["intsuo"]:<input type="date" name="upperdate"></a>
-            <a class="dropdown-item" href="#"> @Localizer["HasContract"]@Html.CheckBox("HasContract")</a>
-            <a class="dropdown-item" href="#"> @Localizer["Whatgoods"]@Html.TextBox("WhatGoods")</a>
-            <a class="dropdown-item" href="#"> @Localizer["Goodsamount"]@Html.TextBox("GoodsAmount")</a>
-            <a class="dropdown-item" href="#"> @Localizer["Moneyamount"]@Html.TextBox("MoneyAmount")</a>
-
-
+            <dt class="col-sm-8">@Localizer["Nameofsponsor"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searching")
+            </dd>
+            <dt class="col-sm-8">@Localizer["ContactInfo"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("ContactInfo")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Inntinf"]: </dt>
+            <dd class="col-sm-2">
+                <input type="date" name="lowerdate">
+            </dd>
+            <dt class="col-sm-8">@Localizer["intsuo"]: </dt>
+            <dd class="col-sm-2">
+                <input type="date" name="upperdate">
+            </dd>
+            <dt class="col-sm-8">@Localizer["HasContract"]: </dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("HasContract")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Whatgoods"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("WhatGoods")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Goodsamount"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("GoodsAmount")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Moneyamount"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("MoneyAmount")
+            </dd>
         </div>
         <button type="submit" class="btn btn-primary">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
         </button>
     </div>
-
 
     <br />
     <div>
@@ -156,7 +176,6 @@
         </div>
     </p>
 }
-
 
 <table class="table">
     <thead>

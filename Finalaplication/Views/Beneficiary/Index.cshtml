@@ -61,7 +61,6 @@
     </div>
 </p>
 
-
 @using (Html.BeginForm("Index", "Beneficiary/", FormMethod.Get))
 {
     <div class="dropdown">
@@ -71,47 +70,133 @@
         </button>
 
         <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">  @Localizer["Name"]: @Html.TextBox("searching") </a>
-            <a class="dropdown-item" href="#">@Localizer["Active"]: @Html.CheckBox("Active")</a>
-            <a class="dropdown-item" href="#">@Localizer["Homeless"]:@Html.CheckBox("Homeless")</a>
+            <dt class="col-sm-8">@Localizer["Name"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searching")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Active"]:</dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("Active")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Homeless"]: </dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("Homeless")
+            </dd>
 
-            <a class="dropdown-item" href="#"> @Localizer["BornAfter"]:<input type="date" name="lowerdate"></a>
-            <a class="dropdown-item" href="#"> @Localizer["BornBefore"]:<input type="date" name="upperdate"></a>
-            <a class="dropdown-item" href="#">@Localizer["Weeklypackage"]: @Html.CheckBox("Weeklypackage")</a>
-            <a class="dropdown-item" href="#">@Localizer["Canteen"]: @Html.CheckBox("Canteen")</a>
-            <a class="dropdown-item" href="#">@Localizer["HomeDelivery"]: @Html.CheckBox("HomeDelivery")</a>
-            <a class="dropdown-item" href="#">@Localizer["Homedeliverydriver"]:  @Html.TextBox("searchingDriver")</a>
-            <a class="dropdown-item" href="#">@Localizer["HasGDPRagreement"]: @Html.CheckBox("HasGDPRAgreement")</a>
-            <a class="dropdown-item" href="#">@Localizer["Address"]: @Html.TextBox("searchingAddress")</a>
-            <a class="dropdown-item" href="#">@Localizer["HasID"]: @Html.CheckBox("HasID")</a>
-            <a class="dropdown-item" href="#">@Localizer["Numberofportions"]:@Html.TextBox("searchingNumberOfPortions")</a>
-            <a class="dropdown-item" href="#">@Localizer["Comments"]:@Html.TextBox("searchingComments")</a>
-            <a class="dropdown-item" href="#">@Localizer["Birthplace"]:@Html.TextBox("searchingBirthPlace")</a>
-            <a class="dropdown-item" href="#">@Localizer["Studies"]:@Html.TextBox("searchingStudies")</a>
-            <a class="dropdown-item" href="#">@Localizer["Profesion&Ocupation"]:@Html.TextBox("searchingPO")</a>
-            <a class="dropdown-item" href="#">@Localizer["Seniorityinworkfield"]:@Html.TextBox("searchingSeniority")</a>
-            <a class="dropdown-item" href="#">@Localizer["HealthState&Disalility&ChronicCondition"]:@Html.TextBox("searchingHealthState")</a>
-            <a class="dropdown-item" href="#">@Localizer["Addictions"]:@Html.TextBox("searchingAddictions")</a>
-            <a class="dropdown-item" href="#">@Localizer["Married&SpouseName"]:@Html.TextBox("searchingMarried")</a>
-            <a class="dropdown-item" href="#">@Localizer["Hashealthinsurance"]: @Html.CheckBox("searchingHealthInsurance")</a>
-            <a class="dropdown-item" href="#">@Localizer["Hashealthcard"]: @Html.CheckBox("searchingHealthCard")</a>
-            <a class="dropdown-item" href="#">@Localizer["Housingtype"]:@Html.TextBox("searchingHousingType")</a>
-            <a class="dropdown-item" href="#">@Localizer["Income"]:@Html.TextBox("searchingIncome")</a>
-            <a class="dropdown-item" href="#">@Localizer["Expenses"]:@Html.TextBox("searchingExpences")</a>
-            <a class="dropdown-item" href="#">
-                @Localizer["Gender"]:
+            <dt class="col-sm-8">@Localizer["BornAfter"]: </dt>
+            <dd class="col-sm-2">
+                <input type="date" name="lowerdate">
+            </dd>
+            <dt class="col-sm-8">@Localizer["BornBefore"]: </dt>
+            <dd class="col-sm-2">
+                <input type="date" name="upperdate">
+            </dd>
+            <dt class="col-sm-8">@Localizer["Weeklypackage"]:</dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("Weeklypackage")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Canteen"]: </dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("Canteen")
+            </dd>
+            <dt class="col-sm-8">@Localizer["HomeDelivery"]: </dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("HomeDelivery")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Homedeliverydriver"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingDriver")
+            </dd>
+            <dt class="col-sm-8">@Localizer["HasGDPRagreement"]:</dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("HasGDPRAgreement")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Address"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingAddress")
+            </dd>
+
+            <dt class="col-sm-8">@Localizer["HasID"]: </dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("HasID")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Numberofportions"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingNumberOfPortions")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Comments"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingComments")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Inntinf"]: </dt>
+            <dd class="col-sm-2">
+                <input type="date" name="lowerdate">
+            </dd>
+            <dt class="col-sm-8">@Localizer["intsuo"]: </dt>
+            <dd class="col-sm-2">
+                <input type="date" name="upperdate">
+            </dd>
+            <dt class="col-sm-8">@Localizer["Birthplace"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingBirthPlace")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Studies"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingStudies")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Profesion&Ocupation"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingPO")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Seniorityinworkfield"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingSeniority")
+            </dd>
+            <dt class="col-sm-8">@Localizer["HealthState&Disalility&ChronicCondition"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingHealthState")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Addictions"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingAddictions")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Married&SpouseName"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingMarried")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Hashealthinsurance"]: </dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("searchingHealthInsurance")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Hashealthcard"]:</dt>
+            <dd class="col-sm-2">
+                @Html.CheckBox("searchingHealthCard")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Housingtype"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingHousingType")
+            </dd>
+
+            <dt class="col-sm-8">@Localizer["Income"]: </dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingIncome")
+            </dd>
+            <dt class="col-sm-8">@Localizer["Expenses"]:</dt>
+            <dd class="col-sm-2">
+                @Html.TextBox("searchingExpences")
+            </dd>
+            <dt class="col-sm-2">@Localizer["Gender"]: </dt>
+            <dd class="col-sm-8">
 
                 <input type="radio" name="gender" value="All" text="All" checked="checked" />@Localizer["All"]
                 <input type="radio" name="gender" value="Male" text="Male" />@Localizer["Male"]
                 <input type="radio" name="gender" value="Female" text="Female" />@Localizer["Female"]
-            </a>
-
+            </dd>
         </div>
         <button type="submit" class="btn btn-primary">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
         </button>
     </div>
-
 
     <br />
     <div>
