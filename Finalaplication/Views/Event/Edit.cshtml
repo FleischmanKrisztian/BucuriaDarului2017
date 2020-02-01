@@ -1,15 +1,14 @@
 ﻿@model Finalaplication.Models.Event
-
 @{
     ViewBag.Title = "Edit";
     string originalsavedevent = ViewBag.originalsavedevent;
+    string id = ViewBag.id;
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h2>
     @Localizer["Edit"]
 </h2>
-
 
 @if (ViewBag.containsspecialchar == true)
 {
@@ -25,6 +24,7 @@
             @Localizer["Event"]
         </h4>
         <input type="hidden" name="Originalsavedeventstring" value="@originalsavedevent" />
+        <input type="hidden" name="id" value="@id" />
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

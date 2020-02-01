@@ -1029,6 +1029,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver(string ids)
         {
             ViewBag.IDS = ids;
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
@@ -1316,6 +1317,8 @@ namespace Finalaplication.Controllers
                         }
                         else
                         {
+                            ViewBag.originalsavedvol = Originalsavedvolstring;
+                            ViewBag.id = id;
                             ViewBag.containsspecialchar = containsspecialchar;
                             return View();
                         }

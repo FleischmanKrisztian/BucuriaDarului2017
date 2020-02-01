@@ -203,15 +203,16 @@ namespace Finalaplication.Controllers
             }
         }
 
-
         [HttpGet]
         public ActionResult CSVSaver(string ids)
         {
             ViewBag.IDS = ids;
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
+
         [HttpPost]
-        public ActionResult CSVSaver(string IDS, bool All,bool NameOfSponsor,bool Date,bool MoneyAmount, bool WhatGoods,bool GoodsAmount,bool HasContract,bool ContractDetails,bool PhoneNumber,bool MailAdress)
+        public ActionResult CSVSaver(string IDS, bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
             string ids_and_options = IDS + "(((";
             if (All == true)
@@ -222,7 +223,7 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "2";
             if (HasContract == true)
                 ids_and_options = ids_and_options + "3";
-            if (ContractDetails== true)
+            if (ContractDetails == true)
                 ids_and_options = ids_and_options + "4";
             if (PhoneNumber == true)
                 ids_and_options = ids_and_options + "5";
@@ -235,15 +236,15 @@ namespace Finalaplication.Controllers
             if (GoodsAmount == true)
                 ids_and_options = ids_and_options + "9";
 
-
             ids_and_options = "csvexporterapp:" + ids_and_options;
 
             return Redirect(ids_and_options);
-
         }
 
 
+
         public IActionResult Index(string searching, int page,string ContactInfo, DateTime lowerdate, DateTime upperdate,bool HasContract,string WhatGoods,string MoneyAmount, string GoodsAmount)
+
         {
             try
             {
@@ -420,7 +421,6 @@ namespace Finalaplication.Controllers
                         sponsorcollection.InsertOne(sponsor);
                         return RedirectToAction("Index");
                     }
-
                     else
                     {
                         ViewBag.containsspecialchar = containsspecialchar;
@@ -446,6 +446,7 @@ namespace Finalaplication.Controllers
                 var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
                 Sponsor originalsavedvol = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
                 ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+                ViewBag.id = id;
                 return View(sponsor);
             }
             catch
@@ -494,9 +495,10 @@ namespace Finalaplication.Controllers
                             var result = sponsorcollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
                         }
-
                         else
                         {
+                            ViewBag.originalsavedvol = Originalsavedvolstring;
+                            ViewBag.id = id;
                             ViewBag.containsspecialchar = containsspecialchar;
                             return View();
                         }

@@ -6,7 +6,6 @@
     string originalsavedvol = ViewBag.originalsavedvol;
     string id = ViewBag.id;
 }
-
 <h2>@Localizer["Edit"]</h2>
 
 @if (ViewBag.containsspecialchar == true)
@@ -41,13 +40,13 @@
                 <br />
 
                 @{
-                    if (Model.Image != null)
+                    try
                     {
                         var imageBase64 = Convert.ToBase64String(Model.Image);
                         var imagesrc = string.Format("data:image/gif;base64,{0}", imageBase64);
                         <img src="@imagesrc" id="image-preview" alt="uploaded image preview" style="width:20%;height:auto" />
                     }
-                    else
+                    catch
                     {
                         <br />
                         <div class="col-10">
