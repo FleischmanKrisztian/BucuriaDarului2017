@@ -1,23 +1,24 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
     ViewData["Title"] = "Restoreview";
 }
 
 <h1>Restore</h1>
 
-<h3 style="color:red">Warning! This action is unreversible!</h3>
+<h3 style="color:red">@Localizer["Warning! This action is unreversible!"]</h3>
 
 <br />
 <h4>This action will overwrite data on the remote database.</h4>
 
 <br /><br />
 
-<h4>Are you sure you want to continue ?</h4>
-<div>
-    <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
-        @Html.ActionLink("Yes", "Restore")
-    </button>
-    <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
-        @Html.ActionLink("No", "Servermanagement")
-    </button>
+      <h4>@Localizer["Are you sure you want to continue?"]</h4>
+      <div>
+
+          <div>
+              <a href=@Url.Action( "Restore") class="btn btn-primary">@Localizer["Yes"]</a>
+              <a href=@Url.Action( "Servermanagement") class="btn btn-primary">@Localizer["No"]</a>
 </div>
+      </div>
 <br />

@@ -120,10 +120,20 @@ msgid "Male"
 msgstr "Masculin"
 msgid "Marcadetails"	
 msgstr "Detalii despre marcă"
+
 msgid "Married"	
 msgstr "Căsătorit/ă"
 msgid "Name"	
 msgstr "Nume"
+
+msgid "Married&SpouseName"
+msgstr "Stare civilă"
+
+msgid "HealthState&Disalility&ChronicCondition"
+msgstr "Starea sănătății/Dizabilități/Boli cronice"
+
+msgid "Profesion&Ocupation"
+msgstr "Profesie/ocupație"
 
 msgid "Number"
 msgstr "Număr"
@@ -555,7 +565,7 @@ msgid "activetill"
 msgstr "Data de final a activității "
 
 msgid "ContactInfo"
-msgstr "Data de contact"
+msgstr "Date de contact"
 
 msgid "Export"
 msgstr "Exportă"
@@ -571,9 +581,32 @@ msgid "Additional_info"
 msgstr "Informații adiționale"
 
 msgid "Inntinf"
+
 msgstr "Intervalul inferior"
 
 msgid "intsuo"
 msgstr "Intervalul superior"
 
+msgid "HomeDelivery"
+msgstr "Livrare la domiciliu"
 
+msgid "Warning! This action is unreversible!"
+msgstr "Atenție!Această acțiune este ireversibilă!"
+
+
+msgid "This action will overwrite data on the local database."
+msgstr "Această acțiune va rescrie datele din baza de date locală."
+
+msgid "Are you sure you want to continue?"
+msgstr "Sunteți sigur că doriți să continuați?"
+
+msgid "Yes"
+msgstr "Da"
+msgid "No"
+msgstr "Nu"
+
+msgid "This action will Merge the two databases data on the local database."
+msgstr "Această acține va uni cele două baze de date și va stoca rezultatul în baza de date locala. "
+
+msgid "This action will overwrite data on the remote database."
+msgstr "Această acțiune va rescrie datele din baza de date locală."
