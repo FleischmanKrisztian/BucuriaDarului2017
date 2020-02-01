@@ -135,6 +135,15 @@
             </div>
         </div>
         <div class="form-group">
+            @Localizer["HomeDelivery"]:
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.HomeDelivery)
+                    @Html.ValidationMessageFor(model => model.HomeDelivery, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             @Localizer["Homedeliverydriver"]:
             <div class="col-md-10">
                 @Html.EditorFor(model => model.HomeDeliveryDriver, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
@@ -197,17 +206,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-
-            @Localizer["HasGDPRagreement"]:
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.HasGDPRAgreement)
-                    @Html.ValidationMessageFor(model => model.HasGDPRAgreement, "", new { @class = "text-danger" })
-                </div>
-
-            </div>
-        </div>
+       
 
         <div class="form-group">
             @Localizer["AddressInformation"]:

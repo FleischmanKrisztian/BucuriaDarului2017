@@ -153,11 +153,18 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string searching, int page)
+        public ActionResult Index(string searching, int page,string searchingPlace,string searchingActivity,string searchingType,string searchingVolunteers,string searchingSponsor, DateTime lowerdate, DateTime upperdate)
         {
             try
             {
                 ViewBag.searching = searching;
+                ViewBag.Activity = searchingActivity;
+                ViewBag.Place = searchingPlace;
+                ViewBag.Type = searchingType;
+                ViewBag.Volunteer = searchingVolunteers;
+                ViewBag.Sponsor = searchingSponsor;
+                ViewBag.Upperdate = upperdate;
+                ViewBag.Lowerdate = lowerdate;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 if (page > 0)
@@ -169,6 +176,67 @@ namespace Finalaplication.Controllers
                 {
                     events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
                 }
+                if (searchingPlace != null)
+                {
+                    List<Event> ev = events;
+                    foreach (var e in ev)
+                    {
+                        if (e.PlaceOfEvent == null || e.PlaceOfEvent == "")
+                        { e.PlaceOfEvent = "-"; }
+                    }
+                    events = ev.Where(x => x.PlaceOfEvent.Contains(searchingPlace)).ToList();
+                }
+                if (searchingActivity!=null)
+                {
+                    List<Event> ev = events;
+                    foreach(var e in ev)
+                    {
+                        if(e.TypeOfActivities==null || e.TypeOfActivities =="")
+                        { e.TypeOfActivities = "-"; }
+                    }
+                    events = ev.Where(x => x.TypeOfActivities.Contains(searchingActivity)).ToList();
+                }
+                if (searchingType != null)
+                {
+                    List<Event> ev = events;
+                    foreach (var e in ev)
+                    {
+                        if (e.TypeOfEvent == null || e.TypeOfEvent == "")
+                        { e.TypeOfEvent = "-"; }
+                    }
+                    events = ev.Where(x => x.TypeOfEvent.Contains(searchingType)).ToList();
+                }
+                if (searchingVolunteers != null)
+                {
+                    List<Event> ev = events;
+                    foreach (var e in ev)
+                    {
+                        if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
+                        { e.AllocatedVolunteers = "-"; }
+                    }
+                    events = ev.Where(x => x.AllocatedVolunteers.Contains(searchingVolunteers)).ToList();
+                }
+                if (searchingSponsor != null)
+                {
+                    List<Event> ev = events;
+                    foreach (var e in ev)
+                    {
+                        if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
+                        { e.AllocatedSponsors = "-"; }
+                    }
+                    events = ev.Where(x => x.AllocatedSponsors.Contains(searchingSponsor)).ToList();
+                }
+                DateTime d1 = new DateTime(0003, 1, 1);
+                if (lowerdate > d1)
+                {
+                    events = events.Where(x => x.DateOfEvent > lowerdate).ToList();
+                }
+                if (upperdate > d1)
+                {
+                    events = events.Where(x => x.DateOfEvent <= upperdate).ToList();
+                }
+
+
                 ViewBag.counter = events.Count();
 
                 ViewBag.nrofdocs = nrofdocs;

@@ -32,98 +32,64 @@
         td {
             text-align: center;
         }
+
+        .scrollable-menu {
+            height: auto;
+            max-height: 200px;
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
-<h1>@Localizer["CSVSaver"]</h1>
-
-<h3>
-    @Localizer["Please choose what you want the Excel to contain"]: </h3>
-<br />
 
 @using (Html.BeginForm("CSVSaver", "Benrficiary/", FormMethod.Post))
 {
 
-    <div class="col-12">
-        <h4>@Localizer["Check this for all fields"]: @Html.CheckBox("All", isChecked: true)</h4>
+    <h3>
+        @Localizer["Please choose what you want the Excel to contain"]:
+    </h3>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+            @Localizer["Select the properties"]:
+
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Fullname", isChecked: false)  @Localizer["Fullname"] </a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Active", isChecked: false) @Localizer["Active"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Canteen", isChecked: false)  @Localizer["Canteen"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HomeDelivery", isChecked: false) @Localizer["HomeDelivery"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HomeDeliveryDriver", isChecked: false)  @Localizer["Homedeliverydriver"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HasGDPRAgreement", isChecked: false) @Localizer["HasGDPRagreement"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Adress", isChecked: false) @Localizer["AddressInformation"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("CNP", isChecked: false) @Localizer["CNP"]</a>
+            <a class="dropdown-item" href="#">  @Html.CheckBox("CI_Info", isChecked: false) @Localizer["CiInfo"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("marca", isChecked: true) @Localizer["Marca"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("IdInvestigation", isChecked: false)  @Localizer["IDinvestigation"] </a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("IdAplication", isChecked: false) @Localizer["IDapplication"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("NumberOfPortions", isChecked: false)  @Localizer["NumberOfPortions"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("BirthPlace", isChecked: false) @Localizer["Birthplace"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Studies", isChecked: false)  @Localizer["Studies"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Profesion", isChecked: false) @Localizer["Profession"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Ocupation", isChecked: false) @Localizer["Occupation"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("SeniorityInWorkField", isChecked: false) @Localizer["Seniorityinworkfield"]</a>
+            <a class="dropdown-item" href="#">  @Html.CheckBox("HealthState", isChecked: false) @Localizer["Healthstate"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Disalility", isChecked: true) @Localizer["Disability"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("ChronicCondition", isChecked: false)  @Localizer["Chroniccondition"] </a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Addictions", isChecked: false) @Localizer["Addictions"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HealthInsurance", isChecked: false)  @Localizer["Hashealthinsurance"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HealthCard", isChecked: false) @Localizer["Hashealthcard"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Married", isChecked: false)  @Localizer["Married"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("SpouseName", isChecked: false) @Localizer["Spousename"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HasHome", isChecked: false) @Localizer["Hashome"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("HousingType", isChecked: false) @Localizer["Housingtype"]</a>
+            <a class="dropdown-item" href="#">  @Html.CheckBox("Income", isChecked: false) @Localizer["Income"]</a>
+            <a class="dropdown-item" href="#">  @Html.CheckBox("Expences", isChecked: false) @Localizer["Expenses"]</a>
+            <a class="dropdown-item" href="#">  @Html.CheckBox("Gender", isChecked: false) @Localizer["Gender"]</a>
+        </div>
     </div>
-    <br />
-    <br />
-    <div class="col-12">
-        <h4>
-            @Localizer["Select the properties"]:</h4>
-                <br />
-                <table>
-                    <tr>
-                        <th>@Localizer["Fullname"]</th>
-                        <th>@Localizer["Active"]</th>
-                        <th>@Localizer["Canteen"]</th>
-                        <th>@Localizer["HomeDelivery"]</th>
-                        <th>@Localizer["HomeDeliveryDriver"]</th>
-                        <th>@Localizer["HasGDPRAgreement"]</th>
-                        <th>@Localizer["Adress"]</th>
-                        <th>@Localizer["CNP"]</th>
-                        <th>@Localizer["CI_Info"]</th>
-                        <th>@Localizer["marca"]</th>
-                        <th>@Localizer["IdInvestigation"]</th>
-                        <th>@Localizer["IdAplication"]</th>
-                        <th>@Localizer["NumberOfPortions"]</th>
-                        <th>@Localizer["LastTimeActiv"]</th>
-                        <th>@Localizer["PhoneNumber"]</th>
-                        <th>@Localizer["BirthPlace"]</th>
-                        <th>@Localizer["Studies"]</th>
-                        <th>@Localizer["Profesion"]</th>
-                        <th>@Localizer["Ocupation"]</th>
-                        <th>@Localizer["SeniorityInWorkField"]</th>
-                        <th>@Localizer["HealthState"]</th>
-                        <th>@Localizer["Disalility"]</th>
-                        <th>@Localizer["ChronicCondition"]</th>
-                        <th>@Localizer["Addictions"]</th>
-                        <th>@Localizer["HealthInsurance"]</th>
-                        <th>@Localizer["HealthCard"]</th>
-                        <th>@Localizer["Married"]</th>
-                        <th>@Localizer["SpouseName"]</th>
-                        <th>@Localizer["HasHome"]</th>
-                        <th>@Localizer["HousingType"]</th>
-                        <th>@Localizer["Income"]</th>
-                        <th>@Localizer["Expences"]</th>
-                        <th>@Localizer["Gender"]</th>
-                    </tr>
-                    <tr>
-                        <td> @Html.CheckBox("Fullname")</td>
-                        <td> @Html.CheckBox("Active")</td>
-                        <td> @Html.CheckBox("Canteen")</td>
-                        <td> @Html.CheckBox("HomeDelivery")</td>
-                        <td> @Html.CheckBox("HomeDeliveryDriver")</td>
-                        <td> @Html.CheckBox("HasGDPRAgreement")</td>
-                        <td> @Html.CheckBox("Adress")</td>
-                        <td> @Html.CheckBox("CNP")</td>
-                        <td> @Html.CheckBox("CI_Info")</td>
-                        <td> @Html.CheckBox("marca")</td>
-                        <td> @Html.CheckBox("IdInvestigation")</td>
-                        <td> @Html.CheckBox("IdAplication")</td>
-                        <td> @Html.CheckBox("NumberOfPortions")</td>
-                        <td> @Html.CheckBox("BirthPlace")</td>
-                        <td> @Html.CheckBox("Studies")</td>
-                        <td> @Html.CheckBox("Profesion")</td>
-                        <td> @Html.CheckBox("Ocupation")</td>
-                        <td> @Html.CheckBox("SeniorityInWorkField")</td>
-                        <td> @Html.CheckBox("HealthState")</td>
-                        <td> @Html.CheckBox("Disalility")</td>
-                        <td> @Html.CheckBox("ChronicCondition")</td>
-                        <td> @Html.CheckBox("Addictions")</td>
-                        <td> @Html.CheckBox("HealthInsurance")</td>
-                        <td> @Html.CheckBox("HealthCard")</td>
-                        <td> @Html.CheckBox("Married")</td>
-                        <td> @Html.CheckBox("SpouseName")</td>
-                        <td> @Html.CheckBox("HasHome")</td>
-                        <td> @Html.CheckBox("HousingType")</td>
-                        <td> @Html.CheckBox("Income")</td>
-                        <td> @Html.CheckBox("Expences")</td>
-                        <td> @Html.CheckBox("Gender")</td>
-                    </tr>
-                </table>
-</div>
+
 
     @Html.Hidden("IDS", IDS)
 
@@ -133,9 +99,9 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
             </button>
-            <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
-                @Html.ActionLink("Back", "Index")
-            </button>
+            
+                <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+           
         </div>
     </div>
     <br />

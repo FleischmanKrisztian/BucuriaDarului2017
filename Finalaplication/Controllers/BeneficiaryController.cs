@@ -68,7 +68,6 @@ namespace Finalaplication.Controllers
 
                 foreach (var details in result)
                 {
-                    
                     if (beneficiarycollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                     {
                         duplicates = duplicates + details[0] + ", ";
@@ -88,7 +87,7 @@ namespace Finalaplication.Controllers
                                 details[i] = details[i - 1];
                             }
                             Beneficiary beneficiary = new Beneficiary();
-                           
+
                             try
                             {
                                 beneficiary.Fullname = details[1];
@@ -386,7 +385,7 @@ namespace Finalaplication.Controllers
                                 ciInfo.CIinfo = details[15];
 
                                 if (details[10] != "True" || details[10] != "true")
-                                { ciInfo.HasId =false; }
+                                { ciInfo.HasId = false; }
                             }
                             catch
                             {
@@ -397,15 +396,13 @@ namespace Finalaplication.Controllers
 
                             beneficiarycollection.InsertOne(beneficiary);
                         }
-
-
                         else
                         {
                             documentsimported++;
 
                             Beneficiary beneficiary = new Beneficiary();
-                               beneficiary.HasGDPRAgreement = false;
-                           
+                            beneficiary.HasGDPRAgreement = false;
+
                             try
                             {
                                 beneficiary.Fullname = details[1];
@@ -432,7 +429,6 @@ namespace Finalaplication.Controllers
                                 beneficiary.Active = false;
                             }
 
-                          
                             if (details[4] == "da" || details[4] == "DA" || details[4] == "Da")
                             {
                                 beneficiary.HomeDelivery = true;
@@ -441,7 +437,7 @@ namespace Finalaplication.Controllers
                             {
                                 beneficiary.HomeDelivery = false;
                             }
-                            if(beneficiary.HomeDelivery == true)
+                            if (beneficiary.HomeDelivery == true)
                             { beneficiary.Canteen = false; }
                             if (details[5] == "da" || details[5] == "DA" || details[5] == "Da")
                             {
@@ -598,9 +594,8 @@ namespace Finalaplication.Controllers
                             try
                             {
                                 string date = details[36] + "-" + details[37] + "-" + details[38];
-                                DateTime data= Convert.ToDateTime(date);
+                                DateTime data = Convert.ToDateTime(date);
                                 personal.Birthdate = data.AddDays(1);
-                                
                             }
                             catch
                             {
@@ -624,11 +619,7 @@ namespace Finalaplication.Controllers
                                 beneficiary.Comments = "";
                             }
 
-                            
-                                beneficiary.LastTimeActiv = DateTime.MinValue;
-                            
-                               
-                            
+                            beneficiary.LastTimeActiv = DateTime.MinValue;
 
                             CI ciInfo = new CI();
 
@@ -712,10 +703,11 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string sortOrder, string searching, bool Active, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, int page)
+        public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {
             try
             {
+              
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.searching = searching;
@@ -727,7 +719,30 @@ namespace Finalaplication.Controllers
                     ViewBag.Page = 1;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
+               
                 ViewBag.Homeless = Homeless;
+                ViewBag.Weeklypackage = Weeklypackage;
+                ViewBag.Canteen = Canteen;
+                ViewBag.HomeDelivery = HomeDelivery;
+                ViewBag.searchingDriver = searchingDriver;
+                ViewBag.HasGDPRAgreement = HasGDPRAgreement;
+                ViewBag.searchingAddress = searchingAddress;
+                ViewBag.HasID = HasID;
+                ViewBag.searchingNumberOfPortions = searchingNumberOfPortions;
+                ViewBag.searchingComments = searchingComments;
+                ViewBag.searchingBirthPlace = searchingBirthPlace;
+                ViewBag.searchingStudies = searchingStudies;
+                ViewBag.searchingPO = searchingPO;
+                ViewBag.searchingSeniority = searchingSeniority;
+                ViewBag.searchingHealthState = searchingHealthState;
+                ViewBag.searchingAddictions = searchingAddictions;
+                ViewBag.searchingMarried = searchingMarried;
+                ViewBag.searchingHealthInsurance = searchingHealthInsurance;
+                ViewBag.searchingHealthCard = searchingHealthCard;
+                ViewBag.searchingHasHome = searchingHasHome;
+                ViewBag.searchingIncome = searchingIncome;
+                ViewBag.searchingExpences = searchingExpences;
+                ViewBag.gender = gender;
 
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -757,6 +772,200 @@ namespace Finalaplication.Controllers
                 {
                     beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
                 }
+
+                if (Weeklypackage == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.Weeklypackage == true).ToList();
+                }
+                if (Canteen == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.Canteen == true).ToList();
+                }
+                if (HomeDelivery == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.HomeDelivery == true).ToList();
+                }
+
+                if (HasGDPRAgreement == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.HasGDPRAgreement == true).ToList();
+                }
+                if (HasID == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.CI.HasId == true).ToList();
+                }
+                if (searchingHealthInsurance == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthInsurance == true).ToList();
+                }
+                if (searchingHealthCard == true)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthCard == true).ToList();
+                }
+
+                if (searchingDriver != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.HomeDeliveryDriver == null || b.HomeDeliveryDriver == "")
+                            b.HomeDeliveryDriver = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.HomeDeliveryDriver.Contains(searchingDriver)).ToList();
+                }
+
+                if (searchingAddress != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.Adress == null || b.Adress == "")
+                            b.Adress = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.Adress.Contains(searchingAddress)).ToList();
+                }
+
+                if (searchingPO != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.Ocupation == null || b.PersonalInfo.Ocupation == "")
+                            b.PersonalInfo.Ocupation = "-";
+                        if (b.PersonalInfo.Profesion == null || b.PersonalInfo.Profesion == "")
+                            b.PersonalInfo.Profesion = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Ocupation.Contains(searchingPO) || x.PersonalInfo.Profesion.Contains(searchingPO)).ToList();
+                }
+
+                if (searchingNumberOfPortions != 0)
+                {
+                    beneficiaries = beneficiaries.Where(x => x.NumberOfPortions.Equals(searchingNumberOfPortions)).ToList();
+                }
+
+                if (searchingComments != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.Comments == null || b.Comments == "")
+                            b.Comments = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.Comments.Contains(searchingComments)).ToList();
+                }
+
+                if (searchingBirthPlace != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.BirthPlace == null || b.PersonalInfo.BirthPlace == "")
+                            b.PersonalInfo.BirthPlace = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.BirthPlace.Contains(searchingBirthPlace)).ToList();
+                }
+
+                if (searchingStudies != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.Studies == null || b.PersonalInfo.Studies == "")
+                            b.PersonalInfo.Studies = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Studies.Contains(searchingStudies)).ToList();
+                }
+
+                if (searchingSeniority != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.SeniorityInWorkField == null || b.PersonalInfo.SeniorityInWorkField == "")
+                            b.PersonalInfo.SeniorityInWorkField = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.SeniorityInWorkField.Contains(searchingSeniority)).ToList();
+                }
+
+                if (searchingHealthState != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.HealthState == null || b.PersonalInfo.HealthState == "")
+                            b.PersonalInfo.HealthState = "-";
+                        if (b.PersonalInfo.Disalility == null || b.PersonalInfo.Disalility == "")
+                            b.PersonalInfo.Disalility = "-";
+                        if (b.PersonalInfo.ChronicCondition == null || b.PersonalInfo.ChronicCondition == "")
+                            b.PersonalInfo.ChronicCondition = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.HealthState.Contains(searchingHealthState) || x.PersonalInfo.Disalility.Contains(searchingHealthState) || x.PersonalInfo.ChronicCondition.Contains(searchingHealthState)).ToList();
+                }
+
+                if (searchingAddictions != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.Addictions == null || b.PersonalInfo.Addictions == "")
+                            b.PersonalInfo.Addictions = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Addictions.Contains(searchingAddictions)).ToList();
+                }
+
+                if (searchingMarried != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.Married == null || b.PersonalInfo.Married == "")
+                            b.PersonalInfo.Married = "-";
+                        if (b.PersonalInfo.SpouseName == null || b.PersonalInfo.SpouseName == "")
+                            b.PersonalInfo.SpouseName = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Married.Contains(searchingMarried) || x.PersonalInfo.SpouseName.Contains(searchingMarried)).ToList();
+                }
+                if (searchingIncome != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.Income == null || b.PersonalInfo.Income == "")
+                            b.PersonalInfo.Income = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingIncome)).ToList();
+                }
+                if (searchingHousingType != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.HousingType == null || b.PersonalInfo.HousingType == "")
+                            b.PersonalInfo.HousingType = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingHousingType)).ToList();
+                }
+                if (gender != " All")
+                {
+                    if (gender == "Male")
+                    {
+                        beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Gender.Equals(Gender.Male)).ToList();
+                    }
+                    if (gender == "Female")
+                    { beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Gender.Equals(Gender.Female)).ToList(); }
+                }
+                if (searchingExpences != null)
+                {
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach (var b in bene)
+                    {
+                        if (b.PersonalInfo.Expences == null || b.PersonalInfo.Expences == "")
+                            b.PersonalInfo.Expences = "-";
+                    }
+                    beneficiaries = bene.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences)).ToList();
+                }
+
+               
 
                 switch (sortOrder)
                 {
@@ -825,7 +1034,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(string IDS,bool PhoneNumber,bool SpouseName,bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion,bool SeniorityInWorkField, bool Ocupation, bool BirthPlace,bool Studies, bool CI_Info,bool IdContract,bool IdInvestigation, bool IdAplication,bool marca, bool All,bool CNP, bool Fullname, bool Active,bool Canteen,bool HomeDelivery,bool HomeDeliveryDriver, bool HasGDPRAgreement,bool Adress,bool NumberOfPortions,bool LastTimeActiv)
+        public ActionResult CSVSaver(string IDS, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv)
         {
             string ids_and_options = IDS + "(((";
             if (All == true)
@@ -874,7 +1083,7 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "L";
             if (Disalility == true)
                 ids_and_options = ids_and_options + "M";
-            if  (ChronicCondition == true)
+            if (ChronicCondition == true)
                 ids_and_options = ids_and_options + "N";
             if (Addictions == true)
                 ids_and_options = ids_and_options + "O";
@@ -897,11 +1106,9 @@ namespace Finalaplication.Controllers
             if (Gender == true)
                 ids_and_options = ids_and_options + "W";
 
-
             ids_and_options = "csvexporterapp:" + ids_and_options;
 
             return Redirect(ids_and_options);
-
 
             //return RedirectToAction("Index");
         }
@@ -987,7 +1194,7 @@ namespace Finalaplication.Controllers
                             }
                         }
                     }
-                        beneficiarycollection.InsertOne(beneficiary);
+                    beneficiarycollection.InsertOne(beneficiary);
                     return RedirectToAction("Index");
                 }
                 else
@@ -1067,7 +1274,7 @@ namespace Finalaplication.Controllers
                             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                             var update = Builders<Beneficiary>.Update
                                .Set("Fullname", beneficiary.Fullname)
-                               .Set("Image",beneficiary.Image)
+                               .Set("Image", beneficiary.Image)
                                .Set("Weeklypackage", beneficiary.Weeklypackage)
                                .Set("Active", beneficiary.Active)
                                .Set("Canteen", beneficiary.Canteen)

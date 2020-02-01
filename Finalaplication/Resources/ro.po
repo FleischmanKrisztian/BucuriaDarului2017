@@ -64,6 +64,10 @@ msgid "Expirationdate"
 msgstr "Data expirării"
 msgid "Female"	
 msgstr "Feminin"
+
+msgid "All"
+msgstr"Nespecificat"
+
 msgid "Firstname"	
 msgstr "Prenume"
 msgid "Gender"	
@@ -116,10 +120,20 @@ msgid "Male"
 msgstr "Masculin"
 msgid "Marcadetails"	
 msgstr "Detalii despre marcă"
+
 msgid "Married"	
 msgstr "Căsătorit/ă"
 msgid "Name"	
 msgstr "Nume"
+
+msgid "Married&SpouseName"
+msgstr "Stare civilă"
+
+msgid "HealthState&Disalility&ChronicCondition"
+msgstr "Starea sănătății/Dizabilități/Boli cronice"
+
+msgid "Profesion&Ocupation"
+msgstr "Profesie/ocupație"
 
 msgid "Number"
 msgstr "Număr"
@@ -266,7 +280,7 @@ msgstr "Prenume"
 msgid "Gender"	
 msgstr "Gen"
 msgid "HasCar"	
-msgstr "Mașină?"
+msgstr "Mașină:"
 msgid "HourCount"	
 msgstr "Program de lucru (ore)"
 msgid "Lastname"	
@@ -537,3 +551,62 @@ msgstr "Detalii contract"
 
 msgid "Cannot contain Special character ';'"
 msgstr "Câmpurile nu pot conține caracterul ';'"
+
+msgid "Filters"
+msgstr "Sortează după"
+
+msgid "The date of active till cant be smaller that that of activesince!"
+msgstr "Data finală a activității nu poate fi mai mică decat data de început!"
+
+msgid "activesince"
+msgstr "Data de început a activității"
+
+msgid "activetill"
+msgstr "Data de final a activității "
+
+msgid "ContactInfo"
+msgstr "Date de contact"
+
+msgid "Export"
+msgstr "Exportă"
+
+msgid "All"
+msgstr "Toți"
+
+msgid "CI_Info"
+msgstr "Informații CI"
+
+
+msgid "Additional_info"
+msgstr "Informații adiționale"
+
+msgid "Inntinf"
+
+msgstr "Intervalul inferior"
+
+msgid "intsuo"
+msgstr "Intervalul superior"
+
+msgid "HomeDelivery"
+msgstr "Livrare la domiciliu"
+
+msgid "Warning! This action is unreversible!"
+msgstr "Atenție!Această acțiune este ireversibilă!"
+
+
+msgid "This action will overwrite data on the local database."
+msgstr "Această acțiune va rescrie datele din baza de date locală."
+
+msgid "Are you sure you want to continue?"
+msgstr "Sunteți sigur că doriți să continuați?"
+
+msgid "Yes"
+msgstr "Da"
+msgid "No"
+msgstr "Nu"
+
+msgid "This action will Merge the two databases data on the local database."
+msgstr "Această acține va uni cele două baze de date și va stoca rezultatul în baza de date locala. "
+
+msgid "This action will overwrite data on the remote database."
+msgstr "Această acțiune va rescrie datele din baza de date locală."

@@ -129,21 +129,26 @@ namespace Finalaplication.Controllers
                             {
                                 a.District = details[4];
                             }
+                            else { a.District = "-"; }
 
                             if (details[5] != null || details[5] != "")
                             {
                                 a.City = details[5];
                             }
+                            else
+                            { a.City = "-"; }
 
                             if (details[6] != null || details[6] != "")
                             {
                                 a.Street = details[6];
                             }
+                            else { a.Street = "-"; }
 
                             if (details[7] != null || details[7] != "")
                             {
                                 a.Number = details[7];
-                            }
+                            }else
+                            { a.Number = "-"; }
 
                             try
                             {
@@ -165,31 +170,39 @@ namespace Finalaplication.Controllers
                             {
                                 volunteer.Desired_workplace = details[9];
                             }
+                            else { volunteer.Desired_workplace = "-"; }
 
                             if (details[10] != null || details[10] != "")
                             {
                                 volunteer.CNP = details[10];
                             }
+                            else { volunteer.CNP = "-"; }
 
                             if (details[11] != null || details[11] != "")
                             {
                                 volunteer.Field_of_activity = details[11];
                             }
-
+                            else { volunteer.Field_of_activity = "-"; }
                             if (details[12] != null || details[12] != "")
                             {
                                 volunteer.Occupation = details[12];
                             }
+                            else { volunteer.Occupation = "-"; }
 
                             if (details[13] != null || details[13] != "")
                             {
                                 volunteer.CIseria = details[13];
                             }
+                            else
+                            { volunteer.CIseria = "-"; }
 
                             if (details[14] != null || details[14] != "")
                             {
                                 volunteer.CINr = details[13];
                             }
+                            else
+                            { volunteer.CINr = "-"; }
+
                             try
                             {
                                 if (details[15] != null || details[15] != "")
@@ -213,6 +226,8 @@ namespace Finalaplication.Controllers
                             {
                                 volunteer.CIeliberator = details[16];
                             }
+                            else
+                            { volunteer.CIeliberator = "-"; }
                             if (details[17] == "True")
                             {
                                 volunteer.InActivity = true;
@@ -235,10 +250,14 @@ namespace Finalaplication.Controllers
                             {
                                 c.PhoneNumber = details[19];
                             }
+                            else
+                            { c.PhoneNumber = "-"; }
                             if (details[20] != null || details[20] != "")
                             {
                                 c.MailAdress = details[20];
                             }
+                            else
+                            { c.MailAdress = "-"; }
                             volunteer.ContactInformation = c;
                             Additionalinfo ai = new Additionalinfo();
 
@@ -309,8 +328,15 @@ namespace Finalaplication.Controllers
 
                             if (details[2] != null || details[2] != "")
                             {
-                                a.District = details[2];
-                            }
+
+                              a.District=  details[2];
+                                  
+                            }else
+                            { a.District = "-"; }
+                            a.City = "-";
+                            a.Street = "-";
+                            a.Number = "-";
+
 
                             volunteer.Gender = Gender.Male;
 
@@ -318,11 +344,13 @@ namespace Finalaplication.Controllers
                             {
                                 volunteer.Desired_workplace = details[9];
                             }
-
+                            else
+                            { volunteer.Desired_workplace = "-"; }
                             if (details[1] != null || details[1] != "")
                             {
                                 volunteer.CNP = details[1];
-                            }
+                            }else
+                            { volunteer.CNP = "-"; }
 
                             if (details[3] != null)
                             {
@@ -349,14 +377,24 @@ namespace Finalaplication.Controllers
                                 c.PhoneNumber = details[4];
                             }
 
+                            else
+                            { c.PhoneNumber = "-"; }
+                            
                             volunteer.ContactInformation = c;
                             Additionalinfo ai = new Additionalinfo();
 
-                            ai.HasDrivingLicence = false;
+                            
+                                ai.HasDrivingLicence = false;
+                            if (details[8] != null)
+                            {
+                                ai.Remark = details[8];
+                            }
+                            else { ai.Remark = "-"; }
+                                ai.HasCar = false;
 
-                            ai.Remark = details[8];
+                            volunteer.Occupation = "-";
+                            
 
-                            ai.HasCar = false;
 
                             volunteer.Address = a;
                             volunteer.Additionalinfo = ai;
@@ -378,6 +416,7 @@ namespace Finalaplication.Controllers
                 return RedirectToAction("IncorrectFile", "Home");
             }
         }
+
 
         private (DateTime[] startdates, DateTime[] enddates, int i) Datereturner(string activedates)
         {
@@ -443,7 +482,8 @@ namespace Finalaplication.Controllers
             return date;
         }
 
-        public ActionResult Index(string lang, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page)
+         public ActionResult Index(string lang,bool HasDrivingLicence,string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
+
         {
             try
             {
@@ -461,12 +501,20 @@ namespace Finalaplication.Controllers
                     ViewBag.Page = page;
                 else
                     ViewBag.Page = 1;
+                ViewBag.ContactInfo = searchedContact;
                 ViewBag.SortOrder = sortOrder;
+                ViewBag.Address = searchedAddress;
+                ViewBag.Occupation = searchedOccupation;
+                ViewBag.Remarks = searchedRemarks;
+                ViewBag.HourCount = searchedHourCount;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.Activesince = activesince;
                 ViewBag.Activetill = activetill;
+                ViewBag.Gender = gender;
                 ViewBag.hascar = HasCar;
+                ViewBag.DesiredWorkplace = searchedworkplace;
+                ViewBag.hasDriverLicence = HasDrivingLicence;
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
                 ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
@@ -478,13 +526,110 @@ namespace Finalaplication.Controllers
                 DateTime d1 = new DateTime(0003, 1, 1);
                 if (searching != null)
                 {
-                    volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
-                }
+                    try
+                    {
+                        volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+                    }
+                    catch { }
+                    }
                 if (Active == true)
                 {
                     volunteers = volunteers.Where(x => x.InActivity == true).ToList();
                 }
-                if (lowerdate > d1)
+                if (searchedAddress != null)
+                {
+                    List<Volunteer> vol = volunteers;
+                    foreach(var v in vol)
+                    {
+                        if (v.Address.District == null || v.Address.District == "")
+                            v.Address.District = "-";
+                        if (v.Address.City == null || v.Address.City == "")
+                            v.Address.City = "-";
+                        if (v.Address.Street == null || v.Address.Street == "")
+                            v.Address.Street = "-";
+                        if (v.Address.Number == null || v.Address.Number == "")
+                            v.Address.Number = "-";
+                    }
+
+                        try
+                        {
+                        volunteers = vol.Where(x => x.Address.District.Contains(searchedAddress) || x.Address.City.Contains(searchedAddress)|| x.Address.Street.Contains(searchedAddress) || x.Address.Number.Contains(searchedAddress)).ToList();
+                            
+                        }
+                        catch { }
+                    
+                }
+
+                if (searchedworkplace != null)
+                {
+                    List<Volunteer> vol = volunteers;
+                    foreach(var v in vol)
+                    { if (v.Desired_workplace == null || v.Desired_workplace == "")
+                        {
+                            v.Desired_workplace = "-";
+                        }
+                    }
+                    try
+                    {
+                        volunteers = vol.Where(x => x.Desired_workplace.Contains(searchedworkplace)).ToList();
+                    }
+                    catch { }
+                    }
+                if (searchedOccupation != null)
+                {
+                    List<Volunteer> vol = volunteers;
+                    foreach(var v in vol)
+                    {
+                        if(v.Field_of_activity==null || v.Field_of_activity=="")
+                        { v.Field_of_activity = "-"; }
+                        if(v.Occupation==null ||v.Occupation=="")
+                        { v.Occupation = "-"; }
+                    }
+                    try
+                    {
+                        volunteers = vol.Where(x => x.Field_of_activity.Contains(searchedOccupation) || x.Occupation.Contains(searchedOccupation)).ToList();
+                    }
+                    catch { }
+                    }
+                if (searchedRemarks != null)
+                {
+                    List<Volunteer> vol = volunteers;
+                    foreach(var v in vol)
+                    { if (v.Additionalinfo.Remark == null || v.Additionalinfo.Remark == "")
+                            v.Additionalinfo.Remark = "";
+                    }
+                    try {
+
+                        volunteers = vol.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks)).ToList();
+
+                    }catch{ }
+                }
+
+                ////Not Working
+                if(searchedContact!=null)
+                {
+                    List<Volunteer> vol = volunteers;
+                    foreach(var v in vol)
+                    {
+                        if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.PhoneNumber == "")
+                            v.ContactInformation.PhoneNumber = "-";
+                        if (v.ContactInformation.MailAdress == null || v.ContactInformation.MailAdress == "")
+                            v.ContactInformation.MailAdress = "-";
+                    }
+                    try
+                    {
+                        volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact) || x.ContactInformation.MailAdress.Contains(searchedContact)).ToList();
+                    }
+                    catch { }
+                }
+                if (searchedHourCount != 0)
+                {
+                    
+                    volunteers = volunteers.Where(x => x.HourCount.Equals(searchedHourCount)).ToList();
+                }
+               
+              
+                 if (lowerdate > d1)
                 {
                     volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
                 }
@@ -552,6 +697,7 @@ namespace Finalaplication.Controllers
                 if (activesince > d1 && activetill > d1)
                 {
                     string ids_to_remove = "";
+
                     foreach (Volunteer vol in volunteers)
                     {
                         (DateTime[] startdates, DateTime[] enddates, int i) = Datereturner(vol.Activedates);
@@ -585,6 +731,20 @@ namespace Finalaplication.Controllers
                         Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
                         volunteers.Remove(voltodelete);
                     }
+                }
+                if (gender !=" All")
+                {
+                    if (gender =="Male")
+                    {
+                        volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Male)).ToList();
+                    }
+                    if(gender=="Female")
+                    { volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Female)).ToList(); }
+                }
+               
+                if (HasDrivingLicence == true)
+                {
+                    volunteers = volunteers.Where(x => x.Additionalinfo.HasDrivingLicence == true).ToList();
                 }
                 if (HasCar == true)
                 {

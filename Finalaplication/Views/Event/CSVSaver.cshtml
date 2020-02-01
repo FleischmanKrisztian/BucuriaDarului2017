@@ -31,42 +31,44 @@
         td {
             text-align: center;
         }
+        .scrollable-menu {
+            height: auto;
+            max-height: 200px;
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
-<h1>@Localizer["CSVSaver"]</h1>
 
-<h3>
-    @Localizer["Please choose what you want the Excel to contain"]:
-</h3>
-<br />
 
 @using (Html.BeginForm("CSVSaver", "Event/", FormMethod.Post))
 {
     
-    <div class="col-12">
+<div class="col-12">
 
+    <h3>
+        @Localizer["Please choose what you want the Excel to contain"]:
+    </h3>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               
-                    @Localizer["Select the properties"]:
-                
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfEvent", isChecked: false) @Localizer["NameOfEvent"] </a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("PlaceOfEvent" ,isChecked: false) @Localizer["PlaceOfEvent"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("DateOfEvent", isChecked: false) @Localizer["DateOfEvent"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("TypeOfActivities", isChecked: false) @Localizer["TypeOfActivities"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("TypeOfEvent", isChecked: false) @Localizer["TypeOfEvent"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("Duration", isChecked: false) @Localizer["Duration"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("AllocatedVolunteers", isChecked: false) @Localizer["AllocatedVolunteers"]</a>
-                <a class="dropdown-item" href="#"> @Html.CheckBox("AllocatedSponsors", isChecked: false) @Localizer["AllocatedSponsors"]</a>
-            </div>
+            @Localizer["Select the properties"]:
+
+        </button>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfEvent", isChecked: false) @Localizer["Nameofevent"] </a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("PlaceOfEvent", isChecked: false) @Localizer["Placeofevent"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("DateOfEvent", isChecked: false) @Localizer["Dateofevent"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("TypeOfActivities", isChecked: false) @Localizer["Typeofactivities"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("TypeOfEvent", isChecked: false) @Localizer["Typeofevent"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("Duration", isChecked: false) @Localizer["Duration"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("AllocatedVolunteers", isChecked: false) @Localizer["Allocatedvolunteers"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("AllocatedSponsors", isChecked: false) @Localizer["Allocatedsponsors"]</a>
         </div>
+    </div>
 
-    </div>        
+</div>        
 
     @Html.Hidden("IDS", IDS)
 
@@ -76,9 +78,9 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
             </button>
-            <button type="button" style="background-color:lightcoral;border-color:lightcoral" class="btn btn-primary">
-                @Html.ActionLink("Back", "Index")
-            </button>
+          
+                <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+          
         </div>
     </div>
     <br />

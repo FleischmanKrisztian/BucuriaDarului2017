@@ -256,7 +256,7 @@ msgstr "Volunteers"
 msgid "ConcurrencyWarning"
 msgstr "Concurrency warning"
 msgid "Error"	
-msgstr "Someone else Has already modified this document while you were editing"
+msgstr "Someone else has already modified this document while you were editing"
 msgid "Active"	
 msgstr "Active"
 msgid "BirthDate"	
@@ -547,5 +547,65 @@ msgstr "Contract Details"
 msgid "Cannot contain Special character ';'"
 msgstr "Cannot contain Special character ';'"
 
+msgid "Filters"
+msgstr "Order by"
+
+msgid "The date of active till cant be smaller that that of activesince!"
+msgstr "The date of active till cant be smaller that that of activesince!"
 
 
+msgid "activesince"
+msgstr "Begining date of activity"
+
+msgid "activetill"
+msgstr "Final date of activity"
+
+msgid "All"
+msgstr"All"
+
+msgid "ContactInfo"
+msgstr "Contact information"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Additional_info"
+msgstr "Additional information"
+
+msgid "CI_Info"
+msgstr "CI informations"
+
+msgid "Additional_info"
+msgstr "Aditional informations"
+
+msgid "Inntinf"
+msgstr "Lower range"
+
+msgid "intsuo"
+msgstr "Upper range"
+msgid "Married&SpouseName"
+msgstr "Marital status"
+
+msgid "HomeDelivery"
+msgstr "Home Delivery"
+
+
+msgid "Profesion&Ocupation"
+msgstr "Profession/occupation"
+msgid "This action will Merge the two databases data on the local database."
+msgstr "This action will merge the two databases data on the local database."
+msgid "HealthState&Disalility&ChronicCondition"
+msgstr "Health state/Disability/Chronica conditions"
+msgid "Yes"
+msgstr "Yes"
+msgid "No"
+msgstr "No"
+msgid "Are you sure you want to continue?"
+msgstr "Are you sure you want to continue?"
+msgid "This action will overwrite data on the local database."
+msgstr "This action will overwrite data on the local database."
+msgid "Warning! This action is unreversible!"
+msgstr "Warning! This action is unreversible!"
+
+msgid "This action will overwrite data on the remote database."
+msgstr "This action will overwrite data on the remote database."
