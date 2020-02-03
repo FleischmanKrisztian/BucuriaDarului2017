@@ -758,7 +758,13 @@ namespace Finalaplication.Controllers
                 }
                 if (searching != null)
                 {
-                    beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(searching)).ToList();
+                    List<Beneficiary> bene = beneficiaries;
+                    foreach(var b in bene)
+                    {if(b.Fullname==null || b.Fullname=="")
+                        { b.Fullname = "-"; }
+                    }
+                    try { beneficiaries = bene.Where(x => x.Fullname.Contains(searching)).ToList(); } catch { }
+                    
                 }
                 if (Homeless == true)
                 {

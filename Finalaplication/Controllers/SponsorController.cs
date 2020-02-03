@@ -243,7 +243,7 @@ namespace Finalaplication.Controllers
 
 
 
-        public IActionResult Index(string searching, int page,string ContactInfo, DateTime lowerdate, DateTime upperdate,bool HasContract,string WhatGoods,string MoneyAmount, string GoodsAmount)
+        public IActionResult Index(string searching, int page,string ContactInfo, DateTime lowerdate, DateTime upperdate,bool HasContract,string WhatGoods,string MoneyAmount, string GoodsAmounts)
 
         {
             try
@@ -254,7 +254,7 @@ namespace Finalaplication.Controllers
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.HasContract = HasContract;
                 ViewBag.WhatGoods = WhatGoods;
-                ViewBag.GoodsAmount = GoodsAmount;
+                ViewBag.GoodsAmount = GoodsAmounts;
                 ViewBag.MoneyAmount = MoneyAmount;
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -309,7 +309,7 @@ namespace Finalaplication.Controllers
                     }
                     catch { }
                     }
-                if (GoodsAmount != null)
+                if (GoodsAmounts != null)
                 {
                     List<Sponsor> sp = sponsors;
                     foreach (var s in sp)
@@ -319,7 +319,7 @@ namespace Finalaplication.Controllers
                     }
                     try
                     {
-                        sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(GoodsAmount)).ToList();
+                        sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts)).ToList();
                     }
                     catch { }
                     }
