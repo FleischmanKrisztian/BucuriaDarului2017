@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using VolCommon;
 
 namespace Finalaplication.Controllers
@@ -478,7 +479,7 @@ namespace Finalaplication.Controllers
             {
                 datestring = datestring.Insert(2, "0");
             }
-            date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            date = DateTime.ParseExact(datestring, "dd/MM/yyyy",CultureInfo.DefaultThreadCurrentCulture);
             return date;
         }
 
@@ -957,6 +958,7 @@ namespace Finalaplication.Controllers
                     }
                     if (volunteer.InActivity == true)
                     {
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                         volunteer.Activedates = volunteer.Activedates + "," + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
                         volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                         volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
@@ -1037,12 +1039,14 @@ namespace Finalaplication.Controllers
                             }
                             if (volunteer.InActivity == false && wasactive == true)
                             {
+                                Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                                 volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                                 volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                                 volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
                             }
                             if (volunteer.InActivity == true && wasactive == false)
                             {
+                                Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                                 volunteer.Activedates = volunteer.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
                                 volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                                 volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
@@ -1130,6 +1134,7 @@ namespace Finalaplication.Controllers
                     {
                         if (volunteer.InActivity == false)
                         {
+                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                             volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                             volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                             volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
