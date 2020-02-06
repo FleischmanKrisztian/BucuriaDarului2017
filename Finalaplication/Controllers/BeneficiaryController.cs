@@ -9,8 +9,10 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using VolCommon;
 
 namespace Finalaplication.Controllers
@@ -1200,6 +1202,13 @@ namespace Finalaplication.Controllers
                             }
                         }
                     }
+                    if (beneficiary.Active == true)
+                    {
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                        beneficiary.Activedates = beneficiary.Activedates + "," + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                        beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
+                        beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
+                    }
                     beneficiarycollection.InsertOne(beneficiary);
                     return RedirectToAction("Index");
                 }
@@ -1275,6 +1284,27 @@ namespace Finalaplication.Controllers
                                 }
                             }
                         }
+                        bool wasactive = false;
+
+                        if (Originalsavedvol.Active == true)
+                        {
+                            wasactive = true;
+                        }
+                        if (beneficiary.Active == false && wasactive == true)
+                        {
+                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                            beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
+                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
+                        }
+                        if (beneficiary.Active == true && wasactive == false)
+                        {
+                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                            beneficiary.Activedates = beneficiary.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
+                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
+                        }
+
                         if (ModelState.IsValid)
                         {
                             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
@@ -1315,8 +1345,8 @@ namespace Finalaplication.Controllers
                                .Set("PersonalInfo.Profesion", beneficiary.PersonalInfo.Profesion)
                                .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
                                .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
-                               .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies)
-                               ;
+                               .Set("Activedates", beneficiary.Activedates)
+                               .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies);
 
                             var result = beneficiarycollection.UpdateOne(filter, update);
                             return RedirectToAction("Index");
@@ -1377,9 +1407,17 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
+                        if (beneficiary.Active == false)
+                        {
+                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                            beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
+                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
+                        }
                         var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                         var update = Builders<Beneficiary>.Update
-                            .Set("Active", beneficiary.Active);
+                            .Set("Active", beneficiary.Active)
+                            .Set("Activedates", beneficiary.Activedates);
                         var result = beneficiarycollection.UpdateOne(filter, update);
                         return RedirectToAction("Index");
                     }

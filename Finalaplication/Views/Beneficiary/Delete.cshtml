@@ -5,142 +5,64 @@
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h1>
-    @Localizer["Delete"]
-</h1>
 
-<h3>
-    @Localizer["DeleteMessage"]
-</h3>
+<h2>@Localizer["Delete"]</h2>
+
 <div>
-    <h4>
-        @Localizer["Beneficiary"]
-    </h4>
     <hr />
-    <h3>
-        @Localizer["PersonalInformation"]:
-    </h3>
     <dl class="row">
         <dt class="col-sm-2">
             @Localizer["Fullname"]:
         </dt>
+
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Fullname)
         </dd>
 
         <dt class="col-sm-2">
-            @Localizer["Gender"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Gender)
-        </dd>
-        <dt class="col-sm-2">
             @Localizer["Birthdate"]:
         </dt>
+
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalInfo.Birthdate)
-        </dd>
-
-       
-        <dt class="col-sm-2">
-            @Localizer["Married"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.Married)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["Spousename"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.SpouseName)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["Active"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["Weeklypackage"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Weeklypackage)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["Numberofportions"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumberOfPortions)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["Canteen"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Canteen)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["HomeDelivery"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HomeDelivery)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["Homedeliverydriver"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HomeDeliveryDriver)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["HasGDPRagreement"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HasGDPRAgreement)
         </dd>
 
         <dt class="col-sm-2">
             @Localizer["CNP"]:
         </dt>
+
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CNP)
         </dd>
+
         <dt class="col-sm-2">
-            @Localizer["Phonenumber"]:
+            @Localizer["Active"]:
         </dt>
+
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PersonalInfo.PhoneNumber)
-        </dd>
-    </dl>
-   
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Localizer["AddressInformation"]:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Adress)
+            @Html.DisplayFor(model => model.Active)
         </dd>
     </dl>
 
-    <div class="form-actions no-color">
-        <span>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-            <div class="form-actions no-color">
-                <span>
-                    @using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Get))
-                    {
-                        <div class="form-group">
-                            @Localizer["Makethisbeneficiaryinactive"]
-                            @Html.CheckBox("Inactive", checked(true))
-                            <br>
-                            <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
-                        </div>
-                    }
-                </span>
-                <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+<div class="form-actions no-color">
+    <span>
+
+        @using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Get))
+        {
+            <div class="form-group">
+                @Localizer["MakeItInactive"]
+                @Html.CheckBox("Inactive", checked(true))
+                @Html.HiddenFor(model => model.Activedates)
+                <br>
+                <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
             </div>
-            }
-        </span>
-    </div>
+        }
+    </span>
+    <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+</div>
+    }
 </div>

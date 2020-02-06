@@ -964,7 +964,6 @@ namespace Finalaplication.Controllers
                         volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
                     }
                     vollunteercollection.InsertOne(volunteer);
-
                     return RedirectToAction("Index");
                 }
                 ViewBag.containsspecialchar = containsspecialchar;
@@ -1007,7 +1006,6 @@ namespace Finalaplication.Controllers
                     containsspecialchar = true;
                 }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-
                 Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
                 try
                 {
@@ -1109,15 +1107,22 @@ namespace Finalaplication.Controllers
         // GET: Volunteer/Delete/5
         public ActionResult Delete(string id)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-            var volunteerId = new ObjectId(id);
-            var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
-            return View(volunteer);
+            try
+            {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                var volunteerId = new ObjectId(id);
+                var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+                return View(volunteer);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         // POST: Volunteer/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, IFormCollection collection, Volunteer volunteer, bool Inactive)
+        public ActionResult Delete(string id, Volunteer volunteer, bool Inactive)
         {
             try
             {
