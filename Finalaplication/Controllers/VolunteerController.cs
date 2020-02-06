@@ -418,7 +418,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-         public ActionResult Index(string lang,bool HasDrivingLicence,string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
+         public ActionResult Index(string lang,bool HasDrivingLicence,string searchingLastname, string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
 
         {
             try
@@ -431,6 +431,7 @@ namespace Finalaplication.Controllers
                 int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.lang = lang;
+                ViewBag.searchingLastname = searchingLastname;
                 ViewBag.searching = searching;
                 ViewBag.active = Active;
                 if (page > 0)
@@ -464,10 +465,18 @@ namespace Finalaplication.Controllers
                 {
                     try
                     {
-                        volunteers = volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList();
+                        volunteers = volunteers.Where(x => x.Firstname.Contains(searching) ).ToList();
                     }
                     catch { }
                     }
+                if (searchingLastname != null)
+                {
+                    try
+                    {
+                        volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname)).ToList();
+                    }
+                    catch { }
+                }
                 if (Active == true)
                 {
                     volunteers = volunteers.Where(x => x.InActivity == true).ToList();
