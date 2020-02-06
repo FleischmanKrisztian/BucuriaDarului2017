@@ -705,11 +705,15 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
+        public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {
             try
             {
-              
+                if (activetill < activesince && activetill > DateTime.Now.AddYears(-2000))
+                {
+                    ViewBag.wrongorder = true;
+                    RedirectToPage("Index");
+                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.searching = searching;
@@ -725,6 +729,8 @@ namespace Finalaplication.Controllers
                 ViewBag.Homeless = Homeless;
                 ViewBag.Weeklypackage = Weeklypackage;
                 ViewBag.Canteen = Canteen;
+                ViewBag.Activesince = activesince;
+                ViewBag.Activetill = activetill;
                 ViewBag.HomeDelivery = HomeDelivery;
                 ViewBag.searchingDriver = searchingDriver;
                 ViewBag.HasGDPRAgreement = HasGDPRAgreement;
@@ -780,7 +786,100 @@ namespace Finalaplication.Controllers
                 {
                     beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
                 }
+                if (activesince > d1 && activetill <= d1)
+                {
+                    string ids_to_remove = "";
+                    foreach (Beneficiary vol in beneficiaries)
+                    {
+                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        bool passed = false;
+                        for (int j = i - 1; j >= 0; j--)
+                        {
+                            if (startdates[j] > activesince || enddates[j] > activesince)
+                            {
+                                passed = true;
+                                break;
+                            }
+                        }
+                        if (!passed)
+                        {
+                            ids_to_remove = ids_to_remove + "," + ControllerHelper.Datereturner(vol.Activedates);
+                        }
+                    }
+                    List<string> ids = ids_to_remove.Split(',').ToList();
+                    foreach (string id in ids)
+                    {
+                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
+                        beneficiaries.Remove(voltodelete);
+                    }
+                }
+                //IN CASE THERE IS NO START DATE
+                if (activesince < d1 && activetill > d1)
+                {
+                    string ids_to_remove = "";
+                    foreach (Beneficiary vol in beneficiaries)
+                    {
+                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        bool passed = false;
+                        for (int j = i - 1; j >= 0; j--)
+                        {
+                            if (startdates[j] < activetill || enddates[j] < activetill)
+                            {
+                                passed = true;
+                                break;
+                            }
+                        }
+                        if (!passed)
+                        {
+                            ids_to_remove = ids_to_remove + "," + vol.BeneficiaryID;
+                        }
+                    }
+                    List<string> ids = ids_to_remove.Split(',').ToList();
+                    foreach (string id in ids)
+                    {
+                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
+                        beneficiaries.Remove(voltodelete);
+                    }
+                }
+                //IN CASE THERE ARE BOTH
+                if (activesince > d1 && activetill > d1)
+                {
+                    string ids_to_remove = "";
 
+                    foreach (Beneficiary vol in beneficiaries)
+                    {
+                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        bool passed = false;
+                        for (int j = i - 1; j >= 0; j--)
+                        {
+                            if (startdates[j] > activesince && startdates[j] < activetill)
+                            {
+                                passed = true;
+                                break;
+                            }
+                            else if (enddates[j] > activesince && enddates[j] < activetill)
+                            {
+                                passed = true;
+                                break;
+                            }
+                            else if (startdates[j] < activesince && enddates[j] > activetill)
+                            {
+                                passed = true;
+                                break;
+                            }
+                        }
+                        if (!passed)
+                        {
+                            ids_to_remove = ids_to_remove + "," + vol.BeneficiaryID;
+                        }
+                    }
+                    List<string> ids = ids_to_remove.Split(',').ToList();
+                    foreach (string id in ids)
+                    {
+                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
+                        beneficiaries.Remove(voltodelete);
+                    }
+                }
                 if (Weeklypackage == true)
                 {
                     beneficiaries = beneficiaries.Where(x => x.Weeklypackage == true).ToList();

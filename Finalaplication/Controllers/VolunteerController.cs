@@ -419,7 +419,7 @@ namespace Finalaplication.Controllers
         }
 
 
-        private (DateTime[] startdates, DateTime[] enddates, int i) Datereturner(string activedates)
+        public (DateTime[] startdates, DateTime[] enddates, int i) Datereturner(string activedates)
         {
             DateTime[] startdates = new DateTime[20];
             DateTime[] enddates = new DateTime[20];
@@ -458,7 +458,7 @@ namespace Finalaplication.Controllers
             return (startdates, enddates, i);
         }
 
-        private DateTime Dateformatter(string datestring)
+        public DateTime Dateformatter(string datestring)
         {
             DateTime date;
             if (datestring.Contains("currently"))
