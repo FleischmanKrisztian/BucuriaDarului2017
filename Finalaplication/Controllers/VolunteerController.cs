@@ -37,11 +37,7 @@ namespace Finalaplication.Controllers
             catch { }
         }
 
-        // Delegate that defines the signature for the callback method.
-        public static int ResultCallback(int documentsimported)
-        {
-            return documentsimported;
-        }
+        
         public ActionResult FileUpload()
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -85,18 +81,11 @@ namespace Finalaplication.Controllers
                 }
 
 
+                Thread myNewThread = new Thread(() => ControllerHelper.GetVolunteersFromCsv(vollunteercollection
+                 , result, duplicates
+                  , documentsimported));
+                myNewThread.Start();
 
-                // Supply the state information required by the task.
-                ThreadWithState tws = new ThreadWithState(vollunteercollection
-                    , result, duplicates
-                    , documentsimported,
-                    new ExampleCallback(ResultCallback)
-                );
-
-
-                Thread t = new Thread(new ThreadStart(tws.ThreadProc));
-                t.Start();
-                
 
 
                 string docsimported = documentsimported.ToString();
