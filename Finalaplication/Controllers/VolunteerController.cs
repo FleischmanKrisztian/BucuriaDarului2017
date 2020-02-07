@@ -80,6 +80,9 @@ namespace Finalaplication.Controllers
                     file.Delete();
                 }
 
+                
+
+                
 
                 Thread myNewThread = new Thread(() => ControllerHelper.GetVolunteersFromCsv(vollunteercollection
                  , result, duplicates
@@ -89,6 +92,8 @@ namespace Finalaplication.Controllers
                 
 
                 string docsimported = documentsimported.ToString();
+
+               
                 return RedirectToAction("ImportUpdate", "Beneficiary", new { duplicates, docsimported });
             }
             catch
