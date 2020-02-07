@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -64,82 +65,10 @@ namespace Finalaplication.Controllers
                 }
                 CSVImportParser cSV = new CSVImportParser(path);
                 List<string[]> result = cSV.ExtractDataFromFile(path);
-                foreach (var details in result)
-                {
-                    Event ev = new Event();
 
-                    try
-                    {
-                        ev.NameOfEvent = details[0];
-                    }
-                    catch
-                    {
-                        ev.NameOfEvent = "Invalid name";
-                    }
-                    try
-                    {
-                        ev.PlaceOfEvent = details[1];
-                    }
-                    catch
-                    {
-                        ev.PlaceOfEvent = "Invalid Place";
-                    }
+                Thread myNewThread = new Thread(() => ControllerHelper.GetEventsFromCsv(eventcollection, result));
+                myNewThread.Start();
 
-                    try
-                    {
-                        if (details[2] == null || details[2] == "" || details[2] == "0")
-                        {
-                            ev.DateOfEvent = DateTime.MinValue;
-                        }
-                        else
-                        {
-                            DateTime data;
-                            if (details[2].Contains("/") == true)
-                            {
-                                string[] date = details[2].Split(" ");
-                                string[] FinalDate = date[0].Split("/");
-                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                            }
-                            else
-                            {
-                                string[] anotherDate = details[2].Split('.');
-                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                            }
-                            ev.DateOfEvent = data.AddDays(1);
-                        }
-                    }
-                    catch
-                    {
-                        ev.DateOfEvent = DateTime.MinValue;
-                    }
-
-                    if (details[3] == "" || details[3] == null)
-                    {
-                        ev.NumberOfVolunteersNeeded = 0;
-                    }
-                    else
-                    {
-                        ev.NumberOfVolunteersNeeded = Convert.ToInt16(details[3]);
-                    }
-                    try
-                    {
-                        ev.TypeOfActivities = details[4];
-                        ev.TypeOfEvent = details[5];
-                        ev.Duration = details[6];
-                        ev.AllocatedVolunteers = details[7];
-                        ev.AllocatedSponsors = details[8];
-                    }
-                    catch
-                    {
-                        ev.TypeOfActivities = "An error has occured";
-                        ev.TypeOfEvent = "An error has occured";
-                        ev.Duration = "0";
-                        ev.AllocatedVolunteers = "An error has occured";
-                        ev.AllocatedSponsors = "An error has occured";
-                    }
-
-                    eventcollection.InsertOne(ev);
-                }
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
