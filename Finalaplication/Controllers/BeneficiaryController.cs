@@ -17,11 +17,27 @@ using VolCommon;
 
 namespace Finalaplication.Controllers
 {
+   
+
+
     public class BeneficiaryController : Controller
     {
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+
+        public static string DuplicatesCallback(string duplicates)
+        {
+            return duplicates;
+        }
+        public static int Documentsimportedcallback(int documentsimported)
+        {
+            return documentsimported;
+        }
+        public static string ValuesCallback(string values)
+        {
+            return values;
+        }
 
         public BeneficiaryController()
         {
@@ -43,6 +59,8 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
+            string value = "0%";
+            
             try
             {
                 string path = " ";
@@ -68,19 +86,35 @@ namespace Finalaplication.Controllers
                 string duplicates = "";
                 int documentsimported = 0;
 
+
+                FileInfo file = new FileInfo(path);
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+                //           }
+                //   Thread myNewThread = new Thread(() => ControllerHelper.GetBeneficiaryFromCsv(beneficiarycollection
+                //, result, duplicates
+                // , documentsimported));
+                //   myNewThread.Start();
                 
-                        FileInfo file = new FileInfo(path);
-                        if (file.Exists)
-                        {
-                            file.Delete();
-                        }
-                Thread myNewThread = new Thread(() => ControllerHelper.GetBeneficiaryFromCsv(beneficiarycollection
-             , result, duplicates
-              , documentsimported));
-                myNewThread.Start();
+                    DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
+                    Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
+                    ValueCallback callback3 = new ValueCallback(ValuesCallback);
+                
+                    ProcessDataBeneficiary processed = new ProcessDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2, callback3);
+                    Thread myThread = new Thread(() => processed.GetProcessedB(beneficiarycollection, result, duplicates, documentsimported));
+
+                myThread.Start();
+               
+               
+                ViewBag.Process = value;
+
 
                 string docsimported = documentsimported.ToString();
-                return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
+
+                    return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
+                
             }
             catch
             {

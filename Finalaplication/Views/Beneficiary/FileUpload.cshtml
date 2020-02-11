@@ -3,6 +3,7 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "FileUpload";
+    string value = ViewBag.Progress;
 }
 
 <form action="./FileUpload"
@@ -26,7 +27,7 @@
         <output name="result"></output>
     </div>
 
-    <div id="progress" class="progress"><div id="bar" class="bar"></div><div id="label" class="label">0%</div>
+    <div id="progress" class="progress" style="width:@value"><div id="bar" class="bar"></div><div id="label" class="label">@value</div>
 </form>
 
 
