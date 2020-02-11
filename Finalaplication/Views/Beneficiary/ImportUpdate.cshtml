@@ -30,12 +30,36 @@
                 background-color: blue;
                 height: 1.25em;
             }
+        #loading {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: block;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+            text-align: center;
+        }
+
+        #loading-image {
+            position: absolute;
+            top: 100px;
+            left: 240px;
+            z-index: 100;
+        }
     </style>
 </head>
 <h1>Import Update</h1>
 
 
-<div class="progress-bar"><div style="width: 0"></div></div>
+@*<div class="progress-bar"><div style="width: 0"></div></div>*@
+
+<div id="loading">
+
+    <img src="~/Views/Beneficiary/loader.gif" id="loading-image" alt="Loading..." />
+</div>
 
 @if (Convert.ToInt64(docsimported) > 1)
 {
@@ -102,4 +126,11 @@ else
     });
 
 
+</script>
+<script>
+    <script>
+        $(window).load(function() {
+            $('#loading').hide();
+        });
+</script>
 </script>

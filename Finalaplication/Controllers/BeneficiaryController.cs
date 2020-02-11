@@ -26,12 +26,14 @@ namespace Finalaplication.Controllers
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
 
-        public static string DuplicatesCallback(string duplicates)
+        public string DuplicatesCallback(string duplicates)
         {
+            TempData["duplicates"] = duplicates;
             return duplicates;
         }
-        public static int Documentsimportedcallback(int documentsimported)
+        public int Documentsimportedcallback(int documentsimported)
         {
+            TempData["docsimported"] = documentsimported;
             return documentsimported;
         }
        
@@ -104,16 +106,14 @@ namespace Finalaplication.Controllers
 
                 myThread.Start();
 
-                myThread.Join();
+               // myThread.Join();
 
-                //if (myThread.ThreadState.ToString() == " Stopped")
-                //{
-                //    TempData["documentsimported"] = BeneficiaryController.DuplicatesCallback(documentsimported.ToString());
 
-                //}
-                string docsimported = documentsimported.ToString();
-                
-                    return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
+
+                string docsimported = TempData.Peek("docsimported").ToString();
+                duplicates = TempData.Peek("duplicates").ToString();
+
+                return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
                 
             }
             catch
