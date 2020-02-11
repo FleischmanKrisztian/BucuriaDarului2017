@@ -3,30 +3,35 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "FileUpload";
+
+
 }
+
 
 <form action="./FileUpload"
       enctype="multipart/form-data"
       method="post">
     <dl>
-        
+
         <dt>
             <label for="files">@Localizer["Choose"]:</label>
         </dt>
-        
+
         <dd>
             <input type="file" id="myFile" name="Files">
 
         </dd>
     </dl>
 
-    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
 
     <div style="margin-top:15px">
         <output name="result"></output>
     </div>
 
-    <div id="progress" class="progress"><div id="bar" class="bar"></div><div id="label" class="label">0%</div>
+
+    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
 </form>
 
 
@@ -36,4 +41,5 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 </script>
+
 
