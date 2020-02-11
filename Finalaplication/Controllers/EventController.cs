@@ -69,6 +69,8 @@ namespace Finalaplication.Controllers
                 Thread myNewThread = new Thread(() => ControllerHelper.GetEventsFromCsv(eventcollection, result));
                 myNewThread.Start();
 
+                myNewThread.Join();
+
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {

@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using VolCommon;
 
 namespace Finalaplication.Controllers
 {
@@ -64,8 +63,9 @@ namespace Finalaplication.Controllers
 
                 CSVImportParser cSV = new CSVImportParser(path);
                 List<string[]> result = cSV.ExtractDataFromFile(path);
-                Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection,result));
+                Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection, result));
                 myNewThread.Start();
+                myNewThread.Join();
 
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
@@ -118,9 +118,7 @@ namespace Finalaplication.Controllers
             return Redirect(ids_and_options);
         }
 
-
-
-        public IActionResult Index(string searching, int page,string ContactInfo, DateTime lowerdate, DateTime upperdate,bool HasContract,string WhatGoods,string MoneyAmount, string GoodsAmounts)
+        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
 
         {
             try
@@ -148,10 +146,11 @@ namespace Finalaplication.Controllers
                 if (ContactInfo != null)
                 {
                     List<Sponsor> sp = sponsors;
-                    foreach(var s in sp)
-                    {if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
+                    foreach (var s in sp)
+                    {
+                        if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
                             s.ContactInformation.PhoneNumber = "-";
-                        if (s.ContactInformation.MailAdress== null || s.ContactInformation.MailAdress == "")
+                        if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
                             s.ContactInformation.MailAdress = "-";
                     }
                     try
@@ -159,23 +158,23 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo) || x.ContactInformation.MailAdress.Contains(ContactInfo)).ToList();
                     }
                     catch { }
-                    }
+                }
                 if (lowerdate > d1)
                 {
-                    sponsors = sponsors.Where(x => x.Sponsorship.Date> lowerdate).ToList();
+                    sponsors = sponsors.Where(x => x.Sponsorship.Date > lowerdate).ToList();
                 }
                 if (upperdate > d1)
                 {
                     sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
                 }
-                if (HasContract ==true)
+                if (HasContract == true)
                 {
                     sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
                 }
                 if (WhatGoods != null)
                 {
                     List<Sponsor> sp = sponsors;
-                    foreach(var s in sp)
+                    foreach (var s in sp)
                     {
                         if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
                             s.Sponsorship.WhatGoods = "-";
@@ -185,7 +184,7 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods)).ToList();
                     }
                     catch { }
-                    }
+                }
                 if (GoodsAmounts != null)
                 {
                     List<Sponsor> sp = sponsors;
@@ -199,7 +198,7 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts)).ToList();
                     }
                     catch { }
-                    }
+                }
                 if (MoneyAmount != null)
                 {
                     List<Sponsor> sp = sponsors;
@@ -213,7 +212,7 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount)).ToList();
                     }
                     catch { }
-                    }
+                }
                 ViewBag.counter = sponsors.Count();
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = "sponsors";

@@ -18,12 +18,24 @@ using VolCommon;
 
 namespace Finalaplication.Controllers
 {
+
     public class VolunteerController : Controller
     {
         private MongoDBContext dbcontext;
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Volcontract> volcontractcollection;
+
+        public string DCallback(string duplicates)
+        {
+            TempData["duplicatesv"] = duplicates;
+            return duplicates;
+        }
+        public int Importedcallback(int documentsimported)
+        {
+            TempData["docsimportedv"] = documentsimported;
+            return documentsimported;
+        }
 
         public VolunteerController()
         {
@@ -72,9 +84,7 @@ namespace Finalaplication.Controllers
                 string duplicates = "";
                 int documentsimported = 0;
 
-                int number = result.Count();
-                TempData["numberOfFiles"]= number;
-             
+               
 
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
@@ -82,20 +92,31 @@ namespace Finalaplication.Controllers
                     file.Delete();
                 }
 
-                
 
-                
 
-                Thread myNewThread = new Thread(() => ControllerHelper.GetVolunteersFromCsv(vollunteercollection
-                 , result, duplicates
-                  , documentsimported));
-                myNewThread.Start();
 
-                
 
-                string docsimported = documentsimported.ToString();
+                //Thread myNewThread = new Thread(() => ControllerHelper.GetVolunteersFromCsv(vollunteercollection
+                // , result, duplicates
+                //  , documentsimported));
+                //myNewThread.Start();
 
-               
+                DCallback _callback1 = new DCallback(DCallback);
+                Importedcallback _callback2 = new Importedcallback(Importedcallback);
+
+
+                ProcessedDataVolunteer processedVolunteers = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, _callback1, _callback2);
+                Thread myThreadVolunteer = new Thread(() =>processedVolunteers.GetProcessedV(vollunteercollection, result, duplicates, documentsimported));
+
+                myThreadVolunteer.Start();
+
+                myThreadVolunteer.Join();
+
+
+                string docsimported = TempData.Peek("docsimportedv").ToString();
+                duplicates = TempData.Peek("duplicatesv").ToString();
+
+
                 return RedirectToAction("ImportUpdate", "Beneficiary", new { duplicates, docsimported });
             }
             catch

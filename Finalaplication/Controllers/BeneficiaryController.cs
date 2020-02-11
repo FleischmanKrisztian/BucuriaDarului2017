@@ -58,7 +58,7 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-            string value = "0%";
+            
 
             try
             {
@@ -106,7 +106,7 @@ namespace Finalaplication.Controllers
 
                 myThread.Start();
 
-               // myThread.Join();
+                myThread.Join();
 
 
 
