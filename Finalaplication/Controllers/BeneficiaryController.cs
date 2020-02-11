@@ -34,10 +34,7 @@ namespace Finalaplication.Controllers
         {
             return documentsimported;
         }
-        public static string ValuesCallback(string values)
-        {
-            return values;
-        }
+       
 
         public BeneficiaryController()
         {
@@ -60,7 +57,7 @@ namespace Finalaplication.Controllers
         public ActionResult FileUpload(IFormFile Files)
         {
             string value = "0%";
-            
+
             try
             {
                 string path = " ";
@@ -97,22 +94,25 @@ namespace Finalaplication.Controllers
                 //, result, duplicates
                 // , documentsimported));
                 //   myNewThread.Start();
-                
-                    DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
-                    Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
-                    ValueCallback callback3 = new ValueCallback(ValuesCallback);
-                
-                    ProcessDataBeneficiary processed = new ProcessDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2, callback3);
-                    Thread myThread = new Thread(() => processed.GetProcessedB(beneficiarycollection, result, duplicates, documentsimported));
+
+                DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
+                Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
+
+
+                ProcessDataBeneficiary processed = new ProcessDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2);
+                Thread myThread = new Thread(() => processed.GetProcessedB(beneficiarycollection, result, duplicates, documentsimported));
 
                 myThread.Start();
-               
-               
-                ViewBag.Process = value;
 
+                myThread.Join();
 
+                //if (myThread.ThreadState.ToString() == " Stopped")
+                //{
+                //    TempData["documentsimported"] = BeneficiaryController.DuplicatesCallback(documentsimported.ToString());
+
+                //}
                 string docsimported = documentsimported.ToString();
-
+                
                     return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
                 
             }

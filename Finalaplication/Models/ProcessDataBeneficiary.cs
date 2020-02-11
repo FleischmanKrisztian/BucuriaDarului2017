@@ -9,7 +9,7 @@ namespace Finalaplication.Models
 {
     public delegate  string DuplicatesCallback(string duplicates);
     public delegate int Documentsimportedcallback(int documentsimported);
-    public delegate string ValueCallback(string values);
+    
 
     public class ProcessDataBeneficiary
     {
@@ -19,7 +19,7 @@ namespace Finalaplication.Models
          int documentsimported;
         DuplicatesCallback callback1;
         Documentsimportedcallback callback2;
-         ValueCallback callback3;
+         
 
 
         public   ProcessDataBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
@@ -27,8 +27,8 @@ namespace Finalaplication.Models
         string duplicates,
         int documentsimported, 
         DuplicatesCallback _callback1,
-        Documentsimportedcallback _callback2,
-        ValueCallback _callback3)
+        Documentsimportedcallback _callback2
+        )
         {
             this.beneficiarycollection = beneficiarycollection;
             this.result = result;
@@ -36,38 +36,16 @@ namespace Finalaplication.Models
             this.documentsimported = documentsimported;
             this.callback1 = _callback1;
             this.callback2 = _callback2;
-            this.callback3 = _callback3;
+            
         }
 
         public  void GetProcessedB(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
         {
-            string value = "0%";
-            int op = 1;
+           
             
                 foreach (var details in result)
                 {
-                    op = op + 1;
-
-                    if ((op * 0.1) == 10)
-                    { value = "10%"; }
-                    if ((op * 0.2) == 20)
-                    { value = "20%"; }
-                    if ((op * 0.3) == 30)
-                    { value = "30%"; }
-                    if ((op * 0.4) == 40)
-                    { value = "40%"; }
-                    if ((op * 0.5) == 50)
-                    { value = "50%"; }
-                    if ((op * 0.6) == 60)
-                    { value = "60%"; }
-                    if ((op * 0.7) == 70)
-                    { value = "70%"; }
-                    if ((op * 0.8) == 80)
-                    { value = "80%"; }
-                    if ((op * 0.9) == 90)
-                    { value = "90%"; }
-                    if (op == result.Count())
-                    { value = "100%"; }
+                   
                     if (beneficiarycollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                     {
                         duplicates = duplicates + details[0] + ", ";
@@ -395,7 +373,7 @@ namespace Finalaplication.Models
                             beneficiary.CI = ciInfo;
 
                             beneficiarycollection.InsertOne(beneficiary);
-                            callback3?.Invoke(value);
+                           
                         }
                         else
                         {
@@ -667,7 +645,7 @@ namespace Finalaplication.Models
                             beneficiary.CI = ciInfo;
 
                             beneficiarycollection.InsertOne(beneficiary);
-                            callback3?.Invoke(value);
+                           
                         }
 
                     }
