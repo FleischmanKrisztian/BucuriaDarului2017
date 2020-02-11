@@ -175,8 +175,8 @@ namespace Finalaplication.Common
             }
         }
 
-        public static void GetSponsorsFromCsv(IMongoCollection<Sponsor> sponsorcollection, List<string[]> result )
-        { 
+        public static void GetSponsorsFromCsv(IMongoCollection<Sponsor> sponsorcollection, List<string[]> result)
+        {
             foreach (var details in result)
             {
                 Sponsor sponsor = new Sponsor();
@@ -303,7 +303,7 @@ namespace Finalaplication.Common
                 {
                 }
             }
-        
+
         }
         public static string GetBeneficiaryFromCsv(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
         {
@@ -915,7 +915,7 @@ namespace Finalaplication.Common
         }
 
 
-            public static string GetVolunteersFromCsv(IMongoCollection<Volunteer> vollunteercollection, List<string[]> result, string duplicates, int documentsimported)
+        public static void GetVolunteersFromCsv(IMongoCollection<Volunteer> vollunteercollection, List<string[]> result, string duplicates, int documentsimported)
         {
             foreach (var details in result)
             {
@@ -1252,9 +1252,11 @@ namespace Finalaplication.Common
 
                     }
                 }
-                
+
             }
-            return  duplicates;
         }
+
+
+
     }
 }
