@@ -3,6 +3,7 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "FileUpload";
+    string value = ViewBag.Progress;
 }
 
 <form action="./FileUpload"
@@ -26,9 +27,8 @@
         <output name="result"></output>
     </div>
 
-   
-</form>
 
+</form>
 
 <script type="text/javascript">
     $(".custom-file-input").on("change", function () {
