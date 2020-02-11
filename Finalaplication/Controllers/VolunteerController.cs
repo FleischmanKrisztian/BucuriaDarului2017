@@ -72,7 +72,8 @@ namespace Finalaplication.Controllers
                 string duplicates = "";
                 int documentsimported = 0;
 
-              
+                int number = result.Count();
+                TempData["numberOfFiles"]= number;
              
 
                 FileInfo file = new FileInfo(path);

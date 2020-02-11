@@ -4,31 +4,8 @@
 @{
     ViewData["Title"] = "FileUpload";
 
+
 }
-<head>
-    <style>
-        progressbar-outer {
-            height: 2em;
-            border: 5px solid #000;
-            width: 15em;
-        }
-
-        #progressbar {
-            width: 0%;
-            background-color: #F00;
-            height: 100%;
-        }
-        .progress-bar {
-            border: 1px solid black;
-            background-color: #f0f0f0;
-        }
-
-            .progress-bar div {
-                background-color: blue;
-                height: 1.25em;
-            }
-    </style>
-</head>
 
 
 <form action="./FileUpload"
@@ -46,15 +23,15 @@
         </dd>
     </dl>
 
-    <input id="start_button" class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
 
     <div style="margin-top:15px">
         <output name="result"></output>
     </div>
 
 
-    <div class="progress-bar"><div style="width: 0"></div></div>
-    
+    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
+
 </form>
 
 
@@ -65,36 +42,4 @@
     });
 </script>
 
-<script>
-    //var input = document.getElementById(inputId);
-    //var collection = input.files;
-    
-    function delayedLoop(collection, delay, callback, context) {
-        context = context || null;
-
-        var i = 0,
-            nextInteration = function () {
-                if (i === collection.length) {
-                    return;
-                }
-
-                callback.call(context, collection[i], i);
-                i++;
-                setTimeout(nextInteration, delay);
-            };
-
-        nextInteration();
-    }
-
-    var progressBar = document.querySelector(".progress-bar div"),
-        items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-    delayedLoop(items, 500, function (item, index) {
-        var width = (item / items.length * 100) + "%";
-        progressBar.style.width = width;
-        progressBar.innerHTML = width;
-    });
-
-
-</script>
 
