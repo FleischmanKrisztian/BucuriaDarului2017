@@ -5,38 +5,34 @@
     ViewData["Title"] = "FileUpload";
     string value = ViewBag.Progress;
 }
+<html>
+<body>
 
-<form action="./FileUpload"
-      enctype="multipart/form-data"
-      method="post">
-    <dl>
+    <form action="./FileUpload"
+          enctype="multipart/form-data"
+          method="post">
+        <dl>
 
-        <dt>
-            <label for="files">@Localizer["Choose"]:</label>
-        </dt>
+            <dt>
+                <label for="files">@Localizer["Choose"]:</label>
+            </dt>
 
-        <dd>
-            <input type="file" id="myFile" name="Files">
+            <dd>
+                <input type="file" id="myFile" name="Files">
 
-        </dd>
-    </dl>
+            </dd>
+        </dl>
 
-    
-    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
-    
-  
+        <button class="button" type="submit">@Localizer["Upload"]</button>
 
-    <div style="margin-top:15px">
-        <output name="result"></output>
-    </div>
+        <div style="margin-top:15px">
+            <output name="result"></output>
+        </div>
+    </form>
+<script src="~/js/site.js"></script>
+</body>
+</html>
 
 
-</form>
 
-<script type="text/javascript">
-    $(".custom-file-input").on("change", function () {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    });
-</script>
 

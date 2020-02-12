@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+@model IEnumerable<Finalaplication.Models.Volunteer>
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
@@ -6,40 +6,37 @@
 
 
 }
+<html>
+<body>
 
 
-<form action="./FileUpload"
-      enctype="multipart/form-data"
-      method="post">
-    <dl>
+    <form action="./FileUpload"
+          enctype="multipart/form-data"
+          method="post">
+        <dl>
 
-        <dt>
-            <label for="files">@Localizer["Choose"]:</label>
-        </dt>
 
-        <dd>
-            <input type="file" id="myFile" name="Files">
-
-        </dd>
-    </dl>
+            <dt>
+                <label for="files">@Localizer["Choose"]:</label>
+            </dt>
 
 
 
-    <div style="margin-top:15px">
-        <output name="result"></output>
-    </div>
+            <dd>
+                <input type="file" id="myFile" name="Files">
+
+            </dd>
+        </dl>
 
 
-    <input class="btn btn-info" type="submit" value=@Localizer["Upload"] />
-
-</form>
+        <button class="button" type="submit">@Localizer["Upload"]</button>
 
 
-<script type="text/javascript">
-    $(".custom-file-input").on("change", function () {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    });
-</script>
-
+        <div style="margin-top:15px">
+            <output name="result"></output>
+        </div>
+    </form>
+    <script src="~/js/site.js"></script>
+</body>
+</html>
 
