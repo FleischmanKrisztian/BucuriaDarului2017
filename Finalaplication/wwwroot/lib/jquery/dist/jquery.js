@@ -272,8 +272,27 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 	// Return the modified object
 	return target;
-};
+    };
 
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    </script >
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".button").click(function () {
+                    $(this).addClass("active");
+
+                    setTimeout(function () {
+                        $(".button").addClass("spinn");
+                    }, 100);
+                });
+        });
+    
 jQuery.extend( {
 	// Unique for each copy of jQuery on the page
 	expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),
