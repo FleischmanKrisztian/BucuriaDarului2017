@@ -104,6 +104,6 @@ body {
 }
 
 .spinn {
-    transition: 24s;
-    transform: rotate(5760deg);
+    transition: 48s;
+    transform: rotate(11520deg);
 }

@@ -86,7 +86,6 @@ namespace Finalaplication.Controllers
                         else
                         {
                             documentsimported++;
-                            //Mistake;we added a new aux in order to save the value from the last cell;
                             var aux = details[22];
                             for (int i = details.Length - 1; i > 0; i--)
                             {
@@ -299,8 +298,6 @@ namespace Finalaplication.Controllers
                         }
                         else
                         {
-                            documentsimported++;
-
                             Volunteer volunteer = new Volunteer();
                             try
                             {
