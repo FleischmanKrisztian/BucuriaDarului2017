@@ -1,10 +1,10 @@
 ﻿using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+using VolCommon;
 
 namespace Finalaplication.Common
 {
@@ -91,6 +91,216 @@ namespace Finalaplication.Common
             }
             date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.DefaultThreadCurrentCulture);
             return date;
+        }
+
+        public static void GetEventsFromCsv(IMongoCollection<Event> eventcollection, List<string[]> result)
+        {
+            foreach (var details in result)
+            {
+                Event ev = new Event();
+
+                try
+                {
+                    ev.NameOfEvent = details[0];
+                }
+                catch
+                {
+                    ev.NameOfEvent = "Invalid name";
+                }
+                try
+                {
+                    ev.PlaceOfEvent = details[1];
+                }
+                catch
+                {
+                    ev.PlaceOfEvent = "Invalid Place";
+                }
+
+                try
+                {
+                    if (details[2] == null || details[2] == "" || details[2] == "0")
+                    {
+                        ev.DateOfEvent = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        DateTime data;
+                        if (details[2].Contains("/") == true)
+                        {
+                            string[] date = details[2].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[2].Split('.');
+                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
+                        ev.DateOfEvent = data.AddDays(1);
+                    }
+                }
+                catch
+                {
+                    ev.DateOfEvent = DateTime.MinValue;
+                }
+
+                if (details[3] == "" || details[3] == null)
+                {
+                    ev.NumberOfVolunteersNeeded = 0;
+                }
+                else
+                {
+                    ev.NumberOfVolunteersNeeded = Convert.ToInt16(details[3]);
+                }
+                try
+                {
+                    ev.TypeOfActivities = details[4];
+                    ev.TypeOfEvent = details[5];
+                    ev.Duration = details[6];
+                    ev.AllocatedVolunteers = details[7];
+                    ev.AllocatedSponsors = details[8];
+                }
+                catch
+                {
+                    ev.TypeOfActivities = "An error has occured";
+                    ev.TypeOfEvent = "An error has occured";
+                    ev.Duration = "0";
+                    ev.AllocatedVolunteers = "An error has occured";
+                    ev.AllocatedSponsors = "An error has occured";
+                }
+
+                eventcollection.InsertOne(ev);
+            }
+        }
+
+        public static void GetSponsorsFromCsv(IMongoCollection<Sponsor> sponsorcollection, List<string[]> result)
+        {
+            foreach (var details in result)
+            {
+                Sponsor sponsor = new Sponsor();
+                Sponsorship s = new Sponsorship();
+
+                try
+                {
+                    sponsor.NameOfSponsor = details[0];
+                }
+                catch
+                {
+                    sponsor.NameOfSponsor = "Invalid name";
+                }
+                try
+                {
+                    if (details[1] == null || details[1] == "")
+                    {
+                        s.Date = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        DateTime data;
+                        if (details[1].Contains("/") == true)
+                        {
+                            string[] date = details[1].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[1].Split('.');
+                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
+
+                        s.Date = data.AddDays(1);
+                    }
+                }
+                catch
+                {
+                    s.Date = DateTime.MinValue;
+                }
+
+                try
+                {
+                    s.MoneyAmount = details[2];
+                    s.WhatGoods = details[3];
+                    s.GoodsAmount = details[4];
+                    sponsor.Sponsorship = s;
+                }
+                catch
+                {
+                    s.MoneyAmount = "Invalid entry";
+                    s.WhatGoods = "Invalid entry";
+                    s.GoodsAmount = "Invalid entry";
+                    sponsor.Sponsorship = s;
+                }
+
+                try
+                {
+                    Contract c = new Contract();
+                    if (details[5] == "True" || details[5] == "true")
+                    {
+                        c.HasContract = true;
+                    }
+                    else
+                    {
+                        c.HasContract = false;
+                    }
+
+                    c.NumberOfRegistration = details[6];
+
+                    if (details[7] == null || details[7] == "")
+                    {
+                        c.RegistrationDate = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        DateTime dataS;
+                        if (details[7].Contains("/") == true)
+                        {
+                            string[] date = details[7].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[7].Split('.');
+                            dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
+
+                        c.RegistrationDate = dataS.AddDays(1); ;
+                    }
+
+                    if (details[9] == null || details[8] == "")
+                    {
+                        c.ExpirationDate = DateTime.MinValue;
+                    }
+                    else
+                    {
+                        DateTime dataS;
+                        if (details[8].Contains("/") == true)
+                        {
+                            string[] date = details[8].Split(" ");
+                            string[] FinalDate = date[0].Split("/");
+                            dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                        }
+                        else
+                        {
+                            string[] anotherDate = details[8].Split('.');
+                            dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                        }
+
+                        c.ExpirationDate = dataS.AddDays(1); ;
+                    }
+                    sponsor.Contract = c;
+
+                    ContactInformation ci = new ContactInformation();
+                    ci.PhoneNumber = details[9];
+                    ci.MailAdress = details[10];
+                    sponsor.ContactInformation = ci;
+                    sponsorcollection.InsertOne(sponsor);
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }

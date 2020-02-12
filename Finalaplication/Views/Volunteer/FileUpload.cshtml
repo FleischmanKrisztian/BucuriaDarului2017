@@ -1,20 +1,26 @@
-﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+@model IEnumerable<Finalaplication.Models.Volunteer>
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "FileUpload";
+
+
 }
 <html>
 <body>
+
 
     <form action="./FileUpload"
           enctype="multipart/form-data"
           method="post">
         <dl>
 
+
             <dt>
                 <label for="files">@Localizer["Choose"]:</label>
             </dt>
+
+
 
             <dd>
                 <input type="file" id="myFile" name="Files">
@@ -22,7 +28,9 @@
             </dd>
         </dl>
 
+
         <button class="button" type="submit">@Localizer["Upload"]</button>
+
 
         <div style="margin-top:15px">
             <output name="result"></output>
@@ -31,3 +39,4 @@
     <script src="~/js/site.js"></script>
 </body>
 </html>
+

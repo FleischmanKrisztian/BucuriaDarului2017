@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VolCommon;
+using System.Threading;
 
 namespace Finalaplication.Controllers
 {
@@ -63,133 +63,10 @@ namespace Finalaplication.Controllers
 
                 CSVImportParser cSV = new CSVImportParser(path);
                 List<string[]> result = cSV.ExtractDataFromFile(path);
+                Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection, result));
+                myNewThread.Start();
+                myNewThread.Join();
 
-                foreach (var details in result)
-                {
-                    Sponsor sponsor = new Sponsor();
-                    Sponsorship s = new Sponsorship();
-
-                    try
-                    {
-                        sponsor.NameOfSponsor = details[0];
-                    }
-                    catch
-                    {
-                        sponsor.NameOfSponsor = "Invalid name";
-                    }
-                    try
-                    {
-                        if (details[1] == null || details[1] == "")
-                        {
-                            s.Date = DateTime.MinValue;
-                        }
-                        else
-                        {
-                            DateTime data;
-                            if (details[1].Contains("/") == true)
-                            {
-                                string[] date = details[1].Split(" ");
-                                string[] FinalDate = date[0].Split("/");
-                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                            }
-                            else
-                            {
-                                string[] anotherDate = details[1].Split('.');
-                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                            }
-
-                            s.Date = data.AddDays(1);
-                        }
-                    }
-                    catch
-                    {
-                        s.Date = DateTime.MinValue;
-                    }
-
-                    try
-                    {
-                        s.MoneyAmount = details[2];
-                        s.WhatGoods = details[3];
-                        s.GoodsAmount = details[4];
-                        sponsor.Sponsorship = s;
-                    }
-                    catch
-                    {
-                        s.MoneyAmount = "Invalid entry";
-                        s.WhatGoods = "Invalid entry";
-                        s.GoodsAmount = "Invalid entry";
-                        sponsor.Sponsorship = s;
-                    }
-
-                    try
-                    {
-                        Contract c = new Contract();
-                        if (details[5] == "True" || details[5] == "true")
-                        {
-                            c.HasContract = true;
-                        }
-                        else
-                        {
-                            c.HasContract = false;
-                        }
-
-                        c.NumberOfRegistration = details[6];
-
-                        if (details[7] == null || details[7] == "")
-                        {
-                            c.RegistrationDate = DateTime.MinValue;
-                        }
-                        else
-                        {
-                            DateTime dataS;
-                            if (details[7].Contains("/") == true)
-                            {
-                                string[] date = details[7].Split(" ");
-                                string[] FinalDate = date[0].Split("/");
-                                dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                            }
-                            else
-                            {
-                                string[] anotherDate = details[7].Split('.');
-                                dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                            }
-
-                            c.RegistrationDate = dataS.AddDays(1); ;
-                        }
-
-                        if (details[9] == null || details[8] == "")
-                        {
-                            c.ExpirationDate = DateTime.MinValue;
-                        }
-                        else
-                        {
-                            DateTime dataS;
-                            if (details[8].Contains("/") == true)
-                            {
-                                string[] date = details[8].Split(" ");
-                                string[] FinalDate = date[0].Split("/");
-                                dataS = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                            }
-                            else
-                            {
-                                string[] anotherDate = details[8].Split('.');
-                                dataS = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                            }
-
-                            c.ExpirationDate = dataS.AddDays(1); ;
-                        }
-                        sponsor.Contract = c;
-
-                        ContactInformation ci = new ContactInformation();
-                        ci.PhoneNumber = details[9];
-                        ci.MailAdress = details[10];
-                        sponsor.ContactInformation = ci;
-                        sponsorcollection.InsertOne(sponsor);
-                    }
-                    catch
-                    {
-                    }
-                }
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
@@ -241,9 +118,7 @@ namespace Finalaplication.Controllers
             return Redirect(ids_and_options);
         }
 
-
-
-        public IActionResult Index(string searching, int page,string ContactInfo, DateTime lowerdate, DateTime upperdate,bool HasContract,string WhatGoods,string MoneyAmount, string GoodsAmounts)
+        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
 
         {
             try
@@ -271,10 +146,11 @@ namespace Finalaplication.Controllers
                 if (ContactInfo != null)
                 {
                     List<Sponsor> sp = sponsors;
-                    foreach(var s in sp)
-                    {if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
+                    foreach (var s in sp)
+                    {
+                        if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
                             s.ContactInformation.PhoneNumber = "-";
-                        if (s.ContactInformation.MailAdress== null || s.ContactInformation.MailAdress == "")
+                        if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
                             s.ContactInformation.MailAdress = "-";
                     }
                     try
@@ -282,23 +158,23 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo) || x.ContactInformation.MailAdress.Contains(ContactInfo)).ToList();
                     }
                     catch { }
-                    }
+                }
                 if (lowerdate > d1)
                 {
-                    sponsors = sponsors.Where(x => x.Sponsorship.Date> lowerdate).ToList();
+                    sponsors = sponsors.Where(x => x.Sponsorship.Date > lowerdate).ToList();
                 }
                 if (upperdate > d1)
                 {
                     sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
                 }
-                if (HasContract ==true)
+                if (HasContract == true)
                 {
                     sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
                 }
                 if (WhatGoods != null)
                 {
                     List<Sponsor> sp = sponsors;
-                    foreach(var s in sp)
+                    foreach (var s in sp)
                     {
                         if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
                             s.Sponsorship.WhatGoods = "-";
@@ -308,7 +184,7 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods)).ToList();
                     }
                     catch { }
-                    }
+                }
                 if (GoodsAmounts != null)
                 {
                     List<Sponsor> sp = sponsors;
@@ -322,7 +198,7 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts)).ToList();
                     }
                     catch { }
-                    }
+                }
                 if (MoneyAmount != null)
                 {
                     List<Sponsor> sp = sponsors;
@@ -336,7 +212,7 @@ namespace Finalaplication.Controllers
                         sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount)).ToList();
                     }
                     catch { }
-                    }
+                }
                 ViewBag.counter = sponsors.Count();
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = "sponsors";
