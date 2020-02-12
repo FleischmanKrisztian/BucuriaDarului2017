@@ -17,9 +17,6 @@ using VolCommon;
 
 namespace Finalaplication.Controllers
 {
-   
-
-
     public class BeneficiaryController : Controller
     {
         private MongoDBContext dbcontext;
@@ -31,12 +28,12 @@ namespace Finalaplication.Controllers
             TempData["duplicates"] = duplicates;
             return duplicates;
         }
+
         public int Documentsimportedcallback(int documentsimported)
         {
             TempData["docsimported"] = documentsimported;
             return documentsimported;
         }
-       
 
         public BeneficiaryController()
         {
@@ -58,8 +55,6 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-            
-
             try
             {
                 string path = " ";
@@ -85,21 +80,14 @@ namespace Finalaplication.Controllers
                 string duplicates = "";
                 int documentsimported = 0;
 
-
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
-                //           }
-                //   Thread myNewThread = new Thread(() => ControllerHelper.GetBeneficiaryFromCsv(beneficiarycollection
-                //, result, duplicates
-                // , documentsimported));
-                //   myNewThread.Start();
 
                 DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
                 Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
-
 
                 ProcessDataBeneficiary processed = new ProcessDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2);
                 Thread myThread = new Thread(() => processed.GetProcessedB(beneficiarycollection, result, duplicates, documentsimported));
@@ -108,13 +96,10 @@ namespace Finalaplication.Controllers
 
                 myThread.Join();
 
-
-
                 string docsimported = TempData.Peek("docsimported").ToString();
                 duplicates = TempData.Peek("duplicates").ToString();
 
                 return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
-                
             }
             catch
             {
@@ -162,7 +147,7 @@ namespace Finalaplication.Controllers
                     ViewBag.Page = 1;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
-               
+
                 ViewBag.Homeless = Homeless;
                 ViewBag.Weeklypackage = Weeklypackage;
                 ViewBag.Canteen = Canteen;
@@ -204,12 +189,12 @@ namespace Finalaplication.Controllers
                 if (searching != null)
                 {
                     List<Beneficiary> bene = beneficiaries;
-                    foreach(var b in bene)
-                    {if(b.Fullname==null || b.Fullname=="")
+                    foreach (var b in bene)
+                    {
+                        if (b.Fullname == null || b.Fullname == "")
                         { b.Fullname = "-"; }
                     }
                     try { beneficiaries = bene.Where(x => x.Fullname.Contains(searching)).ToList(); } catch { }
-                    
                 }
                 if (Homeless == true)
                 {
@@ -508,8 +493,6 @@ namespace Finalaplication.Controllers
                     }
                     beneficiaries = bene.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences)).ToList();
                 }
-
-               
 
                 switch (sortOrder)
                 {

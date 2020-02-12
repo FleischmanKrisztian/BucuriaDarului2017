@@ -92,15 +92,6 @@ namespace Finalaplication.Controllers
                     file.Delete();
                 }
 
-
-
-
-
-                //Thread myNewThread = new Thread(() => ControllerHelper.GetVolunteersFromCsv(vollunteercollection
-                // , result, duplicates
-                //  , documentsimported));
-                //myNewThread.Start();
-
                 DCallback _callback1 = new DCallback(DCallback);
                 Importedcallback _callback2 = new Importedcallback(Importedcallback);
 
