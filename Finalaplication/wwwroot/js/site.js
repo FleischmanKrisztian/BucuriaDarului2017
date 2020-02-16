@@ -4,11 +4,11 @@
 // Write your JavaScript code.
 
 $(document).ready(function () {
-    $(".button").click(function () {
+    $(".buttonx").click(function () {
         $(this).addClass("active");
 
         setTimeout(function () {
-            $(".button").addClass("spinn");
+            $(".buttonx").addClass("spinn");
         }, 100);
     });
 });
