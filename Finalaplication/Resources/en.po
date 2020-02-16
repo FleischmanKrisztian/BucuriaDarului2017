@@ -1,4 +1,16 @@
-﻿msgid "Active"
+﻿msgid "Show all volunteers"
+msgstr "Show all volunteers"
+msgid "Show all beneficiaries"
+msgstr "Show all beneficiaries"
+
+msgid "Show all events"
+msgstr "Show all events"
+
+msgid "Show all sponsors"
+msgstr "Show all sponsors"
+
+
+msgid "Active"
 msgstr "Active"
 
 msgid "Addictions"	

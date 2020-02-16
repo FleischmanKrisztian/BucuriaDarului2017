@@ -1,4 +1,15 @@
-﻿msgid "Active"	
+﻿msgid "Show all volunteers"
+msgstr "Arată toți voluntarii"
+msgid "Show all beneficiaries"
+msgstr "Arată toți beneficiarii"
+
+msgid "Show all events"
+msgstr "Arată toate evenimentele"
+
+msgid "Show all sponsors"
+msgstr "Arată toți sponsorii"
+
+msgid "Active"	
 msgstr "Activ"
 msgid "Addictions"	
 msgstr "Dependențe"

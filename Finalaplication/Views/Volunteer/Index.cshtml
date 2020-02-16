@@ -54,6 +54,37 @@
             max-height: 200px;
             overflow-x: hidden;
         }
+        .control-fluid, .container-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .control-content .control-section {
+            border-width: 0px !important;
+        }
+
+        .control-section .control-wrapper {
+            width: 80%;
+            margin: 0 auto;
+            min-width: 185px;
+        }
+
+        .e-bigger .control-section .control-wrapper {
+            width: 100%;
+        }
+
+        .property-section .right-side {
+            padding-left: 10px;
+        }
+
+        .property-section .left-side {
+            padding: 5px;
+            width: 25%
+        }
+
+        .control-styles {
+            padding-top: 30px
+        }
     </style>
 </head>
 
@@ -74,6 +105,11 @@
         <br />
     </div>
     <p>
+
+
+
+
+
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
             @{
@@ -131,7 +167,7 @@
             </pre>
         </div>
     </p>
-
+    @Html.CheckBox("crearAll") @Localizer["Show all volunteers"]
     <table class="table">
         <tr>
             <th>
@@ -165,7 +201,7 @@
             </th>
             <th>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 
                         @Localizer["Filters"]:
                     </button>

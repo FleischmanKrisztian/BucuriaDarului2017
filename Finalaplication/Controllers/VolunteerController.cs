@@ -116,344 +116,375 @@ namespace Finalaplication.Controllers
             }
         }
 
-         public ActionResult Index(string lang,bool HasDrivingLicence,string searchingLastname, string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
+         public ActionResult Index(bool crearAll,string lang,bool HasDrivingLicence,string searchingLastname, string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
 
         {
+             
             try
             {
-                if (activetill < activesince && activetill > DateTime.Now.AddYears(-2000))
-                {
-                    ViewBag.wrongorder = true;
-                    RedirectToPage("Index");
-                }
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                ViewBag.lang = lang;
-                ViewBag.searchingLastname = searchingLastname;
-                ViewBag.searching = searching;
-                ViewBag.active = Active;
-                if (page > 0)
-                    ViewBag.Page = page;
-                else
-                    ViewBag.Page = 1;
-                ViewBag.ContactInfo = searchedContact;
-                ViewBag.SortOrder = sortOrder;
-                ViewBag.Address = searchedAddress;
-                ViewBag.Occupation = searchedOccupation;
-                ViewBag.Remarks = searchedRemarks;
-                ViewBag.HourCount = searchedHourCount;
-                ViewBag.Upperdate = upperdate;
-                ViewBag.Lowerdate = lowerdate;
-                ViewBag.Activesince = activesince;
-                ViewBag.Activetill = activetill;
-                ViewBag.Gender = gender;
-                ViewBag.hascar = HasCar;
-                ViewBag.DesiredWorkplace = searchedworkplace;
-                ViewBag.hasDriverLicence = HasDrivingLicence;
-                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-                ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
-                ViewBag.HourCountSort = sortOrder == "Hourcount" ? "Hourcount_desc" : "Hourcount";
-                ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
-                ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+                   
 
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                DateTime d1 = new DateTime(0003, 1, 1);
-                if (searching != null)
+                if (crearAll != true)
                 {
-                    try
+                    int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                    ViewBag.lang = lang;
+                    if (page > 0)
+                        ViewBag.Page = page;
+                    else
+                        ViewBag.Page = 1;
+                    ViewBag.searchingLastname = searchingLastname;
+                    ViewBag.searching = searching;
+                    ViewBag.active = Active;
+                    
+                    ViewBag.ContactInfo = searchedContact;
+                    ViewBag.SortOrder = sortOrder;
+                    ViewBag.Address = searchedAddress;
+                    ViewBag.Occupation = searchedOccupation;
+                    ViewBag.Remarks = searchedRemarks;
+                    ViewBag.HourCount = searchedHourCount;
+                    ViewBag.Upperdate = upperdate;
+                    ViewBag.Lowerdate = lowerdate;
+                    ViewBag.Activesince = activesince;
+                    ViewBag.Activetill = activetill;
+                    ViewBag.Gender = gender;
+                    ViewBag.hascar = HasCar;
+                    ViewBag.DesiredWorkplace = searchedworkplace;
+                    ViewBag.hasDriverLicence = HasDrivingLicence;
+                    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                    ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+                    ViewBag.LastnameSort = sortOrder == "Lastname" ? "Lastname_desc" : "Lastname";
+                    ViewBag.HourCountSort = sortOrder == "Hourcount" ? "Hourcount_desc" : "Hourcount";
+                    ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+                    ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+                    if (activetill < activesince && activetill > DateTime.Now.AddYears(-2000))
                     {
-                        volunteers = volunteers.Where(x => x.Firstname.Contains(searching) ).ToList();
+                        ViewBag.wrongorder = true;
+                        RedirectToPage("Index");
                     }
-                    catch { }
-                    }
-                if (searchingLastname != null)
-                {
-                    try
+                    DateTime d1 = new DateTime(0003, 1, 1);
+                    if (searching != null)
                     {
-                        volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname)).ToList();
+                        try
+                        {
+                            volunteers = volunteers.Where(x => x.Firstname.Contains(searching)).ToList();
+                        }
+                        catch { }
                     }
-                    catch { }
-                }
-                if (Active == true)
-                {
-                    volunteers = volunteers.Where(x => x.InActivity == true).ToList();
-                }
-                if (searchedAddress != null)
-                {
-                    List<Volunteer> vol = volunteers;
-                    foreach(var v in vol)
+                    if (searchingLastname != null)
                     {
-                        if (v.Address.District == null || v.Address.District == "")
-                            v.Address.District = "-";
-                        if (v.Address.City == null || v.Address.City == "")
-                            v.Address.City = "-";
-                        if (v.Address.Street == null || v.Address.Street == "")
-                            v.Address.Street = "-";
-                        if (v.Address.Number == null || v.Address.Number == "")
-                            v.Address.Number = "-";
+                        try
+                        {
+                            volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname)).ToList();
+                        }
+                        catch { }
                     }
+                    if (Active == true)
+                    {
+                        volunteers = volunteers.Where(x => x.InActivity == true).ToList();
+                    }
+                    if (searchedAddress != null)
+                    {
+                        List<Volunteer> vol = volunteers;
+                        foreach (var v in vol)
+                        {
+                            if (v.Address.District == null || v.Address.District == "")
+                                v.Address.District = "-";
+                            if (v.Address.City == null || v.Address.City == "")
+                                v.Address.City = "-";
+                            if (v.Address.Street == null || v.Address.Street == "")
+                                v.Address.Street = "-";
+                            if (v.Address.Number == null || v.Address.Number == "")
+                                v.Address.Number = "-";
+                        }
 
                         try
                         {
-                        volunteers = vol.Where(x => x.Address.District.Contains(searchedAddress) || x.Address.City.Contains(searchedAddress)|| x.Address.Street.Contains(searchedAddress) || x.Address.Number.Contains(searchedAddress)).ToList();
-                            
+                            volunteers = vol.Where(x => x.Address.District.Contains(searchedAddress) || x.Address.City.Contains(searchedAddress) || x.Address.Street.Contains(searchedAddress) || x.Address.Number.Contains(searchedAddress)).ToList();
+
                         }
                         catch { }
+
+                    }
+
+                    if (searchedworkplace != null)
+                    {
+                        List<Volunteer> vol = volunteers;
+                        foreach (var v in vol)
+                        {
+                            if (v.Desired_workplace == null || v.Desired_workplace == "")
+                            {
+                                v.Desired_workplace = "-";
+                            }
+                        }
+                        try
+                        {
+                            volunteers = vol.Where(x => x.Desired_workplace.Contains(searchedworkplace)).ToList();
+                        }
+                        catch { }
+                    }
+                    if (searchedOccupation != null)
+                    {
+                        List<Volunteer> vol = volunteers;
+                        foreach (var v in vol)
+                        {
+                            if (v.Field_of_activity == null || v.Field_of_activity == "")
+                            { v.Field_of_activity = "-"; }
+                            if (v.Occupation == null || v.Occupation == "")
+                            { v.Occupation = "-"; }
+                        }
+                        try
+                        {
+                            volunteers = vol.Where(x => x.Field_of_activity.Contains(searchedOccupation) || x.Occupation.Contains(searchedOccupation)).ToList();
+                        }
+                        catch { }
+                    }
+                    if (searchedRemarks != null)
+                    {
+                        List<Volunteer> vol = volunteers;
+                        foreach (var v in vol)
+                        {
+                            if (v.Additionalinfo.Remark == null || v.Additionalinfo.Remark == "")
+                                v.Additionalinfo.Remark = "";
+                        }
+                        try
+                        {
+
+                            volunteers = vol.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks)).ToList();
+
+                        }
+                        catch { }
+                    }
+
                     
-                }
-
-                if (searchedworkplace != null)
-                {
-                    List<Volunteer> vol = volunteers;
-                    foreach(var v in vol)
-                    { if (v.Desired_workplace == null || v.Desired_workplace == "")
+                    if (searchedContact != null)
+                    {
+                        List<Volunteer> vol = volunteers;
+                        foreach (var v in vol)
                         {
-                            v.Desired_workplace = "-";
+                            if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.PhoneNumber == "")
+                                v.ContactInformation.PhoneNumber = "-";
+                            if (v.ContactInformation.MailAdress == null || v.ContactInformation.MailAdress == "")
+                                v.ContactInformation.MailAdress = "-";
                         }
-                    }
-                    try
-                    {
-                        volunteers = vol.Where(x => x.Desired_workplace.Contains(searchedworkplace)).ToList();
-                    }
-                    catch { }
-                    }
-                if (searchedOccupation != null)
-                {
-                    List<Volunteer> vol = volunteers;
-                    foreach(var v in vol)
-                    {
-                        if(v.Field_of_activity==null || v.Field_of_activity=="")
-                        { v.Field_of_activity = "-"; }
-                        if(v.Occupation==null ||v.Occupation=="")
-                        { v.Occupation = "-"; }
-                    }
-                    try
-                    {
-                        volunteers = vol.Where(x => x.Field_of_activity.Contains(searchedOccupation) || x.Occupation.Contains(searchedOccupation)).ToList();
-                    }
-                    catch { }
-                    }
-                if (searchedRemarks != null)
-                {
-                    List<Volunteer> vol = volunteers;
-                    foreach(var v in vol)
-                    { if (v.Additionalinfo.Remark == null || v.Additionalinfo.Remark == "")
-                            v.Additionalinfo.Remark = "";
-                    }
-                    try {
-
-                        volunteers = vol.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks)).ToList();
-
-                    }catch{ }
-                }
-
-                ////Not Working
-                if(searchedContact!=null)
-                {
-                    List<Volunteer> vol = volunteers;
-                    foreach(var v in vol)
-                    {
-                        if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.PhoneNumber == "")
-                            v.ContactInformation.PhoneNumber = "-";
-                        if (v.ContactInformation.MailAdress == null || v.ContactInformation.MailAdress == "")
-                            v.ContactInformation.MailAdress = "-";
-                    }
-                    try
-                    {
-                        volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact) || x.ContactInformation.MailAdress.Contains(searchedContact)).ToList();
-                    }
-                    catch { }
-                }
-                if (searchedHourCount != 0)
-                {
-                    
-                    volunteers = volunteers.Where(x => x.HourCount.Equals(searchedHourCount)).ToList();
-                }
-               
-              
-                 if (lowerdate > d1)
-                {
-                    volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
-                }
-                if (upperdate > d1)
-                {
-                    volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
-                }
-                //IN CASE THERE IS NO END DATE
-                if (activesince > d1 && activetill <= d1)
-                {
-                    string ids_to_remove = "";
-                    foreach (Volunteer vol in volunteers)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
+                        try
                         {
-                            if (startdates[j] > activesince || enddates[j] > activesince)
+                            volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact) || x.ContactInformation.MailAdress.Contains(searchedContact)).ToList();
+                        }
+                        catch { }
+                    }
+                    if (searchedHourCount != 0)
+                    {
+
+                        volunteers = volunteers.Where(x => x.HourCount.Equals(searchedHourCount)).ToList();
+                    }
+
+
+                    if (lowerdate > d1)
+                    {
+                        volunteers = volunteers.Where(x => x.Birthdate > lowerdate).ToList();
+                    }
+                    if (upperdate > d1)
+                    {
+                        volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
+                    }
+                    //IN CASE THERE IS NO END DATE
+                    if (activesince > d1 && activetill <= d1)
+                    {
+                        string ids_to_remove = "";
+                        foreach (Volunteer vol in volunteers)
+                        {
+                            (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                            bool passed = false;
+                            for (int j = i - 1; j >= 0; j--)
                             {
-                                passed = true;
-                                break;
+                                if (startdates[j] > activesince || enddates[j] > activesince)
+                                {
+                                    passed = true;
+                                    break;
+                                }
+                            }
+                            if (!passed)
+                            {
+                                ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
                             }
                         }
-                        if (!passed)
+                        List<string> ids = ids_to_remove.Split(',').ToList();
+                        foreach (string id in ids)
                         {
-                            ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
+                            Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
+                            volunteers.Remove(voltodelete);
                         }
                     }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
+                    //IN CASE THERE IS NO START DATE
+                    if (activesince < d1 && activetill > d1)
                     {
-                        Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
-                        volunteers.Remove(voltodelete);
-                    }
-                }
-                //IN CASE THERE IS NO START DATE
-                if (activesince < d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
-                    foreach (Volunteer vol in volunteers)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
+                        string ids_to_remove = "";
+                        foreach (Volunteer vol in volunteers)
                         {
-                            if (startdates[j] < activetill || enddates[j] < activetill)
+                            (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                            bool passed = false;
+                            for (int j = i - 1; j >= 0; j--)
                             {
-                                passed = true;
-                                break;
+                                if (startdates[j] < activetill || enddates[j] < activetill)
+                                {
+                                    passed = true;
+                                    break;
+                                }
+                            }
+                            if (!passed)
+                            {
+                                ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
                             }
                         }
-                        if (!passed)
+                        List<string> ids = ids_to_remove.Split(',').ToList();
+                        foreach (string id in ids)
                         {
-                            ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
+                            Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
+                            volunteers.Remove(voltodelete);
                         }
                     }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
+                    //IN CASE THERE ARE BOTH
+                    if (activesince > d1 && activetill > d1)
                     {
-                        Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
-                        volunteers.Remove(voltodelete);
-                    }
-                }
-                //IN CASE THERE ARE BOTH
-                if (activesince > d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
+                        string ids_to_remove = "";
 
-                    foreach (Volunteer vol in volunteers)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
+                        foreach (Volunteer vol in volunteers)
                         {
-                            if (startdates[j] > activesince && startdates[j] < activetill)
+                            (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                            bool passed = false;
+                            for (int j = i - 1; j >= 0; j--)
                             {
-                                passed = true;
-                                break;
+                                if (startdates[j] > activesince && startdates[j] < activetill)
+                                {
+                                    passed = true;
+                                    break;
+                                }
+                                else if (enddates[j] > activesince && enddates[j] < activetill)
+                                {
+                                    passed = true;
+                                    break;
+                                }
+                                else if (startdates[j] < activesince && enddates[j] > activetill)
+                                {
+                                    passed = true;
+                                    break;
+                                }
                             }
-                            else if (enddates[j] > activesince && enddates[j] < activetill)
+                            if (!passed)
                             {
-                                passed = true;
-                                break;
-                            }
-                            else if (startdates[j] < activesince && enddates[j] > activetill)
-                            {
-                                passed = true;
-                                break;
+                                ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
                             }
                         }
-                        if (!passed)
+                        List<string> ids = ids_to_remove.Split(',').ToList();
+                        foreach (string id in ids)
                         {
-                            ids_to_remove = ids_to_remove + "," + vol.VolunteerID;
+                            Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
+                            volunteers.Remove(voltodelete);
                         }
                     }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
+                    if (gender != " All")
                     {
-                        Volunteer voltodelete = volunteers.FirstOrDefault(x => x.VolunteerID.ToString() == id);
-                        volunteers.Remove(voltodelete);
+                        if (gender == "Male")
+                        {
+                            volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Male)).ToList();
+                        }
+                        if (gender == "Female")
+                        { volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Female)).ToList(); }
                     }
-                }
-                if (gender !=" All")
-                {
-                    if (gender =="Male")
+
+                    if (HasDrivingLicence == true)
                     {
-                        volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Male)).ToList();
+                        volunteers = volunteers.Where(x => x.Additionalinfo.HasDrivingLicence == true).ToList();
                     }
-                    if(gender=="Female")
-                    { volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Female)).ToList(); }
+                    if (HasCar == true)
+                    {
+                        volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
+                    }
+                    switch (sortOrder)
+                    {
+                        case "Gender":
+                            volunteers = volunteers.OrderBy(s => s.Gender).ToList();
+                            break;
+
+                        case "Gender_desc":
+                            volunteers = volunteers.OrderByDescending(s => s.Gender).ToList();
+                            break;
+
+                        case "Lastname":
+                            volunteers = volunteers.OrderBy(s => s.Lastname).ToList();
+                            break;
+
+                        case "Lastname_desc":
+                            volunteers = volunteers.OrderByDescending(s => s.Lastname).ToList();
+                            break;
+
+                        case "Hourcount":
+                            volunteers = volunteers.OrderBy(s => s.HourCount).ToList();
+                            break;
+
+                        case "Hourcount_desc":
+                            volunteers = volunteers.OrderByDescending(s => s.HourCount).ToList();
+                            break;
+
+                        case "Active":
+                            volunteers = volunteers.OrderBy(s => s.InActivity).ToList();
+                            break;
+
+                        case "Active_desc":
+                            volunteers = volunteers.OrderByDescending(s => s.InActivity).ToList();
+                            break;
+
+                        case "name_desc":
+                            volunteers = volunteers.OrderByDescending(s => s.Firstname).ToList();
+                            break;
+
+                        case "Date":
+                            volunteers = volunteers.OrderBy(s => s.Birthdate).ToList();
+                            break;
+
+                        case "date_desc":
+                            volunteers = volunteers.OrderByDescending(s => s.Birthdate).ToList();
+                            break;
+
+                        default:
+                            volunteers = volunteers.OrderBy(s => s.Firstname).ToList();
+                            break;
+                    }
+                    ViewBag.counter = volunteers.Count();
+                    ViewBag.nrofdocs = nrofdocs;
+                    string stringofids = "volunteers";
+                    foreach (Volunteer ben in volunteers)
+                    {
+                        stringofids = stringofids + "," + ben.VolunteerID;
+                    }
+                    ViewBag.stringofids = stringofids;
+                    volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+                    volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
+                    return View(volunteers);
                 }
-               
-                if (HasDrivingLicence == true)
+                else
                 {
-                    volunteers = volunteers.Where(x => x.Additionalinfo.HasDrivingLicence == true).ToList();
+                    int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                    ViewBag.lang = lang;
+                    if (page > 0)
+                        ViewBag.Page = page;
+                    else
+                        ViewBag.Page = 1;
+                    ViewBag.counter = volunteers.Count();
+                    ViewBag.nrofdocs = nrofdocs;
+                    string stringofids = "volunteers";
+                    foreach (Volunteer ben in volunteers)
+                    {
+                        stringofids = stringofids + "," + ben.VolunteerID;
+                    }
+                    ViewBag.stringofids = stringofids;
+                    volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+                    volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
+                    return View(volunteers);
                 }
-                if (HasCar == true)
-                {
-                    volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
-                }
-                switch (sortOrder)
-                {
-                    case "Gender":
-                        volunteers = volunteers.OrderBy(s => s.Gender).ToList();
-                        break;
-
-                    case "Gender_desc":
-                        volunteers = volunteers.OrderByDescending(s => s.Gender).ToList();
-                        break;
-
-                    case "Lastname":
-                        volunteers = volunteers.OrderBy(s => s.Lastname).ToList();
-                        break;
-
-                    case "Lastname_desc":
-                        volunteers = volunteers.OrderByDescending(s => s.Lastname).ToList();
-                        break;
-
-                    case "Hourcount":
-                        volunteers = volunteers.OrderBy(s => s.HourCount).ToList();
-                        break;
-
-                    case "Hourcount_desc":
-                        volunteers = volunteers.OrderByDescending(s => s.HourCount).ToList();
-                        break;
-
-                    case "Active":
-                        volunteers = volunteers.OrderBy(s => s.InActivity).ToList();
-                        break;
-
-                    case "Active_desc":
-                        volunteers = volunteers.OrderByDescending(s => s.InActivity).ToList();
-                        break;
-
-                    case "name_desc":
-                        volunteers = volunteers.OrderByDescending(s => s.Firstname).ToList();
-                        break;
-
-                    case "Date":
-                        volunteers = volunteers.OrderBy(s => s.Birthdate).ToList();
-                        break;
-
-                    case "date_desc":
-                        volunteers = volunteers.OrderByDescending(s => s.Birthdate).ToList();
-                        break;
-
-                    default:
-                        volunteers = volunteers.OrderBy(s => s.Firstname).ToList();
-                        break;
-                }
-                ViewBag.counter = volunteers.Count();
-                ViewBag.nrofdocs = nrofdocs;
-                string stringofids = "volunteers";
-                foreach (Volunteer ben in volunteers)
-                {
-                    stringofids = stringofids + "," + ben.VolunteerID;
-                }
-                ViewBag.stringofids = stringofids;
-                volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
-                return View(volunteers);
             }
             catch
             {
