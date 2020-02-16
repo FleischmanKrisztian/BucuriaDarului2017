@@ -110,6 +110,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult ImportUpdate(string duplicates, string docsimported)
         {
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
             return View();

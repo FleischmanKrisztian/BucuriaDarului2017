@@ -42,9 +42,17 @@ namespace Finalaplication.Models
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
+                else if (beneficiarycollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                {
+                    duplicates = duplicates + details[1] + ", ";
+                }
                 else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
                     duplicates = duplicates + details[0] + ", ";
+                }
+                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[1]) >= 1 && details[9] == "")
+                {
+                    duplicates = duplicates + details[1] + ", ";
                 }
                 else
                 {
@@ -258,23 +266,27 @@ namespace Finalaplication.Models
                         {
                             if (details[24] == null || details[24] == "")
                             {
-                                personal.Birthdate = DateTime.MinValue;
+                                DateTime myDate = DateTime.ParseExact(details[9].Substring(1, 2) + "-" + details[9].Substring(3, 2) + "-" + details[9].Substring(5, 2), "yy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+                                personal.Birthdate = myDate.AddHours(5);
                             }
                             else
                             {
-                                DateTime data;
+                                DateTime myDate;
                                 if (details[24].Contains("/") == true)
                                 {
                                     string[] date = details[24].Split(" ");
                                     string[] FinalDate = date[0].Split("/");
-                                    data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                    myDate = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                                    System.Globalization.CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
                                     string[] anotherDate = details[24].Split('.');
-                                    data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                                    myDate = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[0] + "-" + anotherDate[1], "yy-MM-dd",
+                                    System.Globalization.CultureInfo.InvariantCulture);
                                 }
-                                personal.Birthdate = data.AddDays(1);
+                                personal.Birthdate = myDate.AddDays(1);
                             }
                         }
                         catch
@@ -569,7 +581,16 @@ namespace Finalaplication.Models
                         }
                         catch
                         {
-                            personal.Birthdate = DateTime.MinValue;
+                            try
+                            {
+                            DateTime myDate = DateTime.ParseExact(details[9].Substring(1, 2) + "-" + details[9].Substring(3, 2) + "-" + details[9].Substring(5, 2), "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture);
+                            personal.Birthdate = myDate.AddHours(5);
+                            }
+                            catch
+                            {
+                                personal.Birthdate = DateTime.MinValue;
+                            }
                         }
 
                         try
@@ -640,9 +661,8 @@ namespace Finalaplication.Models
                 }
             }
 
-
             callback1?.Invoke(duplicates);
             callback2?.Invoke(documentsimported);
-       }
+        }
     }
 }
