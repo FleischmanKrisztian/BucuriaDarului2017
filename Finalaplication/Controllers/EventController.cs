@@ -110,7 +110,7 @@ namespace Finalaplication.Controllers
                    
                     if (searching != null)
                     {
-                        events = events.Where(x => x.NameOfEvent.Contains(searching)).ToList();
+                        events = events.Where(x => x.NameOfEvent.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingPlace != null)
                     {
@@ -120,7 +120,7 @@ namespace Finalaplication.Controllers
                             if (e.PlaceOfEvent == null || e.PlaceOfEvent == "")
                             { e.PlaceOfEvent = "-"; }
                         }
-                        events = ev.Where(x => x.PlaceOfEvent.Contains(searchingPlace)).ToList();
+                        events = ev.Where(x => x.PlaceOfEvent.Contains(searchingPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingActivity != null)
                     {
@@ -130,7 +130,7 @@ namespace Finalaplication.Controllers
                             if (e.TypeOfActivities == null || e.TypeOfActivities == "")
                             { e.TypeOfActivities = "-"; }
                         }
-                        events = ev.Where(x => x.TypeOfActivities.Contains(searchingActivity)).ToList();
+                        events = ev.Where(x => x.TypeOfActivities.Contains(searchingActivity, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingType != null)
                     {
@@ -140,7 +140,7 @@ namespace Finalaplication.Controllers
                             if (e.TypeOfEvent == null || e.TypeOfEvent == "")
                             { e.TypeOfEvent = "-"; }
                         }
-                        events = ev.Where(x => x.TypeOfEvent.Contains(searchingType)).ToList();
+                        events = ev.Where(x => x.TypeOfEvent.Contains(searchingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingVolunteers != null)
                     {
@@ -150,7 +150,7 @@ namespace Finalaplication.Controllers
                             if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
                             { e.AllocatedVolunteers = "-"; }
                         }
-                        events = ev.Where(x => x.AllocatedVolunteers.Contains(searchingVolunteers)).ToList();
+                        events = ev.Where(x => x.AllocatedVolunteers.Contains(searchingVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingSponsor != null)
                     {
@@ -160,7 +160,7 @@ namespace Finalaplication.Controllers
                             if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
                             { e.AllocatedSponsors = "-"; }
                         }
-                        events = ev.Where(x => x.AllocatedSponsors.Contains(searchingSponsor)).ToList();
+                        events = ev.Where(x => x.AllocatedSponsors.Contains(searchingSponsor, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     DateTime d1 = new DateTime(0003, 1, 1);
                     if (lowerdate > d1)
@@ -264,7 +264,7 @@ namespace Finalaplication.Controllers
                 if (searching != null)
                 {
                     ViewBag.Evid = id;
-                    return View(volunteers.Where(x => x.Firstname.Contains(searching) || x.Lastname.Contains(searching)).ToList());
+                    return View(volunteers.Where(x => x.Firstname.Contains(searching, StringComparison.InvariantCultureIgnoreCase) || x.Lastname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList());
                 }
                 else
                 {
@@ -326,7 +326,7 @@ namespace Finalaplication.Controllers
                 if (searching != null)
                 {
                     ViewBag.Evid = id;
-                    return View(sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList());
+                    return View(sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList());
                 }
                 else
                 {

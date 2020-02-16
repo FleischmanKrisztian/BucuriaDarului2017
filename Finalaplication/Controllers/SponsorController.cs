@@ -145,7 +145,7 @@ namespace Finalaplication.Controllers
                     DateTime d1 = new DateTime(0003, 1, 1);
                     if (searching != null)
                     {
-                        sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching)).ToList();
+                        sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (ContactInfo != null)
                     {
@@ -159,7 +159,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo) || x.ContactInformation.MailAdress.Contains(ContactInfo)).ToList();
+                            sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -185,7 +185,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods)).ToList();
+                            sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -199,7 +199,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts)).ToList();
+                            sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -213,7 +213,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount)).ToList();
+                            sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }

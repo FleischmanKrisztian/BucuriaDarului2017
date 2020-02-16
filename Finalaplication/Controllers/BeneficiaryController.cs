@@ -200,7 +200,7 @@ namespace Finalaplication.Controllers
                             if (b.Fullname == null || b.Fullname == "")
                             { b.Fullname = "-"; }
                         }
-                        try { beneficiaries = bene.Where(x => x.Fullname.Contains(searching)).ToList(); } catch { }
+                        try { beneficiaries = bene.Where(x => x.Fullname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList(); } catch { }
                     }
                     if (Homeless == true)
                     {
@@ -346,7 +346,7 @@ namespace Finalaplication.Controllers
                             if (b.HomeDeliveryDriver == null || b.HomeDeliveryDriver == "")
                                 b.HomeDeliveryDriver = "-";
                         }
-                        beneficiaries = bene.Where(x => x.HomeDeliveryDriver.Contains(searchingDriver)).ToList();
+                        beneficiaries = bene.Where(x => x.HomeDeliveryDriver.Contains(searchingDriver, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingAddress != null)
@@ -357,7 +357,7 @@ namespace Finalaplication.Controllers
                             if (b.Adress == null || b.Adress == "")
                                 b.Adress = "-";
                         }
-                        beneficiaries = bene.Where(x => x.Adress.Contains(searchingAddress)).ToList();
+                        beneficiaries = bene.Where(x => x.Adress.Contains(searchingAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingPO != null)
@@ -370,7 +370,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.Profesion == null || b.PersonalInfo.Profesion == "")
                                 b.PersonalInfo.Profesion = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Ocupation.Contains(searchingPO) || x.PersonalInfo.Profesion.Contains(searchingPO)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Ocupation.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Profesion.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingNumberOfPortions != 0)
@@ -386,7 +386,7 @@ namespace Finalaplication.Controllers
                             if (b.Comments == null || b.Comments == "")
                                 b.Comments = "-";
                         }
-                        beneficiaries = bene.Where(x => x.Comments.Contains(searchingComments)).ToList();
+                        beneficiaries = bene.Where(x => x.Comments.Contains(searchingComments, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingBirthPlace != null)
@@ -397,7 +397,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.BirthPlace == null || b.PersonalInfo.BirthPlace == "")
                                 b.PersonalInfo.BirthPlace = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.BirthPlace.Contains(searchingBirthPlace)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.BirthPlace.Contains(searchingBirthPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingStudies != null)
@@ -408,7 +408,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.Studies == null || b.PersonalInfo.Studies == "")
                                 b.PersonalInfo.Studies = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Studies.Contains(searchingStudies)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Studies.Contains(searchingStudies, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingSeniority != null)
@@ -419,7 +419,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.SeniorityInWorkField == null || b.PersonalInfo.SeniorityInWorkField == "")
                                 b.PersonalInfo.SeniorityInWorkField = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.SeniorityInWorkField.Contains(searchingSeniority)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.SeniorityInWorkField.Contains(searchingSeniority, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingHealthState != null)
@@ -434,7 +434,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.ChronicCondition == null || b.PersonalInfo.ChronicCondition == "")
                                 b.PersonalInfo.ChronicCondition = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.HealthState.Contains(searchingHealthState) || x.PersonalInfo.Disalility.Contains(searchingHealthState) || x.PersonalInfo.ChronicCondition.Contains(searchingHealthState)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.HealthState.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disalility.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingAddictions != null)
@@ -445,7 +445,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.Addictions == null || b.PersonalInfo.Addictions == "")
                                 b.PersonalInfo.Addictions = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Addictions.Contains(searchingAddictions)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Addictions.Contains(searchingAddictions, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     if (searchingMarried != null)
@@ -458,7 +458,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.SpouseName == null || b.PersonalInfo.SpouseName == "")
                                 b.PersonalInfo.SpouseName = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Married.Contains(searchingMarried) || x.PersonalInfo.SpouseName.Contains(searchingMarried)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Married.Contains(searchingMarried, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.SpouseName.Contains(searchingMarried, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingIncome != null)
                     {
@@ -468,7 +468,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.Income == null || b.PersonalInfo.Income == "")
                                 b.PersonalInfo.Income = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingIncome)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingIncome, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (searchingHousingType != null)
                     {
@@ -478,7 +478,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.HousingType == null || b.PersonalInfo.HousingType == "")
                                 b.PersonalInfo.HousingType = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingHousingType)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
                     if (gender != " All")
                     {
@@ -497,7 +497,7 @@ namespace Finalaplication.Controllers
                             if (b.PersonalInfo.Expences == null || b.PersonalInfo.Expences == "")
                                 b.PersonalInfo.Expences = "-";
                         }
-                        beneficiaries = bene.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences)).ToList();
+                        beneficiaries = bene.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences, StringComparison.InvariantCultureIgnoreCase)).ToList();
                     }
 
                     switch (sortOrder)
