@@ -128,7 +128,8 @@
     </p>
 }
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
-{@Html.CheckBox("crearAll") @Localizer["Show all sponsors"]
+{<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all sponsors"]</a>
+   
 <table class="table" style="text-align:top">
 
     <tr>

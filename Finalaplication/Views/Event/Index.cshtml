@@ -137,7 +137,8 @@
     </p>
 }
 @using (Html.BeginForm("Index", "Event/", FormMethod.Get))
-{@Html.CheckBox("crearAll") @Localizer["Show all events"]
+{<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all events"]</a>
+
 <table class="table">
     <tr>
         <th>

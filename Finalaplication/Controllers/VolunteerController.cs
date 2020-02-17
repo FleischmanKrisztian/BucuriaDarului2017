@@ -117,7 +117,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-         public ActionResult Index(bool crearAll,string lang,bool HasDrivingLicence,string searchingLastname, string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
+         public ActionResult Index(string lang,bool HasDrivingLicence,string searchingLastname, string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page,string gender,string searchedAddress,string searchedworkplace,string searchedOccupation,string searchedRemarks,int searchedHourCount)
 
         {
              
@@ -126,8 +126,7 @@ namespace Finalaplication.Controllers
                    
 
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
-                if (crearAll != true)
-                {
+                
                     int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                     ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                     ViewBag.lang = lang;
@@ -464,28 +463,7 @@ namespace Finalaplication.Controllers
                     volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                     volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
                     return View(volunteers);
-                }
-                else
-                {
-                    int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                    ViewBag.lang = lang;
-                    if (page > 0)
-                        ViewBag.Page = page;
-                    else
-                        ViewBag.Page = 1;
-                    ViewBag.counter = volunteers.Count();
-                    ViewBag.nrofdocs = nrofdocs;
-                    string stringofids = "volunteers";
-                    foreach (Volunteer ben in volunteers)
-                    {
-                        stringofids = stringofids + "," + ben.VolunteerID;
-                    }
-                    ViewBag.stringofids = stringofids;
-                    volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                    volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
-                    return View(volunteers);
-                }
+                
             }
             catch
             {
