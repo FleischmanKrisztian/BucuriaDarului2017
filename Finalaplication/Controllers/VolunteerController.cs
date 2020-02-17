@@ -168,7 +168,7 @@ namespace Finalaplication.Controllers
                     {
                         try
                         {
-                            volunteers = volunteers.Where(x => x.Firstname.Contains(searching)).ToList();
+                            volunteers = volunteers.Where(x => x.Firstname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -176,7 +176,7 @@ namespace Finalaplication.Controllers
                     {
                         try
                         {
-                            volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname)).ToList();
+                            volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -201,7 +201,7 @@ namespace Finalaplication.Controllers
 
                         try
                         {
-                            volunteers = vol.Where(x => x.Address.District.Contains(searchedAddress) || x.Address.City.Contains(searchedAddress) || x.Address.Street.Contains(searchedAddress) || x.Address.Number.Contains(searchedAddress)).ToList();
+                            volunteers = vol.Where(x => x.Address.District.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase) || x.Address.City.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase) || x.Address.Street.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase) || x.Address.Number.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
                         }
                         catch { }
@@ -220,7 +220,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            volunteers = vol.Where(x => x.Desired_workplace.Contains(searchedworkplace)).ToList();
+                            volunteers = vol.Where(x => x.Desired_workplace.Contains(searchedworkplace, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -236,7 +236,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            volunteers = vol.Where(x => x.Field_of_activity.Contains(searchedOccupation) || x.Occupation.Contains(searchedOccupation)).ToList();
+                            volunteers = vol.Where(x => x.Field_of_activity.Contains(searchedOccupation, StringComparison.InvariantCultureIgnoreCase) || x.Occupation.Contains(searchedOccupation, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
@@ -251,7 +251,7 @@ namespace Finalaplication.Controllers
                         try
                         {
 
-                            volunteers = vol.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks)).ToList();
+                            volunteers = vol.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
                         }
                         catch { }
@@ -270,7 +270,7 @@ namespace Finalaplication.Controllers
                         }
                         try
                         {
-                            volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact) || x.ContactInformation.MailAdress.Contains(searchedContact)).ToList();
+                            volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase)).ToList();
                         }
                         catch { }
                     }
