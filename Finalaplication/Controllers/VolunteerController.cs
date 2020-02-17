@@ -85,6 +85,12 @@ namespace Finalaplication.Controllers
                 string duplicates = "";
                 int documentsimported = 0;
 
+                // string[] header =get header from file 
+                // typeofexport mytype = getexporttype (header);
+                // if (mytype == exporttypes.bucuriadarului)
+                // {
+                // processedVolunteers.GetProcessedV(vollunteercollection, result, duplicates, documentsimported));
+                // } else  (mytype == exporttypes.webexport) { }
 
 
                 FileInfo file = new FileInfo(path);
@@ -536,8 +542,6 @@ namespace Finalaplication.Controllers
             ids_and_options = "csvexporterapp:" + ids_and_options;
 
             return Redirect(ids_and_options);
-
-            //return RedirectToAction("Index");
         }
 
         public ActionResult Birthday()
