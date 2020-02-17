@@ -85,13 +85,31 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(bool crearAll,string searching, int page,string searchingPlace,string searchingActivity,string searchingType,string searchingVolunteers,string searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        public ActionResult Index(string searching, int page,string searchingPlace,string searchingActivity,string searchingType,string searchingVolunteers,string searchingSponsor, DateTime lowerdate, DateTime upperdate)
         {
             try
             {
+                if (searching != null)
+                { ViewBag.Filter1 = searching; }
+                if (searchingPlace != null)
+                { ViewBag.Filter2 = searchingPlace; }
+                if (searchingActivity != null)
+                { ViewBag.Filter3 = searchingActivity; }
+                if (searchingType != null)
+                { ViewBag.Filter4 = searchingType; }
+                if (searchingVolunteers != null)
+                { ViewBag.Filter5 = searchingVolunteers; }
+                if (searchingSponsor != null)
+                { ViewBag.Filter6 = searchingSponsor; }
+                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
+                if (lowerdate != date)
+                { ViewBag.Filter7 = lowerdate.ToString(); }
+                if (upperdate != date)
+                { ViewBag.Filter8 = upperdate.ToString(); }
+                
+
                 List<Event> events = eventcollection.AsQueryable().ToList();
-                if (crearAll != true)
-                {
+                
 
                     ViewBag.searching = searching;
                     ViewBag.Activity = searchingActivity;
@@ -185,28 +203,8 @@ namespace Finalaplication.Controllers
                     events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                     events = events.AsQueryable().Take(nrofdocs).ToList();
                     return View(events);
-                }
-                else
-                {
-                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                    int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-                    if (page > 0)
-                        ViewBag.Page = page;
-                    else
-                        ViewBag.Page = 1;
-                    ViewBag.counter = events.Count();
-
-                    ViewBag.nrofdocs = nrofdocs;
-                    string stringofids = "events";
-                    foreach (Event eve in events)
-                    {
-                        stringofids = stringofids + "," + eve.EventID;
-                    }
-                    ViewBag.stringofids = stringofids;
-                    events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                    events = events.AsQueryable().Take(nrofdocs).ToList();
-                    return View(events);
-                }
+                
+                
             }
             catch
             {

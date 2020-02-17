@@ -119,136 +119,133 @@ namespace Finalaplication.Controllers
             return Redirect(ids_and_options);
         }
 
-        public IActionResult Index(bool crearAll,string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
+        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
 
         {
             try
             {
+                if (searching != null)
+                { ViewBag.Filters1 = searching; }
+                if (ContactInfo != null)
+                { ViewBag.Filters2 = ContactInfo; }
+
+                if (HasContract == true)
+                { ViewBag.Filters3 = ""; }
+                if (WhatGoods != null)
+                { ViewBag.Filters4 = WhatGoods; }
+                if (MoneyAmount != null)
+                { ViewBag.Filters5 = MoneyAmount; }
+                if (GoodsAmounts != null)
+                { ViewBag.Filters6 = GoodsAmounts; }
+                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
+                if (lowerdate != date)
+                { ViewBag.Filter7 = lowerdate.ToString(); }
+
+                if (upperdate != date)
+                { ViewBag.Filter8 = upperdate.ToString(); }
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
-                if (crearAll != true)
-                {
-                    ViewBag.Contact = ContactInfo;
-                    ViewBag.searching = searching;
-                    ViewBag.Upperdate = upperdate;
-                    ViewBag.Lowerdate = lowerdate;
-                    ViewBag.HasContract = HasContract;
-                    ViewBag.WhatGoods = WhatGoods;
-                    ViewBag.GoodsAmount = GoodsAmounts;
-                    ViewBag.MoneyAmount = MoneyAmount;
-                    int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                    if (page > 0)
-                        ViewBag.Page = page;
-                    else
-                        ViewBag.Page = 1;
-                    
-                    DateTime d1 = new DateTime(0003, 1, 1);
-                    if (searching != null)
-                    {
-                        sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    if (ContactInfo != null)
-                    {
-                        List<Sponsor> sp = sponsors;
-                        foreach (var s in sp)
-                        {
-                            if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
-                                s.ContactInformation.PhoneNumber = "-";
-                            if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
-                                s.ContactInformation.MailAdress = "-";
-                        }
-                        try
-                        {
-                            sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                        }
-                        catch { }
-                    }
-                    if (lowerdate > d1)
-                    {
-                        sponsors = sponsors.Where(x => x.Sponsorship.Date > lowerdate).ToList();
-                    }
-                    if (upperdate > d1)
-                    {
-                        sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
-                    }
-                    if (HasContract == true)
-                    {
-                        sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
-                    }
-                    if (WhatGoods != null)
-                    {
-                        List<Sponsor> sp = sponsors;
-                        foreach (var s in sp)
-                        {
-                            if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
-                                s.Sponsorship.WhatGoods = "-";
-                        }
-                        try
-                        {
-                            sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                        }
-                        catch { }
-                    }
-                    if (GoodsAmounts != null)
-                    {
-                        List<Sponsor> sp = sponsors;
-                        foreach (var s in sp)
-                        {
-                            if (s.Sponsorship.GoodsAmount == null || s.Sponsorship.GoodsAmount == "")
-                                s.Sponsorship.GoodsAmount = "-";
-                        }
-                        try
-                        {
-                            sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                        }
-                        catch { }
-                    }
-                    if (MoneyAmount != null)
-                    {
-                        List<Sponsor> sp = sponsors;
-                        foreach (var s in sp)
-                        {
-                            if (s.Sponsorship.MoneyAmount == null || s.Sponsorship.MoneyAmount == "")
-                                s.Sponsorship.MoneyAmount = "-";
-                        }
-                        try
-                        {
-                            sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                        }
-                        catch { }
-                    }
-                    ViewBag.counter = sponsors.Count();
-                    ViewBag.nrofdocs = nrofdocs;
-                    string stringofids = "sponsors";
-                    foreach (Sponsor ben in sponsors)
-                    {
-                        stringofids = stringofids + "," + ben.SponsorID;
-                    }
-                    ViewBag.stringofids = stringofids;
-                    sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                    sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
-                    return View(sponsors);
-                }
+
+                ViewBag.Contact = ContactInfo;
+                ViewBag.searching = searching;
+                ViewBag.Upperdate = upperdate;
+                ViewBag.Lowerdate = lowerdate;
+                ViewBag.HasContract = HasContract;
+                ViewBag.WhatGoods = WhatGoods;
+                ViewBag.GoodsAmount = GoodsAmounts;
+                ViewBag.MoneyAmount = MoneyAmount;
+                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                if (page > 0)
+                    ViewBag.Page = page;
                 else
+                    ViewBag.Page = 1;
+
+                DateTime d1 = new DateTime(0003, 1, 1);
+                if (searching != null)
                 {
-                    int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
-                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                    if (page > 0)
-                        ViewBag.Page = page;
-                    else
-                        ViewBag.Page = 1;
-                    ViewBag.counter = sponsors.Count();
-                    ViewBag.nrofdocs = nrofdocs;
-                    string stringofids = "sponsors";
-                    foreach (Sponsor ben in sponsors)
-                    {
-                        stringofids = stringofids + "," + ben.SponsorID;
-                    }
-                    ViewBag.stringofids = stringofids;
-                    sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                    sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
-                    return View(sponsors);
+                    sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
+                if (ContactInfo != null)
+                {
+                    List<Sponsor> sp = sponsors;
+                    foreach (var s in sp)
+                    {
+                        if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
+                            s.ContactInformation.PhoneNumber = "-";
+                        if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
+                            s.ContactInformation.MailAdress = "-";
+                    }
+                    try
+                    {
+                        sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    }
+                    catch { }
+                }
+                if (lowerdate > d1)
+                {
+                    sponsors = sponsors.Where(x => x.Sponsorship.Date > lowerdate).ToList();
+                }
+                if (upperdate > d1)
+                {
+                    sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
+                }
+                if (HasContract == true)
+                {
+                    sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
+                }
+                if (WhatGoods != null)
+                {
+                    List<Sponsor> sp = sponsors;
+                    foreach (var s in sp)
+                    {
+                        if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
+                            s.Sponsorship.WhatGoods = "-";
+                    }
+                    try
+                    {
+                        sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    }
+                    catch { }
+                }
+                if (GoodsAmounts != null)
+                {
+                    List<Sponsor> sp = sponsors;
+                    foreach (var s in sp)
+                    {
+                        if (s.Sponsorship.GoodsAmount == null || s.Sponsorship.GoodsAmount == "")
+                            s.Sponsorship.GoodsAmount = "-";
+                    }
+                    try
+                    {
+                        sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    }
+                    catch { }
+                }
+                if (MoneyAmount != null)
+                {
+                    List<Sponsor> sp = sponsors;
+                    foreach (var s in sp)
+                    {
+                        if (s.Sponsorship.MoneyAmount == null || s.Sponsorship.MoneyAmount == "")
+                            s.Sponsorship.MoneyAmount = "-";
+                    }
+                    try
+                    {
+                        sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    }
+                    catch { }
+                }
+                ViewBag.counter = sponsors.Count();
+                ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "sponsors";
+                foreach (Sponsor ben in sponsors)
+                {
+                    stringofids = stringofids + "," + ben.SponsorID;
+                }
+                ViewBag.stringofids = stringofids;
+                sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+                sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
+                return View(sponsors);
             }
             catch
             {

@@ -3,6 +3,14 @@
     ViewBag.Title = "Events";
     int currentpage = ViewBag.Page;
     string stringofids = ViewBag.stringofids;
+    string string1 = ViewBag.Filter1;
+    string string2 = ViewBag.Filter2;
+    string string3 = ViewBag.Filter3;
+    string string4 = ViewBag.Filter4;
+    string string5 = ViewBag.Filter5;
+    string string6 = ViewBag.Filter6;
+    string string7 = ViewBag.Filter7;
+    string string8 = ViewBag.Filter8;
 }
 
 @inject IViewLocalizer Localizer
@@ -139,6 +147,50 @@
 @using (Html.BeginForm("Index", "Event/", FormMethod.Get))
 {<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all events"]</a>
 
+<br />
+@if (string1 != null)
+{
+    <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Nameofevent"]:@string1
+    </div>
+}
+@if (string2 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Placeofevent"]:@string2
+        :@string2
+    </div>
+}
+@if (string3 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Typeofactivities"]: @string3
+    </div>
+}
+@if (string4 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Typeofevent"]:@string4
+    </div>
+}
+@if (string5 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Allocatedvolunteers"]:@string5
+    </div>
+}
+@if (string6 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Allocatedsponsors"]:@string6
+    </div>
+}
+@if (string7 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Inntinf"]:@string7
+    </div>
+}
+
+@if (string8 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["intsuo"]:@string8
+    </div>
+}
 <table class="table">
     <tr>
         <th>

@@ -5,6 +5,14 @@
     ViewBag.Title = "Index";
     int currentpage = ViewBag.Page;
     string stringofids = ViewBag.stringofids;
+    string string1 = ViewBag.Filters1;
+    string string2 = ViewBag.Filters2;
+    string string3 = ViewBag.Filters3;
+    string string4 = ViewBag.Filters4;
+    string string5 = ViewBag.Filters5;
+    string string6 = ViewBag.Filters6;
+    string string7 = ViewBag.Filters7;
+    string string8 = ViewBag.Filters8;
 }
 <head>
     <style>
@@ -129,7 +137,50 @@
 }
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
 {<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all sponsors"]</a>
-   
+<br />
+@if (string1 != null)
+{
+    <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Nameofsponsor"]:@string1
+    </div>
+}
+@if (string2 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["ContactInfo"]:@string2
+        :@string2
+    </div>
+}
+@if (string3 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["HasContract"]
+    </div>
+}
+@if (string4 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Whatgoods"]:@string4
+    </div>
+}
+@if (string5 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Moneyamount"]:@string5
+    </div>
+}
+@if (string6 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Goodsamount"]:@string6
+    </div>
+}
+@if (string7 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["Inntinf"]:@string7
+    </div>
+}
+
+@if (string8 != null)
+{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+        @Localizer["intsuo"]:@string8
+    </div>
+}
 <table class="table" style="text-align:top">
 
     <tr>
