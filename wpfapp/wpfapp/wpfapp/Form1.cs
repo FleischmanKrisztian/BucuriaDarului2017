@@ -81,14 +81,14 @@ namespace wpfapp
                         string value = "test";
                         if (radioButton1.Checked)
                         {
-                            value = " Zilnic, in zilele lucratoare, a unei mese calde / persoana / zi lucratoare, repsectiv pranzul, acordata la sediul cantinei.";
+                            value = radioButton1.Text.ToString();
                         }
                         else if (radioButton2.Checked)
-                        { value = "Zilnic, in zilele lucratoare, a unei mese calde/persoana/zi lucratoare, repsectiv pranzul, acordata la domiciliul beneficiarului."; }
+                        { value = radioButton2.Text.ToString(); }
                         else if (radioButton3.Checked)
-                        { value = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la domiciliul beneficiarului."; }
+                        { value = radioButton3.Text.ToString(); }
                         else if (radioButton4.Checked)
-                        { value = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei."; }
+                        { value = radioButton4.Text.ToString(); }
                         else
                             if (aaa != null)
                         { value = aaa; }
@@ -97,9 +97,6 @@ namespace wpfapp
 
                         doc.ReplaceText("<option>", volc.myOption);
                         doc.ReplaceText("<NumberOfPortions>", volc.NumberOfPortion);
-
-                        //string ct = "0";
-                        //doc.ReplaceText("<NumberOfPortions>", ct);
                         doc.ReplaceText("<RegistrationDate> ", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<ExpirationDate>", volc.ExpirationDate.ToShortDateString());
                         if (saveFileDialog1.FileName.Contains(".docx") == true)
