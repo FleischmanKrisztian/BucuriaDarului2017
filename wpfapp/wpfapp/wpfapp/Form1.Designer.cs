@@ -34,14 +34,19 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.button1.Location = new System.Drawing.Point(40, 77);
+            this.button1.Location = new System.Drawing.Point(312, 80);
             this.button1.Name = "button1";
             this.button1.Padding = new System.Windows.Forms.Padding(2);
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -53,7 +58,7 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button2.Location = new System.Drawing.Point(40, 122);
+            this.button2.Location = new System.Drawing.Point(312, 124);
             this.button2.Name = "button2";
             this.button2.Padding = new System.Windows.Forms.Padding(2);
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -65,50 +70,29 @@
             // richTextBox1
             // 
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox1.Location = new System.Drawing.Point(151, 80);
+            this.richTextBox1.Location = new System.Drawing.Point(393, 80);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(408, 23);
+            this.richTextBox1.Size = new System.Drawing.Size(209, 23);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged_1);
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(151, 122);
+            this.richTextBox2.Location = new System.Drawing.Point(393, 124);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(408, 23);
+            this.richTextBox2.Size = new System.Drawing.Size(209, 23);
             this.richTextBox2.TabIndex = 3;
             this.richTextBox2.Text = "";
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(151, 151);
+            this.richTextBox3.Location = new System.Drawing.Point(312, 167);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(408, 101);
+            this.richTextBox3.Size = new System.Drawing.Size(290, 101);
             this.richTextBox3.TabIndex = 4;
             this.richTextBox3.Text = "";
             this.richTextBox3.TextChanged += new System.EventHandler(this.richTextBox3_TextChanged);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Zilnic, in zilele lucratoare, a unei mese calde / persoana / zi lucratoare, repse" +
-                "ctiv pranzul, acordata la sediul cantinei.",
-            "Zilnic, in zilele lucratoare, a unei mese calde/persoana/zi lucratoare, repsectiv" +
-                " pranzul, acordata la domiciliul beneficiarului.",
-            "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/" +
-                "persoana/zi lucratoare, respectiv pranzul, acordat la domiciliul beneficiarului." +
-                "",
-            "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/" +
-                "persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei."});
-            this.comboBox1.Location = new System.Drawing.Point(151, 38);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(408, 21);
-            this.comboBox1.TabIndex = 5;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -122,14 +106,80 @@
             this.label1.Text = "Please choose an option for beneficiary contract:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // radioButton1
+            // 
+            this.radioButton1.Location = new System.Drawing.Point(12, 28);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(293, 55);
+            this.radioButton1.TabIndex = 7;
+            this.radioButton1.Text = "Zilnic, in zilele lucratoare, a unei mese calde / persoana / zi lucratoare, repse" +
+    "ctiv pranzul, acordata la sediul cantinei.";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.Location = new System.Drawing.Point(12, 89);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(293, 46);
+            this.radioButton2.TabIndex = 8;
+            this.radioButton2.Text = "Zilnic, in zilele lucratoare, a unei mese calde/persoana/zi lucratoare, repsectiv" +
+    " pranzul, acordata la domiciliul beneficiarului.";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.Location = new System.Drawing.Point(12, 148);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(293, 56);
+            this.radioButton3.TabIndex = 9;
+            this.radioButton3.Text = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/" +
+    "persoana/zi lucratoare, respectiv pranzul, acordat la domiciliul beneficiarului." +
+    "";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.Location = new System.Drawing.Point(12, 210);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(293, 58);
+            this.radioButton4.TabIndex = 10;
+            this.radioButton4.Text = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/" +
+    "persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei.";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(13, 295);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(292, 20);
+            this.textBox1.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 271);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 16);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Other option:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(676, 264);
+            this.ClientSize = new System.Drawing.Size(676, 327);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.radioButton4);
+            this.Controls.Add(this.radioButton3);
+            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.richTextBox3);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
@@ -153,8 +203,13 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

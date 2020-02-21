@@ -52,11 +52,7 @@ namespace Finalaplication
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
-                //would be great if worked
-                //else if (vollunteercollection.CountDocuments(z => details[0].Contains(z.Firstname)) >= 1 && details[1] == "" && vollunteercollection.CountDocuments(z => details[0].Contains(z.Lastname)) >= 1)
-                //{
-                //    duplicates = duplicates + details[0] + ", ";
-                //}
+               
                 else
                 {
                     if (details[7] == "0" || details[7] == "1")
