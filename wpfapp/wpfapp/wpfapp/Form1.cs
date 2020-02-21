@@ -21,8 +21,6 @@ namespace wpfapp
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-
             Stream myStream;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -40,27 +38,23 @@ namespace wpfapp
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             try
             {
-                
-
-
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
-                        
-                            string[] args = Environment.GetCommandLineArgs();
+                        string[] args = Environment.GetCommandLineArgs();
                         RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
-                        //string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
+                        // string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
+                        string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
                         beneficiarycontract volc = new beneficiarycontract();
                         volc = JsonConvert.DeserializeObject<beneficiarycontract>(result);
-                        
+
                         try
                         {
                             string phrase = volc.Address;
@@ -82,28 +76,38 @@ namespace wpfapp
                             doc.ReplaceText("<IdAplication>", volc.IdApplication);
                         if (volc.IdInvestigation != null)
                             doc.ReplaceText("<IdInvestigation>", volc.IdInvestigation);
-                        string aaa = comboBox1.Text;
-                        volc.myOption = aaa;
-                        
-                        
+
+                        string aaa = textBox1.Text;
+                        string value = "test";
+                        if (radioButton1.Checked)
+                        {
+                            value = radioButton1.Text.ToString();
+                        }
+                        else if (radioButton2.Checked)
+                        { value = radioButton2.Text.ToString(); }
+                        else if (radioButton3.Checked)
+                        { value = radioButton3.Text.ToString(); }
+                        else if (radioButton4.Checked)
+                        { value = radioButton4.Text.ToString(); }
+                        else
+                            if (aaa != null)
+                        { value = aaa; }
+                        else { value = ""; }
+                        volc.myOption = value;
+
                         doc.ReplaceText("<option>", volc.myOption);
                         doc.ReplaceText("<NumberOfPortions>", volc.NumberOfPortion);
-                        
-
-
-                        //string ct = "0";
-                        //doc.ReplaceText("<NumberOfPortions>", ct); 
                         doc.ReplaceText("<RegistrationDate> ", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<ExpirationDate>", volc.ExpirationDate.ToShortDateString());
                         if (saveFileDialog1.FileName.Contains(".docx") == true)
                         {
-                            doc.SaveAs(saveFileDialog1.FileName );
+                            doc.SaveAs(saveFileDialog1.FileName);
                         }
                         else
                         {
                             doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
                         }
-                        
+
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }
@@ -157,7 +161,7 @@ namespace wpfapp
                             doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
                             saveFileDialog1.FileName = saveFileDialog1.FileName + ".docx";
                         }
-                       
+
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }
@@ -201,24 +205,26 @@ namespace wpfapp
 
         private void richTextBox3_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
-            
-                
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
+        }
 
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
         }
     }
 }
