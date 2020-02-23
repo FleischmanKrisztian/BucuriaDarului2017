@@ -611,10 +611,17 @@ namespace Finalaplication.Controllers
                 {
                     stringofids = stringofids + "," + ben.BeneficiaryID;
                 }
+                
                 ViewBag.stringofids = stringofids;
                 ViewBag.nrofdocs = nrofdocs;
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
+
+               
+                
+                
+                string key = "FirstSession";
+                HttpContext.Session.SetString(key, stringofids);
                 return View(beneficiaries);
             }
             catch
@@ -624,16 +631,21 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver(string ids)
+        public ActionResult CSVSaver()
         {
-            ViewBag.IDS = ids;
+            // ViewBag.IDS = ids;
+            string ids = HttpContext.Session.GetString("FirstSession");
+            ids = "csvexporterapp:" + ids;
+            string key = "SecondSession";
+            HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(string IDS, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv)
+        public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv)
         {
+            var IDS = HttpContext.Session.GetString("SecondSession");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -704,9 +716,14 @@ namespace Finalaplication.Controllers
             if (Gender == true)
                 ids_and_options = ids_and_options + "W";
 
-            ids_and_options = "csvexporterapp:" + ids_and_options;
+           
+            string key = "beneficiariesSession";
+            HttpContext.Session.SetString(key, ids_and_options);
+            //return View();
+            string ids_and_optionssecond = "csvexporterapp:" + key;
+            return Redirect(ids_and_optionssecond);
+            // return Redirect(key);
 
-            return Redirect(ids_and_options);
 
             //return RedirectToAction("Index");
         }

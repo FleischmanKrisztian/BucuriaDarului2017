@@ -1,5 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -18,9 +19,11 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Beneficiary> benefeciarycollection;
         // GET: api/Excelprinter
 
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(string id)
+        [HttpGet("{key}", Name = "Get")]
+        
+        public string Get( string key)
         {
+            string id = HttpContext.Session.GetString(key);
             dbcontext = new MongoDBContext();
             string jsonstring = "";
             id = id.Replace("\"", "");
@@ -451,6 +454,8 @@ namespace Finalaplication.Controllers
                         }
 
                         jsonstring = jsonstring + "}]";
+
+                      
                     }
                 }
             }
