@@ -618,9 +618,7 @@ namespace Finalaplication.Controllers
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
 
-                var RESULT = HttpContext.Session.GetString("beneficiariesSession");
-                
-                
+             
                 string key = "FirstSession";
                 HttpContext.Session.SetString(key, stringofids);
                 return View(beneficiaries);
