@@ -715,6 +715,9 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
+            if(jsonstring!="")
+            { DictionaryHelper.d.Remove(key); }
+            
             return jsonstring;
         }
     }
