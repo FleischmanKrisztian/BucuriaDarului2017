@@ -22,6 +22,7 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+       
 
         public string DuplicatesCallback(string duplicates)
         {
@@ -617,7 +618,7 @@ namespace Finalaplication.Controllers
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
 
-               
+                var RESULT = HttpContext.Session.GetString("beneficiariesSession");
                 
                 
                 string key = "FirstSession";
@@ -720,7 +721,9 @@ namespace Finalaplication.Controllers
             string key = "beneficiariesSession";
             HttpContext.Session.SetString(key, ids_and_options);
             //return View();
+            DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
             string ids_and_optionssecond = "csvexporterapp:" + key;
+
             return Redirect(ids_and_optionssecond);
             // return Redirect(key);
 
