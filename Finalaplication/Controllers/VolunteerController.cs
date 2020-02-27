@@ -85,7 +85,6 @@ namespace Finalaplication.Controllers
                 int documentsimported = 0;
 
 
-
                 // string[] header =get header from file 
                 // typeofexport mytype = getexporttype (header);
                 // if (mytype == exporttypes.bucuriadarului)
@@ -93,27 +92,39 @@ namespace Finalaplication.Controllers
                 // processedVolunteers.GetProcessedV(vollunteercollection, result, duplicates, documentsimported));
                 // } else  (mytype == exporttypes.webexport) { }
 
+                string[] myHeader = cSV.GetHeader(path);
+                string typeOfExport = cSV.TypeOfExport(myHeader);
 
+                
+
+               
+
+                DCallback _callback1 = new DCallback(DCallback);
+                Importedcallback _callback2 = new Importedcallback(Importedcallback);
+
+                ProcessedDataVolunteer processedVolunteers = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, _callback1, _callback2);
+                if(typeOfExport=="BucuriaDarului")
+                { Thread myThreadVolunteer = new Thread(() => processedVolunteers.processedVolunteers(vollunteercollection, result, duplicates, documentsimported));
+                    myThreadVolunteer.Start();
+
+                    myThreadVolunteer.Join();
+                }
+                else
+                { Thread myThreadVolunteer = new Thread(() => processedVolunteers.GetVolunteersFromApp(vollunteercollection, result, duplicates, documentsimported));
+                    myThreadVolunteer.Start();
+
+                    myThreadVolunteer.Join();
+                }
+                
+                
+                string docsimported = TempData.Peek("docsimportedv").ToString();
+                duplicates = TempData.Peek("duplicatesv").ToString();
 
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
-
-                DCallback _callback1 = new DCallback(DCallback);
-                Importedcallback _callback2 = new Importedcallback(Importedcallback);
-
-                ProcessedDataVolunteer processedVolunteers = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, _callback1, _callback2);
-                Thread myThreadVolunteer = new Thread(() => processedVolunteers.GetProcessedV(vollunteercollection, result, duplicates, documentsimported));
-
-                myThreadVolunteer.Start();
-
-                myThreadVolunteer.Join();
-
-                string docsimported = TempData.Peek("docsimportedv").ToString();
-                duplicates = TempData.Peek("duplicatesv").ToString();
-
                 return RedirectToAction("ImportUpdate", "Beneficiary", new { duplicates, docsimported });
             }
             catch
