@@ -202,7 +202,10 @@ namespace Finalaplication.Controllers
                     ViewBag.stringofids = stringofids;
                     events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                     events = events.AsQueryable().Take(nrofdocs).ToList();
-                    return View(events);
+
+                string key = "FirstSessionEvent";
+                HttpContext.Session.SetString(key, stringofids);
+                return View(events);
                 
                 
             }
@@ -213,16 +216,20 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver(string ids)
+        public ActionResult CSVSaver()
         {
-            ViewBag.IDS = ids;
+            string ids = HttpContext.Session.GetString("FirstSessionEvent");
+            ids = "csvexporterapp:" + ids;
+            string key = "SecondSessionEvent";
+            HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(string IDS, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
+        public ActionResult CSVSaver( bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
+            var IDS = HttpContext.Session.GetString("SecondSessionEvent");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -243,9 +250,12 @@ namespace Finalaplication.Controllers
             if (AllocatedSponsors == true)
                 ids_and_options = ids_and_options + "8";
 
-            ids_and_options = "csvexporterapp:" + ids_and_options;
+            string key = "eventSession";
+            HttpContext.Session.SetString(key, ids_and_options);
+            DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
+            string ids_and_optionssecond = "csvexporterapp:" + key;
 
-            return Redirect(ids_and_options);
+            return Redirect(ids_and_optionssecond);
         }
 
         public ActionResult VolunteerAllocation(string id, string searching)

@@ -1,8 +1,11 @@
 ﻿using Finalaplication.App_Start;
+using Finalaplication.Common;
 using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System.Collections;
 using System.Linq;
 
 namespace Finalaplication.Controllers
@@ -16,11 +19,27 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
+        //private readonly IHttpContextAccessor _contextAccessor;
+        //public ExcelprinterController(IHttpContextAccessor contextAccessor)
+        //{
+        //    _contextAccessor = contextAccessor;
+        //}
         // GET: api/Excelprinter
 
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(string id)
+
+
+        [HttpGet("{key}", Name = "Get")]
+        public string Get( string key)
         {
+            string id;
+            // string id = HttpContext.Session.GetString(key);
+            //string id = HttpContext.Session.GetObject(key);
+
+            // string id = _contextAccessor.HttpContext.Session.GetString(key); 
+            // string id = HttpHelper.HttpContext.Session.GetString(key);
+            DictionaryHelper dictionary;
+                DictionaryHelper.d.TryGetValue(key,out dictionary);
+            id = dictionary.Ids.ToString();
             dbcontext = new MongoDBContext();
             string jsonstring = "";
             id = id.Replace("\"", "");
@@ -451,6 +470,8 @@ namespace Finalaplication.Controllers
                         }
 
                         jsonstring = jsonstring + "}]";
+
+                      
                     }
                 }
             }
@@ -694,6 +715,9 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
+            if(jsonstring!="")
+            { DictionaryHelper.d.Remove(key); }
+            
             return jsonstring;
         }
     }

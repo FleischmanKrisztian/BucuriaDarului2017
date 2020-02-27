@@ -82,16 +82,20 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver(string ids)
+        public ActionResult CSVSaver()
         {
-            ViewBag.IDS = ids;
+            string ids = HttpContext.Session.GetString("FirstSessionSponsor");
+            ids = "csvexporterapp:" + ids;
+            string key = "SecondSessionSponsor";
+            HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(string IDS, bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
+        public ActionResult CSVSaver( bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
+            var IDS = HttpContext.Session.GetString("SecondSessionSponsor");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -114,9 +118,12 @@ namespace Finalaplication.Controllers
             if (GoodsAmount == true)
                 ids_and_options = ids_and_options + "9";
 
-            ids_and_options = "csvexporterapp:" + ids_and_options;
+            string key = "sponsorSession";
+            HttpContext.Session.SetString(key, ids_and_options);
+            DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
+            string ids_and_optionssecond = "csvexporterapp:" + key;
 
-            return Redirect(ids_and_options);
+            return Redirect(ids_and_optionssecond);
         }
 
         public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
@@ -245,6 +252,9 @@ namespace Finalaplication.Controllers
                 ViewBag.stringofids = stringofids;
                 sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
+
+                string key = "FirstSessionSponsor";
+                HttpContext.Session.SetString(key, stringofids);
                 return View(sponsors);
             }
             catch
