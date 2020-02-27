@@ -82,25 +82,35 @@ namespace Finalaplication.Controllers
                 string duplicates = "";
                 int documentsimported = 0;
 
+                string[] myHeader = cSV.GetHeader(path);
+                string typeOfExport = cSV.TypeOfExport(myHeader);
+
+                DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
+                Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
+                
+                ProcessedDataBeneficiary processed = new ProcessedDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2);
+                if (typeOfExport == "BucuriaDarului")
+                {
+                    Thread myThread = new Thread(() => processed.GetProcessedBeneficiaries(beneficiarycollection, result, duplicates, documentsimported));
+
+                    myThread.Start();
+
+                    myThread.Join();
+                }else
+                {
+                    Thread myThread = new Thread(() => processed.GetProcessedBeneficiariesFromApp(beneficiarycollection, result, duplicates, documentsimported));
+
+                    myThread.Start();
+
+                    myThread.Join();
+                }
+                string docsimported = TempData.Peek("docsimported").ToString();
+                duplicates = TempData.Peek("duplicates").ToString();
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
-
-                DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
-                Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
-
-                ProcessDataBeneficiary processed = new ProcessDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2);
-                Thread myThread = new Thread(() => processed.GetProcessedB(beneficiarycollection, result, duplicates, documentsimported));
-
-                myThread.Start();
-
-                myThread.Join();
-
-                string docsimported = TempData.Peek("docsimported").ToString();
-                duplicates = TempData.Peek("duplicates").ToString();
-
                 return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
             }
             catch

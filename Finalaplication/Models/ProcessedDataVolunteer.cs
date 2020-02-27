@@ -36,7 +36,7 @@ namespace Finalaplication
             this.callback2 = _callback2;
         }
 
-        public void GetProcessedV(IMongoCollection<Volunteer> volunteercollection, List<string[]> result, string duplicates, int documentsimported)
+        public void GetVolunteersFromApp(IMongoCollection<Volunteer> volunteercollection, List<string[]> result, string duplicates, int documentsimported)
         {
             foreach (var details in result)
             {
@@ -52,7 +52,7 @@ namespace Finalaplication
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
-               
+
                 else
                 {
                     if (details[7] == "0" || details[7] == "1")
@@ -271,118 +271,146 @@ namespace Finalaplication
                         volunteer.Additionalinfo = ai;
                         vollunteercollection.InsertOne(volunteer);
                     }
-                    else
+                }
+
+            }
+            callback1?.Invoke(duplicates);
+            callback2?.Invoke(documentsimported);
+        }
+
+
+
+        public void processedVolunteers(IMongoCollection<Volunteer> volunteercollection, List<string[]> result, string duplicates, int documentsimported)
+        {
+            foreach (var details in result)
+            {
+                if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                {
+                    duplicates = duplicates + details[0] + " " + details[1] + ", ";
+                }
+                else if (vollunteercollection.CountDocuments(z => z.CNP == details[1]) >= 1 && details[1] != "")
+                {
+                    duplicates = duplicates + details[0] + ", ";
+                }
+                else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "" && vollunteercollection.CountDocuments(z => z.Lastname == details[1]) >= 1)
+                {
+                    duplicates = duplicates + details[0] + " " + details[1] + ", ";
+                }
+
+                else
+                {
+                    documentsimported++;
+                    Volunteer volunteer = new Volunteer();
+                    try
                     {
-                        documentsimported++;
-                        Volunteer volunteer = new Volunteer();
-                        try
-                        {
-                            if (details[0].Contains(" ") == true)
+                        if (details[0].Contains(" ") == true)
 
+                        {
+                            string[] splitName = details[0].Split();
+                            volunteer.Lastname = splitName[0];
+                            if (splitName.Count() == 2)
                             {
-                                string[] splitName = details[0].Split();
-                                volunteer.Lastname = splitName[0];
-                                if (splitName.Count() == 2)
-                                {
-                                    volunteer.Firstname = splitName[1];
-                                }
-                                else
-                                {
-                                    volunteer.Firstname = splitName[1] + " " + splitName[2];
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            volunteer.Firstname = "Error";
-                            volunteer.Lastname = "Error";
-                        }
-
-                        volunteer.Birthdate = DateTime.MinValue;
-
-                        Address a = new Address();
-
-                        if (details[2] != null || details[2] != "")
-                        {
-                            a.District = details[2];
-                        }
-                        else
-                        {
-                            a.District = "-";
-                        }
-                        a.City = "-";
-                        a.Street = "-";
-                        a.Number = "-";
-
-                        volunteer.Gender = Gender.Male;
-
-                        if (details[9] != null || details[9] != "")
-                        {
-                            volunteer.Desired_workplace = details[9];
-                        }
-                        else
-                        {
-                            volunteer.Desired_workplace = "-";
-                        }
-                        if (details[1] != null || details[1] != "")
-                        {
-                            volunteer.CNP = details[1];
-                        }
-                        else
-                        {
-                            volunteer.CNP = "-";
-                        }
-
-                        if (details[3] != null)
-                        {
-                            if (details[3] != "")
-                            {
-                                string[] splited = details[3].Split(" ");
-                                volunteer.CIseria = splited[0];
-                                volunteer.CINr = splited[1];
+                                volunteer.Firstname = splitName[1];
                             }
                             else
                             {
-                                volunteer.CIseria = "Error";
-                                volunteer.CINr = "Error";
+                                volunteer.Firstname = splitName[1] + " " + splitName[2];
                             }
                         }
+                    }
+                    catch
+                    {
+                        volunteer.Firstname = "Error";
+                        volunteer.Lastname = "Error";
+                    }
 
-                        volunteer.CIEliberat = DateTime.MinValue;
+                    volunteer.Birthdate = DateTime.MinValue;
 
-                        volunteer.HourCount = 0;
+                    Address a = new Address();
 
-                        ContactInformation c = new ContactInformation();
-                        if (details[4] != null || details[4] != "")
+                    if (details[2] != null || details[2] != "")
+                    {
+                        a.District = details[2];
+                    }
+                    else
+                    {
+                        a.District = "-";
+                    }
+                    a.City = "-";
+                    a.Street = "-";
+                    a.Number = "-";
+
+                    volunteer.Gender = Gender.Male;
+
+                    if (details[9] != null || details[9] != "")
+                    {
+                        volunteer.Desired_workplace = details[9];
+                    }
+                    else
+                    {
+                        volunteer.Desired_workplace = "-";
+                    }
+                    if (details[1] != null || details[1] != "")
+                    {
+                        volunteer.CNP = details[1];
+                    }
+                    else
+                    {
+                        volunteer.CNP = "-";
+                    }
+
+                    if (details[3] != null)
+                    {
+                        if (details[3] != "")
                         {
-                            c.PhoneNumber = details[4];
+                            string[] splited = details[3].Split(" ");
+                            volunteer.CIseria = splited[0];
+                            volunteer.CINr = splited[1];
                         }
                         else
                         {
-                            c.PhoneNumber = "-";
+                            volunteer.CIseria = "Error";
+                            volunteer.CINr = "Error";
                         }
-
-                        volunteer.ContactInformation = c;
-                        Additionalinfo ai = new Additionalinfo();
-
-                        ai.HasDrivingLicence = false;
-                        if (details[8] != null)
-                        {
-                            ai.Remark = details[8];
-                        }
-                        else { ai.Remark = "-"; }
-                        ai.HasCar = false;
-
-                        volunteer.Occupation = "-";
-
-                        volunteer.Address = a;
-                        volunteer.Additionalinfo = ai;
-                        vollunteercollection.InsertOne(volunteer);
                     }
+
+                    volunteer.CIEliberat = DateTime.MinValue;
+
+                    volunteer.HourCount = 0;
+
+                    ContactInformation c = new ContactInformation();
+                    if (details[4] != null || details[4] != "")
+                    {
+                        c.PhoneNumber = details[4];
+                    }
+                    else
+                    {
+                        c.PhoneNumber = "-";
+                    }
+
+                    volunteer.ContactInformation = c;
+                    Additionalinfo ai = new Additionalinfo();
+
+                    ai.HasDrivingLicence = false;
+                    if (details[8] != null)
+                    {
+                        ai.Remark = details[8];
+                    }
+                    else { ai.Remark = "-"; }
+                    ai.HasCar = false;
+
+                    volunteer.Occupation = "-";
+
+                    volunteer.Address = a;
+                    volunteer.Additionalinfo = ai;
+                    vollunteercollection.InsertOne(volunteer);
                 }
+
             }
+
             callback1?.Invoke(duplicates);
             callback2?.Invoke(documentsimported);
         }
     }
 }
+
