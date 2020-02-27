@@ -100,8 +100,11 @@ namespace Finalaplication.Controllers
 
                 string docsimported = TempData.Peek("docsimported").ToString();
                 duplicates = TempData.Peek("duplicates").ToString();
-
-                return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
+                string key1 = "BeneficiaryImportDuplicate";
+                DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
+                string key2 = "BeneficiaryImportedDocuments";
+                DictionaryHelper.d.Add(key2, new DictionaryHelper(docsimported));
+                return RedirectToAction("ImportUpdate", new { key1, key2 });
             }
             catch
             {
@@ -109,9 +112,14 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult ImportUpdate(string duplicates, string docsimported)
+        public ActionResult ImportUpdate(string key1, string key2)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+            DictionaryHelper dictionary;
+            DictionaryHelper.d.TryGetValue(key1, out dictionary);
+            string duplicates = dictionary.Ids.ToString();
+            DictionaryHelper.d.TryGetValue(key2, out dictionary);
+            string docsimported = dictionary.Ids.ToString();
             ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
             return View();
