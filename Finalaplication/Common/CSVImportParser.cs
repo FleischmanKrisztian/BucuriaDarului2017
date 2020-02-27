@@ -11,8 +11,7 @@ namespace Elm.Core.Parsers
         #region private functions
 
         private readonly char[] SeparatorChars = new char[]
-                                                        {   
-                                                            
+                                                        {
                                                             ';',
                                                             '!',
                                                             '\t'
@@ -25,8 +24,7 @@ namespace Elm.Core.Parsers
                                                        ' '
                                                    };
 
-        private readonly string SEPARATOR = ";" ;
-        
+        private readonly string SEPARATOR = ";";
 
         private char AutoDetectColumnSeparator(string line)
         {
@@ -70,6 +68,40 @@ namespace Elm.Core.Parsers
             return SeparatorChars[0];
         }
 
+        public string[] GetHeader(string filename)
+        {
+            string firstLine;
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                firstLine = sr.ReadLine();
+            }
+
+            string[] header = firstLine.Split(";");
+            return header;
+        }
+
+        public string TypeOfExport(string[] header)
+        {
+            string type = string.Empty;
+            if (header.Count() >= 22 && header.Contains("Gender") == true)
+            {
+                type = "MyApp";
+            }
+            if (header[1].Contains("CNP")==true)
+            {
+                type = "BucuriaDarului";
+            }
+            if (header[2].Contains("Nume cap familie") == true)
+            {
+                type = "BucuriaDarului";
+            }
+            if (header[8].Contains("CNP") == true)
+            {
+                type = "MyApp";
+            }
+            return type;
+        }
+
         public List<string[]> ExtractDataFromFile(string filename)
         {
             List<string[]> list = new List<string[]>();
@@ -82,14 +114,12 @@ namespace Elm.Core.Parsers
                 string line = string.Empty;
                 string firstrow = sr.ReadLine();
 
-
                 while ((line = sr.ReadLine()) != null)
                 {
-                   
                     var ImportColumnSeparator = AutoDetectColumnSeparator(line);
 
                     string[] splits;
-                    if (!line.Contains(SEPARATOR + ImportColumnSeparator) )
+                    if (!line.Contains(SEPARATOR + ImportColumnSeparator))
                     {
                         splits = line.Split(new char[] { ImportColumnSeparator });
                     }
