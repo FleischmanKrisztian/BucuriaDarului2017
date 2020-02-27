@@ -9,7 +9,7 @@ namespace Finalaplication.Models
 
     public delegate int Documentsimportedcallback(int documentsimported);
 
-    public class ProcessDataBeneficiary
+    public class ProcessedDataBeneficiary
     {
         private IMongoCollection<Beneficiary> beneficiarycollection;
         private List<string[]> result;
@@ -18,7 +18,7 @@ namespace Finalaplication.Models
         private DuplicatesCallback callback1;
         private Documentsimportedcallback callback2;
 
-        public ProcessDataBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
+        public ProcessedDataBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
         List<string[]> result,
         string duplicates,
         int documentsimported,
@@ -34,7 +34,7 @@ namespace Finalaplication.Models
             this.callback2 = _callback2;
         }
 
-        public void GetProcessedB(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
+        public void GetProcessedBeneficiaries(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
         {
             foreach (var details in result)
             {
@@ -378,7 +378,34 @@ namespace Finalaplication.Models
 
                         beneficiarycollection.InsertOne(beneficiary);
                     }
-                    else
+                }
+            }
+            callback1?.Invoke(duplicates);
+            callback2?.Invoke(documentsimported);
+        }
+
+        public void GetProcessedBeneficiariesFromApp(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
+        {
+            foreach (var details in result)
+            {
+                if (beneficiarycollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
+                {
+                    duplicates = duplicates + details[0] + ", ";
+                }
+                else if (beneficiarycollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                {
+                    duplicates = duplicates + details[1] + ", ";
+                }
+                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
+                {
+                    duplicates = duplicates + details[0] + ", ";
+                }
+                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[1]) >= 1 && details[9] == "")
+                {
+                    duplicates = duplicates + details[1] + ", ";
+                }
+                else
+                {
                     {
                         documentsimported++;
 
@@ -583,9 +610,9 @@ namespace Finalaplication.Models
                         {
                             try
                             {
-                            DateTime myDate = DateTime.ParseExact(details[9].Substring(1, 2) + "-" + details[9].Substring(3, 2) + "-" + details[9].Substring(5, 2), "yy-MM-dd",
-                            System.Globalization.CultureInfo.InvariantCulture);
-                            personal.Birthdate = myDate.AddHours(5);
+                                DateTime myDate = DateTime.ParseExact(details[9].Substring(1, 2) + "-" + details[9].Substring(3, 2) + "-" + details[9].Substring(5, 2), "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                personal.Birthdate = myDate.AddHours(5);
                             }
                             catch
                             {
