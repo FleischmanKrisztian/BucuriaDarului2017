@@ -384,6 +384,7 @@ namespace Finalaplication.Models
             callback2?.Invoke(documentsimported);
         }
 
+
         public void GetProcessedBeneficiariesFromApp(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
         {
             foreach (var details in result)
@@ -400,9 +401,9 @@ namespace Finalaplication.Models
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[1]) >= 1 && details[9] == "")
+                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
-                    duplicates = duplicates + details[1] + ", ";
+                    duplicates = duplicates + details[0] + ", ";
                 }
                 else
                 {
