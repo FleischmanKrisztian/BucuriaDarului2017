@@ -115,7 +115,7 @@ namespace wpfapp
                         string[] args = Environment.GetCommandLineArgs();
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
-                        args[1] = args[1].Remove(0, 16);
+                        //args[1] = args[1].Remove(0, 16);
                         //probabil trebuie modificat
                         //string url = "http://localhost:5000/api/Values/" + args[1];
                         string url = "http://localhost:44395/api/Values/" + args[1];

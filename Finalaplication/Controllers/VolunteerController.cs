@@ -83,21 +83,9 @@ namespace Finalaplication.Controllers
                 List<string[]> result = cSV.ExtractDataFromFile(path);
                 string duplicates = "";
                 int documentsimported = 0;
-
-
-                // string[] header =get header from file 
-                // typeofexport mytype = getexporttype (header);
-                // if (mytype == exporttypes.bucuriadarului)
-                // {
-                // processedVolunteers.GetProcessedV(vollunteercollection, result, duplicates, documentsimported));
-                // } else  (mytype == exporttypes.webexport) { }
-
+                
                 string[] myHeader = cSV.GetHeader(path);
                 string typeOfExport = cSV.TypeOfExport(myHeader);
-
-                
-
-               
 
                 DCallback _callback1 = new DCallback(DCallback);
                 Importedcallback _callback2 = new Importedcallback(Importedcallback);
