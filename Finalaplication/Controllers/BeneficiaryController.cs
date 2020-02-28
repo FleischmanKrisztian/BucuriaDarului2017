@@ -111,14 +111,14 @@ namespace Finalaplication.Controllers
                 DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
                 string key2 = "BeneficiaryImportedDocuments";
                 DictionaryHelper.d.Add(key2, new DictionaryHelper(docsimported));
-                return RedirectToAction("ImportUpdate", new { key1, key2 });
+                
 
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
-                return RedirectToAction("ImportUpdate", new { duplicates, docsimported });
+                return RedirectToAction("ImportUpdate", new { key1, key2 });
 
             }
             catch
@@ -137,6 +137,10 @@ namespace Finalaplication.Controllers
             string docsimported = dictionary.Ids.ToString();
             ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
+            
+             DictionaryHelper.d.Remove(key1);
+            DictionaryHelper.d.Remove(key1);
+
             return View();
         }
 
