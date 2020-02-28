@@ -62,7 +62,7 @@ namespace CSVExporter
                 args[1] = args[1].Remove(0, 15);
                 //probabil trebuie modifica
                 //string url = "http://localhost:5000/api/ExcelPrinter/" + args[1];
-                string url = "http://localhost:44395/api/ExcelPrinter/" + args[1];
+                string url = "https://localhost:44395/api/ExcelPrinter/" + args[1];
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
                 string path = richTextBox1.Text;
                 string csvasstring = "";
