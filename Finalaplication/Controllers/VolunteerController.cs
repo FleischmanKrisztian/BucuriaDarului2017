@@ -113,14 +113,13 @@ namespace Finalaplication.Controllers
               
                 string key1 = "VolunteerImportDuplicate";
                 DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
-                string key2 = "VolunteerImportedDocuments";
-                DictionaryHelper.d.Add(key2, new DictionaryHelper(docsimported));
+                
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
-                return RedirectToAction("ImportUpdate", "Beneficiary", new { key1, key2});
+                return RedirectToAction("ImportUpdate", "Beneficiary", new { docsimported, key1});
             }
             catch
             {

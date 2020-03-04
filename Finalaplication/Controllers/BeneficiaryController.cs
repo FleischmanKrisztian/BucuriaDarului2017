@@ -109,8 +109,7 @@ namespace Finalaplication.Controllers
 
                 string key1 = "BeneficiaryImportDuplicate";
                 DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
-                string key2 = "BeneficiaryImportedDocuments";
-                DictionaryHelper.d.Add(key2, new DictionaryHelper(docsimported));
+               
                 
 
                 FileInfo file = new FileInfo(path);
@@ -118,7 +117,7 @@ namespace Finalaplication.Controllers
                 {
                     file.Delete();
                 }
-                return RedirectToAction("ImportUpdate", new { key1, key2 });
+                return RedirectToAction("ImportUpdate", new { docsimported, key1 });
 
             }
             catch
@@ -127,18 +126,18 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult ImportUpdate(string key1, string key2)
+        public ActionResult ImportUpdate(string docsimported, string key1)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             DictionaryHelper dictionary;
+            
+            
             DictionaryHelper.d.TryGetValue(key1, out dictionary);
             string duplicates = dictionary.Ids.ToString();
-            DictionaryHelper.d.TryGetValue(key2, out dictionary);
-            string docsimported = dictionary.Ids.ToString();
             ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
             
-             DictionaryHelper.d.Remove(key1);
+             
             DictionaryHelper.d.Remove(key1);
 
             return View();
