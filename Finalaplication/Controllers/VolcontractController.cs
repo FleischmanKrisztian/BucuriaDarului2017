@@ -98,7 +98,16 @@ namespace Finalaplication.Controllers
                         volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
                         volcontract.Hourcount = vol.HourCount;
                         volcontract.CIeliberator = vol.CIeliberator;
-                        volcontract.Address = vol.Address.District + ", " + vol.Address.City + ", " + vol.Address.Street + ", " + vol.Address.Number;
+                        string address = string.Empty;
+                        if (vol.Address.District != null && vol.Address.District != "-")
+                        { address = vol.Address.District; }
+                        if (vol.Address.City != null && vol.Address.City != "-")
+                        { address = address + "," + vol.Address.City; }
+                        if (vol.Address.Street != null && vol.Address.Street != "-")
+                        { address = vol.Address.District; }
+                        if (vol.Address.Number != null && vol.Address.Number != "-")
+                        { address = address + "," + vol.Address.City; }
+                        volcontract.Address = address;
                         volcontract.OwnerID = idofvol;
                         volcontractcollection.InsertOne(volcontract);
                         return RedirectToAction("Index", new { idofvol });

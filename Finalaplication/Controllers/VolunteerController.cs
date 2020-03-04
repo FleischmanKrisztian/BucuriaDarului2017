@@ -83,7 +83,7 @@ namespace Finalaplication.Controllers
                 List<string[]> result = cSV.ExtractDataFromFile(path);
                 string duplicates = "";
                 int documentsimported = 0;
-                
+                string docsimported = string.Empty;
                 string[] myHeader = cSV.GetHeader(path);
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
@@ -96,17 +96,21 @@ namespace Finalaplication.Controllers
                     myThreadVolunteer.Start();
 
                     myThreadVolunteer.Join();
+                     docsimported = TempData.Peek("docsimportedv").ToString();
+                    duplicates = TempData.Peek("duplicatesv").ToString();
                 }
                 else
                 { Thread myThreadVolunteer = new Thread(() => processedVolunteers.GetVolunteersFromApp(vollunteercollection, result, duplicates, documentsimported));
                     myThreadVolunteer.Start();
 
                     myThreadVolunteer.Join();
+                    docsimported = TempData.Peek("docsimportedv").ToString();
+                    duplicates = TempData.Peek("duplicatesv").ToString();
                 }
                 
                 
-                string docsimported = TempData.Peek("docsimportedv").ToString();
-                duplicates = TempData.Peek("duplicatesv").ToString();
+               
+              
                 string key1 = "VolunteerImportDuplicate";
                 DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
                 string key2 = "VolunteerImportedDocuments";

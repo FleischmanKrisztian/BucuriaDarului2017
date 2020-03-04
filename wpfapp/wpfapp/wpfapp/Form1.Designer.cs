@@ -41,12 +41,15 @@
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.button1.Location = new System.Drawing.Point(312, 80);
+            this.button1.Location = new System.Drawing.Point(12, 33);
             this.button1.Name = "button1";
             this.button1.Padding = new System.Windows.Forms.Padding(2);
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -58,7 +61,7 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button2.Location = new System.Drawing.Point(312, 124);
+            this.button2.Location = new System.Drawing.Point(12, 92);
             this.button2.Name = "button2";
             this.button2.Padding = new System.Windows.Forms.Padding(2);
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -70,7 +73,7 @@
             // richTextBox1
             // 
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox1.Location = new System.Drawing.Point(393, 80);
+            this.richTextBox1.Location = new System.Drawing.Point(93, 33);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(209, 23);
             this.richTextBox1.TabIndex = 2;
@@ -79,7 +82,7 @@
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(393, 124);
+            this.richTextBox2.Location = new System.Drawing.Point(93, 94);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(209, 23);
             this.richTextBox2.TabIndex = 3;
@@ -87,7 +90,7 @@
             // 
             // richTextBox3
             // 
-            this.richTextBox3.Location = new System.Drawing.Point(312, 167);
+            this.richTextBox3.Location = new System.Drawing.Point(12, 141);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.Size = new System.Drawing.Size(290, 101);
             this.richTextBox3.TabIndex = 4;
@@ -99,7 +102,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(37, 9);
+            this.label1.Location = new System.Drawing.Point(28, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(297, 16);
             this.label1.TabIndex = 6;
@@ -108,7 +111,7 @@
             // 
             // radioButton1
             // 
-            this.radioButton1.Location = new System.Drawing.Point(12, 28);
+            this.radioButton1.Location = new System.Drawing.Point(19, 19);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(293, 55);
             this.radioButton1.TabIndex = 7;
@@ -119,7 +122,7 @@
             // 
             // radioButton2
             // 
-            this.radioButton2.Location = new System.Drawing.Point(12, 89);
+            this.radioButton2.Location = new System.Drawing.Point(16, 80);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(293, 46);
             this.radioButton2.TabIndex = 8;
@@ -130,7 +133,7 @@
             // 
             // radioButton3
             // 
-            this.radioButton3.Location = new System.Drawing.Point(12, 148);
+            this.radioButton3.Location = new System.Drawing.Point(16, 139);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(293, 56);
             this.radioButton3.TabIndex = 9;
@@ -141,7 +144,7 @@
             // 
             // radioButton4
             // 
-            this.radioButton4.Location = new System.Drawing.Point(12, 210);
+            this.radioButton4.Location = new System.Drawing.Point(16, 201);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(293, 58);
             this.radioButton4.TabIndex = 10;
@@ -151,7 +154,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 295);
+            this.textBox1.Location = new System.Drawing.Point(17, 286);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(292, 20);
             this.textBox1.TabIndex = 11;
@@ -161,11 +164,38 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 271);
+            this.label2.Location = new System.Drawing.Point(16, 262);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 16);
             this.label2.TabIndex = 12;
             this.label2.Text = "Other option:";
+            // 
+            // panel1
+            // 
+            this.panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Pane;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.radioButton1);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.radioButton2);
+            this.panel1.Controls.Add(this.radioButton4);
+            this.panel1.Controls.Add(this.radioButton3);
+            this.panel1.Location = new System.Drawing.Point(308, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(376, 324);
+            this.panel1.TabIndex = 13;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button3.Location = new System.Drawing.Point(227, 63);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "Show Options";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
             // Form1
             // 
@@ -173,13 +203,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(676, 327);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.radioButton4);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.richTextBox3);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
@@ -191,8 +216,9 @@
             this.Name = "Form1";
             this.Text = "Contract Printer";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -210,6 +236,8 @@
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button3;
     }
 }
 

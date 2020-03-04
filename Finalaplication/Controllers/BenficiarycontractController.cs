@@ -122,7 +122,7 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
-
+              
                 return View(contract);
             }
             catch

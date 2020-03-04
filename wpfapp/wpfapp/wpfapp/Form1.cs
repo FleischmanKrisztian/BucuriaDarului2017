@@ -10,6 +10,8 @@ namespace wpfapp
 {
     public partial class Form1 : Form
     {
+       
+
         public Form1()
         {
             InitializeComponent();
@@ -17,10 +19,12 @@ namespace wpfapp
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
             //^the method posted before, that edits registry
+            panel1.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             Stream myStream;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -35,7 +39,9 @@ namespace wpfapp
 
         private void button2_Click(object sender, EventArgs e)
         {
+            
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            
             try
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -113,19 +119,20 @@ namespace wpfapp
                     else
                     {
                         string[] args = Environment.GetCommandLineArgs();
+                        RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
-                        //args[1] = args[1].Remove(0, 16);
+                        args[1] = args[1].Remove(0, 16);
                         //probabil trebuie modificat
                         //string url = "http://localhost:5000/api/Values/" + args[1];
-                        string url = "http://localhost:44395/api/Values/" + args[1];
+                        string url = "https://localhost:44395/api/Values/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
                         volcontract volc = new volcontract();
                         volc = JsonConvert.DeserializeObject<volcontract>(result);
-                        string phrase = volc.Address;
-                        string[] words = phrase.Split(',');
+                        if (volc.Address != null)
+                            doc.ReplaceText("<Address>", volc.Address);
                         doc.ReplaceText("<nrreg>", volc.NumberOfRegistration);
                         doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
@@ -139,14 +146,14 @@ namespace wpfapp
                             doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
                         if (volc.CIeliberator != null)
                             doc.ReplaceText("<eliberator>", volc.CIeliberator);
-                        if (words[1] != null)
-                            doc.ReplaceText("<oras>", words[1]);
-                        if (words[2] != null)
-                            doc.ReplaceText("<str>", words[2]);
-                        if (words[3] != null)
-                            doc.ReplaceText("<nr>", words[3]);
-                        if (words[0] != null)
-                            doc.ReplaceText("<jud>", words[0]);
+                        //if (words[1] != null)
+                        //    doc.ReplaceText("<oras>", words[1]);
+                        //if (words[2] != null)
+                        //    doc.ReplaceText("<str>", words[2]);
+                        //if (words[3] != null)
+                        //    doc.ReplaceText("<nr>", words[3]);
+                        //if (words[0] != null)
+                        //    doc.ReplaceText("<jud>", words[0]);
                         if (volc.Nrtel != null)
                             doc.ReplaceText("<tel>", volc.Nrtel);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
@@ -225,6 +232,33 @@ namespace wpfapp
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+              
+            
+        }
+        
+        private void HideOrShow(string text)
+        {
+            
+            if (text.Contains("ContractBeneficiar") == true || text.Contains("Contract_cadru_asistati_Fundatie") == true || text.Contains("beneficiar") == true || text.Contains("Beneficiar") == true)
+            {
+
+                panel1.Show();
+
+            }
+            else
+            { panel1.Hide(); }
+
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+
+            HideOrShow(richTextBox1.Text);
+            
         }
     }
 }

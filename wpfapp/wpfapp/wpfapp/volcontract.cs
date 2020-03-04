@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wpfapp
 {
-    class volcontract
+    internal class volcontract
     {
         public string Firstname { get; set; }
 
@@ -29,9 +25,7 @@ namespace wpfapp
         public string CIseria { get; set; }
 
         public string CINr { get; set; }
-
         public DateTime CIEliberat { get; set; }
-
         public string CIeliberator { get; set; }
 
         public bool InActivity { get; set; }
