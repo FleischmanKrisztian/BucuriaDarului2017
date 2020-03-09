@@ -4,6 +4,7 @@ using Finalaplication.Common;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -22,7 +23,8 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
-       
+        private readonly IStringLocalizer<BeneficiaryController> _localizer;
+
 
         public string DuplicatesCallback(string duplicates)
         {
@@ -36,7 +38,7 @@ namespace Finalaplication.Controllers
             return documentsimported;
         }
 
-        public BeneficiaryController()
+        public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
             try
             {
@@ -45,6 +47,7 @@ namespace Finalaplication.Controllers
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             }
             catch { }
+            _localizer = localizer;
         }
 
         public ActionResult FileUpload()
@@ -125,7 +128,7 @@ namespace Finalaplication.Controllers
                 return RedirectToAction("IncorrectFile", "Home");
             }
         }
-
+        
         public ActionResult ImportUpdate(string docsimported, string key1)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -668,7 +671,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv)
+        public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv,bool WeeklyPackage)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionBeneficiary");
             string ids_and_options = IDS + "(((";
@@ -740,13 +743,16 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "V";
             if (Gender == true)
                 ids_and_options = ids_and_options + "W";
-
-           
+            if (WeeklyPackage == true)
+                ids_and_options = ids_and_options + "Z";
+            ControllerHelper helper = new ControllerHelper();
+            string header= helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
+            string key2 = "beneficiariesHeader";
             string key = "beneficiariesSession";
-            HttpContext.Session.SetString(key, ids_and_options);
             //return View();
             DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
-            string ids_and_optionssecond = "csvexporterapp:" + key;
+            DictionaryHelper.d.Add(key2, new DictionaryHelper(header));
+            string ids_and_optionssecond = "csvexporterapp:" +";" +key+";"+key2;
 
             return Redirect(ids_and_optionssecond);
             // return Redirect(key);

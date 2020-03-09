@@ -59,6 +59,7 @@
             <a class="dropdown-item" href="#"> @Html.CheckBox("Fullname", isChecked: false)  @Localizer["Fullname"] </a>
             <a class="dropdown-item" href="#"> @Html.CheckBox("Active", isChecked: false) @Localizer["Active"]</a>
             <a class="dropdown-item" href="#"> @Html.CheckBox("Canteen", isChecked: false)  @Localizer["Canteen"]</a>
+            <a class="dropdown-item" href="#"> @Html.CheckBox("WeeklyPackage", isChecked: false)  @Localizer["Weeklypackage"]</a>
             <a class="dropdown-item" href="#"> @Html.CheckBox("HomeDelivery", isChecked: false) @Localizer["HomeDelivery"]</a>
             <a class="dropdown-item" href="#"> @Html.CheckBox("HomeDeliveryDriver", isChecked: false)  @Localizer["Homedeliverydriver"]</a>
             <a class="dropdown-item" href="#"> @Html.CheckBox("HasGDPRAgreement", isChecked: false) @Localizer["HasGDPRagreement"]</a>
@@ -89,8 +90,8 @@
             <a class="dropdown-item" href="#">  @Html.CheckBox("Gender", isChecked: false) @Localizer["Gender"]</a>
         </div>
     </div>
-    
 
+   
     @Html.Hidden("IDS", IDS)
 
     <div class="row align-items-center">

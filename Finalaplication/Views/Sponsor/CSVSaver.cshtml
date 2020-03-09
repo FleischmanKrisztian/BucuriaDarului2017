@@ -6,7 +6,7 @@
 @using Microsoft.Extensions.Options
 @{
     ViewData["Title"] = "CSVSaver";
-  
+
 }
 <head>
     <style>
@@ -29,6 +29,7 @@
         td {
             text-align: center;
         }
+
         .scrollable-menu {
             height: auto;
             max-height: 200px;
@@ -62,7 +63,7 @@
             <a class="dropdown-item" href="#"> @Html.CheckBox("ContractDetails", isChecked: false) @Localizer["ContractDetails"]</a>
             <a class="dropdown-item" href="#"> @Html.CheckBox("PhoneNumber", isChecked: false) @Localizer["Phonenumber"]</a>
             <a class="dropdown-item" href="#">  @Html.CheckBox("MailAdress", isChecked: false) @Localizer["Emailaddress"]</a>
-           
+
         </div>
     </div>
 
@@ -70,7 +71,6 @@
 
 
 
-   
 
     <div class="row align-items-center">
         <div class="col-3">
@@ -78,9 +78,9 @@
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
             </button>
-      
-                <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
-            
+
+            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+
         </div>
     </div>
     <br />

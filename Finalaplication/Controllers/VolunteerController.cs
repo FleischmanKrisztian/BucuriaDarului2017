@@ -4,6 +4,7 @@ using Finalaplication.Common;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -24,6 +25,8 @@ namespace Finalaplication.Controllers
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Volcontract> volcontractcollection;
+        private readonly IStringLocalizer<VolunteerController> _localizer;
+
 
         public string DCallback(string duplicates)
         {
@@ -36,8 +39,8 @@ namespace Finalaplication.Controllers
             TempData["docsimportedv"] = documentsimported;
             return documentsimported;
         }
-
-        public VolunteerController()
+        
+        public VolunteerController(IStringLocalizer<VolunteerController> localizer)
         {
             try
             {
@@ -45,10 +48,11 @@ namespace Finalaplication.Controllers
                 volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+                _localizer = localizer;
             }
             catch { }
         }
-
+       
         public ActionResult FileUpload()
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -572,9 +576,12 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "D";
             string key = "volunteerSession";
             HttpContext.Session.SetString(key, ids_and_options);
-            
+            ControllerHelper helper = new ControllerHelper();
+            string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
+            string key2 = "beneficiariesHeader";
             DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
-            string ids_and_optionssecond = "csvexporterapp:" + key;
+            DictionaryHelper.d.Add(key2, new DictionaryHelper(header));
+            string ids_and_optionssecond = "csvexporterapp:" + ";" + key + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
         }

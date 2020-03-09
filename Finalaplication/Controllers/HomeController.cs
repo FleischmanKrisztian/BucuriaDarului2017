@@ -4,6 +4,7 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
@@ -20,8 +21,9 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Volcontract> volcontractcollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+        private readonly IStringLocalizer<HomeController> _localizer;
 
-        public HomeController()
+        public HomeController(IStringLocalizer<HomeController> localizer)
         {
             dbcontext = new MongoDBContext();
 
@@ -31,10 +33,12 @@ namespace Finalaplication.Controllers
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+                
             }
             catch (Exception)
             {
             }
+            _localizer = localizer;
         }
 
         public IActionResult Index()

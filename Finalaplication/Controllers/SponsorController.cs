@@ -4,6 +4,7 @@ using Finalaplication.Common;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
@@ -20,14 +21,16 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private readonly IMongoCollection<Event> eventcollection;
         private IMongoCollection<Sponsor> sponsorcollection;
+        private readonly IStringLocalizer<SponsorController> _localizer;
 
-        public SponsorController()
+        public SponsorController(IStringLocalizer<SponsorController> localizer)
         {
             try
             {
                 dbcontext = new MongoDBContext();
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+                _localizer = localizer;
             }
             catch { }
         }
@@ -119,11 +122,16 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "9";
 
             string key = "sponsorSession";
-            HttpContext.Session.SetString(key, ids_and_options);
+            ControllerHelper helper = new ControllerHelper();
+            string header = helper.GetHeaderForExcelPrinterSponsor(_localizer);
+            string key2 = "sponsorHeader";
             DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
-            string ids_and_optionssecond = "csvexporterapp:" + key;
+            DictionaryHelper.d.Add(key2, new DictionaryHelper(header));
+            string ids_and_optionssecond = "csvexporterapp:" + ";" + key + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
+
+            
         }
 
         public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
