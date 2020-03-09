@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.Controllers
@@ -28,19 +29,11 @@ namespace Finalaplication.Controllers
         private readonly IStringLocalizer<VolunteerController> _localizer;
 
 
-        public string DCallback(string duplicates)
-        {
-            TempData["duplicatesv"] = duplicates;
-            return duplicates;
-        }
 
-        public int Importedcallback(int documentsimported)
-        {
-            TempData["docsimportedv"] = documentsimported;
-            return documentsimported;
-        }
-        
+       
+
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
+
         {
             try
             {
@@ -60,7 +53,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult FileUpload(IFormFile Files)
+        public async Task<ActionResult> FileUpload(IFormFile Files)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
@@ -91,30 +84,24 @@ namespace Finalaplication.Controllers
                 string[] myHeader = cSV.GetHeader(path);
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
-                DCallback _callback1 = new DCallback(DCallback);
-                Importedcallback _callback2 = new Importedcallback(Importedcallback);
 
-                ProcessedDataVolunteer processedVolunteers = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, _callback1, _callback2);
-                if(typeOfExport=="BucuriaDarului")
-                { Thread myThreadVolunteer = new Thread(() => processedVolunteers.processedVolunteers(vollunteercollection, result, duplicates, documentsimported));
-                    myThreadVolunteer.Start();
-
-                    myThreadVolunteer.Join();
-                     docsimported = TempData.Peek("docsimportedv").ToString();
-                    duplicates = TempData.Peek("duplicatesv").ToString();
+                ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported);
+               
+                string key1 = "";
+                if (typeOfExport == "BucuriaDarului")
+                {
+                    var tuple = await processed.ProcessedVolunteers();
+                    docsimported = tuple.Item1;
+                    key1 = tuple.Item2;
                 }
                 else
-                { Thread myThreadVolunteer = new Thread(() => processedVolunteers.GetVolunteersFromApp(vollunteercollection, result, duplicates, documentsimported));
-                    myThreadVolunteer.Start();
-
-                    myThreadVolunteer.Join();
-                    docsimported = TempData.Peek("docsimportedv").ToString();
-                    duplicates = TempData.Peek("duplicatesv").ToString();
+                {
+                    var tuple = await processed.GetVolunteersFromApp();
+                    docsimported = tuple.Item1;
+                    key1 = tuple.Item2;
                 }
-                
-                string key1 = "VolunteerImportDuplicate";
-                DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
-                
+
+
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {

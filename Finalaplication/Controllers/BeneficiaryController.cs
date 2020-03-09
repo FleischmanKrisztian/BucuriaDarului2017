@@ -14,6 +14,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.Controllers
@@ -26,17 +27,7 @@ namespace Finalaplication.Controllers
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
 
 
-        public string DuplicatesCallback(string duplicates)
-        {
-            TempData["duplicates"] = duplicates;
-            return duplicates;
-        }
-
-        public int Documentsimportedcallback(int documentsimported)
-        {
-            TempData["docsimported"] = documentsimported;
-            return documentsimported;
-        }
+       
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
@@ -57,7 +48,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult FileUpload(IFormFile Files)
+        public async Task< ActionResult> FileUpload(IFormFile Files)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
@@ -88,33 +79,22 @@ namespace Finalaplication.Controllers
                 string[] myHeader = cSV.GetHeader(path);
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
-                DuplicatesCallback callback1 = new DuplicatesCallback(DuplicatesCallback);
-                Documentsimportedcallback callback2 = new Documentsimportedcallback(Documentsimportedcallback);
-                
-                ProcessedDataBeneficiary processed = new ProcessedDataBeneficiary(beneficiarycollection, result, duplicates, documentsimported, callback1, callback2);
+               
+                ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported);
+                string docsimported ="";
+                string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
                 {
-                    Thread myThread = new Thread(() => processed.GetProcessedBeneficiaries(beneficiarycollection, result, duplicates, documentsimported));
-
-                    myThread.Start();
-
-                    myThread.Join();
+                    var tuple = await processed.GetProcessedBeneficiaries();
+                     docsimported = tuple.Item1;
+                     key1 = tuple.Item2;
                 }else
                 {
-                    Thread myThread = new Thread(() => processed.GetProcessedBeneficiariesFromApp(beneficiarycollection, result, duplicates, documentsimported));
-
-                    myThread.Start();
-
-                    myThread.Join();
+                    var tuple = await processed.GetProcessedBeneficiariesFromApp();
+                    docsimported = tuple.Item1;
+                    key1 = tuple.Item2;
                 }
-                string docsimported = TempData.Peek("docsimported").ToString();
-                duplicates = TempData.Peek("duplicates").ToString();
-
-                string key1 = "BeneficiaryImportDuplicate";
-                DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
                
-                
-
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
