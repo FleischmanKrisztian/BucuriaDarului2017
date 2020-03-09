@@ -1,40 +1,35 @@
-﻿using MongoDB.Driver;
+﻿using Finalaplication.Common;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.Models
 {
-    public delegate string DuplicatesCallback(string duplicates);
-
-    public delegate int Documentsimportedcallback(int documentsimported);
-
-    public class ProcessedDataBeneficiary
+    public class ProcessedBeneficiary
     {
-        private IMongoCollection<Beneficiary> beneficiarycollection;
-        private List<string[]> result;
-        private string duplicates;
-        private int documentsimported;
-        private DuplicatesCallback callback1;
-        private Documentsimportedcallback callback2;
+        
+            private IMongoCollection<Beneficiary> beneficiarycollection;
+            private List<string[]> result;
+            private string duplicates;
+            private int documentsimported;
+         
 
-        public ProcessedDataBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
-        List<string[]> result,
-        string duplicates,
-        int documentsimported,
-        DuplicatesCallback _callback1,
-        Documentsimportedcallback _callback2
-        )
-        {
-            this.beneficiarycollection = beneficiarycollection;
-            this.result = result;
-            this.duplicates = duplicates;
-            this.documentsimported = documentsimported;
-            this.callback1 = _callback1;
-            this.callback2 = _callback2;
-        }
-
-        public void GetProcessedBeneficiaries(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
+            public ProcessedBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
+            List<string[]> result,
+            string duplicates,
+            int documentsimported
+            )
+            {
+                this.beneficiarycollection = beneficiarycollection;
+                this.result = result;
+                this.duplicates = duplicates;
+                this.documentsimported = documentsimported;
+              
+            }
+        public async Task<Tuple<string, string>> GetProcessedBeneficiaries()
         {
             foreach (var details in result)
             {
@@ -270,7 +265,7 @@ namespace Finalaplication.Models
                         }
                     }
                     catch { personal.Birthdate = DateTime.MinValue; }
-                    
+
 
                     if (details[41] == "1" || details[41] == "True")
                     {
@@ -336,11 +331,14 @@ namespace Finalaplication.Models
                     beneficiarycollection.InsertOne(beneficiary);
                 }
             }
-            callback1?.Invoke(duplicates);
-            callback2?.Invoke(documentsimported);
+            string key1 = "BeneficiaryImportDuplicate";
+            DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
+            return new Tuple<string, string>(documentsimported.ToString(), key1);
+           
+
         }
 
-        public void GetProcessedBeneficiariesFromApp(IMongoCollection<Beneficiary> beneficiarycollection, List<string[]> result, string duplicates, int documentsimported)
+        public async Task<Tuple<string, string>> GetProcessedBeneficiariesFromApp()
         {
             foreach (var details in result)
             {
@@ -683,9 +681,9 @@ namespace Finalaplication.Models
                     }
                 }
             }
-
-            callback1?.Invoke(duplicates);
-            callback2?.Invoke(documentsimported);
+            string key1 = "BeneficiaryImportDuplicate";
+            DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
+            return new Tuple<string, string>(documentsimported.ToString(), key1);
         }
     }
 }

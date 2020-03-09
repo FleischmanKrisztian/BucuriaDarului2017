@@ -1,15 +1,15 @@
-﻿using Finalaplication.Models;
+﻿using Finalaplication.Common;
+using Finalaplication.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication
 {
-    public delegate string DCallback(string duplicates);
-
-    public delegate int Importedcallback(int documentsimported);
+    
 
     public class ProcessedDataVolunteer
     {
@@ -17,26 +17,22 @@ namespace Finalaplication
         private List<string[]> result;
         private string duplicates;
         private int documentsimported;
-        private DCallback callback1;
-        private Importedcallback callback2;
+    
 
         public ProcessedDataVolunteer(IMongoCollection<Volunteer> vollunteercollection,
        List<string[]> result,
        string duplicates,
-       int documentsimported,
-       DCallback _callback1,
-       Importedcallback _callback2
+       int documentsimported
        )
         {
             this.vollunteercollection = vollunteercollection;
             this.result = result;
             this.duplicates = duplicates;
             this.documentsimported = documentsimported;
-            this.callback1 = _callback1;
-            this.callback2 = _callback2;
+            
         }
 
-        public void GetVolunteersFromApp(IMongoCollection<Volunteer> volunteercollection, List<string[]> result, string duplicates, int documentsimported)
+        public async Task<Tuple<string, string>> GetVolunteersFromApp()
         {
             foreach (var details in result)
             {
@@ -274,13 +270,15 @@ namespace Finalaplication
                 }
 
             }
-            callback1?.Invoke(duplicates);
-            callback2?.Invoke(documentsimported);
+            string key1 = "VolunteerImportDuplicate";
+            DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
+            return new Tuple<string, string>(documentsimported.ToString(), key1);
+
         }
 
 
 
-        public void processedVolunteers(IMongoCollection<Volunteer> volunteercollection, List<string[]> result, string duplicates, int documentsimported)
+        public async Task<Tuple<string, string>> ProcessedVolunteers()
         {
             foreach (var details in result)
             {
@@ -408,8 +406,9 @@ namespace Finalaplication
 
             }
 
-            callback1?.Invoke(duplicates);
-            callback2?.Invoke(documentsimported);
+            string key1 = "VolunteerImportDuplicate";
+            DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
+            return new Tuple<string, string>(documentsimported.ToString(), key1);
         }
     }
 }
