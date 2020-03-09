@@ -5,6 +5,7 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -22,8 +23,11 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
+        private readonly IStringLocalizer<EventController> _localizer;
 
-        public EventController(IHostingEnvironment env)
+       
+
+        public EventController(IHostingEnvironment env, IStringLocalizer<EventController> localizer)
         {
             try
             {
@@ -33,6 +37,7 @@ namespace Finalaplication.Controllers
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
             }
             catch { }
+            _localizer = localizer;
         }
 
         public ActionResult FileUpload()
@@ -89,6 +94,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+              
                 if (searching != null)
                 { ViewBag.Filter1 = searching; }
                 if (searchingPlace != null)
@@ -251,9 +257,12 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "8";
 
             string key = "eventSession";
-            HttpContext.Session.SetString(key, ids_and_options);
+            ControllerHelper helper = new ControllerHelper();
+            string header = helper.GetHeaderForExcelPrinterEvent(_localizer);
+            string key2 = "eventHeader";
             DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
-            string ids_and_optionssecond = "csvexporterapp:" + key;
+            DictionaryHelper.d.Add(key2, new DictionaryHelper(header));
+            string ids_and_optionssecond = "csvexporterapp:" + ";" + key + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
         }

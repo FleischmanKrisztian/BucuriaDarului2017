@@ -1,8 +1,10 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Collections;
@@ -12,34 +14,40 @@ namespace Finalaplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExcelprinterController : ControllerBase
+    public class ExcelprinterController :ControllerBase
     {
         private MongoDBContext dbcontext;
         private IMongoCollection<Volunteer> volunteerscollection;
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
-        //private readonly IHttpContextAccessor _contextAccessor;
-        //public ExcelprinterController(IHttpContextAccessor contextAccessor)
-        //{
-        //    _contextAccessor = contextAccessor;
-        //}
-        // GET: api/Excelprinter
-
-
-
-        [HttpGet("{key}", Name = "Get")]
+         
+// GET: api/Excelprinter
+       [HttpGet("{key}", Name = "Get")]
         public string Get( string key)
         {
+            string key1 = string.Empty;
+            string key2 = string.Empty;
+            if (key.Contains(";") == true)
+            {
+               string[] splited= key.Split(";");
+                key1 = splited[1];
+                key2 = splited[2];
+            }
             string id;
-            // string id = HttpContext.Session.GetString(key);
-            //string id = HttpContext.Session.GetObject(key);
-
-            // string id = _contextAccessor.HttpContext.Session.GetString(key); 
-            // string id = HttpHelper.HttpContext.Session.GetString(key);
             DictionaryHelper dictionary;
-                DictionaryHelper.d.TryGetValue(key,out dictionary);
+            DictionaryHelper.d.TryGetValue(key1,out dictionary);
+
             id = dictionary.Ids.ToString();
+            if (id!= "")
+            { DictionaryHelper.d.Remove(key1); }
+            string header;
+            DictionaryHelper.d.TryGetValue(key2, out dictionary);
+            header = dictionary.Ids.ToString();
+            if (header != "")
+            { DictionaryHelper.d.Remove(key2); }
+            ControllerHelper helper = new ControllerHelper();
+            string[] finalHeader = helper.SplitedHeader(header);
             dbcontext = new MongoDBContext();
             string jsonstring = "";
             id = id.Replace("\"", "");
@@ -69,7 +77,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"NameOfSponsor\":" + "\"" + sponsor.NameOfSponsor + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + sponsor.NameOfSponsor + "\"";
                             first = false;
                         }
                         if (properties.Contains("2"))
@@ -78,7 +86,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Date\":" + "\"" + sponsor.Sponsorship.Date + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + sponsor.Sponsorship.Date + "\"";
                             first = false;
                         }
                         if (properties.Contains("3"))
@@ -87,7 +95,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"HasContract \":" + "\"" + sponsor.Contract.HasContract + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + helper.GetAnswer(finalHeader[5], sponsor.Contract.HasContract) + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -97,7 +105,7 @@ namespace Finalaplication.Controllers
                                 jsonstring = jsonstring + ",";
                             }
                             var ContractDetails = sponsor.Contract.NumberOfRegistration + "," + sponsor.Contract.RegistrationDate + "," + sponsor.Contract.ExpirationDate + ",";
-                            jsonstring = jsonstring + "\"ContractDetails \":" + "\"" + ContractDetails + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + ContractDetails + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
@@ -106,7 +114,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"PhoneNumber\":" + "\"" + sponsor.ContactInformation.PhoneNumber + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[7] + "\":" + "\"" + sponsor.ContactInformation.PhoneNumber + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
@@ -115,7 +123,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"MailAdress \":" + "\"" + sponsor.ContactInformation.MailAdress + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[8] + "\":" + "\"" + sponsor.ContactInformation.MailAdress + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -124,7 +132,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"MoneyAmount\":" + "\"" + sponsor.Sponsorship.MoneyAmount + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + sponsor.Sponsorship.MoneyAmount + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
@@ -133,7 +141,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"WhatGoods\":" + "\"" + sponsor.Sponsorship.WhatGoods + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + sponsor.Sponsorship.WhatGoods + "\"";
                             first = false;
                         }
                         if (properties.Contains("9"))
@@ -142,7 +150,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"GoodsAmount\":" + "\"" + sponsor.Sponsorship.GoodsAmount + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + sponsor.Sponsorship.GoodsAmount + "\"";
                             first = false;
                         }
                         jsonstring = jsonstring + "}]";
@@ -174,7 +182,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Fullname\":" + "\"" + beneficiary.Fullname + "\"";
+                           
+                            jsonstring = jsonstring + "\""+ finalHeader[0] + "\":" + "\"" + beneficiary.Fullname + "\"";
+                           
                             first = false;
                         }
                         if (properties.Contains("2"))
@@ -183,16 +193,28 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"In Activity\":" + "\"" + beneficiary.Active + "\""; ;
+                            
+                            jsonstring = jsonstring + "\""+ finalHeader[1]+"\":" + "\"" + helper.GetAnswer(finalHeader[1], beneficiary.Active) + "\""; ;
                             first = false;
                         }
+                        
                         if (properties.Contains("3"))
                         {
                             if (!first)
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Canteen\":" + "\"" + beneficiary.Canteen + "\""; ;
+                            
+                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + helper.GetAnswer(finalHeader[2], beneficiary.Canteen) + "\""; 
+                            first = false;
+                        }
+                        if (properties.Contains("Z"))
+                        {
+                            if (!first)
+                            {
+                                jsonstring = jsonstring + ",";
+                            }
+                            jsonstring = jsonstring + "\"" + finalHeader[34] + "\":" + "\"" + helper.GetAnswer(finalHeader[34], beneficiary.Weeklypackage) + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -201,7 +223,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Home Delivery\":" + "\"" + beneficiary.HomeDelivery + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + helper.GetAnswer(finalHeader[3], beneficiary.HomeDelivery) + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
@@ -210,7 +232,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Home Delivery Driver\":" + "\"" + beneficiary.HomeDeliveryDriver + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + beneficiary.HomeDeliveryDriver + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
@@ -219,7 +241,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Has GDPR Agreement\":" + "\"" + beneficiary.HasGDPRAgreement + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + helper.GetAnswer(finalHeader[5], beneficiary.HasGDPRAgreement)+ "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -228,7 +250,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Address\":" + "\"" + beneficiary.Adress + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + beneficiary.Adress + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
@@ -237,7 +259,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"CNP\":" + "\"" + beneficiary.CNP + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[7] + "\":" + "\"" + beneficiary.CNP + "\"";
                             first = false;
                         }
                         if (properties.Contains("9"))
@@ -246,9 +268,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"CIseria\":" + "\"" + beneficiary.CI.CIinfo + "\","; ;
+                            jsonstring = jsonstring + "\"" + finalHeader[8] + "\":" + "\"" + beneficiary.CI.CIinfo + "\","; ;
 
-                            jsonstring = jsonstring + "\"CIEliberat\":" + "\"" + beneficiary.CI.CIEliberat + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[9] + "\":" + "\"" + beneficiary.CI.CIEliberat + "\"";
 
                             first = false;
                         }
@@ -258,7 +280,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Marca\":" + "\"" + beneficiary.Marca.marca + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[10] + "\":" + "\"" + beneficiary.Marca.marca + "\"";
                             first = false;
                         }
                         if (properties.Contains("B"))
@@ -267,7 +289,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"IdInvestigation\":" + "\"" + beneficiary.Marca.IdInvestigation + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[11] + "\":" + "\"" + beneficiary.Marca.IdInvestigation + "\"";
                             first = false;
                         }
                         if (properties.Contains("C"))
@@ -276,7 +298,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"IdAplication\":" + "\"" + beneficiary.Marca.IdAplication + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[12] + "\":" + "\"" + beneficiary.Marca.IdAplication + "\"";
                             first = false;
                         }
                         if (properties.Contains("D"))
@@ -285,7 +307,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Number Of Portions\":" + "\"" + beneficiary.NumberOfPortions + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[13] + "\":" + "\"" + beneficiary.NumberOfPortions + "\"";
                             first = false;
                         }
                         if (properties.Contains("E"))
@@ -294,7 +316,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Last Time Activ\":" + "\"" + beneficiary.LastTimeActiv + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[14] + "\":" + "\"" + beneficiary.LastTimeActiv.ToLongDateString() + "\"";
                             first = false;
                         }
                         if (properties.Contains("F"))
@@ -303,7 +325,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"PhoneNumber\":" + "\"" + beneficiary.PersonalInfo.PhoneNumber + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[15] + "\":" + "\"" + beneficiary.PersonalInfo.PhoneNumber + "\"";
                             first = false;
                         }
                         if (properties.Contains("G"))
@@ -312,7 +334,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Birth Place\":" + "\"" + beneficiary.PersonalInfo.BirthPlace + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[16] + "\":" + "\"" + beneficiary.PersonalInfo.BirthPlace + "\"";
                             first = false;
                         }
                         if (properties.Contains("H"))
@@ -321,7 +343,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Studies\":" + "\"" + beneficiary.PersonalInfo.Studies + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[17] + "\":" + "\"" + beneficiary.PersonalInfo.Studies + "\"";
                             first = false;
                         }
                         if (properties.Contains("I"))
@@ -330,7 +352,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Profesion\":" + "\"" + beneficiary.PersonalInfo.Profesion + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[18] + "\":" + "\"" + beneficiary.PersonalInfo.Profesion + "\"";
                             first = false;
                         }
                         if (properties.Contains("J"))
@@ -339,7 +361,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Occupation\":" + "\"" + beneficiary.PersonalInfo.Ocupation + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[19] + "\":" + "\"" + beneficiary.PersonalInfo.Ocupation + "\"";
                             first = false;
                         }
                         if (properties.Contains("K"))
@@ -348,7 +370,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Seniority In WorkField\":" + "\"" + beneficiary.PersonalInfo.SeniorityInWorkField + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + beneficiary.PersonalInfo.SeniorityInWorkField + "\"";
                             first = false;
                         }
                         if (properties.Contains("L"))
@@ -357,7 +379,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Health State\":" + "\"" + beneficiary.PersonalInfo.HealthState + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[21] + "\":" + "\"" + beneficiary.PersonalInfo.HealthState + "\"";
                             first = false;
                         }
                         if (properties.Contains("M"))
@@ -366,7 +388,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Disalility\":" + "\"" + beneficiary.PersonalInfo.Disalility + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[22] + "\":" + "\"" + beneficiary.PersonalInfo.Disalility + "\"";
                             first = false;
                         }
                         if (properties.Contains("N"))
@@ -375,7 +397,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Chronic Condition\":" + "\"" + beneficiary.PersonalInfo.ChronicCondition + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + beneficiary.PersonalInfo.ChronicCondition + "\"";
                             first = false;
                         }
                         if (properties.Contains("O"))
@@ -384,7 +406,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Addictions\":" + "\"" + beneficiary.PersonalInfo.Addictions + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[24] + "\":" + "\"" + beneficiary.PersonalInfo.Addictions + "\"";
                             first = false;
                         }
                         if (properties.Contains("Z"))
@@ -393,7 +415,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"HealthInsurance\":" + "\"" + beneficiary.PersonalInfo.HealthInsurance + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[25] + "\":" + "\"" + helper.GetAnswer(finalHeader[25], beneficiary.PersonalInfo.HealthInsurance) + "\"";
                             first = false;
                         }
                         if (properties.Contains("P"))
@@ -402,7 +424,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Health Card\":" + "\"" + beneficiary.PersonalInfo.HealthCard + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[26] + "\":" + "\"" + helper.GetAnswer(finalHeader[26], beneficiary.PersonalInfo.HealthCard) + "\"";
                             first = false;
                         }
                         if (properties.Contains("Q"))
@@ -411,7 +433,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Married\":" + "\"" + beneficiary.PersonalInfo.Married + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[27] + "\":" + "\"" + beneficiary.PersonalInfo.Married + "\"";
                             first = false;
                         }
                         if (properties.Contains("R"))
@@ -420,7 +442,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Spouse Name \":" + "\"" + beneficiary.PersonalInfo.SpouseName + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[28] + "\":" + "\"" + beneficiary.PersonalInfo.SpouseName + "\"";
                             first = false;
                         }
                         if (properties.Contains("S"))
@@ -429,7 +451,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Has Home\":" + "\"" + beneficiary.PersonalInfo.HasHome + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[29] + "\":" + "\"" + helper.GetAnswer(finalHeader[29], beneficiary.PersonalInfo.HasHome)+ "\"";
                             first = false;
                         }
                         if (properties.Contains("T"))
@@ -438,7 +460,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Housing Type\":" + "\"" + beneficiary.PersonalInfo.HousingType + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[30] + "\":" + "\"" + beneficiary.PersonalInfo.HousingType + "\"";
                             first = false;
                         }
                         if (properties.Contains("U"))
@@ -447,7 +469,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Income\":" + "\"" + beneficiary.PersonalInfo.Income + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[31] + "\":" + "\"" + beneficiary.PersonalInfo.Income + "\"";
                             first = false;
                         }
                         if (properties.Contains("V"))
@@ -456,7 +478,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Expences\":" + "\"" + beneficiary.PersonalInfo.Expences + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[32] + "\":" + "\"" + beneficiary.PersonalInfo.Expences + "\"";
                             first = false;
                         }
                         if (properties.Contains("W"))
@@ -465,7 +487,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Gender\":" + "\"" + beneficiary.PersonalInfo.Gender + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[33]+ "\":" + "\"" + beneficiary.PersonalInfo.Gender + "\"";
                             first = false;
                         }
 
@@ -500,7 +522,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Firstname\":" + "\"" + volunteer.Firstname + "\",\"Lastname\":\"" + volunteer.Lastname + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + volunteer.Firstname + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[13] + "\":" + "\"" + volunteer.Lastname + "\"";
                             first = false;
                         }
                         if (properties.Contains("2"))
@@ -509,7 +533,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Birthdate\":" + "\"" + volunteer.Birthdate + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[1]+"\":" + "\""  + volunteer.Birthdate + "\"";
                             first = false;
                         }
                         if (properties.Contains("3"))
@@ -518,7 +542,14 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Address\":{" + "\"District\":" + "\"" + volunteer.Address.District + "\",\"City\":\"" + volunteer.Address.City + "\",\"Street\":\"" + volunteer.Address.Street + "\",\"Number\":\"" + volunteer.Address.Number + "\"}";
+                            jsonstring = jsonstring + "\"" + finalHeader[14] + "\":" + "\"" + volunteer.Address.District + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[15] + "\":\"" + volunteer.Address.City + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[16] + "\":\"" + volunteer.Address.Street + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[17] + "\":\"" + volunteer.Address.Number + "\"";
+                            
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -527,7 +558,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Gender\":" + "\"" + volunteer.Gender + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[3] + "\":" + "\"" + volunteer.Gender + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
@@ -536,7 +567,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Desired_workplace\":" + "\"" + volunteer.Desired_workplace + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[4] + "\":" + "\"" + volunteer.Desired_workplace + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
@@ -545,7 +576,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"CNP\":" + "\"" + volunteer.CNP + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[5]+"\":" + "\"" + volunteer.CNP + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -554,7 +585,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Field_of_activity\":" + "\"" + volunteer.Field_of_activity + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[6] + "\":" + "\"" + volunteer.Field_of_activity + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
@@ -563,7 +594,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Occupation\":" + "\"" + volunteer.Occupation + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[7] + "\":" + "\"" + volunteer.Occupation + "\"";
                             first = false;
                         }
                         if (properties.Contains("9"))
@@ -572,10 +603,13 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"CIseria\":" + "\"" + volunteer.CIseria + "\",";
-                            jsonstring = jsonstring + "\"CINr\":" + "\"" + volunteer.CINr + "\",";
-                            jsonstring = jsonstring + "\"CIEliberat\":" + "\"" + volunteer.CIEliberat + "\",";
-                            jsonstring = jsonstring + "\"CIeliberator\":" + "\"" + volunteer.CIeliberator + "\"";
+                            jsonstring = jsonstring +  "\"" + finalHeader[18] + "\":" + "\"" + volunteer.CIseria + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[19] + "\":" + "\"" + volunteer.CINr + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.CIEliberat + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[21] + "\":" + "\"" + volunteer.CIeliberator + "\"";
                             first = false;
                         }
                         if (properties.Contains("A"))
@@ -584,7 +618,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"InActivity\":" + "\"" + volunteer.InActivity + "\"";
+                            jsonstring = jsonstring + "\""+ finalHeader[9]+"\":" + "\"" + helper.GetAnswer(finalHeader[9],volunteer.InActivity) + "\"";
                             first = false;
                         }
                         if (properties.Contains("B"))
@@ -593,7 +627,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"HourCount\":" + "\"" + volunteer.HourCount + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[10] + "\":" + "\"" + volunteer.HourCount + "\"";
                             first = false;
                         }
                         if (properties.Contains("C"))
@@ -602,7 +636,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"ContactInformation\":{" + "\"PhoneNumber\":\"" + volunteer.ContactInformation.PhoneNumber + "\",\"MailAdress\":\"" + volunteer.ContactInformation.MailAdress + "\"}";
+                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.ContactInformation.PhoneNumber + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[21] + "\":" + "\"" + volunteer.ContactInformation.MailAdress + "\"";
                             first = false;
                         }
                         if (properties.Contains("D"))
@@ -611,7 +647,12 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Additionalinfo\":{" + "\"HasDrivingLicence\":\"" + volunteer.Additionalinfo.HasDrivingLicence + "\",\"HasCar\":\"" + volunteer.Additionalinfo.HasCar + "\",\"Remark\":\"" + volunteer.Additionalinfo.Remark + "\"}";
+                            jsonstring = jsonstring + "\""+ finalHeader[22] + "\":" + "\"" + helper.GetAnswer(finalHeader[22], volunteer.Additionalinfo.HasDrivingLicence) + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + helper.GetAnswer(finalHeader[23], volunteer.Additionalinfo.HasCar) + "\"";
+                            jsonstring = jsonstring + ",";
+                            jsonstring = jsonstring + "\"" + finalHeader[24] + "\":" + "\"" + volunteer.Additionalinfo.Remark + "\"";
+                               
                             first = false;
                         }
                         jsonstring = jsonstring + "}]";
@@ -643,7 +684,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"NameOfEvent\":" + "\"" + eventt.NameOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + eventt.NameOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("2"))
@@ -652,7 +693,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"PlaceOfEvent\":" + "\"" + eventt.PlaceOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + eventt.PlaceOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("3"))
@@ -661,7 +702,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"DateOfEvent\":" + "\"" + eventt.DateOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + eventt.DateOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -670,7 +711,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"TypeOfActivities\":" + "\"" + eventt.TypeOfActivities + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + eventt.TypeOfActivities + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
@@ -679,7 +720,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"TypeOfEvent\":" + "\"" + eventt.TypeOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + eventt.TypeOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
@@ -688,7 +729,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"Duration\":" + "\"" + eventt.Duration + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + eventt.Duration + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -697,7 +738,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"AllocatedVolunteers\":" + "\"" + eventt.AllocatedVolunteers + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + eventt.AllocatedVolunteers + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
@@ -706,7 +747,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"AllocatedSponsors \":" + "\"" + eventt.AllocatedSponsors + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[7] + "\":" + "\"" + eventt.AllocatedSponsors + "\"";
                             first = false;
                         }
 
@@ -715,8 +756,7 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
-            if(jsonstring!="")
-            { DictionaryHelper.d.Remove(key); }
+            
             
             return jsonstring;
         }
