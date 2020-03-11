@@ -88,7 +88,12 @@ namespace Finalaplication.Controllers
                     var tuple = await processed.GetProcessedBeneficiaries();
                      docsimported = tuple.Item1;
                      key1 = tuple.Item2;
-                    await processed.ImportBeneficiaryContractsFromCsv();
+                    try {
+                        await processed.ImportBeneficiaryContractsFromCsv();
+                    }
+                    catch
+                    { }
+                    
                 }
                 else
                 {

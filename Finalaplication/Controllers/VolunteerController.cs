@@ -85,7 +85,7 @@ namespace Finalaplication.Controllers
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
 
-                ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported);
+                ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, volcontractcollection);
                
                 string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
@@ -93,6 +93,12 @@ namespace Finalaplication.Controllers
                     var tuple = await processed.ProcessedVolunteers();
                     docsimported = tuple.Item1;
                     key1 = tuple.Item2;
+                    try {
+                        await processed.ImportVolunteerContractsFromCsv();
+                    }
+                    catch { }
+
+                  
                 }
                 else
                 {

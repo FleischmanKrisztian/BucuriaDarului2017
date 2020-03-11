@@ -14,6 +14,7 @@ namespace Finalaplication
     public class ProcessedDataVolunteer
     {
         private IMongoCollection<Volunteer> vollunteercollection;
+        private IMongoCollection<Volcontract> vollunteercontractcollection;
         private List<string[]> result;
         private string duplicates;
         private int documentsimported;
@@ -22,17 +23,102 @@ namespace Finalaplication
         public ProcessedDataVolunteer(IMongoCollection<Volunteer> vollunteercollection,
        List<string[]> result,
        string duplicates,
-       int documentsimported
+       int documentsimported, IMongoCollection<Volcontract> vollunteercontractcollection
        )
         {
             this.vollunteercollection = vollunteercollection;
             this.result = result;
             this.duplicates = duplicates;
             this.documentsimported = documentsimported;
+            this.vollunteercontractcollection = vollunteercontractcollection;
             
         }
 
-        public async Task<Tuple<string, string>> GetVolunteersFromApp()
+        public async Task ImportVolunteerContractsFromCsv()
+        {
+            foreach (var details in result)
+            {
+                if (details[1] != null || details[1] != "")
+                {
+                    if (details[6] != "" && details[7] != "")
+                    {
+                        var filter = Builders<Volunteer>.Filter.Eq(x => x.CNP, details[1]);
+                        var results = vollunteercollection.Find(filter).ToList();
+
+                        foreach (var v in results)
+                        {
+                            Volcontract contract = new Volcontract();
+
+                            contract.Firstname = v.Firstname;
+                            contract.Lastname = v.Lastname;
+                            string address = string.Empty;
+                            if (v.Address.District != null && v.Address.District != "-")
+                            { address = v.Address.District; }
+                            if (v.Address.City != null && v.Address.City != "-")
+                            { address = address + "," + v.Address.City; }
+                            if (v.Address.Street != null && v.Address.Street != "-")
+                            { address = v.Address.District; }
+                            if (v.Address.Number != null && v.Address.Number != "-")
+                            { address = address + "," + v.Address.City; }
+                            contract.Address = address;
+                            contract.CNP = v.CNP;
+                            contract.OwnerID = v.VolunteerID;
+                            contract.Birthdate = v.Birthdate;
+                            contract.CIEliberat = v.CIEliberat;
+                            contract.CIeliberator = v.CIeliberator;
+                            contract.CINr = v.CINr;
+                            contract.CIseria = v.CIseria;
+                            contract.Hourcount = v.HourCount;
+                            contract.Nrtel = v.ContactInformation.PhoneNumber;
+                            if(details[6].Contains("/")==true)
+                            { string[] registration = details[6].Split("/");
+                                contract.NumberOfRegistration = registration[0];
+                            }
+                            else
+                            { contract.NumberOfRegistration = details[6]; }
+                            
+                            contract.RegistrationDate = DateTime.MinValue;
+                            contract.ExpirationDate = DateTime.MinValue;
+                            try
+                            {
+                                string[] splitDates = details[7].Split('-');
+                                string[] forRegistrtionDate = splitDates[0].Split('.');
+                                string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                contract.RegistrationDate = data.AddDays(1);
+
+                                string[] forexpirationDate = splitDates[1].Split('.');
+                                string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data_ = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                contract.ExpirationDate = data_.AddDays(1);
+                            }
+                            catch
+                            {
+                                string[] splitDates = details[7].Split('-');
+                                string[] forRegistrtionDate = splitDates[0].Split('.');
+                                string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                contract.RegistrationDate = data.AddDays(1);
+
+                                string[] forexpirationDate = splitDates[1].Split('.');
+                                string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data_ = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                contract.ExpirationDate = data_.AddDays(1);
+
+                            }
+
+                            vollunteercontractcollection.InsertOne(contract);
+                        }
+                    }
+                }
+            }
+        }
+
+         public async Task<Tuple<string, string>> GetVolunteersFromApp()
         {
             foreach (var details in result)
             {
@@ -74,7 +160,8 @@ namespace Finalaplication
                                 date = details[2].Split(" ");
 
                                 string[] FinalDate = date[0].Split("/");
-                                DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                DateTime data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture); ;
 
                                 volunteer.Birthdate = data.AddDays(1);
                             }
@@ -185,7 +272,8 @@ namespace Finalaplication
                                 date = details[14].Split(" ");
 
                                 string[] FinalDate = date[0].Split("/");
-                                DateTime data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                DateTime data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture); ;
                                 volunteer.CIEliberat = data.AddDays(1);
                             }
                             else
@@ -320,6 +408,22 @@ namespace Finalaplication
                     {
                         volunteer.Firstname = "Error";
                         volunteer.Lastname = "Error";
+                    }
+
+                    if (details[1] != null || details[1] != "")
+                    {
+                        try
+                        {
+                            try
+                            {
+                                DateTime myDate = DateTime.ParseExact(details[1].Substring(1, 2) + "-" + details[9].Substring(3, 2) + "-" + details[9].Substring(5, 2), "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                volunteer.Birthdate = myDate.AddHours(5);
+                            }
+                            catch
+                            { volunteer.Birthdate = DateTime.MinValue; }
+                        }
+                        catch { }
                     }
 
                     volunteer.Birthdate = DateTime.MinValue;

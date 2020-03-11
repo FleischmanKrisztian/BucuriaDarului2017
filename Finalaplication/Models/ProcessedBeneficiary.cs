@@ -55,8 +55,15 @@ namespace Finalaplication.Models
                             beneficiarycontract.IdInvestigation = b.Marca.IdInvestigation;
                             beneficiarycontract.Nrtel = b.PersonalInfo.PhoneNumber;
                             beneficiarycontract.NumberOfPortion = b.NumberOfPortions.ToString();
-                            string[] registration = details[15].Split("/");
-                            beneficiarycontract.NumberOfRegistration = registration[0];
+                            if (details[15].Contains("/") == true)
+                            {
+                                string[] registration = details[15].Split("/");
+                                beneficiarycontract.NumberOfRegistration = registration[0];
+                            }
+                            else
+                            { beneficiarycontract.NumberOfRegistration = details[15]; }
+
+                           
                             beneficiarycontract.RegistrationDate = DateTime.MinValue;
                             beneficiarycontract.ExpirationDate = DateTime.MinValue;
                             try
@@ -66,13 +73,13 @@ namespace Finalaplication.Models
                                 string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
                                 DateTime data = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
                                 System.Globalization.CultureInfo.InvariantCulture);
-                                beneficiarycontract.RegistrationDate = data;
+                                beneficiarycontract.RegistrationDate = data.AddDays(1);
 
                                 string[] forexpirationDate = splitDates[1].Split('.');
                                 string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
                                 DateTime data_ = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
                                 System.Globalization.CultureInfo.InvariantCulture);
-                                beneficiarycontract.ExpirationDate = data_;
+                                beneficiarycontract.ExpirationDate = data_.AddDays(1);
                             }
                             catch
                             {
@@ -80,12 +87,12 @@ namespace Finalaplication.Models
                                 string[] forRegistrtionDate = splitDates[0].Split('.');
                                 string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
                                 DateTime data = Convert.ToDateTime(forRegistrationDate);
-                                beneficiarycontract.RegistrationDate = data;
+                                beneficiarycontract.RegistrationDate = data.AddDays(1);
 
                                 string[] forexpirationDate = splitDates[1].Split('.');
                                 string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
                                 DateTime data_ = Convert.ToDateTime(forRegistrationDate);
-                                beneficiarycontract.ExpirationDate = data_;
+                                beneficiarycontract.ExpirationDate = data_.AddDays(1);
                             }
 
                             beneficiarycontractcollection.InsertOne(beneficiarycontract);
