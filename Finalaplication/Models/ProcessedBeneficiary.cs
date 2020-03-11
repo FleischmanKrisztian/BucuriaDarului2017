@@ -10,25 +10,91 @@ namespace Finalaplication.Models
 {
     public class ProcessedBeneficiary
     {
-        
-            private IMongoCollection<Beneficiary> beneficiarycollection;
-            private List<string[]> result;
-            private string duplicates;
-            private int documentsimported;
-         
+        private IMongoCollection<Beneficiary> beneficiarycollection;
+        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+        private List<string[]> result;
+        private string duplicates;
+        private int documentsimported;
 
-            public ProcessedBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
-            List<string[]> result,
-            string duplicates,
-            int documentsimported
-            )
+        public ProcessedBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
+        List<string[]> result,
+        string duplicates,
+        int documentsimported,
+        IMongoCollection<Beneficiarycontract> beneficiarycontractcollection
+        )
+        {
+            this.beneficiarycollection = beneficiarycollection;
+            this.result = result;
+            this.duplicates = duplicates;
+            this.documentsimported = documentsimported;
+            this.beneficiarycontractcollection = beneficiarycontractcollection;
+        }
+
+        public async Task ImportBeneficiaryContractsFromCsv()
+        {
+            foreach (var details in result)
             {
-                this.beneficiarycollection = beneficiarycollection;
-                this.result = result;
-                this.duplicates = duplicates;
-                this.documentsimported = documentsimported;
-              
+                if (details[9] != null || details[9] != "")
+                {
+                    if (details[15] != "" && details[16] != "")
+                    {
+                        var filter = Builders<Beneficiary>.Filter.Eq(x => x.CNP, details[9]);
+                        var results = beneficiarycollection.Find(filter).ToList();
+
+                        foreach (var b in results)
+                        {
+                            Beneficiarycontract beneficiarycontract = new Beneficiarycontract();
+
+                            beneficiarycontract.Fullname = b.Fullname;
+                            beneficiarycontract.Address = b.Adress;
+                            beneficiarycontract.OwnerID = b.BeneficiaryID;
+                            beneficiarycontract.Birthdate = b.PersonalInfo.Birthdate;
+                            beneficiarycontract.CIinfo = b.CI.CIinfo;
+                            beneficiarycontract.CNP = b.CNP;
+                            beneficiarycontract.IdApplication = b.Marca.IdAplication;
+                            beneficiarycontract.IdInvestigation = b.Marca.IdInvestigation;
+                            beneficiarycontract.Nrtel = b.PersonalInfo.PhoneNumber;
+                            beneficiarycontract.NumberOfPortion = b.NumberOfPortions.ToString();
+                            string[] registration = details[15].Split("/");
+                            beneficiarycontract.NumberOfRegistration = registration[0];
+                            beneficiarycontract.RegistrationDate = DateTime.MinValue;
+                            beneficiarycontract.ExpirationDate = DateTime.MinValue;
+                            try
+                            {
+                                string[] splitDates = details[16].Split('-');
+                                string[] forRegistrtionDate = splitDates[0].Split('.');
+                                string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                beneficiarycontract.RegistrationDate = data;
+
+                                string[] forexpirationDate = splitDates[1].Split('.');
+                                string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data_ = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                                beneficiarycontract.ExpirationDate = data_;
+                            }
+                            catch
+                            {
+                                string[] splitDates = details[16].Split('-');
+                                string[] forRegistrtionDate = splitDates[0].Split('.');
+                                string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data = Convert.ToDateTime(forRegistrationDate);
+                                beneficiarycontract.RegistrationDate = data;
+
+                                string[] forexpirationDate = splitDates[1].Split('.');
+                                string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                DateTime data_ = Convert.ToDateTime(forRegistrationDate);
+                                beneficiarycontract.ExpirationDate = data_;
+                            }
+
+                            beneficiarycontractcollection.InsertOne(beneficiarycontract);
+                        }
+                    }
+                }
             }
+        }
+
         public async Task<Tuple<string, string>> GetProcessedBeneficiaries()
         {
             foreach (var details in result)
@@ -52,11 +118,7 @@ namespace Finalaplication.Models
                 else
                 {
                     documentsimported++;
-                    //var aux = details[42];
-                    //for (int i = details.Length - 1; i > 0; i--)
-                    //{
-                    //    details[i] = details[i - 1];
-                    //}
+
                     Beneficiary beneficiary = new Beneficiary();
 
                     try
@@ -260,12 +322,12 @@ namespace Finalaplication.Models
                         catch
                         {
                             string date = details[36] + "-" + details[37] + "-" + details[38];
-                            DateTime data = DateTime.Parse(date);
+                            DateTime data = DateTime.ParseExact(date, "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture);
                             personal.Birthdate = data.AddDays(1);
                         }
                     }
                     catch { personal.Birthdate = DateTime.MinValue; }
-
 
                     if (details[41] == "1" || details[41] == "True")
                     {
@@ -299,12 +361,14 @@ namespace Finalaplication.Models
                             {
                                 string[] date = details[16].Split(" ");
                                 string[] FinalDate = date[0].Split("/");
-                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture); ;
                             }
                             else
                             {
                                 string[] anotherDate = details[11].Split('.');
-                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                                data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture); ;
                             }
                             ciInfo.ExpirationDateCI = data.AddDays(1);
                         }
@@ -334,8 +398,6 @@ namespace Finalaplication.Models
             string key1 = "BeneficiaryImportDuplicate";
             DictionaryHelper.d.Add(key1, new DictionaryHelper(duplicates));
             return new Tuple<string, string>(documentsimported.ToString(), key1);
-           
-
         }
 
         public async Task<Tuple<string, string>> GetProcessedBeneficiariesFromApp()
@@ -576,9 +638,9 @@ namespace Finalaplication.Models
                                 {
                                     string[] date = details[23].Split(" ");
                                     string[] FinalDate = date[0].Split("/");
-                                    myDate = DateTime.Parse(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
-                                    //    , "yy-MM-dd");
-                                    ////System.Globalization.CultureInfo.InvariantCulture);
+                                    myDate = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]
+                                        , "yy-MM-dd",
+                                    System.Globalization.CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
@@ -623,12 +685,14 @@ namespace Finalaplication.Models
                             {
                                 string[] date = details[21].Split(" ");
                                 string[] FinalDate = date[0].Split("/");
-                                data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture); ;
                             }
                             else
                             {
                                 string[] anotherDate = details[21].Split('.');
-                                data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                                data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture); ;
                             }
                             beneficiary.LastTimeActiv = data.AddDays(1);
                         }
@@ -648,12 +712,14 @@ namespace Finalaplication.Models
                                 {
                                     string[] date = details[15].Split(" ");
                                     string[] FinalDate = date[0].Split("/");
-                                    data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                                    data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture);
                                 }
                                 else
                                 {
                                     string[] anotherDate = details[15].Split('.');
-                                    data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
+                                    data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
+                            System.Globalization.CultureInfo.InvariantCulture); ;
                                 }
                                 ciInfo.ExpirationDateCI = data.AddDays(1);
                             }

@@ -80,7 +80,7 @@ namespace Finalaplication.Controllers
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
                
-                ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported);
+                ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported,beneficiarycontractcollection);
                 string docsimported ="";
                 string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
@@ -88,7 +88,9 @@ namespace Finalaplication.Controllers
                     var tuple = await processed.GetProcessedBeneficiaries();
                      docsimported = tuple.Item1;
                      key1 = tuple.Item2;
-                }else
+                    await processed.ImportBeneficiaryContractsFromCsv();
+                }
+                else
                 {
                     var tuple = await processed.GetProcessedBeneficiariesFromApp();
                     docsimported = tuple.Item1;
