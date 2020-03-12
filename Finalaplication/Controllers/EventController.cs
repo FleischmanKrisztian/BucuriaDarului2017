@@ -210,8 +210,8 @@ namespace Finalaplication.Controllers
                     events = events.AsQueryable().Take(nrofdocs).ToList();
 
                 string key = "FirstSessionEvent";
-                //  HttpContext.Session.SetString(key, stringofids);
-                DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
+                  HttpContext.Session.SetString(key, stringofids);
+                //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
                 return View(events);
                 
                 
@@ -225,19 +225,19 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            //string ids = HttpContext.Session.GetString("FirstSessionEvent");
-            string key1 = "FirstSessionEvent";
-            DictionaryHelper dictionary;
-            DictionaryHelper.d.TryGetValue(key1, out dictionary);
+            string ids = HttpContext.Session.GetString("FirstSessionEvent");
+            //string key1 = "FirstSessionEvent";
+            //DictionaryHelper dictionary;
+            //DictionaryHelper.d.TryGetValue(key1, out dictionary);
 
-            string ids = dictionary.Ids.ToString();
-            if (ids != null || ids != "")
-            { DictionaryHelper.d.Remove(key1); }
+            //string ids = dictionary.Ids.ToString();
+            //if (ids != null || ids != "")
+            //{ DictionaryHelper.d.Remove(key1); }
             ids = "csvexporterapp:" + ids;
            
             string key2 = "SecondSessionEvent";
-            //HttpContext.Session.SetString(key, ids);
-            DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
+            HttpContext.Session.SetString(key2, ids);
+           // DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
@@ -245,12 +245,14 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver( bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
-            // var IDS = HttpContext.Session.GetString("SecondSessionEvent");
-            string key = "SecondSessionEvent";
-            DictionaryHelper dictionary;
-            DictionaryHelper.d.TryGetValue(key, out dictionary);
+             var IDS = HttpContext.Session.GetString("SecondSessionEvent");
+            //string key = "SecondSessionEvent";
+            //DictionaryHelper dictionary;
+            //DictionaryHelper.d.TryGetValue(key, out dictionary);
+            // if(ids!=null || ids!="")
+            //     { DictionaryHelper.d.Remove(key1); }
 
-            var IDS = dictionary.Ids.ToString();
+            //var IDS = dictionary.Ids.ToString();
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";

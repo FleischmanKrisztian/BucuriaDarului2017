@@ -636,8 +636,8 @@ namespace Finalaplication.Controllers
 
              
                 string key = "FirstSessionBeneficiary";
-                // HttpContext.Session.SetString(key, stringofids);
-                DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
+                 HttpContext.Session.SetString(key, stringofids);
+                //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
                 return View(beneficiaries);
             }
             catch
@@ -650,20 +650,20 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             // ViewBag.IDS = ids;
-            //string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
-            string key1 = "FirstSessionBeneficiary";
-            DictionaryHelper dictionary;
-            DictionaryHelper.d.TryGetValue(key1, out dictionary);
+            string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
+            //string key1 = "FirstSessionBeneficiary";
+            //DictionaryHelper dictionary;
+            //DictionaryHelper.d.TryGetValue(key1, out dictionary);
 
-            string ids = dictionary.Ids.ToString();
-            if (ids != null || ids != "")
-            { DictionaryHelper.d.Remove(key1); }
-            ids = "csvexporterapp:" + ids;
+            //string ids = dictionary.Ids.ToString();
+            //if (ids != null || ids != "")
+            //{ DictionaryHelper.d.Remove(key1); }
+           
 
             ids = "csvexporterapp:" + ids;
             string key2 = "SecondSessionBeneficiary";
-            //HttpContext.Session.SetString(key, ids);
-            DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
+            HttpContext.Session.SetString(key2, ids);
+           // DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
@@ -671,14 +671,14 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv,bool WeeklyPackage)
         {
-           // var IDS = HttpContext.Session.GetString("SecondSessionBeneficiary");
-            string key = "SecondSessionBeneficiary";
-            DictionaryHelper dictionary;
-            DictionaryHelper.d.TryGetValue(key, out dictionary);
+            var IDS = HttpContext.Session.GetString("SecondSessionBeneficiary");
+            //string key = "SecondSessionBeneficiary";
+            //DictionaryHelper dictionary;
+            //DictionaryHelper.d.TryGetValue(key, out dictionary);
 
-            var IDS = dictionary.Ids.ToString();
-            if (IDS != null || IDS != "")
-            { DictionaryHelper.d.Remove(key); }
+            //var IDS = dictionary.Ids.ToString();
+            //if (IDS != null || IDS != "")
+            //{ DictionaryHelper.d.Remove(key); }
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
