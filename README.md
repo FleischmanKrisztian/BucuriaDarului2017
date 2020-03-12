@@ -1,126 +1,89 @@
 # Bucuria Darului
 
-# In order to make the application work you have to add Environment variables:
+***
+
+###Initial requirements:
+  - [x] an application for managing a volunteer database ;
+  - [x] an application for managing a beenficiaries database;
+  - [x] an application for managing a sponsors database ;
+  - [x] an application for managing a events database ;
+
+
+### Volunteer/Events/Beneficiaries/Sponsors app
+ Volunteers-fields:
+ 
+  - [x] Name; 
+  - [x] Age;
+  - [x] Gender;
+  - [x] Address;
+  - [x] Contact informations;
+  - [x] Additional informations(ex:has a car,has driving license);
+  - [x] Occupation;
+  - [x] Desired field;
+  - [x] availability;
+  - [x] if is still active;
+  - [x] Contract information;
+  - [x] Birthdate;
+  - [x] Birthday alert;
+  - [x] Expiration contract alert;
+  - [x] Hours count;
+  - [x] Remarks;
+  - [x] The ability to reports reports.
+ 
+Events-fields:
+  - [x] name of event;
+  - [x] date of event;
+  - [x] Type of event;
+  - [x] Number of volunteer needed;
+  - [x] Allocated sponsors and volunteers.
+  - [x] The ability to reports reports.
+
+Sponsors-fields:
+ - [x] Date of sponsorship;
+ - [x] Type of sponsorship(ex: money,goods);
+ - [x] Contract information;
+ - [x] Expiration contract alert;
+ - [x] Contact information;
+ - [x] The ability to reports reports.
+  
+Beneficiaries-fields:
+ - [x] General information;
+ - [x] Status(active/inactive;
+ - [x] Weekly package;
+ - [x] Homedelivery driver;
+ - [x] GDPR agreement;
+ - [x] Address;
+ - [x] ID card;
+ - [x] Request of joining in information;
+ - [x] Number of portion;
+ - [x] Last time active;
+ - [x] Contact informations;
+ - [x] Studies,Profesion,Occupation,Seniority in workfield;
+ - [x] HealthSate, disability, addictions, chronic illness;
+ - [x] Health insurance and health card;
+ - [x] Marital status;
+ - [x] Housing information;
+ - [x] The ability to reports reports.
+
+
+### Application architecture and functionality:
+- Program(main);
+- classes for volunteer,sponsors,beneficiaries,events;
+- Controllers for each type of objects with the following facilities: create,edit,delete, allocate sponsors or volunteers;
+- Other facilities: import and export csv files, print contracts for beneficiaries and volunteers,change language and other settings;
+ - Birthday alert;
+ - Expiration contract alert;
+
+### Parameters and instruction for runing the application as developer:
+In order to make the application work you have to add Environment variables:
 - databasename   ex: Bucuria Darului
 - mongoserver    ex: mongodb+srv://user:password@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority
 
+###Developer instructions:
+Here()
 
-# Bucuria Darului
-Cerinte:
-  - [x] o aplicatie care pentru voluntari ;
-  - [x] o aplicatie pentru beneficiari ;
-  - [x] o aplicatie pentru sponsori ;
+### USER MANUAl
+Here()
 
-### Aplicatie voluntari/eveniment
- Voluntar-campuri:
- 
-  - [x]  nume(nume de familie+prenume); 
-  - [x] varsta;
-  - [x] gen
-  - [x] adresa(strada,numar,localitate,tara);
-  - [x] date de contact(mail,nr. tel);
-  - [x] informatii aditionale(detine masina,are permis);
-  - [x] ocupatie;
-  - [x]  domeniul in care vrea sa ajute la cantina;
-  - [x] disponibilitate(zile si intervale de timp in care poate activa);
-  - [x] daca e activ ;
-  - [x] contract(daca are?,informatii-data inregistrarii,perioada);
-  - [x]  data nasterii;
-  - [x] alerta zi de nastere;
-  - [x] alerta expirare contract;
-  - [x] pontaj;
-  - [x] comentatiu;
- 
-Eveniment campuri:
-  - [x] numele;
-  - [x] perioada desfasurarii;
-  - [x] tipul evenimentului(targ,bucatarie,impachetat pachete);
-  - [x] numarul de voluntari necesari;
-  - [x]  data desfasurarii.
-
-### Aplicatie sponsori/beneficiar
-Sponsor campuri:
- - [x] cand a avut loc sponsorizarea;
- - [x] in ce a constat(bani/bunuri/altele);
- - [x] informatii contracr(daca exista un contract?,pe ce perioada);
- - [x] alerta expirare contract;
- - [x] date de contact(mail/nr. tel);
- - [x] raport pe 6 luni.
-  
-Beneficiar campuri:
- - [x] nume,prenume,data nasterii,gen;
- - [x] numele capului de familie;
- - [x] status(activ/inactiv);
- - [x] locatie(a,b);
- - [x] pachet saptamanal;
- - [x] sofer pentru livrare la domiciliu;
- - [x] acord GDPR;
- - [x] adresa;
- - [x] act identitate(data expirare,cnp);
- - [x]  marca(cerere id,ancheta,contract,perioada contract);
- - [x] nr. portii;
- - [x] date iesire din evidenta+motiv(deces,angajare,directia asist. sociala);
- - [x] loc nastere,data nasterii,varsta;
- - [x] date de contact(telefon);
- - [x] studii;
- - [x] profesie;
- - [x] ocupatie;
- - [x] vechime;
- - [x] starea sanatatii;
- - [x] handicap(da/nu);
- - [x] afectiuni cronice(da/nu);
- - [x] dependente;
- - [x] asigurat(da/nu);
- - [x] card sanatate(da/nu);
- - [x] stare civila;
- - [x] nume sotie/sot/concubim;
- - [x] tip locuinta(chirie,gazduit de cineva,mostenire,etc);
- - [x] persoana fara adapost(da/nu);
- - [x] raport pe 6 luni.
-
-Registru:
-- [x]  marca(cerere id,ancheta,contract,perioada contract);
-- [x]  marca(cerere id,ancheta,contract,perioada contract);
- 
-### Forma curenta in care se pastreaza informatiile
-Baza de date(fisier ecel) curenta pentru voluntari contine:
-- numele;
-- prenumele;
-- domiciliu;
-- act identitat;
-- telefon;
-- nr.contract;
-- proiecte;
-- program lucru;
-- activ(da,nu);
-
-Fisierul ecel pt evenimente:
-- denumire;
-- data/interval;
-- voluntari;
-- sponsori;
-- parteneri.
-
-Fisierul ecel pt sponsori:
-- cand a avut loc sponsorizarea;
-- in ce a constat(bunuri/bani=>suma).
-
-### Aplicatie sponsori/beneficiar
-##### Clase:
-- Program(main);
-- volunteer;
-- event;
-- beneficiari;
-- sponsori
-- db;
- -date;
- ##### Metode:
- - [x] adauga voluntar/eveniment/sponsori/beneficiari;
- - [x] sterge voluntar/eveniment/sponsori/beneficiari;
- - [x] arata toti voluntarii/toate evenimentele/toti sponsori/toti beneficiari;
- - [x] alerta zi de nastere voluntari;
- - [x] alerta expirare contract(voluntari,beneficiari,sponsori);
- - [x] editeaza un voluntar/eveniment/sponsor/beneficiari;
- - [x] export date in excel(voluntari,evenimente,sponsori,beneficiari).
 
 

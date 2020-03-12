@@ -537,6 +537,7 @@ namespace Finalaplication.Controllers
            //     { DictionaryHelper.d.Remove(key1); }
             ids = "csvexporterapp:" + ids;
             
+
             string key2 = "SecondSessionVolunteer";
             //DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
             HttpContext.Session.SetString(key2, ids);
