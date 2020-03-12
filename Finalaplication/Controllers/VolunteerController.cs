@@ -514,7 +514,8 @@ namespace Finalaplication.Controllers
                 volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
 
                 string key = "FirstSessionVolunteer";
-                HttpContext.Session.SetString(key, stringofids);
+                // HttpContext.Session.SetString(key, stringofids);
+                DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
                 return View(volunteers);
             }
             catch
@@ -526,18 +527,35 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
+            // string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
+            string key1="FirstSessionVolunteer";
+            DictionaryHelper dictionary;
+            DictionaryHelper.d.TryGetValue(key1, out dictionary);
+
+           string ids = dictionary.Ids.ToString();
+            if(ids!=null || ids!="")
+                { DictionaryHelper.d.Remove(key1); }
             ids = "csvexporterapp:" + ids;
-            string key = "SecondSessionVolunteer";
-            HttpContext.Session.SetString(key, ids);
+            
+            string key2 = "SecondSessionVolunteer";
+            DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
+            // HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
         public ActionResult CSVSaver( bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
-        {
-            var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
+        {string key = "SecondSessionVolunteer";
+            DictionaryHelper dictionary;
+            DictionaryHelper.d.TryGetValue(key, out dictionary);
+
+            var IDS = dictionary.Ids.ToString();
+            if (IDS != null || IDS != "")
+            { DictionaryHelper.d.Remove(key); }
+            
+            //var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
+            
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -567,14 +585,15 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "C";
             if (Additional_info == true)
                 ids_and_options = ids_and_options + "D";
-            string key = "volunteerSession";
-            HttpContext.Session.SetString(key, ids_and_options);
+
+            string key1 = "volunteerSession";
+            //HttpContext.Session.SetString(key, ids_and_options);
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
             string key2 = "beneficiariesHeader";
-            DictionaryHelper.d.Add(key, new DictionaryHelper(ids_and_options));
+            DictionaryHelper.d.Add(key1, new DictionaryHelper(ids_and_options));
             DictionaryHelper.d.Add(key2, new DictionaryHelper(header));
-            string ids_and_optionssecond = "csvexporterapp:" + ";" + key + ";" + key2;
+            string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
         }
