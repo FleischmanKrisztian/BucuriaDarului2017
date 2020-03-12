@@ -28,10 +28,10 @@ NOTE:
 >  NOTE1:The above command takes the repository from docker hub, NOT the image that is currently on the local computer
 >  NOTE:you have to use your own dockerhubname and repositoryname if you changed it.
 5. Usefull docker commands:
-kill <id> or <name> (stops the running container)
-docker ps -a (to check all containers, not just the running ones)
-docker images -a(to check all images)
-docker rm <id> (removes the stopped container)
-docker system prune -a (to Clear everything in docker that is not running, basically starting from 0)
-docker run --rm ... (--rm deletes the container if it gets stoped)
-docker run --restart always ... (Useful when deploying the application, makes the container start whenever docker is running, this is so that the user doesnt have to start it each time he starts the computer) 
+⋅⋅* kill <id> or <name> (stops the running container)
+⋅⋅* docker ps -a (to check all containers, not just the running ones)
+⋅⋅* docker images -a(to check all images)
+⋅⋅* docker rm <id> (removes the stopped container)
+⋅⋅* docker system prune -a (to Clear everything in docker that is not running, basically starting from 0)
+⋅⋅* docker run --rm ... (--rm deletes the container if it gets stoped)
+⋅⋅* docker run --restart always ... (Useful when deploying the application, makes the container start whenever docker is running, this is so that the user doesnt have to start it each time he starts the computer) 
