@@ -1,6 +1,6 @@
 This is a developer manual for the application made by Fleischman Krisztian and Gramada Corina.
 
-###In order to make the application work you have to add Environment variables:
+### In order to make the application work you have to add Environment variables:
 - databasename   ex: Bucuria Darului
 - mongoserver    ex: mongodb+srv://user:password@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority
 
