@@ -75,15 +75,9 @@ Beneficiaries-fields:
  - Expiration contract alert;
 
 ### Parameters and instruction for runing the application as developer:
-In order to make the application work you have to add Environment variables:
-- databasename   ex: Bucuria Darului
-- mongoserver    ex: mongodb+srv://user:password@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority
-
-###Developer instructions:
 Here()
 
-### USER MANUAl
-Here()
+
 
 
 
