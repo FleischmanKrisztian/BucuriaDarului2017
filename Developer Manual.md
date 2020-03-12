@@ -1,4 +1,4 @@
-##INSTRUCTIONS
+## INSTRUCTIONS
 
 This is a developer manual for the application made by Fleischman Krisztian and Gramada Corina.
 
