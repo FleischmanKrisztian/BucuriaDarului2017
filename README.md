@@ -2,7 +2,7 @@
 
 ***
 
-###Initial requirements:
+### Initial requirements:
   - [x] an application for managing a volunteer database ;
   - [x] an application for managing a beenficiaries database;
   - [x] an application for managing a sponsors database ;
