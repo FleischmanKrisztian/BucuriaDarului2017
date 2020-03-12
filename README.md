@@ -75,7 +75,7 @@ Beneficiaries-fields:
  - Expiration contract alert;
 
 ### Parameters and instruction for runing the application as developer:
-Here()
+Here(https://github.com/FleischmanKrisztian/Finalapplication/blob/main/Developer%20Manual.md)
 
 
 
