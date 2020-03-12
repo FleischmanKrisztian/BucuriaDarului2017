@@ -1,3 +1,5 @@
+##INSTRUCTIONS
+
 This is a developer manual for the application made by Fleischman Krisztian and Gramada Corina.
 
 ### In order to make the application work you have to add Environment variables:
