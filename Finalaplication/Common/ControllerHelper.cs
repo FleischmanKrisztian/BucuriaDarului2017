@@ -314,7 +314,14 @@ namespace Finalaplication.Common
                 }
                 else
                 {
-                    ev.NumberOfVolunteersNeeded = Convert.ToInt16(details[3]);
+                    int number = 0;
+                    bool converted=false;
+                    converted = Int32.TryParse(details[3], out number);
+                    if (converted == true)
+                    { ev.NumberOfVolunteersNeeded = number; }
+                    else
+                    { ev.NumberOfVolunteersNeeded =0; }
+                    
                 }
                 try
                 {

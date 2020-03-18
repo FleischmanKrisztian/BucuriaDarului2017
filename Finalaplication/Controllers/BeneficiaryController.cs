@@ -120,10 +120,10 @@ namespace Finalaplication.Controllers
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             DictionaryHelper dictionary;
-            
-            
-            DictionaryHelper.d.TryGetValue(key1, out dictionary);
-            string duplicates = dictionary.Ids.ToString();
+
+            string duplicates = string.Empty;
+            DictionaryHelper.d.TryGetValue(key1, out duplicates);
+           // string duplicates = dictionary.Ids.ToString();
             ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
             
@@ -755,8 +755,8 @@ namespace Finalaplication.Controllers
             string key2 = "beneficiariesHeader";
             string key1= "beneficiariesSession";
             //return View();
-            DictionaryHelper.d.Add(key1, new DictionaryHelper(ids_and_options));
-            DictionaryHelper.d.Add(key2, new DictionaryHelper(header));
+            DictionaryHelper.d.Add(key1, ids_and_options);
+            DictionaryHelper.d.Add(key2, header);
             string ids_and_optionssecond = "csvexporterapp:" +";" +key1+";"+key2;
 
             return Redirect(ids_and_optionssecond);

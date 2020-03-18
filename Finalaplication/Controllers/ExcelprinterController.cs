@@ -34,16 +34,15 @@ namespace Finalaplication.Controllers
                 key1 = splited[1];
                 key2 = splited[2];
             }
-            string id;
-            DictionaryHelper dictionary;
-            DictionaryHelper.d.TryGetValue(key1,out dictionary);
-
-            id = dictionary.Ids.ToString();
+            string id=string.Empty;
+           
+            DictionaryHelper.d.TryGetValue(key1,out id);
+           //id = dictionary.Ids.ToString();
             if (id!= "")
             { DictionaryHelper.d.Remove(key1); }
-            string header;
-            DictionaryHelper.d.TryGetValue(key2, out dictionary);
-            header = dictionary.Ids.ToString();
+            string header=string.Empty;
+            DictionaryHelper.d.TryGetValue(key2, out header);
+            
             if (header != "")
             { DictionaryHelper.d.Remove(key2); }
             ControllerHelper helper = new ControllerHelper();
