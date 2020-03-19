@@ -21,6 +21,7 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
+        public DictionaryHelper d;
         
          
 // GET: api/Excelprinter
