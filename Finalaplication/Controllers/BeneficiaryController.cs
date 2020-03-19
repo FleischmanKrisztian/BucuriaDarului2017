@@ -649,22 +649,15 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            // ViewBag.IDS = ids;
+            
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
             HttpContext.Session.Remove("FirstSessionBeneficiary");
-            //string key1 = "FirstSessionBeneficiary";
-            //DictionaryHelper dictionary;
-            //DictionaryHelper.d.TryGetValue(key1, out dictionary);
-
-            //string ids = dictionary.Ids.ToString();
-            //if (ids != null || ids != "")
-            //{ DictionaryHelper.d.Remove(key1); }
-
+           
 
             ids = "csvexporterapp:" + ids;
             string key2 = "SecondSessionBeneficiary";
             HttpContext.Session.SetString(key2, ids);
-           // DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
+           
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
