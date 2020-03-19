@@ -26,9 +26,6 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
 
-
-       
-
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
             try
@@ -48,7 +45,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public async Task< ActionResult> FileUpload(IFormFile Files)
+        public async Task<ActionResult> FileUpload(IFormFile Files)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
@@ -79,21 +76,20 @@ namespace Finalaplication.Controllers
                 string[] myHeader = cSV.GetHeader(path);
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
-               
-                ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported,beneficiarycontractcollection);
-                string docsimported ="";
+                ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported, beneficiarycontractcollection);
+                string docsimported = "";
                 string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
                 {
                     var tuple = await processed.GetProcessedBeneficiaries();
-                     docsimported = tuple.Item1;
-                     key1 = tuple.Item2;
-                    try {
+                    docsimported = tuple.Item1;
+                    key1 = tuple.Item2;
+                    try
+                    {
                         await processed.ImportBeneficiaryContractsFromCsv();
                     }
                     catch
                     { }
-                    
                 }
                 else
                 {
@@ -101,33 +97,31 @@ namespace Finalaplication.Controllers
                     docsimported = tuple.Item1;
                     key1 = tuple.Item2;
                 }
-               
+
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
                 return RedirectToAction("ImportUpdate", new { docsimported, key1 });
-
             }
             catch
             {
                 return RedirectToAction("IncorrectFile", "Home");
             }
         }
-        
+
         public ActionResult ImportUpdate(string docsimported, string key1)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-           // DictionaryHelper dictionary;
+            // DictionaryHelper dictionary;
 
             string duplicates = string.Empty;
             DictionaryHelper.d.TryGetValue(key1, out duplicates);
-           // string duplicates = dictionary.Ids.ToString();
+            // string duplicates = dictionary.Ids.ToString();
             ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
-            
-             
+
             DictionaryHelper.d.Remove(key1);
 
             return View();
@@ -628,15 +622,14 @@ namespace Finalaplication.Controllers
                 {
                     stringofids = stringofids + "," + ben.BeneficiaryID;
                 }
-                
+
                 ViewBag.stringofids = stringofids;
                 ViewBag.nrofdocs = nrofdocs;
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
 
-             
                 string key = "FirstSessionBeneficiary";
-                 HttpContext.Session.SetString(key, stringofids);
+                HttpContext.Session.SetString(key, stringofids);
                 //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
                 return View(beneficiaries);
             }
@@ -649,24 +642,22 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
             HttpContext.Session.Remove("FirstSessionBeneficiary");
-           
 
             ids = "csvexporterapp:" + ids;
             string key2 = "SecondSessionBeneficiary";
             HttpContext.Session.SetString(key2, ids);
-           
+
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv,bool WeeklyPackage)
+        public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionBeneficiary");
-            HttpContext.Session.Remove("SecondSessionBeneficiary");
+
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -739,28 +730,30 @@ namespace Finalaplication.Controllers
             if (WeeklyPackage == true)
                 ids_and_options = ids_and_options + "Z";
             ControllerHelper helper = new ControllerHelper();
-            string header= helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
+            string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
             string key2 = "beneficiariesHeader";
-            string key1= "beneficiariesSession";
-            //return View();
-            
-            DictionaryHelper.d.Add(key1, ids_and_options);
-            DictionaryHelper.d.Add(key2, header);
-            string ids_and_optionssecond = "csvexporterapp:" +";" +key1+";"+key2;
+            string key1 = "beneficiariesSession";
+            if (DictionaryHelper.d.Keys.Contains(key1) == true)
+            {
+                DictionaryHelper.d[key1] = ids_and_options;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key1, ids_and_options);
+            }
+            if (DictionaryHelper.d.Keys.Contains(key2) == true)
+            {
+                DictionaryHelper.d[key2] = header;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key2, header);
+            }
+            string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
             TempData["info"] = ids_and_optionssecond;
-            //return Redirect(ids_and_optionssecond);
-            // return Redirect(key);
-            return RedirectToAction("CsvExport", "Beneficiary");
+            return Redirect(ids_and_optionssecond);
 
             //return RedirectToAction("Index");
-        }
-
-        public ActionResult CsvExport(string info)
-        {
-            info = TempData["info"].ToString();
-            ViewBag.Url = info;
-            return View();
-
         }
 
         public ActionResult ContractExp()

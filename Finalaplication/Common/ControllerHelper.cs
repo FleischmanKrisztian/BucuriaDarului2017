@@ -34,7 +34,13 @@ namespace Finalaplication.Common
         public string[] SplitedHeader(string header)
         {
             string[] splitedHeader = header.Split(",");
-            return splitedHeader;
+            int s = splitedHeader.Count();
+            if (header!=null)
+            { return splitedHeader;
+            }else
+            { string[] result =new string[s+1];
+                return result;
+            }
         }
 
         public string GetAnswer(string finalHeader, bool toBeCompared)
