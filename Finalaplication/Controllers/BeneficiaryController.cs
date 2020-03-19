@@ -758,12 +758,20 @@ namespace Finalaplication.Controllers
             DictionaryHelper.d.Add(key1, ids_and_options);
             DictionaryHelper.d.Add(key2, header);
             string ids_and_optionssecond = "csvexporterapp:" +";" +key1+";"+key2;
-
-            return Redirect(ids_and_optionssecond);
+            TempData["info"] = ids_and_optionssecond;
+            //return Redirect(ids_and_optionssecond);
             // return Redirect(key);
-
+            return RedirectToAction("CsvExport", "Beneficiary");
 
             //return RedirectToAction("Index");
+        }
+
+        public ActionResult CsvExport(string info)
+        {
+            info = TempData["info"].ToString();
+            ViewBag.Url = info;
+            return View();
+
         }
 
         public ActionResult ContractExp()

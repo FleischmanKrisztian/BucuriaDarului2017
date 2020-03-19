@@ -621,3 +621,9 @@ msgstr "Warning! This action is unreversible!"
 
 msgid "This action will overwrite data on the remote database."
 msgstr "This action will overwrite data on the remote database."
+
+msgid "FileOptions"
+msgstr "File Options"
+
+msgid "Next"
+msgstr "Next"

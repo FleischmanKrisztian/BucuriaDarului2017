@@ -6,7 +6,7 @@
 @using Microsoft.Extensions.Options
 @{
     ViewData["Title"] = "CSVSaver";
-    string IDS = ViewBag.IDS;
+    
 }
 
 <h1>CSVSaver</h1>
@@ -44,10 +44,10 @@
 
 @using (Html.BeginForm("CSVSaver", "Benrficiary/", FormMethod.Post))
 {
-
-    <h3>
+    <h3>@Localizer["FileOptions"]</h3>
+    <h5>
         @Localizer["Please choose what you want the Excel to contain"]:
-    </h3>
+    </h5>
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -92,13 +92,13 @@
     </div>
 
    
-    @Html.Hidden("IDS", IDS)
+
 
     <div class="row align-items-center">
         <div class="col-3">
             <br />
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Next"]
             </button>
 
             <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>

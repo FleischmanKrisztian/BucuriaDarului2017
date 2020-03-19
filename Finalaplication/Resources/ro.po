@@ -621,3 +621,9 @@ msgstr "Această acține va uni cele două baze de date și va stoca rezultatul 
 
 msgid "This action will overwrite data on the remote database."
 msgstr "Această acțiune va rescrie datele din baza de date locală."
+
+
+msgid "FileOptions"
+msgstr "Opțiuni fișier"
+msgid "Next"
+msgstr "Următorul pas"
