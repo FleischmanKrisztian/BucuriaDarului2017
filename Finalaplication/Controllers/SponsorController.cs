@@ -88,18 +88,12 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionSponsor");
-            //string key1 = "FirstSessionSponsor";
-            //DictionaryHelper dictionary;
-            //DictionaryHelper.d.TryGetValue(key1, out dictionary);
-
-            //string ids = dictionary.Ids.ToString();
-            //if (ids != null || ids != "")
-            //{ DictionaryHelper.d.Remove(key1); }
+            
             ids = "csvexporterapp:" + ids;
 
             string key2 = "SecondSessionSponsor";
              HttpContext.Session.SetString(key2, ids);
-           // DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
+          
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
@@ -108,12 +102,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver( bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionSponsor");
-            //string key = "SecondSessionSponsor";
-            //DictionaryHelper dictionary;
-            //DictionaryHelper.d.TryGetValue(key, out dictionary);
-            // if(ids!=null || ids!="")
-            //     { DictionaryHelper.d.Remove(key1); }
-            //var IDS = dictionary.Ids.ToString();
+           
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";

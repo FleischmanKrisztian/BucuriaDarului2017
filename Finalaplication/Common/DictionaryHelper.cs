@@ -2,15 +2,10 @@
 
 namespace Finalaplication.Common
 {
-    internal class DictionaryHelper
+     public static class DictionaryHelper
     {
        
-
         public static Dictionary<string, string> d = new Dictionary<string, string>();
-        public DictionaryHelper()
-        {
-        }
-
         
     }
 }

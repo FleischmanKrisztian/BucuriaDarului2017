@@ -119,7 +119,7 @@ namespace Finalaplication.Controllers
         public ActionResult ImportUpdate(string docsimported, string key1)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-            DictionaryHelper dictionary;
+           // DictionaryHelper dictionary;
 
             string duplicates = string.Empty;
             DictionaryHelper.d.TryGetValue(key1, out duplicates);
@@ -651,6 +651,7 @@ namespace Finalaplication.Controllers
         {
             // ViewBag.IDS = ids;
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
+            HttpContext.Session.Remove("FirstSessionBeneficiary");
             //string key1 = "FirstSessionBeneficiary";
             //DictionaryHelper dictionary;
             //DictionaryHelper.d.TryGetValue(key1, out dictionary);
@@ -658,7 +659,7 @@ namespace Finalaplication.Controllers
             //string ids = dictionary.Ids.ToString();
             //if (ids != null || ids != "")
             //{ DictionaryHelper.d.Remove(key1); }
-           
+
 
             ids = "csvexporterapp:" + ids;
             string key2 = "SecondSessionBeneficiary";
@@ -672,13 +673,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv,bool WeeklyPackage)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionBeneficiary");
-            //string key = "SecondSessionBeneficiary";
-            //DictionaryHelper dictionary;
-            //DictionaryHelper.d.TryGetValue(key, out dictionary);
-
-            //var IDS = dictionary.Ids.ToString();
-            //if (IDS != null || IDS != "")
-            //{ DictionaryHelper.d.Remove(key); }
+            HttpContext.Session.Remove("SecondSessionBeneficiary");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -755,6 +750,7 @@ namespace Finalaplication.Controllers
             string key2 = "beneficiariesHeader";
             string key1= "beneficiariesSession";
             //return View();
+            
             DictionaryHelper.d.Add(key1, ids_and_options);
             DictionaryHelper.d.Add(key2, header);
             string ids_and_optionssecond = "csvexporterapp:" +";" +key1+";"+key2;
