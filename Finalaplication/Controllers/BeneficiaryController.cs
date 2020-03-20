@@ -142,15 +142,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public string GetInfoFromDictionary(string key)
-        {
-            string info = "error";
-            if (DictionaryHelper.d.Keys.Contains(key) == true)
-            {
-                DictionaryHelper.d.TryGetValue(key, out info);
-                    }
-            return info;
-        }
+       
 
         public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {

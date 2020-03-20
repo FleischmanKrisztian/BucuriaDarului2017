@@ -22,7 +22,7 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
         public DictionaryHelper d;
-        private readonly IStringLocalizer<BeneficiaryController> _localizer;
+
 
 
 
@@ -39,10 +39,9 @@ namespace Finalaplication.Controllers
                 key2 = splited[2];
             }
             string id=string.Empty;
-            BeneficiaryController control = new BeneficiaryController(_localizer);
-            id=control.GetInfoFromDictionary(key1);
+           
             DictionaryHelper.d.TryGetValue(key1, out id);
-            //id = dictionary.Ids.ToString();
+            
             if (id != "")
             { DictionaryHelper.d.Remove(key1); }
             string header=string.Empty;
