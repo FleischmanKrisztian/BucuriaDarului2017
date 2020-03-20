@@ -88,7 +88,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionSponsor");
-            
+            HttpContext.Session.Remove("FirstSessionSponsor");
             ids = "csvexporterapp:" + ids;
 
             string key2 = "SecondSessionSponsor";

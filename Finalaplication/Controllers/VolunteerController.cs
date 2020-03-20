@@ -528,18 +528,9 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
-           // string key1="FirstSessionVolunteer";
-           // DictionaryHelper dictionary;
-           // DictionaryHelper.d.TryGetValue(key1, out dictionary);
-
-           //string ids = dictionary.Ids.ToString();
-           // if(ids!=null || ids!="")
-           //     { DictionaryHelper.d.Remove(key1); }
+            HttpContext.Session.Remove("FirstSessionVolunteer");
             ids = "csvexporterapp:" + ids;
-            
-
-            string key2 = "SecondSessionVolunteer";
-            //DictionaryHelper.d.Add(key2, new DictionaryHelper(ids));
+           string key2 = "SecondSessionVolunteer";
             HttpContext.Session.SetString(key2, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
@@ -548,16 +539,7 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver( bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
-            //string key = "SecondSessionVolunteer";
-            //DictionaryHelper dictionary;
-            //DictionaryHelper.d.TryGetValue(key, out dictionary);
-
-            //var IDS = dictionary.Ids.ToString();
-            //if (IDS != null || IDS != "")
-            //{ DictionaryHelper.d.Remove(key); }
-            
             var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
-            
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -589,7 +571,6 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "D";
 
             string key1 = "volunteerSession";
-            //HttpContext.Session.SetString(key, ids_and_options);
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
             string key2 = "beneficiariesHeader";
