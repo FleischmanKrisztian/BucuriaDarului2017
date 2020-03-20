@@ -22,10 +22,12 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
         public DictionaryHelper d;
-        
-         
-// GET: api/Excelprinter
-       [HttpGet("{key}", Name = "Get")]
+        private readonly IStringLocalizer<BeneficiaryController> _localizer;
+
+
+
+        // GET: api/Excelprinter
+        [HttpGet("{key}", Name = "Get")]
         public string Get( string key)
         {
             string key1 = string.Empty;
@@ -37,10 +39,11 @@ namespace Finalaplication.Controllers
                 key2 = splited[2];
             }
             string id=string.Empty;
-           
-            DictionaryHelper.d.TryGetValue(key1,out id);
-           //id = dictionary.Ids.ToString();
-            if (id!= "")
+            BeneficiaryController control = new BeneficiaryController(_localizer);
+            id=control.GetInfoFromDictionary(key1);
+            DictionaryHelper.d.TryGetValue(key1, out id);
+            //id = dictionary.Ids.ToString();
+            if (id != "")
             { DictionaryHelper.d.Remove(key1); }
             string header=string.Empty;
             DictionaryHelper.d.TryGetValue(key2, out header);
