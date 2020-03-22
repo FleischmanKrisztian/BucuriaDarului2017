@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using VolCommon;
 
@@ -31,6 +32,22 @@ namespace Finalaplication.Common
                 return VolMongoConstants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
             }
         }
+
+        public string WriteFile(string FileName, string toWrite)
+        {
+           
+                string path = " ";
+
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",
+                               FileName);
+                var logPath = path;
+                var logFile = System.IO.File.Create(logPath);
+                var logWriter = new System.IO.StreamWriter(logFile);
+                logWriter.WriteLine(toWrite);
+                logWriter.Dispose();
+            return path;
+         }
+
         public string[] SplitedHeader(string header)
         {
             string[] splitedHeader = header.Split(",");
