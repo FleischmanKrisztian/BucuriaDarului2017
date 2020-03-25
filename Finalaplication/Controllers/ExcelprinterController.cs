@@ -24,62 +24,60 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
         public DictionaryHelper d;
-
-
-
-
+        
+        
         // GET: api/Excelprinter
         [HttpGet("{key}", Name = "Get")]
         public string Get( string key)
         {
-            //string key1 = string.Empty;
-            //string key2 = string.Empty;
-            //if (key.Contains(";") == true)
-            //{
-            //   string[] splited= key.Split(";");
-            //    key1 = splited[1];
-            //    key2 = splited[2];
-            //}
-            //string id=string.Empty;
-
-            //DictionaryHelper.d.TryGetValue(key1, out id);
-
-            //if (id != "")
-            //{ DictionaryHelper.d.Remove(key1); }
-            //string header=string.Empty;
-            //DictionaryHelper.d.TryGetValue(key2, out header);
-
-            //if (header != "")
-            //{ DictionaryHelper.d.Remove(key2); }
-            ControllerHelper helper = new ControllerHelper();
-            string path= string.Empty;
-            string header_ = string.Empty;
+            string key1 = string.Empty;
+            string key2 = string.Empty;
             if (key.Contains(";") == true)
             {
                 string[] splited = key.Split(";");
-                path =  splited[1];
-                header_ = splited[2];
+                key1 = splited[1];
+                key2 = splited[2];
             }
             string id = string.Empty;
-            id= System.IO.File.ReadAllText("C:/Users/Corina.Gramada/DesktopFinalapplication/Finalaplication/wwwroot/IdsForBeneficiary.txt", Encoding.UTF8).ToString();
-            string header= System.IO.File.ReadAllText("C:/Users/Corina.Gramada/DesktopFinalapplication/Finalaplication/wwwroot/HeaderForBeneficiary.txt", Encoding.UTF8).ToString();
 
-            if (id != null)
-            {
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-            }
-            if (header != null)
-            {
-                FileInfo file = new FileInfo(header_);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-            }
+            DictionaryHelper.d.TryGetValue(key1, out id);
+
+            if (id != "")
+            { DictionaryHelper.d.Remove(key1); }
+            string header = string.Empty;
+            DictionaryHelper.d.TryGetValue(key2, out header);
+
+            if (header != "")
+            { DictionaryHelper.d.Remove(key2); }
+            ControllerHelper helper = new ControllerHelper();
+            //string path= string.Empty;
+            //string header_ = string.Empty;
+            //if (key.Contains(";") == true)
+            //{
+            //    string[] splited = key.Split(";");
+            //    path =  splited[1];
+            //    header_ = splited[2];
+            //}
+            //string id = string.Empty;
+            //id= System.IO.File.ReadAllText("C:/Users/Corina.Gramada/DesktopFinalapplication/Finalaplication/wwwroot/IdsForBeneficiary.txt", Encoding.UTF8).ToString();
+            //string header= System.IO.File.ReadAllText("C:/Users/Corina.Gramada/DesktopFinalapplication/Finalaplication/wwwroot/HeaderForBeneficiary.txt", Encoding.UTF8).ToString();
+
+            //if (id != null)
+            //{
+            //    FileInfo file = new FileInfo(path);
+            //    if (file.Exists)
+            //    {
+            //        file.Delete();
+            //    }
+            //}
+            //if (header != null)
+            //{
+            //    FileInfo file = new FileInfo(header_);
+            //    if (file.Exists)
+            //    {
+            //        file.Delete();
+            //    }
+            //}
             string[] finalHeader = helper.SplitedHeader(header);
             dbcontext = new MongoDBContext();
             string jsonstring = "";
@@ -789,8 +787,9 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
-            
-            
+
+            System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", jsonstring);
+
             return jsonstring;
         }
     }

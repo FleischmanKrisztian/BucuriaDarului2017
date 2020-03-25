@@ -737,36 +737,36 @@ namespace Finalaplication.Controllers
             string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
             string key2 = "beneficiariesHeader";
             string key1 = "beneficiariesSession";
-            //if (DictionaryHelper.d.Keys.Contains(key1) == true)
-            //{
-            //    DictionaryHelper.d[key1] = ids_and_options;
-            //}
-            //else
-            //{
-            //    DictionaryHelper.d.Add(key1, ids_and_options);
-            //}
-            //if (DictionaryHelper.d.Keys.Contains(key2) == true)
-            //{
-            //    DictionaryHelper.d[key2] = header;
-            //}
-            //else
-            //{
-            //    DictionaryHelper.d.Add(key2, header);
-            //}
+            if (DictionaryHelper.d.Keys.Contains(key1) == true)
+            {
+                DictionaryHelper.d[key1] = ids_and_options;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key1, ids_and_options);
+            }
+            if (DictionaryHelper.d.Keys.Contains(key2) == true)
+            {
+                DictionaryHelper.d[key2] = header;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key2, header);
+            }
 
-           
-            string FileNameForIds= "IdsForBeneficiary.txt";
-            string fileNameForHeader = "HeaderForBeneficiary.txt";
-            ControllerHelper controllerHelper = new ControllerHelper();
-            string path = controllerHelper.WriteFile(FileNameForIds, ids_and_options);
-            string header_ = controllerHelper.WriteFile(fileNameForHeader, header);
+
+            //string FileNameForIds= "IdsForBeneficiary.txt";
+            //string fileNameForHeader = "HeaderForBeneficiary.txt";
+            //ControllerHelper controllerHelper = new ControllerHelper();
+            //string path = controllerHelper.WriteFile(FileNameForIds, ids_and_options);
+            //string header_ = controllerHelper.WriteFile(fileNameForHeader, header);
 
             //using (var stream = new FileStream(path, FileMode.Create))
             //{
 
             //}
 
-            string ids_and_optionssecond = "csvexporterapp:" + ";" + path + ";" + header_;
+            string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
             TempData["info"] = ids_and_optionssecond;
             return Redirect(ids_and_optionssecond);
 
