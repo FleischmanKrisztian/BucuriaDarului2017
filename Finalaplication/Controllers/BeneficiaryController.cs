@@ -767,7 +767,6 @@ namespace Finalaplication.Controllers
             //}
 
             string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
-            TempData["info"] = ids_and_optionssecond;
             return Redirect(ids_and_optionssecond);
 
             //return RedirectToAction("Index");

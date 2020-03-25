@@ -78,7 +78,10 @@ namespace Finalaplication.Controllers
             //        file.Delete();
             //    }
             //}
-            string[] finalHeader = helper.SplitedHeader(header);
+            string[] finalHeader = new string[45];
+            if (header != null)
+            { finalHeader = helper.SplitedHeader(header); }
+           
             dbcontext = new MongoDBContext();
             string jsonstring = "";
             id = id.Replace("\"", "");
@@ -787,8 +790,11 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
-
-            System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", jsonstring);
+            if (id != null)
+            { System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", jsonstring); }
+            else
+            { System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", "fara id"); }
+            
 
             return jsonstring;
         }
