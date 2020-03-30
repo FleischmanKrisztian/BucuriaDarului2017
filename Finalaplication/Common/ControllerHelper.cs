@@ -45,7 +45,7 @@ namespace Finalaplication.Common
                 var logWriter = new System.IO.StreamWriter(logFile);
                 logWriter.WriteLine(toWrite);
                 logWriter.Dispose();
-            return path;
+            return logPath;
          }
 
         public string[] SplitedHeader(string header)

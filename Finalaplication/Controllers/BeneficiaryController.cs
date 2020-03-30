@@ -761,10 +761,7 @@ namespace Finalaplication.Controllers
             string path = controllerHelper.WriteFile(FileNameForIds, ids_and_options);
             string header_ = controllerHelper.WriteFile(fileNameForHeader, header);
 
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-
-            }
+           
 
             string ids_and_optionssecond = "csvexporterapp:" + ";" +path + ";" + header_;
             return Redirect(ids_and_optionssecond);

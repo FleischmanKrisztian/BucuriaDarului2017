@@ -58,9 +58,9 @@ namespace Finalaplication.Controllers
                 path = splited[1];
                 header_ = splited[2];
             }
-            string id = string.Empty;
-            id = System.IO.File.ReadAllText("C:/Users/Corina.Gramada/DesktopFinalapplication/Finalaplication/wwwroot/IdsForBeneficiary.txt", Encoding.UTF8).ToString();
-            string header = System.IO.File.ReadAllText("C:/Users/Corina.Gramada/DesktopFinalapplication/Finalaplication/wwwroot/HeaderForBeneficiary.txt", Encoding.UTF8).ToString();
+            string id = System.IO.File.ReadAllText(key1);
+            
+            string header = System.IO.File.ReadAllText(key2);
 
             if (id != null)
             {
