@@ -2,10 +2,12 @@
 
 namespace Finalaplication.Common
 {
-     public  class DictionaryHelper
+     public static class DictionaryHelper
     {
        
-        public static Dictionary<string, string> d = new Dictionary<string, string>();
+        public static Dictionary<string, string> d = new Dictionary<string, string>() { { "header", "" },
+            {"ids","" } };
+        
         
     }
 }

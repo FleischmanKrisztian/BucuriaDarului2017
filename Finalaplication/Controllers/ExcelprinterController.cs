@@ -23,7 +23,7 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
-        public DictionaryHelper d;
+       
         
         
         // GET: api/Excelprinter
@@ -38,51 +38,56 @@ namespace Finalaplication.Controllers
                 key1 = splited[1];
                 key2 = splited[2];
             }
-            //string id = string.Empty;
 
-            //DictionaryHelper.d.TryGetValue(key1, out id);
+            dbcontext = new MongoDBContext();
+            string id = string.Empty;
 
-            //if (id != "")
-            //{ DictionaryHelper.d.Remove(key1); }
-            //string header = string.Empty;
-            //DictionaryHelper.d.TryGetValue(key2, out header);
+            DictionaryHelper.d.TryGetValue(key1, out id);
 
-            //if (header != "")
-            //{ DictionaryHelper.d.Remove(key2); }
-            ControllerHelper helper = new ControllerHelper();
-            string path = string.Empty;
-            string header_ = string.Empty;
-            if (key.Contains(";") == true)
-            {
-                string[] splited = key.Split(";");
-                path = splited[1];
-                header_ = splited[2];
-            }
-            string id = System.IO.File.ReadAllText(key1);
+            if (id != "")
+            { DictionaryHelper.d[key1] =""; }
+
             
-            string header = System.IO.File.ReadAllText(key2);
+            string header = string.Empty;
+            DictionaryHelper.d.TryGetValue(key2, out header);
 
-            if (id != null)
-            {
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-            }
-            if (header != null)
-            {
-                FileInfo file = new FileInfo(header_);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-            }
+            if (header != "")
+            { DictionaryHelper.d[key2] = ""; }
+            ControllerHelper helper = new ControllerHelper();
+            //string path = string.Empty;
+            //string header_ = string.Empty;
+            //if (key.Contains(";") == true)
+            //{
+            //    string[] splited = key.Split(";");
+            //    path = splited[1];
+            //    header_ = splited[2];
+            //}
+            //string id = System.IO.File.ReadAllText(key1);
+            
+            //string header = System.IO.File.ReadAllText(key2);
+
+            //if (id != null)
+            //{
+            //    FileInfo file = new FileInfo(path);
+            //    if (file.Exists)
+            //    {
+            //        file.Delete();
+            //    }
+            //}
+            //if (header != null)
+            //{
+            //    FileInfo file = new FileInfo(header_);
+            //    if (file.Exists)
+            //    {
+            //        file.Delete();
+            //    }
+            //}
+          
             string[] finalHeader = new string[45];
             if (header != null)
             { finalHeader = helper.SplitedHeader(header); }
            
-            dbcontext = new MongoDBContext();
+           
             string jsonstring = "";
             id = id.Replace("\"", "");
             string[] ids = id.Split(",");
@@ -790,10 +795,10 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
-            if (id != null)
-            { System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", jsonstring); }
-            else
-            { System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", "fara id"); }
+            //if (id != null)
+            //{ System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", jsonstring); }
+            //else
+            //{ System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", "fara id"); }
             
 
             return jsonstring;
