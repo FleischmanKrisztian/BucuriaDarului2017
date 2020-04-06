@@ -764,8 +764,8 @@ namespace Finalaplication.Controllers
             //string path = controllerHelper.WriteFile(FileNameForIds, ids_and_options);
             //string header_ = controllerHelper.WriteFile(fileNameForHeader, header);
 
-            System.IO.File.WriteAllText(@"D:/Dinaplicatie/IdsFromBeneficiaryController.txt", ids_and_options);
-            System.IO.File.WriteAllText(@"D:/Dinaplicatie/HeaderFromBeneficiaryController.txt", ids_and_options);
+            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/IdsFromBeneficiaryController.txt", ids_and_options);
+            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/HeaderFromBeneficiaryController.txt", ids_and_options);
 
             string ids_and_optionssecond = "csvexporterapp:" + ";" +key1 + ";" + key2;
             return Redirect(ids_and_optionssecond);

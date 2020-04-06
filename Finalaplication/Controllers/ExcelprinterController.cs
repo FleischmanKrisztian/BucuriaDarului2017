@@ -57,8 +57,8 @@ namespace Finalaplication.Controllers
             DictionaryHelper.d.TryGetValue(key1,out test1);
             string test2 = string.Empty;
             DictionaryHelper.d.TryGetValue(key2, out test2);
-            System.IO.File.WriteAllText(@"D:/Dinaplicatie/IdsFromExcelController.txt",test1);
-            System.IO.File.WriteAllText(@"D:/Dinaplicatie/HeaderFromExcelController.txt", test2);
+            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/IdsFromExcelController.txt", test1);
+            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/HeaderFromExcelController.txt", test2);
             ControllerHelper helper = new ControllerHelper();
             //string path = string.Empty;
             //string header_ = string.Empty;
