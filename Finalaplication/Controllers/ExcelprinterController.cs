@@ -42,17 +42,17 @@ namespace Finalaplication.Controllers
             dbcontext = new MongoDBContext();
             string id = string.Empty;
 
-            DictionaryHelper.d.TryGetValue(key1, out id);
+            id=DictionaryHelper.GetPlural(key1);
 
-            if (id != "")
-            { DictionaryHelper.d[key1] =""; }
+            if (id != "" || id!=null)
+            { DictionaryHelper.d.Remove(key1); }
 
             
             string header = string.Empty;
-            DictionaryHelper.d.TryGetValue(key2, out header);
+           header= DictionaryHelper.GetPlural(key2);
 
-            if (header != "")
-            { DictionaryHelper.d[key2] = ""; }
+            if (header != "" || header != null)
+            { DictionaryHelper.d.Remove(key2); }
             ControllerHelper helper = new ControllerHelper();
             //string path = string.Empty;
             //string header_ = string.Empty;

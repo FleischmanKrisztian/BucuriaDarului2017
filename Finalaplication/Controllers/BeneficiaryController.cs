@@ -737,23 +737,26 @@ namespace Finalaplication.Controllers
             string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
             string key2 = "header";
             string key1 = "ids";
-            if (DictionaryHelper.d.Keys.Contains(key1) == true)
-            {
-                DictionaryHelper.d[key1] = ids_and_options;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key1, ids_and_options);
-            }
-            if (DictionaryHelper.d.Keys.Contains(key2) == true)
-            {
-                DictionaryHelper.d[key2] = header;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key2, header);
-            }
-
+            //if (DictionaryHelper.d.Keys.Contains(key1) == true)
+            //{
+            //    DictionaryHelper.d[key1] = ids_and_options;
+            //}
+            //else
+            //{
+            //    DictionaryHelper.d.Add(key1, ids_and_options);
+            //}
+            //if (DictionaryHelper.d.Keys.Contains(key2) == true)
+            //{
+            //    DictionaryHelper.d[key2] = header;
+            //}
+            //else
+            //{
+            //    DictionaryHelper.d.Add(key2, header);
+            //}
+            DictionaryHelper.d.Add(key1, ids_and_options);
+            DictionaryHelper.d.Add(key2, header);
+            string test1=DictionaryHelper.GetPlural(key1);
+           string test2= DictionaryHelper.GetPlural(key2);
 
             //string FileNameForIds = "IdsForBeneficiary.txt";
             //string fileNameForHeader = "HeaderForBeneficiary.txt";
