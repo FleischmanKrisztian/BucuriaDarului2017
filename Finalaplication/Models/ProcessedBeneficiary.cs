@@ -403,7 +403,7 @@ namespace Finalaplication.Models
                 }
             }
             string key1 = "BeneficiaryImportDuplicate";
-            DictionaryHelper.d.Add(key1, duplicates);
+            //DictionaryHelper.d.Add(key1, duplicates);
             return new Tuple<string, string>(documentsimported.ToString(), key1);
         }
 
@@ -755,7 +755,7 @@ namespace Finalaplication.Models
                 }
             }
             string key1 = "BeneficiaryImportDuplicate";
-            DictionaryHelper.d.Add(key1,duplicates);
+            //DictionaryHelper.d.Add(key1,duplicates);
             return new Tuple<string, string>(documentsimported.ToString(), key1);
         }
     }

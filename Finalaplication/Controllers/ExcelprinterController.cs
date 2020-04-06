@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,9 +25,13 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
-       
-        
-        
+        private static Dictionary<string, string> _mduDb;
+
+        public ExcelprinterController(DictionaryHelper dictionary)
+        { _mduDb = dictionary.d; }
+
+
+
         // GET: api/Excelprinter
         [HttpGet("{key}", Name = "Get")]
         public string Get( string key)
@@ -42,20 +47,20 @@ namespace Finalaplication.Controllers
 
             dbcontext = new MongoDBContext();
             string id = string.Empty;
-
-            id=DictionaryHelper.GetPlural(key1);
-            DictionaryHelper.d.Remove(key1); 
+            _mduDb.TryGetValue(key1, out id);
+           // id=DictionaryHelper.GetPlural(key1);
+           // DictionaryHelper.d.Remove(key1); 
 
             
-            string header = string.Empty;
-           header= DictionaryHelper.GetPlural(key2);
-           DictionaryHelper.d.Remove(key2); 
-          
+           string header = string.Empty;
+            //header= DictionaryHelper.GetPlural(key2);
+            //DictionaryHelper.d.Remove(key2); 
+            _mduDb.TryGetValue(key2, out header);
 
             ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
-            if (header != null)
-            { finalHeader = helper.SplitedHeader(header); }
+            //if (header != null)
+            //{ finalHeader = helper.SplitedHeader(header); }
            
            
             string jsonstring = "";

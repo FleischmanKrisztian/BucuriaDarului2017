@@ -24,13 +24,14 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private readonly IStringLocalizer<EventController> _localizer;
-
        
+
 
         public EventController(IHostingEnvironment env, IStringLocalizer<EventController> localizer)
         {
             try
             {
+                
                 dbcontext = new MongoDBContext();
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
@@ -265,8 +266,9 @@ namespace Finalaplication.Controllers
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterEvent(_localizer);
             string key2 = "eventHeader";
-            DictionaryHelper.d.Add(key1,ids_and_options);
-            DictionaryHelper.d.Add(key2, header);
+            
+            //DictionaryHelper.d.Add(key1,ids_and_options);
+            //DictionaryHelper.d.Add(key2, header);
             string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);

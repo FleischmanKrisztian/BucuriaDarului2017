@@ -574,8 +574,8 @@ namespace Finalaplication.Controllers
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
             string key2 = "beneficiariesHeader";
-            DictionaryHelper.d.Add(key1, ids_and_options);
-            DictionaryHelper.d.Add(key2,header);
+            //DictionaryHelper.d.Add(key1, ids_and_options);
+            //DictionaryHelper.d.Add(key2,header);
             string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);

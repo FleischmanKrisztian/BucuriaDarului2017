@@ -2,24 +2,25 @@
 
 namespace Finalaplication.Common
 {
-    public static class DictionaryHelper
+    public  class DictionaryHelper
     {
 
-        public static Dictionary<string, string> d = new Dictionary<string, string>();
+        public  Dictionary<string, string> d = new Dictionary<string, string>()
+        { { "ids",""},{ "header",""} };
 
-        public static string GetPlural(string word)
-        {
-            // Try to get the result in the static Dictionary
-            string result;
-            if (d.TryGetValue(word, out result))
-            {
-                return result;
-            }
-            else
-            {
-                return null;
-            }
+        //public static string GetPlural(string word)
+        //{
+        //    // Try to get the result in the static Dictionary
+        //    string result;
+        //    if (d.TryGetValue(word, out result))
+        //    {
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
 
-        }
+        //}
     }
 }
