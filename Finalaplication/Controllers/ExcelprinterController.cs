@@ -53,6 +53,12 @@ namespace Finalaplication.Controllers
 
             if (header != "" || header != null)
             { DictionaryHelper.d.Remove(key2); }
+            string test1 = string.Empty;
+            DictionaryHelper.d.TryGetValue(key1,out test1);
+            string test2 = string.Empty;
+            DictionaryHelper.d.TryGetValue(key2, out test2);
+            System.IO.File.WriteAllText(@"D:/Dinaplicatie/IdsFromBeneficiaryController.txt",test1);
+            System.IO.File.WriteAllText(@"D:/Dinaplicatie/HeaderFromBeneficiaryController.txt", test2);
             ControllerHelper helper = new ControllerHelper();
             //string path = string.Empty;
             //string header_ = string.Empty;
