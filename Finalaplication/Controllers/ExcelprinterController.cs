@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,52 +44,15 @@ namespace Finalaplication.Controllers
             string id = string.Empty;
 
             id=DictionaryHelper.GetPlural(key1);
-
-            if (id != "" || id!=null)
-            { DictionaryHelper.d.Remove(key1); }
+            DictionaryHelper.d.Remove(key1); 
 
             
             string header = string.Empty;
            header= DictionaryHelper.GetPlural(key2);
-
-            if (header != "" || header != null)
-            { DictionaryHelper.d.Remove(key2); }
-            string test1 = string.Empty;
-            DictionaryHelper.d.TryGetValue(key1,out test1);
-            string test2 = string.Empty;
-            DictionaryHelper.d.TryGetValue(key2, out test2);
-            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/IdsFromExcelController.txt", test1);
-            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/HeaderFromExcelController.txt", test2);
-            ControllerHelper helper = new ControllerHelper();
-            //string path = string.Empty;
-            //string header_ = string.Empty;
-            //if (key.Contains(";") == true)
-            //{
-            //    string[] splited = key.Split(";");
-            //    path = splited[1];
-            //    header_ = splited[2];
-            //}
-            //string id = System.IO.File.ReadAllText(key1);
-            
-            //string header = System.IO.File.ReadAllText(key2);
-
-            //if (id != null)
-            //{
-            //    FileInfo file = new FileInfo(path);
-            //    if (file.Exists)
-            //    {
-            //        file.Delete();
-            //    }
-            //}
-            //if (header != null)
-            //{
-            //    FileInfo file = new FileInfo(header_);
-            //    if (file.Exists)
-            //    {
-            //        file.Delete();
-            //    }
-            //}
+           DictionaryHelper.d.Remove(key2); 
           
+
+            ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
             if (header != null)
             { finalHeader = helper.SplitedHeader(header); }
@@ -801,12 +765,7 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
-            //if (id != null)
-            //{ System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", jsonstring); }
-            //else
-            //{ System.IO.File.WriteAllText(@"D:/Dinaplicatie/Jason.txt", "fara id"); }
-            
-
+           
             return jsonstring;
         }
     }

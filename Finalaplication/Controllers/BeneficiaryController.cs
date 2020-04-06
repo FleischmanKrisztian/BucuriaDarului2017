@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -755,8 +756,11 @@ namespace Finalaplication.Controllers
             //}
             DictionaryHelper.d.Add(key1, ids_and_options);
             DictionaryHelper.d.Add(key2, header);
-            string test1=DictionaryHelper.GetPlural(key1);
-           string test2= DictionaryHelper.GetPlural(key2);
+            string test1 = string.Empty; 
+                DictionaryHelper.d.TryGetValue(key1,out test1);
+            string test2 = string.Empty;
+            DictionaryHelper.d.TryGetValue(key2, out test2);
+
 
             //string FileNameForIds = "IdsForBeneficiary.txt";
             //string fileNameForHeader = "HeaderForBeneficiary.txt";
@@ -764,8 +768,7 @@ namespace Finalaplication.Controllers
             //string path = controllerHelper.WriteFile(FileNameForIds, ids_and_options);
             //string header_ = controllerHelper.WriteFile(fileNameForHeader, header);
 
-            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/IdsFromBeneficiaryController.txt", ids_and_options);
-            System.IO.File.WriteAllText(@"C:/Users/Corina.Gramada/Desktop/Finalapplication/Finalaplication/Excelfiles/HeaderFromBeneficiaryController.txt", ids_and_options);
+
 
             string ids_and_optionssecond = "csvexporterapp:" + ";" +key1 + ";" + key2;
             return Redirect(ids_and_optionssecond);

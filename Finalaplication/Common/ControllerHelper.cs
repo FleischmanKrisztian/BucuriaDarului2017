@@ -33,27 +33,7 @@ namespace Finalaplication.Common
             }
         }
 
-        public string WriteFile(string FileName, string toWrite)
-        {
-
-           
-            string path = " ";
-
-                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",
-                               FileName);
-                var logPath = path;
-            FileInfo file = new FileInfo(logPath);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-            var logFile = System.IO.File.Create(logPath);
-                var logWriter = new System.IO.StreamWriter(logFile);
-                logWriter.WriteLine(toWrite);
-                logWriter.Dispose();
-            return logPath;
-         }
-
+      
         public string[] SplitedHeader(string header)
         {
             string[] splitedHeader = header.Split(",");
