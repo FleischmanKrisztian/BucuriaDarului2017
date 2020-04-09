@@ -58,13 +58,7 @@ namespace Finalaplication
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            Action<DictionaryHelper> mduOptions = (opt =>
-            {
-                Dictionary<string, string> dictionary = new Dictionary<string, string>() { {"ids","" },{"header","" } };
-                opt.d = dictionary;
-            });
-            services.Configure(mduOptions);
-            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DictionaryHelper>>().Value);
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
             opts => { opts.ResourcesPath = "Resources"; })

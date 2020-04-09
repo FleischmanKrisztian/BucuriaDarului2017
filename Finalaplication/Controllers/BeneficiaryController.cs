@@ -26,14 +26,13 @@ namespace Finalaplication.Controllers
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
-        private static Dictionary<string, string> _mduDb;
 
 
-        public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer, DictionaryHelper dictionary)
+        public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
             try
             {
-                _mduDb = dictionary.d;
+               
                 dbcontext = new MongoDBContext();
                 beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
@@ -120,15 +119,13 @@ namespace Finalaplication.Controllers
         public ActionResult ImportUpdate(string docsimported, string key1)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-            // DictionaryHelper dictionary;
+           string duplicates = string.Empty;
+            DictionaryHelper.d.TryGetValue(key1, out duplicates);
+            // string duplicates = dictionary.Ids.ToString();
+            ViewBag.duplicates = duplicates;
+            ViewBag.documentsimported = docsimported;
 
-            //string duplicates = string.Empty;
-            //DictionaryHelper.d.TryGetValue(key1, out duplicates);
-            //// string duplicates = dictionary.Ids.ToString();
-            //ViewBag.duplicates = duplicates;
-            //ViewBag.documentsimported = docsimported;
-
-            //DictionaryHelper.d.Remove(key1);
+            DictionaryHelper.d.Remove(key1);
 
             return View();
         }
@@ -741,29 +738,23 @@ namespace Finalaplication.Controllers
             string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
             string key2 = "header";
             string key1 = "ids";
-            if (_mduDb.Keys.Contains(key1) == true)
+            if (DictionaryHelper.d.ContainsKey(key1) == true)
             {
-                _mduDb[key1] = ids_and_options;
+                DictionaryHelper.d[key1] = ids_and_options;
             }
             else
             {
-                _mduDb.Add(key1, ids_and_options);
+                DictionaryHelper.d.Add(key1, ids_and_options);
             }
-            if (_mduDb.Keys.Contains(key2) == true)
+            if (DictionaryHelper.d.ContainsKey(key2) == true)
             {
-                _mduDb[key2] = header;
+                DictionaryHelper.d[key2] = header;
             }
             else
             {
-                _mduDb.Add(key2, header);
+                DictionaryHelper.d.Add(key2, header);
             }
-            //DictionaryHelper.d.Add(key1, ids_and_options);
-            //DictionaryHelper.d.Add(key2, header);
-            //string test1 = string.Empty; 
-            //    DictionaryHelper.d.TryGetValue(key1,out test1);
-            //string test2 = string.Empty;
-            //DictionaryHelper.d.TryGetValue(key2, out test2);
-
+           
 
             //string FileNameForIds = "IdsForBeneficiary.txt";
             //string fileNameForHeader = "HeaderForBeneficiary.txt";

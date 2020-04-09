@@ -266,9 +266,23 @@ namespace Finalaplication.Controllers
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterEvent(_localizer);
             string key2 = "eventHeader";
-            
-            //DictionaryHelper.d.Add(key1,ids_and_options);
-            //DictionaryHelper.d.Add(key2, header);
+
+            if (DictionaryHelper.d.ContainsKey(key1) == true)
+            {
+                DictionaryHelper.d[key1] = ids_and_options;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key1, ids_and_options);
+            }
+            if (DictionaryHelper.d.ContainsKey(key2) == true)
+            {
+                DictionaryHelper.d[key2] = header;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key2, header);
+            }
             string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
