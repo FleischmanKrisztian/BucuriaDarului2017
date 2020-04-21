@@ -28,7 +28,7 @@
   - [x] Expiration contract alert;
   - [x] Hours count;
   - [x] Remarks;
-  - [x] The ability to reports reports.
+  - [x] The ability to print reports.
  
 Events-fields:
   - [x] name of event;
@@ -36,7 +36,7 @@ Events-fields:
   - [x] Type of event;
   - [x] Number of volunteer needed;
   - [x] Allocated sponsors and volunteers.
-  - [x] The ability to reports reports.
+  - [x] The ability to print reports.
 
 Sponsors-fields:
  - [x] Date of sponsorship;
@@ -44,7 +44,7 @@ Sponsors-fields:
  - [x] Contract information;
  - [x] Expiration contract alert;
  - [x] Contact information;
- - [x] The ability to reports reports.
+ - [x] The ability to print reports.
   
 Beneficiaries-fields:
  - [x] General information;
@@ -63,7 +63,7 @@ Beneficiaries-fields:
  - [x] Health insurance and health card;
  - [x] Marital status;
  - [x] Housing information;
- - [x] The ability to reports reports.
+ - [x] The ability to print reports.
 
 
 ### Application architecture and functionality:
