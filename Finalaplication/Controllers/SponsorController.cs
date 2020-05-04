@@ -88,12 +88,18 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionSponsor");
+<<<<<<< Updated upstream
             HttpContext.Session.Remove("FirstSessionSponsor");
             ids = "csvexporterapp:" + ids;
 
             string key2 = "SecondSessionSponsor";
              HttpContext.Session.SetString(key2, ids);
           
+=======
+            //ids = "csvexporterapp:" + ids;
+            string key = "SecondSessionSponsor";
+            HttpContext.Session.SetString(key, ids);
+>>>>>>> Stashed changes
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }

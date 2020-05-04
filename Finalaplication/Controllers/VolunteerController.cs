@@ -528,10 +528,16 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
+<<<<<<< Updated upstream
             HttpContext.Session.Remove("FirstSessionVolunteer");
             ids = "csvexporterapp:" + ids;
            string key2 = "SecondSessionVolunteer";
             HttpContext.Session.SetString(key2, ids);
+=======
+            //ids = "csvexporterapp:" + ids;
+            string key = "SecondSessionVolunteer";
+            HttpContext.Session.SetString(key, ids);
+>>>>>>> Stashed changes
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }

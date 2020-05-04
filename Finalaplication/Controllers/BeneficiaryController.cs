@@ -24,6 +24,10 @@ namespace Finalaplication.Controllers
     {
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
+<<<<<<< Updated upstream
+=======
+    //    private MongoDB.Driver.IMongoCollection<PrintingInfo> printingInfocollection;
+>>>>>>> Stashed changes
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
 
@@ -35,6 +39,10 @@ namespace Finalaplication.Controllers
                
                 dbcontext = new MongoDBContext();
                 beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+<<<<<<< Updated upstream
+=======
+               // printingInfocollection = dbcontext.database.GetCollection<PrintingInfo>("PrintingInfo");
+>>>>>>> Stashed changes
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
                 _localizer = localizer;
             }
@@ -633,6 +641,10 @@ namespace Finalaplication.Controllers
                 beneficiaries = beneficiaries.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 beneficiaries = beneficiaries.AsQueryable().Take(nrofdocs).ToList();
 
+<<<<<<< Updated upstream
+=======
+                //TempData["myIds"] = stringofids;
+>>>>>>> Stashed changes
                 string key = "FirstSessionBeneficiary";
                 HttpContext.Session.SetString(key, stringofids);
                 //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
@@ -648,11 +660,22 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
+<<<<<<< Updated upstream
             HttpContext.Session.Remove("FirstSessionBeneficiary");
 
             ids = "csvexporterapp:" + ids;
             string key2 = "SecondSessionBeneficiary";
             HttpContext.Session.SetString(key2, ids);
+=======
+            //ids = "csvexporterapp:" + ids;
+            string key = "SecondSessionBeneficiary";
+            HttpContext.Session.SetString(key, ids);
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+            PrintingInfo printingInfo = new PrintingInfo();
+           //printingInfo.Ids_and_options = TempData["myIds"].ToString();
+          //  printingInfocollection.InsertOne(printingInfo);
+           // ViewBag.IDS = printingInfo.ID;
+>>>>>>> Stashed changes
 
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
@@ -662,7 +685,11 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionBeneficiary");
+<<<<<<< Updated upstream
 
+=======
+           
+>>>>>>> Stashed changes
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -735,6 +762,7 @@ namespace Finalaplication.Controllers
             if (WeeklyPackage == true)
                 ids_and_options = ids_and_options + "Z";
             ControllerHelper helper = new ControllerHelper();
+<<<<<<< Updated upstream
             string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
             string key2 = "header";
             string key1 = "ids";
@@ -768,6 +796,31 @@ namespace Finalaplication.Controllers
             return Redirect(ids_and_optionssecond);
 
             //return RedirectToAction("Index");
+=======
+            string header= helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
+            
+            printingInfo.Ids_and_options = ids_and_options;
+            printingInfo.header = header;
+            
+
+            //string forPrinting = printingInfo.ID;
+            string key2 = "beneficiariesHeader";
+            string key = "beneficiariesSession";
+
+            if (DictionaryHelper.d.Keys.Contains(key))
+            { DictionaryHelper.d[key] = ids_and_options; }
+            else
+            { DictionaryHelper.d.Add(key, ids_and_options); }
+            if (DictionaryHelper.d.Keys.Contains(key2))
+            { DictionaryHelper.d[key2] = header; }
+            else
+            { DictionaryHelper.d.Add(key2, header); }
+
+            string ids_and_optionssecond = "csvexporterapp:" + key +";"+ key2;
+
+            return Redirect(ids_and_optionssecond);
+            //return View();
+>>>>>>> Stashed changes
         }
 
         public ActionResult ContractExp()

@@ -25,6 +25,7 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
+<<<<<<< Updated upstream
     
 
         
@@ -34,6 +35,13 @@ namespace Finalaplication.Controllers
         // GET: api/Excelprinter
         [HttpGet("{key}", Name = "Get")]
         public string Get( string key)
+=======
+     //   private IMongoCollection<PrintingInfo> printingInfocollection;
+
+        // GET: api/Excelprinter
+        [HttpGet("{keys}", Name = "Get")]
+        public string Get( string keys)
+>>>>>>> Stashed changes
         {
             string key1 = string.Empty;
             string key2 = string.Empty;
@@ -45,6 +53,7 @@ namespace Finalaplication.Controllers
             }
 
             dbcontext = new MongoDBContext();
+<<<<<<< Updated upstream
             string id = string.Empty;
             DictionaryHelper.d.TryGetValue(key1, out id);
            
@@ -55,7 +64,41 @@ namespace Finalaplication.Controllers
             DictionaryHelper.d.TryGetValue(key2, out header);
             DictionaryHelper.d.Remove(key2);
 
+=======
+            string ids_ = string.Empty;
+            string header= string.Empty;
+            string key1 = string.Empty; ;
+            string key2 = string.Empty; ;
+            if (keys.Contains(";") == true)
+            {
+                string[] splited = keys.Split(";");
+                key1 = splited[0];
+                key2 = splited[1];
+            }
 
+            //printingInfocollection = dbcontext.database.GetCollection<PrintingInfo>("PrintingInfo");
+            //PrintingInfo info = new PrintingInfo();
+            //info= printingInfocollection.AsQueryable<PrintingInfo>().SingleOrDefault(x => x.ID == id);
+            //string ids_ = info.Ids_and_options;
+            //string header = info.header;
+>>>>>>> Stashed changes
+
+            //if (ids_ != null & header != null)
+            //{ printingInfocollection.DeleteOne(Builders<PrintingInfo>.Filter.Eq("_id", ObjectId.Parse(ids_))); }
+
+            DictionaryHelper.d.TryGetValue(key1,out ids_);
+            DictionaryHelper.d.TryGetValue(key2, out header);
+
+            if (ids_ != null)
+            {
+                DictionaryHelper.d.Remove(key1);
+
+            }
+            if (header!= null)
+            {
+                DictionaryHelper.d.Remove(key2);
+
+            }
             ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
             if (header != null)
