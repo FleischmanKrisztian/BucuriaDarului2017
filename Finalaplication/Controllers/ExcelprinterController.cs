@@ -27,35 +27,42 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Beneficiary> benefeciarycollection;
     
 
-        
-
-
+       
 
         // GET: api/Excelprinter
-        [HttpGet("{key}", Name = "Get")]
-        public string Get( string key)
+        [HttpGet("{keys}", Name = "Get")]
+        public string Get( string keys)
+
         {
-            string key1 = string.Empty;
-            string key2 = string.Empty;
-            if (key.Contains(";") == true)
-            {
-                string[] splited = key.Split(";");
-                key1 = splited[1];
-                key2 = splited[2];
-            }
+            
 
             dbcontext = new MongoDBContext();
-            string id = string.Empty;
-            DictionaryHelper.d.TryGetValue(key1, out id);
-           
-            DictionaryHelper.d.Remove(key1);
 
+            string ids_ = string.Empty;
+            string header= string.Empty;
+            string key1 = string.Empty; 
+            string key2 = string.Empty; 
+            if (keys.Contains(";") == true)
+            {
+                string[] splited = keys.Split(";");
+                key1 = splited[0];
+                key2 = splited[1];
+            }
 
-            string header = string.Empty;
+            
+            DictionaryHelper.d.TryGetValue(key1,out ids_);
             DictionaryHelper.d.TryGetValue(key2, out header);
-            DictionaryHelper.d.Remove(key2);
 
+            if (ids_ != null)
+            {
+                DictionaryHelper.d.Remove(key1);
 
+            }
+            if (header!= null)
+            {
+                DictionaryHelper.d.Remove(key2);
+
+            }
             ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
             if (header != null)
@@ -63,8 +70,8 @@ namespace Finalaplication.Controllers
 
 
             string jsonstring = "";
-            id = id.Replace("\"", "");
-            string[] ids = id.Split(",");
+           
+            string[] ids = ids_.Split(",");
             if (ids[0].Contains("sponsors"))
             {
                 string properties = ids[ids.Length - 1].Substring(27);

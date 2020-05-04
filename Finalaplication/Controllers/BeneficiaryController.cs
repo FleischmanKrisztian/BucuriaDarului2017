@@ -24,6 +24,7 @@ namespace Finalaplication.Controllers
     {
         private MongoDBContext dbcontext;
         private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
+
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
 
@@ -635,7 +636,7 @@ namespace Finalaplication.Controllers
 
                 string key = "FirstSessionBeneficiary";
                 HttpContext.Session.SetString(key, stringofids);
-                //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
+        
                 return View(beneficiaries);
             }
             catch
@@ -649,10 +650,10 @@ namespace Finalaplication.Controllers
         {
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
             HttpContext.Session.Remove("FirstSessionBeneficiary");
-
-            ids = "csvexporterapp:" + ids;
-            string key2 = "SecondSessionBeneficiary";
-            HttpContext.Session.SetString(key2, ids);
+            string key = "SecondSessionBeneficiary";
+            HttpContext.Session.SetString(key, ids);
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+           
 
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
@@ -735,39 +736,28 @@ namespace Finalaplication.Controllers
             if (WeeklyPackage == true)
                 ids_and_options = ids_and_options + "Z";
             ControllerHelper helper = new ControllerHelper();
-            string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
-            string key2 = "header";
-            string key1 = "ids";
-            if (DictionaryHelper.d.ContainsKey(key1) == true)
-            {
-                DictionaryHelper.d[key1] = ids_and_options;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key1, ids_and_options);
-            }
-            if (DictionaryHelper.d.ContainsKey(key2) == true)
-            {
-                DictionaryHelper.d[key2] = header;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key2, header);
-            }
            
 
-            //string FileNameForIds = "IdsForBeneficiary.txt";
-            //string fileNameForHeader = "HeaderForBeneficiary.txt";
-            //ControllerHelper controllerHelper = new ControllerHelper();
-            //string path = controllerHelper.WriteFile(FileNameForIds, ids_and_options);
-            //string header_ = controllerHelper.WriteFile(fileNameForHeader, header);
+            string header= helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
+            
+           
+            string key2 = "beneficiariesHeader";
+            string key = "beneficiariesSession";
 
+            if (DictionaryHelper.d.Keys.Contains(key))
+            { DictionaryHelper.d[key] = ids_and_options; }
+            else
+            { DictionaryHelper.d.Add(key, ids_and_options); }
+            if (DictionaryHelper.d.Keys.Contains(key2))
+            { DictionaryHelper.d[key2] = header; }
+            else
+            { DictionaryHelper.d.Add(key2, header); }
 
+            string ids_and_optionssecond = "csvexporterapp:" + key +";"+ key2;
 
-            string ids_and_optionssecond = "csvexporterapp:" + ";" +key1 + ";" + key2;
             return Redirect(ids_and_optionssecond);
+            //return View();
 
-            //return RedirectToAction("Index");
         }
 
         public ActionResult ContractExp()

@@ -227,12 +227,10 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionEvent");
-            HttpContext.Session.Remove("FirstSessionEvent");
-            ids = "csvexporterapp:" + ids;
-           
-            string key2 = "SecondSessionEvent";
-            HttpContext.Session.SetString(key2, ids);
-           
+
+            string key = "SecondSessionEvent";
+            HttpContext.Session.SetString(key, ids);
+
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
@@ -283,7 +281,7 @@ namespace Finalaplication.Controllers
             {
                 DictionaryHelper.d.Add(key2, header);
             }
-            string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
+            string ids_and_optionssecond = "csvexporterapp:" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
         }

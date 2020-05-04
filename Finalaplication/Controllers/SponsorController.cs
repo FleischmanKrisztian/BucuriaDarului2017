@@ -89,12 +89,9 @@ namespace Finalaplication.Controllers
         {
             string ids = HttpContext.Session.GetString("FirstSessionSponsor");
             HttpContext.Session.Remove("FirstSessionSponsor");
-            ids = "csvexporterapp:" + ids;
-
             string key2 = "SecondSessionSponsor";
              HttpContext.Session.SetString(key2, ids);
-          
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
@@ -145,7 +142,7 @@ namespace Finalaplication.Controllers
             {
                 DictionaryHelper.d.Add(key2, header);
             }
-            string ids_and_optionssecond = "csvexporterapp:" + ";" + key1 + ";" + key2;
+            string ids_and_optionssecond = "csvexporterapp:"  + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
 
