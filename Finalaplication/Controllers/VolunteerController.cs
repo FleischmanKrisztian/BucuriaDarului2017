@@ -572,7 +572,7 @@ namespace Finalaplication.Controllers
             string key1 = "volunteerSession";
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
-            string key2 = "beneficiariesHeader";
+            string key2 = "volunteersHeader";
             if (DictionaryHelper.d.ContainsKey(key1) == true)
             {
                 DictionaryHelper.d[key1] = ids_and_options;
