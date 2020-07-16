@@ -539,6 +539,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver( bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
+            HttpContext.Session.Remove("SecondSessionVolunteer");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";

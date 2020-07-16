@@ -99,7 +99,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver( bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionSponsor");
-           
+            HttpContext.Session.Remove("SecondSessionSponsor");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";

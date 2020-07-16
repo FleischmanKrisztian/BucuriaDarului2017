@@ -227,8 +227,8 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver()
         {
             string ids = HttpContext.Session.GetString("FirstSessionEvent");
-
-            string key = "SecondSessionEvent";
+            HttpContext.Session.Remove("FirstSessionEvent");
+           string key = "SecondSessionEvent";
             HttpContext.Session.SetString(key, ids);
 
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -239,7 +239,7 @@ namespace Finalaplication.Controllers
         public ActionResult CSVSaver( bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
              var IDS = HttpContext.Session.GetString("SecondSessionEvent");
-            
+            HttpContext.Session.Remove("SecondSessionEvent");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
