@@ -107,3 +107,38 @@ body {
     transition: 48s;
     transform: rotate(11520deg);
 }
+
+ul.tabs {
+    margin: 0px;
+    padding: opx;
+    list-style: none;
+    background-color: brown;
+}
+
+    ul.tabs li {
+        background: none;
+        color: red;
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: green;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+        ul.tabs li.current {
+            background: white;
+            color: blue;
+            background-color: yellow;
+        }
+
+.tab-content {
+    display: none;
+    background: white;
+    padding: 15px;
+}
+
+    .tab-content.current {
+        display: inherit;
+        border: 1px;
+        border-color: green;
+    }
