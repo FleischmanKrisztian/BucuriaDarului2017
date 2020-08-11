@@ -4,29 +4,103 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h1>@Localizer["Settings"]</h1>
+<hr />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <style>
+        .emp-profile {
+            border-radius: 25px;
+            padding: 3%;
+            margin-bottom: 3%;
+            border: 2px solid lightgray;
+            background: #fff;
+            /*background-color:lightgray*/
+        }
+        .profile-work {
+            padding: 5%;
+            /*margin-top: -15%;*/
+        }
+        .profile-work input  {
+            padding-bottom: 5%;
+            padding-top:0;
+            /*margin-top: -15%;*/
+        }
+            .profile-work-special {
+                padding-bottom: 0;
+                padding-top: 0;
+                padding-left:5%;
+                /*margin-top: -15%;*/
+            }
 
+            .profile-work p {
+                font-size: 24px;
+                font-weight: 600;
+                /*margin-top: 5%;*/
+            }
+        .for-documents-numbers {
+            padding-left: 5%;
+            padding-top:5%;
+            font-size: 16px;
+        }
+
+      .vl {
+            padding:inherit;
+            border-left: 1px solid lightgray;
+            height: 300px;
+        }
+    </style>
+</head>
 @using (Html.BeginForm("Settings", "Settings/", FormMethod.Post))
 {
-    <div class="form-group">
+    <div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-5   profile-work " >
+                <div class="row">
+                    <p>
+                        @Localizer["Environment"]:
+                    </p>
+                </div>
+                <div class="row">
+                    <p>
+                        @Localizer["Language"]:
+                    </p>
+                </div>
+                <div class="row">
+                    <p>
+                        @Localizer["message"]:
+                    </p>
+                </div>
+            </div>
 
-        <h2>
-            @Localizer["Environment"]:
-        </h2>
-        <input type="radio" name="env" value="online"> Online<br>
-        <input type="radio" name="env" value="offline" checked> Offline<br>
+            <div class="vl  col-md-1"> </div>
 
-        <h2>
-            @Localizer["Language"]:
-        </h2>
-        <input type="radio" name="lang" value="en" checked> @Localizer["English"]<br>
-        <input type="radio" name="lang" value="ro" />@Localizer["Romanian"]<br>
+            <div class="col-md-6 profile-work">
+                <div class="row " style="padding-left :5%;padding-bottom:6%; padding-top:1%">
+                    <p>
+                        <div class="col-md-3"> <input type="radio" name="env" value="online"> Online</div>
+                        <div class="col-md-3">  <input type="radio" name="env" value="offline" checked> Offline</div>
+                       
+                   </p>
+                </div>
+                <div class="row profile-work-special">
+                    <p>
+                        <div class="col-md-3 "><input type="radio" name="lang" value="en" checked >@Localizer["English"]</div>
+                        <div class="col-md-3"> <input type="radio" name="lang" value="ro" >@Localizer["Romanian"]</div>
 
-        <h2>
-            @Localizer["message"]:
-        </h2>
-        <input type="number" name="quantity" class="rounded" value="15" min="1" max="100">
-        <br />
-        <br />
-        <input type="submit" class="btn btn-primary" value=@Localizer["Apply"]>
+                    </p>
+                </div>
+
+                <p>
+                    <div class="col-md-3 for-documents-numbers ">   <input type="number" name="quantity" class="rounded" value="15" min="1" max="100"> </div>
+                   
+                </p>
+
+            </div>
+            
+        </div>
+        
+            <input  type="submit" class="btn btn-primary" value=@Localizer["Apply"]>
+        
+        
     </div>
 }
