@@ -4,16 +4,30 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h2>@Localizer["Contact"]</h2>
+<hr/>
+<head>
+    <style>
+        .emp-profile {
+            padding: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+    </style>
+</head>
+<div class="emp-profile">
+    <address>
+        Siemens<br />
+        Brasov, Romania<br />
+        <strong abbr title="Phone">
+            @Localizer["Phone"]:
+        </strong>
+        0755 296 273
+    </address>
 
-<address>
-    Siemens<br />
-    Brasov, Romania<br />
-    <strong abbr title="Phone">
-        @Localizer["Phone"]:
-    </strong>
-    0755 296 273
-</address>
+    <address>
+        <strong>E-mail:</strong>   <a href="mailto:fleischman.krisztian@gmail.com">fleischman.krisztian@gmail.com</a><br />
+    </address>
+</div>
 
-<address>
-    <strong>E-mail:</strong>   <a href="mailto:fleischman.krisztian@gmail.com">fleischman.krisztian@gmail.com</a><br />
-</address>
