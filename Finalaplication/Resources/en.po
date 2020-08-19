@@ -9,6 +9,8 @@ msgstr "Show all events"
 msgid "Show all sponsors"
 msgstr "Show all sponsors"
 
+msgid "Volunteering"
+msgstr "Volunteering"
 
 msgid "Active"
 msgstr "Active"
