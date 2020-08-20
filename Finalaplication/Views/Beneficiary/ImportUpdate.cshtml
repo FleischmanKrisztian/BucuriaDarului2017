@@ -7,38 +7,59 @@
     string duplicates = ViewBag.duplicates;
     string docsimported = ViewBag.documentsimported;
 }
-<h1>Import Update</h1>
 
-@if (Convert.ToInt64(docsimported) > 1)
-{
-    <h3>You have succesfully imported @docsimported documents.</h3>
-}
-else if (Convert.ToInt64(docsimported) == 1)
-{
-    <h3>You have succesfully imported @docsimported document.</h3>
-}
-else
-{
-    <h2>No documents were imported.</h2>
-}
-@{
-    string phrase = duplicates;
-    if (phrase != "" && phrase != null)
+<head>
+    <style>
+
+        .emp-profile {
+            border-radius: 25px;
+            padding: 5%;
+            margin-bottom: 3%;
+            border: 2px solid lightgray;
+            background: #fff;
+            /*background-color:lightgray*/
+        }
+    </style>
+</head>
+<br />
+<br />
+<br />
+<br />
+<div class="emp-profile">
+    <h1>Import Update</h1>
+    <hr/>
+    <br/>
+    @if (Convert.ToInt64(docsimported) > 1)
     {
-        string[] words = phrase.Split(',');
-        if (words.Count() > 0)
+        <h3>You have succesfully imported @docsimported documents.</h3>
+    }
+    else if (Convert.ToInt64(docsimported) == 1)
+    {
+        <h3>You have succesfully imported @docsimported document.</h3>
+    }
+    else
+    {
+        <h2>No documents were imported.</h2>
+    }
+    @{
+        string phrase = duplicates;
+        if (phrase != "" && phrase != null)
         {
-            <h2>The following documents have been skipped:</h2>
-            foreach (var a in words)
+            string[] words = phrase.Split(',');
+            if (words.Count() > 0)
             {
-                <h4 style="text-align:center">@a</h4>
-                <br />
+                <h2>The following documents have been skipped:</h2>
+                foreach (var a in words)
+                {
+                    <h4 style="text-align:center">@a</h4>
+                    <br />
+                }
             }
         }
     }
-}
-<br />
+    <br />
 
-<div>
-    <a href=@Url.Action( "Index","Home") class="btn btn-primary">@Localizer["BackToList"]</a>
+    <div>
+        <a href=@Url.Action( "Index","Home") class="btn btn-primary">@Localizer["BackToList"]</a>
+    </div>
 </div>
