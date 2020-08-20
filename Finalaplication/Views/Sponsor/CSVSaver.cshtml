@@ -10,6 +10,7 @@
 }
 <head>
     <style>
+
         text {
             color: white;
         }
@@ -35,55 +36,65 @@
             max-height: 200px;
             overflow-x: hidden;
         }
+
+        .emp-profile {
+            border-radius: 25px;
+            padding: 5%;
+            margin-bottom: 3%;
+            border: 2px solid lightgray;
+            background: #fff;
+            /*background-color:lightgray*/
+        }
     </style>
 </head>
-<h1>CSVSaver</h1>
-
-
-@using (Html.BeginForm("CSVSaver", "Sponsor/", FormMethod.Post))
-{
-
-    <h3>
-        @Localizer["Please choose what you want the Excel to contain"]:
-    </h3>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-            @Localizer["Select the properties"]:
-
-        </button>
-        <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfSponsor", isChecked: false)  @Localizer["Nameofsponsor"] </a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("Date", isChecked: false) @Localizer["Date"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("MoneyAmount", isChecked: false)  @Localizer["Moneyamount"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("WhatGoods", isChecked: false) @Localizer["Whatgoods"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("GoodsAmount", isChecked: false)  @Localizer["Goodsamount"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("HasContract", isChecked: false) @Localizer["HasContract"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("ContractDetails", isChecked: false) @Localizer["ContractDetails"]</a>
-            <a class="dropdown-item" href="#"> @Html.CheckBox("PhoneNumber", isChecked: false) @Localizer["Phonenumber"]</a>
-            <a class="dropdown-item" href="#">  @Html.CheckBox("MailAdress", isChecked: false) @Localizer["Emailaddress"]</a>
-
-        </div>
-    </div>
-
-
-
-
-
-
-    <div class="row align-items-center">
-        <div class="col-3">
-            <br />
-            <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
-            </button>
-
-            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
-
-        </div>
-    </div>
-    <br />
-}
 <br />
+<br />
+<br />
+<br />
+@using (Html.BeginForm("CSVSaver", "Sponsor/", FormMethod.Post))
+{<div class="emp-profile">
+        <h1>CSV Saver</h1>
+        <hr />
+        <br />
+        <div class="row">
+            <div class="col-md-9">
+                <h3>
+                    @Localizer["Please choose what you want the Excel to contain"]:
+                </h3>
+            </div>
+
+            <div class="dropdown col-md-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @Localizer["Select the properties"]:
+
+                </button>
+                <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfSponsor", isChecked: false)  @Localizer["Nameofsponsor"] </a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("Date", isChecked: false) @Localizer["Date"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("MoneyAmount", isChecked: false)  @Localizer["Moneyamount"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("WhatGoods", isChecked: false) @Localizer["Whatgoods"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("GoodsAmount", isChecked: false)  @Localizer["Goodsamount"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("HasContract", isChecked: false) @Localizer["HasContract"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("ContractDetails", isChecked: false) @Localizer["ContractDetails"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("PhoneNumber", isChecked: false) @Localizer["Phonenumber"]</a>
+                    <a class="dropdown-item" href="#">  @Html.CheckBox("MailAdress", isChecked: false) @Localizer["Emailaddress"]</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-3">
+                <br />
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
+                </button>
+                | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+
+            </div>
+        </div>
+
+    </div>
+}
 

@@ -60,6 +60,7 @@
     </style>
 </head>
 <h2>@Localizer["Sponsors"] <small> (@ViewBag.counter)</small></h2>
+<hr/>
 
 @if (ViewBag.wrongorder == true)
 {
@@ -136,7 +137,7 @@
     </p>
 }
 @using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
-{<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all sponsors"]</a>
+{<a href=@Url.Action( "Index" ) class="btn btn-primary" >@Localizer["Show all sponsors"]</a>
 <br />
 @if (string1 != null)
 {
