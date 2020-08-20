@@ -5,8 +5,51 @@
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h2>@Localizer["Create"]</h2>
+<h2>@Localizer["Create"] @Localizer["Event"]</h2>
+<hr />
+<head>
+    <style>
+        /*body {
+                background-color: darkgray;
+            }*/
+        .emp-profile {
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 1%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
 
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .proile-rating {
+            font-size: 15px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .emp-profile label {
+            font-size: 18px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .emp-profile img {
+            padding-right: 2px;
+            width: 45px;
+            height: 35px;
+        }
+    </style>
+</head>
 
 @if (ViewBag.containsspecialchar == true)
 {
@@ -17,76 +60,86 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>
-            @Localizer["Event"]
-        </h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Localizer["Nameofevent"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NameOfEvent, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NameOfEvent, "", new { @class = "text-danger" })
+    <div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["Nameofevent"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.NameOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NameOfEvent, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label> @Localizer["Placeofevent"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.PlaceOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PlaceOfEvent, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label> @Localizer["Dateofevent"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.DateOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>  @Localizer["Numberofvolunteersneeded"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.NumberOfVolunteersNeeded, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfVolunteersNeeded, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>@Localizer["Typeofactivities"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.TypeOfActivities, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TypeOfActivities, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>@Localizer["Typeofevent"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.TypeOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TypeOfEvent, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>@Localizer["Duration"]:</label>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                        <hr />
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Localizer["Placeofevent"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PlaceOfEvent, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PlaceOfEvent, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["Dateofevent"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateOfEvent, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["Numberofvolunteersneeded"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberOfVolunteersNeeded, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumberOfVolunteersNeeded, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["Typeofactivities"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TypeOfActivities, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TypeOfActivities, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["Typeofevent"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TypeOfEvent, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TypeOfEvent, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Localizer["Duration"]:
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
+            <div class="col-md-3">
+                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
+                <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
             </div>
         </div>
     </div>
 }
-
-<div>
-    <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
-</div>
