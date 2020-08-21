@@ -5,6 +5,8 @@ msgstr "Show all beneficiaries"
 
 msgid "Show all events"
 msgstr "Show all events"
+msgid "Contractsofb"
+smgstr "Contracts of"
 
 msgid "Show all sponsors"
 msgstr "Show all sponsors"

@@ -5,7 +5,8 @@ msgstr "Arată toți beneficiarii"
 
 msgid "Show all events"
 msgstr "Arată toate evenimentele"
-
+msgid "Contractsofb"
+smgstr "Contractele beneficiarului"
 msgid "Show all sponsors"
 msgstr "Arată toți sponsorii"
 msgid "Volunteering"
