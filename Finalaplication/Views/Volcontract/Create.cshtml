@@ -9,34 +9,97 @@
 <h1>@Localizer["Create"]</h1>
 
 <h4>@Localizer["Volcontract"]</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <input type="hidden" name="idofvol" value="@idofvol" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @Localizer["NumberOfRegistration"]:
-                <input asp-for="NumberOfRegistration" class="form-control" />
-                <span asp-validation-for="NumberOfRegistration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @Localizer["RegistrationDate"]:
-                <input asp-for="RegistrationDate" class="form-control" />
-                <span asp-validation-for="RegistrationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @Localizer["ExpirationDate"]:
-                <input asp-for="ExpirationDate" class="form-control" />
-                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a href=@Url.Action( "Index" ,new { idofvol }) class="btn btn-primary">@Localizer["BackToList"]</a>
-</div>
+<hr />
+<head>
+    <style>
+        /*body {
+                background-color: darkgray;
+            }*/
+        .emp-profile {
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 1%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .proile-rating {
+            font-size: 15px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .emp-profile label {
+            font-size: 18px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .emp-profile img {
+            padding-right: 2px;
+            width: 45px;
+            height: 35px;
+        }
+    </style>
+</head>
+<form asp-action="Create">
+    <input type="hidden" name="idofvol" value="@idofvol" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class=" emp-profile">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["NumberOfRegistration"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.NumberOfRegistration, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NumberOfRegistration, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label> @Localizer["RegistrationDate"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.RegistrationDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RegistrationDate, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["ExpirationDate"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.ExpirationDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ExpirationDate, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
+                    <a href=@Url.Action( "Index" ,new { idofvol}) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
