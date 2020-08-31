@@ -286,12 +286,31 @@ namespace Finalaplication.Controllers
             return Redirect(ids_and_optionssecond);
         }
 
-        public ActionResult VolunteerAllocation(string id, string searching)
+        public ActionResult VolunteerAllocation(string id, int page,string searching)
         {
             try
             {
+                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                if (page > 0)
+                    ViewBag.Page = page;
+                else
+                    ViewBag.Page = 1;
+
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+
+                ViewBag.counter = volunteers.Count();
+
+                ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "vol";
+                foreach (Volunteer vol in volunteers)
+                {
+                    stringofids = stringofids + "," + vol.VolunteerID;
+                }
+                ViewBag.stringofids = stringofids;
+                volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+                volunteers= volunteers.AsQueryable().Take(nrofdocs).ToList();
+
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 var names = events.Find(b => b.EventID.ToString() == id);
                 names.AllocatedVolunteers = names.AllocatedVolunteers + " / ";

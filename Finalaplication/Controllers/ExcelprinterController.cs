@@ -32,12 +32,8 @@ namespace Finalaplication.Controllers
         // GET: api/Excelprinter
         [HttpGet("{keys}", Name = "Get")]
         public string Get( string keys)
-
-        {
-            
-
+         {
             dbcontext = new MongoDBContext();
-
             string ids_ = string.Empty;
             string header= string.Empty;
             string key1 = string.Empty; 
@@ -564,11 +560,11 @@ namespace Finalaplication.Controllers
                             }
                             jsonstring = jsonstring + "\"" + finalHeader[14] + "\":" + "\"" + volunteer.Address.District + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[15] + "\":\"" + volunteer.Address.City + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[15] + "\":" + "\"" + volunteer.Address.City + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[16] + "\":\"" + volunteer.Address.Street + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[16] + "\":" + "\"" + volunteer.Address.Street + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[17] + "\":\"" + volunteer.Address.Number + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[17] + "\":" + "\"" + volunteer.Address.Number + "\"";
                             
                             first = false;
                         }

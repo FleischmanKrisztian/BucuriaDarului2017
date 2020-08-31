@@ -9,95 +9,201 @@
     string evid = ViewBag.Evid.ToString();
     string strname = ViewBag.strname.ToString();
     string eventname = ViewBag.Eventname.ToString();
+    int currentpage = ViewBag.Page;
+    string stringofids = ViewBag.stringofids;
 
 }
+<head>
+    <style>
+
+        .pagination {
+            display: inline-block;
+            width: 800px;
+        }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                border-radius: 5px;
+                border: 1px solid #ddd; /* Gray */
+                transition: background-color .3s;
+            }
+
+                .pagination a.active {
+                    background-color: red;
+                    color: red;
+                    border-radius: 5px;
+                }
+
+                .pagination a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+
+                .pagination a:current {
+                    background-color: red;
+                }
+
+                .pagination a:first-child {
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                }
+
+                .pagination a:last-child {
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                }
+
+        .scrollable-menu {
+            height: auto;
+            max-height: 200px;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
 <h2>
-    @Localizer["VolunteerAllocationto"]: @eventname</h2>
+    @Localizer["VolunteerAllocationto"]: @eventname
+</h2>
 
 @using (Html.BeginForm("/", "Event/VolunteerAllocation/" + evid, FormMethod.Get))
-{
-   @Html.TextBox("searching")<input type="submit" value= @Localizer["Search"] class="btn btn-primary" />
-    }
-
-                             <br />
-    <form action="/Event/VolunteerAllocation" method="post">
-        <table class="table">
-            <tr>
-                <th>
-                    @Localizer["Firstname"]:
-                </th>
-                <th>
-                    @Localizer["Lastname"]:
-                </th>
-                <th>
-                    @Localizer["Desiredarea"]:
-                </th>
-                <th>
-                    @Localizer["Active"]:
-                </th>
-                <th>
-                    @Localizer["Hourcount"]:
-                </th>
-                <th>
-                    @Localizer["Allocationstatus"]:
-                </th>
-                <th></th>
-            </tr>
-            @if (Model.Count() == 0)
-            {
-                <tr>
-                    <td colspan="3 " style="color:red">
-                        @Localizer["There is no Volunteer to Allocate with such name!"]
-                    </td>
-                </tr>
-            }
-            else
-            {
-                foreach (var item in Model)
+{@Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
+<p>
+    <div class="pagination">
+        <pre style="white-space:pre-wrap;">
+            @{
+                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
+                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
                 {
+                    maxpage--;
+                }
 
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Firstname)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Lastname)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Desired_workplace)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InActivity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.HourCount)
-                        </td>
-                        @if (strname.Contains(item.Firstname))
-                        {
-                            <td>
-                                <input type="checkbox" checked="checked" name="vols" value="@item.VolunteerID" />
-                            </td>
-                            <td>
-                                <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <input type="checkbox" name="vols" value="@item.VolunteerID" />
-                            </td>
-                            <td>
-                                <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                            </td>
-                        }
-                    </tr>
+                if(currentpage==1)
+                {
+                    @Html.ActionLink("1", "VolunteerAllocation", new { page = 1, searching = ViewBag.searching}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                }
+                else
+                {
+                    @Html.ActionLink("1", "VolunteerAllocation", new { page = 1, searching = ViewBag.searching })
+                }
+                if(currentpage>=5)
+                {
+                    @Html.ActionLink("<<", "VolunteerAllocation", new { page = currentpage-1, searching = ViewBag.searching })
+                }
+                if(currentpage>3)
+                {
+                    @Html.ActionLink((currentpage-2).ToString(), "VolunteerAllocation", new { page = currentpage-2, searching = ViewBag.searching })
+                }
+                if(currentpage>2)
+                {
+                    @Html.ActionLink((currentpage-1).ToString(), "VolunteerAllocation", new { page = currentpage-1, searching = ViewBag.searching })
+                }
+                if(currentpage!=1 && currentpage!= maxpage)
+                {
+                    @Html.ActionLink(currentpage.ToString(), "VolunteerAllocation", new { page = currentpage, searching = ViewBag.searching }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                }
+                if(currentpage<maxpage-1)
+                {
+                    @Html.ActionLink((currentpage+1).ToString(), "VolunteerAllocation", new { page = currentpage+1, searching = ViewBag.searching })
+                }
+                if(currentpage<maxpage-2)
+                {
+                    @Html.ActionLink((currentpage+2).ToString(), "VolunteerAllocation", new { page = currentpage+2, searching = ViewBag.searching })
+                }
+                if(currentpage<maxpage-3)
+                {
+                    @Html.ActionLink(">>", "VolunteerAllocation", new { page = currentpage+1, searching = ViewBag.searching })
+                }
+                 if(maxpage!=1 && currentpage==maxpage)
+                {
+                    @Html.ActionLink(maxpage.ToString(), "VolunteerAllocation", new { page = maxpage, searching = ViewBag.searching}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                }
+                else if (maxpage != 1)
+                {
+                    @Html.ActionLink(maxpage.ToString(), "VolunteerAllocation", new { page = maxpage, searching = ViewBag.searching })
                 }
             }
-        </table>
-        <input type="submit" name="submit" class="btn btn-primary"  value= @Localizer["Allocate"]  /><br>
-    </form>
-
-    <br />
-    <div>
-        <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+            </pre>
     </div>
+</p>
+
+}
+
+<br />
+<form action="/Event/VolunteerAllocation" method="post">
+    <table class="table">
+        <tr>
+            <th>
+                @Localizer["Firstname"]:
+            </th>
+            <th>
+                @Localizer["Lastname"]:
+            </th>
+            <th>
+                @Localizer["Desiredarea"]:
+            </th>
+            <th>
+                @Localizer["Active"]:
+            </th>
+            <th>
+                @Localizer["Hourcount"]:
+            </th>
+            <th>
+                @Localizer["Allocationstatus"]:
+            </th>
+            <th></th>
+        </tr>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["There is no Volunteer to Allocate with such name!"]
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lastname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Desired_workplace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InActivity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HourCount)
+                    </td>
+                    @if (strname.Contains(item.Firstname))
+                    {
+                        <td>
+                            <input type="checkbox" checked="checked" name="vols" value="@item.VolunteerID" />
+                        </td>
+                        <td>
+                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <input type="checkbox" name="vols" value="@item.VolunteerID" />
+                        </td>
+                        <td>
+                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </table>
+    <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+</form>
+
