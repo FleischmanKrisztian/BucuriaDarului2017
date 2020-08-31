@@ -367,12 +367,30 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult SponsorAllocation(string id, string searching)
+        public ActionResult SponsorAllocation(string id,int page, string searching)
         {
             try
             {
+                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                if (page > 0)
+                    ViewBag.Page = page;
+                else
+                    ViewBag.Page = 1;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+
+                ViewBag.counter = sponsors.Count();
+
+                ViewBag.nrofdocs = nrofdocs;
+                string stringofids = "sponsor";
+                foreach (Sponsor sponsor in sponsors)
+                {
+                    stringofids = stringofids + "," + sponsor.SponsorID;
+                }
+                ViewBag.stringofids = stringofids;
+                sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+                sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
+
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 var names = events.Find(b => b.EventID.ToString() == id);
                 names.AllocatedSponsors = names.AllocatedSponsors + " ";
