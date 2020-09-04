@@ -40,11 +40,11 @@ namespace Finalaplication.Models
                     {
                         var filter = Builders<Beneficiary>.Filter.Eq(x => x.CNP, details[9]);
                         var results = beneficiarycollection.Find(filter).ToList();
-
+                        var filterContracts = Builders<Beneficiarycontract>.Filter.Eq(x => x.NumberOfRegistration, details[15]);
+                        var contractNotToBeImportedAgain = beneficiarycontractcollection.Find(filterContracts).ToList();
                         foreach (var b in results)
                         {
                             Beneficiarycontract beneficiarycontract = new Beneficiarycontract();
-
                             beneficiarycontract.Fullname = b.Fullname;
                             beneficiarycontract.Address = b.Adress;
                             beneficiarycontract.OwnerID = b.BeneficiaryID;
@@ -94,13 +94,20 @@ namespace Finalaplication.Models
                                 DateTime data_ = Convert.ToDateTime(forRegistrationDate);
                                 beneficiarycontract.ExpirationDate = data_.AddDays(1);
                             }
+                            foreach (Beneficiarycontract c in contractNotToBeImportedAgain)
+                            { if (details[15] == c.NumberOfRegistration)
+                                { }
+                                else
+                                { beneficiarycontractcollection.InsertOne(beneficiarycontract); }
+                            }
 
-                            beneficiarycontractcollection.InsertOne(beneficiarycontract);
+                           
                         }
                     }
                 }
             }
         }
+
 
         public async Task<Tuple<string, string>> GetProcessedBeneficiaries()
         {
