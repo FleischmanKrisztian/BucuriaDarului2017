@@ -473,10 +473,9 @@
                         <div class="col-md-6">
                             <label>@Localizer["Addictions"]:</label>
                         </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(model => model.PersonalInfo.Addictions)</p>
-                            </div>
-                        
+                        <div class="col-md-6">
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Addictions)</p>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -487,61 +486,61 @@
                         </div>
                     </div>
                 </div>
-            
-            <div class="tabcontent" id="Housinginformation">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>@Localizer["Hashome"]:</label>
+
+                <div class="tabcontent" id="Housinginformation">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["Hashome"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.HasHome)</p>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p>@Html.DisplayFor(model => model.PersonalInfo.HasHome)</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>@Localizer["Housingtype"]:</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p> @Html.DisplayFor(model => model.PersonalInfo.HousingType)</p>
-                    </div>
-                </div>
-            </div>
-            <div id="Studiesandjobrelatedinformation" class="tabcontent">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>@Localizer["Studies"]:</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p>@Html.DisplayFor(model => model.PersonalInfo.Studies)</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["Housingtype"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p> @Html.DisplayFor(model => model.PersonalInfo.HousingType)</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>@Localizer["Occupation"]:</label>
+                <div id="Studiesandjobrelatedinformation" class="tabcontent">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["Studies"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Studies)</p>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p>@Html.DisplayFor(model => model.PersonalInfo.Ocupation)</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["Occupation"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Ocupation)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["Profession"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Profesion)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["Seniorityinworkfield"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.SeniorityInWorkField)</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>@Localizer["Profession"]:</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p>@Html.DisplayFor(model => model.PersonalInfo.Profesion)</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label>@Localizer["Seniorityinworkfield"]:</label>
-                    </div>
-                    <div class="col-md-6">
-                        <p>@Html.DisplayFor(model => model.PersonalInfo.SeniorityInWorkField)</p>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
     </div>
-    </div>
+    
 </body>
