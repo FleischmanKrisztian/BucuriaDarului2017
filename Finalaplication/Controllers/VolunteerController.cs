@@ -570,7 +570,7 @@ namespace Finalaplication.Controllers
             if (Additional_info == true)
                 ids_and_options = ids_and_options + "D";
          
-            string key1 = "volunteerSession";
+            string key1 = "volunteersSession";
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
             string key2 = "volunteersHeader";
