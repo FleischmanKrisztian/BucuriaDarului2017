@@ -12,6 +12,7 @@
 <hr />
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -53,19 +54,17 @@
         }
     </style>
 </head>
-
 @if (ViewBag.containsspecialchar == true)
 {
     <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <input type="hidden" name="Originalsavedeventstring" value="@originalsavedevent" />
     <input type="hidden" name="id" value="@id" />
-<div class="container emp-profile">
+    <div class="container emp-profile">
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -140,7 +139,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
                 <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>

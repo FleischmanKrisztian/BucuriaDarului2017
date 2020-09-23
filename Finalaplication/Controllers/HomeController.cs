@@ -2,11 +2,9 @@
 using Finalaplication.Common;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,7 +31,6 @@ namespace Finalaplication.Controllers
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-                
             }
             catch (Exception)
             {
@@ -45,11 +42,11 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                if(dbcontext.nointernet==true)
+                if (dbcontext.nointernet == true)
                 {
                     TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = VolMongoConstants.CONNECTION_MODE_OFFLINE;
                 }
-                if(dbcontext.english==true)
+                if (dbcontext.english == true)
                 {
                     TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "en";
                 }
@@ -106,7 +103,6 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.nrofbc = bc;
 
-               
                 return View();
             }
             catch

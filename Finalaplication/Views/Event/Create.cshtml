@@ -1,5 +1,4 @@
 ﻿@model Finalaplication.Models.Event
-
 @{
     ViewBag.Title = "Create";
 }
@@ -9,6 +8,7 @@
 <hr />
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -50,12 +50,10 @@
         }
     </style>
 </head>
-
 @if (ViewBag.containsspecialchar == true)
 {
     <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -135,7 +133,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
                 <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>

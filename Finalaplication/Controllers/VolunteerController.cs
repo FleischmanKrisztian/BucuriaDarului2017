@@ -28,10 +28,6 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Volcontract> volcontractcollection;
         private readonly IStringLocalizer<VolunteerController> _localizer;
 
-
-
-       
-
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
 
         {
@@ -45,7 +41,7 @@ namespace Finalaplication.Controllers
             }
             catch { }
         }
-       
+
         public ActionResult FileUpload()
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -84,21 +80,19 @@ namespace Finalaplication.Controllers
                 string[] myHeader = cSV.GetHeader(path);
                 string typeOfExport = cSV.TypeOfExport(myHeader);
 
-
                 ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, volcontractcollection);
-               
+
                 string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
                 {
                     var tuple = await processed.ProcessedVolunteers();
                     docsimported = tuple.Item1;
                     key1 = tuple.Item2;
-                    try {
+                    try
+                    {
                         await processed.ImportVolunteerContractsFromCsv();
                     }
                     catch { }
-
-                  
                 }
                 else
                 {
@@ -107,13 +101,12 @@ namespace Finalaplication.Controllers
                     key1 = tuple.Item2;
                 }
 
-
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
                     file.Delete();
                 }
-                return RedirectToAction("ImportUpdate", "Beneficiary", new { docsimported, key1});
+                return RedirectToAction("ImportUpdate", "Beneficiary", new { docsimported, key1 });
             }
             catch
             {
@@ -125,10 +118,10 @@ namespace Finalaplication.Controllers
 
         {
             try
-            { 
+            {
                 if (HasDrivingLicence == true)
                 { ViewBag.Filter1 = ""; }
-              
+
                 if (searchingLastname != null)
                 {
                     ViewBag.Filters2 = searchingLastname;
@@ -172,7 +165,7 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filter12 = ""; }
 
                 DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-                if (lowerdate !=date )
+                if (lowerdate != date)
                 { ViewBag.Filter13 = lowerdate.ToString(); }
 
                 if (upperdate != date)
@@ -514,8 +507,8 @@ namespace Finalaplication.Controllers
                 volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
 
                 string key = "FirstSessionVolunteer";
-                 HttpContext.Session.SetString(key, stringofids);
-               
+                HttpContext.Session.SetString(key, stringofids);
+
                 return View(volunteers);
             }
             catch
@@ -536,10 +529,10 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVSaver( bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
+        public ActionResult CSVSaver(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
-           HttpContext.Session.Remove("SecondSessionVolunteer");
+            HttpContext.Session.Remove("SecondSessionVolunteer");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";
@@ -569,7 +562,7 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "C";
             if (Additional_info == true)
                 ids_and_options = ids_and_options + "D";
-         
+
             string key1 = "volunteersSession";
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
@@ -590,7 +583,7 @@ namespace Finalaplication.Controllers
             {
                 DictionaryHelper.d.Add(key2, header);
             }
-            string ids_and_optionssecond = "csvexporterapp:"  + key1 + ";" + key2;
+            string ids_and_optionssecond = "csvexporterapp:" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
         }

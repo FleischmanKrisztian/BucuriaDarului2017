@@ -5,12 +5,11 @@
     ViewData["Title"] = "Create";
     string idofbeneficiary = ViewBag.idofbeneficiary;
 }
-
 <h1>@Localizer["Create"] @Localizer["beneficiarycontract"]</h1>
-
 <hr />
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -57,9 +56,7 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=" emp-profile">
         <div class="row">
-
             <div class="col-md-12">
-
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-6">
@@ -96,7 +93,6 @@
                     <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
                     <a href=@Url.Action( "Index" ,new { idofbeneficiary }) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
                 </div>
-
             </div>
         </div>
     </div>

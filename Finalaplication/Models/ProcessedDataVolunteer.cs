@@ -1,5 +1,4 @@
-﻿using Finalaplication.Common;
-using Finalaplication.Models;
+﻿using Finalaplication.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -9,8 +8,6 @@ using VolCommon;
 
 namespace Finalaplication
 {
-    
-
     public class ProcessedDataVolunteer
     {
         private IMongoCollection<Volunteer> vollunteercollection;
@@ -18,7 +15,6 @@ namespace Finalaplication
         private List<string[]> result;
         private string duplicates;
         private int documentsimported;
-    
 
         public ProcessedDataVolunteer(IMongoCollection<Volunteer> vollunteercollection,
        List<string[]> result,
@@ -31,7 +27,6 @@ namespace Finalaplication
             this.duplicates = duplicates;
             this.documentsimported = documentsimported;
             this.vollunteercontractcollection = vollunteercontractcollection;
-            
         }
 
         public async Task ImportVolunteerContractsFromCsv()
@@ -70,13 +65,14 @@ namespace Finalaplication
                             contract.CIseria = v.CIseria;
                             contract.Hourcount = v.HourCount;
                             contract.Nrtel = v.ContactInformation.PhoneNumber;
-                            if(details[6].Contains("/")==true)
-                            { string[] registration = details[6].Split("/");
+                            if (details[6].Contains("/") == true)
+                            {
+                                string[] registration = details[6].Split("/");
                                 contract.NumberOfRegistration = registration[0];
                             }
                             else
                             { contract.NumberOfRegistration = details[6]; }
-                            
+
                             contract.RegistrationDate = DateTime.MinValue;
                             contract.ExpirationDate = DateTime.MinValue;
                             try
@@ -108,7 +104,6 @@ namespace Finalaplication
                                 DateTime data_ = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
                                 System.Globalization.CultureInfo.InvariantCulture);
                                 contract.ExpirationDate = data_.AddDays(1);
-
                             }
 
                             vollunteercontractcollection.InsertOne(contract);
@@ -118,7 +113,7 @@ namespace Finalaplication
             }
         }
 
-         public async Task<Tuple<string, string>> GetVolunteersFromApp()
+        public async Task<Tuple<string, string>> GetVolunteersFromApp()
         {
             foreach (var details in result)
             {
@@ -134,7 +129,6 @@ namespace Finalaplication
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
-
                 else
                 {
                     if (details[7] == "0" || details[7] == "1")
@@ -356,15 +350,11 @@ namespace Finalaplication
                         vollunteercollection.InsertOne(volunteer);
                     }
                 }
-
             }
             string key1 = "VolunteerImportDuplicate";
             //DictionaryHelper.d.Add(key1, duplicates);
             return new Tuple<string, string>(documentsimported.ToString(), key1);
-
         }
-
-
 
         public async Task<Tuple<string, string>> ProcessedVolunteers()
         {
@@ -382,7 +372,6 @@ namespace Finalaplication
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
-
                 else
                 {
                     documentsimported++;
@@ -507,7 +496,6 @@ namespace Finalaplication
                     volunteer.Additionalinfo = ai;
                     vollunteercollection.InsertOne(volunteer);
                 }
-
             }
 
             string key1 = "VolunteerImportDuplicate";
@@ -516,4 +504,3 @@ namespace Finalaplication
         }
     }
 }
-

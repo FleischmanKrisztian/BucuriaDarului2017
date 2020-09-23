@@ -137,7 +137,6 @@
             <th>
                 @Localizer["Phonenumber"]:
             </th>
-
             <th>
                 @Localizer["Allocationstatus"]:
             </th>
@@ -163,7 +162,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
                     </td>
-
                     @if (strname.Contains(item.NameOfSponsor))
                     {
                         <td>
@@ -172,21 +170,19 @@
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />
                         </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <input type="checkbox" name="spons" value="@item.SponsorID" />
-                        </td>
-                        <td>
-                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                        </td>
-                    }
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <input type="checkbox" name="spons" value="@item.SponsorID" />
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                                                </td>
+                                            }
                 </tr>
             }
         }
     </table>
     <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
-
 </form>
-

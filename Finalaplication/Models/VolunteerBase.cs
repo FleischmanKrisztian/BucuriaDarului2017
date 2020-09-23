@@ -8,6 +8,7 @@ namespace VolCommon
     {
         Male, Female
     }
+
     public class VolunteerBase
     {
         [Required]
@@ -23,13 +24,13 @@ namespace VolCommon
         public Address Address { get; set; }
 
         public Gender Gender { get; set; }
-        
+
         public string Desired_workplace { get; set; }
 
         public string CNP { get; set; }
-        
+
         public string Field_of_activity { get; set; }
-        
+
         public string Occupation { get; set; }
 
         public string CIseria { get; set; }
@@ -43,9 +44,9 @@ namespace VolCommon
         public string CIeliberator { get; set; }
 
         public bool InActivity { get; set; }
-   
+
         public int HourCount { get; set; }
-        
+
         public ContactInformation ContactInformation { get; set; }
 
         public Additionalinfo Additionalinfo { get; set; }

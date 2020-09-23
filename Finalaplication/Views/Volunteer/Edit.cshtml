@@ -6,14 +6,12 @@
     string originalsavedvol = ViewBag.originalsavedvol;
     string id = ViewBag.id;
 }
-<h2>@Localizer["Edit"] @Localizer["Volunteer"]</h2>
-
+<h2>@ @</h2>
 <head>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
     <script type="text/javascript">
         function ShowImagePreview(input) {
             if (input.files && input.files[0]) {
@@ -26,6 +24,7 @@
         }
     </script>
     <style>
+
         /*body {
                 background-color: gainsboro;
             }*/
@@ -57,17 +56,14 @@
 {
     <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
-
 <form method="post" action="/Volunteer/Edit" enctype="multipart/form-data">
     <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
     <input type="hidden" name="id" value="@id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">
 
-
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="row">
             <div class="col-md-4">
                 @{
@@ -100,9 +96,7 @@
                     </div>
                 </div>
             </div>
-
             <div claas="col-md-8">
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["Firstname"]:
@@ -123,7 +117,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["Active"]:
@@ -134,7 +127,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["Birthdate"]:
@@ -145,7 +137,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["District"]:
@@ -156,7 +147,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["City"]:
@@ -167,7 +157,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["Street"]:
@@ -188,7 +177,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["CNP"]:
@@ -199,7 +187,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["CISERIE"]:
@@ -210,7 +197,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["CINR"]:
@@ -221,7 +207,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["CIELIBERAT"]:
@@ -232,7 +217,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["CIELIBERATOR"]:
@@ -243,7 +227,6 @@
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["Phonenumber"]:
@@ -293,7 +276,6 @@
                         <hr />
                     </div>
                 </div>
-
                 @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
                 {
                     <div class="row">
@@ -350,13 +332,8 @@
             </div>
         </div>
         <div class="row " style="float:right; padding-bottom:7%">
-
             <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
             <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
         </div>
     </div>
-
 </form>
-
-
-

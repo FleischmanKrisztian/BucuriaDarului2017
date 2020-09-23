@@ -7,7 +7,6 @@
     string duplicates = ViewBag.duplicates;
     string docsimported = ViewBag.documentsimported;
 }
-
 <head>
     <style>
 
@@ -27,15 +26,15 @@
 <br />
 <div class="emp-profile">
     <h1>Import Update</h1>
-    <hr/>
-    <br/>
+    <hr />
+    <br />
     @if (Convert.ToInt64(docsimported) > 1)
     {
-        <h3>You have succesfully imported @docsimported documents.</h3>
+        <h3>You have succesfully imported @ documents.</h3>
     }
     else if (Convert.ToInt64(docsimported) == 1)
     {
-        <h3>You have succesfully imported @docsimported document.</h3>
+        <h3>You have succesfully imported @ document.</h3>
     }
     else
     {
@@ -51,14 +50,13 @@
                 <h2>The following documents have been skipped:</h2>
                 foreach (var a in words)
                 {
-                    <h4 style="text-align:center">@a</h4>
+                    <h4 style="text-align:center">@</h4>
                     <br />
                 }
             }
         }
     }
     <br />
-
     <div>
         <a href=@Url.Action( "Index","Home") class="btn btn-primary">@Localizer["BackToList"]</a>
     </div>

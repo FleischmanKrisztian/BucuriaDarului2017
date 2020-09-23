@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace VolCommon
@@ -26,10 +25,6 @@ namespace VolCommon
         public string AllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
-
-        
-
-     
 
         public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
         {

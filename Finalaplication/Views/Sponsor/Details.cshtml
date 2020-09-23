@@ -1,13 +1,12 @@
 ﻿@model Finalaplication.Models.Sponsor
-
 @{
     ViewData["Title"] = "Details";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -36,28 +35,23 @@
             margin-top: 5%;
         }
 
-        .emp-profile label 
-
-        {
+        .emp-profile label {
             font-size: 18px;
             color: black;
             font-weight: 600;
-          
         }
+
         .emp-profile img {
-            padding-right:2px;
+            padding-right: 2px;
             width: 45px;
             height: 35px;
         }
-        
     </style>
 </head>
-
 <h1>
     @Localizer["Details"] @Localizer["Sponsor"]
 </h1>
 <hr />
-
 <div class="container emp-profile">
     <div class="row">
         <div class="col-md-9">
@@ -113,6 +107,4 @@
             <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
         </div>
     </div>
-
 </div>
- 

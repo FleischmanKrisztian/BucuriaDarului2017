@@ -6,7 +6,6 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using VolCommon;
 
@@ -33,15 +32,17 @@ namespace Finalaplication.Common
             }
         }
 
-      
         public string[] SplitedHeader(string header)
         {
             string[] splitedHeader = header.Split(",");
             int s = splitedHeader.Count();
-            if (header!=null)
-            { return splitedHeader;
-            }else
-            { string[] result =new string[s+1];
+            if (header != null)
+            {
+                return splitedHeader;
+            }
+            else
+            {
+                string[] result = new string[s + 1];
                 return result;
             }
         }
@@ -49,7 +50,7 @@ namespace Finalaplication.Common
         public string GetAnswer(string finalHeader, bool toBeCompared)
         {
             string result = string.Empty;
-            if(finalHeader.ToString() == "Activ" || finalHeader.Contains("are")==true || finalHeader.Contains("Are") == true|| finalHeader.Contains("Cantină") == true || finalHeader.Contains("Pachet") == true || finalHeader.Contains("Fără") == true || finalHeader.Contains("Livrare") == true || finalHeader.Contains("Mașină") == true)
+            if (finalHeader.ToString() == "Activ" || finalHeader.Contains("are") == true || finalHeader.Contains("Are") == true || finalHeader.Contains("Cantină") == true || finalHeader.Contains("Pachet") == true || finalHeader.Contains("Fără") == true || finalHeader.Contains("Livrare") == true || finalHeader.Contains("Mașină") == true)
             {
                 if (toBeCompared == true)
                 { result = "Da"; }
@@ -58,14 +59,14 @@ namespace Finalaplication.Common
             }
             else
             {
-                if ( toBeCompared == true)
+                if (toBeCompared == true)
                 { result = "Yes"; }
                 else
                 { result = "No"; }
             }
             return result;
         }
-        
+
         public string GetHeaderForExcelPrinterVolunteer(IStringLocalizer<VolunteerController> _localizer)
         {
             string[] header = new string[25];
@@ -99,7 +100,7 @@ namespace Finalaplication.Common
             header[23] = _localizer["Hascar"];
             header[24] = _localizer["Remarks"];
 
-            string result=string.Empty ;
+            string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)
             {
                 if (i == 0)
@@ -109,6 +110,7 @@ namespace Finalaplication.Common
             }
             return result;
         }
+
         public string GetHeaderForExcelPrinterEvent(IStringLocalizer<EventController> _localizer)
         {
             string[] header = new string[8];
@@ -153,6 +155,7 @@ namespace Finalaplication.Common
             }
             return result;
         }
+
         public string GetHeaderForExcelPrinterBeneficiary(IStringLocalizer<BeneficiaryController> _localizer)
         {
             string[] header = new string[35];
@@ -202,6 +205,7 @@ namespace Finalaplication.Common
             }
             return result;
         }
+
         public static (DateTime[] startdates, DateTime[] enddates, int i) Datereturner(string activedates)
         {
             DateTime[] startdates = new DateTime[20];
@@ -324,13 +328,12 @@ namespace Finalaplication.Common
                 else
                 {
                     int number = 0;
-                    bool converted=false;
+                    bool converted = false;
                     converted = Int32.TryParse(details[3], out number);
                     if (converted == true)
                     { ev.NumberOfVolunteersNeeded = number; }
                     else
-                    { ev.NumberOfVolunteersNeeded =0; }
-                    
+                    { ev.NumberOfVolunteersNeeded = 0; }
                 }
                 try
                 {

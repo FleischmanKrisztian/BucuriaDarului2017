@@ -8,6 +8,7 @@ namespace VolCommon
     {
         [Required]
         public string Fullname { get; set; }
+
         public bool Active { get; set; }
         public bool Weeklypackage { get; set; }
         public bool Canteen { get; set; }

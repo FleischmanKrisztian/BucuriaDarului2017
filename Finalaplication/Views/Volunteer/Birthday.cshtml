@@ -5,7 +5,6 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h2>@Localizer["Birthdays"]</h2>
-
 <table class="table">
     <thead>
         <tr>
@@ -22,7 +21,6 @@
         </tr>
     </thead>
     <tbody>
-
         @foreach (var item in Model)
         {
             var Day = Finalaplication.Models.Volunteer.Nowdate();

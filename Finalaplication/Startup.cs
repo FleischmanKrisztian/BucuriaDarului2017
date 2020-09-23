@@ -1,5 +1,4 @@
-﻿using Finalaplication.Common;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -49,8 +48,8 @@ namespace Finalaplication
            // UI strings that we have localized.
            opts.SupportedUICultures = supportedCultures;
        });
-           // services.AddDistributedMemoryCache();
-           
+            // services.AddDistributedMemoryCache();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(2);
@@ -58,7 +57,6 @@ namespace Finalaplication
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
             opts => { opts.ResourcesPath = "Resources"; })
@@ -78,12 +76,11 @@ namespace Finalaplication
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-      
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
-            
 
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);

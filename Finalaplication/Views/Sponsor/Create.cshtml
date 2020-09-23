@@ -1,5 +1,4 @@
 ﻿@model Finalaplication.Models.Sponsor
-
 @{
     ViewData["Title"] = "Create";
 }
@@ -7,9 +6,9 @@
 @inject IViewLocalizer Localizer
 <h1>@Localizer["Create"] @Localizer["Sponsor"]</h1>
 <hr />
-
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -51,12 +50,10 @@
         }
     </style>
 </head>
-
 @if (ViewBag.containsspecialchar == true)
 {
     <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
-
 @using (Html.BeginForm())
 
 {
@@ -155,7 +152,7 @@
             </div>
             <div class="col-md-3">
                 <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
-                <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore" >@Localizer["BackToList"]</a>
+                <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
             </div>
         </div>
     </div>

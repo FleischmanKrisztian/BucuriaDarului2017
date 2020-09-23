@@ -1,11 +1,9 @@
 ﻿@model Finalaplication.Models.Beneficiary
-
 @{
     ViewBag.Title = "Delete";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-
 <h2>@Localizer["Delete"]</h2>
 <hr />
 <head>
@@ -13,10 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
     <script type="text/javascript"></script>
-
     <style>
+
         /*body {
                 background-color: gainsboro;
             }*/
@@ -183,7 +180,6 @@
                     <div class="col-md-6">
                         <label>@Localizer["Fullname"]:</label>
                     </div>
-
                     <div class="col-md-6">
                         @Html.DisplayFor(model => model.Fullname)
                         <hr />
@@ -244,10 +240,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <span>
-
                     @using (Html.BeginForm("Edit", "Beneficiary/", FormMethod.Get))
                     {
                         <div class="form-group">

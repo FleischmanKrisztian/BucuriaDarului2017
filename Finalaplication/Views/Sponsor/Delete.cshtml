@@ -1,16 +1,15 @@
 ﻿@model Finalaplication.Models.Sponsor
-
 @{
     ViewData["Title"] = "Delete";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h1>@Localizer["Delete"] @Localizer["Sponsor"]</h1>
-
 <h3>@Localizer["Message1"]</h3>
 <hr />
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -106,7 +105,6 @@
                     <div class="col-md-6">  @Html.DisplayFor(model => model.Sponsorship.GoodsAmount)<hr /></div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
                 <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>

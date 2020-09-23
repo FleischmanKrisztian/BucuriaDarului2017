@@ -36,7 +36,7 @@ namespace Finalaplication.Controllers
                 List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
                 Beneficiary benenficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
                 benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
-                ViewBag.nameofbeneficiary = benenficiary.Fullname ;
+                ViewBag.nameofbeneficiary = benenficiary.Fullname;
                 ViewBag.idofbeneficiary = idofbeneficiary;
                 return View(benficiarycontracts);
             }
@@ -93,7 +93,7 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.CNP = beneficiary.CNP;
                         benenficiarycontract.CIinfo = beneficiary.CI.CIinfo;
                         benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
-                        benenficiarycontract.NumberOfPortion= beneficiary.NumberOfPortions.ToString();
+                        benenficiarycontract.NumberOfPortion = beneficiary.NumberOfPortions.ToString();
                         benenficiarycontract.IdApplication = beneficiary.Marca.IdAplication;
                         benenficiarycontract.IdInvestigation = beneficiary.Marca.IdInvestigation;
 
@@ -122,7 +122,7 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
-              
+
                 return View(contract);
             }
             catch

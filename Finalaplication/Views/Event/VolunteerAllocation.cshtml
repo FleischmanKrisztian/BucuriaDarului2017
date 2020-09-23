@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Finalaplication.Models.Volunteer>
-
 @{
     ViewBag.Title = "VolunteerAllocation";
 }
@@ -65,7 +64,6 @@
 <h2>
     @Localizer["VolunteerAllocationto"]: @eventname
 </h2>
-
 @using (Html.BeginForm("/", "Event/VolunteerAllocation/" + evid, FormMethod.Get))
 {@Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
 <p>
@@ -128,7 +126,6 @@
 </p>
 
 }
-
 <br />
 <form action="/Event/VolunteerAllocation" method="post">
     <table class="table">
@@ -190,20 +187,19 @@
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />
                         </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <input type="checkbox" name="vols" value="@item.VolunteerID" />
-                        </td>
-                        <td>
-                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                        </td>
-                    }
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <input type="checkbox" name="vols" value="@item.VolunteerID" />
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                                                </td>
+                                            }
                 </tr>
             }
         }
     </table>
     <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
 </form>
-

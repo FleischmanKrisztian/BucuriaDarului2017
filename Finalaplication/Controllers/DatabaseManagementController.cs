@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Finalaplication.App_Start;
+﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Finalaplication.Controllers
 {

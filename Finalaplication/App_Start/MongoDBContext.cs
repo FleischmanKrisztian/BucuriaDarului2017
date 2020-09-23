@@ -144,9 +144,9 @@ namespace Finalaplication.App_Start
                 nointernet = true;
             }
             numberofdocsperpage = settin.Quantity;
-            if(settin.Lang == "en")
+            if (settin.Lang == "en")
             {
-            english = true;
+                english = true;
             }
         }
     }

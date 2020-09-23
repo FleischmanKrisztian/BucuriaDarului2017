@@ -9,7 +9,6 @@ namespace VolCommon
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
 
-       
         public string PhoneNumber { get; set; }
         public string BirthPlace { get; set; }
         public string Studies { get; set; }

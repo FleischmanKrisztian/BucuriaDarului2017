@@ -1,18 +1,17 @@
 ﻿@model Finalaplication.Models.Event
-
 @{
     ViewBag.Title = "Delete";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 <h2>@Localizer["Delete"] @Localizer["Event"]</h2>
-
 <h3>
     @Localizer["DeleteMessage"]
 </h3>
 <hr />
 <head>
     <style>
+
         /*body {
                 background-color: darkgray;
             }*/
@@ -96,16 +95,12 @@
                     <div class="col-md-6"><label>@Localizer["Allocatedsponsors"]:</label></div>
                     <div class="col-md-6">@Html.DisplayFor(model => model.AllocatedSponsors)<hr /></div>
                 </div>
-
             </div>
-
 
             <div class="col-md-3">
                 <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
                 <a href=@Url.Action("Index") class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
-
             </div>
-
         </div>
     </div>
 }

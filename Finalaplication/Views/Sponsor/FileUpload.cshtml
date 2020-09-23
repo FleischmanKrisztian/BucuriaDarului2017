@@ -6,17 +6,17 @@
 }
 <html>
 <head>
-<style>
+    <style>
 
-    .emp-profile {
-        border-radius: 25px;
-        padding: 5%;
-        margin-bottom: 3%;
-        border: 2px solid lightgray;
-        background: #fff;
-        /*background-color:lightgray*/
-    }
-</style>
+        .emp-profile {
+            border-radius: 25px;
+            padding: 5%;
+            margin-bottom: 3%;
+            border: 2px solid lightgray;
+            background: #fff;
+            /*background-color:lightgray*/
+        }
+    </style>
 </head>
 <br />
 <br />
@@ -24,15 +24,13 @@
 <br />
 <body>
     <div class="emp-profile">
-
         <form action="./FileUpload"
               enctype="multipart/form-data"
               method="post">
             <div class="row">
                 <div class="col-md-3">
-                    <h4><label for="files">@Localizer["Choose"]:</label></h4>
+                    <h4><label for="files">@:</label></h4>
                 </div>
-
                 <div class="col-md-3">
                     <input type="file" id="myFile" name="Files">
                 </div>
@@ -41,7 +39,6 @@
             <div style="padding-top:2%;">
                 <button class="buttonx" type="submit">@Localizer["Upload"]</button>
             </div>
-
             <div style="margin-top:15px">
                 <output name="result"></output>
             </div>

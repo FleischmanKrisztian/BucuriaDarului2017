@@ -1,13 +1,11 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace Finalaplication.Controllers
@@ -61,15 +59,15 @@ namespace Finalaplication.Controllers
         {
             try
             {
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-            set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
-            settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
-            TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
-            return RedirectToAction("Index", "Home");
+                Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+                set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
+                settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
+                TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
-               return RedirectToAction("Localserver", "Home");
+                return RedirectToAction("Localserver", "Home");
             }
         }
 

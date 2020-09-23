@@ -10,7 +10,6 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -28,21 +27,17 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
 
-
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
             try
             {
-               
                 dbcontext = new MongoDBContext();
                 beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
                 beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
                 _localizer = localizer;
             }
             catch { }
-           
         }
-        
 
         public ActionResult FileUpload()
         {
@@ -120,7 +115,7 @@ namespace Finalaplication.Controllers
         public ActionResult ImportUpdate(string docsimported, string key1)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-           string duplicates = string.Empty;
+            string duplicates = string.Empty;
             DictionaryHelper.d.TryGetValue(key1, out duplicates);
             // string duplicates = dictionary.Ids.ToString();
             ViewBag.duplicates = duplicates;
@@ -143,8 +138,6 @@ namespace Finalaplication.Controllers
                 return RedirectToAction("Localserver", "Home");
             }
         }
-
-       
 
         public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {
@@ -636,7 +629,7 @@ namespace Finalaplication.Controllers
 
                 string key = "FirstSessionBeneficiary";
                 HttpContext.Session.SetString(key, stringofids);
-        
+
                 return View(beneficiaries);
             }
             catch
@@ -653,7 +646,6 @@ namespace Finalaplication.Controllers
             string key = "SecondSessionBeneficiary";
             HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-           
 
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
@@ -736,11 +728,9 @@ namespace Finalaplication.Controllers
             if (WeeklyPackage == true)
                 ids_and_options = ids_and_options + "Z";
             ControllerHelper helper = new ControllerHelper();
-           
 
-            string header= helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
-            
-           
+            string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
+
             string key2 = "beneficiariesHeader";
             string key = "beneficiariesSession";
 
@@ -753,11 +743,10 @@ namespace Finalaplication.Controllers
             else
             { DictionaryHelper.d.Add(key2, header); }
 
-            string ids_and_optionssecond = "csvexporterapp:" + key +";"+ key2;
+            string ids_and_optionssecond = "csvexporterapp:" + key + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
             //return View();
-
         }
 
         public ActionResult ContractExp()

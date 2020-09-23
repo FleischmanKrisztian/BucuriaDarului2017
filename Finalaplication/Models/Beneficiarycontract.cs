@@ -15,7 +15,6 @@ namespace Finalaplication.Models
 
         public string Fullname { get; set; }
         public string NumberOfPortion { get; set; }
-        
 
         public string CNP { get; set; }
 

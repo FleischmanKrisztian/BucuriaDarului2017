@@ -1,43 +1,32 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Finalaplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ExcelprinterController :ControllerBase
+    public class ExcelprinterController : ControllerBase
     {
         private MongoDBContext dbcontext;
         private IMongoCollection<Volunteer> volunteerscollection;
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Beneficiary> benefeciarycollection;
-    
-
-       
 
         // GET: api/Excelprinter
         [HttpGet("{keys}", Name = "Get")]
-        public string Get( string keys)
-         {
+        public string Get(string keys)
+        {
             dbcontext = new MongoDBContext();
             string ids_ = string.Empty;
-            string header= string.Empty;
-            string key1 = string.Empty; 
-            string key2 = string.Empty; 
+            string header = string.Empty;
+            string key1 = string.Empty;
+            string key2 = string.Empty;
             if (keys.Contains(";") == true)
             {
                 string[] splited = keys.Split(";");
@@ -45,28 +34,24 @@ namespace Finalaplication.Controllers
                 key2 = splited[1];
             }
 
-            
-            DictionaryHelper.d.TryGetValue(key1,out ids_);
+            DictionaryHelper.d.TryGetValue(key1, out ids_);
             DictionaryHelper.d.TryGetValue(key2, out header);
 
             if (ids_ != null)
             {
                 DictionaryHelper.d.Remove(key1);
-
             }
-            if (header!= null)
+            if (header != null)
             {
                 DictionaryHelper.d.Remove(key2);
-
             }
             ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
             if (header != null)
             { finalHeader = helper.SplitedHeader(header); }
 
-
             string jsonstring = "";
-           
+
             string[] ids = ids_.Split(",");
             if (ids[0].Contains("sponsors"))
             {
@@ -198,9 +183,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                           
-                            jsonstring = jsonstring + "\""+ finalHeader[0] + "\":" + "\"" + beneficiary.Fullname + "\"";
-                           
+
+                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + beneficiary.Fullname + "\"";
+
                             first = false;
                         }
                         if (properties.Contains("2"))
@@ -209,19 +194,19 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            
-                            jsonstring = jsonstring + "\""+ finalHeader[1]+"\":" + "\"" + helper.GetAnswer(finalHeader[1], beneficiary.Active) + "\""; ;
+
+                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + helper.GetAnswer(finalHeader[1], beneficiary.Active) + "\""; ;
                             first = false;
                         }
-                        
+
                         if (properties.Contains("3"))
                         {
                             if (!first)
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            
-                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + helper.GetAnswer(finalHeader[2], beneficiary.Canteen) + "\""; 
+
+                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + helper.GetAnswer(finalHeader[2], beneficiary.Canteen) + "\"";
                             first = false;
                         }
                         if (properties.Contains("Z"))
@@ -257,7 +242,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + helper.GetAnswer(finalHeader[5], beneficiary.HasGDPRAgreement)+ "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + helper.GetAnswer(finalHeader[5], beneficiary.HasGDPRAgreement) + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -467,7 +452,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[29] + "\":" + "\"" + helper.GetAnswer(finalHeader[29], beneficiary.PersonalInfo.HasHome)+ "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[29] + "\":" + "\"" + helper.GetAnswer(finalHeader[29], beneficiary.PersonalInfo.HasHome) + "\"";
                             first = false;
                         }
                         if (properties.Contains("T"))
@@ -503,13 +488,11 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[33]+ "\":" + "\"" + beneficiary.PersonalInfo.Gender + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[33] + "\":" + "\"" + beneficiary.PersonalInfo.Gender + "\"";
                             first = false;
                         }
 
                         jsonstring = jsonstring + "}]";
-
-                      
                     }
                 }
             }
@@ -549,7 +532,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[1]+"\":" + "\""  + volunteer.Birthdate + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + volunteer.Birthdate + "\"";
                             first = false;
                         }
                         if (properties.Contains("3"))
@@ -565,7 +548,7 @@ namespace Finalaplication.Controllers
                             jsonstring = jsonstring + "\"" + finalHeader[16] + "\":" + "\"" + volunteer.Address.Street + "\"";
                             jsonstring = jsonstring + ",";
                             jsonstring = jsonstring + "\"" + finalHeader[17] + "\":" + "\"" + volunteer.Address.Number + "\"";
-                            
+
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -574,7 +557,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[3] + "\":" + "\"" + volunteer.Gender + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + volunteer.Gender + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
@@ -583,7 +566,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[4] + "\":" + "\"" + volunteer.Desired_workplace + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + volunteer.Desired_workplace + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
@@ -592,7 +575,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[5]+"\":" + "\"" + volunteer.CNP + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + volunteer.CNP + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -601,7 +584,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[6] + "\":" + "\"" + volunteer.Field_of_activity + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + volunteer.Field_of_activity + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
@@ -610,7 +593,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[7] + "\":" + "\"" + volunteer.Occupation + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[7] + "\":" + "\"" + volunteer.Occupation + "\"";
                             first = false;
                         }
                         if (properties.Contains("9"))
@@ -619,7 +602,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring +  "\"" + finalHeader[18] + "\":" + "\"" + volunteer.CIseria + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[18] + "\":" + "\"" + volunteer.CIseria + "\"";
                             jsonstring = jsonstring + ",";
                             jsonstring = jsonstring + "\"" + finalHeader[19] + "\":" + "\"" + volunteer.CINr + "\"";
                             jsonstring = jsonstring + ",";
@@ -634,7 +617,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[9]+"\":" + "\"" + helper.GetAnswer(finalHeader[9],volunteer.InActivity) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[9] + "\":" + "\"" + helper.GetAnswer(finalHeader[9], volunteer.InActivity) + "\"";
                             first = false;
                         }
                         if (properties.Contains("B"))
@@ -663,12 +646,12 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\""+ finalHeader[22] + "\":" + "\"" + helper.GetAnswer(finalHeader[22], volunteer.Additionalinfo.HasDrivingLicence) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[22] + "\":" + "\"" + helper.GetAnswer(finalHeader[22], volunteer.Additionalinfo.HasDrivingLicence) + "\"";
                             jsonstring = jsonstring + ",";
                             jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + helper.GetAnswer(finalHeader[23], volunteer.Additionalinfo.HasCar) + "\"";
                             jsonstring = jsonstring + ",";
                             jsonstring = jsonstring + "\"" + finalHeader[24] + "\":" + "\"" + volunteer.Additionalinfo.Remark + "\"";
-                               
+
                             first = false;
                         }
                         jsonstring = jsonstring + "}]";
@@ -772,7 +755,7 @@ namespace Finalaplication.Controllers
                 }
             }
             jsonstring = jsonstring.Replace("][", ",");
-           
+
             return jsonstring;
         }
     }

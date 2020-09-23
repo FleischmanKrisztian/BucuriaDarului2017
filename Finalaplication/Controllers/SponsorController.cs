@@ -90,13 +90,13 @@ namespace Finalaplication.Controllers
             string ids = HttpContext.Session.GetString("FirstSessionSponsor");
             HttpContext.Session.Remove("FirstSessionSponsor");
             string key2 = "SecondSessionSponsor";
-             HttpContext.Session.SetString(key2, ids);
-             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+            HttpContext.Session.SetString(key2, ids);
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVSaver( bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
+        public ActionResult CSVSaver(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
             var IDS = HttpContext.Session.GetString("SecondSessionSponsor");
             HttpContext.Session.Remove("SecondSessionSponsor");
@@ -142,11 +142,9 @@ namespace Finalaplication.Controllers
             {
                 DictionaryHelper.d.Add(key2, header);
             }
-            string ids_and_optionssecond = "csvexporterapp:"  + key1 + ";" + key2;
+            string ids_and_optionssecond = "csvexporterapp:" + key1 + ";" + key2;
 
             return Redirect(ids_and_optionssecond);
-
-            
         }
 
         public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)

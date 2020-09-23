@@ -87,7 +87,7 @@ namespace Elm.Core.Parsers
             {
                 type = "MyApp";
             }
-            if (header[1].Contains("CNP")==true)
+            if (header[1].Contains("CNP") == true)
             {
                 type = "BucuriaDarului";
             }
