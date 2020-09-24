@@ -2,7 +2,8 @@
 msgstr "Arată toți voluntarii"
 msgid "Show all beneficiaries"
 msgstr "Arată toți beneficiarii"
-
+msgid "Privacy"
+msgstr "Confidențialitate"
 msgid "Show all events"
 msgstr "Arată toate evenimentele"
 msgid "Contractsofb"
@@ -334,7 +335,7 @@ msgstr "Printează"
 msgid "RegistrationDate"	
 msgstr "Data întocmirii contractului"
 msgid "Volcontract"	
-msgstr "Contractul voluntarului"
+msgstr "contract"
 
 
 msgid "Avatar"	
@@ -394,7 +395,7 @@ msgstr "Încarcă imagine"
 msgid "Volunteer"
 msgstr "Voluntar"
 msgid  "beneficiarycontract"
-msgstr "Contractul beneficiarului"
+msgstr "contract"
 
 msgid "Birthdays"
 msgstr "Zile de naștere"

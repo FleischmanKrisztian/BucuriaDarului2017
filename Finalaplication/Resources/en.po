@@ -13,7 +13,8 @@ msgstr "Show all sponsors"
 
 msgid "Volunteering"
 msgstr "Volunteering"
-
+msgid "Privacy"
+msgstr "Privacy"
 msgid "Active"
 msgstr "Active"
 
