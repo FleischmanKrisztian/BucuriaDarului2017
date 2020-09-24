@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -8,6 +9,9 @@ namespace CSVExporter
 {
     public partial class Form1 : Form
     {
+        string filename;
+       
+
         public Form1()
         {
             InitializeComponent();
@@ -50,6 +54,7 @@ namespace CSVExporter
                 }
 
                 richTextBox1.Text = strfilename;
+                filename = strfilename;
             }
         }
 
@@ -67,6 +72,7 @@ namespace CSVExporter
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
                 
                 string path = richTextBox1.Text;
+                directory = path;
                 string csvasstring = "";
                 csvasstring = StringtoCsv.Methods.JsontoCSV(result);
                 System.IO.StreamWriter objWriter;
@@ -79,6 +85,12 @@ namespace CSVExporter
             {
                 richTextBox2.Text = "An error has been encountered";
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+           
+            Process.Start(filename);
         }
     }
 }
