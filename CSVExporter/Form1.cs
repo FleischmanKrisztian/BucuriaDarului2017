@@ -72,7 +72,6 @@ namespace CSVExporter
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
                 
                 string path = richTextBox1.Text;
-                directory = path;
                 string csvasstring = "";
                 csvasstring = StringtoCsv.Methods.JsontoCSV(result);
                 System.IO.StreamWriter objWriter;
