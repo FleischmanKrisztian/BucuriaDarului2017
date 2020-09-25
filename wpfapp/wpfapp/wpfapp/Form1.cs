@@ -10,7 +10,7 @@ namespace wpfapp
 {
     public partial class Form1 : Form
     {
-       
+        private string filename;
 
         public Form1()
         {
@@ -24,7 +24,6 @@ namespace wpfapp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             Stream myStream;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -39,9 +38,8 @@ namespace wpfapp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            
+
             try
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -111,8 +109,10 @@ namespace wpfapp
                         else
                         {
                             doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
+                            saveFileDialog1.FileName = saveFileDialog1.FileName + ".docx";
                         }
 
+                        filename = saveFileDialog1.FileName;
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }
@@ -168,7 +168,7 @@ namespace wpfapp
                             doc.SaveAs(saveFileDialog1.FileName + "." + "docx");
                             saveFileDialog1.FileName = saveFileDialog1.FileName + ".docx";
                         }
-
+                        filename = saveFileDialog1.FileName;
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
                     }
@@ -236,29 +236,30 @@ namespace wpfapp
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-              
-            
         }
-        
+
         private void HideOrShow(string text)
         {
-            
             if (text.Contains("ContractBeneficiar") == true || text.Contains("Contract_cadru_asistati_Fundatie") == true || text.Contains("beneficiar") == true || text.Contains("Beneficiar") == true)
             {
-
                 panel1.Show();
-
             }
             else
             { panel1.Hide(); }
-
         }
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-
             HideOrShow(richTextBox1.Text);
-            
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(filename);
         }
     }
 }

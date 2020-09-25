@@ -190,7 +190,7 @@
             // button3
             // 
             this.button3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button3.Location = new System.Drawing.Point(227, 63);
+            this.button3.Location = new System.Drawing.Point(227, 62);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 14;
@@ -200,14 +200,15 @@
             // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button4.Location = new System.Drawing.Point(210, 267);
+            this.button4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button4.Location = new System.Drawing.Point(212, 274);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(92, 30);
+            this.button4.Padding = new System.Windows.Forms.Padding(2);
+            this.button4.Size = new System.Drawing.Size(90, 32);
             this.button4.TabIndex = 15;
-            this.button4.Text = "Open file";
+            this.button4.Text = "Open File";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // Form1
             // 
