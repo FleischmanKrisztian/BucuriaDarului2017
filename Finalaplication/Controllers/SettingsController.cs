@@ -84,10 +84,12 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                Settings set = new Settings();
-                set.Lang = "en";
-                set.Quantity = 10;
-                set.Env = "offline";
+                Settings set = new Settings
+                {
+                    Lang = "en",
+                    Quantity = 10,
+                    Env = "offline"
+                };
                 TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;

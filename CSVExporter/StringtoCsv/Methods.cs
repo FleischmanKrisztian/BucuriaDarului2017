@@ -12,17 +12,17 @@ namespace CSVExporter.StringtoCsv
         public static string JsontoCSV(string result)
         {
             string csvasstring = "";
-            csvasstring = csvasstring + jsontocsvlasttry(result);
+            csvasstring = csvasstring + Jsontocsvlasttry(result);
             return csvasstring;
         }
 
-        public static DataTable jsonStringToTable(string jsonContent)
+        public static DataTable JsonStringToTable(string jsonContent)
         {
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(jsonContent);
             return dt;
         }
 
-        public static string jsontocsvlasttry(string jsonContent)
+        public static string Jsontocsvlasttry(string jsonContent)
         {
             StringBuilder csv = new StringBuilder();
             using (var p = new ChoJSONReader(new StringReader(jsonContent)))
@@ -38,16 +38,16 @@ namespace CSVExporter.StringtoCsv
             return csv.ToString();
         }
 
-        public static string jsonToCSV(string jsonContent, string delimiter = ";")
+        public static string JsonToCSV(string jsonContent, string delimiter = ";")
         {
             StringWriter csvString = new StringWriter();
-            using (var csv = new CsvWriter(csvString))
+            using (var csv = new CsvWriter((ISerializer)csvString))
             {
                 //csv.Configuration.SkipEmptyRecords = true;
                 //csv.Configuration.WillThrowOnMissingField = false;
                 csv.Configuration.Delimiter = delimiter;
 
-                using (var dt = jsonStringToTable(jsonContent))
+                using (var dt = JsonStringToTable(jsonContent))
                 {
                     foreach (DataColumn column in dt.Columns)
                     {

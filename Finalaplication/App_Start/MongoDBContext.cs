@@ -22,7 +22,7 @@ namespace Finalaplication.App_Start
         /// <param name="dbName"></param>
         /// <param name="portNum"></param>
         /// <returns></returns>
-        private IMongoDatabase getDatabaseForAddressDbNameAndPort(string address, string dbName, int portNum)
+        private IMongoDatabase GetDatabaseForAddressDbNameAndPort(string address, string dbName, int portNum)
         {
             MongoClient mongoClient = null;
 
@@ -55,7 +55,7 @@ namespace Finalaplication.App_Start
         /// <param name="envVarDbName"></param>
         /// <param name="envVarNamePort"></param>
         /// <returns></returns>
-        private IMongoDatabase getDatabaseForEnvironmentVars(
+        private IMongoDatabase GetDatabaseForEnvironmentVars(
             string envVarNameServer,
             string envVarDbName,
             string envVarNamePort)
@@ -65,7 +65,7 @@ namespace Finalaplication.App_Start
             int numServerPort = Convert.ToInt32(envServerPort);
             string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
 
-            return getDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
+            return GetDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
         }
 
         public MongoDBContext()
@@ -96,7 +96,7 @@ namespace Finalaplication.App_Start
                 {
                     if (useOnline)
                     {
-                        database = getDatabaseForEnvironmentVars(
+                        database = GetDatabaseForEnvironmentVars(
                             VolMongoConstants.SERVER_NAME_MAIN,
                             VolMongoConstants.DATABASE_NAME_MAIN,
                             "");
@@ -104,7 +104,7 @@ namespace Finalaplication.App_Start
                     else
                     {
                         // Offline mode considered secondary
-                        database = getDatabaseForEnvironmentVars(
+                        database = GetDatabaseForEnvironmentVars(
                             VolMongoConstants.SERVER_NAME_SECONDARY,
                             VolMongoConstants.DATABASE_NAME_SECONDARY,
                             VolMongoConstants.SERVER_PORT_SECONDARY);

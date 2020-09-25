@@ -58,7 +58,7 @@ namespace Finalaplication
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
             opts => { opts.ResourcesPath = "Resources"; })
         .AddDataAnnotationsLocalization();

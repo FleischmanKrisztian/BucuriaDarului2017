@@ -29,7 +29,7 @@ namespace Finalaplication.Models
             this.beneficiarycontractcollection = beneficiarycontractcollection;
         }
 
-        public string returnRegistrationNumber(string number)
+        public string ReturnRegistrationNumber(string number)
         {
             string NumberOfRegistration;
             if (number.Contains("/") == true)
@@ -54,28 +54,30 @@ namespace Finalaplication.Models
                         var filter = Builders<Beneficiary>.Filter.Eq(x => x.CNP, details[9]);
                         var results = beneficiarycollection.Find(filter).ToList();
 
-                        string numberOfRegistration = returnRegistrationNumber(details[15]);
+                        string numberOfRegistration = ReturnRegistrationNumber(details[15]);
                         if (beneficiarycontractcollection.CountDocuments(z => z.NumberOfRegistration == numberOfRegistration) != 0)
                         { }
                         else
                         {
                             foreach (var b in results)
                             {
-                                Beneficiarycontract beneficiarycontract = new Beneficiarycontract();
-                                beneficiarycontract.Fullname = b.Fullname;
-                                beneficiarycontract.Address = b.Adress;
-                                beneficiarycontract.OwnerID = b.BeneficiaryID;
-                                beneficiarycontract.Birthdate = b.PersonalInfo.Birthdate;
-                                beneficiarycontract.CIinfo = b.CI.CIinfo;
-                                beneficiarycontract.CNP = b.CNP;
-                                beneficiarycontract.IdApplication = b.Marca.IdAplication;
-                                beneficiarycontract.IdInvestigation = b.Marca.IdInvestigation;
-                                beneficiarycontract.Nrtel = b.PersonalInfo.PhoneNumber;
-                                beneficiarycontract.NumberOfPortion = b.NumberOfPortions.ToString();
-                                beneficiarycontract.NumberOfRegistration = returnRegistrationNumber(details[15]);
+                                Beneficiarycontract beneficiarycontract = new Beneficiarycontract
+                                {
+                                    Fullname = b.Fullname,
+                                    Address = b.Adress,
+                                    OwnerID = b.BeneficiaryID,
+                                    Birthdate = b.PersonalInfo.Birthdate,
+                                    CIinfo = b.CI.CIinfo,
+                                    CNP = b.CNP,
+                                    IdApplication = b.Marca.IdAplication,
+                                    IdInvestigation = b.Marca.IdInvestigation,
+                                    Nrtel = b.PersonalInfo.PhoneNumber,
+                                    NumberOfPortion = b.NumberOfPortions.ToString(),
+                                    NumberOfRegistration = ReturnRegistrationNumber(details[15]),
 
-                                beneficiarycontract.RegistrationDate = DateTime.MinValue;
-                                beneficiarycontract.ExpirationDate = DateTime.MinValue;
+                                    RegistrationDate = DateTime.MinValue,
+                                    ExpirationDate = DateTime.MinValue
+                                };
                                 try
                                 {
                                     string[] splitDates = details[16].Split('-');
@@ -443,8 +445,10 @@ namespace Finalaplication.Models
                     {
                         documentsimported++;
 
-                        Beneficiary beneficiary = new Beneficiary();
-                        beneficiary.HasGDPRAgreement = false;
+                        Beneficiary beneficiary = new Beneficiary
+                        {
+                            HasGDPRAgreement = false
+                        };
 
                         try
                         {
