@@ -25,7 +25,7 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Sponsor> sponsorcollection;
         private readonly IStringLocalizer<EventController> _localizer;
 
-        public EventController(IHostingEnvironment env, IStringLocalizer<EventController> localizer)
+        public EventController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<EventController> localizer)
         {
             try
             {
@@ -58,10 +58,8 @@ namespace Finalaplication.Controllers
                                Directory.GetCurrentDirectory(), "wwwroot",
                                Files.FileName);
 
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        Files.CopyTo(stream);
-                    }
+                    using var stream = new FileStream(path, FileMode.Create);
+                    Files.CopyTo(stream);
                 }
                 else
                 {
@@ -233,23 +231,23 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove("SecondSessionEvent");
             string ids_and_options = IDS + "(((";
             if (All == true)
-                ids_and_options = ids_and_options + "0";
+                ids_and_options += "0";
             if (NameOfEvent == true)
-                ids_and_options = ids_and_options + "1";
+                ids_and_options += "1";
             if (PlaceOfEvent == true)
-                ids_and_options = ids_and_options + "2";
+                ids_and_options += "2";
             if (DateOfEvent == true)
-                ids_and_options = ids_and_options + "3";
+                ids_and_options += "3";
             if (TypeOfActivities == true)
-                ids_and_options = ids_and_options + "4";
+                ids_and_options += "4";
             if (TypeOfEvent == true)
-                ids_and_options = ids_and_options + "5";
+                ids_and_options += "5";
             if (Duration == true)
-                ids_and_options = ids_and_options + "6";
+                ids_and_options += "6";
             if (AllocatedVolunteers == true)
-                ids_and_options = ids_and_options + "7";
+                ids_and_options += "7";
             if (AllocatedSponsors == true)
-                ids_and_options = ids_and_options + "8";
+                ids_and_options += "8";
 
             string key1 = "eventSession";
             ControllerHelper helper = new ControllerHelper();
@@ -304,7 +302,7 @@ namespace Finalaplication.Controllers
 
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 var names = events.Find(b => b.EventID.ToString() == id);
-                names.AllocatedVolunteers = names.AllocatedVolunteers + " / ";
+                names.AllocatedVolunteers += " / ";
                 ViewBag.strname = names.AllocatedVolunteers.ToString();
                 ViewBag.Eventname = names.NameOfEvent.ToString();
                 if (searching != null)
@@ -384,7 +382,7 @@ namespace Finalaplication.Controllers
 
                 List<Event> events = eventcollection.AsQueryable<Event>().ToList();
                 var names = events.Find(b => b.EventID.ToString() == id);
-                names.AllocatedSponsors = names.AllocatedSponsors + " ";
+                names.AllocatedSponsors += " ";
                 ViewBag.strname = names.AllocatedSponsors.ToString();
                 ViewBag.Eventname = names.NameOfEvent.ToString();
                 if (searching != null)

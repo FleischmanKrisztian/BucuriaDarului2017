@@ -42,10 +42,11 @@ namespace Finalaplication
 
                         foreach (var v in results)
                         {
-                            Volcontract contract = new Volcontract();
-
-                            contract.Firstname = v.Firstname;
-                            contract.Lastname = v.Lastname;
+                            Volcontract contract = new Volcontract
+                            {
+                                Firstname = v.Firstname,
+                                Lastname = v.Lastname
+                            };
                             string address = string.Empty;
                             if (v.Address.District != null && v.Address.District != "-")
                             { address = v.Address.District; }
@@ -480,9 +481,10 @@ namespace Finalaplication
                     }
 
                     volunteer.ContactInformation = c;
-                    Additionalinfo ai = new Additionalinfo();
-
-                    ai.HasDrivingLicence = false;
+                    Additionalinfo ai = new Additionalinfo
+                    {
+                        HasDrivingLicence = false
+                    };
                     if (details[8] != null)
                     {
                         ai.Remark = details[8];
