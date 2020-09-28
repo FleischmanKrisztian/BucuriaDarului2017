@@ -644,9 +644,7 @@ namespace Finalaplication.Controllers
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
             HttpContext.Session.Remove("FirstSessionBeneficiary");
             string key = "SecondSessionBeneficiary";
-            HttpContext.Session.SetString(key, ids);
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-
+           HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
