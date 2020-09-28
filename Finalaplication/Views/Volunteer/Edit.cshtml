@@ -56,12 +56,11 @@
 {
     <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
-<form method="post" action="/Volunteer/Edit" enctype="multipart/form-data">
+<form method="post" action="/Beneficiary/Edit" enctype="multipart/form-data">
     <input type="hidden" name="Originalsavedvolstring" value="@originalsavedvol" />
     <input type="hidden" name="id" value="@id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">
-
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
