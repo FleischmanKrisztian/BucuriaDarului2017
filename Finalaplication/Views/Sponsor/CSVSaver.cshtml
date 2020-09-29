@@ -51,8 +51,9 @@
 <br />
 <br />
 <br />
-@using (Html.BeginForm("CSVSaver", "Sponsor/", FormMethod.Post))
-{<div class="emp-profile">
+<form method="post" action="/Sponsor/CSVSaver" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class=" .emp-profile">
         <h1>CSV Saver</h1>
         <hr />
         <br />
@@ -90,4 +91,4 @@
             </div>
         </div>
     </div>
-}
+    </form>

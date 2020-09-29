@@ -53,8 +53,9 @@
 <br />
 <br />
 
-@using (Html.BeginForm("CSVSaver", "Beneficiary/", FormMethod.Post))
-{<div class="emp-profile">
+<form method="post" action="/Beneficiary/CSVSaver" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class=" .emp-profile">
         <h1>CSV Saver</h1>
         <hr />
         <br />
@@ -111,10 +112,10 @@
                 <button type="submit" class="btn btn-primary">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
                 </button>
-                
+
                 | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
             </div>
         </div>
         <br />
     </div>
-}
+   </form>

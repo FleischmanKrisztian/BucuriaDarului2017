@@ -55,8 +55,7 @@
         }
     </style>
 </head>
-@using (Html.BeginForm("Settings", "Settings/", FormMethod.Post))
-{
+<form method="post" action="/Settings/Settings" enctype="multipart/form-data">
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-5   profile-work ">
@@ -98,4 +97,4 @@
 
         <input type="submit" class="btn btn-primary" value=@Localizer["Apply"]>
     </div>
-}
+    </form>
