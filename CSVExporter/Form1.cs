@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Web.Configuration;
 using System.Windows.Forms;
 
 namespace CSVExporter
@@ -11,6 +12,7 @@ namespace CSVExporter
     {
         private string filename ;
         private string my_directory;
+       
 
         public Form1()
         {
@@ -18,6 +20,7 @@ namespace CSVExporter
             string[] args = Environment.GetCommandLineArgs();
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
+            panel2.Hide();
             //^the method posted before, that edits registry
         }
 
@@ -79,15 +82,20 @@ namespace CSVExporter
                 objWriter.Write(csvasstring);
                 objWriter.Close();
                 richTextBox2.Text = "Your file has been successfully saved";
+                
             }
             catch
             {
                 richTextBox2.Text = "An error has been encountered";
+                
             }
+           
+            PanelVisibility(richTextBox2.Text);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+
             System.Diagnostics.Process.Start(filename);
         }
 
@@ -96,6 +104,20 @@ namespace CSVExporter
         
             my_directory = Path.GetDirectoryName(filename);
             System.Diagnostics.Process.Start(my_directory);
+
+        }
+
+        private void PanelVisibility(string message)
+        {
+            if (message.Contains("successfully saved") == true)
+            {
+                panel2.Show();
+            }
+            else
+            { panel2.Hide(); }
+        }
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

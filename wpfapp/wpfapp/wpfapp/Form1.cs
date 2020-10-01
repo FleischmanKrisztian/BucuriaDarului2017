@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Windows;
 using System.Windows.Forms;
 using Xceed.Words.NET;
 
@@ -12,6 +13,7 @@ namespace wpfapp
     public partial class Form1 : Form
     {
         private string filename;
+        
 
         public Form1()
         {
@@ -21,6 +23,7 @@ namespace wpfapp
             RegisterMyProtocol(args[0]);
             //^the method posted before, that edits registry
             panel1.Hide();
+            panel2.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -116,6 +119,7 @@ namespace wpfapp
                         filename = saveFileDialog1.FileName;
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
+                       
                     }
                     else
                     {
@@ -172,6 +176,8 @@ namespace wpfapp
                         filename = saveFileDialog1.FileName;
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
+                       
+                        
                     }
                 }
             }
@@ -179,7 +185,10 @@ namespace wpfapp
             {
                 richTextBox2.Text = saveFileDialog1.FileName;
                 richTextBox3.Text = "an error has occured";
+                
             }
+           
+            PanelVisibility(richTextBox3.Text);
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -260,13 +269,34 @@ namespace wpfapp
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(filename);
+            
+                
+                System.Diagnostics.Process.Start(filename);
+            
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string my_directory = Path.GetDirectoryName(filename);
-            Process.Start(my_directory);
+           
+                
+                   string my_directory = Path.GetDirectoryName(filename);
+                Process.Start(my_directory);
+            
+            
+        }
+
+        private void PanelVisibility(string message)
+        {
+            if (message.Contains("succesfully") == true)
+            {
+                panel2.Show();
+            }
+            else
+            { panel2.Hide(); }
+        }
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
