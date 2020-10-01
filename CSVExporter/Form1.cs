@@ -9,7 +9,8 @@ namespace CSVExporter
 {
     public partial class Form1 : Form
     {
-        private string filename;
+        private string filename ;
+        private string my_directory;
 
         public Form1()
         {
@@ -65,8 +66,8 @@ namespace CSVExporter
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
 
-                string url = "http://localhost:5000/api/ExcelPrinter/" + args[1];
-                //string url = "https://localhost:44395/api/Excelprinter/" + args[1];
+                //string url = "http://localhost:5000/api/ExcelPrinter/" + args[1];
+                string url = "https://localhost:44395/api/Excelprinter/" + args[1];
 
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
 
@@ -87,7 +88,15 @@ namespace CSVExporter
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Process.Start(filename);
+            System.Diagnostics.Process.Start(filename);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+        
+            my_directory = Path.GetDirectoryName(filename);
+            System.Diagnostics.Process.Start(my_directory);
+
         }
     }
 }

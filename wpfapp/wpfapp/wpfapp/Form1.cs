@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -51,8 +52,8 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
-                        //string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
+                        //string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
+                        string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
@@ -124,8 +125,8 @@ namespace wpfapp
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
                         //probabil trebuie modificat
-                        string url = "http://localhost:5000/api/Values/" + args[1];
-                        //string url = "https://localhost:44395/api/Values/" + args[1];
+                        //string url = "http://localhost:5000/api/Values/" + args[1];
+                        string url = "https://localhost:44395/api/Values/" + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
@@ -260,6 +261,12 @@ namespace wpfapp
         private void button4_Click_1(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(filename);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string my_directory = Path.GetDirectoryName(filename);
+            Process.Start(my_directory);
         }
     }
 }

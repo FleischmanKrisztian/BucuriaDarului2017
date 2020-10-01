@@ -44,6 +44,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -201,7 +202,7 @@
             // button4
             // 
             this.button4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button4.Location = new System.Drawing.Point(212, 274);
+            this.button4.Location = new System.Drawing.Point(93, 274);
             this.button4.Name = "button4";
             this.button4.Padding = new System.Windows.Forms.Padding(2);
             this.button4.Size = new System.Drawing.Size(90, 32);
@@ -210,12 +211,25 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.button5.Location = new System.Drawing.Point(209, 274);
+            this.button5.Name = "button5";
+            this.button5.Padding = new System.Windows.Forms.Padding(2);
+            this.button5.Size = new System.Drawing.Size(93, 32);
+            this.button5.TabIndex = 16;
+            this.button5.Text = "Open Directory";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(676, 327);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.panel1);
@@ -253,6 +267,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 
