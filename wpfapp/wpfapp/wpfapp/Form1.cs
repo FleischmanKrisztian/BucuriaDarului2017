@@ -21,6 +21,7 @@ namespace wpfapp
             string[] args = Environment.GetCommandLineArgs();
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             //^the method posted before, that edits registry
             panel1.Hide();
             panel2.Hide();
@@ -48,6 +49,7 @@ namespace wpfapp
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
+                    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                     if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
@@ -183,6 +185,7 @@ namespace wpfapp
             }
             catch
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 richTextBox2.Text = saveFileDialog1.FileName;
                 richTextBox3.Text = "an error has occured";
                 

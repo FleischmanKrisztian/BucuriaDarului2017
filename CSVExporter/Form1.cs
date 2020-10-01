@@ -1,23 +1,22 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Web.Configuration;
 using System.Windows.Forms;
 
 namespace CSVExporter
 {
     public partial class Form1 : Form
     {
-        private string filename ;
+        private string filename;
         private string my_directory;
-       
 
         public Form1()
         {
             InitializeComponent();
             string[] args = Environment.GetCommandLineArgs();
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
             panel2.Hide();
@@ -65,6 +64,7 @@ namespace CSVExporter
         {
             try
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 string[] args = Environment.GetCommandLineArgs();
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
@@ -82,29 +82,25 @@ namespace CSVExporter
                 objWriter.Write(csvasstring);
                 objWriter.Close();
                 richTextBox2.Text = "Your file has been successfully saved";
-                
             }
             catch
             {
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 richTextBox2.Text = "An error has been encountered";
-                
             }
-           
+
             PanelVisibility(richTextBox2.Text);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
             System.Diagnostics.Process.Start(filename);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-        
             my_directory = Path.GetDirectoryName(filename);
             System.Diagnostics.Process.Start(my_directory);
-
         }
 
         private void PanelVisibility(string message)
@@ -116,9 +112,9 @@ namespace CSVExporter
             else
             { panel2.Hide(); }
         }
+
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
         }
     }
 }
