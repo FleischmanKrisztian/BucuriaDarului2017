@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace CSVExporter.StringtoCsv
 {
-    internal class Methods
+    public class Methods
     {
         public static string JsontoCSV(string result)
         {
@@ -72,7 +72,7 @@ namespace CSVExporter.StringtoCsv
         public static Dictionary<string,string> Xmldecoder()
         {
             //Loading Xml
-            string xmlPath = @"D:\Bucuria Darului\CSVExporter\ConfigFile.xml";
+            string xmlPath = @"../../../ConfigFile.xml";
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlPath);
 

@@ -86,7 +86,7 @@ namespace CSVExporter
             }
             catch
             {
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+                Cursor.Current = Cursors.Default;
                 richTextBox2.Text = "An error has been encountered";
             }
 
