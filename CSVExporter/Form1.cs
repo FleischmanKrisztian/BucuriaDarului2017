@@ -1,5 +1,7 @@
-﻿using Microsoft.Win32;
+﻿using ChoETL;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -64,14 +66,13 @@ namespace CSVExporter
         {
             try
             {
+                //getting dictionary of keyvaluepairs
+                Dictionary<string, string> keyValuePairs = StringtoCsv.Methods.Xmldecoder();
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 string[] args = Environment.GetCommandLineArgs();
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
-
-                //string url = "http://localhost:5000/api/ExcelPrinter/" + args[1];
-                string url = "https://localhost:44395/api/Excelprinter/" + args[1];
-
+                string url = keyValuePairs.GetValue("Excelprinterlink2") + args[1];
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
 
                 string path = richTextBox1.Text;

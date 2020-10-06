@@ -1,9 +1,11 @@
 ﻿using ChoETL;
 using CsvHelper;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Xml;
 
 namespace CSVExporter.StringtoCsv
 {
@@ -66,6 +68,27 @@ namespace CSVExporter.StringtoCsv
                 }
             }
             return csvString.ToString();
+        }
+        public static Dictionary<string,string> Xmldecoder()
+        {
+            //Loading Xml
+            string xmlPath = @"D:\Bucuria Darului\CSVExporter\ConfigFile.xml";
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlPath);
+
+            // Getting Node
+            XmlNodeList locationDetails = xmlDoc.SelectNodes("configuration/LinkValues");
+            Dictionary<string, string> dicPlacePinXml = new Dictionary<string, string>();
+
+            //looping
+            foreach (XmlNode locationNode in locationDetails)
+            {
+                foreach (XmlNode elementLoc in locationNode.ChildNodes)
+                {
+                    dicPlacePinXml.Add(elementLoc.Attributes["key"].Value, elementLoc.Attributes["value"].Value);
+                }
+            }
+            return dicPlacePinXml;
         }
     }
 }
