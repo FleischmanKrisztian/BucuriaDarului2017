@@ -37,14 +37,14 @@ namespace Finalaplication.Controllers
             DictionaryHelper.d.TryGetValue(key1, out ids_);
             DictionaryHelper.d.TryGetValue(key2, out header);
 
-            if (ids_ != null)
-            {
-                DictionaryHelper.d.Remove(key1);
-            }
-            if (header != null)
-            {
-                DictionaryHelper.d.Remove(key2);
-            }
+            //if (ids_ != null)
+            //{
+            //    DictionaryHelper.d.Remove(key1);
+            //}
+            //if (header != null)
+            //{
+            //    DictionaryHelper.d.Remove(key2);
+            //}
             ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
             if (header != null)
