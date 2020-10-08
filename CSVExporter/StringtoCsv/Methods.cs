@@ -72,7 +72,7 @@ namespace CSVExporter.StringtoCsv
         public static Dictionary<string,string> Xmldecoder()
         {
             //Loading Xml
-            string xmlPath = @"../../../ConfigFile.xml";
+            string xmlPath = @"D:\Bucuria Darului\ConfigFile.xml";
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlPath);
 
