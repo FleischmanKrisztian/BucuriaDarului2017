@@ -134,7 +134,7 @@
         </div>
     </p>
 }
-@using (Html.BeginForm("Index", "Sponsor/", FormMethod.Get))
+@using (Html.BeginForm("Index", "Sponsor", FormMethod.Get))
 {<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all sponsors"]</a>
 <br />
 @if (string1 != null)
