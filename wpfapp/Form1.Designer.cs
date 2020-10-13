@@ -52,7 +52,7 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.button1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.button1.Location = new System.Drawing.Point(12, 33);
             this.button1.Name = "button1";
             this.button1.Padding = new System.Windows.Forms.Padding(2);
@@ -64,7 +64,7 @@
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.button2.Location = new System.Drawing.Point(12, 92);
             this.button2.Name = "button2";
             this.button2.Padding = new System.Windows.Forms.Padding(2);
@@ -104,7 +104,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(28, 0);
             this.label1.Name = "label1";
@@ -115,6 +115,7 @@
             // 
             // radioButton1
             // 
+            this.radioButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioButton1.BackgroundImage")));
             this.radioButton1.Location = new System.Drawing.Point(19, 19);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(293, 55);
@@ -126,6 +127,7 @@
             // 
             // radioButton2
             // 
+            this.radioButton2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioButton2.BackgroundImage")));
             this.radioButton2.Location = new System.Drawing.Point(16, 80);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(293, 46);
@@ -137,6 +139,7 @@
             // 
             // radioButton3
             // 
+            this.radioButton3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioButton3.BackgroundImage")));
             this.radioButton3.Location = new System.Drawing.Point(16, 139);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(293, 56);
@@ -148,6 +151,7 @@
             // 
             // radioButton4
             // 
+            this.radioButton4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radioButton4.BackgroundImage")));
             this.radioButton4.Location = new System.Drawing.Point(16, 201);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(293, 58);
@@ -166,17 +170,19 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(16, 262);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 16);
+            this.label2.Size = new System.Drawing.Size(85, 18);
             this.label2.TabIndex = 12;
             this.label2.Text = "Other option:";
             // 
             // panel1
             // 
             this.panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Pane;
+            this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.radioButton1);
@@ -192,7 +198,7 @@
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.button3.Location = new System.Drawing.Point(227, 62);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
@@ -203,7 +209,7 @@
             // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button4.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.button4.Location = new System.Drawing.Point(3, 10);
             this.button4.Name = "button4";
             this.button4.Padding = new System.Windows.Forms.Padding(2);
@@ -215,7 +221,7 @@
             // 
             // button5
             // 
-            this.button5.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.button5.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.button5.Location = new System.Drawing.Point(104, 10);
             this.button5.Name = "button5";
             this.button5.Padding = new System.Windows.Forms.Padding(2);
@@ -227,6 +233,7 @@
             // 
             // panel2
             // 
+            this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.button5);
             this.panel2.Location = new System.Drawing.Point(93, 259);
@@ -240,6 +247,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(676, 327);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.button3);
@@ -252,7 +260,10 @@
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Contract Printer";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
