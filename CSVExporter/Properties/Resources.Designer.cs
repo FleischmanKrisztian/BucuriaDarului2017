@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace wpfapp.Properties {
+namespace CSVExporter.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace wpfapp.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("wpfapp.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CSVExporter.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace wpfapp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ContractImage {
+        internal static System.Drawing.Bitmap CSVExporterImage {
             get {
-                object obj = ResourceManager.GetObject("ContractImage", resourceCulture);
+                object obj = ResourceManager.GetObject("CSVExporterImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
