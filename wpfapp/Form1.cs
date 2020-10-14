@@ -132,7 +132,7 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        string url = keyValuePairs.GetValue("Volunteerlink2") + args[1];
+                        string url = keyValuePairs.GetValue("Volunteerlink") + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
