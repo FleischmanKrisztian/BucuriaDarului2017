@@ -63,6 +63,7 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.richTextBox1.Location = new System.Drawing.Point(187, 49);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(399, 23);
@@ -71,6 +72,7 @@
             // 
             // richTextBox2
             // 
+            this.richTextBox2.BackColor = System.Drawing.SystemColors.MenuBar;
             this.richTextBox2.Location = new System.Drawing.Point(187, 97);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(399, 79);
@@ -101,11 +103,14 @@
             // 
             // panel2
             // 
+            this.panel2.AutoSize = true;
+            this.panel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel2.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Location = new System.Drawing.Point(244, 196);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(322, 43);
+            this.panel2.Size = new System.Drawing.Size(325, 40);
             this.panel2.TabIndex = 14;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -113,18 +118,23 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(680, 264);
+            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.BackgroundImage = global::CSVExporter.Properties.Resources.CSVExporterImage;
+            this.ClientSize = new System.Drawing.Size(680, 294);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Csv Exporter";
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

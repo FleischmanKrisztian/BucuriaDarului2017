@@ -1,6 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using ChoETL;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -30,7 +32,7 @@ namespace wpfapp
         private void button1_Click(object sender, EventArgs e)
         {
             Stream myStream;
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 if ((myStream = openFileDialog1.OpenFile()) != null)
@@ -43,12 +45,13 @@ namespace wpfapp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 
             try
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
+                    Dictionary<string, string> keyValuePairs = CSVExporter.StringtoCsv.Methods.Xmldecoder();
                     System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                     if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
@@ -57,8 +60,7 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        //string url = "http://localhost:5000/api/BeneficiaryValues/" + args[1];
-                        string url = "https://localhost:44395/api/BeneficiaryValues/" + args[1];
+                        string url = keyValuePairs.GetValue("Beneficiarylink2") + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
@@ -130,9 +132,7 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        //probabil trebuie modificat
-                        //string url = "http://localhost:5000/api/Values/" + args[1];
-                        string url = "https://localhost:44395/api/Values/" + args[1];
+                        string url = keyValuePairs.GetValue("Volunteerlink") + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
