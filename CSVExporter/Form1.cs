@@ -16,13 +16,19 @@ namespace CSVExporter
         public Form1()
         {
             InitializeComponent();
+            try
+            {
             string[] args = Environment.GetCommandLineArgs();
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-
             //args[0] is always the path to the application
             RegisterMyProtocol(args[0]);
             panel2.Hide();
             //^the method posted before, that edits registry
+            }
+            catch
+            {
+
+            }
         }
 
         private static void RegisterMyProtocol(string CSVExporterappPath)  //myAppPath = full path to your application
@@ -70,9 +76,10 @@ namespace CSVExporter
                 Dictionary<string, string> keyValuePairs = StringtoCsv.Methods.Xmldecoder();
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 string[] args = Environment.GetCommandLineArgs();
+                //System.Threading.Thread.Sleep(5000);
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
-                //string url = "https://localhost:44395/api/Excelprinter/" + args[1];
+                //string url = "https://localhost:44395/api/Excelprinter/volunteersSession;volunteersHeader";
                 string url = keyValuePairs.GetValue("Excelprinterlink") + args[1];
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
                 string path = richTextBox1.Text;

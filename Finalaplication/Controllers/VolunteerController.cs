@@ -861,10 +861,17 @@ namespace Finalaplication.Controllers
                     {
                         if (volunteer.InActivity == false)
                         {
+                            try
+                            {
                             Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                             volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                             volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                             volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
+                            }
+                            catch
+                            {
+                              
+                            }
                         }
                         var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
                         var update = Builders<Volunteer>.Update
