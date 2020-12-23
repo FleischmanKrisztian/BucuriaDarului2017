@@ -859,20 +859,27 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
-                        if (volunteer.InActivity == false)
+                        bool wasactive = false;
+
+                        if (volunteer.InActivity == true)
                         {
-                            try
-                            {
+                            wasactive = true;
+                        }
+                        if (volunteer.InActivity == false && wasactive == true)
+                        {
                             Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                             volunteer.Activedates = volunteer.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                             volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                             volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
-                            }
-                            catch
-                            {
-                              
-                            }
                         }
+                        if (volunteer.InActivity == true && wasactive == false)
+                        {
+                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                            volunteer.Activedates = volunteer.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                            volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
+                            volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
+                        }
+                        
                         var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
                         var update = Builders<Volunteer>.Update
                             .Set("InActivity", volunteer.InActivity)
