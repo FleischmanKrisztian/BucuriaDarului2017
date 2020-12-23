@@ -1,7 +1,7 @@
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
+FROM microsoft/dotnet:3.0-aspnetcore-runtime AS base
 WORKDIR /app
 
-FROM microsoft/dotnet:2.2-sdk AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
 WORKDIR /src
 COPY ["Finalaplication.csproj", "Finalaplication/"]
 RUN dotnet restore "Finalaplication/Finalaplication.csproj"
