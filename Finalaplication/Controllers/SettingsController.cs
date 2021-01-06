@@ -49,8 +49,13 @@ namespace Finalaplication.Controllers
             Response.Cookies.Append(
           CookieRequestCultureProvider.DefaultCookieName,
           CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
-          new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+          new CookieOptions { 
+              Expires = DateTimeOffset.UtcNow.AddYears(1),
+              IsEssential = true,
+              SameSite = SameSiteMode.Lax }
       );
+
+
             settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
             return RedirectToAction("Index", "Home");
         }
@@ -86,7 +91,7 @@ namespace Finalaplication.Controllers
             {
                 Settings set = new Settings
                 {
-                    Lang = "en",
+                    Lang = "ro",
                     Quantity = 10,
                     Env = "offline"
                 };
