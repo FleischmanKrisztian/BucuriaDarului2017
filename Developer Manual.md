@@ -100,5 +100,5 @@ NOTE:
 NOTE:
 > HTTP not HTTPS!!!
 
-docker run -it -p 8080:80 --link mymongo:bucuriadarului -e volmongo_databasename=BucuriaDarului -e volmongo_databasename2=BucuriaDaruluiOffline -e volmongo_port2=27017 -e volmongo_server="mongodb+srv://Krisztian:rock44ever@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority" -e volmongo_server2=172.27.98.187 -d --name BucuriaDarului bucuriadarului
+docker run -it --rm -p 8080:80 --link mymongo:bucuriadarului -e volmongo_databasename=BucuriaDarului -e volmongo_databasename2=BucuriaDaruluiOffline -e volmongo_port2=27017 -e volmongo_server="mongodb+srv://Krisztian:rock44ever@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority" -e volmongo_server2=172.27.106.111 -d --name BucuriaDarului bucuriadarului
 

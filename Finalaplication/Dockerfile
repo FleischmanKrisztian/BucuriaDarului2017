@@ -1,17 +1,23 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS base
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /src
+COPY ["Finalaplication.csproj", "Finalaplication/"]
+RUN dotnet restore "Finalaplication/Finalaplication.csproj"
 
-# Copy everything else and build
+WORKDIR "/src/Finalaplication"
 COPY . ./
-RUN dotnet publish -c Release -o out
+COPY Controllers/* /app/Controllers/
+COPY Resources/* /app/Resources/
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1
+COPY Properties appsettings.json Program.cs Startup.cs web.config /app/
+RUN dotnet build "Finalaplication.csproj" -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish "Finalaplication.csproj" -c Release -o /app
+
+FROM base AS final
 WORKDIR /app
-EXPOSE 80
-COPY --from=build-env /app/out .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Finalaplication.dll"]
