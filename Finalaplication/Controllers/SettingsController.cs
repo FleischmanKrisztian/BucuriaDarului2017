@@ -91,7 +91,7 @@ namespace Finalaplication.Controllers
             {
                 Settings set = new Settings
                 {
-                    Lang = "ro",
+                    Lang = "en",
                     Quantity = 10,
                     Env = "offline"
                 };
