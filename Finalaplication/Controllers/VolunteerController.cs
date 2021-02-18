@@ -14,11 +14,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using VolCommon;
-
 
 namespace Finalaplication.Controllers
 {
@@ -43,8 +41,6 @@ namespace Finalaplication.Controllers
             }
             catch { }
         }
-
-       
 
         public ActionResult FileUpload()
         {
@@ -121,7 +117,6 @@ namespace Finalaplication.Controllers
         public ActionResult Index(string lang, bool HasDrivingLicence, string searchingLastname, string searchedContact, string sortOrder, string searching, bool Active, bool HasCar, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, string gender, string searchedAddress, string searchedworkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
 
         {
-            
             try
             {
                 if (HasDrivingLicence == true)
@@ -525,7 +520,7 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            
+            string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
             HttpContext.Session.Remove("FirstSessionVolunteer");
             string key = "SecondSessionVolunteer";
             HttpContext.Session.SetString(key, ids);
@@ -536,13 +531,8 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
-           
             var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
             HttpContext.Session.Remove("SecondSessionVolunteer");
-            ControllerHelper c = new ControllerHelper();
-            Volunteer volunteer_test = new Volunteer();
-            Dictionary<int, string> headers = c.DictionaryFromType(volunteer_test);
-            string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
             string ids_and_options = IDS + "(((";
             if (All == true)
                 ids_and_options = ids_and_options + "0";

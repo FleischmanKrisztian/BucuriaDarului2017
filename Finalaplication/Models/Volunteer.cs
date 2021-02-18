@@ -1,8 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using VolCommon;
 
 namespace Finalaplication.Models
@@ -34,12 +32,6 @@ namespace Finalaplication.Models
             Year = 2019;*/
             Day = (Month - 1) * 30 + Day;
             return Day;
-        }
-        
-        public void MappHeader()
-        {
-            
-
         }
 
         public bool GetDayExpiration(DateTime date)
