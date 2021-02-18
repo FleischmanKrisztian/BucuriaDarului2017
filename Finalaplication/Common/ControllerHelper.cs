@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using VolCommon;
 
 namespace Finalaplication.Common
@@ -18,7 +19,49 @@ namespace Finalaplication.Common
             string message = tempDataDic.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT).ToString();
             viewBag.env = message;
         }
+        public static string PropertiesFromType(object atype)
+        {
+            /*if (atype == null) return new string[] { }; */
+            Type t = atype.GetType();
+            PropertyInfo[] props = t.GetProperties();
+            List<string> propNames = new List<string>();
+            foreach (PropertyInfo prp in props)
+            {
+                propNames.Add(prp.Name);
+            }
+            return propNames.ToString();
+        }
+        public  Dictionary<int, string> DictionaryFromType(object atype)
+        {
+            if (atype == null) return new Dictionary<int, string>();
+            Type t = atype.GetType();
+            PropertyInfo[] props = t.GetProperties();
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            if(atype != null)
+            {
+                int i = 0;
 
+                string all_property = PropertiesFromType(atype);
+                dict.Add(i, all_property);
+                foreach (PropertyInfo prp in props)
+            {
+                i=i+1;
+                    if (dict.ContainsKey(i) == true)
+                    {
+                        dict[i] = prp.Name;
+                    }
+                    else
+                    {
+                        dict.Add(i, prp.Name);
+                    }
+                    
+
+            }
+            }
+            return dict;
+        }
+
+        
         public static int getNumberOfItemPerPageFromSettings(ITempDataDictionary tempDataDic)
         {
             try
