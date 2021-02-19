@@ -66,7 +66,7 @@ http://<Ipofcontainer>:8080
 - This is achieved by:
 - checking images (**//   docker images   //**)
 - tagging your image (**//   docker tag <IDOFIMAGE> yourhubusername/yourrepository:latest   //**) 
-- Push the image (docker push yourhubusername/yourrepository   //**)
+- Push the image (**//   docker push yourhubusername/yourrepository   //**)
 9. To run the dockerhub image you have to use the following command:
 - **//   docker run -it --rm -p 8080:80 --link mymongo:krikysk8/bucuriadarului -e volmongo_databasename=BucuriaDarului -e volmongo_databasename2=BucuriaDaruluiOffline -e volmongo_port2=27017 -e volmongo_server="mongodb+srv://<username>:<password>@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority" -e volmongo_server2=172.17.0.2 -d --name BucuriaDarului krikysk8/bucuriadarului   //**
 >  NOTE1:The above command takes the repository from docker hub, NOT the image that is currently on the local computer
@@ -100,5 +100,5 @@ NOTE:
 NOTE:
 > HTTP not HTTPS!!!
 
-docker run -it --rm -p 8080:80 --link mymongo:bucuriadarului -e volmongo_databasename=BucuriaDarului -e volmongo_databasename2=BucuriaDaruluiOffline -e volmongo_port2=27017 -e volmongo_server="mongodb+srv://Krisztian:rock44ever@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority" -e volmongo_server2=172.27.106.111 -d --name BucuriaDarului bucuriadarului
+docker run -it --rm -p 8080:80 --link mymongo:bucuriadarului -e volmongo_databasename=BucuriaDarului -e volmongo_databasename2=BucuriaDaruluiOffline -e volmongo_port2=27017 -e volmongo_server="mongodb+srv://Krisztian:rock44ever@siemens-application-mtrya.mongodb.net/test?retryWrites=true&w=majority" -e volmongo_server2=172.17.0.2 -d --name BucuriaDarului bucuriadarului
 

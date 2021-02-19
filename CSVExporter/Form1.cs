@@ -76,7 +76,6 @@ namespace CSVExporter
                 Dictionary<string, string> keyValuePairs = StringtoCsv.Methods.Xmldecoder();
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
                 string[] args = Environment.GetCommandLineArgs();
-                //System.Threading.Thread.Sleep(5000);
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
                 //string url = "https://localhost:44395/api/Excelprinter/volunteersSession;volunteersHeader";
@@ -123,6 +122,11 @@ namespace CSVExporter
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

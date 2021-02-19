@@ -132,6 +132,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Csv Exporter";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

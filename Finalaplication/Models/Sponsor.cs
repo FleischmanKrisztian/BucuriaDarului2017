@@ -26,7 +26,7 @@ namespace Finalaplication.Models
             var firstday = now.AddDays(-1);
             var lastday = now.AddDays(10);
             var answer = false;
-            if (date >= firstday && date <= lastday)
+            if (date >= firstday && date <= lastday) // THIS IS GOING TO BREAK around dec 21 - Jan 1
             {
                 answer = true;
             }
