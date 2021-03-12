@@ -10,23 +10,23 @@ namespace Elm.Core.Parsers
     {
         #region private functions
 
-        private readonly char[] SeparatorChars = new char[]
+        private static readonly char[] SeparatorChars = new char[]
                                                         {
                                                             ';',
                                                             '!',
                                                             '\t'
                                                         };
 
-        private readonly char[] TrimChars = new char[]
+        private static readonly char[] TrimChars = new char[]
                                                    {
                                                        '"',
                                                        '\'',
                                                        ' '
                                                    };
 
-        private readonly string SEPARATOR = ";";
+        private static readonly string SEPARATOR = ";";
 
-        private char AutoDetectColumnSeparator(string line)
+        private static char AutoDetectColumnSeparator(string line)
         {
             Dictionary<char, int> sepCount = new Dictionary<char, int>(SeparatorChars.Length);
 
@@ -68,7 +68,7 @@ namespace Elm.Core.Parsers
             return SeparatorChars[0];
         }
 
-        public string[] GetHeader(string filename)
+        public static string[] GetHeader(string filename)
         {
             string firstLine;
             using (StreamReader sr = new StreamReader(filename))
@@ -80,7 +80,7 @@ namespace Elm.Core.Parsers
             return header;
         }
 
-        public string TypeOfExport(string[] header)
+        public static string TypeOfExport(string[] header)
         {
             string type = string.Empty;
             if (header.Count() >= 22 && header.Contains("Gender") == true)
@@ -102,7 +102,7 @@ namespace Elm.Core.Parsers
             return type;
         }
 
-        public List<string[]> ExtractDataFromFile(string filename)
+        public static List<string[]> ExtractDataFromFile(string filename)
         {
             List<string[]> list = new List<string[]>();
             RowsData = new List<string[]>();
@@ -161,20 +161,5 @@ namespace Elm.Core.Parsers
 
         #endregion private functions
 
-        #region public functions
-
-        public CSVImportParser(string filename)
-        {
-            try
-            {
-                this.RawData = this.ExtractDataFromFile(filename);
-            }
-            catch (Exception)
-            {
-                //ApplicationLogger.Logger.ErrorFormat("CSVImportParser function exit with message: {0}", ex.Message);
-            }
-        }
-
-        #endregion public functions
     }
 }

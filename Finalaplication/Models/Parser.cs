@@ -5,13 +5,13 @@ namespace Elm.Core.Parsers
 {
     public class Parser : IDisposable
     {
-        public List<string> HeaderData
+        public static List<string> HeaderData
         {
             get;
             set;
         }
 
-        public List<string[]> RowsData
+        public static List<string[]> RowsData
         {
             get;
             set;
@@ -31,12 +31,12 @@ namespace Elm.Core.Parsers
 
         public int GetNumberOfRows()
         {
-            return this.RowsData.Count;
+            return RowsData.Count;
         }
 
         public int GetNumberOfColumns()
         {
-            return this.HeaderData.Count;
+            return HeaderData.Count;
         }
 
         public string GetName()

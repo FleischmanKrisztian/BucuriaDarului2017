@@ -69,13 +69,12 @@ namespace Finalaplication.Controllers
                     return View();
                 }
 
-                CSVImportParser cSV = new CSVImportParser(path);
-                List<string[]> result = cSV.ExtractDataFromFile(path);
+                List<string[]> result = CSVImportParser.ExtractDataFromFile(path);
                 string duplicates = "";
                 int documentsimported = 0;
 
-                string[] myHeader = cSV.GetHeader(path);
-                string typeOfExport = cSV.TypeOfExport(myHeader);
+                string[] myHeader = CSVImportParser.GetHeader(path);
+                string typeOfExport = CSVImportParser.TypeOfExport(myHeader);
 
                 ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported, beneficiarycontractcollection);
                 string docsimported = "";

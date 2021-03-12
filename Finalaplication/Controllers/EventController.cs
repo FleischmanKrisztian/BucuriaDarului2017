@@ -9,6 +9,7 @@ using Microsoft.Extensions.Localization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using Finalaplication.ControllerHelpers.EventHelpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace Finalaplication.Controllers
             try
             {
                 dbcontext = new MongoDBContext();
+                
                 eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
@@ -37,7 +39,6 @@ namespace Finalaplication.Controllers
             catch { }
             _localizer = localizer;
         }
-
         public ActionResult FileUpload()
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -51,32 +52,26 @@ namespace Finalaplication.Controllers
             try
             {
                 string path = " ";
-
-                if (Files.Length > 0)
+                if (Functions.File_is_not_empty(Files))
                 {
-                    path = Path.Combine(
-                               Directory.GetCurrentDirectory(), "wwwroot",
-                               Files.FileName);
-
-                    using var stream = new FileStream(path, FileMode.Create);
-                    Files.CopyTo(stream);
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",Files.FileName);
+                    Functions.CreateFileStream(Files, path);
                 }
                 else
                 {
                     return View();
                 }
-                CSVImportParser cSV = new CSVImportParser(path);
-                List<string[]> result = cSV.ExtractDataFromFile(path);
+                List<string[]> result = CSVImportParser.ExtractDataFromFile(path);
 
                 Thread myNewThread = new Thread(() => ControllerHelper.GetEventsFromCsv(eventcollection, result));
                 myNewThread.Start();
 
                 myNewThread.Join();
 
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
+                FileInfo fileInfo = new FileInfo(path);
+                if (fileInfo.Exists)
                 {
-                    file.Delete();
+                    fileInfo.Delete();
                 }
                 return RedirectToAction("Index");
             }
