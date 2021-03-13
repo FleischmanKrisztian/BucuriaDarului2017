@@ -72,7 +72,7 @@ namespace Finalaplication.Controllers
                     return View();
                 }
 
-                List<string[]> result = CSVImportParser.ExtractDataFromFile(path);
+                List<string[]> result = CSVImportParser.GetListFromCSV(path);
                 string duplicates = "";
                 int documentsimported = 0;
                 string docsimported = string.Empty;

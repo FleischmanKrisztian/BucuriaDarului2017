@@ -64,7 +64,7 @@ namespace Finalaplication.Controllers
                 {
                     return View();
                 }
-                List<string[]> result = CSVImportParser.ExtractDataFromFile(path);
+                List<string[]> result = CSVImportParser.GetListFromCSV(path);
                 Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection, result));
                 myNewThread.Start();
                 myNewThread.Join();

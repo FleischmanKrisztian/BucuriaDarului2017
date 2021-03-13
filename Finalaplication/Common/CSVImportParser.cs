@@ -101,8 +101,7 @@ namespace Elm.Core.Parsers
             }
             return type;
         }
-
-        public static List<string[]> ExtractDataFromFile(string filename)
+        public static List<string[]> GetListFromCSV(string filename)
         {
             List<string[]> list = new List<string[]>();
             RowsData = new List<string[]>();
@@ -161,5 +160,8 @@ namespace Elm.Core.Parsers
 
         #endregion private functions
 
+        #region public functions
+
+        #endregion public functions
     }
 }

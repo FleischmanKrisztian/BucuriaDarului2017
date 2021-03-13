@@ -2,7 +2,6 @@
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -13,26 +12,25 @@ using Finalaplication.ControllerHelpers.EventHelpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseHandler;
+using EventManager = Finalaplication.DatabaseHandler.EventManager;
 
 namespace Finalaplication.Controllers
 {
     public class EventController : Controller
     {
-        private MongoDBContext dbcontext;
-        private IMongoCollection<Event> eventcollection;
+        private MongoDBContext dbcontext = new MongoDBContext();
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private readonly IStringLocalizer<EventController> _localizer;
+        EventManager eventManager = new EventManager();
 
         public EventController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<EventController> localizer)
         {
             try
             {
-                dbcontext = new MongoDBContext();
-                
-                eventcollection = dbcontext.database.GetCollection<Event>("Events");
                 vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
             }
@@ -52,27 +50,22 @@ namespace Finalaplication.Controllers
             try
             {
                 string path = " ";
-                if (Functions.File_is_not_empty(Files))
+                if (UniversalFunctions.File_is_not_empty(Files))
                 {
                     path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",Files.FileName);
-                    Functions.CreateFileStream(Files, path);
+                    UniversalFunctions.CreateFileStream(Files, path);
                 }
                 else
                 {
                     return View();
                 }
-                List<string[]> result = CSVImportParser.ExtractDataFromFile(path);
-
-                Thread myNewThread = new Thread(() => ControllerHelper.GetEventsFromCsv(eventcollection, result));
-                myNewThread.Start();
-
-                myNewThread.Join();
-
-                FileInfo fileInfo = new FileInfo(path);
-                if (fileInfo.Exists)
+                List<string[]> Events = CSVImportParser.GetListFromCSV(path);
+                for (int i = 0; i<Events.Count; i++)
                 {
-                    fileInfo.Delete();
+                    Event ev = EventFunctions.GetEventFromString(Events[i]);
+                    eventManager.AddEventToDB(ev);
                 }
+                UniversalFunctions.RemoveTempFile(path);
                 return RedirectToAction("Index");
             }
             catch
@@ -103,7 +96,7 @@ namespace Finalaplication.Controllers
                 if (upperdate != date)
                 { ViewBag.Filter8 = upperdate.ToString(); }
 
-                List<Event> events = eventcollection.AsQueryable().ToList();
+                List<Event> events = eventManager.GetListOfEvents();
 
                 ViewBag.searching = searching;
                 ViewBag.Activity = searchingActivity;
@@ -295,7 +288,7 @@ namespace Finalaplication.Controllers
                 volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
 
-                List<Event> events = eventcollection.AsQueryable<Event>().ToList();
+                List<Event> events = eventManager.GetListOfEvents();
                 var names = events.Find(b => b.EventID.ToString() == id);
                 names.AllocatedVolunteers += " / ";
                 ViewBag.strname = names.AllocatedVolunteers.ToString();
@@ -333,10 +326,10 @@ namespace Finalaplication.Controllers
 
                         volname = volname + volunteer.Firstname + " " + volunteer.Lastname + " / ";
                         var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
-                        var update = Builders<Event>.Update
+                        var eventtoupdate = Builders<Event>.Update
                             .Set("AllocatedVolunteers", volname);
 
-                        var result = eventcollection.UpdateOne(filter, update);
+                        eventManager.UpdateAnEvent(filter, eventtoupdate);
                     }
                     return RedirectToAction("Index");
                 }
@@ -375,7 +368,7 @@ namespace Finalaplication.Controllers
                 sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
                 sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
 
-                List<Event> events = eventcollection.AsQueryable<Event>().ToList();
+                List<Event> events = eventManager.GetListOfEvents();
                 var names = events.Find(b => b.EventID.ToString() == id);
                 names.AllocatedSponsors += " ";
                 ViewBag.strname = names.AllocatedSponsors.ToString();
@@ -413,10 +406,10 @@ namespace Finalaplication.Controllers
 
                         sponsname = sponsname + " " + sponsor.NameOfSponsor;
                         var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
-                        var update = Builders<Event>.Update
+                        var eventtoupdate = Builders<Event>.Update
                             .Set("AllocatedSponsors", sponsname);
 
-                        var result = eventcollection.UpdateOne(filter, update);
+                        eventManager.UpdateAnEvent(filter, eventtoupdate);
                     }
                     return RedirectToAction("Index");
                 }
@@ -437,8 +430,8 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
-                return View(eventt);
+                Event detailedevent = eventManager.GetOneEvent(id);
+                return View(detailedevent);
             }
             catch
             {
@@ -481,7 +474,7 @@ namespace Finalaplication.Controllers
                     if (ModelState.IsValid)
                     {
                         eventt.DateOfEvent = eventt.DateOfEvent.AddHours(5);
-                        eventcollection.InsertOne(eventt);
+                        eventManager.AddEventToDB(eventt);
                         return RedirectToAction("Index");
                     }
                     else
@@ -507,8 +500,8 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
-                Event originalsavedevent = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
+                Event eventt = eventManager.GetOneEvent(id);
+                Event originalsavedevent = eventt;
                 ViewBag.originalsavedevent = JsonConvert.SerializeObject(originalsavedevent);
                 ViewBag.id = id;
                 return View(eventt);
@@ -535,7 +528,7 @@ namespace Finalaplication.Controllers
                 Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(Originalsavedeventstring);
                 try
                 {
-                    Event currentsavedevent = eventcollection.Find(x => x.EventID == id).Single();
+                    Event currentsavedevent = eventManager.GetOneEvent(id);
                     if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedevent)))
                     {
                         ModelState.Remove("NumberOfVolunteersNeeded");
@@ -554,7 +547,7 @@ namespace Finalaplication.Controllers
                             .Set("Duration", eventt.Duration)
                             ;
 
-                            var result = eventcollection.UpdateOne(filter, update);
+                            eventManager.UpdateAnEvent(filter, update);
                             return RedirectToAction("Index");
                         }
                         else
@@ -586,7 +579,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventt = eventcollection.AsQueryable<Event>().SingleOrDefault(x => x.EventID == id);
+                var eventt = eventManager.GetOneEvent(id);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View(eventt);
             }
@@ -605,7 +598,7 @@ namespace Finalaplication.Controllers
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 try
                 {
-                    eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id)));
+                    eventManager.DeleteAnEvent(id);
                     return RedirectToAction("Index");
                 }
                 catch
