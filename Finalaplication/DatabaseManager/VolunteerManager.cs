@@ -27,7 +27,8 @@ namespace Finalaplication.DatabaseHandler
         internal Volunteer GetOneVolunteer(string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-            Volunteer volunteer = volunteercollection.AsQueryable().First();
+            var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+            Volunteer volunteer = volunteercollection.Find(filter).FirstOrDefault();
             return volunteer;
         }
         internal List<Volunteer> GetListOfVolunteers()

@@ -88,9 +88,6 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filter7 = lowerdate.ToString(); }
                 if (upperdate != date)
                 { ViewBag.Filter8 = upperdate.ToString(); }
-
-                List<Event> events = eventManager.GetListOfEvents();
-
                 ViewBag.searching = searching;
                 ViewBag.Activity = searchingActivity;
                 ViewBag.Place = searchingPlace;
@@ -100,91 +97,21 @@ namespace Finalaplication.Controllers
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 if (page > 0)
                     ViewBag.Page = page;
                 else
                     ViewBag.Page = 1;
-
-                if (searching != null)
-                {
-                    events = events.Where(x => x.NameOfEvent.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingPlace != null)
-                {
-                    List<Event> ev = events;
-                    foreach (var e in ev)
-                    {
-                        if (e.PlaceOfEvent == null || e.PlaceOfEvent == "")
-                        { e.PlaceOfEvent = "-"; }
-                    }
-                    events = ev.Where(x => x.PlaceOfEvent.Contains(searchingPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingActivity != null)
-                {
-                    List<Event> ev = events;
-                    foreach (var e in ev)
-                    {
-                        if (e.TypeOfActivities == null || e.TypeOfActivities == "")
-                        { e.TypeOfActivities = "-"; }
-                    }
-                    events = ev.Where(x => x.TypeOfActivities.Contains(searchingActivity, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingType != null)
-                {
-                    List<Event> ev = events;
-                    foreach (var e in ev)
-                    {
-                        if (e.TypeOfEvent == null || e.TypeOfEvent == "")
-                        { e.TypeOfEvent = "-"; }
-                    }
-                    events = ev.Where(x => x.TypeOfEvent.Contains(searchingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingVolunteers != null)
-                {
-                    List<Event> ev = events;
-                    foreach (var e in ev)
-                    {
-                        if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
-                        { e.AllocatedVolunteers = "-"; }
-                    }
-                    events = ev.Where(x => x.AllocatedVolunteers.Contains(searchingVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingSponsor != null)
-                {
-                    List<Event> ev = events;
-                    foreach (var e in ev)
-                    {
-                        if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
-                        { e.AllocatedSponsors = "-"; }
-                    }
-                    events = ev.Where(x => x.AllocatedSponsors.Contains(searchingSponsor, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                DateTime d1 = new DateTime(0003, 1, 1);
-                if (lowerdate > d1)
-                {
-                    events = events.Where(x => x.DateOfEvent > lowerdate).ToList();
-                }
-                if (upperdate > d1)
-                {
-                    events = events.Where(x => x.DateOfEvent <= upperdate).ToList();
-                }
-
+                List<Event> events = eventManager.GetListOfEvents();
+                events = EventFunctions.GetEventsAfterFilters(events, searching, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
                 ViewBag.counter = events.Count();
-
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
-                string stringofids = "events";
-                foreach (Event eve in events)
-                {
-                    stringofids = stringofids + "," + eve.EventID;
-                }
+                string stringofids = EventFunctions.GetStringOfIds(events);
                 ViewBag.stringofids = stringofids;
-                events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                events = events.AsQueryable().Take(nrofdocs).ToList();
-
-                string key = "FirstSessionEvent";
+                events = EventFunctions.GetEventsAfterPaging(events, page, nrofdocs);
+                string key = VolMongoConstants.SESSION_KEY;
                 HttpContext.Session.SetString(key, stringofids);
-                //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
+
                 return View(events);
             }
             catch
@@ -196,9 +123,9 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString("FirstSessionEvent");
-            HttpContext.Session.Remove("FirstSessionEvent");
-            string key = "SecondSessionEvent";
+            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY);
+            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY);
+            string key = VolMongoConstants.SECONDARY_SESSION_KEY;
             HttpContext.Session.SetString(key, ids);
 
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -208,40 +135,21 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
-            var IDS = HttpContext.Session.GetString("SecondSessionEvent");
-            HttpContext.Session.Remove("SecondSessionEvent");
-            string ids_and_options = IDS + "(((";
-            if (All == true)
-                ids_and_options += "0";
-            if (NameOfEvent == true)
-                ids_and_options += "1";
-            if (PlaceOfEvent == true)
-                ids_and_options += "2";
-            if (DateOfEvent == true)
-                ids_and_options += "3";
-            if (TypeOfActivities == true)
-                ids_and_options += "4";
-            if (TypeOfEvent == true)
-                ids_and_options += "5";
-            if (Duration == true)
-                ids_and_options += "6";
-            if (AllocatedVolunteers == true)
-                ids_and_options += "7";
-            if (AllocatedSponsors == true)
-                ids_and_options += "8";
-
-            string key1 = "eventSession";
+            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY);
+            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY);
+            string ids_and_fields = EventFunctions.GetIdAndFieldString(IDS, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities);
+            string key1 = VolMongoConstants.EVENTSESSION;
             ControllerHelper helper = new ControllerHelper();
             string header = helper.GetHeaderForExcelPrinterEvent(_localizer);
-            string key2 = "eventHeader";
+            string key2 = VolMongoConstants.EVENTHEADER;
 
             if (DictionaryHelper.d.ContainsKey(key1) == true)
             {
-                DictionaryHelper.d[key1] = ids_and_options;
+                DictionaryHelper.d[key1] = ids_and_fields;
             }
             else
             {
-                DictionaryHelper.d.Add(key1, ids_and_options);
+                DictionaryHelper.d.Add(key1, ids_and_fields);
             }
             if (DictionaryHelper.d.ContainsKey(key2) == true)
             {
@@ -260,7 +168,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 if (page > 0)
                     ViewBag.Page = page;
                 else
@@ -341,7 +249,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 if (page > 0)
                     ViewBag.Page = page;
                 else

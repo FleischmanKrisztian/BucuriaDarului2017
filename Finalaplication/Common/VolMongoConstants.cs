@@ -19,5 +19,10 @@
         public const int DEFAULT_NUMBER_OF_ITEMS_PER_PAGE = 15;
 
         public const string CONNECTION_LANGUAGE = "Language";
+
+        public static string SESSION_KEY = "FirstSessionEvent";
+        public static string SECONDARY_SESSION_KEY = "SecondSessionEvent";
+        public static string EVENTSESSION = "eventSession";
+        public static string EVENTHEADER = "eventHeader";
     }
 }

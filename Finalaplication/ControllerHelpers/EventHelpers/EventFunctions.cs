@@ -40,5 +40,123 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             newevent.AllocatedSponsors = eventstring[8];
             return newevent;
         }
+
+        internal static List <Event> GetEventsAfterFilters(List<Event> events, string searching, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        {
+            if (searching != null)
+            {
+                events = events.Where(x => x.NameOfEvent.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (searchingPlace != null)
+            {
+                List<Event> ev = events;
+                foreach (var e in ev)
+                {
+                    if (e.PlaceOfEvent == null || e.PlaceOfEvent == "")
+                    { e.PlaceOfEvent = "-"; }
+                }
+                events = ev.Where(x => x.PlaceOfEvent.Contains(searchingPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (searchingActivity != null)
+            {
+                List<Event> ev = events;
+                foreach (var e in ev)
+                {
+                    if (e.TypeOfActivities == null || e.TypeOfActivities == "")
+                    { e.TypeOfActivities = "-"; }
+                }
+                events = ev.Where(x => x.TypeOfActivities.Contains(searchingActivity, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (searchingType != null)
+            {
+                List<Event> ev = events;
+                foreach (var e in ev)
+                {
+                    if (e.TypeOfEvent == null || e.TypeOfEvent == "")
+                    { e.TypeOfEvent = "-"; }
+                }
+                events = ev.Where(x => x.TypeOfEvent.Contains(searchingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (searchingVolunteers != null)
+            {
+                List<Event> ev = events;
+                foreach (var e in ev)
+                {
+                    if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
+                    { e.AllocatedVolunteers = "-"; }
+                }
+                events = ev.Where(x => x.AllocatedVolunteers.Contains(searchingVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (searchingSponsor != null)
+            {
+                List<Event> ev = events;
+                foreach (var e in ev)
+                {
+                    if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
+                    { e.AllocatedSponsors = "-"; }
+                }
+                events = ev.Where(x => x.AllocatedSponsors.Contains(searchingSponsor, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (Dateinputreceived(lowerdate))
+            {
+                events = events.Where(x => x.DateOfEvent > lowerdate).ToList();
+            }
+            if (Dateinputreceived(upperdate))
+            {
+                events = events.Where(x => x.DateOfEvent <= upperdate).ToList();
+            }
+            return events;
+        }
+
+        //We have to check whether or not the user input any date, because even if they didn't the controller still receives the minimum date
+        private static bool Dateinputreceived(DateTime date)
+        {
+            DateTime comparisondate = new DateTime(0003, 1, 1);
+            if (date > comparisondate)
+                return true;
+            else
+                return false;
+        }
+
+        internal static List<Event> GetEventsAfterPaging(List<Event> events, int page, int nrofdocs)
+        {
+            events = events.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
+            events = events.AsQueryable().Take(nrofdocs).ToList();
+            return events;
+        }
+
+        internal static string GetStringOfIds(List<Event> events)
+        {
+            string stringofids = "events";
+            foreach (Event eve in events)
+            {
+                stringofids = stringofids + "," + eve.EventID;
+            }
+            return stringofids;
+        }
+
+        internal static string GetIdAndFieldString(string IDS, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities
+        {
+            string ids_and_options = IDS + "(((";
+            if (All)
+                ids_and_options += "0";
+            if (NameOfEvent)
+                ids_and_options += "1";
+            if (PlaceOfEvent)
+                ids_and_options += "2";
+            if (DateOfEvent)
+                ids_and_options += "3";
+            if (TypeOfActivities)
+                ids_and_options += "4";
+            if (TypeOfEvent)
+                ids_and_options += "5";
+            if (Duration)
+                ids_and_options += "6";
+            if (AllocatedVolunteers)
+                ids_and_options += "7";
+            if (AllocatedSponsors)
+                ids_and_options += "8";
+            return ids_and_options;
+        }
     }
 }

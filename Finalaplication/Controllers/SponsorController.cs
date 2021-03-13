@@ -65,9 +65,6 @@ namespace Finalaplication.Controllers
                     return View();
                 }
                 List<string[]> result = CSVImportParser.GetListFromCSV(path);
-                Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection, result));
-                myNewThread.Start();
-                myNewThread.Join();
 
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)

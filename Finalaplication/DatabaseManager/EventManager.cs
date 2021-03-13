@@ -27,7 +27,8 @@ namespace Finalaplication.DatabaseHandler
         internal Event GetOneEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dbcontext.database.GetCollection<Event>("Events");
-            Event returnevent = eventcollection.AsQueryable().First();
+            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+            Event returnevent = eventcollection.Find(filter).FirstOrDefault();
             return returnevent;
         }
         internal List<Event> GetListOfEvents()

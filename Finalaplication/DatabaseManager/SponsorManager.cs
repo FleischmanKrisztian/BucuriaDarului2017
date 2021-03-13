@@ -27,7 +27,8 @@ namespace Finalaplication.DatabaseHandler
         internal Sponsor GetOneSponsor(string id)
         {
             IMongoCollection<Sponsor> Sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-            Sponsor returnSponsor = Sponsorcollection.AsQueryable().First();
+            var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
+            Sponsor returnSponsor = Sponsorcollection.Find(filter).FirstOrDefault();
             return returnSponsor;
         }
         internal List<Sponsor> GetListOfSponsors()
