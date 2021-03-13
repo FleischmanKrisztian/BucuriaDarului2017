@@ -158,5 +158,25 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
                 ids_and_options += "8";
             return ids_and_options;
         }
+
+        internal static string GetAllocatedVolunteersString(List<Event> events, string id)
+        {
+            Event returnedevent = events.Find(b => b.EventID.ToString() == id);
+            returnedevent.AllocatedVolunteers += " / ";
+            return returnedevent.AllocatedVolunteers;
+        }
+
+        internal static string GetNameOfEvent(List<Event> events, string id)
+        {
+            Event returnedevent = events.Find(b => b.EventID.ToString() == id);
+            return returnedevent.NameOfEvent;
+        }
+
+        internal static dynamic GetAllocatedSponsorsString(List<Event> events, string id)
+        {
+            Event returnedevent = events.Find(b => b.EventID.ToString() == id);
+            returnedevent.AllocatedSponsors += " / ";
+            return returnedevent.AllocatedSponsors;
+        }
     }
 }

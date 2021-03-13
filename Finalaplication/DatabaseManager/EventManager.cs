@@ -38,10 +38,11 @@ namespace Finalaplication.DatabaseHandler
             return events;
         }
 
-        internal void UpdateAnEvent(FilterDefinition<Event> filter, UpdateDefinition<Event> eventtoupdate)
+        internal void UpdateAnEvent(Event eventtoupdate)
         {
             IMongoCollection<Event> eventcollection = dbcontext.database.GetCollection<Event>("Events");
-            eventcollection.UpdateOne(filter, eventtoupdate);
+            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(eventtoupdate.EventID));
+            eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
 
         internal void DeleteAnEvent(string id)

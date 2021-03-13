@@ -111,5 +111,16 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.DefaultThreadCurrentCulture);
             return date;
         }
+
+        internal static int GetCurrentPage(int page)
+        {
+            if (page > 0)
+                return page;
+            else
+            {
+                page = 1;
+                return page;
+            }    
+        }
     }
 }
