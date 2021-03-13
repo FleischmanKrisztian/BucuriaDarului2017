@@ -9,7 +9,6 @@ namespace Finalaplication.DatabaseHandler
 {
     public class EventManager
     {
-        //TODO the whole DB context should be here the controller
         private MongoDBContext dbcontext = new MongoDBContext();
         
         internal void AddEventToDB(Event ev)

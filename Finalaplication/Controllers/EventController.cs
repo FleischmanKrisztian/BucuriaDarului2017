@@ -21,20 +21,13 @@ namespace Finalaplication.Controllers
 {
     public class EventController : Controller
     {
-        private MongoDBContext dbcontext = new MongoDBContext();
-        private IMongoCollection<Volunteer> vollunteercollection;
-        private IMongoCollection<Sponsor> sponsorcollection;
         private readonly IStringLocalizer<EventController> _localizer;
         EventManager eventManager = new EventManager();
+        VolunteerManager volunteerManager = new VolunteerManager();
+        SponsorManager sponsorManager = new SponsorManager();
 
         public EventController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<EventController> localizer)
         {
-            try
-            {
-                vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-                sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-            }
-            catch { }
             _localizer = localizer;
         }
         public ActionResult FileUpload()
@@ -274,7 +267,7 @@ namespace Finalaplication.Controllers
                     ViewBag.Page = 1;
 
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
 
                 ViewBag.counter = volunteers.Count();
 
@@ -321,8 +314,8 @@ namespace Finalaplication.Controllers
                     string volname = "";
                     for (int i = 0; i < vols.Length; i++)
                     {
-                        var volunteerId = new ObjectId(vols[i]);
-                        var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == volunteerId.ToString());
+                        var id = vols[i];
+                        var volunteer = volunteerManager.GetOneVolunteer(id);
 
                         volname = volname + volunteer.Firstname + " " + volunteer.Lastname + " / ";
                         var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
@@ -354,7 +347,7 @@ namespace Finalaplication.Controllers
                 else
                     ViewBag.Page = 1;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
 
                 ViewBag.counter = sponsors.Count();
 
@@ -401,8 +394,8 @@ namespace Finalaplication.Controllers
                     string sponsname = "";
                     for (int i = 0; i < spons.Length; i++)
                     {
-                        var sponsorId = new ObjectId(spons[i]);
-                        var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == sponsorId.ToString());
+                        var id = spons[i];
+                        var sponsor = sponsorManager.GetOneSponsor(id);
 
                         sponsname = sponsname + " " + sponsor.NameOfSponsor;
                         var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(Evid));
