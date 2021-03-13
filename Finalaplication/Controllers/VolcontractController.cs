@@ -1,5 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -31,7 +32,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable().ToList();
                 Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);

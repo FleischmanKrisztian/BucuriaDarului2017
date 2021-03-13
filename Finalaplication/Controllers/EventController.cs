@@ -139,28 +139,10 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY);
             string ids_and_fields = EventFunctions.GetIdAndFieldString(IDS, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities);
             string key1 = VolMongoConstants.EVENTSESSION;
-            ControllerHelper helper = new ControllerHelper();
-            string header = helper.GetHeaderForExcelPrinterEvent(_localizer);
+            string header = ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
             string key2 = VolMongoConstants.EVENTHEADER;
-
-            if (DictionaryHelper.d.ContainsKey(key1) == true)
-            {
-                DictionaryHelper.d[key1] = ids_and_fields;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key1, ids_and_fields);
-            }
-            if (DictionaryHelper.d.ContainsKey(key2) == true)
-            {
-                DictionaryHelper.d[key2] = header;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key2, header);
-            }
+            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
             string ids_and_optionssecond = "csvexporterapp:" + key1 + ";" + key2;
-
             return Redirect(ids_and_optionssecond);
         }
 

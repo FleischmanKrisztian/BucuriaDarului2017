@@ -37,18 +37,11 @@ namespace Finalaplication.Controllers
             DictionaryHelper.d.TryGetValue(key1, out ids_);
             DictionaryHelper.d.TryGetValue(key2, out header);
 
-            //if (ids_ != null)
-            //{
-            //    DictionaryHelper.d.Remove(key1);
-            //}
-            //if (header != null)
-            //{
-            //    DictionaryHelper.d.Remove(key2);
-            //}
-            ControllerHelper helper = new ControllerHelper();
             string[] finalHeader = new string[45];
             if (header != null)
-            { finalHeader = helper.SplitedHeader(header); }
+            { 
+                finalHeader = ControllerHelper.SplitedHeader(header); 
+            }
 
             string jsonstring = "";
 
@@ -96,7 +89,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + helper.GetAnswer(finalHeader[5], sponsor.Contract.HasContract) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[5], sponsor.Contract.HasContract) + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -195,7 +188,7 @@ namespace Finalaplication.Controllers
                                 jsonstring = jsonstring + ",";
                             }
 
-                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + helper.GetAnswer(finalHeader[1], beneficiary.Active) + "\""; ;
+                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[1], beneficiary.Active) + "\""; ;
                             first = false;
                         }
 
@@ -206,7 +199,7 @@ namespace Finalaplication.Controllers
                                 jsonstring = jsonstring + ",";
                             }
 
-                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + helper.GetAnswer(finalHeader[2], beneficiary.Canteen) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[2], beneficiary.Canteen) + "\"";
                             first = false;
                         }
                         if (properties.Contains("Z"))
@@ -215,7 +208,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[34] + "\":" + "\"" + helper.GetAnswer(finalHeader[34], beneficiary.Weeklypackage) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[34] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[34], beneficiary.Weeklypackage) + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -224,7 +217,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + helper.GetAnswer(finalHeader[3], beneficiary.HomeDelivery) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[3], beneficiary.HomeDelivery) + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
@@ -242,7 +235,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + helper.GetAnswer(finalHeader[5], beneficiary.HasGDPRAgreement) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[5], beneficiary.HasGDPRAgreement) + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -416,7 +409,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[25] + "\":" + "\"" + helper.GetAnswer(finalHeader[25], beneficiary.PersonalInfo.HealthInsurance) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[25] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[25], beneficiary.PersonalInfo.HealthInsurance) + "\"";
                             first = false;
                         }
                         if (properties.Contains("P"))
@@ -425,7 +418,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[26] + "\":" + "\"" + helper.GetAnswer(finalHeader[26], beneficiary.PersonalInfo.HealthCard) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[26] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[26], beneficiary.PersonalInfo.HealthCard) + "\"";
                             first = false;
                         }
                         if (properties.Contains("Q"))
@@ -452,7 +445,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[29] + "\":" + "\"" + helper.GetAnswer(finalHeader[29], beneficiary.PersonalInfo.HasHome) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[29] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[29], beneficiary.PersonalInfo.HasHome) + "\"";
                             first = false;
                         }
                         if (properties.Contains("T"))
@@ -617,7 +610,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[9] + "\":" + "\"" + helper.GetAnswer(finalHeader[9], volunteer.InActivity) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[9] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[9], volunteer.InActivity) + "\"";
                             first = false;
                         }
                         if (properties.Contains("B"))
@@ -646,9 +639,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[22] + "\":" + "\"" + helper.GetAnswer(finalHeader[22], volunteer.Additionalinfo.HasDrivingLicence) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[22] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[22], volunteer.Additionalinfo.HasDrivingLicence) + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + helper.GetAnswer(finalHeader[23], volunteer.Additionalinfo.HasCar) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[23], volunteer.Additionalinfo.HasCar) + "\"";
                             jsonstring = jsonstring + ",";
                             jsonstring = jsonstring + "\"" + finalHeader[24] + "\":" + "\"" + volunteer.Additionalinfo.Remark + "\"";
 

@@ -135,7 +135,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             return stringofids;
         }
 
-        internal static string GetIdAndFieldString(string IDS, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities
+        internal static string GetIdAndFieldString(string IDS, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
             string ids_and_options = IDS + "(((";
             if (All)

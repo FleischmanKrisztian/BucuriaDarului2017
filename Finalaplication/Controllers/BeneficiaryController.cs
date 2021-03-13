@@ -1,6 +1,7 @@
 ﻿using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -293,7 +294,7 @@ namespace Finalaplication.Controllers
                     string ids_to_remove = "";
                     foreach (Beneficiary vol in beneficiaries)
                     {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -305,7 +306,7 @@ namespace Finalaplication.Controllers
                         }
                         if (!passed)
                         {
-                            ids_to_remove = ids_to_remove + "," + ControllerHelper.Datereturner(vol.Activedates);
+                            ids_to_remove = ids_to_remove + "," + UniversalFunctions.Datereturner(vol.Activedates);
                         }
                     }
                     List<string> ids = ids_to_remove.Split(',').ToList();
@@ -321,7 +322,7 @@ namespace Finalaplication.Controllers
                     string ids_to_remove = "";
                     foreach (Beneficiary vol in beneficiaries)
                     {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -350,7 +351,7 @@ namespace Finalaplication.Controllers
 
                     foreach (Beneficiary vol in beneficiaries)
                     {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -614,7 +615,7 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.counter = beneficiaries.Count();
 
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 string stringofids = "beneficiaries";
                 foreach (Beneficiary ben in beneficiaries)
                 {
@@ -724,9 +725,8 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "W";
             if (WeeklyPackage == true)
                 ids_and_options = ids_and_options + "Z";
-            ControllerHelper helper = new ControllerHelper();
 
-            string header = helper.GetHeaderForExcelPrinterBeneficiary(_localizer);
+            string header = ControllerHelper.GetHeaderForExcelPrinterBeneficiary(_localizer);
 
             string key2 = "beneficiariesHeader";
             string key = "beneficiariesSession";

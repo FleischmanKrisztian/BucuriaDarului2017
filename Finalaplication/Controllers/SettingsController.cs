@@ -25,7 +25,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }

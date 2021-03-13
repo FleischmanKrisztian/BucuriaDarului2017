@@ -13,7 +13,8 @@ namespace Finalaplication.Common
 {
     public class ControllerHelper
     {
-        public string[] SplitedHeader(string header)
+        //So intreb pe Corina ce se intampla pe aici ca nu prea inteleg.
+        public static string[] SplitedHeader(string header)
         {
             string[] splitedHeader = header.Split(",");
             int s = splitedHeader.Count();
@@ -28,7 +29,7 @@ namespace Finalaplication.Common
             }
         }
 
-        public string GetAnswer(string finalHeader, bool toBeCompared)
+        public static string GetAnswer(string finalHeader, bool toBeCompared)
         {
             string result = string.Empty;
             if (finalHeader.ToString() == "Activ" || finalHeader.Contains("are") == true || finalHeader.Contains("Are") == true || finalHeader.Contains("Cantină") == true || finalHeader.Contains("Pachet") == true || finalHeader.Contains("Fără") == true || finalHeader.Contains("Livrare") == true || finalHeader.Contains("Mașină") == true)
@@ -48,7 +49,7 @@ namespace Finalaplication.Common
             return result;
         }
 
-        public string GetHeaderForExcelPrinterVolunteer(IStringLocalizer<VolunteerController> _localizer)
+        public static string GetHeaderForExcelPrinterVolunteer(IStringLocalizer<VolunteerController> _localizer)
         {
             string[] header = new string[25];
             header[0] = _localizer["Firstname"];
@@ -69,14 +70,12 @@ namespace Finalaplication.Common
             header[15] = _localizer["City"];
             header[16] = _localizer["Street"];
             header[17] = _localizer["Number"];
-
             header[18] = _localizer["CISeria"];
             header[19] = _localizer["CINr"];
             header[20] = _localizer["CIEliberat"];
             header[21] = _localizer["CIeliberator"];
             header[20] = _localizer["Phonenumber"];
             header[21] = _localizer["Emailaddress"];
-
             header[22] = _localizer["Hasdrivinglicense"];
             header[23] = _localizer["Hascar"];
             header[24] = _localizer["Remarks"];
@@ -92,7 +91,7 @@ namespace Finalaplication.Common
             return result;
         }
 
-        public string GetHeaderForExcelPrinterEvent(IStringLocalizer<EventController> _localizer)
+        public static string GetHeaderForExcelPrinterEvent(IStringLocalizer<EventController> _localizer)
         {
             string[] header = new string[8];
             header[0] = _localizer["Nameofevent"];
@@ -114,7 +113,7 @@ namespace Finalaplication.Common
             return result;
         }
 
-        public string GetHeaderForExcelPrinterSponsor(IStringLocalizer<SponsorController> _localizer)
+        public static string GetHeaderForExcelPrinterSponsor(IStringLocalizer<SponsorController> _localizer)
         {
             string[] header = new string[10];
             header[0] = _localizer["Nameofsponsor"];
@@ -137,7 +136,7 @@ namespace Finalaplication.Common
             return result;
         }
 
-        public string GetHeaderForExcelPrinterBeneficiary(IStringLocalizer<BeneficiaryController> _localizer)
+        public static string GetHeaderForExcelPrinterBeneficiary(IStringLocalizer<BeneficiaryController> _localizer)
         {
             string[] header = new string[35];
             header[0] = _localizer["Fullname"];
@@ -185,7 +184,27 @@ namespace Finalaplication.Common
                 { result = result + "," + header[i]; }
             }
             return result;
-        }       
+        }
+
+        internal static void CreateDictionaries(string key1, string key2, string ids_and_fields, string header)
+        {
+            if (DictionaryHelper.d.ContainsKey(key1) == true)
+            {
+                DictionaryHelper.d[key1] = ids_and_fields;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key1, ids_and_fields);
+            }
+            if (DictionaryHelper.d.ContainsKey(key2) == true)
+            {
+                DictionaryHelper.d[key2] = header;
+            }
+            else
+            {
+                DictionaryHelper.d.Add(key2, header);
+            }
+        }
 
         public static void GetSponsorsFromCsv(IMongoCollection<Sponsor> sponsorcollection, List<string[]> result)
         {

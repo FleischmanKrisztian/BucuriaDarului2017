@@ -78,7 +78,6 @@ namespace CSVExporter
                 string[] args = Environment.GetCommandLineArgs();
                 HttpClient httpClient = new HttpClient();
                 args[1] = args[1].Remove(0, 15);
-                //string url = "https://localhost:44395/api/Excelprinter/volunteersSession;volunteersHeader";
                 string url = keyValuePairs.GetValue("Excelprinterlink") + args[1];
                 var result = httpClient.GetStringAsync(url).Result.Normalize();
                 string path = richTextBox1.Text;

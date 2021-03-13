@@ -1,6 +1,7 @@
 ﻿using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -176,7 +177,7 @@ namespace Finalaplication.Controllers
 
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
 
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.lang = lang;
                 if (page > 0)
@@ -337,7 +338,7 @@ namespace Finalaplication.Controllers
                     string ids_to_remove = "";
                     foreach (Volunteer vol in volunteers)
                     {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -365,7 +366,7 @@ namespace Finalaplication.Controllers
                     string ids_to_remove = "";
                     foreach (Volunteer vol in volunteers)
                     {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -394,7 +395,7 @@ namespace Finalaplication.Controllers
 
                     foreach (Volunteer vol in volunteers)
                     {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = ControllerHelper.Datereturner(vol.Activedates);
+                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
                         bool passed = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -563,8 +564,7 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "D";
 
             string key1 = "volunteersSession";
-            ControllerHelper helper = new ControllerHelper();
-            string header = helper.GetHeaderForExcelPrinterVolunteer(_localizer);
+            string header = ControllerHelper.GetHeaderForExcelPrinterVolunteer(_localizer);
             string key2 = "volunteersHeader";
             if (DictionaryHelper.d.ContainsKey(key1) == true)
             {

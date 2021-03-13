@@ -1,6 +1,7 @@
 ﻿using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,9 @@ namespace Finalaplication.Controllers
                     return View();
                 }
                 List<string[]> result = CSVImportParser.GetListFromCSV(path);
+                Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection, result));
+                myNewThread.Start();
+                myNewThread.Join();
 
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
@@ -118,8 +122,7 @@ namespace Finalaplication.Controllers
                 ids_and_options = ids_and_options + "9";
 
             string key1 = "sponsorSession";
-            ControllerHelper helper = new ControllerHelper();
-            string header = helper.GetHeaderForExcelPrinterSponsor(_localizer);
+            string header = ControllerHelper.GetHeaderForExcelPrinterSponsor(_localizer);
             string key2 = "sponsorHeader";
             if (DictionaryHelper.d.ContainsKey(key1) == true)
             {
@@ -176,7 +179,7 @@ namespace Finalaplication.Controllers
                 ViewBag.WhatGoods = WhatGoods;
                 ViewBag.GoodsAmount = GoodsAmounts;
                 ViewBag.MoneyAmount = MoneyAmount;
-                int nrofdocs = ControllerHelper.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (page > 0)
                     ViewBag.Page = page;
