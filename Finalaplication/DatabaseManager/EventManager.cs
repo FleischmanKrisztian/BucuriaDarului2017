@@ -45,6 +45,14 @@ namespace Finalaplication.DatabaseHandler
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
 
+        internal void UpdateAnEvent(Event eventtoupdate, string id)
+        {
+            IMongoCollection<Event> eventcollection = dbcontext.database.GetCollection<Event>("Events");
+            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+            eventtoupdate.EventID = id;
+            eventcollection.FindOneAndReplace(filter, eventtoupdate);
+        }
+
         internal void DeleteAnEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dbcontext.database.GetCollection<Event>("Events");

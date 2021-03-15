@@ -173,9 +173,9 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult VolunteerAllocation(string[] volunteerids, string Evid)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 volunteers = VolunteerFunctions.GetVolunteersByIds(volunteers, volunteerids);
                 Event eventtoallocateto = eventManager.GetOneEvent(Evid);
@@ -264,38 +264,29 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Create
         [HttpPost]
-        public ActionResult Create(Event eventt)
+        public ActionResult Create(Event incomingevent)
         {
             try
             {
-                string volasstring = JsonConvert.SerializeObject(eventt);
-                bool containsspecialchar = false;
-                if (volasstring.Contains(";"))
+                string eventasstring = JsonConvert.SerializeObject(incomingevent);
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
+                if (containsspecialchar)
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                    containsspecialchar = true;
                 }
-                try
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                ModelState.Remove("Duration");
+                if (ModelState.IsValid)
                 {
-                    ModelState.Remove("NumberOfVolunteersNeeded");
-                    ModelState.Remove("DateOfEvent");
-                    ModelState.Remove("Duration");
-                    if (ModelState.IsValid)
-                    {
-                        eventt.DateOfEvent = eventt.DateOfEvent.AddHours(5);
-                        eventManager.AddEventToDB(eventt);
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.containsspecialchar = containsspecialchar;
-                        return View();
-                    }
+                    incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
+                    eventManager.AddEventToDB(incomingevent);
+                    return RedirectToAction("Index");
                 }
-                catch
+                else
                 {
+                    ViewBag.containsspecialchar = containsspecialchar;
                     return View();
                 }
             }
@@ -323,76 +314,42 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Edit/5
         [HttpPost]
-        //public ActionResult Edit(string id, Event eventt, string Originalsavedeventstring)
-        //{
-        //    try
-        //    {
-        //        string volasstring = JsonConvert.SerializeObject(eventt);
-        //        bool containsspecialchar = false;
-        //        if (volasstring.Contains(";"))
-        //        {
-        //            ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-        //            containsspecialchar = true;
-        //        }
-        //        Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(Originalsavedeventstring);
-        //        try
-        //        {
-        //            Event currentsavedevent = eventManager.GetOneEvent(id);
-        //            if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedevent)))
-        //            {
-        //                ModelState.Remove("NumberOfVolunteersNeeded");
-        //                ModelState.Remove("DateOfEvent");
-        //                ModelState.Remove("Duration");
-        //                if (ModelState.IsValid)
-        //                {
-        //                    var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
-        //                    var update = Builders<Event>.Update
-        //                    .Set("NameOfEvent", eventt.NameOfEvent)
-        //                    .Set("PlaceOfEvent", eventt.PlaceOfEvent)
-        //                    .Set("DateOfEvent", eventt.DateOfEvent.AddHours(5))
-        //                    .Set("NumberOfVolunteersNeeded", eventt.NumberOfVolunteersNeeded)
-        //                    .Set("TypeOfActivities", eventt.TypeOfActivities)
-        //                    .Set("TypeOfEvent", eventt.TypeOfEvent)
-        //                    .Set("Duration", eventt.Duration)
-        //                    ;
-
-        //                    eventManager.UpdateAnEvent(filter, update);
-        //                    return RedirectToAction("Index");
-        //                }
-        //                else
-        //                {
-        //                    ViewBag.originalsavedvol = Originalsavedeventstring;
-        //                    ViewBag.id = id;
-        //                    ViewBag.containsspecialchar = containsspecialchar;
-        //                    return View();
-        //                }
-        //            }
-        //            else
-        //            {
-        //                return View("Volunteerwarning");
-        //            }
-        //        }
-        //        catch
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return RedirectToAction("Localserver", "Home");
-        //    }
-        //}
-
-        // GET: Volunteer/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Edit(string id, Event incomingevent, string originalsavedeventstring)
         {
             try
             {
-                var eventt = eventManager.GetOneEvent(id);
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                return View(eventt);
+                string eventasstring = JsonConvert.SerializeObject(incomingevent);
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
+                if (containsspecialchar)
+                {
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                }
+                Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(originalsavedeventstring);
+                Event currentsavedevent = eventManager.GetOneEvent(id);
+                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedevent)))
+                {
+                    ModelState.Remove("NumberOfVolunteersNeeded");
+                    ModelState.Remove("DateOfEvent");
+                    ModelState.Remove("Duration");
+                    if (ModelState.IsValid)
+                    {
+                        incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
+                        eventManager.UpdateAnEvent(incomingevent,id);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.originalsavedevent = originalsavedeventstring;
+                        ViewBag.id = id;
+                        ViewBag.containsspecialchar = containsspecialchar;
+                        return View();
+                    }
+                }
+                else
+                {
+                    return View("Volunteerwarning");
+                }
             }
             catch
             {
@@ -400,22 +357,28 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Delete/5
+        public ActionResult Delete(string id)
+        {
+            try
+            {
+                Event eventtoshow = eventManager.GetOneEvent(id);
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                return View(eventtoshow);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
+        }
+
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection collection)
         {
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                try
-                {
-                    eventManager.DeleteAnEvent(id);
-                    return RedirectToAction("Index");
-                }
-                catch
-                {
-                    return View();
-                }
+                eventManager.DeleteAnEvent(id);
+                return RedirectToAction("Index");
             }
             catch
             {

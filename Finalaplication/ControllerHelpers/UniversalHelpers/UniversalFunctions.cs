@@ -1,12 +1,9 @@
 ﻿using Finalaplication.Common;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {
@@ -47,7 +44,28 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 return VolMongoConstants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
             }
         }
+        internal static int GetCurrentPage(int page)
+        {
+            if (page > 0)
+                return page;
+            else
+            {
+                page = 1;
+                return page;
+            }
+        }
 
+        internal static bool ContainsSpecialChar(string incomingstring)
+        {
+            bool containsspecialchar = false;
+            if (incomingstring.Contains(";"))
+            {
+                containsspecialchar = true;
+            }
+            return containsspecialchar;
+        }
+
+        //The following functions have not yet been refactored
         public static (DateTime[] startdates, DateTime[] enddates, int i) Datereturner(string activedates)
         {
             DateTime[] startdates = new DateTime[20];
@@ -63,7 +81,6 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                     activedates = activedates.Remove(0, 1);
                     int end = activedates.IndexOf("-");
                     int lastcharend = activedates.IndexOf(",");
-                    //in the case where there are are no dates left
                     if (lastcharend == -1)
                     {
                         last = true;
@@ -75,7 +92,6 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                     string enddatestring = activedates.Substring(lastcharstart + 1, lastcharend - 1);
                     startdates[i] = Dateformatter(startdatestring);
                     enddates[i] = Dateformatter(enddatestring);
-                    //checks if it was the last if it was it doesn't do the following steps not to break
                     if (!last)
                         activedates = activedates.Substring(activedates.IndexOf(','));
 
@@ -110,17 +126,6 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             }
             date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.DefaultThreadCurrentCulture);
             return date;
-        }
-
-        internal static int GetCurrentPage(int page)
-        {
-            if (page > 0)
-                return page;
-            else
-            {
-                page = 1;
-                return page;
-            }    
         }
     }
 }

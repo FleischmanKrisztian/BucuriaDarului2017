@@ -165,21 +165,21 @@
                     @if (strname.Contains(item.NameOfSponsor))
                     {
                         <td>
-                            <input type="checkbox" checked="checked" name="spons" value="@item.SponsorID" />
+                            <input type="checkbox" checked="checked" name="sponsorids" value="@item.SponsorID" />
                         </td>
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />
                         </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    <input type="checkbox" name="spons" value="@item.SponsorID" />
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="Evid" value="@ViewBag.Evid" />
-                                                </td>
-                                            }
+                    }
+                    else
+                    {
+                        <td>
+                            <input type="checkbox" name="sponsorids" value="@item.SponsorID" />
+                        </td>
+                        <td>
+                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                        </td>
+                    }
                 </tr>
             }
         }
