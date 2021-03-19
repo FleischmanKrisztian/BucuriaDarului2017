@@ -1,36 +1,33 @@
 ﻿using Elm.Core.Parsers;
 using Finalaplication.App_Start;
 using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Newtonsoft.Json;
 using System;
+using Finalaplication.ControllerHelpers.SponsorHelpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using JsonConvert = Newtonsoft.Json.JsonConvert;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseHandler;
+using SponsorManager = Finalaplication.DatabaseHandler.SponsorManager;
+
 
 namespace Finalaplication.Controllers
 {
     public class SponsorController : Controller
     {
-        private MongoDBContext dbcontext;
-        private readonly IMongoCollection<Event> eventcollection;
-        private IMongoCollection<Sponsor> sponsorcollection;
         private readonly IStringLocalizer<SponsorController> _localizer;
+        EventManager eventManager = new EventManager();
+        SponsorManager sponsorManager = new SponsorManager();
 
-        public SponsorController(IStringLocalizer<SponsorController> localizer)
+        public SponsorController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<SponsorController> localizer)
         {
             try
             {
-                dbcontext = new MongoDBContext();
-                eventcollection = dbcontext.database.GetCollection<Event>("Events");
-                sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
                 _localizer = localizer;
             }
             catch { }
@@ -49,32 +46,22 @@ namespace Finalaplication.Controllers
             try
             {
                 string path = " ";
-
-                if (Files.Length > 0)
+                if (UniversalFunctions.File_is_not_empty(Files))
                 {
-                    path = Path.Combine(
-                               Directory.GetCurrentDirectory(), "wwwroot",
-                               Files.FileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        Files.CopyTo(stream);
-                    }
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
+                    UniversalFunctions.CreateFileStream(Files, path);
                 }
                 else
                 {
                     return View();
                 }
-                List<string[]> result = CSVImportParser.GetListFromCSV(path);
-                Thread myNewThread = new Thread(() => ControllerHelper.GetSponsorsFromCsv(sponsorcollection, result));
-                myNewThread.Start();
-                myNewThread.Join();
-
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
+                List<string[]> Sponsors = CSVImportParser.GetListFromCSV(path);
+                for (int i = 0; i < Sponsors.Count; i++)
                 {
-                    file.Delete();
+                    Sponsor s = SponsorFunctions.GetSponsorFromString(Sponsors[i]);
+                   sponsorManager.AddSponsorToDB(s);
                 }
+                UniversalFunctions.RemoveTempFile(path);
                 return RedirectToAction("Index");
             }
             catch
@@ -86,10 +73,10 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString("FirstSessionSponsor");
-            HttpContext.Session.Remove("FirstSessionSponsor");
-            string key2 = "SecondSessionSponsor";
-            HttpContext.Session.SetString(key2, ids);
+            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_SPONSOR);
+            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_SPONSOR);
+            string key = VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR;
+            HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
@@ -97,52 +84,16 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
-            var IDS = HttpContext.Session.GetString("SecondSessionSponsor");
-            HttpContext.Session.Remove("SecondSessionSponsor");
-            string ids_and_options = IDS + "(((";
-            if (All == true)
-                ids_and_options = ids_and_options + "0";
-            if (NameOfSponsor == true)
-                ids_and_options = ids_and_options + "1";
-            if (Date == true)
-                ids_and_options = ids_and_options + "2";
-            if (HasContract == true)
-                ids_and_options = ids_and_options + "3";
-            if (ContractDetails == true)
-                ids_and_options = ids_and_options + "4";
-            if (PhoneNumber == true)
-                ids_and_options = ids_and_options + "5";
-            if (MailAdress == true)
-                ids_and_options = ids_and_options + "6";
-            if (MoneyAmount == true)
-                ids_and_options = ids_and_options + "7";
-            if (WhatGoods == true)
-                ids_and_options = ids_and_options + "8";
-            if (GoodsAmount == true)
-                ids_and_options = ids_and_options + "9";
-
-            string key1 = "sponsorSession";
+            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR);
+            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR);
+            string ids_and_fields = SponsorFunctions.GetIdAndFieldString(IDS, All, NameOfSponsor, Date, MoneyAmount, WhatGoods, GoodsAmount, HasContract, ContractDetails, PhoneNumber, MailAdress);
+            string key1 = VolMongoConstants.SPONSORSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterSponsor(_localizer);
-            string key2 = "sponsorHeader";
-            if (DictionaryHelper.d.ContainsKey(key1) == true)
-            {
-                DictionaryHelper.d[key1] = ids_and_options;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key1, ids_and_options);
-            }
-            if (DictionaryHelper.d.ContainsKey(key2) == true)
-            {
-                DictionaryHelper.d[key2] = header;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key2, header);
-            }
-            string ids_and_optionssecond = "csvexporterapp:" + key1 + ";" + key2;
+            string key2 = VolMongoConstants.SPONSORHEADER;
+            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
+            string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
+            return Redirect(csvexporterlink);
 
-            return Redirect(ids_and_optionssecond);
         }
 
         public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
@@ -154,7 +105,6 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filters1 = searching; }
                 if (ContactInfo != null)
                 { ViewBag.Filters2 = ContactInfo; }
-
                 if (HasContract == true)
                 { ViewBag.Filters3 = ""; }
                 if (WhatGoods != null)
@@ -166,11 +116,8 @@ namespace Finalaplication.Controllers
                 DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
                 if (lowerdate != date)
                 { ViewBag.Filter7 = lowerdate.ToString(); }
-
                 if (upperdate != date)
                 { ViewBag.Filter8 = upperdate.ToString(); }
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable().ToList();
-
                 ViewBag.Contact = ContactInfo;
                 ViewBag.searching = searching;
                 ViewBag.Upperdate = upperdate;
@@ -179,101 +126,18 @@ namespace Finalaplication.Controllers
                 ViewBag.WhatGoods = WhatGoods;
                 ViewBag.GoodsAmount = GoodsAmounts;
                 ViewBag.MoneyAmount = MoneyAmount;
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                if (page > 0)
-                    ViewBag.Page = page;
-                else
-                    ViewBag.Page = 1;
-
-                DateTime d1 = new DateTime(0003, 1, 1);
-                if (searching != null)
-                {
-                    sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (ContactInfo != null)
-                {
-                    List<Sponsor> sp = sponsors;
-                    foreach (var s in sp)
-                    {
-                        if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
-                            s.ContactInformation.PhoneNumber = "-";
-                        if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
-                            s.ContactInformation.MailAdress = "-";
-                    }
-                    try
-                    {
-                        sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
-                }
-                if (lowerdate > d1)
-                {
-                    sponsors = sponsors.Where(x => x.Sponsorship.Date > lowerdate).ToList();
-                }
-                if (upperdate > d1)
-                {
-                    sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
-                }
-                if (HasContract == true)
-                {
-                    sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
-                }
-                if (WhatGoods != null)
-                {
-                    List<Sponsor> sp = sponsors;
-                    foreach (var s in sp)
-                    {
-                        if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
-                            s.Sponsorship.WhatGoods = "-";
-                    }
-                    try
-                    {
-                        sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
-                }
-                if (GoodsAmounts != null)
-                {
-                    List<Sponsor> sp = sponsors;
-                    foreach (var s in sp)
-                    {
-                        if (s.Sponsorship.GoodsAmount == null || s.Sponsorship.GoodsAmount == "")
-                            s.Sponsorship.GoodsAmount = "-";
-                    }
-                    try
-                    {
-                        sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
-                }
-                if (MoneyAmount != null)
-                {
-                    List<Sponsor> sp = sponsors;
-                    foreach (var s in sp)
-                    {
-                        if (s.Sponsorship.MoneyAmount == null || s.Sponsorship.MoneyAmount == "")
-                            s.Sponsorship.MoneyAmount = "-";
-                    }
-                    try
-                    {
-                        sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
-                }
+                page = UniversalFunctions.GetCurrentPage(page);
+                ViewBag.page = page;
+                sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors,searching,ContactInfo,lowerdate,upperdate,HasContract, WhatGoods,MoneyAmount,GoodsAmounts);
                 ViewBag.counter = sponsors.Count();
+                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
-                string stringofids = "sponsors";
-                foreach (Sponsor ben in sponsors)
-                {
-                    stringofids = stringofids + "," + ben.SponsorID;
-                }
+                string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
                 ViewBag.stringofids = stringofids;
-                sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-                sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
-
-                string key = "FirstSessionSponsor";
-                //DictionaryHelper.d.Add(key, new DictionaryHelper(stringofids));
+                sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
+                string key = VolMongoConstants.SESSION_KEY_SPONSOR;
                 HttpContext.Session.SetString(key, stringofids);
                 return View(sponsors);
             }
@@ -288,7 +152,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 return View(sponsors);
             }
             catch
@@ -302,8 +166,8 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
-                return View(sponsor);
+                Sponsor detailssponsor = sponsorManager.GetOneSponsor(id);
+                return View(detailssponsor);
             }
             catch
             {
@@ -325,40 +189,33 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Sponsor sponsor)
+        public ActionResult Create(Sponsor incomingsponsor)
         {
             try
             {
-                string volasstring = JsonConvert.SerializeObject(sponsor);
-                bool containsspecialchar = false;
-                if (volasstring.Contains(";"))
+                string sponsorasstring = JsonConvert.SerializeObject(incomingsponsor);
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(sponsorasstring);
+                if (containsspecialchar)
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                    containsspecialchar = true;
                 }
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                try
+
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                ModelState.Remove("Sponsorship.Date");
+                if (ModelState.IsValid)
                 {
-                    ModelState.Remove("Contract.RegistrationDate");
-                    ModelState.Remove("Contract.ExpirationDate");
-                    ModelState.Remove("Sponsorship.Date");
-                    if (ModelState.IsValid)
-                    {
-                        sponsor.Contract.RegistrationDate = sponsor.Contract.RegistrationDate.AddHours(5);
-                        sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
-                        sponsorcollection.InsertOne(sponsor);
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.containsspecialchar = containsspecialchar;
-                        return View();
-                    }
+                incomingsponsor.Contract.RegistrationDate = incomingsponsor.Contract.RegistrationDate.AddHours(5);
+                incomingsponsor.Contract.ExpirationDate = incomingsponsor.Contract.ExpirationDate.AddHours(5);
+                sponsorManager.AddSponsorToDB(incomingsponsor);
+                return RedirectToAction("Index");
                 }
-                catch
+                else
                 {
-                    return View();
+                ViewBag.containsspecialchar = containsspecialchar;
+                return View();
                 }
+               
             }
             catch
             {
@@ -370,10 +227,11 @@ namespace Finalaplication.Controllers
         {
             try
             {
+               
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
-                Sponsor originalsavedvol = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
-                ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+                Sponsor sponsor = sponsorManager.GetOneSponsor(id);
+                Sponsor originalsavedsponsor = sponsor;
+                ViewBag.originalsavedsponsor = JsonConvert.SerializeObject(originalsavedsponsor);
                 ViewBag.id = id;
                 return View(sponsor);
             }
@@ -384,61 +242,45 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Sponsor sponsor, string Originalsavedvolstring)
+        public ActionResult Edit(string id, Sponsor sponsor, string Originalsavedsponsorstring)
         {
             try
             {
-                Sponsor Originalsavedvol = JsonConvert.DeserializeObject<Sponsor>(Originalsavedvolstring);
-                try
+                string sponsorasstring = JsonConvert.SerializeObject(sponsor);
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(sponsorasstring);
+                if (containsspecialchar)
                 {
-                    string volasstring = JsonConvert.SerializeObject(sponsor);
-                    bool containsspecialchar = false;
-                    if (volasstring.Contains(";"))
+                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
+                }
+                
+                Sponsor Originalsavedslponsor = JsonConvert.DeserializeObject<Sponsor>(Originalsavedsponsorstring);
+                Sponsor currentsavedsponsor = sponsorManager.GetOneSponsor(id);
+
+                if (JsonConvert.SerializeObject(Originalsavedslponsor).Equals(JsonConvert.SerializeObject(currentsavedsponsor)))
+                {
+                    ModelState.Remove("Contract.RegistrationDate");
+                    ModelState.Remove("Contract.ExpirationDate");
+                    ModelState.Remove("Sponsorship.Date");
+                    if (ModelState.IsValid)
                     {
-                        ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                        containsspecialchar = true;
-                    }
-                    var volunteerId = new ObjectId(id);
-                    Sponsor currentsavedvol = sponsorcollection.Find(x => x.SponsorID == id).Single();
-                    if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
-                    {
-                        ModelState.Remove("Contract.RegistrationDate");
-                        ModelState.Remove("Contract.ExpirationDate");
-                        ModelState.Remove("Sponsorship.Date");
-                        if (ModelState.IsValid)
-                        {
-                            var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
-                            var update = Builders<Sponsor>.Update
-                                .Set("NameOfSponsor", sponsor.NameOfSponsor)
-                                .Set("ContactInformation.PhoneNumber", sponsor.ContactInformation.PhoneNumber)
-                                .Set("ContactInformation.MailAdress", sponsor.ContactInformation.MailAdress)
-                                .Set("Contract.HasContract", sponsor.Contract.HasContract)
-                                .Set("Contract.NumberOfRegistration", sponsor.Contract.NumberOfRegistration)
-                                .Set("Contract.RegistrationDate", sponsor.Contract.RegistrationDate.AddHours(5))
-                                .Set("Contract.ExpirationDate", sponsor.Contract.ExpirationDate.AddHours(5))
-                                .Set("Sponsorship.Date", sponsor.Sponsorship.Date.AddHours(5))
-                                .Set("Sponsorship.MoneyAmount", sponsor.Sponsorship.MoneyAmount)
-                                .Set("Sponsorship.GoodsAmount", sponsor.Sponsorship.GoodsAmount)
-                                .Set("Sponsorship.WhatGoods", sponsor.Sponsorship.WhatGoods);
-                            var result = sponsorcollection.UpdateOne(filter, update);
-                            return RedirectToAction("Index");
-                        }
-                        else
-                        {
-                            ViewBag.originalsavedvol = Originalsavedvolstring;
-                            ViewBag.id = id;
-                            ViewBag.containsspecialchar = containsspecialchar;
-                            return View();
-                        }
+                        sponsor.Contract.RegistrationDate = sponsor.Contract.RegistrationDate.AddHours(5);
+                        sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
+                        sponsor.Sponsorship.Date = sponsor.Sponsorship.Date.AddHours(5);
+
+                        sponsorManager.UpdateAnSponsor(sponsor, id);
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        return View("Volunteerwarning");
+                        ViewBag.originalsavedsponsor = Originalsavedsponsorstring;
+                        ViewBag.id = id;
+                        ViewBag.containsspecialchar = containsspecialchar;
+                        return View();
                     }
                 }
-                catch
+                else
                 {
-                    return RedirectToAction("Index");
+                    return View("Volunteerwarning");
                 }
             }
             catch
@@ -447,14 +289,17 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Volunteer/Delete/5
-        public ActionResult Delete(string id)
-        {
+
+            // GET: Volunteer/Delete/5
+       public ActionResult Delete(string id)
+       {
             try
             {
+
+                Sponsor showsponsor = sponsorManager.GetOneSponsor(id);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var sponsor = sponsorcollection.AsQueryable<Sponsor>().SingleOrDefault(x => x.SponsorID == id);
-                return View(sponsor);
+                return View(showsponsor);
+
             }
             catch
             {
@@ -464,13 +309,14 @@ namespace Finalaplication.Controllers
 
         // POST: Volunteer/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, Sponsor sponsor)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
             try
             {
                 try
                 {
-                    sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id)));
+                    ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                    sponsorManager.DeleteAnSponsor(id);
                     return RedirectToAction("Index");
                 }
                 catch

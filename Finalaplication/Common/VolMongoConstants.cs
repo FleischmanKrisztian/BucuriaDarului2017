@@ -24,5 +24,11 @@
         public static string SECONDARY_SESSION_KEY = "SecondSessionEvent";
         public static string EVENTSESSION = "eventSession";
         public static string EVENTHEADER = "eventHeader";
+
+
+        public static string SESSION_KEY_SPONSOR = "FirstSessionSponsor";
+        public static string SECONDARY_SESSION_KEY_SPONSOR = "SecondSessionSponsor";
+        public static string SPONSORSESSION = "sponsorSession";
+        public static string SPONSORHEADER = "sponsorHeader";
     }
 }

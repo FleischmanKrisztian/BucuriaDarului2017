@@ -3,11 +3,66 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VolCommon;
 
 namespace Finalaplication.ControllerHelpers.SponsorHelpers
 {
     public class SponsorFunctions
     {
+        internal static Sponsor GetSponsorFromString(string[] sponsorstring)
+        {
+            Sponsor newsponsor = new Sponsor();
+            //Sponsorship s = new Sponsorship();
+            newsponsor.NameOfSponsor = sponsorstring[0];
+
+            try
+            {
+                newsponsor.Sponsorship.Date = Convert.ToDateTime(sponsorstring[1]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                newsponsor.Sponsorship.Date = DateTime.MinValue;
+            }
+
+            newsponsor.Sponsorship.MoneyAmount = sponsorstring[2];
+            newsponsor.Sponsorship.WhatGoods = sponsorstring[3];
+            newsponsor.Sponsorship.GoodsAmount = sponsorstring[4];
+
+            if (sponsorstring[5] == "True" || sponsorstring[5] == "true")
+            {
+                newsponsor.Contract.HasContract = true;
+            }
+            else
+            {
+                newsponsor.Contract.HasContract = false;
+            }
+            newsponsor.Contract.HasContract = Convert.ToBoolean(sponsorstring[5]);
+            newsponsor.Contract.NumberOfRegistration = sponsorstring[6];
+
+            try
+            {
+                newsponsor.Contract.RegistrationDate = Convert.ToDateTime(sponsorstring[7]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                newsponsor.Contract.RegistrationDate = DateTime.MinValue;
+            }
+            try
+            {
+                newsponsor.Contract.ExpirationDate = Convert.ToDateTime(sponsorstring[8]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                newsponsor.Contract.ExpirationDate = DateTime.MinValue;
+            }
+
+            newsponsor.ContactInformation.PhoneNumber = sponsorstring[9];
+            newsponsor.ContactInformation.MailAdress = sponsorstring[10];
+            return newsponsor;
+        }
         internal static string GetStringOfIds(List<Sponsor> sponsors)
         {
             string stringofids = "sponsor";
@@ -54,6 +109,118 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                 sponsornames = sponsornames + sponsor.NameOfSponsor + " / ";
             }
             return sponsornames;
+        }
+
+        internal static string GetIdAndFieldString(string IDS, bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
+        {
+            string ids_and_options = IDS + "(((";
+            if (All == true)
+                ids_and_options = ids_and_options + "0";
+            if (NameOfSponsor == true)
+                ids_and_options = ids_and_options + "1";
+            if (Date == true)
+                ids_and_options = ids_and_options + "2";
+            if (HasContract == true)
+                ids_and_options = ids_and_options + "3";
+            if (ContractDetails == true)
+                ids_and_options = ids_and_options + "4";
+            if (PhoneNumber == true)
+                ids_and_options = ids_and_options + "5";
+            if (MailAdress == true)
+                ids_and_options = ids_and_options + "6";
+            if (MoneyAmount == true)
+                ids_and_options = ids_and_options + "7";
+            if (WhatGoods == true)
+                ids_and_options = ids_and_options + "8";
+            if (GoodsAmount == true)
+                ids_and_options = ids_and_options + "9";
+
+            return ids_and_options;
+        }
+
+        private static bool Dateinputreceived(DateTime date)
+        {
+            DateTime comparisondate = new DateTime(0003, 1, 1);
+            if (date > comparisondate)
+                return true;
+            else
+                return false;
+        }
+
+        internal static List<Sponsor> GetSponsorsAfterFilters(List<Sponsor> sponsors, string searching, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
+        {
+            
+
+            if (searching != null)
+            {
+                sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
+            if (ContactInfo != null)
+            {
+                List<Sponsor> sp = sponsors;
+                foreach (var s in sp)
+                {
+                    if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
+                        s.ContactInformation.PhoneNumber = "-";
+                    if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
+                        s.ContactInformation.MailAdress = "-";
+                }
+               
+                sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
+               
+            }
+
+            if (WhatGoods != null)
+            {
+                List<Sponsor> sp = sponsors;
+                foreach (var s in sp)
+                {
+                    if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
+                        s.Sponsorship.WhatGoods = "-";
+                }
+               
+                sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                
+            }
+            if (GoodsAmounts != null)
+            {
+                List<Sponsor> sp = sponsors;
+                foreach (var s in sp)
+                {
+                    if (s.Sponsorship.GoodsAmount == null || s.Sponsorship.GoodsAmount == "")
+                        s.Sponsorship.GoodsAmount = "-";
+                }
+                
+                 sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                
+            }
+            if (MoneyAmount != null)
+            {
+                List<Sponsor> sp = sponsors;
+                foreach (var s in sp)
+                {
+                    if (s.Sponsorship.MoneyAmount == null || s.Sponsorship.MoneyAmount == "")
+                        s.Sponsorship.MoneyAmount = "-";
+                }
+               
+                sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                
+            }
+            if (HasContract == true)
+            {
+               sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
+            }
+
+            if (Dateinputreceived(lowerdate))
+            {
+                sponsors = sponsors.Where(x => x.Sponsorship.Date > lowerdate).ToList();
+            }
+            if (Dateinputreceived(upperdate))
+            {
+                sponsors = sponsors.Where(x => x.Sponsorship.Date <= upperdate).ToList();
+            }
+
+            return sponsors;
         }
     }
 }
