@@ -102,7 +102,7 @@ namespace Finalaplication.Controllers
                 List<Event> events = eventManager.GetListOfEvents();
                 events = EventFunctions.GetEventsAfterFilters(events, searching, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
                 ViewBag.counter = events.Count();
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = EventFunctions.GetStringOfIds(events);
                 ViewBag.stringofids = stringofids;
@@ -152,7 +152,7 @@ namespace Finalaplication.Controllers
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 ViewBag.counter = volunteers.Count();
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
                 ViewBag.stringofids = stringofids;
@@ -199,7 +199,7 @@ namespace Finalaplication.Controllers
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 ViewBag.counter = sponsors.Count();
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
                 ViewBag.stringofids = stringofids;
@@ -296,7 +296,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
         {
             try

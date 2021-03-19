@@ -32,7 +32,7 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             }
         }
 
-        public static int getNumberOfItemPerPageFromSettings(ITempDataDictionary tempDataDic)
+        public static int GetNumberOfItemPerPageFromSettings(ITempDataDictionary tempDataDic)
         {
             try
             {

@@ -179,7 +179,7 @@ namespace Finalaplication.Controllers
                 ViewBag.WhatGoods = WhatGoods;
                 ViewBag.GoodsAmount = GoodsAmounts;
                 ViewBag.MoneyAmount = MoneyAmount;
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (page > 0)
                     ViewBag.Page = page;
