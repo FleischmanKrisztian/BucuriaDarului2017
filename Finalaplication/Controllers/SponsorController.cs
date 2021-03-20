@@ -230,8 +230,7 @@ namespace Finalaplication.Controllers
                
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Sponsor sponsor = sponsorManager.GetOneSponsor(id);
-                Sponsor originalsavedsponsor = sponsor;
-                ViewBag.originalsavedsponsor = JsonConvert.SerializeObject(originalsavedsponsor);
+                ViewBag.originalsavedsponsor = JsonConvert.SerializeObject(sponsor);
                 ViewBag.id = id;
                 return View(sponsor);
             }
@@ -289,8 +288,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-
-            // GET: Volunteer/Delete/5
        public ActionResult Delete(string id)
        {
             try
@@ -307,7 +304,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection collection)
         {
