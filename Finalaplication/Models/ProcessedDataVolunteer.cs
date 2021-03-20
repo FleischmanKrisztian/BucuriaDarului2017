@@ -29,7 +29,7 @@ namespace Finalaplication
             this.vollunteercontractcollection = vollunteercontractcollection;
         }
 
-        public async Task ImportVolunteerContractsFromCsv()
+        public void ImportVolunteerContractsFromCsv()
         {
             foreach (var details in result)
             {
@@ -114,7 +114,7 @@ namespace Finalaplication
             }
         }
 
-        public async Task<Tuple<string, string>> GetVolunteersFromApp()
+        public Tuple<string, string> GetVolunteersFromApp()
         {
             foreach (var details in result)
             {

@@ -55,5 +55,12 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             }
             return volnames;
         }
+
+        //internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
+        //{
+        //    Volunteer volunteer = new Volunteer();
+        //    volunteer.
+        //    return volunteer;
+        //}
     }
 }

@@ -45,31 +45,23 @@ namespace Finalaplication.Controllers
             try
             {
                 string path = " ";
-
-                if (Files.Length > 0)
+                if (UniversalFunctions.File_is_not_empty(Files))
                 {
-                    path = Path.Combine(
-                               Directory.GetCurrentDirectory(), "wwwroot",
-                               Files.FileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        Files.CopyTo(stream);
-                    }
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
+                    UniversalFunctions.CreateFileStream(Files, path);
                 }
                 else
                 {
                     return View();
                 }
-
-                List<string[]> result = CSVImportParser.GetListFromCSV(path);
+                List<string[]> volunteers = CSVImportParser.GetListFromCSV(path);
                 string duplicates = "";
                 int documentsimported = 0;
                 string docsimported = string.Empty;
                 string[] myHeader = CSVImportParser.GetHeader(path);
                 string typeOfExport = CSVImportParser.TypeOfExport(myHeader);
 
-                ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, result, duplicates, documentsimported, volcontractcollection);
+                ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, volunteers, duplicates, documentsimported, volcontractcollection);
 
                 string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
@@ -79,13 +71,13 @@ namespace Finalaplication.Controllers
                     key1 = tuple.Item2;
                     try
                     {
-                        await processed.ImportVolunteerContractsFromCsv();
+                        processed.ImportVolunteerContractsFromCsv();
                     }
                     catch { }
                 }
                 else
                 {
-                    var tuple = await processed.GetVolunteersFromApp();
+                    var tuple = processed.GetVolunteersFromApp();
                     docsimported = tuple.Item1;
                     key1 = tuple.Item2;
                 }
@@ -164,7 +156,7 @@ namespace Finalaplication.Controllers
                 if (activetill != date)
                 { ViewBag.Filter16 = activetill.ToString(); }
 
-                List<Volunteer> volunteers = voll
+                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
 
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
