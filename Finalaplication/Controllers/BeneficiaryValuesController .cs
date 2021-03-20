@@ -15,7 +15,6 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
 
-        // GET: api/Values
         [HttpGet]
         public IEnumerable<string> Get()
         {

@@ -75,7 +75,6 @@ namespace Finalaplication.App_Start
                 dbcontextoffline = new MongoDBContextOffline();
                 settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
                 var totalCount = settingcollection.CountDocuments(new BsonDocument());
-                string databaaaase = "";
                 //In case there is no settings saved it initializes one with these default values.
                 if (totalCount == 0)
                 {

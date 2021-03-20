@@ -615,7 +615,7 @@ namespace Finalaplication.Controllers
                 }
                 ViewBag.counter = beneficiaries.Count();
 
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 string stringofids = "beneficiaries";
                 foreach (Beneficiary ben in beneficiaries)
                 {

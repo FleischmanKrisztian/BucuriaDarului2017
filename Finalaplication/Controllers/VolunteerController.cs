@@ -2,6 +2,7 @@
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseHandler;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,24 +24,12 @@ namespace Finalaplication.Controllers
 {
     public class VolunteerController : Controller
     {
-        private MongoDBContext dbcontext;
-        private readonly IMongoCollection<Event> eventcollection;
-        private IMongoCollection<Volunteer> vollunteercollection;
-        private IMongoCollection<Volcontract> volcontractcollection;
         private readonly IStringLocalizer<VolunteerController> _localizer;
-
+        VolunteerManager volunteerManager = new VolunteerManager();
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
 
         {
-            try
-            {
-                dbcontext = new MongoDBContext();
-                volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-                eventcollection = dbcontext.database.GetCollection<Event>("Events");
-                vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
                 _localizer = localizer;
-            }
-            catch { }
         }
 
         public ActionResult FileUpload()
@@ -175,9 +164,9 @@ namespace Finalaplication.Controllers
                 if (activetill != date)
                 { ViewBag.Filter16 = activetill.ToString(); }
 
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable().ToList();
+                List<Volunteer> volunteers = voll
 
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.lang = lang;
                 if (page > 0)
@@ -621,7 +610,7 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteerId = new ObjectId(id);
-                var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+                var volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
             catch
@@ -684,7 +673,7 @@ namespace Finalaplication.Controllers
                         volunteer.Activedates = volunteer.Activedates.Replace(" ", "");
                         volunteer.Activedates = volunteer.Activedates.Replace(".", "/");
                     }
-                    vollunteercollection.InsertOne(volunteer);
+                    volunteerManager.AddVolunteerToDB(volunteer);
                     return RedirectToAction("Index");
                 }
                 ViewBag.containsspecialchar = containsspecialchar;
@@ -696,15 +685,13 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Volunteer/Edit/5
         public ActionResult Edit(string id)
         {
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
-                Volunteer originalsavedvol = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
-                ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+                var volunteer = volunteerManager.GetOneVolunteer(id);
+                ViewBag.originalsavedvol = JsonConvert.SerializeObject(volunteer);
                 ViewBag.id = id;
                 return View(volunteer);
             }
@@ -730,7 +717,7 @@ namespace Finalaplication.Controllers
                 Volunteer Originalsavedvol = JsonConvert.DeserializeObject<Volunteer>(Originalsavedvolstring);
                 try
                 {
-                    Volunteer currentsavedvol = vollunteercollection.Find(x => x.VolunteerID == id).Single();
+                    Volunteer currentsavedvol = volunteerManager.GetOneVolunteer(id);
                     if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
                     {
                         ModelState.Remove("Birthdate");
@@ -832,7 +819,7 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteerId = new ObjectId(id);
-                var volunteer = vollunteercollection.AsQueryable<Volunteer>().SingleOrDefault(x => x.VolunteerID == id);
+                var volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
             catch
@@ -852,7 +839,7 @@ namespace Finalaplication.Controllers
                 {
                     if (Inactive == false)
                     {
-                        vollunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id)));
+                        volunteerManager.DeleteAVolunteer(id);
                         volcontractcollection.DeleteMany(zzz => zzz.OwnerID == id);
                         return RedirectToAction("Index");
                     }
