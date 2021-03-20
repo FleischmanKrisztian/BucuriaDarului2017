@@ -40,13 +40,13 @@ namespace Finalaplication.DatabaseManager
             return beneficiaries;
         }
 
-        internal void UpdateVolunteer(FilterDefinition<Beneficiary> filter, UpdateDefinition<Beneficiary> beneficiarytoupdate)
+        internal void UpdateBeneficiary(FilterDefinition<Beneficiary> filter, UpdateDefinition<Beneficiary> beneficiarytoupdate)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             beneficiarycollection.UpdateOne(filter, beneficiarytoupdate);
         }
 
-        internal void DeleteVolunteer(string id)
+        internal void DeleteBeneficiary(string id)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
