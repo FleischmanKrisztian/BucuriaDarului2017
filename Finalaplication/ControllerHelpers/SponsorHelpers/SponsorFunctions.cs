@@ -12,55 +12,61 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
         internal static Sponsor GetSponsorFromString(string[] sponsorstring)
         {
             Sponsor newsponsor = new Sponsor();
-            //Sponsorship s = new Sponsorship();
+            Sponsorship s = new Sponsorship();
+            Contract c = new Contract();
+            ContactInformation ci=new ContactInformation();
+
             newsponsor.NameOfSponsor = sponsorstring[0];
 
             try
             {
-                newsponsor.Sponsorship.Date = Convert.ToDateTime(sponsorstring[1]);
+                s.Date = Convert.ToDateTime(sponsorstring[1]);
             }
             catch
             {
                 Console.WriteLine("Invalid Date, defaulting to min value!");
-                newsponsor.Sponsorship.Date = DateTime.MinValue;
+                s.Date = DateTime.MinValue;
             }
 
-            newsponsor.Sponsorship.MoneyAmount = sponsorstring[2];
-            newsponsor.Sponsorship.WhatGoods = sponsorstring[3];
-            newsponsor.Sponsorship.GoodsAmount = sponsorstring[4];
+            s.MoneyAmount = sponsorstring[2];
+            s.WhatGoods = sponsorstring[3];
+            s.GoodsAmount = sponsorstring[4];
 
+            newsponsor.Sponsorship = s;
             if (sponsorstring[5] == "True" || sponsorstring[5] == "true")
             {
-                newsponsor.Contract.HasContract = true;
+                c.HasContract = true;
             }
             else
             {
-                newsponsor.Contract.HasContract = false;
+               c.HasContract = false;
             }
-            newsponsor.Contract.HasContract = Convert.ToBoolean(sponsorstring[5]);
-            newsponsor.Contract.NumberOfRegistration = sponsorstring[6];
+            c.HasContract = Convert.ToBoolean(sponsorstring[5]);
+            c.NumberOfRegistration = sponsorstring[6];
 
             try
             {
-                newsponsor.Contract.RegistrationDate = Convert.ToDateTime(sponsorstring[7]);
+                c.RegistrationDate = Convert.ToDateTime(sponsorstring[7]);
             }
             catch
             {
                 Console.WriteLine("Invalid Date, defaulting to min value!");
-                newsponsor.Contract.RegistrationDate = DateTime.MinValue;
+                c.RegistrationDate = DateTime.MinValue;
             }
             try
             {
-                newsponsor.Contract.ExpirationDate = Convert.ToDateTime(sponsorstring[8]);
+                c.ExpirationDate = Convert.ToDateTime(sponsorstring[8]);
             }
             catch
             {
                 Console.WriteLine("Invalid Date, defaulting to min value!");
-                newsponsor.Contract.ExpirationDate = DateTime.MinValue;
+                c.ExpirationDate = DateTime.MinValue;
             }
+            newsponsor.Contract = c;
 
-            newsponsor.ContactInformation.PhoneNumber = sponsorstring[9];
-            newsponsor.ContactInformation.MailAdress = sponsorstring[10];
+            ci.PhoneNumber = sponsorstring[9];
+            ci.MailAdress = sponsorstring[10];
+            newsponsor.ContactInformation = ci;
             return newsponsor;
         }
         internal static string GetStringOfIds(List<Sponsor> sponsors)
