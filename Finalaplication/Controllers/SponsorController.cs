@@ -132,7 +132,7 @@ namespace Finalaplication.Controllers
                 ViewBag.page = page;
                 sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors,searching,ContactInfo,lowerdate,upperdate,HasContract, WhatGoods,MoneyAmount,GoodsAmounts);
                 ViewBag.counter = sponsors.Count();
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
                 ViewBag.stringofids = stringofids;
@@ -267,7 +267,7 @@ namespace Finalaplication.Controllers
                         sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
                         sponsor.Sponsorship.Date = sponsor.Sponsorship.Date.AddHours(5);
 
-                        sponsorManager.UpdateAnSponsor(sponsor, id);
+                        sponsorManager.UpdateSponsor(sponsor, id);
                         return RedirectToAction("Index");
                     }
                     else
@@ -316,7 +316,7 @@ namespace Finalaplication.Controllers
                 try
                 {
                     ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                    sponsorManager.DeleteAnSponsor(id);
+                    sponsorManager.DeleteSponsor(id);
                     return RedirectToAction("Index");
                 }
                 catch
