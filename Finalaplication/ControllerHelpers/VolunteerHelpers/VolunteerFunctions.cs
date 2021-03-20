@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VolCommon;
 
 namespace Finalaplication.ControllerHelpers.VolunteerHelpers
 {
@@ -56,11 +57,163 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             return volnames;
         }
 
-        //internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
-        //{
-        //    Volunteer volunteer = new Volunteer();
-        //    volunteer.
-        //    return volunteer;
-        //}
+        internal static bool DoesNotExist(List<Volunteer> volunteers, Volunteer vol)
+        {
+            if (vol.CNP != null || vol.CNP != "")
+            {
+                int numberofoccurences = volunteers.Where(p => p.CNP == vol.CNP).Count();
+                if (numberofoccurences >= 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }    
+        }
+
+        internal static bool DifferentFormat(string header)
+        {
+            if (header.Count() >= 22 && header.Contains("Gender") == true)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
+        {
+            Volunteer volunteer = new Volunteer();
+            volunteer.Firstname = volunteerstring[0];
+            volunteer.Lastname = volunteerstring[1];
+            try
+            {
+                volunteer.Birthdate = Convert.ToDateTime(volunteerstring[2]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                volunteer.Birthdate = DateTime.MinValue;
+            }
+            Address address = new Address();
+
+            if (volunteerstring[3] != null || volunteerstring[3] != "")
+            {
+                address.District = volunteerstring[3];
+            }
+            else { address.District = "-"; }
+
+            if (volunteerstring[4] != null || volunteerstring[5] != "")
+            {
+                address.City = volunteerstring[4];
+            }
+            else
+            {
+                address.City = "-";
+            }
+
+            if (volunteerstring[5] != null || volunteerstring[5] != "")
+            {
+                address.Street = volunteerstring[5];
+            }
+            else { address.Street = "-"; }
+
+            if (volunteerstring[6] != null || volunteerstring[6] != "")
+            {
+                address.Number = volunteerstring[6];
+            }
+            else
+            {
+                address.Number = "-";
+            }
+            try
+            {
+                if (volunteerstring[7] == "1")
+                {
+                    volunteer.Gender = VolCommon.Gender.Female;
+                }
+                else
+                {
+                    volunteer.Gender = VolCommon.Gender.Male;
+                }
+            }
+            catch
+            {
+                volunteer.Gender = VolCommon.Gender.Male;
+            }
+            volunteer.Desired_workplace = volunteerstring[8];
+            volunteer.CNP = volunteerstring[9];
+            volunteer.Field_of_activity = volunteerstring[10];
+            volunteer.Occupation = volunteerstring[11];
+            volunteer.CIseria = volunteerstring[12];
+            volunteer.CINr = volunteerstring[13];
+            try
+            {
+                volunteer.CIEliberat = Convert.ToDateTime(volunteerstring[14]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                volunteer.CIEliberat = DateTime.MinValue;
+            }
+            volunteer.CIeliberator = volunteerstring[15];
+            volunteer.InActivity = Convert.ToBoolean(volunteerstring[16]);
+            if (volunteerstring[17] != null || volunteerstring[17] != "")
+            {
+                volunteer.HourCount = Convert.ToInt16(volunteerstring[17]);
+            }
+            else
+            {
+                volunteer.HourCount = 0;
+            }
+            ContactInformation contactinformation = new ContactInformation();
+            if (volunteerstring[18] != null || volunteerstring[18] != "")
+            {
+                contactinformation.PhoneNumber = volunteerstring[18];
+            }
+            else
+            {
+                contactinformation.PhoneNumber = "-";
+            }
+            if (volunteerstring[19] != null || volunteerstring[19] != "")
+            {
+                contactinformation.MailAdress = volunteerstring[19];
+            }
+            else
+            {
+                contactinformation.MailAdress = "-";
+            }
+            volunteer.ContactInformation = contactinformation;
+            Additionalinfo additionalInformation = new Additionalinfo();
+
+            if (volunteerstring[20] == "True")
+            {
+                additionalInformation.HasDrivingLicence = true;
+            }
+            else
+            {
+                additionalInformation.HasDrivingLicence = false;
+            }
+
+            if (volunteerstring[21] == "True")
+            {
+                additionalInformation.HasCar = true;
+            }
+            else
+            {
+                additionalInformation.HasCar = false;
+            }
+            additionalInformation.Remark = volunteerstring[22];
+            volunteer.Additionalinfo = additionalInformation;
+            return volunteer;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.ControllerHelpers.VolunteerHelpers;
 using Finalaplication.DatabaseHandler;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
@@ -26,10 +27,16 @@ namespace Finalaplication.Controllers
     {
         private readonly IStringLocalizer<VolunteerController> _localizer;
         VolunteerManager volunteerManager = new VolunteerManager();
+        private IMongoCollection<Volunteer> vollunteercollection;
+        private IMongoCollection<Volcontract> volcontractcollection;
+        private MongoDBContext dbcontext;
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
 
         {
-                _localizer = localizer;
+            dbcontext = new MongoDBContext();
+            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
+            vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+            _localizer = localizer;
         }
 
         public ActionResult FileUpload()
@@ -39,12 +46,14 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> FileUpload(IFormFile Files)
+        public ActionResult FileUpload(IFormFile Files)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
+                List<Volunteer> Volunteers = volunteerManager.GetListOfVolunteers();
                 string path = " ";
+                int docsimported = 0;
                 if (UniversalFunctions.File_is_not_empty(Files))
                 {
                     path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
@@ -54,40 +63,19 @@ namespace Finalaplication.Controllers
                 {
                     return View();
                 }
-                List<string[]> volunteers = CSVImportParser.GetListFromCSV(path);
-                string duplicates = "";
-                int documentsimported = 0;
-                string docsimported = string.Empty;
-                string[] myHeader = CSVImportParser.GetHeader(path);
-                string typeOfExport = CSVImportParser.TypeOfExport(myHeader);
-
-                ProcessedDataVolunteer processed = new ProcessedDataVolunteer(vollunteercollection, volunteers, duplicates, documentsimported, volcontractcollection);
-
-                string key1 = "";
-                if (typeOfExport == "BucuriaDarului")
+                List<string[]> volunteersasstring = CSVImportParser.GetListFromCSV(path);
+                //TODO: make application be able to import different CSV format
+                for (int i = 0; i < volunteersasstring.Count; i++)
                 {
-                    var tuple = await processed.ProcessedVolunteers();
-                    docsimported = tuple.Item1;
-                    key1 = tuple.Item2;
-                    try
+                    Volunteer vol = VolunteerFunctions.GetVolunteerFromString(volunteersasstring[i]);
+                    if (VolunteerFunctions.DoesNotExist(Volunteers, vol))
                     {
-                        processed.ImportVolunteerContractsFromCsv();
+                        docsimported++;
+                        volunteerManager.AddVolunteerToDB(vol);
                     }
-                    catch { }
                 }
-                else
-                {
-                    var tuple = processed.GetVolunteersFromApp();
-                    docsimported = tuple.Item1;
-                    key1 = tuple.Item2;
-                }
-
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
-                return RedirectToAction("ImportUpdate", "Beneficiary", new { docsimported, key1 });
+                UniversalFunctions.RemoveTempFile(path);
+                return RedirectToAction("ImportUpdate", "Beneficiary", new { docsimported });
             }
             catch
             {
@@ -215,27 +203,7 @@ namespace Finalaplication.Controllers
                 {
                     volunteers = volunteers.Where(x => x.InActivity == true).ToList();
                 }
-                if (searchedAddress != null)
-                {
-                    List<Volunteer> vol = volunteers;
-                    foreach (var v in vol)
-                    {
-                        if (v.Address.District == null || v.Address.District == "")
-                            v.Address.District = "-";
-                        if (v.Address.City == null || v.Address.City == "")
-                            v.Address.City = "-";
-                        if (v.Address.Street == null || v.Address.Street == "")
-                            v.Address.Street = "-";
-                        if (v.Address.Number == null || v.Address.Number == "")
-                            v.Address.Number = "-";
-                    }
 
-                    try
-                    {
-                        volunteers = vol.Where(x => x.Address.District.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase) || x.Address.City.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase) || x.Address.Street.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase) || x.Address.Number.Contains(searchedAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
-                }
 
                 if (searchedworkplace != null)
                 {

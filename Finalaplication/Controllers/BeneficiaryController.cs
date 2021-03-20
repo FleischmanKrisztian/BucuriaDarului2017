@@ -112,17 +112,10 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult ImportUpdate(string docsimported, string key1)
+        public ActionResult ImportUpdate(string docsimported)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-            string duplicates = string.Empty;
-            DictionaryHelper.d.TryGetValue(key1, out duplicates);
-            // string duplicates = dictionary.Ids.ToString();
-            ViewBag.duplicates = duplicates;
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);        
             ViewBag.documentsimported = docsimported;
-
-            DictionaryHelper.d.Remove(key1);
-
             return View();
         }
 

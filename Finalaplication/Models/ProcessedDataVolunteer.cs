@@ -17,17 +17,16 @@ namespace Finalaplication
         private int documentsimported;
 
         public ProcessedDataVolunteer(IMongoCollection<Volunteer> vollunteercollection,
-       List<string[]> result,
-       string duplicates,
-       int documentsimported, IMongoCollection<Volcontract> vollunteercontractcollection
-       )
-        {
+          List<string[]> result,
+         string duplicates,
+         int documentsimported, IMongoCollection<Volcontract> vollunteercontractcollection)
+         {
             this.vollunteercollection = vollunteercollection;
             this.result = result;
             this.duplicates = duplicates;
             this.documentsimported = documentsimported;
             this.vollunteercontractcollection = vollunteercontractcollection;
-        }
+         }
 
         public void ImportVolunteerContractsFromCsv()
         {
@@ -48,14 +47,6 @@ namespace Finalaplication
                                 Lastname = v.Lastname
                             };
                             string address = string.Empty;
-                            if (v.Address.District != null && v.Address.District != "-")
-                            { address = v.Address.District; }
-                            if (v.Address.City != null && v.Address.City != "-")
-                            { address = address + "," + v.Address.City; }
-                            if (v.Address.Street != null && v.Address.Street != "-")
-                            { address = v.Address.District; }
-                            if (v.Address.Number != null && v.Address.Number != "-")
-                            { address = address + "," + v.Address.City; }
                             contract.Address = address;
                             contract.CNP = v.CNP;
                             contract.OwnerID = v.VolunteerID;
@@ -345,15 +336,12 @@ namespace Finalaplication
                         }
 
                         ai.Remark = details[22];
-
-                        volunteer.Address = a;
                         volunteer.Additionalinfo = ai;
                         vollunteercollection.InsertOne(volunteer);
                     }
                 }
             }
             string key1 = "VolunteerImportDuplicate";
-            //DictionaryHelper.d.Add(key1, duplicates);
             return new Tuple<string, string>(documentsimported.ToString(), key1);
         }
 
@@ -493,8 +481,6 @@ namespace Finalaplication
                     ai.HasCar = false;
 
                     volunteer.Occupation = "-";
-
-                    volunteer.Address = a;
                     volunteer.Additionalinfo = ai;
                     vollunteercollection.InsertOne(volunteer);
                 }
