@@ -215,5 +215,54 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             volunteer.Additionalinfo = additionalInformation;
             return volunteer;
         }
+
+        internal static string GetIdAndFieldString(string IDS, bool all, bool name, bool birthdate, bool address, bool gender, bool desired_Workplace, bool cnp, bool field_of_Activity, bool occupation, bool cI_Info, bool activity, bool hour_Count, bool contact_Information, bool additional_info)
+        {
+            string ids_and_options = IDS + "(((";
+            if (all)
+                ids_and_options += "0";
+            if (name)
+                ids_and_options += "1";
+            if (birthdate)
+                ids_and_options += "2";
+            if (address)
+                ids_and_options += "3";
+            if (gender)
+                ids_and_options += "4";
+            if (desired_Workplace)
+                ids_and_options += "5";
+            if (cnp)
+                ids_and_options += "6";
+            if (field_of_Activity)
+                ids_and_options += "7";
+            if (occupation)
+                ids_and_options += "8";
+            if (cI_Info)
+                ids_and_options += "9";
+            if (activity)
+                ids_and_options += "A";
+            if (hour_Count)
+                ids_and_options += "B";
+            if (contact_Information)
+                ids_and_options += "C";
+            if (additional_info)
+                ids_and_options += "D";
+            return ids_and_options;
+        }
+
+        internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers)
+        {
+            var Day = Volunteer.Nowdate();
+            List<Volunteer> returnlistofvols = new List<Volunteer>();
+            foreach (var vol in volunteers)
+            {
+                var voldays = Volunteer.Volbd(vol);
+                if (Day <= voldays && Day + 10 > voldays || Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays)
+                {
+                    returnlistofvols.Add(vol);
+                }
+            }
+            return returnlistofvols;
+        }
     }
 }

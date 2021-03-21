@@ -20,10 +20,15 @@
 
         public const string CONNECTION_LANGUAGE = "Language";
 
-        public static string SESSION_KEY = "FirstSessionEvent";
-        public static string SECONDARY_SESSION_KEY = "SecondSessionEvent";
+        public static string SESSION_KEY_EVENT = "FirstSessionEvent";
+        public static string SECONDARY_SESSION_KEY_EVENT = "SecondSessionEvent";
         public static string EVENTSESSION = "eventSession";
         public static string EVENTHEADER = "eventHeader";
+
+        public static string SESSION_KEY_VOLUNTEER = "FirstSessionVolunteer";
+        public static string SECONDARY_SESSION_KEY_VOLUNTEER = "SecondSessionVolunteer";
+        public static string VOLUNTEERSESSION = "volunteerSession";
+        public static string VOLUNTEERHEADER = "volunteerHeader";
 
 
         public static string SESSION_KEY_SPONSOR = "FirstSessionSponsor";

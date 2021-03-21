@@ -26,11 +26,7 @@ namespace Finalaplication.Controllers
 
         public SponsorController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<SponsorController> localizer)
         {
-            try
-            {
-                _localizer = localizer;
-            }
-            catch { }
+            _localizer = localizer;
         }
 
         public ActionResult FileUpload()

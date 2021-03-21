@@ -71,6 +71,14 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+                List<Event> events = eventManager.GetListOfEvents();
+                events = EventFunctions.GetEventsAfterFilters(events, searching, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
+                string stringofids = EventFunctions.GetStringOfIds(events);
+                events = EventFunctions.GetEventsAfterPaging(events, page, nrofdocs);
+                string key = VolMongoConstants.SESSION_KEY_EVENT;
+                HttpContext.Session.SetString(key, stringofids);
+
                 if (searching != null)
                 { ViewBag.Filter1 = searching; }
                 if (searchingPlace != null)
@@ -97,18 +105,10 @@ namespace Finalaplication.Controllers
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.page = page;
-                List<Event> events = eventManager.GetListOfEvents();
-                events = EventFunctions.GetEventsAfterFilters(events, searching, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
+                ViewBag.page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.counter = events.Count();
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
-                string stringofids = EventFunctions.GetStringOfIds(events);
                 ViewBag.stringofids = stringofids;
-                events = EventFunctions.GetEventsAfterPaging(events, page, nrofdocs);
-                string key = VolMongoConstants.SESSION_KEY;
-                HttpContext.Session.SetString(key, stringofids);
 
                 return View(events);
             }
@@ -121,9 +121,9 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY);
-            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY);
-            string key = VolMongoConstants.SECONDARY_SESSION_KEY;
+            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_EVENT);
+            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_EVENT);
+            string key = VolMongoConstants.SECONDARY_SESSION_KEY_EVENT;
             HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
@@ -132,8 +132,8 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
-            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY);
-            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY);
+            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_EVENT);
+            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_EVENT);
             string ids_and_fields = EventFunctions.GetIdAndFieldString(IDS, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities);
             string key1 = VolMongoConstants.EVENTSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);

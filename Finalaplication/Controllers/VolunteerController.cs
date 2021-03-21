@@ -31,7 +31,6 @@ namespace Finalaplication.Controllers
         private IMongoCollection<Volcontract> volcontractcollection;
         private MongoDBContext dbcontext;
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
-
         {
             dbcontext = new MongoDBContext();
             volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
@@ -67,11 +66,11 @@ namespace Finalaplication.Controllers
                 //TODO: make application be able to import different CSV format
                 for (int i = 0; i < volunteersasstring.Count; i++)
                 {
-                    Volunteer vol = VolunteerFunctions.GetVolunteerFromString(volunteersasstring[i]);
-                    if (VolunteerFunctions.DoesNotExist(Volunteers, vol))
+                    Volunteer volunteer = VolunteerFunctions.GetVolunteerFromString(volunteersasstring[i]);
+                    if (VolunteerFunctions.DoesNotExist(Volunteers, volunteer))
                     {
                         docsimported++;
-                        volunteerManager.AddVolunteerToDB(vol);
+                        volunteerManager.AddVolunteerToDB(volunteer);
                     }
                 }
                 UniversalFunctions.RemoveTempFile(path);
@@ -87,76 +86,49 @@ namespace Finalaplication.Controllers
 
         {
             try
-            {
+            { 
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
+
                 if (HasDrivingLicence == true)
                 { ViewBag.Filter1 = ""; }
-
                 if (searchingLastname != null)
-                {
-                    ViewBag.Filters2 = searchingLastname;
-                }
+                { ViewBag.Filters2 = searchingLastname; }
                 if (searchedContact != null)
-                {
-                    ViewBag.Filter3 = searchedContact;
-                }
+                { ViewBag.Filter3 = searchedContact; }
                 if (searching != null)
-                {
-                    ViewBag.Filter4 = searching;
-                }
+                { ViewBag.Filter4 = searching; }
                 if (gender != null)
-                {
-                    ViewBag.Filter5 = gender;
-                }
+                { ViewBag.Filter5 = gender; }
                 if (searchedAddress != null)
-                {
-                    ViewBag.Filter6 = searchedAddress;
-                }
+                { ViewBag.Filter6 = searchedAddress; }
                 if (searchedworkplace != null)
-                {
-                    ViewBag.Filter7 = searchedworkplace;
-                }
+                { ViewBag.Filter7 = searchedworkplace; }
                 if (searchedRemarks != null)
-                {
-                    ViewBag.Filter8 = searchedRemarks;
-                }
+                { ViewBag.Filter8 = searchedRemarks; }
                 if (searchedOccupation != null)
-                {
-                    ViewBag.Filter9 = searchedOccupation;
-                }
+                { ViewBag.Filter9 = searchedOccupation; }
                 if (searchedHourCount != 0)
-                {
-                    ViewBag.Filter10 = searchedHourCount.ToString();
-                }
-
+                { ViewBag.Filter10 = searchedHourCount.ToString(); }
                 if (Active != false)
                 { ViewBag.Filter11 = ""; }
                 if (HasCar != false)
                 { ViewBag.Filter12 = ""; }
-
                 DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
                 if (lowerdate != date)
                 { ViewBag.Filter13 = lowerdate.ToString(); }
-
                 if (upperdate != date)
                 { ViewBag.Filter14 = upperdate.ToString(); }
                 if (activesince != date)
                 { ViewBag.Filter15 = activesince.ToString(); }
                 if (activetill != date)
                 { ViewBag.Filter16 = activetill.ToString(); }
-
-                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                ViewBag.page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.lang = lang;
-                if (page > 0)
-                    ViewBag.Page = page;
-                else
-                    ViewBag.Page = 1;
                 ViewBag.searchingLastname = searchingLastname;
                 ViewBag.searching = searching;
                 ViewBag.active = Active;
-
                 ViewBag.ContactInfo = searchedContact;
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.Address = searchedAddress;
@@ -177,6 +149,8 @@ namespace Finalaplication.Controllers
                 ViewBag.HourCountSort = sortOrder == "Hourcount" ? "Hourcount_desc" : "Hourcount";
                 ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
                 ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+
+                
                 if (activetill < activesince && activetill > DateTime.Now.AddYears(-2000))
                 {
                     ViewBag.wrongorder = true;
@@ -185,41 +159,19 @@ namespace Finalaplication.Controllers
                 DateTime d1 = new DateTime(0003, 1, 1);
                 if (searching != null)
                 {
-                    try
-                    {
-                        volunteers = volunteers.Where(x => x.Firstname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
+                     volunteers = volunteers.Where(x => x.Firstname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 if (searchingLastname != null)
                 {
-                    try
-                    {
-                        volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
+                     volunteers = volunteers.Where(x => x.Lastname.Contains(searchingLastname, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 if (Active == true)
                 {
                     volunteers = volunteers.Where(x => x.InActivity == true).ToList();
                 }
-
-
                 if (searchedworkplace != null)
                 {
-                    List<Volunteer> vol = volunteers;
-                    foreach (var v in vol)
-                    {
-                        if (v.Desired_workplace == null || v.Desired_workplace == "")
-                        {
-                            v.Desired_workplace = "-";
-                        }
-                    }
-                    try
-                    {
-                        volunteers = vol.Where(x => x.Desired_workplace.Contains(searchedworkplace, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                    }
-                    catch { }
+                    volunteers = volunteers.Where(x => x.Desired_workplace.Contains(searchedworkplace, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 if (searchedOccupation != null)
                 {
@@ -281,7 +233,6 @@ namespace Finalaplication.Controllers
                 {
                     volunteers = volunteers.Where(x => x.Birthdate <= upperdate).ToList();
                 }
-                //IN CASE THERE IS NO END DATE
                 if (activesince > d1 && activetill <= d1)
                 {
                     string ids_to_remove = "";
@@ -309,7 +260,6 @@ namespace Finalaplication.Controllers
                         volunteers.Remove(voltodelete);
                     }
                 }
-                //IN CASE THERE IS NO START DATE
                 if (activesince < d1 && activetill > d1)
                 {
                     string ids_to_remove = "";
@@ -469,9 +419,9 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString("FirstSessionVolunteer");
-            HttpContext.Session.Remove("FirstSessionVolunteer");
-            string key = "SecondSessionVolunteer";
+            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_VOLUNTEER);
+            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_VOLUNTEER);
+            string key = VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER;
             HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
@@ -480,68 +430,23 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
-            var IDS = HttpContext.Session.GetString("SecondSessionVolunteer");
-            HttpContext.Session.Remove("SecondSessionVolunteer");
-            string ids_and_options = IDS + "(((";
-            if (All == true)
-                ids_and_options = ids_and_options + "0";
-            if (Name == true)
-                ids_and_options = ids_and_options + "1";
-            if (Birthdate == true)
-                ids_and_options = ids_and_options + "2";
-            if (Address == true)
-                ids_and_options = ids_and_options + "3";
-            if (Gender == true)
-                ids_and_options = ids_and_options + "4";
-            if (Desired_Workplace == true)
-                ids_and_options = ids_and_options + "5";
-            if (CNP == true)
-                ids_and_options = ids_and_options + "6";
-            if (Field_of_Activity == true)
-                ids_and_options = ids_and_options + "7";
-            if (Occupation == true)
-                ids_and_options = ids_and_options + "8";
-            if (CI_Info == true)
-                ids_and_options = ids_and_options + "9";
-            if (Activity == true)
-                ids_and_options = ids_and_options + "A";
-            if (Hour_Count == true)
-                ids_and_options = ids_and_options + "B";
-            if (Contact_Information == true)
-                ids_and_options = ids_and_options + "C";
-            if (Additional_info == true)
-                ids_and_options = ids_and_options + "D";
-
-            string key1 = "volunteersSession";
+            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER);
+            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER);
+            string ids_and_fields = VolunteerFunctions.GetIdAndFieldString(IDS, All, Name, Birthdate, Address, Gender, Desired_Workplace, CNP, Field_of_Activity, Occupation, CI_Info, Activity, Hour_Count, Contact_Information, Additional_info);
+            string key1 = VolMongoConstants.VOLUNTEERSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterVolunteer(_localizer);
-            string key2 = "volunteersHeader";
-            if (DictionaryHelper.d.ContainsKey(key1) == true)
-            {
-                DictionaryHelper.d[key1] = ids_and_options;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key1, ids_and_options);
-            }
-            if (DictionaryHelper.d.ContainsKey(key2) == true)
-            {
-                DictionaryHelper.d[key2] = header;
-            }
-            else
-            {
-                DictionaryHelper.d.Add(key2, header);
-            }
-            string ids_and_optionssecond = "csvexporterapp:" + key1 + ";" + key2;
-
-            return Redirect(ids_and_optionssecond);
+            string key2 = VolMongoConstants.VOLUNTEERHEADER;
+            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
+            string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
+            return Redirect(csvexporterlink);
         }
 
         public ActionResult Birthday()
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
+                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
+                volunteers = VolunteerFunctions.GetVolunteersWithBirthdays(volunteers);
                 return View(volunteers);
             }
             catch
@@ -563,7 +468,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Volunteer/Details/5
         public ActionResult Details(string id)
         {
             try
@@ -579,7 +483,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Volunteer/Create
         [HttpGet]
         public ActionResult Create()
         {
@@ -594,7 +497,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Create
         [HttpPost]
         public ActionResult Create(Volunteer volunteer, List<IFormFile> Image)
         {
