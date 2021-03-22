@@ -18,7 +18,7 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 return false;
         }
 
-        public static bool Files_is_not_empty(IList<IFormFile> files)
+        public static bool File_is_not_empty(IList<IFormFile> files)
         {
             if (files!=null)
                 return true;
