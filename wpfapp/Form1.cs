@@ -142,7 +142,7 @@ namespace wpfapp
                             doc.ReplaceText("<Address>", volc.Address);
                         doc.ReplaceText("<nrreg>", volc.NumberOfRegistration);
                         doc.ReplaceText("<todaydate>", volc.RegistrationDate.ToShortDateString());
-                        doc.ReplaceText("<Fullname>", volc.Firstname + " " + volc.Lastname);
+                        doc.ReplaceText("<Fullname>", volc.Fullname);
                         if (volc.CNP != null)
                             doc.ReplaceText("<CNP>", volc.CNP);
                         if (volc.CIseria != null)

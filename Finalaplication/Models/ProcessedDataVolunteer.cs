@@ -20,13 +20,13 @@ namespace Finalaplication
           List<string[]> result,
          string duplicates,
          int documentsimported, IMongoCollection<Volcontract> vollunteercontractcollection)
-         {
+        {
             this.vollunteercollection = vollunteercollection;
             this.result = result;
             this.duplicates = duplicates;
             this.documentsimported = documentsimported;
             this.vollunteercontractcollection = vollunteercontractcollection;
-         }
+        }
 
         public void ImportVolunteerContractsFromCsv()
         {
@@ -43,8 +43,7 @@ namespace Finalaplication
                         {
                             Volcontract contract = new Volcontract
                             {
-                                Firstname = v.Firstname,
-                                Lastname = v.Lastname
+                                Fullname = v.Fullname,
                             };
                             string address = string.Empty;
                             contract.Address = address;
@@ -109,17 +108,17 @@ namespace Finalaplication
         {
             foreach (var details in result)
             {
-                if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                if (vollunteercollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
-                else if (vollunteercollection.CountDocuments(z => z.CNP == details[1]) >= 1 && details[1] != "")
+                else if (vollunteercollection.CountDocuments(z => z.CNP == details[0]) >= 1 && details[0] != "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "" && vollunteercollection.CountDocuments(z => z.Lastname == details[1]) >= 1)
+                else if (vollunteercollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
-                    duplicates = duplicates + details[0] + " " + details[1] + ", ";
+                    duplicates = duplicates + details[0] + ", ";
                 }
                 else
                 {
@@ -127,16 +126,7 @@ namespace Finalaplication
                     {
                         documentsimported++;
                         Volunteer volunteer = new Volunteer();
-                        try
-                        {
-                            volunteer.Firstname = details[0];
-                            volunteer.Lastname = details[1];
-                        }
-                        catch
-                        {
-                            volunteer.Firstname = "Error";
-                            volunteer.Lastname = "Error";
-                        }
+                        volunteer.Fullname = details[0];
 
                         try
                         {
@@ -349,7 +339,7 @@ namespace Finalaplication
         {
             foreach (var details in result)
             {
-                if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                if (vollunteercollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
@@ -357,7 +347,7 @@ namespace Finalaplication
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "" && vollunteercollection.CountDocuments(z => z.Lastname == details[1]) >= 1)
+                else if (vollunteercollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
@@ -365,27 +355,10 @@ namespace Finalaplication
                 {
                     documentsimported++;
                     Volunteer volunteer = new Volunteer();
-                    try
-                    {
-                        if (details[0].Contains(" ") == true)
 
-                        {
-                            string[] splitName = details[0].Split();
-                            volunteer.Lastname = splitName[0];
-                            if (splitName.Count() == 2)
-                            {
-                                volunteer.Firstname = splitName[1];
-                            }
-                            else
-                            {
-                                volunteer.Firstname = splitName[1] + " " + splitName[2];
-                            }
-                        }
-                    }
-                    catch
+                    if (details[0].Contains(" ") == true)
                     {
-                        volunteer.Firstname = "Error";
-                        volunteer.Lastname = "Error";
+                        volunteer.Fullname = details[0];
                     }
 
                     if (details[1] != null || details[1] != "")

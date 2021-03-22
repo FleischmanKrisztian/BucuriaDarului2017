@@ -43,19 +43,10 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-6">
-                        <label>@Localizer["Firstname"]:</label>
+                        <label>@Localizer["Fullname"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.DisplayFor(model => model.Firstname)
-                        <hr />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label> @Localizer["Lastname"]:</label>
-                    </div>
-                    <div class="col-md-6">
-                        @Html.DisplayFor(model => model.Lastname)
+                        @Html.DisplayFor(model => model.Fullname)
                         <hr />
                     </div>
                 </div>
@@ -95,7 +86,6 @@
                         <div class="form-group">
                             @Localizer["MakeItInactive"]
                             @Html.CheckBox("Inactive", checked(true))
-                            @Html.HiddenFor(model => model.Activedates)
                             <br>
                             <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
                         </div>

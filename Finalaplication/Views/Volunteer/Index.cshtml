@@ -12,7 +12,6 @@
     string string1 = ViewBag.Filter1;
     string string2 = ViewBag.Filters2;
     string string3 = ViewBag.Filter3;
-    string string4 = ViewBag.Filter4;
     string string5 = ViewBag.Filter5;
     string string6 = ViewBag.Filter6;
     string string7 = ViewBag.Filter7;
@@ -135,47 +134,47 @@
 
                 if (currentpage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, HasDriverLicence = ViewBag.hasDriverLicence, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, HasDriverLicence = ViewBag.hasDriverLicence, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, HasDriverLicence = ViewBag.hasDriverLicence, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, HasDriverLicence = ViewBag.hasDriverLicence, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (currentpage >= 5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = currentpage - 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink("<<", "Index", new { page = currentpage - 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (currentpage > 3)
                 {
-                    @Html.ActionLink((currentpage - 2).ToString(), "Index", new { page = currentpage - 2, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((currentpage - 2).ToString(), "Index", new { page = currentpage - 2, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (currentpage > 2)
                 {
-                    @Html.ActionLink((currentpage - 1).ToString(), "Index", new { page = currentpage - 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((currentpage - 1).ToString(), "Index", new { page = currentpage - 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (currentpage != 1 && currentpage != maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if (currentpage < maxpage - 1)
                 {
-                    @Html.ActionLink((currentpage + 1).ToString(), "Index", new { page = currentpage + 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((currentpage + 1).ToString(), "Index", new { page = currentpage + 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (currentpage < maxpage - 2)
                 {
-                    @Html.ActionLink((currentpage + 2).ToString(), "Index", new { page = currentpage + 2, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((currentpage + 2).ToString(), "Index", new { page = currentpage + 2, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (currentpage < maxpage - 3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = currentpage + 1, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink(">>", "Index", new { page = currentpage + 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
                 if (maxpage != 1 && currentpage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
                 }
             }
             </pre>
@@ -192,18 +191,13 @@
     }
     @if (string2 != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Lastname"]
+            @Localizer["Fullname"]
             :@string2
         </div>
     }
     @if (string3 != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["ContactInfo"]: @string3
-        </div>
-    }
-    @if (string4 != null)
-    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Firstname"]:@string4
         </div>
     }
     @if (string5 != null)
@@ -267,20 +261,15 @@
     <table class="table">
         <tr>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount,  searchingLastname= ViewBag.searchingLastname})>@Localizer["Firstname"]</a>
+                <a href=@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })>@Localizer["Fullname"]</a>
 
-                @Html.TextBox("searching")
+                @Html.TextBox("searchedFullname")
             </th>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.LastnameSort, searching = ViewBag.searching, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount ,  searchingLastname= ViewBag.searchingLastname})>@Localizer["Lastname"]</a>
-
-                @Html.TextBox("searchingLastname")
+                <a href=@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })>@Localizer["BirthDate"]</a>
             </th>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount ,  searchingLastname= ViewBag.searchingLastname})>@Localizer["BirthDate"]</a>
-            </th>
-            <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount ,  searchingLastname= ViewBag.searchingLastname})>@Localizer["Active"]</a>
+                <a href=@Url.Action("Index", new { sortOrder = ViewBag.Activesort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })>@Localizer["Active"]</a>
 
                 @Html.CheckBox("Active")
             </th>
@@ -288,10 +277,10 @@
                 @Localizer["Phonenumber"]
             </th>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount ,  searchingLastname= ViewBag.searchingLastname})>@Localizer["Gender"]</a>
+                <a href=@Url.Action("Index", new { sortOrder = ViewBag.Gendersort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })>@Localizer["Gender"]</a>
             </th>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.HourCountSort, searching = ViewBag.searching, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount ,  searchingLastname= ViewBag.searchingLastname})>@Localizer["HourCount"]</a>
+                <a href=@Url.Action("Index", new { sortOrder = ViewBag.HourCountSort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })>@Localizer["HourCount"]</a>
 
                 @Html.TextBox("searchedHourCount")
             </th>
@@ -376,10 +365,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Firstname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lastname)
+                        @Html.DisplayFor(modelItem => item.Fullname)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Birthdate)

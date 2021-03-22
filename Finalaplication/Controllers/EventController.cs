@@ -1,35 +1,35 @@
 ﻿using Elm.Core.Parsers;
-using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.EventHelpers;
+using Finalaplication.ControllerHelpers.SponsorHelpers;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.ControllerHelpers.VolunteerHelpers;
+using Finalaplication.DatabaseHandler;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using Finalaplication.ControllerHelpers.EventHelpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseHandler;
 using EventManager = Finalaplication.DatabaseHandler.EventManager;
-using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.ControllerHelpers.SponsorHelpers;
+using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
 {
     public class EventController : Controller
     {
         private readonly IStringLocalizer<EventController> _localizer;
-        EventManager eventManager = new EventManager();
-        VolunteerManager volunteerManager = new VolunteerManager();
-        SponsorManager sponsorManager = new SponsorManager();
+        private EventManager eventManager = new EventManager();
+        private VolunteerManager volunteerManager = new VolunteerManager();
+        private SponsorManager sponsorManager = new SponsorManager();
 
         public EventController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<EventController> localizer)
         {
             _localizer = localizer;
         }
+
         public ActionResult FileUpload()
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
@@ -45,7 +45,7 @@ namespace Finalaplication.Controllers
                 string path = " ";
                 if (UniversalFunctions.File_is_not_empty(Files))
                 {
-                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",Files.FileName);
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
                     UniversalFunctions.CreateFileStream(Files, path);
                 }
                 else
@@ -53,7 +53,7 @@ namespace Finalaplication.Controllers
                     return View();
                 }
                 List<string[]> Events = CSVImportParser.GetListFromCSV(path);
-                for (int i = 0; i<Events.Count; i++)
+                for (int i = 0; i < Events.Count; i++)
                 {
                     Event ev = EventFunctions.GetEventFromString(Events[i]);
                     eventManager.AddEventToDB(ev);
@@ -74,6 +74,7 @@ namespace Finalaplication.Controllers
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 List<Event> events = eventManager.GetListOfEvents();
                 events = EventFunctions.GetEventsAfterFilters(events, searching, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
+                ViewBag.counter = events.Count();
                 string stringofids = EventFunctions.GetStringOfIds(events);
                 events = EventFunctions.GetEventsAfterPaging(events, page, nrofdocs);
                 string key = VolMongoConstants.SESSION_KEY_EVENT;
@@ -106,7 +107,6 @@ namespace Finalaplication.Controllers
                 ViewBag.Lowerdate = lowerdate;
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.counter = events.Count();
                 ViewBag.nrofdocs = nrofdocs;
                 ViewBag.stringofids = stringofids;
 
@@ -156,7 +156,7 @@ namespace Finalaplication.Controllers
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
                 ViewBag.stringofids = stringofids;
-                volunteers = VolunteerFunctions.GetVolunteersAfterPaging(volunteers,page,nrofdocs);
+                volunteers = VolunteerFunctions.GetVolunteersAfterPaging(volunteers, page, nrofdocs);
                 List<Event> events = eventManager.GetListOfEvents();
                 ViewBag.strname = EventFunctions.GetAllocatedVolunteersString(events, id);
                 ViewBag.Eventname = EventFunctions.GetNameOfEvent(events, id);
@@ -181,7 +181,7 @@ namespace Finalaplication.Controllers
                 Event eventtoallocateto = eventManager.GetOneEvent(Evid);
                 string nameofvolunteers = VolunteerFunctions.GetVolunteerNames(volunteers);
                 eventtoallocateto.AllocatedVolunteers = nameofvolunteers;
-                eventManager.UpdateAnEvent(eventtoallocateto);
+                eventManager.UpdateAnEvent(eventtoallocateto, Evid);
                 return RedirectToAction("Index");
             }
             catch
@@ -228,7 +228,7 @@ namespace Finalaplication.Controllers
                 Event eventtoallocateto = eventManager.GetOneEvent(Evid);
                 string nameofsponsors = SponsorFunctions.GetSponsorNames(sponsors);
                 eventtoallocateto.AllocatedSponsors = nameofsponsors;
-                eventManager.UpdateAnEvent(eventtoallocateto);
+                eventManager.UpdateAnEvent(eventtoallocateto, Evid);
                 return RedirectToAction("Index");
             }
             catch
@@ -270,8 +270,7 @@ namespace Finalaplication.Controllers
             try
             {
                 string eventasstring = JsonConvert.SerializeObject(incomingevent);
-                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
-                if (containsspecialchar)
+                if (UniversalFunctions.ContainsSpecialChar(eventasstring))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
                 }
@@ -286,7 +285,7 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                    ViewBag.containsspecialchar = containsspecialchar;
+                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
                     return View();
                 }
             }
@@ -301,11 +300,9 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                Event eventt = eventManager.GetOneEvent(id);
-                Event originalsavedevent = eventt;
-                ViewBag.originalsavedevent = JsonConvert.SerializeObject(originalsavedevent);
+                Event ourevent = eventManager.GetOneEvent(id);
                 ViewBag.id = id;
-                return View(eventt);
+                return View(ourevent);
             }
             catch
             {
@@ -314,40 +311,30 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Event incomingevent, string originalsavedeventstring)
+        public ActionResult Edit(string id, Event incomingevent)
         {
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 string eventasstring = JsonConvert.SerializeObject(incomingevent);
-                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
-                if (containsspecialchar)
+                if (UniversalFunctions.ContainsSpecialChar(eventasstring))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
                 }
-                Event Originalsavedvol = JsonConvert.DeserializeObject<Event>(originalsavedeventstring);
-                Event currentsavedevent = eventManager.GetOneEvent(id);
-                if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedevent)))
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                ModelState.Remove("Duration");
+                if (ModelState.IsValid)
                 {
-                    ModelState.Remove("NumberOfVolunteersNeeded");
-                    ModelState.Remove("DateOfEvent");
-                    ModelState.Remove("Duration");
-                    if (ModelState.IsValid)
-                    {
-                        incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
-                        eventManager.UpdateAnEvent(incomingevent,id);
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.originalsavedevent = originalsavedeventstring;
-                        ViewBag.id = id;
-                        ViewBag.containsspecialchar = containsspecialchar;
-                        return View();
-                    }
+                    incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
+                    eventManager.UpdateAnEvent(incomingevent, id);
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    return View("Volunteerwarning");
+                    ViewBag.id = id;
+                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
+                    return View();
                 }
             }
             catch

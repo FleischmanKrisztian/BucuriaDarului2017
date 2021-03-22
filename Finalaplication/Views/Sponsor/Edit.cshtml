@@ -1,7 +1,6 @@
 ﻿@model Finalaplication.Models.Sponsor
 @{
     ViewBag.Title = "Edit";
-    string originalsavedsponsor = ViewBag.originalsavedsponsor;
     string id = ViewBag.id;
 }
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -59,8 +58,6 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <input type="hidden" name="Originalsavedsponsorstring" value="@originalsavedsponsor" />
     <input type="hidden" name="id" value="@id" />
     <div class="container emp-profile">
         <div class="row">

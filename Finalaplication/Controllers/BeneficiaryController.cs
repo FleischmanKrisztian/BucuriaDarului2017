@@ -11,10 +11,8 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using VolCommon;
 
@@ -114,7 +112,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult ImportUpdate(string docsimported)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);        
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             ViewBag.documentsimported = docsimported;
             return View();
         }
@@ -281,100 +279,6 @@ namespace Finalaplication.Controllers
                 if (Active == true)
                 {
                     beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
-                }
-                if (activesince > d1 && activetill <= d1)
-                {
-                    string ids_to_remove = "";
-                    foreach (Beneficiary vol in beneficiaries)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
-                        {
-                            if (startdates[j] > activesince || enddates[j] > activesince)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + UniversalFunctions.Datereturner(vol.Activedates);
-                        }
-                    }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
-                        beneficiaries.Remove(voltodelete);
-                    }
-                }
-                //IN CASE THERE IS NO START DATE
-                if (activesince < d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
-                    foreach (Beneficiary vol in beneficiaries)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
-                        {
-                            if (startdates[j] < activetill || enddates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + vol.BeneficiaryID;
-                        }
-                    }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
-                        beneficiaries.Remove(voltodelete);
-                    }
-                }
-                //IN CASE THERE ARE BOTH
-                if (activesince > d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
-
-                    foreach (Beneficiary vol in beneficiaries)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
-                        {
-                            if (startdates[j] > activesince && startdates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                            else if (enddates[j] > activesince && enddates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                            else if (startdates[j] < activesince && enddates[j] > activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + vol.BeneficiaryID;
-                        }
-                    }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
-                        beneficiaries.Remove(voltodelete);
-                    }
                 }
                 if (Weeklypackage == true)
                 {
@@ -637,7 +541,7 @@ namespace Finalaplication.Controllers
             string ids = HttpContext.Session.GetString("FirstSessionBeneficiary");
             HttpContext.Session.Remove("FirstSessionBeneficiary");
             string key = "SecondSessionBeneficiary";
-           HttpContext.Session.SetString(key, ids);
+            HttpContext.Session.SetString(key, ids);
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
@@ -820,13 +724,6 @@ namespace Finalaplication.Controllers
                             }
                         }
                     }
-                    if (beneficiary.Active == true)
-                    {
-                        Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                        beneficiary.Activedates = beneficiary.Activedates + "," + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
-                        beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                        beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
-                    }
                     beneficiarycollection.InsertOne(beneficiary);
                     return RedirectToAction("Index");
                 }
@@ -902,26 +799,6 @@ namespace Finalaplication.Controllers
                                 }
                             }
                         }
-                        bool wasactive = false;
-
-                        if (Originalsavedvol.Active == true)
-                        {
-                            wasactive = true;
-                        }
-                        if (beneficiary.Active == false && wasactive == true)
-                        {
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
-                        }
-                        if (beneficiary.Active == true && wasactive == false)
-                        {
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            beneficiary.Activedates = beneficiary.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
-                        }
 
                         if (ModelState.IsValid)
                         {
@@ -963,7 +840,6 @@ namespace Finalaplication.Controllers
                                .Set("PersonalInfo.Profesion", beneficiary.PersonalInfo.Profesion)
                                .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
                                .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
-                               .Set("Activedates", beneficiary.Activedates)
                                .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies);
 
                             var result = beneficiarycollection.UpdateOne(filter, update);
@@ -1025,17 +901,9 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
-                        if (beneficiary.Active == false)
-                        {
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
-                        }
                         var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                         var update = Builders<Beneficiary>.Update
-                            .Set("Active", beneficiary.Active)
-                            .Set("Activedates", beneficiary.Activedates);
+                            .Set("Active", beneficiary.Active);
                         var result = beneficiarycollection.UpdateOne(filter, update);
                         return RedirectToAction("Index");
                     }
