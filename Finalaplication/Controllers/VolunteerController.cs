@@ -473,7 +473,6 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var volunteerId = new ObjectId(id);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
@@ -498,36 +497,25 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Volunteer volunteer, List<IFormFile> Image)
+        public ActionResult Create(Volunteer volunteer, IFormFile image)
         {
             try
             {
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 string volasstring = JsonConvert.SerializeObject(volunteer);
-                bool containsspecialchar = false;
-                if (volasstring.Contains(";"))
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(volasstring);
+                if (containsspecialchar)
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                    containsspecialchar = true;
                 }
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
                 ModelState.Remove("CIEliberat");
                 if (ModelState.IsValid)
                 {
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
+                    volunteer.Image = VolunteerFunctions.addimage(image);
 
-                    foreach (var item in Image)
-                    {
-                        if (item.Length > 0)
-                        {
-                            using (var stream = new MemoryStream())
-                            {
-                                item.CopyTo(stream);
-                                volunteer.Image = stream.ToArray();
-                            }
-                        }
-                    }
                     if (volunteer.InActivity == true)
                     {
                         Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");

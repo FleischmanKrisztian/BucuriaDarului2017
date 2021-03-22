@@ -1,6 +1,8 @@
 ﻿using Finalaplication.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VolCommon;
@@ -263,6 +265,18 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
                 }
             }
             return returnlistofvols;
+        }
+
+        internal static byte[] addimage(IFormFile image)
+        {
+            byte[] returnedimage = new byte[256];
+            if (image != null)
+            {
+                var stream = new MemoryStream();
+                image.CopyTo(stream);
+                returnedimage = stream.ToArray();
+            }
+            return returnedimage;
         }
     }
 }
