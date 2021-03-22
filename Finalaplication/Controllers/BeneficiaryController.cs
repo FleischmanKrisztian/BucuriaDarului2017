@@ -2,6 +2,7 @@
 using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +28,13 @@ namespace Finalaplication.Controllers
 
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
+        BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
             try
             {
-                dbcontext = new MongoDBContext();
-                beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
-                beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
                 _localizer = localizer;
             }
             catch { }
@@ -53,17 +53,10 @@ namespace Finalaplication.Controllers
             try
             {
                 string path = " ";
-
-                if (Files.Length > 0)
+                if (UniversalFunctions.File_is_not_empty(Files))
                 {
-                    path = Path.Combine(
-                               Directory.GetCurrentDirectory(), "wwwroot",
-                               Files.FileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        Files.CopyTo(stream);
-                    }
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
+                    UniversalFunctions.CreateFileStream(Files, path);
                 }
                 else
                 {
@@ -153,7 +146,6 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filters4 = ""; }
                 if (Homeless == true)
                 { ViewBag.Filters5 = ""; }
-
                 if (Weeklypackage == true)
                 { ViewBag.Filters6 = ""; }
                 if (Canteen == true)
@@ -209,18 +201,6 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filter30 = activesince.ToString(); }
                 if (activetill != date)
                 { ViewBag.Filter31 = activetill.ToString(); }
-
-                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
-
-                if (page > 0)
-                    ViewBag.Page = page;
-                else
-                    ViewBag.Page = 1;
-                if (activetill < activesince && activetill > DateTime.Now.AddYears(-2000))
-                {
-                    ViewBag.wrongorder = true;
-                    RedirectToPage("Index");
-                }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.searching = searching;
@@ -255,12 +235,15 @@ namespace Finalaplication.Controllers
                 ViewBag.searchingIncome = searchingIncome;
                 ViewBag.searchingExpences = searchingExpences;
                 ViewBag.gender = gender;
-
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
                 ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
                 ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
                 ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+                List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
+                page = UniversalFunctions.GetCurrentPage(page);
+                ViewBag.page = page;
+
 
                 DateTime d1 = new DateTime(0003, 1, 1);
                 if (upperdate > d1)
@@ -1006,7 +989,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
+                Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
                 return View(beneficiary);
             }
             catch
@@ -1026,15 +1009,15 @@ namespace Finalaplication.Controllers
                 {
                     if (Inactive == false)
                     {
-                        beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
-                        beneficiarycontractcollection.DeleteMany(zzz => zzz.OwnerID == id);
+                        beneficiaryManager.DeleteBeneficiary(id);
+                        beneficiaryContractManager.DeleteAllContracts(id);
                         return RedirectToAction("Index");
                     }
                     else
                     {
                         if (beneficiary.Active == false)
                         {
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                           
                             beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                             beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
                             beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
@@ -1043,7 +1026,7 @@ namespace Finalaplication.Controllers
                         var update = Builders<Beneficiary>.Update
                             .Set("Active", beneficiary.Active)
                             .Set("Activedates", beneficiary.Activedates);
-                        var result = beneficiarycollection.UpdateOne(filter, update);
+                        beneficiaryManager.UpdateBeneficiary(filter, update);
                         return RedirectToAction("Index");
                     }
                 }
