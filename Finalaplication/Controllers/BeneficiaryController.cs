@@ -190,11 +190,9 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filters26 = searchingExpences; }
                 if (gender != null)
                 { ViewBag.Filters27 = gender; }
-
                 DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
                 if (lowerdate != date)
                 { ViewBag.Filter28 = lowerdate.ToString(); }
-
                 if (upperdate != date)
                 { ViewBag.Filter29 = upperdate.ToString(); }
                 if (activesince != date)
@@ -206,10 +204,8 @@ namespace Finalaplication.Controllers
                 ViewBag.searching = searching;
                 ViewBag.active = Active;
                 ViewBag.hascontract = HasContract;
-
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
-
                 ViewBag.Homeless = Homeless;
                 ViewBag.Weeklypackage = Weeklypackage;
                 ViewBag.Canteen = Canteen;
@@ -798,7 +794,7 @@ namespace Finalaplication.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (UniversalFunctions.Files_is_not_empty(Image))
+                    if (UniversalFunctions.File_is_not_empty(Image))
                     {
                         beneficiary.Image = UniversalFunctions.Image(Image);
                     }
@@ -873,7 +869,7 @@ namespace Finalaplication.Controllers
                         ModelState.Remove("CI.ICExpirationDate");
 
                         
-                        if (UniversalFunctions.Files_is_not_empty(image))
+                        if (UniversalFunctions.File_is_not_empty(image))
                         {
                             incomingbeneficiary.Image = UniversalFunctions.Image(image);
                         }
