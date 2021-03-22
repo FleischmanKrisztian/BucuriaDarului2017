@@ -748,7 +748,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
+                Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
 
                 return View(beneficiary);
             }
@@ -777,12 +777,11 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                string volasstring = JsonConvert.SerializeObject(beneficiary);
-                bool containsspecialchar = false;
-                if (volasstring.Contains(";"))
+                string beneficiaryasstring = JsonConvert.SerializeObject(beneficiary);
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(beneficiaryasstring);
+                if (containsspecialchar)
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                    containsspecialchar = true;
                 }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ModelState.Remove("CI.ExpirationDateCI");
@@ -799,16 +798,9 @@ namespace Finalaplication.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    foreach (var item in Image)
+                    if (UniversalFunctions.Files_is_not_empty(Image))
                     {
-                        if (item.Length > 0)
-                        {
-                            using (var stream = new MemoryStream())
-                            {
-                                item.CopyTo(stream);
-                                beneficiary.Image = stream.ToArray();
-                            }
-                        }
+                        beneficiary.Image = UniversalFunctions.Image(Image);
                     }
                     if (beneficiary.Active == true)
                     {
@@ -817,7 +809,7 @@ namespace Finalaplication.Controllers
                         beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
                         beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
                     }
-                    beneficiarycollection.InsertOne(beneficiary);
+                    beneficiaryManager.AddBeneficiaryToDB(beneficiary);
                     return RedirectToAction("Index");
                 }
                 else
