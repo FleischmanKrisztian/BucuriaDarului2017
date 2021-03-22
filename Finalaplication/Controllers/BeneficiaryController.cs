@@ -838,9 +838,9 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var beneficiary = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(v => v.BeneficiaryID == id);
-                Beneficiary originalsavedvol = beneficiarycollection.AsQueryable<Beneficiary>().SingleOrDefault(x => x.BeneficiaryID == id);
-                ViewBag.originalsavedvol = JsonConvert.SerializeObject(originalsavedvol);
+                Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
+                Beneficiary originalsavedvol = beneficiary;
+                ViewBag.originalsavedbeneficiary = JsonConvert.SerializeObject(originalsavedvol);
                 ViewBag.id = id;
                 return View(beneficiary);
             }
@@ -852,25 +852,23 @@ namespace Finalaplication.Controllers
 
         // POST: Beneficiary/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, Beneficiary beneficiary, string Originalsavedvolstring, IList<IFormFile> image)
+        public ActionResult Edit(string id, Beneficiary incomingbeneficiary, string originalsavedbeneficiarystring, IList<IFormFile> image)
         {
             try
             {
-                string volasstring = JsonConvert.SerializeObject(beneficiary);
-                bool containsspecialchar = false;
-                if (volasstring.Contains(";"))
+                string beneasstring = JsonConvert.SerializeObject(incomingbeneficiary);
+                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(beneasstring);
+                if (containsspecialchar)
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                    containsspecialchar = true;
                 }
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                Beneficiary Originalsavedvol = JsonConvert.DeserializeObject<Beneficiary>(Originalsavedvolstring);
+                Beneficiary Originalsavedbeneficiary = JsonConvert.DeserializeObject<Beneficiary>(originalsavedbeneficiarystring);
+                Beneficiary currentsavedbeneficiary = beneficiaryManager.GetOneBeneficiary(id);
                 try
                 {
-                    var volunteerId = new ObjectId(id);
-                    Beneficiary currentsavedvol = beneficiarycollection.Find(x => x.BeneficiaryID == id).Single();
-                    if (JsonConvert.SerializeObject(Originalsavedvol).Equals(JsonConvert.SerializeObject(currentsavedvol)))
-                    {
+                    if (JsonConvert.SerializeObject(Originalsavedbeneficiary).Equals(JsonConvert.SerializeObject(currentsavedbeneficiary)))
+                    { 
                         ModelState.Remove("Contract.RegistrationDate");
                         ModelState.Remove("Contract.ExpirationDate");
                         ModelState.Remove("Marca.IdAplication");
@@ -881,87 +879,84 @@ namespace Finalaplication.Controllers
                         ModelState.Remove("LastTimeActiv");
                         ModelState.Remove("Personalinfo.Birthdate");
                         ModelState.Remove("CI.ICExpirationDate");
-                        foreach (var item in image)
+
+                        
+                        if (UniversalFunctions.Files_is_not_empty(image))
                         {
-                            if (item.Length > 0)
-                            {
-                                using (var stream = new MemoryStream())
-                                {
-                                    item.CopyTo(stream);
-                                    beneficiary.Image = stream.ToArray();
-                                }
-                            }
+                            incomingbeneficiary.Image = UniversalFunctions.Image(image);
                         }
+                         
+                              
                         bool wasactive = false;
 
-                        if (Originalsavedvol.Active == true)
+                        if (Originalsavedbeneficiary.Active == true)
                         {
                             wasactive = true;
                         }
-                        if (beneficiary.Active == false && wasactive == true)
+                        if (incomingbeneficiary.Active == false && wasactive == true)
                         {
                             Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
+                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
+                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(" ", "");
+                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(".", "/");
                         }
-                        if (beneficiary.Active == true && wasactive == false)
+                        if (incomingbeneficiary.Active == true && wasactive == false)
                         {
                             Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            beneficiary.Activedates = beneficiary.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
+                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
+                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(" ", "");
+                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(".", "/");
                         }
 
                         if (ModelState.IsValid)
                         {
                             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
                             var update = Builders<Beneficiary>.Update
-                               .Set("Fullname", beneficiary.Fullname)
-                               .Set("Image", beneficiary.Image)
-                               .Set("Weeklypackage", beneficiary.Weeklypackage)
-                               .Set("Active", beneficiary.Active)
-                               .Set("Canteen", beneficiary.Canteen)
-                               .Set("HomeDeliveryDriver", beneficiary.HomeDeliveryDriver)
-                               .Set("HasGDPRAgreement", beneficiary.HasGDPRAgreement)
-                               .Set("CNP", beneficiary.CNP)
-                               .Set("NumberOfPortions", beneficiary.NumberOfPortions)
-                               .Set("Comments", beneficiary.Comments)
-                               .Set("Adress", beneficiary.Adress)
-                               .Set("CI.CIinfo", beneficiary.CI.CIinfo)
-                               .Set("CI.CIeliberator", beneficiary.CI.CIeliberator)
-                               .Set("Marca.IdAplication", beneficiary.Marca.IdAplication)
-                               .Set("Marca.IdContract", beneficiary.Marca.IdContract)
-                               .Set("Marca.IdInvestigation", beneficiary.Marca.IdInvestigation)
-                               .Set("LastTimeActiv", beneficiary.LastTimeActiv)
-                               .Set("PersonalInfo.Birthdate", beneficiary.PersonalInfo.Birthdate.AddHours(5))
-                               .Set("PersonalInfo.PhoneNumber", beneficiary.PersonalInfo.PhoneNumber)
-                               .Set("PersonalInfo.BirthPlace", beneficiary.PersonalInfo.BirthPlace)
-                               .Set("PersonalInfo.Gender", beneficiary.PersonalInfo.Gender)
-                               .Set("PersonalInfo.ChronicCondition", beneficiary.PersonalInfo.ChronicCondition)
-                               .Set("PersonalInfo.Addictions", beneficiary.PersonalInfo.Addictions)
-                               .Set("PersonalInfo.Disalility", beneficiary.PersonalInfo.Disalility)
-                               .Set("PersonalInfo.Expences", beneficiary.PersonalInfo.Expences)
-                               .Set("PersonalInfo.HasHome", beneficiary.PersonalInfo.HasHome)
-                               .Set("PersonalInfo.HealthCard", beneficiary.PersonalInfo.HealthCard)
-                               .Set("PersonalInfo.HealthInsurance", beneficiary.PersonalInfo.HealthInsurance)
-                               .Set("PersonalInfo.HealthState", beneficiary.PersonalInfo.HealthState)
-                               .Set("PersonalInfo.HousingType", beneficiary.PersonalInfo.HousingType)
-                               .Set("PersonalInfo.Income", beneficiary.PersonalInfo.Income)
-                               .Set("PersonalInfo.Married", beneficiary.PersonalInfo.Married)
-                               .Set("PersonalInfo.Ocupation", beneficiary.PersonalInfo.Ocupation)
-                               .Set("PersonalInfo.Profesion", beneficiary.PersonalInfo.Profesion)
-                               .Set("PersonalInfo.SeniorityInWorkField", beneficiary.PersonalInfo.SeniorityInWorkField)
-                               .Set("PersonalInfo.SpouseName", beneficiary.PersonalInfo.SpouseName)
-                               .Set("Activedates", beneficiary.Activedates)
-                               .Set("PersonalInfo.Studies", beneficiary.PersonalInfo.Studies);
+                               .Set("Fullname", incomingbeneficiary.Fullname)
+                               .Set("Image", incomingbeneficiary.Image)
+                               .Set("Weeklypackage", incomingbeneficiary.Weeklypackage)
+                               .Set("Active", incomingbeneficiary.Active)
+                               .Set("Canteen", incomingbeneficiary.Canteen)
+                               .Set("HomeDeliveryDriver", incomingbeneficiary.HomeDeliveryDriver)
+                               .Set("HasGDPRAgreement", incomingbeneficiary.HasGDPRAgreement)
+                               .Set("CNP", incomingbeneficiary.CNP)
+                               .Set("NumberOfPortions", incomingbeneficiary.NumberOfPortions)
+                               .Set("Comments", incomingbeneficiary.Comments)
+                               .Set("Adress", incomingbeneficiary.Adress)
+                               .Set("CI.CIinfo", incomingbeneficiary.CI.CIinfo)
+                               .Set("CI.CIeliberator", incomingbeneficiary.CI.CIeliberator)
+                               .Set("Marca.IdAplication", incomingbeneficiary.Marca.IdAplication)
+                               .Set("Marca.IdContract", incomingbeneficiary.Marca.IdContract)
+                               .Set("Marca.IdInvestigation", incomingbeneficiary.Marca.IdInvestigation)
+                               .Set("LastTimeActiv", incomingbeneficiary.LastTimeActiv)
+                               .Set("PersonalInfo.Birthdate", incomingbeneficiary.PersonalInfo.Birthdate.AddHours(5))
+                               .Set("PersonalInfo.PhoneNumber", incomingbeneficiary.PersonalInfo.PhoneNumber)
+                               .Set("PersonalInfo.BirthPlace", incomingbeneficiary.PersonalInfo.BirthPlace)
+                               .Set("PersonalInfo.Gender", incomingbeneficiary.PersonalInfo.Gender)
+                               .Set("PersonalInfo.ChronicCondition", incomingbeneficiary.PersonalInfo.ChronicCondition)
+                               .Set("PersonalInfo.Addictions", incomingbeneficiary.PersonalInfo.Addictions)
+                               .Set("PersonalInfo.Disalility", incomingbeneficiary.PersonalInfo.Disalility)
+                               .Set("PersonalInfo.Expences", incomingbeneficiary.PersonalInfo.Expences)
+                               .Set("PersonalInfo.HasHome", incomingbeneficiary.PersonalInfo.HasHome)
+                               .Set("PersonalInfo.HealthCard", incomingbeneficiary.PersonalInfo.HealthCard)
+                               .Set("PersonalInfo.HealthInsurance", incomingbeneficiary.PersonalInfo.HealthInsurance)
+                               .Set("PersonalInfo.HealthState", incomingbeneficiary.PersonalInfo.HealthState)
+                               .Set("PersonalInfo.HousingType", incomingbeneficiary.PersonalInfo.HousingType)
+                               .Set("PersonalInfo.Income", incomingbeneficiary.PersonalInfo.Income)
+                               .Set("PersonalInfo.Married", incomingbeneficiary.PersonalInfo.Married)
+                               .Set("PersonalInfo.Ocupation", incomingbeneficiary.PersonalInfo.Ocupation)
+                               .Set("PersonalInfo.Profesion", incomingbeneficiary.PersonalInfo.Profesion)
+                               .Set("PersonalInfo.SeniorityInWorkField", incomingbeneficiary.PersonalInfo.SeniorityInWorkField)
+                               .Set("PersonalInfo.SpouseName", incomingbeneficiary.PersonalInfo.SpouseName)
+                               .Set("Activedates", incomingbeneficiary.Activedates)
+                               .Set("PersonalInfo.Studies", incomingbeneficiary.PersonalInfo.Studies);
 
-                            var result = beneficiarycollection.UpdateOne(filter, update);
+                            beneficiaryManager.UpdateBeneficiary(filter, update);
                             return RedirectToAction("Index");
                         }
                         else
                         {
-                            ViewBag.originalsavedvol = Originalsavedvolstring;
+                            ViewBag.originalsavedbeneficiary = originalsavedbeneficiarystring;
                             ViewBag.id = id;
                             ViewBag.containsspecialchar = containsspecialchar;
                             return View();
@@ -1016,8 +1011,8 @@ namespace Finalaplication.Controllers
                     else
                     {
                         if (beneficiary.Active == false)
-                        {
-                           
+                        {//erroare
+                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
                             beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                             beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
                             beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");

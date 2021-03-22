@@ -30,8 +30,8 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
-            Beneficiary volunteer = beneficiarycollection.Find(filter).FirstOrDefault();
-            return volunteer;
+            Beneficiary beneficiary = beneficiarycollection.Find(filter).FirstOrDefault();
+            return beneficiary;
         }
         internal List<Beneficiary> GetListOfBeneficiaries()
         {

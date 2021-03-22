@@ -4,6 +4,7 @@ using System;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Globalization;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {
@@ -17,6 +18,34 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 return false;
         }
 
+        public static bool Files_is_not_empty(IList<IFormFile> files)
+        {
+            if (files!=null)
+                return true;
+            else
+                return false;
+        }
+
+        internal static byte[] Image(IList<IFormFile> image)
+        {
+            byte[] return_image = new Byte[64];
+
+            
+            foreach (var item in image)
+            {
+                if (item.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        item.CopyTo(stream);
+                        return_image = stream.ToArray();
+                    }
+                }
+                }
+            
+
+            return return_image;
+        }
         internal static void CreateFileStream(IFormFile Files, string path)
         {
             using var stream = new FileStream(path, FileMode.Create);
