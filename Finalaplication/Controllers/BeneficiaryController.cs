@@ -734,7 +734,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
+                List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
                 return View(beneficiaries);
             }
             catch
