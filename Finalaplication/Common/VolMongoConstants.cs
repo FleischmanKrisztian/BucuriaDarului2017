@@ -24,5 +24,10 @@
         public static string SECONDARY_SESSION_KEY = "SecondSessionEvent";
         public static string EVENTSESSION = "eventSession";
         public static string EVENTHEADER = "eventHeader";
+
+        public static string SESSION_KEY_BENEFICIARY = "FirstSessionBeneficiary";
+        public static string SECONDARY_SESSION_KEY_BENEFICIARY = "SecondSessionBeneficiary";
+        public static string BENEFICIARYSESSION = "beneficiarySession";
+        public static string BENEFICIARYHEADER = "beneficiaryHeader";
     }
 }
