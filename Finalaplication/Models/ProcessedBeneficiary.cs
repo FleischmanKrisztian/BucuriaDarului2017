@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Finalaplication.DatabaseManager;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,21 @@ namespace Finalaplication.Models
 {
     public class ProcessedBeneficiary
     {
-        private IMongoCollection<Beneficiary> beneficiarycollection;
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+        BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
         private List<string[]> result;
         private string duplicates;
         private int documentsimported;
 
-        public ProcessedBeneficiary(IMongoCollection<Beneficiary> beneficiarycollection,
-        List<string[]> result,
+        public ProcessedBeneficiary(List<string[]> result,
         string duplicates,
-        int documentsimported,
-        IMongoCollection<Beneficiarycontract> beneficiarycontractcollection
+        int documentsimported
         )
         {
-            this.beneficiarycollection = beneficiarycollection;
             this.result = result;
             this.duplicates = duplicates;
             this.documentsimported = documentsimported;
-            this.beneficiarycontractcollection = beneficiarycontractcollection;
-        }
+           }
 
         public string ReturnRegistrationNumber(string number)
         {
@@ -45,17 +42,19 @@ namespace Finalaplication.Models
 
         public async Task ImportBeneficiaryContractsFromCsv()
         {
+            List<Beneficiary> beneficiarycollection = beneficiaryManager.GetListOfBeneficiaries();
+            List<Beneficiarycontract> beneficiarycontractcollection = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+
             foreach (var details in result)
             {
                 if (details[9] != null || details[9] != "")
                 {
                     if (details[15] != "" && details[16] != "")
                     {
-                        var filter = Builders<Beneficiary>.Filter.Eq(x => x.CNP, details[9]);
-                        var results = beneficiarycollection.Find(filter).ToList();
+                         var results = beneficiarycollection.Where(x=> x.CNP == details[9]); ;
 
                         string numberOfRegistration = ReturnRegistrationNumber(details[15]);
-                        if (beneficiarycontractcollection.CountDocuments(z => z.NumberOfRegistration == numberOfRegistration) != 0)
+                        if (beneficiarycontractcollection.Count(z => z.NumberOfRegistration == numberOfRegistration) != 0)
                         { }
                         else
                         {
@@ -107,7 +106,7 @@ namespace Finalaplication.Models
                                     beneficiarycontract.ExpirationDate = data_.AddDays(1);
                                 }
 
-                                beneficiarycontractcollection.InsertOne(beneficiarycontract);
+                               beneficiaryContractManager.AddBeneficiaryContractToDB(beneficiarycontract);
                             }
                         }
                     }
@@ -117,21 +116,24 @@ namespace Finalaplication.Models
 
         public async Task<Tuple<string, string>> GetProcessedBeneficiaries()
         {
+            List<Beneficiary> beneficiarycollection = beneficiaryManager.GetListOfBeneficiaries();
+            List<Beneficiarycontract> beneficiarycontractcollection = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+
             foreach (var details in result)
             {
-                if (beneficiarycollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
+                if (beneficiarycollection.Count(z => z.CNP == details[8]) >= 1 && details[8] != "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                else if (beneficiarycollection.Count(z => z.CNP == details[9]) >= 1 && details[9] != "")
                 {
                     duplicates = duplicates + details[1] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
+                else if (beneficiarycollection.Count(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[1]) >= 1 && details[9] == "")
+                else if (beneficiarycollection.Count(z => z.Fullname == details[1]) >= 1 && details[9] == "")
                 {
                     duplicates = duplicates + details[1] + ", ";
                 }
@@ -412,7 +414,7 @@ namespace Finalaplication.Models
                     beneficiary.PersonalInfo = personal;
                     beneficiary.CI = ciInfo;
 
-                    beneficiarycollection.InsertOne(beneficiary);
+                    beneficiaryManager.AddBeneficiaryToDB(beneficiary);
                 }
             }
             string key1 = "BeneficiaryImportDuplicate";
@@ -422,21 +424,24 @@ namespace Finalaplication.Models
 
         public async Task<Tuple<string, string>> GetProcessedBeneficiariesFromApp()
         {
+            List<Beneficiary> beneficiarycollection = beneficiaryManager.GetListOfBeneficiaries();
+            List<Beneficiarycontract> beneficiarycontractcollection = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+
             foreach (var details in result)
             {
-                if (beneficiarycollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
+                if (beneficiarycollection.Count(z => z.CNP == details[8]) >= 1 && details[8] != "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                else if (beneficiarycollection.Count(z => z.CNP == details[9]) >= 1 && details[9] != "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
+                else if (beneficiarycollection.Count(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (beneficiarycollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
+                else if (beneficiarycollection.Count(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
@@ -765,7 +770,7 @@ namespace Finalaplication.Models
                         beneficiary.PersonalInfo = personal;
                         beneficiary.CI = ciInfo;
 
-                        beneficiarycollection.InsertOne(beneficiary);
+                        beneficiaryManager.AddBeneficiaryToDB(beneficiary);
                     }
                 }
             }

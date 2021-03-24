@@ -24,10 +24,6 @@ namespace Finalaplication.Controllers
 {
     public class BeneficiaryController : Controller
     {
-        private MongoDBContext dbcontext;
-        private MongoDB.Driver.IMongoCollection<Beneficiary> beneficiarycollection;
-
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
         BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
         BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
@@ -71,7 +67,7 @@ namespace Finalaplication.Controllers
                 string[] myHeader = CSVImportParser.GetHeader(path);
                 string typeOfExport = CSVImportParser.TypeOfExport(myHeader);
 
-                ProcessedBeneficiary processed = new ProcessedBeneficiary(beneficiarycollection, result, duplicates, documentsimported, beneficiarycontractcollection);
+                ProcessedBeneficiary processed = new ProcessedBeneficiary( result, duplicates, documentsimported);
                 string docsimported = "";
                 string key1 = "";
                 if (typeOfExport == "BucuriaDarului")
@@ -84,7 +80,9 @@ namespace Finalaplication.Controllers
                         await processed.ImportBeneficiaryContractsFromCsv();
                     }
                     catch
-                    { }
+                    { 
+
+                    }
                 }
                 else
                 {
@@ -93,11 +91,7 @@ namespace Finalaplication.Controllers
                     key1 = tuple.Item2;
                 }
 
-                FileInfo file = new FileInfo(path);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
+                UniversalFunctions.DeleteFile(path);
                 return RedirectToAction("ImportUpdate", new { docsimported, key1 });
             }
             catch
@@ -240,361 +234,8 @@ namespace Finalaplication.Controllers
                 List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
                 page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.page = page;
-
-
-                DateTime d1 = new DateTime(0003, 1, 1);
-                if (upperdate > d1)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate <= upperdate).ToList();
-                }
-                if (searching != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.Fullname == null || b.Fullname == "")
-                        { b.Fullname = "-"; }
-                    }
-                    try { beneficiaries = bene.Where(x => x.Fullname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList(); } catch { }
-                }
-                if (Homeless == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HasHome == false).ToList();
-                }
-                if (lowerdate > d1)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate > lowerdate).ToList();
-                }
-                if (Active == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.Active == true).ToList();
-                }
-                if (activesince > d1 && activetill <= d1)
-                {
-                    string ids_to_remove = "";
-                    foreach (Beneficiary vol in beneficiaries)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
-                        {
-                            if (startdates[j] > activesince || enddates[j] > activesince)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + UniversalFunctions.Datereturner(vol.Activedates);
-                        }
-                    }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
-                        beneficiaries.Remove(voltodelete);
-                    }
-                }
-                //IN CASE THERE IS NO START DATE
-                if (activesince < d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
-                    foreach (Beneficiary vol in beneficiaries)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
-                        {
-                            if (startdates[j] < activetill || enddates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + vol.BeneficiaryID;
-                        }
-                    }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
-                        beneficiaries.Remove(voltodelete);
-                    }
-                }
-                //IN CASE THERE ARE BOTH
-                if (activesince > d1 && activetill > d1)
-                {
-                    string ids_to_remove = "";
-
-                    foreach (Beneficiary vol in beneficiaries)
-                    {
-                        (DateTime[] startdates, DateTime[] enddates, int i) = UniversalFunctions.Datereturner(vol.Activedates);
-                        bool passed = false;
-                        for (int j = i - 1; j >= 0; j--)
-                        {
-                            if (startdates[j] > activesince && startdates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                            else if (enddates[j] > activesince && enddates[j] < activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                            else if (startdates[j] < activesince && enddates[j] > activetill)
-                            {
-                                passed = true;
-                                break;
-                            }
-                        }
-                        if (!passed)
-                        {
-                            ids_to_remove = ids_to_remove + "," + vol.BeneficiaryID;
-                        }
-                    }
-                    List<string> ids = ids_to_remove.Split(',').ToList();
-                    foreach (string id in ids)
-                    {
-                        Beneficiary voltodelete = beneficiaries.FirstOrDefault(x => x.BeneficiaryID.ToString() == id);
-                        beneficiaries.Remove(voltodelete);
-                    }
-                }
-                if (Weeklypackage == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.Weeklypackage == true).ToList();
-                }
-                if (Canteen == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.Canteen == true).ToList();
-                }
-                if (HomeDelivery == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.HomeDelivery == true).ToList();
-                }
-
-                if (HasGDPRAgreement == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.HasGDPRAgreement == true).ToList();
-                }
-                if (HasID == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.CI.HasId == true).ToList();
-                }
-                if (searchingHealthInsurance == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthInsurance == true).ToList();
-                }
-                if (searchingHealthCard == true)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthCard == true).ToList();
-                }
-
-                if (searchingDriver != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.HomeDeliveryDriver == null || b.HomeDeliveryDriver == "")
-                            b.HomeDeliveryDriver = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.HomeDeliveryDriver.Contains(searchingDriver, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingAddress != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.Adress == null || b.Adress == "")
-                            b.Adress = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.Adress.Contains(searchingAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingPO != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.Ocupation == null || b.PersonalInfo.Ocupation == "")
-                            b.PersonalInfo.Ocupation = "-";
-                        if (b.PersonalInfo.Profesion == null || b.PersonalInfo.Profesion == "")
-                            b.PersonalInfo.Profesion = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Ocupation.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Profesion.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingNumberOfPortions != 0)
-                {
-                    beneficiaries = beneficiaries.Where(x => x.NumberOfPortions.Equals(searchingNumberOfPortions)).ToList();
-                }
-
-                if (searchingComments != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.Comments == null || b.Comments == "")
-                            b.Comments = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.Comments.Contains(searchingComments, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingBirthPlace != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.BirthPlace == null || b.PersonalInfo.BirthPlace == "")
-                            b.PersonalInfo.BirthPlace = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.BirthPlace.Contains(searchingBirthPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingStudies != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.Studies == null || b.PersonalInfo.Studies == "")
-                            b.PersonalInfo.Studies = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Studies.Contains(searchingStudies, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingSeniority != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.SeniorityInWorkField == null || b.PersonalInfo.SeniorityInWorkField == "")
-                            b.PersonalInfo.SeniorityInWorkField = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.SeniorityInWorkField.Contains(searchingSeniority, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingHealthState != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.HealthState == null || b.PersonalInfo.HealthState == "")
-                            b.PersonalInfo.HealthState = "-";
-                        if (b.PersonalInfo.Disalility == null || b.PersonalInfo.Disalility == "")
-                            b.PersonalInfo.Disalility = "-";
-                        if (b.PersonalInfo.ChronicCondition == null || b.PersonalInfo.ChronicCondition == "")
-                            b.PersonalInfo.ChronicCondition = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.HealthState.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disalility.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingAddictions != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.Addictions == null || b.PersonalInfo.Addictions == "")
-                            b.PersonalInfo.Addictions = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Addictions.Contains(searchingAddictions, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                if (searchingMarried != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.Married == null || b.PersonalInfo.Married == "")
-                            b.PersonalInfo.Married = "-";
-                        if (b.PersonalInfo.SpouseName == null || b.PersonalInfo.SpouseName == "")
-                            b.PersonalInfo.SpouseName = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Married.Contains(searchingMarried, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.SpouseName.Contains(searchingMarried, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingIncome != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.Income == null || b.PersonalInfo.Income == "")
-                            b.PersonalInfo.Income = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingIncome, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (searchingHousingType != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.HousingType == null || b.PersonalInfo.HousingType == "")
-                            b.PersonalInfo.HousingType = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Income.Contains(searchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-                if (gender != " All")
-                {
-                    if (gender == "Male")
-                    {
-                        beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Gender.Equals(Gender.Male)).ToList();
-                    }
-                    if (gender == "Female")
-                    { beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Gender.Equals(Gender.Female)).ToList(); }
-                }
-                if (searchingExpences != null)
-                {
-                    List<Beneficiary> bene = beneficiaries;
-                    foreach (var b in bene)
-                    {
-                        if (b.PersonalInfo.Expences == null || b.PersonalInfo.Expences == "")
-                            b.PersonalInfo.Expences = "-";
-                    }
-                    beneficiaries = bene.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                }
-
-                switch (sortOrder)
-                {
-                    case "Gender":
-                        beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Gender).ToList();
-                        break;
-
-                    case "Gender_desc":
-                        beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Gender).ToList();
-                        break;
-
-                    case "Fullname":
-                        beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
-                        break;
-
-                    case "Active":
-                        beneficiaries = beneficiaries.OrderBy(s => s.Active).ToList();
-                        break;
-
-                    case "Active_desc":
-                        beneficiaries = beneficiaries.OrderByDescending(s => s.Active).ToList();
-                        break;
-
-                    case "name_desc":
-                        beneficiaries = beneficiaries.OrderByDescending(s => s.Fullname).ToList();
-                        break;
-
-                    case "Date":
-                        beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Birthdate).ToList();
-                        break;
-
-                    case "date_desc":
-                        beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Birthdate).ToList();
-                        break;
-
-                    default:
-                        beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
-                        break;
-                }
+                beneficiaries = BeneficiaryFunctions.GetBeneficiariesAfterFilters(beneficiaries, sortOrder, searching, Active, searchingBirthPlace, HasContract, Homeless, lowerdate, upperdate, activesince, activetill, page, Weeklypackage, Canteen, HomeDelivery, searchingDriver, HasGDPRAgreement, searchingAddress, HasID, searchingNumberOfPortions, searchingComments, searchingStudies, searchingPO, searchingSeniority, searchingHealthState, searchingAddictions, searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome, searchingHousingType, searchingIncome, searchingExpences, gender);
                 ViewBag.counter = beneficiaries.Count();
-
                 int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = BeneficiaryFunctions.GetStringOfIds(beneficiaries);
@@ -915,6 +556,7 @@ namespace Finalaplication.Controllers
                         if (beneficiary.Active == false)
                         {//erroare
                             Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
+                            beneficiary.Activedates = DateTime.Now.AddHours(5).ToShortDateString();
                             beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
                             beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
                             beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");

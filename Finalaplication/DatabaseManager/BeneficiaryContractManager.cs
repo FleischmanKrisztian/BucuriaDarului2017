@@ -13,7 +13,7 @@ namespace Finalaplication.DatabaseManager
     {
         private MongoDBContext dbcontext = new MongoDBContext();
 
-        internal void AddSponsorToDB(Beneficiarycontract beneficiarycontract)
+        internal void AddBeneficiaryContractToDB(Beneficiarycontract beneficiarycontract)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             try
