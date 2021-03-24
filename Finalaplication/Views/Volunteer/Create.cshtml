@@ -79,24 +79,14 @@
                     </div>
                 </div>
             </div>
-            <div claas="col-md-8">
+            <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        @Localizer["Firstname"]:
+                        @Localizer["Fullname"]:
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
-                        <hr />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        @Localizer["Lastname"]:
-                    </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>

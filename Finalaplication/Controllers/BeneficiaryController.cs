@@ -13,10 +13,8 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using VolCommon;
 
@@ -100,17 +98,10 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult ImportUpdate(string docsimported, string key1)
+        public ActionResult ImportUpdate(string docsimported)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-            string duplicates = string.Empty;
-            DictionaryHelper.d.TryGetValue(key1, out duplicates);
-            // string duplicates = dictionary.Ids.ToString();
-            ViewBag.duplicates = duplicates;
             ViewBag.documentsimported = docsimported;
-
-            DictionaryHelper.d.Remove(key1);
-
             return View();
         }
 
@@ -255,6 +246,7 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
+
             string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_BENEFICIARY);
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_BENEFICIARY);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY;
@@ -353,6 +345,7 @@ namespace Finalaplication.Controllers
                     {
                         beneficiary.Image = UniversalFunctions.Image(Image);
                     }
+
                     if (beneficiary.Active == true)
                     {
                         Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
@@ -361,6 +354,7 @@ namespace Finalaplication.Controllers
                         beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
                     }
                     beneficiaryManager.AddBeneficiaryToDB(beneficiary);
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -428,8 +422,7 @@ namespace Finalaplication.Controllers
                         {
                             incomingbeneficiary.Image = UniversalFunctions.Image(image);
                         }
-                         
-                              
+    
                         bool wasactive = false;
 
                         if (Originalsavedbeneficiary.Active == true)
@@ -450,6 +443,7 @@ namespace Finalaplication.Controllers
                             incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(" ", "");
                             incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(".", "/");
                         }
+
 
                         if (ModelState.IsValid)
                         {
@@ -495,6 +489,7 @@ namespace Finalaplication.Controllers
                                .Set("PersonalInfo.Studies", incomingbeneficiary.PersonalInfo.Studies);
 
                             beneficiaryManager.UpdateBeneficiary(filter, update);
+
                             return RedirectToAction("Index");
                         }
                         else
@@ -553,6 +548,7 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
+
                         if (beneficiary.Active == false)
                         {//erroare
                             Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
@@ -566,6 +562,7 @@ namespace Finalaplication.Controllers
                             .Set("Active", beneficiary.Active)
                             .Set("Activedates", beneficiary.Activedates);
                         beneficiaryManager.UpdateBeneficiary(filter, update);
+
                         return RedirectToAction("Index");
                     }
                 }

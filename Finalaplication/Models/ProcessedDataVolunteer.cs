@@ -17,10 +17,9 @@ namespace Finalaplication
         private int documentsimported;
 
         public ProcessedDataVolunteer(IMongoCollection<Volunteer> vollunteercollection,
-       List<string[]> result,
-       string duplicates,
-       int documentsimported, IMongoCollection<Volcontract> vollunteercontractcollection
-       )
+          List<string[]> result,
+         string duplicates,
+         int documentsimported, IMongoCollection<Volcontract> vollunteercontractcollection)
         {
             this.vollunteercollection = vollunteercollection;
             this.result = result;
@@ -29,7 +28,7 @@ namespace Finalaplication
             this.vollunteercontractcollection = vollunteercontractcollection;
         }
 
-        public async Task ImportVolunteerContractsFromCsv()
+        public void ImportVolunteerContractsFromCsv()
         {
             foreach (var details in result)
             {
@@ -44,18 +43,9 @@ namespace Finalaplication
                         {
                             Volcontract contract = new Volcontract
                             {
-                                Firstname = v.Firstname,
-                                Lastname = v.Lastname
+                                Fullname = v.Fullname,
                             };
                             string address = string.Empty;
-                            if (v.Address.District != null && v.Address.District != "-")
-                            { address = v.Address.District; }
-                            if (v.Address.City != null && v.Address.City != "-")
-                            { address = address + "," + v.Address.City; }
-                            if (v.Address.Street != null && v.Address.Street != "-")
-                            { address = v.Address.District; }
-                            if (v.Address.Number != null && v.Address.Number != "-")
-                            { address = address + "," + v.Address.City; }
                             contract.Address = address;
                             contract.CNP = v.CNP;
                             contract.OwnerID = v.VolunteerID;
@@ -114,21 +104,21 @@ namespace Finalaplication
             }
         }
 
-        public async Task<Tuple<string, string>> GetVolunteersFromApp()
+        public Tuple<string, string> GetVolunteersFromApp()
         {
             foreach (var details in result)
             {
-                if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                if (vollunteercollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
-                else if (vollunteercollection.CountDocuments(z => z.CNP == details[1]) >= 1 && details[1] != "")
+                else if (vollunteercollection.CountDocuments(z => z.CNP == details[0]) >= 1 && details[0] != "")
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "" && vollunteercollection.CountDocuments(z => z.Lastname == details[1]) >= 1)
+                else if (vollunteercollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
-                    duplicates = duplicates + details[0] + " " + details[1] + ", ";
+                    duplicates = duplicates + details[0] + ", ";
                 }
                 else
                 {
@@ -136,16 +126,7 @@ namespace Finalaplication
                     {
                         documentsimported++;
                         Volunteer volunteer = new Volunteer();
-                        try
-                        {
-                            volunteer.Firstname = details[0];
-                            volunteer.Lastname = details[1];
-                        }
-                        catch
-                        {
-                            volunteer.Firstname = "Error";
-                            volunteer.Lastname = "Error";
-                        }
+                        volunteer.Fullname = details[0];
 
                         try
                         {
@@ -345,15 +326,12 @@ namespace Finalaplication
                         }
 
                         ai.Remark = details[22];
-
-                        volunteer.Address = a;
                         volunteer.Additionalinfo = ai;
                         vollunteercollection.InsertOne(volunteer);
                     }
                 }
             }
             string key1 = "VolunteerImportDuplicate";
-            //DictionaryHelper.d.Add(key1, duplicates);
             return new Tuple<string, string>(documentsimported.ToString(), key1);
         }
 
@@ -361,7 +339,7 @@ namespace Finalaplication
         {
             foreach (var details in result)
             {
-                if (vollunteercollection.CountDocuments(z => z.CNP == details[9]) >= 1 && details[9] != "")
+                if (vollunteercollection.CountDocuments(z => z.CNP == details[8]) >= 1 && details[8] != "")
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
@@ -369,7 +347,7 @@ namespace Finalaplication
                 {
                     duplicates = duplicates + details[0] + ", ";
                 }
-                else if (vollunteercollection.CountDocuments(z => z.Firstname == details[0]) >= 1 && details[9] == "" && vollunteercollection.CountDocuments(z => z.Lastname == details[1]) >= 1)
+                else if (vollunteercollection.CountDocuments(z => z.Fullname == details[0]) >= 1 && details[8] == "")
                 {
                     duplicates = duplicates + details[0] + " " + details[1] + ", ";
                 }
@@ -377,27 +355,10 @@ namespace Finalaplication
                 {
                     documentsimported++;
                     Volunteer volunteer = new Volunteer();
-                    try
-                    {
-                        if (details[0].Contains(" ") == true)
 
-                        {
-                            string[] splitName = details[0].Split();
-                            volunteer.Lastname = splitName[0];
-                            if (splitName.Count() == 2)
-                            {
-                                volunteer.Firstname = splitName[1];
-                            }
-                            else
-                            {
-                                volunteer.Firstname = splitName[1] + " " + splitName[2];
-                            }
-                        }
-                    }
-                    catch
+                    if (details[0].Contains(" ") == true)
                     {
-                        volunteer.Firstname = "Error";
-                        volunteer.Lastname = "Error";
+                        volunteer.Fullname = details[0];
                     }
 
                     if (details[1] != null || details[1] != "")
@@ -493,8 +454,6 @@ namespace Finalaplication
                     ai.HasCar = false;
 
                     volunteer.Occupation = "-";
-
-                    volunteer.Address = a;
                     volunteer.Additionalinfo = ai;
                     vollunteercollection.InsertOne(volunteer);
                 }

@@ -38,13 +38,22 @@ namespace Finalaplication.DatabaseHandler
             return Sponsors;
         }
 
-        internal void UpdateAnSponsor(FilterDefinition<Sponsor> filter, UpdateDefinition<Sponsor> Sponsortoupdate)
+        internal void UpdateSponsor(FilterDefinition<Sponsor> filter ,UpdateDefinition<Sponsor> Sponsortoupdate)
         {
             IMongoCollection<Sponsor> Sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
             Sponsorcollection.UpdateOne(filter, Sponsortoupdate);
         }
 
-        internal void DeleteAnSponsor(string id)
+        
+        internal void UpdateSponsor(Sponsor sponsorupdate, string id)
+        {
+            IMongoCollection<Sponsor> sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+            var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
+            sponsorupdate.SponsorID = id;
+            sponsorcollection.FindOneAndReplace(filter, sponsorupdate);
+        }
+
+        internal void DeleteSponsor(string id)
         {
             IMongoCollection<Sponsor> Sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
             Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id)));

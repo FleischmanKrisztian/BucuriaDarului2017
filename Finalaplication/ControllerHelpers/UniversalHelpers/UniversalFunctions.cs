@@ -1,7 +1,7 @@
 ﻿using Finalaplication.Common;
 using Microsoft.AspNetCore.Http;
-using System;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             }
         }
 
-        public static int getNumberOfItemPerPageFromSettings(ITempDataDictionary tempDataDic)
+        public static int GetNumberOfItemPerPageFromSettings(ITempDataDictionary tempDataDic)
         {
             try
             {
@@ -81,6 +81,7 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 return VolMongoConstants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
             }
         }
+
         internal static int GetCurrentPage(int page)
         {
             if (page > 0)
@@ -102,42 +103,16 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             return containsspecialchar;
         }
 
-        //The following functions have not yet been refactored
-        public static (DateTime[] startdates, DateTime[] enddates, int i) Datereturner(string activedates)
+        internal static byte[] Addimage(IFormFile image)
         {
-            DateTime[] startdates = new DateTime[20];
-            DateTime[] enddates = new DateTime[20];
-            int i = 0;
-
-            if (activedates != null)
+            byte[] returnedimage = null;
+            if (image != null)
             {
-                while (activedates.Contains(","))
-                {
-                    bool last = false;
-                    int aux = activedates.IndexOf(",");
-                    activedates = activedates.Remove(0, 1);
-                    int end = activedates.IndexOf("-");
-                    int lastcharend = activedates.IndexOf(",");
-                    if (lastcharend == -1)
-                    {
-                        last = true;
-                        lastcharend = activedates.Length;
-                    }
-                    lastcharend = lastcharend - end;
-                    int lastcharstart = end - aux;
-                    string startdatestring = activedates.Substring(aux, lastcharstart);
-                    string enddatestring = activedates.Substring(lastcharstart + 1, lastcharend - 1);
-                    startdates[i] = Dateformatter(startdatestring);
-                    enddates[i] = Dateformatter(enddatestring);
-                    if (!last)
-                        activedates = activedates.Substring(activedates.IndexOf(','));
-
-                    i++;
-                }
+                var stream = new MemoryStream();
+                image.CopyTo(stream);
+                returnedimage = stream.ToArray();
             }
-            Array.Resize(ref startdates, i);
-            Array.Resize(ref enddates, i);
-            return (startdates, enddates, i);
+            return returnedimage;
         }
 
         public static DateTime Dateformatter(string datestring)

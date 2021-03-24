@@ -514,9 +514,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + volunteer.Firstname + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + volunteer.Fullname + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[13] + "\":" + "\"" + volunteer.Lastname + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[13] + "\":" + "\"" + volunteer.Fullname + "\"";
                             first = false;
                         }
                         if (properties.Contains("2"))

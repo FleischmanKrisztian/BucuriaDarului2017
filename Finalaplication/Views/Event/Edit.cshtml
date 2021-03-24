@@ -1,7 +1,6 @@
 ﻿@model Finalaplication.Models.Event
 @{
     ViewBag.Title = "Edit";
-    string originalsavedevent = ViewBag.originalsavedevent;
     string id = ViewBag.id;
 }
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -62,7 +61,6 @@
 {
     @Html.AntiForgeryToken()
 
-    <input type="hidden" name="Originalsavedeventstring" value="@originalsavedevent" />
     <input type="hidden" name="id" value="@id" />
     <div class="container emp-profile">
         <div class="row">

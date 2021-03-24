@@ -27,9 +27,6 @@ namespace Finalaplication.Models
             int Day = Convert.ToInt16(dates[0]);
             int Month = Convert.ToInt16(dates[1]);
             int Year = Convert.ToInt16(dates[2]);
-            /*Day = 28;
-            Month = 12;
-            Year = 2019;*/
             Day = (Month - 1) * 30 + Day;
             return Day;
         }

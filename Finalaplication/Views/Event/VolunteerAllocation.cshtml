@@ -131,10 +131,7 @@
     <table class="table">
         <tr>
             <th>
-                @Localizer["Firstname"]:
-            </th>
-            <th>
-                @Localizer["Lastname"]:
+                @Localizer["Fullname"]:
             </th>
             <th>
                 @Localizer["Desiredarea"]:
@@ -165,10 +162,7 @@
 
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Firstname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lastname)
+                        @Html.DisplayFor(modelItem => item.Fullname)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Desired_workplace)
@@ -179,7 +173,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.HourCount)
                     </td>
-                    @if (strname.Contains(item.Firstname))
+                    @if (strname.Contains(item.Fullname))
                     {
                         <td>
                             <input type="checkbox" checked="checked" name="volunteerids" value="@item.VolunteerID" />

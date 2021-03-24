@@ -15,23 +15,6 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Volcontract> volcontractcollection;
 
-        // GET: api/Values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            string volcontractsasjson = "";
-            dbcontext = new MongoDBContext();
-            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-
-            var volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
-            foreach (var volcontract in volcontracts)
-            {
-                volcontractsasjson = volcontractsasjson + JsonConvert.SerializeObject(volcontract);
-            }
-            return new string[] { volcontractsasjson };
-        }
-
-        // GET: api/Values/5
         [HttpGet("{id}", Name = "GetExcelparams")]
         public string Get(string id)
         {

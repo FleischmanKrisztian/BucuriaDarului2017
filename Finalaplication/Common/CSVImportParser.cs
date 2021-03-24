@@ -128,9 +128,6 @@ namespace Elm.Core.Parsers
                         {  SEPARATOR,
                             SEPARATOR + ImportColumnSeparator,
                             ImportColumnSeparator + SEPARATOR,
-                            //SEPARATOR2+ImportColumnSeparator,
-                            //ImportColumnSeparator+SEPARATOR2,
-                            //SEPARATOR2
                         },
                         StringSplitOptions.None);
                     }

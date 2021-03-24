@@ -32,7 +32,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Beneficiarycontract> benficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
                 Beneficiary benenficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);

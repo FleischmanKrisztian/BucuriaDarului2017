@@ -2,25 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Elm.Core.Parsers;
-using Finalaplication.App_Start;
-using Finalaplication.Common;
-using Finalaplication.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using System;
-using Finalaplication.ControllerHelpers.EventHelpers;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseHandler;
-using EventManager = Finalaplication.DatabaseHandler.EventManager;
-using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.ControllerHelpers.SponsorHelpers;
 
 namespace Finalaplication.ControllerHelpers.EventHelpers
 {

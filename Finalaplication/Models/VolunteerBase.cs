@@ -11,11 +11,7 @@ namespace VolCommon
 
     public class VolunteerBase
     {
-        [Required]
-        public string Firstname { get; set; }
-
-        [Required]
-        public string Lastname { get; set; }
+        public string Fullname { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -53,8 +49,5 @@ namespace VolCommon
 
         [JsonIgnore]
         public byte[] Image { get; set; }
-
-        [JsonIgnore]
-        public string Activedates { get; set; }
     }
 }

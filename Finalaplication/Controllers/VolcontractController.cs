@@ -32,12 +32,12 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable().ToList();
                 Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
                 volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
-                ViewBag.nameofvol = vol.Firstname + " " + vol.Lastname;
+                ViewBag.nameofvol = vol.Fullname;
                 ViewBag.idofvol = idofvol;
                 return View(volcontracts);
             }
@@ -90,8 +90,7 @@ namespace Finalaplication.Controllers
                         volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
                         volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
                         volcontract.Birthdate = vol.Birthdate;
-                        volcontract.Firstname = vol.Firstname;
-                        volcontract.Lastname = vol.Lastname;
+                        volcontract.Fullname = vol.Fullname;
                         volcontract.CNP = vol.CNP;
                         volcontract.CIseria = vol.CIseria;
                         volcontract.CINr = vol.CINr;

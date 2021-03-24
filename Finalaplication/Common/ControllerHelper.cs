@@ -52,7 +52,7 @@ namespace Finalaplication.Common
         public static string GetHeaderForExcelPrinterVolunteer(IStringLocalizer<VolunteerController> _localizer)
         {
             string[] header = new string[25];
-            header[0] = _localizer["Firstname"];
+            header[0] = _localizer["Fullname"];
             header[1] = _localizer["Birthdate"];
             header[2] = _localizer["Address"];
             header[3] = _localizer["Gender"];
@@ -65,7 +65,6 @@ namespace Finalaplication.Common
             header[10] = _localizer["HourCount"];
             header[11] = _localizer["ContactInfo"];
             header[12] = _localizer["Additional_info"];
-            header[13] = _localizer["Lastname"];
             header[14] = _localizer["District"];
             header[15] = _localizer["City"];
             header[16] = _localizer["Street"];

@@ -38,10 +38,12 @@ namespace Finalaplication.DatabaseHandler
             return volunteers;
         }
 
-        internal void UpdateAVolunteer(FilterDefinition<Volunteer> filter, UpdateDefinition<Volunteer> volunteertoupdate)
+        internal void UpdateAVolunteer(Volunteer volunteertopdate, string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-            volunteercollection.UpdateOne(filter, volunteertoupdate);
+            var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+            volunteertopdate.VolunteerID = id;
+            volunteercollection.FindOneAndReplace(filter, volunteertopdate);
         }
 
         internal void DeleteAVolunteer(string id)

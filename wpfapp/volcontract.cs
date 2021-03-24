@@ -4,9 +4,7 @@ namespace wpfapp
 {
     internal class volcontract
     {
-        public string Firstname { get; set; }
-
-        public string Lastname { get; set; }
+        public string Fullname { get; set; }
 
         public string CNP { get; set; }
 

@@ -247,7 +247,6 @@
                         <div class="form-group">
                             @Localizer["MakeItInactive"]
                             @Html.CheckBox("Inactive", checked(true))
-                            @Html.HiddenFor(model => model.Activedates)
                             <br>
                             <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
                         </div>
