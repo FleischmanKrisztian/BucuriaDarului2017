@@ -395,7 +395,7 @@ msgstr "Încarcă imagine"
 msgid "Volunteer"
 msgstr "Voluntar"
 msgid  "beneficiarycontract"
-msgstr "contract"
+msgstr "Contract beneficiar"
 
 msgid "Birthdays"
 msgstr "Zile de naștere"
