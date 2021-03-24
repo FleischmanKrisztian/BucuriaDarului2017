@@ -4,11 +4,20 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {
     public class UniversalFunctions
     {
+        public static void DeleteFile(string path)
+        {
+            FileInfo file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+        }
         public static bool File_is_not_empty(IFormFile file)
         {
             if (file.Length > 0)
@@ -17,6 +26,34 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 return false;
         }
 
+        public static bool File_is_not_empty(IList<IFormFile> files)
+        {
+            if (files!=null)
+                return true;
+            else
+                return false;
+        }
+
+        internal static byte[] Image(IList<IFormFile> image)
+        {
+            byte[] return_image = new Byte[64];
+
+            
+            foreach (var item in image)
+            {
+                if (item.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        item.CopyTo(stream);
+                        return_image = stream.ToArray();
+                    }
+                }
+                }
+            
+
+            return return_image;
+        }
         internal static void CreateFileStream(IFormFile Files, string path)
         {
             using var stream = new FileStream(path, FileMode.Create);

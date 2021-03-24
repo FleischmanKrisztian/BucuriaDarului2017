@@ -1,8 +1,10 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
@@ -12,17 +14,15 @@ namespace Finalaplication.Controllers
 {
     public class BeneficiarycontractController : Controller
     {
-        private MongoDBContext dbcontext;
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
-        private IMongoCollection<Beneficiary> beneficiarycollection;
+        BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private readonly IStringLocalizer<BeneficiarycontractController> _localizer;
 
-        public BeneficiarycontractController()
+        public BeneficiarycontractController(IStringLocalizer<BeneficiarycontractController> localizer)
         {
             try
             {
-                dbcontext = new MongoDBContext();
-                beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-                beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+                _localizer = localizer;
             }
             catch { }
         }
@@ -34,8 +34,8 @@ namespace Finalaplication.Controllers
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Beneficiarycontract> benficiarycontracts = beneficiarycontractcollection.AsQueryable().ToList();
-                Beneficiary benenficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
+                List<Beneficiarycontract> benficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+                Beneficiary benenficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);
                 benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
                 ViewBag.nameofbeneficiary = benenficiary.Fullname;
                 ViewBag.idofbeneficiary = idofbeneficiary;
@@ -52,7 +52,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
+                List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
 
                 return View(beneficiarycontracts);
             }
@@ -86,7 +86,7 @@ namespace Finalaplication.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        Beneficiary beneficiary = beneficiarycollection.AsQueryable().FirstOrDefault(z => z.BeneficiaryID == idofbeneficiary);
+                        Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);
                         benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
                         benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
@@ -100,7 +100,7 @@ namespace Finalaplication.Controllers
 
                         benenficiarycontract.Address = beneficiary.Adress;
                         benenficiarycontract.OwnerID = idofbeneficiary;
-                        beneficiarycontractcollection.InsertOne(benenficiarycontract);
+                        beneficiaryContractManager.AddBeneficiaryContractToDB(benenficiarycontract);
                         return RedirectToAction("Index", new { idofbeneficiary });
                     }
                 }
@@ -122,7 +122,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
+                var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
 
                 return View(contract);
             }
@@ -139,7 +139,7 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contractid = new ObjectId(id);
-                var contract = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().SingleOrDefault(x => x.ContractID == id);
+                var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
                 return View(contract);
             }
             catch
@@ -154,8 +154,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
+   
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                beneficiarycontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id)));
+                beneficiaryContractManager.DeleteBeneficiaryContract(id);
 
                 return RedirectToAction("Index", new { idofbeneficiary });
             }
