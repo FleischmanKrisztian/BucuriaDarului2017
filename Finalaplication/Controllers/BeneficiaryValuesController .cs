@@ -15,21 +15,7 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
 
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            string blabla = "";
-            dbcontext = new MongoDBContext();
-            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-
-            var beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
-            foreach (var beneficiarycontract in beneficiarycontracts)
-            {
-                blabla = blabla + JsonConvert.SerializeObject(beneficiarycontract);
-            }
-            return new string[] { blabla };
-        }
-
+       
         // GET: api/Values/5
         [HttpGet("{id}", Name = "Getbeneficiary")]
         public string Get(string id)

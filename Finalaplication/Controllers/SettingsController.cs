@@ -1,5 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -14,11 +15,10 @@ namespace Finalaplication.Controllers
     {
         private MongoDBContextOffline dbcontextoffline;
         private IMongoCollection<Settings> settingcollection;
-
+        private SettingsManager settingsManager = new SettingsManager();
         public SettingsController()
         {
-            dbcontextoffline = new MongoDBContextOffline();
-            settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
+            
         }
 
         public IActionResult Settings()
@@ -37,7 +37,7 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Settings(string lang, string env, int quantity)
         {
-            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            Settings set = settingsManager.GetSettingsItem();
             set.Env = env;
             set.Quantity = quantity;
             set.Lang = lang;
@@ -46,9 +46,9 @@ namespace Finalaplication.Controllers
             TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
             TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
             Response.Cookies.Append(
-          CookieRequestCultureProvider.DefaultCookieName,
-          CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
-          new CookieOptions { 
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
+            new CookieOptions { 
               Expires = DateTimeOffset.UtcNow.AddYears(1),
               IsEssential = true,
               SameSite = SameSiteMode.Lax }
@@ -63,7 +63,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+                Settings set = settingsManager.GetSettingsItem();
                 set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
                 settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
                 TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
