@@ -155,6 +155,24 @@ namespace Elm.Core.Parsers
             }
         }
 
+        internal static bool ChecktypeofCSV(string path)
+        {
+            string firstrow = "";
+            using (StreamReader sr = new StreamReader(path))
+            {
+                int totalLines = File.ReadAllLines(path).Length;
+                firstrow = sr.ReadLine();
+            }
+            if (firstrow.Contains("nume si prenume"))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         #endregion private functions
 
         #region public functions

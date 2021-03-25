@@ -139,6 +139,14 @@ namespace Finalaplication.Controllers
             }
         }
 
+
+        public ActionResult ImportUpdate(string docsimported)
+        {
+            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+            ViewBag.documentsimported = docsimported;
+            return View();
+        }
+
         public IActionResult About()
         {
             try

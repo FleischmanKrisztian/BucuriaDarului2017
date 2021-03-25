@@ -1,8 +1,6 @@
 ﻿@model Finalaplication.Models.Beneficiary
 @{
     ViewBag.Title = "Edit";
-
-    string originalsavedbeneficiary = ViewBag.originalsavedbeneficiary;
     string id = ViewBag.id;
 }
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -60,7 +58,6 @@
     <div><h3 style="color:red">@Localizer["Cannot contain Special character ';' "]</h3></div>
 }
 <form method="post" action="/Beneficiary/Edit" enctype="multipart/form-data">
-    <input type="hidden" name="Originalsavedbeneficiarystring" value="@originalsavedbeneficiary" />
     <input type="hidden" name="id" value="@id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">

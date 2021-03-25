@@ -1,5 +1,4 @@
 ﻿using Elm.Core.Parsers;
-using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.BeneficiaryHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -8,7 +7,6 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
@@ -16,23 +14,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using VolCommon;
 
 namespace Finalaplication.Controllers
 {
     public class BeneficiaryController : Controller
     {
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
-        BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
-        BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
-            try
-            {
-                _localizer = localizer;
-            }
-            catch { }
+            _localizer = localizer;
         }
 
         public ActionResult FileUpload()
@@ -42,61 +35,40 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> FileUpload(IFormFile Files)
+        public  ActionResult FileUpload(IFormFile Files)
         {
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
-                string path = " ";
+                List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
+                int docsimported = 0;
                 if (UniversalFunctions.File_is_not_empty(Files))
                 {
-                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
                     UniversalFunctions.CreateFileStream(Files, path);
+                    List<string[]> beneficiaryasstring = CSVImportParser.GetListFromCSV(path);
+                    //bool Apptypecsv = BeneficiaryFunctions.ChecktypeofCSV(beneficiaryasstring);
+                    for (int i = 0; i < beneficiaryasstring.Count; i++)
+                    {
+                        Beneficiary beneficiary = BeneficiaryFunctions.GetBeneficiaryFromString(beneficiaryasstring[i]);
+                        if (BeneficiaryFunctions.DoesNotExist(beneficiaries, beneficiary))
+                        {
+                            docsimported++;
+                            beneficiaryManager.AddBeneficiaryToDB(beneficiary);
+                        }
+                    }
+                    UniversalFunctions.RemoveTempFile(path);
+                    return RedirectToAction("ImportUpdate", "Home", new { docsimported });
                 }
                 else
                 {
                     return View();
                 }
-
-                List<string[]> result = CSVImportParser.GetListFromCSV(path);
-                string duplicates = "";
-                int documentsimported = 0;
-
-                string[] myHeader = CSVImportParser.GetHeader(path);
-                string typeOfExport = CSVImportParser.TypeOfExport(myHeader);
-
-                ProcessedBeneficiary processed = new ProcessedBeneficiary( result, duplicates, documentsimported);
-                string docsimported = "";
-                string key1 = "";
-                if (typeOfExport == "BucuriaDarului")
-                {
-                    var tuple = await processed.GetProcessedBeneficiaries();
-                    docsimported = tuple.Item1;
-                    key1 = tuple.Item2;
-
-                    await processed.ImportBeneficiaryContractsFromCsv();
-                }
-                else
-                {
-                    var tuple = await processed.GetProcessedBeneficiariesFromApp();
-                    docsimported = tuple.Item1;
-                    key1 = tuple.Item2;
-                }
-
-                UniversalFunctions.DeleteFile(path);
-                return RedirectToAction("ImportUpdate", new { docsimported, key1 });
             }
             catch
             {
                 return RedirectToAction("IncorrectFile", "Home");
             }
-        }
-
-        public ActionResult ImportUpdate(string docsimported)
-        {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-            ViewBag.documentsimported = docsimported;
-            return View();
         }
 
         public ActionResult Contracts(string id)
@@ -240,7 +212,6 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-
             string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_BENEFICIARY);
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_BENEFICIARY);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY;
@@ -250,18 +221,17 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(/*string IDS,*/ bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
-        {   
+        public ActionResult CSVSaver(bool All, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
+        {
             string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY);
             HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY);
-            string ids_and_fields = BeneficiaryFunctions.GetIdAndFieldString(IDS,PhoneNumber,SpouseName, Gender,Expences,  Income, HousingType,HasHome,Married,HealthCard, HealthInsurance,Addictions,ChronicCondition,Disalility, HealthState, Profesion, SeniorityInWorkField, Ocupation,  BirthPlace,  Studies, CI_Info, IdContract,  IdInvestigation,IdAplication, marca, All,  CNP, Fullname, Active, Canteen, HomeDelivery,HomeDeliveryDriver,HasGDPRAgreement,Adress,NumberOfPortions, LastTimeActiv,WeeklyPackage);
+            string ids_and_fields = BeneficiaryFunctions.GetIdAndFieldString(IDS, PhoneNumber, SpouseName, Gender, Expences, Income, HousingType, HasHome, Married, HealthCard, HealthInsurance, Addictions, ChronicCondition, Disalility, HealthState, Profesion, SeniorityInWorkField, Ocupation, BirthPlace, Studies, CI_Info, IdContract, IdInvestigation, IdAplication, marca, All, CNP, Fullname, Active, Canteen, HomeDelivery, HomeDeliveryDriver, HasGDPRAgreement, Adress, NumberOfPortions, LastTimeActiv, WeeklyPackage);
             string key1 = VolMongoConstants.BENEFICIARYSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterBeneficiary(_localizer);
             string key2 = VolMongoConstants.BENEFICIARYHEADER;
             ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);
-
         }
 
         public ActionResult ContractExp()
@@ -284,7 +254,6 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
-
                 return View(beneficiary);
             }
             catch
@@ -307,17 +276,15 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Beneficiary beneficiary, List<IFormFile> Image)
+        public ActionResult Create(Beneficiary beneficiary, IFormFile image)
         {
             try
             {
-                string beneficiaryasstring = JsonConvert.SerializeObject(beneficiary);
-                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(beneficiaryasstring);
-                if (containsspecialchar)
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
                 }
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ModelState.Remove("CI.ExpirationDateCI");
                 ModelState.Remove("Contract.RegistrationDate");
                 ModelState.Remove("Contract.ExpirationDate");
@@ -332,17 +299,14 @@ namespace Finalaplication.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (UniversalFunctions.File_is_not_empty(Image))
-                    {
-                        beneficiary.Image = UniversalFunctions.Image(Image);
-                    }
+                    beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
+                    beneficiary.Image = UniversalFunctions.Addimage(image);
                     beneficiaryManager.AddBeneficiaryToDB(beneficiary);
-
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    ViewBag.containsspecialchar = containsspecialchar;
+                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary));
                     return View();
                 }
             }
@@ -358,8 +322,6 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
-                Beneficiary originalsavedvol = beneficiary;
-                ViewBag.originalsavedbeneficiary = JsonConvert.SerializeObject(originalsavedvol);
                 ViewBag.id = id;
                 return View(beneficiary);
             }
@@ -370,102 +332,36 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Beneficiary incomingbeneficiary, string originalsavedbeneficiarystring, IList<IFormFile> image)
+        public ActionResult Edit(string id, Beneficiary beneficiary, IFormFile image)
         {
             try
             {
-                string beneasstring = JsonConvert.SerializeObject(incomingbeneficiary);
-                bool containsspecialchar = UniversalFunctions.ContainsSpecialChar(beneasstring);
-                if (containsspecialchar)
+                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
                 }
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                Beneficiary Originalsavedbeneficiary = JsonConvert.DeserializeObject<Beneficiary>(originalsavedbeneficiarystring);
-                Beneficiary currentsavedbeneficiary = beneficiaryManager.GetOneBeneficiary(id);
-                try
+                ModelState.Remove("Contract.RegistrationDate");
+                ModelState.Remove("Contract.ExpirationDate");
+                ModelState.Remove("Marca.IdAplication");
+                ModelState.Remove("CI.ExpirationDateCI");
+                ModelState.Remove("Marca.IdContract");
+                ModelState.Remove("Marca.IdInvestigation");
+                ModelState.Remove("NumberOfPortions");
+                ModelState.Remove("LastTimeActiv");
+                ModelState.Remove("Personalinfo.Birthdate");
+                ModelState.Remove("CI.ICExpirationDate");
+                if (ModelState.IsValid)
                 {
-                    if (JsonConvert.SerializeObject(Originalsavedbeneficiary).Equals(JsonConvert.SerializeObject(currentsavedbeneficiary)))
-                    { 
-                        ModelState.Remove("Contract.RegistrationDate");
-                        ModelState.Remove("Contract.ExpirationDate");
-                        ModelState.Remove("Marca.IdAplication");
-                        ModelState.Remove("CI.ExpirationDateCI");
-                        ModelState.Remove("Marca.IdContract");
-                        ModelState.Remove("Marca.IdInvestigation");
-                        ModelState.Remove("NumberOfPortions");
-                        ModelState.Remove("LastTimeActiv");
-                        ModelState.Remove("Personalinfo.Birthdate");
-                        ModelState.Remove("CI.ICExpirationDate");
+                    beneficiary.Image = UniversalFunctions.Addimage(image);
+                    beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
+                    beneficiaryManager.UpdateABeneficiary(beneficiary, id);
 
-                        
-                        if (UniversalFunctions.File_is_not_empty(image))
-                        {
-                            incomingbeneficiary.Image = UniversalFunctions.Image(image);
-                        }
-
-                        if (ModelState.IsValid)
-                        {
-                            var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
-                            var update = Builders<Beneficiary>.Update
-                               .Set("Fullname", incomingbeneficiary.Fullname)
-                               .Set("Image", incomingbeneficiary.Image)
-                               .Set("Weeklypackage", incomingbeneficiary.Weeklypackage)
-                               .Set("Active", incomingbeneficiary.Active)
-                               .Set("Canteen", incomingbeneficiary.Canteen)
-                               .Set("HomeDeliveryDriver", incomingbeneficiary.HomeDeliveryDriver)
-                               .Set("HasGDPRAgreement", incomingbeneficiary.HasGDPRAgreement)
-                               .Set("CNP", incomingbeneficiary.CNP)
-                               .Set("NumberOfPortions", incomingbeneficiary.NumberOfPortions)
-                               .Set("Comments", incomingbeneficiary.Comments)
-                               .Set("Adress", incomingbeneficiary.Adress)
-                               .Set("CI.CIinfo", incomingbeneficiary.CI.CIinfo)
-                               .Set("CI.CIeliberator", incomingbeneficiary.CI.CIeliberator)
-                               .Set("Marca.IdAplication", incomingbeneficiary.Marca.IdAplication)
-                               .Set("Marca.IdContract", incomingbeneficiary.Marca.IdContract)
-                               .Set("Marca.IdInvestigation", incomingbeneficiary.Marca.IdInvestigation)
-                               .Set("LastTimeActiv", incomingbeneficiary.LastTimeActiv)
-                               .Set("PersonalInfo.Birthdate", incomingbeneficiary.PersonalInfo.Birthdate.AddHours(5))
-                               .Set("PersonalInfo.PhoneNumber", incomingbeneficiary.PersonalInfo.PhoneNumber)
-                               .Set("PersonalInfo.BirthPlace", incomingbeneficiary.PersonalInfo.BirthPlace)
-                               .Set("PersonalInfo.Gender", incomingbeneficiary.PersonalInfo.Gender)
-                               .Set("PersonalInfo.ChronicCondition", incomingbeneficiary.PersonalInfo.ChronicCondition)
-                               .Set("PersonalInfo.Addictions", incomingbeneficiary.PersonalInfo.Addictions)
-                               .Set("PersonalInfo.Disalility", incomingbeneficiary.PersonalInfo.Disalility)
-                               .Set("PersonalInfo.Expences", incomingbeneficiary.PersonalInfo.Expences)
-                               .Set("PersonalInfo.HasHome", incomingbeneficiary.PersonalInfo.HasHome)
-                               .Set("PersonalInfo.HealthCard", incomingbeneficiary.PersonalInfo.HealthCard)
-                               .Set("PersonalInfo.HealthInsurance", incomingbeneficiary.PersonalInfo.HealthInsurance)
-                               .Set("PersonalInfo.HealthState", incomingbeneficiary.PersonalInfo.HealthState)
-                               .Set("PersonalInfo.HousingType", incomingbeneficiary.PersonalInfo.HousingType)
-                               .Set("PersonalInfo.Income", incomingbeneficiary.PersonalInfo.Income)
-                               .Set("PersonalInfo.Married", incomingbeneficiary.PersonalInfo.Married)
-                               .Set("PersonalInfo.Ocupation", incomingbeneficiary.PersonalInfo.Ocupation)
-                               .Set("PersonalInfo.Profesion", incomingbeneficiary.PersonalInfo.Profesion)
-                               .Set("PersonalInfo.SeniorityInWorkField", incomingbeneficiary.PersonalInfo.SeniorityInWorkField)
-                               .Set("PersonalInfo.SpouseName", incomingbeneficiary.PersonalInfo.SpouseName)
-                               .Set("PersonalInfo.Studies", incomingbeneficiary.PersonalInfo.Studies);
-
-                            beneficiaryManager.UpdateBeneficiary(filter, update);
-
-                            return RedirectToAction("Index");
-                        }
-                        else
-                        {
-                            ViewBag.originalsavedbeneficiary = originalsavedbeneficiarystring;
-                            ViewBag.id = id;
-                            ViewBag.containsspecialchar = containsspecialchar;
-                            return View();
-                        }
-                    }
-                    else
-                    {
-                        return View("Volunteerwarning");
-                    }
-                }
-                catch
-                {
                     return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Volunteerwarning");
                 }
             }
             catch
@@ -474,7 +370,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Beneficiary/Delete/5
         public ActionResult Delete(string id)
         {
             try
@@ -489,7 +384,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Beneficiary/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, Beneficiary beneficiary, bool Inactive)
         {
@@ -506,6 +400,8 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
+                        beneficiary.Active = false;
+                        beneficiaryManager.UpdateABeneficiary(beneficiary, id);
                         return RedirectToAction("Index");
                     }
                 }

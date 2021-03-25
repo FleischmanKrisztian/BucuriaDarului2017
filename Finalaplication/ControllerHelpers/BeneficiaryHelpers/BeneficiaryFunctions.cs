@@ -1,5 +1,4 @@
-﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.Models;
+﻿using Finalaplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +54,354 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                 beneficiariesnames = beneficiariesnames + beneficiary.Fullname + " / ";
             }
             return beneficiariesnames;
+        }
+
+        internal static bool ChecktypeofCSV(List<string[]> beneficiaryasstring)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Beneficiary GetBeneficiaryFromString(string[] beneficiarystring)
+        {
+            Beneficiary beneficiary = new Beneficiary
+            {
+                HasGDPRAgreement = false
+            };
+            try
+            {
+                beneficiary.Fullname = beneficiarystring[0];
+            }
+            catch
+            {
+                beneficiary.Fullname = "Incorrect Name";
+            }
+            try
+            {
+                beneficiary.Adress = beneficiarystring[7];
+            }
+            catch
+            {
+                beneficiary.Adress = "Incorrect address";
+            }
+
+            if (beneficiarystring[1] == "true" || beneficiarystring[1] == "True" || beneficiarystring[1] == "Activ" || beneficiarystring[1] == "activ")
+            {
+                beneficiary.Active = true;
+            }
+            else
+            {
+                beneficiary.Active = false;
+            }
+
+            if (beneficiarystring[4] == "da" || beneficiarystring[4] == "DA" || beneficiarystring[4] == "Da" || beneficiarystring[4] == "TRUE" || beneficiarystring[4] == "True")
+            {
+                beneficiary.HomeDelivery = true;
+            }
+            else
+            {
+                beneficiary.HomeDelivery = false;
+            }
+            if (beneficiarystring[3] == "da" || beneficiarystring[3] == "DA" || beneficiarystring[3] == "Da" || beneficiarystring[3] == "TRUE" || beneficiarystring[3] == "True")
+            {
+                beneficiary.Canteen = true;
+            }
+            else
+            {
+                beneficiary.Canteen = false;
+            }
+
+            if (beneficiarystring[2] == "da" || beneficiarystring[2] == "DA" || beneficiarystring[2] == "Da")
+            {
+                beneficiary.Weeklypackage = true;
+            }
+            else
+            {
+                beneficiary.Weeklypackage = false;
+            }
+
+            if (beneficiarystring[5] != null || beneficiarystring[5] != "")
+            {
+                beneficiary.HomeDeliveryDriver = beneficiarystring[5];
+            }
+            else
+            {
+                beneficiary.HomeDeliveryDriver = " ";
+            }
+
+            if (beneficiarystring[8] != null || beneficiarystring[8] != "")
+            {
+                beneficiary.CNP = beneficiarystring[8];
+            }
+
+            try
+            {
+                if (beneficiarystring[20] != null || beneficiarystring[20] != " ")
+                {
+                    if (int.TryParse(beneficiarystring[20], out int portions))
+                    {
+                        beneficiary.NumberOfPortions = portions;
+                    }
+                }
+            }
+            catch
+            {
+                beneficiary.NumberOfPortions = 0;
+            }
+
+            try
+            {
+                Marca Marcabeneficiarystring = new Marca();
+                if (beneficiarystring[16] != null) { Marcabeneficiarystring.marca = beneficiarystring[16]; }
+                if (beneficiarystring[17] != null) { Marcabeneficiarystring.IdAplication = beneficiarystring[17]; }
+                if (beneficiarystring[18] != null) { Marcabeneficiarystring.IdInvestigation = beneficiarystring[18]; }
+                if (beneficiarystring[19] != null) { Marcabeneficiarystring.IdContract = beneficiarystring[19]; }
+                beneficiary.Marca = Marcabeneficiarystring;
+            }
+            catch
+            {
+                beneficiary.Marca.marca = "error";
+                beneficiary.Marca.IdAplication = "error";
+                beneficiary.Marca.IdInvestigation = "error";
+                beneficiary.Marca.IdContract = "error";
+            }
+
+            Personalinfo personal = new Personalinfo();
+            try
+            {
+                if (beneficiarystring[24] != null || beneficiarystring[24] != "")
+                {
+                    personal.PhoneNumber = beneficiarystring[24];
+                }
+
+                if (beneficiarystring[25] != null || beneficiarystring[25] != "")
+                {
+                    personal.BirthPlace = beneficiarystring[25];
+                }
+
+                if (beneficiarystring[26] != null)
+                {
+                    personal.Studies = beneficiarystring[26];
+                }
+
+                personal.Profesion = beneficiarystring[27];
+                personal.Ocupation = beneficiarystring[28];
+                personal.SeniorityInWorkField = beneficiarystring[29];
+                personal.HealthState = beneficiarystring[30];
+            }
+            catch
+            {
+                beneficiary.PersonalInfo.Profesion = "Error";
+                beneficiary.PersonalInfo.Ocupation = "Error";
+                beneficiary.PersonalInfo.SeniorityInWorkField = "Error";
+                beneficiary.PersonalInfo.HealthState = "Error";
+            }
+
+            if (beneficiarystring[31] != " " || beneficiarystring[31] != null)
+            {
+                personal.Disalility = beneficiarystring[31];
+            }
+            else { personal.Disalility = " "; }
+
+            if (beneficiarystring[32] != " " || beneficiarystring[32] != null)
+            {
+                personal.ChronicCondition = beneficiarystring[32];
+            }
+            else { personal.ChronicCondition = " "; }
+
+            if (beneficiarystring[33] != " " || beneficiarystring[33] != null)
+            {
+                personal.Addictions = beneficiarystring[33];
+            }
+            else { personal.Addictions = " "; }
+
+            if (beneficiarystring[34] == "true" || beneficiarystring[34] == "True" || beneficiarystring[34] == "da" || beneficiarystring[34] == "Da" || beneficiarystring[28] == "DA")
+            {
+                personal.HealthInsurance = true;
+            }
+            else { personal.HealthInsurance = false; }
+
+            if (beneficiarystring[35] == "true" || beneficiarystring[35] == "True" || beneficiarystring[35] == "da" || beneficiarystring[35] == "Da" || beneficiarystring[35] == "DA")
+            {
+                personal.HealthCard = true;
+            }
+            else { personal.HealthCard = false; }
+
+            if (beneficiarystring[36] != " " || beneficiarystring[36] != null)
+            {
+                personal.Married = beneficiarystring[36];
+            }
+            else { personal.Married = " "; }
+
+            if (beneficiarystring[37] != " " || beneficiarystring[37] != null)
+            {
+                personal.SpouseName = beneficiarystring[37];
+            }
+            else { personal.SpouseName = " "; }
+
+            if (beneficiarystring[39] != " " || beneficiarystring[39] != null)
+            {
+                personal.HousingType = beneficiarystring[39];
+            }
+            else { personal.HousingType = " "; }
+
+            if (beneficiarystring[38] == "true" || beneficiarystring[38] == "True" || beneficiarystring[38] == "da" || beneficiarystring[38] == "Da" || beneficiarystring[38] == "DA")
+            {
+                personal.HasHome = true;
+            }
+            else { personal.HasHome = false; }
+
+            if (beneficiarystring[40] != " " || beneficiarystring[40] != null)
+            {
+                personal.Income = beneficiarystring[40];
+            }
+            else { personal.Income = " "; }
+
+            if (beneficiarystring[41] != " " || beneficiarystring[41] != null)
+            {
+                personal.Expences = beneficiarystring[41];
+            }
+            else { personal.Expences = " "; }
+
+            try
+            {
+                DateTime myDate;
+                if (beneficiarystring[23] == null || beneficiarystring[23] == "")
+                {
+                    myDate = DateTime.ParseExact(beneficiarystring[8].Substring(1, 2) + "-" + beneficiarystring[8].Substring(3, 2) + "-" + beneficiarystring[8].Substring(5, 2), "yy-MM-dd",
+                          System.Globalization.CultureInfo.InvariantCulture);
+                    personal.Birthdate = myDate.AddHours(5);
+                }
+                else
+                {
+                    if (beneficiarystring[23].Contains("/") == true)
+                    {
+                        string[] date = beneficiarystring[23].Split(" ");
+                        string[] FinalDate = date[0].Split("/");
+                        myDate = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]
+                            , "yy-MM-dd",
+                        System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        string[] anotherDate = beneficiarystring[23].Split('.');
+                        myDate = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[0] + "-" + anotherDate[1], "yy-MM-dd",
+                        System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    personal.Birthdate = myDate.AddDays(1);
+                }
+            }
+            catch
+            {
+                personal.Birthdate = DateTime.MinValue;
+            }
+
+            try
+            {
+                if (beneficiarystring[42] == "F" || beneficiarystring[42] == "f")
+                {
+                    personal.Gender = VolCommon.Gender.Female;
+                }
+                else
+                {
+                    personal.Gender = VolCommon.Gender.Male;
+                }
+
+                beneficiary.Comments = beneficiarystring[22];
+            }
+            catch
+            {
+                beneficiary.Comments = "";
+            }
+
+            if (beneficiarystring[22] == null || beneficiarystring[22] == "")
+            {
+                beneficiary.LastTimeActiv = DateTime.MinValue;
+            }
+            else
+            {
+                DateTime data;
+                if (beneficiarystring[21].Contains("/") == true)
+                {
+                    string[] date = beneficiarystring[21].Split(" ");
+                    string[] FinalDate = date[0].Split("/");
+                    data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                System.Globalization.CultureInfo.InvariantCulture); ;
+                }
+                else
+                {
+                    string[] anotherDate = beneficiarystring[21].Split('.');
+                    data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
+                System.Globalization.CultureInfo.InvariantCulture); ;
+                }
+                beneficiary.LastTimeActiv = data.AddDays(1);
+            }
+
+            CI ciInfo = new CI();
+
+            try
+            {
+                if (beneficiarystring[15] == null || beneficiarystring[15] == "")
+                {
+                    ciInfo.ExpirationDateCI = DateTime.MinValue;
+                }
+                else
+                {
+                    DateTime data;
+                    if (beneficiarystring[15].Contains("/") == true)
+                    {
+                        string[] date = beneficiarystring[15].Split(" ");
+                        string[] FinalDate = date[0].Split("/");
+                        data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        string[] anotherDate = beneficiarystring[15].Split('.');
+                        data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
+                System.Globalization.CultureInfo.InvariantCulture); ;
+                    }
+                    ciInfo.ExpirationDateCI = data.AddDays(1);
+                }
+            }
+            catch
+            {
+                ciInfo.ExpirationDateCI = DateTime.MinValue;
+            }
+
+            try
+            {
+                ciInfo.CIinfo = beneficiarystring[14];
+
+                if (beneficiarystring[14] != "" || beneficiarystring[14] != null)
+                { ciInfo.HasId = true; }
+            }
+            catch
+            {
+                ciInfo.CIinfo = "";
+            }
+            beneficiary.PersonalInfo = personal;
+            beneficiary.CI = ciInfo;
+            return beneficiary;
+        }
+
+        internal static bool DoesNotExist(List<Beneficiary> beneficiaries, Beneficiary beneficiary)
+        {
+            if (beneficiary.CNP != null || beneficiary.CNP != "")
+            {
+                int numberofoccurences = beneficiaries.Where(p => p.CNP == beneficiary.CNP).Count();
+                if (numberofoccurences >= 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
         }
 
         internal static string GetIdAndFieldString(string IDS, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool All, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)

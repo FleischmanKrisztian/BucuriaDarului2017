@@ -10,12 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using VolCommon;
 
 namespace Finalaplication.Controllers
 {
@@ -42,25 +40,42 @@ namespace Finalaplication.Controllers
             ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
-                List<Volunteer> Volunteers = volunteerManager.GetListOfVolunteers();
+                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 int docsimported = 0;
                 if (UniversalFunctions.File_is_not_empty(Files))
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
                     UniversalFunctions.CreateFileStream(Files, path);
                     List<string[]> volunteersasstring = CSVImportParser.GetListFromCSV(path);
-                    //TODO: make application be able to import different CSV format
-                    for (int i = 0; i < volunteersasstring.Count; i++)
+                    if (CSVImportParser.ChecktypeofCSV(path))
                     {
-                        Volunteer volunteer = VolunteerFunctions.GetVolunteerFromString(volunteersasstring[i]);
-                        if (VolunteerFunctions.DoesNotExist(Volunteers, volunteer))
+                        for (int i = 0; i < volunteersasstring.Count; i++)
                         {
-                            docsimported++;
-                            volunteerManager.AddVolunteerToDB(volunteer);
+                            Volunteer volunteer = new Volunteer();
+                            volunteer = VolunteerFunctions.GetVolunteerFromString(volunteersasstring[i]);
+
+                            if (VolunteerFunctions.DoesNotExist(volunteers, volunteer))
+                            {
+                                docsimported++;
+                                volunteerManager.AddVolunteerToDB(volunteer);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < volunteersasstring.Count; i++)
+                        {
+                            Volunteer volunteer = new Volunteer();
+                            volunteer = VolunteerFunctions.GetVolunteerFromOtherString(volunteersasstring[i]);
+                            if (VolunteerFunctions.DoesNotExist(volunteers, volunteer))
+                            {
+                                docsimported++;
+                                volunteerManager.AddVolunteerToDB(volunteer);
+                            }
                         }
                     }
                     UniversalFunctions.RemoveTempFile(path);
-                    return RedirectToAction("ImportUpdate", "Beneficiary", new { docsimported });
+                    return RedirectToAction("ImportUpdate", "Home", new { docsimported });
                 }
                 else
                 {
@@ -84,7 +99,7 @@ namespace Finalaplication.Controllers
                 string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
                 volunteers = VolunteerFunctions.GetVolunteerAfterPaging(volunteers, page, nrofdocs);
                 volunteers = VolunteerFunctions.GetVolunteerAfterSorting(volunteers, sortOrder);
-                string key = VolMongoConstants.SESSION_KEY_EVENT;
+                string key = VolMongoConstants.SESSION_KEY_VOLUNTEER;
                 HttpContext.Session.SetString(key, stringofids);
 
                 if (HasDrivingLicence == true)
@@ -137,7 +152,7 @@ namespace Finalaplication.Controllers
                 ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
                 ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
                 ViewBag.nrofdocs = nrofdocs;
-                
+
                 return View(volunteers);
             }
             catch
@@ -203,7 +218,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var volunteer = volunteerManager.GetOneVolunteer(id);
+                Volunteer volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
             catch
@@ -232,8 +247,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                string volasstring = JsonConvert.SerializeObject(volunteer);
-                if (UniversalFunctions.ContainsSpecialChar(volasstring))
+                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
                 }
@@ -249,7 +263,7 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(volasstring);
+                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer));
                     return View();
                 }
             }
@@ -280,12 +294,10 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                string volasstring = JsonConvert.SerializeObject(volunteer);
-                if (UniversalFunctions.ContainsSpecialChar(volasstring))
+                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
                 }
-                Volunteer currentsavedvol = volunteerManager.GetOneVolunteer(id);
                 ModelState.Remove("Birthdate");
                 ModelState.Remove("HourCount");
                 ModelState.Remove("CIEliberat");

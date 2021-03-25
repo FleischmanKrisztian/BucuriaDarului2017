@@ -1,10 +1,7 @@
 ﻿using Finalaplication.Models;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.ControllerHelpers.VolunteerHelpers
@@ -32,7 +29,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
         {
             if (searching != null)
             {
-               volunteers = volunteers.Where(x => x.Fullname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                volunteers = volunteers.Where(x => x.Fullname.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
             return volunteers;
         }
@@ -76,19 +73,107 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             else
             {
                 return true;
-            }    
+            }
         }
 
-        internal static bool DifferentFormat(string header)
+        internal static Volunteer GetVolunteerFromOtherString(string[] volunteerstring)
         {
-            if (header.Count() >= 22 && header.Contains("Gender") == true)
+            Volunteer volunteer = new Volunteer();
+            volunteer.Fullname = volunteerstring[0];
+
+            if (volunteerstring[1] != null || volunteerstring[1] != "")
             {
-                return false;
+                try
+                {
+                    DateTime myDate = DateTime.ParseExact(volunteerstring[1].Substring(1, 2) + "-" + volunteerstring[1].Substring(3, 2) + "-" + volunteerstring[1].Substring(5, 2), "yy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture);
+                    volunteer.Birthdate = myDate.AddHours(5);
+                }
+                catch
+                {
+                    volunteer.Birthdate = DateTime.MinValue;
+                }
+            }
+
+            Address a = new Address();
+
+            if (volunteerstring[2] != null || volunteerstring[2] != "")
+            {
+                a.District = volunteerstring[2];
             }
             else
             {
-                return true;
+                a.District = "-";
             }
+            a.City = "-";
+            a.Street = "-";
+            a.Number = "-";
+
+            volunteer.Gender = Gender.Male;
+
+            if (volunteerstring[9] != null || volunteerstring[9] != "")
+            {
+                volunteer.Desired_workplace = volunteerstring[9];
+            }
+            else
+            {
+                volunteer.Desired_workplace = "-";
+            }
+            if (volunteerstring[1] != null || volunteerstring[1] != "")
+            {
+                volunteer.CNP = volunteerstring[1];
+            }
+            else
+            {
+                volunteer.CNP = "-";
+            }
+
+            if (volunteerstring[3] != null)
+            {
+                if (volunteerstring[3] != "")
+                {
+                    string[] splited = volunteerstring[3].Split(" ");
+                    volunteer.CIseria = splited[0];
+                    volunteer.CINr = splited[1];
+                }
+                else
+                {
+                    volunteer.CIseria = "Error";
+                    volunteer.CINr = "Error";
+                }
+            }
+
+            volunteer.CIEliberat = DateTime.MinValue;
+
+            volunteer.HourCount = 0;
+
+            ContactInformation c = new ContactInformation();
+            if (volunteerstring[4] != null || volunteerstring[4] != "")
+            {
+                c.PhoneNumber = volunteerstring[4];
+            }
+            else
+            {
+                c.PhoneNumber = "-";
+            }
+
+            volunteer.ContactInformation = c;
+            Additionalinfo ai = new Additionalinfo
+            {
+                HasDrivingLicence = false
+            };
+            if (volunteerstring[8] != null)
+            {
+                ai.Remark = volunteerstring[8];
+            }
+            else { ai.Remark = "-"; }
+            ai.HasCar = false;
+
+            volunteer.Occupation = "-";
+
+            volunteer.Address = a;
+            volunteer.Additionalinfo = ai;
+            return volunteer;
         }
 
         internal static Volunteer GetVolunteerFromString(string[] volunteerstring)

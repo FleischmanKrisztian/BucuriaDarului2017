@@ -22,7 +22,7 @@ namespace Finalaplication.DatabaseManager
             }
             catch
             {
-                Console.WriteLine("There was an error adding Volunteer!");
+                Console.WriteLine("There was an error adding Beneficiary!");
             }
         }
 
@@ -40,11 +40,14 @@ namespace Finalaplication.DatabaseManager
             return beneficiaries;
         }
 
-        internal void UpdateBeneficiary(FilterDefinition<Beneficiary> filter, UpdateDefinition<Beneficiary> beneficiarytoupdate)
+        internal void UpdateABeneficiary(Beneficiary beneficiarytopdate, string id)
         {
-            IMongoCollection<Beneficiary> beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
-            beneficiarycollection.UpdateOne(filter, beneficiarytoupdate);
+            IMongoCollection<Beneficiary> Beneficiarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+            var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
+            beneficiarytopdate.BeneficiaryID = id;
+            Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }
+
 
         internal void DeleteBeneficiary(string id)
         {
