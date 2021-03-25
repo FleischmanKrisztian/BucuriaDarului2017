@@ -1,6 +1,8 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseHandler;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -12,17 +14,14 @@ namespace Finalaplication.Controllers
 {
     public class VolcontractController : Controller
     {
-        private MongoDBContext dbcontext;
-        private IMongoCollection<Volcontract> volcontractcollection;
-        private IMongoCollection<Volunteer> volunteercollection;
+        private VolunteerManager volunteerManager = new VolunteerManager();
+        private VolContractManager volContractManager = new VolContractManager();
 
         public VolcontractController()
         {
             try
             {
-                dbcontext = new MongoDBContext();
-                volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-                volunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+                
             }
             catch { }
         }
@@ -34,8 +33,8 @@ namespace Finalaplication.Controllers
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Volcontract> volcontracts = volcontractcollection.AsQueryable().ToList();
-                Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
+                List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
+                Volunteer vol =volunteerManager.GetOneVolunteer(idofvol);
                 volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
                 ViewBag.nameofvol = vol.Fullname;
                 ViewBag.idofvol = idofvol;
@@ -52,7 +51,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
+                List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
                 return View(volcontracts);
             }
             catch
@@ -86,7 +85,7 @@ namespace Finalaplication.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        Volunteer vol = volunteercollection.AsQueryable().FirstOrDefault(z => z.VolunteerID == idofvol);
+                        Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
                         volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
                         volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
                         volcontract.Birthdate = vol.Birthdate;
@@ -109,7 +108,7 @@ namespace Finalaplication.Controllers
                         { address = address + "," + vol.Address.City; }
                         volcontract.Address = address;
                         volcontract.OwnerID = idofvol;
-                        volcontractcollection.InsertOne(volcontract);
+                        volContractManager.AddVolunteerContractToDB(volcontract);
                         return RedirectToAction("Index", new { idofvol });
                     }
                 }
@@ -131,7 +130,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
+                var contract = volContractManager.GetVolunteerContract(id);
                 return View(contract);
             }
             catch
@@ -147,7 +146,7 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contractid = new ObjectId(id);
-                var contract = volcontractcollection.AsQueryable<Volcontract>().SingleOrDefault(x => x.ContractID == id);
+                var contract = volContractManager.GetVolunteerContract(id);
                 return View(contract);
             }
             catch
@@ -163,7 +162,7 @@ namespace Finalaplication.Controllers
             try
             {
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                volcontractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", ObjectId.Parse(id)));
+                volContractManager.DeleteAVolContract(id);
                 return RedirectToAction("Index", new { idofvol });
             }
             catch
