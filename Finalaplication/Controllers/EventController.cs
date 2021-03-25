@@ -181,6 +181,7 @@ namespace Finalaplication.Controllers
                 Event eventtoallocateto = eventManager.GetOneEvent(Evid);
                 string nameofvolunteers = VolunteerFunctions.GetVolunteerNames(volunteers);
                 eventtoallocateto.AllocatedVolunteers = nameofvolunteers;
+                eventtoallocateto.NumberAllocatedVolunteers = EventFunctions.VolunteersAllocatedCounter(nameofvolunteers);
                 eventManager.UpdateAnEvent(eventtoallocateto, Evid);
                 return RedirectToAction("Index");
             }

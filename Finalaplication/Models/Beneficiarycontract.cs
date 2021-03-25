@@ -23,16 +23,6 @@ namespace Finalaplication.Models
         public string Nrtel { get; set; }
         public string CIinfo { get; set; }
 
-        //public string CIseria { get; set; }
-
-        //public string CINr { get; set; }
-
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        //public DateTime CIEliberat { get; set; }
-
-        //public string CIeliberator { get; set; }
-
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
@@ -47,20 +37,8 @@ namespace Finalaplication.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
 
-        public bool GetDayExpiration(DateTime date)
-        {
-            var now = DateTime.Now;
-            var firstday = now.AddDays(-1);
-            var lastday = now.AddDays(10);
-            var answer = false;
-            if (date >= firstday && date <= lastday)
-            {
-                answer = true;
-            }
-            return answer;
-        }
-
         public string IdInvestigation { get; set; }
         public string IdApplication { get; set; }
+
     }
 }

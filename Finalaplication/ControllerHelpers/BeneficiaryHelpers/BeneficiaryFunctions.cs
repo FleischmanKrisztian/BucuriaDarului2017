@@ -56,9 +56,281 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             return beneficiariesnames;
         }
 
-        internal static bool ChecktypeofCSV(List<string[]> beneficiaryasstring)
+        internal static Beneficiary GetBeneficiaryFromOtherString(string[] beneficiarystring)
         {
-            throw new NotImplementedException();
+            Beneficiary beneficiary = new Beneficiary();
+
+            try
+            {
+                beneficiary.Fullname = beneficiarystring[1];
+            }
+            catch
+            {
+                beneficiary.Fullname = "Incorrect Name";
+            }
+            try
+            {
+                beneficiary.Adress = beneficiarystring[8];
+            }
+            catch
+            {
+                beneficiary.Adress = "Incorrect address";
+            }
+
+            if (beneficiarystring[3] == "Activ" || beneficiarystring[3] == "activ" || beneficiarystring[3] == "Da" || beneficiarystring[3] == "DA" || beneficiarystring[3] == "da")
+            {
+                beneficiary.Active = true;
+            }
+            else
+            {
+                beneficiary.Active = false;
+            }
+
+            if (beneficiarystring[4] == "da" || beneficiarystring[4] == "DA" || beneficiarystring[4] == "DA")
+            {
+                beneficiary.HomeDelivery = true;
+            }
+            else
+            {
+                beneficiary.HomeDelivery = false;
+            }
+
+            if (beneficiarystring[5] == "da" || beneficiarystring[5] == "DA" || beneficiarystring[5] == "DA")
+            {
+                beneficiary.Weeklypackage = true;
+            }
+            else
+            {
+                beneficiary.Weeklypackage = false;
+            }
+            if (beneficiary.Weeklypackage == true)
+            { beneficiary.Canteen = false; }
+            else
+            { beneficiary.Canteen = true; }
+
+            if (beneficiarystring[7] != null || beneficiarystring[7] != "")
+            {
+                beneficiary.HomeDeliveryDriver = beneficiarystring[7];
+            }
+            else
+            {
+                beneficiary.HomeDeliveryDriver = " ";
+            }
+
+            if (beneficiarystring[9] != null || beneficiarystring[9] != "")
+            {
+                beneficiary.CNP = beneficiarystring[9];
+            }
+
+            try
+            {
+                if (beneficiarystring[17] != null || beneficiarystring[17] != " ")
+                {
+                    if (int.TryParse(beneficiarystring[17], out int portions))
+                    {
+                        beneficiary.NumberOfPortions = portions;
+                    }
+                }
+            }
+            catch
+            {
+                beneficiary.NumberOfPortions = 0;
+            }
+
+            try
+            {
+                Marca Marcabeneficiarystring = new Marca();
+                if (beneficiarystring[12] != null) { Marcabeneficiarystring.marca = beneficiarystring[12]; }
+                if (beneficiarystring[13] != null) { Marcabeneficiarystring.IdAplication = beneficiarystring[13]; }
+                if (beneficiarystring[14] != null) { Marcabeneficiarystring.IdInvestigation = beneficiarystring[14]; }
+                if (beneficiarystring[15] != null) { Marcabeneficiarystring.IdContract = beneficiarystring[15]; }
+                beneficiary.Marca = Marcabeneficiarystring;
+            }
+            catch
+            {
+                beneficiary.Marca.marca = "error";
+                beneficiary.Marca.IdAplication = "error";
+                beneficiary.Marca.IdInvestigation = "error";
+                beneficiary.Marca.IdContract = "error";
+            }
+
+            Personalinfo personal = new Personalinfo();
+            try
+            {
+                if (beneficiarystring[18] != null || beneficiarystring[18] != "")
+                {
+                    personal.PhoneNumber = beneficiarystring[18];
+                }
+
+                if (beneficiarystring[19] != null || beneficiarystring[19] != "")
+                {
+                    personal.BirthPlace = beneficiarystring[19];
+                }
+
+                if (beneficiarystring[20] != null)
+                {
+                    personal.Studies = beneficiarystring[20];
+                }
+
+                personal.Profesion = beneficiarystring[21];
+                personal.Ocupation = beneficiarystring[22];
+                personal.SeniorityInWorkField = beneficiarystring[23];
+                personal.HealthState = beneficiarystring[24];
+            }
+            catch
+            {
+                beneficiary.PersonalInfo.Profesion = "Error";
+                beneficiary.PersonalInfo.Ocupation = "Error";
+                beneficiary.PersonalInfo.SeniorityInWorkField = "Error";
+                beneficiary.PersonalInfo.HealthState = "Error";
+            }
+
+            if (beneficiarystring[25] != " " || beneficiarystring[25] != null)
+            {
+                personal.Disalility = beneficiarystring[25];
+            }
+            else { personal.Disalility = " "; }
+
+            if (beneficiarystring[26] != " " || beneficiarystring[26] != null)
+            {
+                personal.ChronicCondition = beneficiarystring[26];
+            }
+            else { personal.ChronicCondition = " "; }
+
+            if (beneficiarystring[27] != " " || beneficiarystring[27] != null)
+            {
+                personal.Addictions = beneficiarystring[27];
+            }
+            else { personal.Addictions = " "; }
+
+            if (beneficiarystring[28] == "Da" || beneficiarystring[28] == "DA" || beneficiarystring[28] == "DA")
+            {
+                personal.HealthInsurance = true;
+            }
+            else { personal.HealthInsurance = false; }
+
+            if (beneficiarystring[29] == "Da" || beneficiarystring[29] == "DA" || beneficiarystring[29] == "DA")
+            {
+                personal.HealthCard = true;
+            }
+            else { personal.HealthCard = false; }
+
+            if (beneficiarystring[30] != " " || beneficiarystring[30] != null)
+            {
+                personal.Married = beneficiarystring[30];
+            }
+            else { personal.Married = " "; }
+
+            if (beneficiarystring[31] != " " || beneficiarystring[31] != null)
+            {
+                personal.SpouseName = beneficiarystring[31];
+            }
+            else { personal.SpouseName = " "; }
+
+            if (beneficiarystring[32] != " " || beneficiarystring[32] != null)
+            {
+                personal.HousingType = beneficiarystring[32];
+            }
+            else { personal.HousingType = " "; }
+
+            if (beneficiarystring[33] == "da" || beneficiarystring[33] == "DA" || beneficiarystring[33] == "Da")
+            {
+                personal.HasHome = true;
+            }
+            else { personal.HasHome = false; }
+
+            if (beneficiarystring[34] != " " || beneficiarystring[34] != null)
+            {
+                personal.Income = beneficiarystring[34];
+            }
+            else { personal.Income = " "; }
+
+            if (beneficiarystring[35] != " " || beneficiarystring[35] != null)
+            {
+                personal.Expences = beneficiarystring[35];
+            }
+            else { personal.Expences = " "; }
+            try
+            {
+                try
+                {
+                    DateTime myDate = DateTime.ParseExact(beneficiarystring[9].Substring(1, 2) + "-" + beneficiarystring[9].Substring(3, 2) + "-" + beneficiarystring[9].Substring(5, 2), "yy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture);
+                    personal.Birthdate = myDate.AddHours(5);
+                }
+                catch
+                {
+                    string date = beneficiarystring[36] + "-" + beneficiarystring[37] + "-" + beneficiarystring[38];
+                    DateTime data = DateTime.ParseExact(date, "yy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture);
+                    personal.Birthdate = data.AddDays(1);
+                }
+            }
+            catch { personal.Birthdate = DateTime.MinValue; }
+
+            if (beneficiarystring[41] == "1" || beneficiarystring[41] == "True")
+            {
+                personal.Gender = VolCommon.Gender.Female;
+            }
+            else
+            {
+                personal.Gender = VolCommon.Gender.Male;
+            }
+            if (beneficiarystring[42] != null)
+            {
+                beneficiary.Comments = beneficiarystring[42];
+            }
+            else
+            {
+                beneficiary.Comments = "";
+            }
+
+            CI ciInfo = new CI();
+
+            try
+            {
+                if (beneficiarystring[11] == null || beneficiarystring[11] == "")
+                {
+                    ciInfo.ExpirationDateCI = DateTime.MinValue;
+                }
+                else
+                {
+                    DateTime data;
+                    if (beneficiarystring[11].Contains("/") == true)
+                    {
+                        string[] date = beneficiarystring[16].Split(" ");
+                        string[] FinalDate = date[0].Split("/");
+                        data = DateTime.ParseExact(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1], "yy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture); ;
+                    }
+                    else
+                    {
+                        string[] anotherDate = beneficiarystring[11].Split('.');
+                        data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
+                    System.Globalization.CultureInfo.InvariantCulture); ;
+                    }
+                    ciInfo.ExpirationDateCI = data.AddDays(1);
+                }
+            }
+            catch
+            {
+                ciInfo.ExpirationDateCI = DateTime.MinValue;
+            }
+
+            try
+            {
+                ciInfo.CIinfo = beneficiarystring[10];
+
+                if (beneficiarystring[10] != "" || beneficiarystring[10] != null)
+                { ciInfo.HasId = false; }
+            }
+            catch
+            {
+                ciInfo.CIinfo = "";
+            }
+            beneficiary.PersonalInfo = personal;
+            beneficiary.CI = ciInfo;
+            return beneficiary;
         }
 
         public static Beneficiary GetBeneficiaryFromString(string[] beneficiarystring)

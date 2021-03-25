@@ -10,38 +10,5 @@ namespace Finalaplication.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string VolunteerID { get; set; }
-
-        public static int Volbd(Volunteer vol)
-        {
-            int voldays;
-            {
-                voldays = (vol.Birthdate.Month - 1) * 30 + vol.Birthdate.Day;
-            }
-            return voldays;
-        }
-
-        public static int Nowdate()
-        {
-            string todaydate = DateTime.Today.ToString("dd-MM-yyyy");
-            string[] dates = todaydate.Split('-');
-            int Day = Convert.ToInt16(dates[0]);
-            int Month = Convert.ToInt16(dates[1]);
-            int Year = Convert.ToInt16(dates[2]);
-            Day = (Month - 1) * 30 + Day;
-            return Day;
-        }
-
-        public bool GetDayExpiration(DateTime date)
-        {
-            var now = DateTime.Now;
-            var firstday = now.AddDays(-1);
-            var lastday = now.AddDays(10);
-            var answer = false;
-            if (date >= firstday && date <= lastday)
-            {
-                answer = true;
-            }
-            return answer;
-        }
     }
 }

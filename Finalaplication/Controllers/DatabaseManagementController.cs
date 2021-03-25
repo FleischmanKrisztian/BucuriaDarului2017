@@ -272,7 +272,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Localserver");
             }
         }
 
@@ -328,7 +328,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Localserver");
             }
         }
     }

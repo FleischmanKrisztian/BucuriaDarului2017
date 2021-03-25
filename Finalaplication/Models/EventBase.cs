@@ -24,24 +24,9 @@ namespace VolCommon
 
         public string AllocatedVolunteers { get; set; }
 
+        public int NumberAllocatedVolunteers { get; set; }
+
         public string AllocatedSponsors { get; set; }
 
-        public string VolunteerAllocateCounter(string AllocatedVolunteers, int NumberOfVolunteersNeeded)
-        {
-            if (AllocatedVolunteers != null)
-            {
-                string[] split = AllocatedVolunteers.Split(" / ");
-                int nr = 0;
-                foreach (string item in split)
-                {
-                    nr++;
-                }
-                nr--;
-                string rezstring = nr.ToString();
-
-                return rezstring;
-            }
-            return null;
-        }
     }
 }

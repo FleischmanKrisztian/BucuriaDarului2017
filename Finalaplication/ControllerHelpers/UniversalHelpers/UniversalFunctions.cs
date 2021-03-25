@@ -10,6 +10,31 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {
     public class UniversalFunctions
     {
+        public static bool DateExpiryChecker(DateTime date)
+        {
+            var now = DateTime.Now;
+            var firstday = now.AddDays(-1);
+            var lastday = now.AddDays(10);
+            var answer = false;
+            if (date >= firstday && date <= lastday)
+            {
+                answer = true;
+            }
+            return answer;
+        }
+
+        public static bool GetDayExpiration(DateTime date)
+        {
+            var now = DateTime.Now;
+            var firstday = now.AddDays(-1);
+            var lastday = now.AddDays(10);
+            var answer = false;
+            if (date >= firstday && date <= lastday) // THIS IS GOING TO BREAK around dec 21 - Jan 1
+            {
+                answer = true;
+            }
+            return answer;
+        }
         public static void DeleteFile(string path)
         {
             FileInfo file = new FileInfo(path);
@@ -91,6 +116,16 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 page = 1;
                 return page;
             }
+        }
+
+        internal static int GetCurrentDate()
+        {
+            string todaydate = DateTime.Today.ToString("dd-MM-yyyy");
+            string[] dates = todaydate.Split('-');
+            int Day = Convert.ToInt16(dates[0]);
+            int Month = Convert.ToInt16(dates[1]);
+            Day = (Month - 1) * 30 + Day;
+            return Day;
         }
 
         internal static bool ContainsSpecialChar(string incomingstring)

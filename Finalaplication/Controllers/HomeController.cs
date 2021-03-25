@@ -1,5 +1,7 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.ControllerHelpers.VolunteerHelpers;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,8 +66,8 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in volunteers)
                 {
-                    var Day = Finalaplication.Models.Volunteer.Nowdate();
-                    var voldays = Finalaplication.Models.Volunteer.Volbd(item);
+                    var Day = UniversalFunctions.GetCurrentDate();
+                    var voldays = VolunteerFunctions.GetVolBirthdate(item);
                     if ((Day <= voldays && Day + 10 > voldays) || (Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays))
                     {
                         bd++;
@@ -78,7 +80,7 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in volcontracts)
                 {
-                    if (item.GetDayExpiration(item.ExpirationDate) == true)
+                    if (UniversalFunctions.GetDayExpiration(item.ExpirationDate))
                     {
                         vc++;
                     }
@@ -87,7 +89,7 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in sponsors)
                 {
-                    if (item.GetDayExpiration(item.Contract.ExpirationDate) == true)
+                    if (UniversalFunctions.GetDayExpiration(item.Contract.ExpirationDate))
                     {
                         sc++;
                     }
@@ -96,7 +98,7 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in beneficiarycontracts)
                 {
-                    if (item.GetDayExpiration(item.ExpirationDate) == true)
+                    if (UniversalFunctions.DateExpiryChecker(item.ExpirationDate))
                     {
                         bc++;
                     }
@@ -158,12 +160,6 @@ namespace Finalaplication.Controllers
             {
                 return RedirectToAction("Localserver", "Home");
             }
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

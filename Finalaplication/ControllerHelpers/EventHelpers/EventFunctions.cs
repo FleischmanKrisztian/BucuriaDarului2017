@@ -105,7 +105,6 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             return events;
         }
 
-        //We have to check whether or not the user input any date, because even if they didn't the controller still receives the minimum date
         private static bool Dateinputreceived(DateTime date)
         {
             DateTime comparisondate = new DateTime(0003, 1, 1);
@@ -174,6 +173,16 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             Event returnedevent = events.Find(b => b.EventID.ToString() == id);
             returnedevent.AllocatedSponsors += " / ";
             return returnedevent.AllocatedSponsors;
+        }
+
+        internal static int VolunteersAllocatedCounter(string AllocatedVolunteers)
+        {
+            if (AllocatedVolunteers != null)
+            {
+                string[] split = AllocatedVolunteers.Split(" / ");
+                return split.Count()-1;
+            }
+            return 0;
         }
     }
 }

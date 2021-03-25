@@ -1,12 +1,11 @@
-﻿//using Elm.Core.Logger;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace Elm.Core.Parsers
 {
-    public class CSVImportParser : Parser
+    public class CSVImportParser
     {
         #region private functions
 
@@ -68,6 +67,8 @@ namespace Elm.Core.Parsers
             return SeparatorChars[0];
         }
 
+
+
         public static string[] GetHeader(string filename)
         {
             string firstLine;
@@ -104,12 +105,10 @@ namespace Elm.Core.Parsers
         public static List<string[]> GetListFromCSV(string filename)
         {
             List<string[]> list = new List<string[]>();
-            RowsData = new List<string[]>();
 
             using (StreamReader sr = new StreamReader(filename))
             {
                 int totalLines = File.ReadAllLines(filename).Length;
-                int lineCnt = 0;
                 string line = string.Empty;
                 string firstrow = sr.ReadLine();
 
@@ -137,17 +136,6 @@ namespace Elm.Core.Parsers
                         splits[i] = splits[i].Trim(TrimChars);
                     }
 
-                    if (lineCnt == 0)
-                    {
-                        HeaderData = new List<string>(splits);
-                        lineCnt++;
-                    }
-                    else
-                    {
-                        if (HeaderData.Count == splits.Length)
-                            RowsData.Add(splits);
-                    }
-
                     list.Add(splits);
                 }
 
@@ -155,7 +143,7 @@ namespace Elm.Core.Parsers
             }
         }
 
-        internal static bool ChecktypeofCSV(string path)
+        internal static bool DefaultVolunteerCSVFormat(string path)
         {
             string firstrow = "";
             using (StreamReader sr = new StreamReader(path))
@@ -164,6 +152,24 @@ namespace Elm.Core.Parsers
                 firstrow = sr.ReadLine();
             }
             if (firstrow.Contains("nume si prenume"))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        internal static bool DefaultBeneficiaryCSVFormat(string path)
+        {
+            string firstrow = "";
+            using (StreamReader sr = new StreamReader(path))
+            {
+                int totalLines = File.ReadAllLines(path).Length;
+                firstrow = sr.ReadLine();
+            }
+            if (firstrow.Contains("prenume benef"))
             {
                 return false;
             }

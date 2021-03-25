@@ -47,7 +47,7 @@ namespace Finalaplication.Controllers
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
                     UniversalFunctions.CreateFileStream(Files, path);
                     List<string[]> volunteersasstring = CSVImportParser.GetListFromCSV(path);
-                    if (CSVImportParser.ChecktypeofCSV(path))
+                    if (CSVImportParser.DefaultVolunteerCSVFormat(path))
                     {
                         for (int i = 0; i < volunteersasstring.Count; i++)
                         {

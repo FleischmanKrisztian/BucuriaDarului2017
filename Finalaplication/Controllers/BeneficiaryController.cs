@@ -47,14 +47,30 @@ namespace Finalaplication.Controllers
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
                     UniversalFunctions.CreateFileStream(Files, path);
                     List<string[]> beneficiaryasstring = CSVImportParser.GetListFromCSV(path);
-                    //bool Apptypecsv = BeneficiaryFunctions.ChecktypeofCSV(beneficiaryasstring);
-                    for (int i = 0; i < beneficiaryasstring.Count; i++)
+                    if (CSVImportParser.DefaultBeneficiaryCSVFormat(path))
                     {
-                        Beneficiary beneficiary = BeneficiaryFunctions.GetBeneficiaryFromString(beneficiaryasstring[i]);
-                        if (BeneficiaryFunctions.DoesNotExist(beneficiaries, beneficiary))
+                        for (int i = 0; i < beneficiaryasstring.Count; i++)
                         {
-                            docsimported++;
-                            beneficiaryManager.AddBeneficiaryToDB(beneficiary);
+                            Beneficiary beneficiary = new Beneficiary();
+                            beneficiary = BeneficiaryFunctions.GetBeneficiaryFromString(beneficiaryasstring[i]);
+                            if (BeneficiaryFunctions.DoesNotExist(beneficiaries, beneficiary))
+                            {
+                                docsimported++;
+                                beneficiaryManager.AddBeneficiaryToDB(beneficiary);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < beneficiaryasstring.Count; i++)
+                        {
+                            Beneficiary beneficiary = new Beneficiary();
+                            beneficiary = BeneficiaryFunctions.GetBeneficiaryFromOtherString(beneficiaryasstring[i]);
+                            if (BeneficiaryFunctions.DoesNotExist(beneficiaries, beneficiary))
+                            {
+                                docsimported++;
+                                beneficiaryManager.AddBeneficiaryToDB(beneficiary);
+                            }
                         }
                     }
                     UniversalFunctions.RemoveTempFile(path);

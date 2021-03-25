@@ -488,17 +488,26 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
 
         internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers)
         {
-            var Day = Volunteer.Nowdate();
+            int Today = UniversalHelpers.UniversalFunctions.GetCurrentDate();
             List<Volunteer> returnlistofvols = new List<Volunteer>();
             foreach (var vol in volunteers)
             {
-                var voldays = Volunteer.Volbd(vol);
-                if (Day <= voldays && Day + 10 > voldays || Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays)
+                int voldays = GetVolBirthdate(vol);
+                if (Today <= voldays && Today + 10 > voldays || Today > 354 && 365 - (Today + 365 - Today - 2) >= voldays)
                 {
                     returnlistofvols.Add(vol);
                 }
             }
             return returnlistofvols;
+        }
+
+        internal static int GetVolBirthdate(Volunteer vol)
+        {
+            int voldays;
+            {
+                voldays = (vol.Birthdate.Month - 1) * 30 + vol.Birthdate.Day;
+            }
+            return voldays;
         }
     }
 }
