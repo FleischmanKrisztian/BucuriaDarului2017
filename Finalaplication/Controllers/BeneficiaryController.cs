@@ -73,14 +73,8 @@ namespace Finalaplication.Controllers
                     var tuple = await processed.GetProcessedBeneficiaries();
                     docsimported = tuple.Item1;
                     key1 = tuple.Item2;
-                    try
-                    {
-                        await processed.ImportBeneficiaryContractsFromCsv();
-                    }
-                    catch
-                    { 
 
-                    }
+                    await processed.ImportBeneficiaryContractsFromCsv();
                 }
                 else
                 {
@@ -227,7 +221,7 @@ namespace Finalaplication.Controllers
                 ViewBag.page = page;
                 beneficiaries = BeneficiaryFunctions.GetBeneficiariesAfterFilters(beneficiaries, sortOrder, searching, Active, searchingBirthPlace, HasContract, Homeless, lowerdate, upperdate, activesince, activetill, page, Weeklypackage, Canteen, HomeDelivery, searchingDriver, HasGDPRAgreement, searchingAddress, HasID, searchingNumberOfPortions, searchingComments, searchingStudies, searchingPO, searchingSeniority, searchingHealthState, searchingAddictions, searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome, searchingHousingType, searchingIncome, searchingExpences, gender);
                 ViewBag.counter = beneficiaries.Count();
-                int nrofdocs = UniversalFunctions.getNumberOfItemPerPageFromSettings(TempData);
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
                 string stringofids = BeneficiaryFunctions.GetStringOfIds(beneficiaries);
                 ViewBag.stringofids = stringofids;
@@ -268,8 +262,6 @@ namespace Finalaplication.Controllers
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);
 
-            
-            //return View();
         }
 
         public ActionResult ContractExp()
@@ -314,7 +306,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Beneficiary/Create
         [HttpPost]
         public ActionResult Create(Beneficiary beneficiary, List<IFormFile> Image)
         {
@@ -345,14 +336,6 @@ namespace Finalaplication.Controllers
                     {
                         beneficiary.Image = UniversalFunctions.Image(Image);
                     }
-
-                    if (beneficiary.Active == true)
-                    {
-                        Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                        beneficiary.Activedates = beneficiary.Activedates + "," + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
-                        beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                        beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
-                    }
                     beneficiaryManager.AddBeneficiaryToDB(beneficiary);
 
                     return RedirectToAction("Index");
@@ -369,7 +352,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // GET: Beneficiary/Edit/5
         public ActionResult Edit(string id)
         {
             try
@@ -387,7 +369,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Beneficiary/Edit/5
         [HttpPost]
         public ActionResult Edit(string id, Beneficiary incomingbeneficiary, string originalsavedbeneficiarystring, IList<IFormFile> image)
         {
@@ -422,28 +403,6 @@ namespace Finalaplication.Controllers
                         {
                             incomingbeneficiary.Image = UniversalFunctions.Image(image);
                         }
-    
-                        bool wasactive = false;
-
-                        if (Originalsavedbeneficiary.Active == true)
-                        {
-                            wasactive = true;
-                        }
-                        if (incomingbeneficiary.Active == false && wasactive == true)
-                        {
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
-                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(" ", "");
-                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(".", "/");
-                        }
-                        if (incomingbeneficiary.Active == true && wasactive == false)
-                        {
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates + ", " + DateTime.Today.AddHours(5).ToShortDateString() + "-currently";
-                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(" ", "");
-                            incomingbeneficiary.Activedates = incomingbeneficiary.Activedates.Replace(".", "/");
-                        }
-
 
                         if (ModelState.IsValid)
                         {
@@ -485,7 +444,6 @@ namespace Finalaplication.Controllers
                                .Set("PersonalInfo.Profesion", incomingbeneficiary.PersonalInfo.Profesion)
                                .Set("PersonalInfo.SeniorityInWorkField", incomingbeneficiary.PersonalInfo.SeniorityInWorkField)
                                .Set("PersonalInfo.SpouseName", incomingbeneficiary.PersonalInfo.SpouseName)
-                               .Set("Activedates", incomingbeneficiary.Activedates)
                                .Set("PersonalInfo.Studies", incomingbeneficiary.PersonalInfo.Studies);
 
                             beneficiaryManager.UpdateBeneficiary(filter, update);
@@ -548,21 +506,6 @@ namespace Finalaplication.Controllers
                     }
                     else
                     {
-
-                        if (beneficiary.Active == false)
-                        {//erroare
-                            Thread.CurrentThread.CurrentCulture = new CultureInfo("ro");
-                            beneficiary.Activedates = DateTime.Now.AddHours(5).ToShortDateString();
-                            beneficiary.Activedates = beneficiary.Activedates.Replace("currently", DateTime.Now.AddHours(5).ToShortDateString());
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(" ", "");
-                            beneficiary.Activedates = beneficiary.Activedates.Replace(".", "/");
-                        }
-                        var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
-                        var update = Builders<Beneficiary>.Update
-                            .Set("Active", beneficiary.Active)
-                            .Set("Activedates", beneficiary.Activedates);
-                        beneficiaryManager.UpdateBeneficiary(filter, update);
-
                         return RedirectToAction("Index");
                     }
                 }

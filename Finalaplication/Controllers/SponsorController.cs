@@ -119,8 +119,9 @@ namespace Finalaplication.Controllers
                 ViewBag.WhatGoods = WhatGoods;
                 ViewBag.GoodsAmount = GoodsAmounts;
                 ViewBag.MoneyAmount = MoneyAmount;
-                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
+
+                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.page = page;
                 sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors, searching, ContactInfo, lowerdate, upperdate, HasContract, WhatGoods, MoneyAmount, GoodsAmounts);
@@ -132,6 +133,7 @@ namespace Finalaplication.Controllers
                 sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
                 string key = VolMongoConstants.SESSION_KEY_SPONSOR;
                 HttpContext.Session.SetString(key, stringofids);
+
                 return View(sponsors);
             }
             catch
