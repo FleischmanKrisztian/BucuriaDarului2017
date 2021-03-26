@@ -63,12 +63,11 @@ namespace Finalaplication.Controllers
                 int vc = 0;
                 int sc = 0;
                 int bc = 0;
-
+                int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
                 foreach (var item in volunteers)
                 {
-                    var Day = UniversalFunctions.GetCurrentDate();
-                    var voldays = VolunteerFunctions.GetVolBirthdate(item);
-                    if ((Day <= voldays && Day + 10 > voldays) || (Day > 354 && 365 - (Day + 365 - Day - 2) >= voldays))
+                    int volbdday = UniversalFunctions.GetDayOfYear(item.Birthdate);
+                    if (UniversalFunctions.IsAboutToExpire(currentday, volbdday))
                     {
                         bd++;
                     }
@@ -80,7 +79,8 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in volcontracts)
                 {
-                    if (UniversalFunctions.GetDayExpiration(item.ExpirationDate))
+                    int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
+                    if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
                     {
                         vc++;
                     }
@@ -89,7 +89,8 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in sponsors)
                 {
-                    if (UniversalFunctions.GetDayExpiration(item.Contract.ExpirationDate))
+                    int daytocompare = UniversalFunctions.GetDayOfYear(item.Contract.ExpirationDate);
+                    if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
                     {
                         sc++;
                     }
@@ -98,7 +99,8 @@ namespace Finalaplication.Controllers
 
                 foreach (var item in beneficiarycontracts)
                 {
-                    if (UniversalFunctions.DateExpiryChecker(item.ExpirationDate))
+                    int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
+                    if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
                     {
                         bc++;
                     }

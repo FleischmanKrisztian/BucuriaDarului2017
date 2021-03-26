@@ -1,8 +1,8 @@
-﻿using Finalaplication.Models;
+﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using VolCommon;
 
 namespace Finalaplication.ControllerHelpers.SponsorHelpers
@@ -14,7 +14,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             Sponsor newsponsor = new Sponsor();
             Sponsorship s = new Sponsorship();
             Contract c = new Contract();
-            ContactInformation ci=new ContactInformation();
+            ContactInformation ci = new ContactInformation();
 
             newsponsor.NameOfSponsor = sponsorstring[0];
 
@@ -39,7 +39,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             }
             else
             {
-               c.HasContract = false;
+                c.HasContract = false;
             }
             c.HasContract = Convert.ToBoolean(sponsorstring[5]);
             c.NumberOfRegistration = sponsorstring[6];
@@ -69,6 +69,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             newsponsor.ContactInformation = ci;
             return newsponsor;
         }
+
         internal static string GetStringOfIds(List<Sponsor> sponsors)
         {
             string stringofids = "sponsor";
@@ -155,8 +156,6 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
 
         internal static List<Sponsor> GetSponsorsAfterFilters(List<Sponsor> sponsors, string searching, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
         {
-            
-
             if (searching != null)
             {
                 sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(searching, StringComparison.InvariantCultureIgnoreCase)).ToList();
@@ -171,9 +170,8 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                     if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
                         s.ContactInformation.MailAdress = "-";
                 }
-               
+
                 sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
-               
             }
 
             if (WhatGoods != null)
@@ -184,9 +182,8 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                     if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
                         s.Sponsorship.WhatGoods = "-";
                 }
-               
+
                 sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                
             }
             if (GoodsAmounts != null)
             {
@@ -196,9 +193,8 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                     if (s.Sponsorship.GoodsAmount == null || s.Sponsorship.GoodsAmount == "")
                         s.Sponsorship.GoodsAmount = "-";
                 }
-                
-                 sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                
+
+                sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(GoodsAmounts, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
             if (MoneyAmount != null)
             {
@@ -208,13 +204,12 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                     if (s.Sponsorship.MoneyAmount == null || s.Sponsorship.MoneyAmount == "")
                         s.Sponsorship.MoneyAmount = "-";
                 }
-               
+
                 sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
-                
             }
             if (HasContract == true)
             {
-               sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
+                sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
             }
 
             if (Dateinputreceived(lowerdate))
@@ -227,6 +222,21 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             }
 
             return sponsors;
+        }
+
+        internal static List<Sponsor> GetExpiringContracts(List<Sponsor> sponsors)
+        {
+            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
+            List<Sponsor> returnlistofspons = new List<Sponsor>();
+            foreach (var spons in sponsors)
+            {
+                int daytocompare = UniversalFunctions.GetDayOfYear(spons.Contract.ExpirationDate);
+                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
+                {
+                    returnlistofspons.Add(spons);
+                }
+            }
+            return returnlistofspons;
         }
     }
 }

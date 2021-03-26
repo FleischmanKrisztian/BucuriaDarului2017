@@ -1,5 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
+using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
@@ -20,11 +21,7 @@ namespace Finalaplication.Controllers
 
         public BeneficiarycontractController(IStringLocalizer<BeneficiarycontractController> localizer)
         {
-            try
-            {
                 _localizer = localizer;
-            }
-            catch { }
         }
 
         [HttpGet]
@@ -51,10 +48,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
-
-                return View(beneficiarycontracts);
+                List<Beneficiarycontract> benefcontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+                benefcontracts = BeneficiarycontractFunctions.GetExpiringContracts(benefcontracts);
+                return View(benefcontracts);
             }
             catch
             {
@@ -148,7 +144,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, string idofbeneficiary)
         {

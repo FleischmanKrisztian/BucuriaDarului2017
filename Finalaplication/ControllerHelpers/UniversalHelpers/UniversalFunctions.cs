@@ -23,26 +23,15 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             return answer;
         }
 
-        public static bool GetDayExpiration(DateTime date)
+        public static bool IsAboutToExpire(int currentday, int daytocompareto)
         {
-            var now = DateTime.Now;
-            var firstday = now.AddDays(-1);
-            var lastday = now.AddDays(10);
-            var answer = false;
-            if (date >= firstday && date <= lastday) // THIS IS GOING TO BREAK around dec 21 - Jan 1
+            if (currentday <= daytocompareto && currentday + 10 > daytocompareto || currentday > 355 && daytocompareto < 9)
             {
-                answer = true;
+                return true;
             }
-            return answer;
+            return false;
         }
-        public static void DeleteFile(string path)
-        {
-            FileInfo file = new FileInfo(path);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-        }
+
         public static bool File_is_not_empty(IFormFile file)
         {
             if (file.Length > 0)
@@ -51,34 +40,6 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 return false;
         }
 
-        public static bool File_is_not_empty(IList<IFormFile> files)
-        {
-            if (files!=null)
-                return true;
-            else
-                return false;
-        }
-
-        internal static byte[] Image(IList<IFormFile> image)
-        {
-            byte[] return_image = new Byte[64];
-
-            
-            foreach (var item in image)
-            {
-                if (item.Length > 0)
-                {
-                    using (var stream = new MemoryStream())
-                    {
-                        item.CopyTo(stream);
-                        return_image = stream.ToArray();
-                    }
-                }
-                }
-            
-
-            return return_image;
-        }
         internal static void CreateFileStream(IFormFile Files, string path)
         {
             using var stream = new FileStream(path, FileMode.Create);
@@ -118,10 +79,10 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             }
         }
 
-        internal static int GetCurrentDate()
+        internal static int GetDayOfYear(DateTime date)
         {
-            string todaydate = DateTime.Today.ToString("dd-MM-yyyy");
-            string[] dates = todaydate.Split('-');
+            string dateasstring = date.ToString("dd-MM-yyyy");
+            string[] dates = dateasstring.Split('-');
             int Day = Convert.ToInt16(dates[0]);
             int Month = Convert.ToInt16(dates[1]);
             Day = (Month - 1) * 30 + Day;
@@ -148,31 +109,6 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
                 returnedimage = stream.ToArray();
             }
             return returnedimage;
-        }
-
-        public static DateTime Dateformatter(string datestring)
-        {
-            DateTime date;
-            if (datestring.Contains("currently"))
-            {
-                date = DateTime.Today;
-                return date;
-            }
-            else if (datestring.Length == 8)
-            {
-                datestring = datestring.Insert(0, "0");
-                datestring = datestring.Insert(3, "0");
-            }
-            else if (datestring.Length == 9 && datestring[2] != '/')
-            {
-                datestring = datestring.Insert(0, "0");
-            }
-            else if (datestring.Length == 9)
-            {
-                datestring = datestring.Insert(2, "0");
-            }
-            date = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.DefaultThreadCurrentCulture);
-            return date;
         }
     }
 }

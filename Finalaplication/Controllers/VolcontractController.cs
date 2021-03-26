@@ -1,6 +1,6 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Common;
+﻿using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.ControllerHelpers.VolcontractHelpers;
 using Finalaplication.DatabaseHandler;
 using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
@@ -16,15 +16,6 @@ namespace Finalaplication.Controllers
     {
         private VolunteerManager volunteerManager = new VolunteerManager();
         private VolContractManager volContractManager = new VolContractManager();
-
-        public VolcontractController()
-        {
-            try
-            {
-                
-            }
-            catch { }
-        }
 
         [HttpGet]
         public IActionResult Index(string idofvol)
@@ -50,8 +41,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
+                volcontracts = VolcontractFunctions.GetExpiringContracts(volcontracts);
                 return View(volcontracts);
             }
             catch

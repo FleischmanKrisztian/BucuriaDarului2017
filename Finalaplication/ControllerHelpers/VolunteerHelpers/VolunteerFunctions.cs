@@ -1,4 +1,5 @@
-﻿using Finalaplication.Models;
+﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -488,26 +489,17 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
 
         internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers)
         {
-            int Today = UniversalHelpers.UniversalFunctions.GetCurrentDate();
+            int currentday = UniversalHelpers.UniversalFunctions.GetDayOfYear(DateTime.Today);
             List<Volunteer> returnlistofvols = new List<Volunteer>();
             foreach (var vol in volunteers)
             {
-                int voldays = GetVolBirthdate(vol);
-                if (Today <= voldays && Today + 10 > voldays || Today > 354 && 365 - (Today + 365 - Today - 2) >= voldays)
+                int daytocompare = UniversalFunctions.GetDayOfYear(vol.Birthdate);
+                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
                 {
                     returnlistofvols.Add(vol);
                 }
             }
             return returnlistofvols;
-        }
-
-        internal static int GetVolBirthdate(Volunteer vol)
-        {
-            int voldays;
-            {
-                voldays = (vol.Birthdate.Month - 1) * 30 + vol.Birthdate.Day;
-            }
-            return voldays;
         }
     }
 }

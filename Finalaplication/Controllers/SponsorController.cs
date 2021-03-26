@@ -146,8 +146,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
+                sponsors = SponsorFunctions.GetExpiringContracts(sponsors);
                 return View(sponsors);
             }
             catch

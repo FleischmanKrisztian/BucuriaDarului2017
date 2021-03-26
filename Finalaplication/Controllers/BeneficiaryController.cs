@@ -250,20 +250,6 @@ namespace Finalaplication.Controllers
             return Redirect(csvexporterlink);
         }
 
-        public ActionResult ContractExp()
-        {
-            try
-            {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
-                return View(beneficiaries);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
-        }
-
         public ActionResult Details(string id)
         {
             try
