@@ -146,7 +146,6 @@ namespace Finalaplication.Controllers
             }
         }
 
-        // POST: Volunteer/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, string idofvol)
         {

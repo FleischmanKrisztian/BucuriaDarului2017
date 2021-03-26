@@ -1,5 +1,4 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Common;
+﻿using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.DatabaseManager;
@@ -15,13 +14,13 @@ namespace Finalaplication.Controllers
 {
     public class BeneficiarycontractController : Controller
     {
-        BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
-        BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
         private readonly IStringLocalizer<BeneficiarycontractController> _localizer;
 
         public BeneficiarycontractController(IStringLocalizer<BeneficiarycontractController> localizer)
         {
-                _localizer = localizer;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -149,7 +148,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-   
                 ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 beneficiaryContractManager.DeleteBeneficiaryContract(id);
 

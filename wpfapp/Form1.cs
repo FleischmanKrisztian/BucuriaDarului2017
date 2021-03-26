@@ -46,7 +46,6 @@ namespace wpfapp
         private void button2_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-
             try
             {
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -60,7 +59,7 @@ namespace wpfapp
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
-                        string url = keyValuePairs.GetValue("Beneficiarylink2") + args[1];
+                        string url = keyValuePairs.GetValue("Beneficiarylink") + args[1];
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
@@ -153,14 +152,6 @@ namespace wpfapp
                             doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
                         if (volc.CIeliberator != null)
                             doc.ReplaceText("<eliberator>", volc.CIeliberator);
-                        //if (words[1] != null)
-                        //    doc.ReplaceText("<oras>", words[1]);
-                        //if (words[2] != null)
-                        //    doc.ReplaceText("<str>", words[2]);
-                        //if (words[3] != null)
-                        //    doc.ReplaceText("<nr>", words[3]);
-                        //if (words[0] != null)
-                        //    doc.ReplaceText("<jud>", words[0]);
                         if (volc.Nrtel != null)
                             doc.ReplaceText("<tel>", volc.Nrtel);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());

@@ -3,7 +3,6 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Finalaplication.Controllers
@@ -15,8 +14,6 @@ namespace Finalaplication.Controllers
         private MongoDBContext dbcontext;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
 
-       
-        // GET: api/Values/5
         [HttpGet("{id}", Name = "Getbeneficiary")]
         public string Get(string id)
         {
