@@ -16,10 +16,10 @@ namespace Finalaplication.DatabaseManager
             return set;
         }
 
-        internal void UpdateSettingsItem_Env(string condition, Settings settings)
+        internal void UpdateSettingsItem_Env( Settings settings)
         {
             IMongoCollection<Settings> settingcollection = dbcontext.database.GetCollection<Settings>("Settings");
-            settingcollection.ReplaceOne(y => y.Env.Contains(condition), settings);
+            settingcollection.ReplaceOne(y => y.Env.Contains("i"), settings);
 
         }
     }
