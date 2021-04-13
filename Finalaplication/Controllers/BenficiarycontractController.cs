@@ -146,7 +146,6 @@ namespace Finalaplication.Controllers
             try
             {
                 beneficiaryContractManager.DeleteBeneficiaryContract(id);
-
                 return RedirectToAction("Index", new { idofbeneficiary });
             }
             catch
