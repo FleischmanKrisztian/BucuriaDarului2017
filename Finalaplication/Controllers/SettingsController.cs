@@ -13,6 +13,8 @@ namespace Finalaplication.Controllers
 {
     public class SettingsController : Controller
     {
+        private MongoDBContextOffline dbcontextoffline;
+        private IMongoCollection<Settings> settingcollection;
         private SettingsManager settingsManager = new SettingsManager();
         public SettingsController()
         {
@@ -52,8 +54,8 @@ namespace Finalaplication.Controllers
               SameSite = SameSiteMode.Lax }
       );
 
-            string condition = "i";
-            settingsManager.UpdateSettingsItem_Env(condition,set);
+
+            settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
             return RedirectToAction("Index", "Home");
         }
 
@@ -63,8 +65,7 @@ namespace Finalaplication.Controllers
             {
                 Settings set = settingsManager.GetSettingsItem();
                 set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
-                string condition = "i";
-                settingsManager.UpdateSettingsItem_Env(condition, set);
+                settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
                 TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
                 return RedirectToAction("Index", "Home");
             }
@@ -78,7 +79,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Settings set = settingsManager.GetSettingsItem();
+                Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
                 TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
