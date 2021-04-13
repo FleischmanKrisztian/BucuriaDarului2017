@@ -62,7 +62,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.idofbeneficiary = id;
                 return View();
             }
@@ -116,7 +115,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
 
                 return View(contract);
@@ -132,7 +130,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contractid = new ObjectId(id);
                 var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
                 return View(contract);
@@ -148,7 +145,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 beneficiaryContractManager.DeleteBeneficiaryContract(id);
 
                 return RedirectToAction("Index", new { idofbeneficiary });
