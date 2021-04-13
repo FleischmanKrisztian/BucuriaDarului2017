@@ -23,7 +23,6 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
                 Volunteer vol =volunteerManager.GetOneVolunteer(idofvol);
                 volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
@@ -56,7 +55,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.idofvol = id;
                 return View();
             }
@@ -71,7 +69,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 try
                 {
                     if (ModelState.IsValid)
@@ -120,7 +117,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contract = volContractManager.GetVolunteerContract(id);
                 return View(contract);
             }
@@ -135,7 +131,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contractid = new ObjectId(id);
                 var contract = volContractManager.GetVolunteerContract(id);
                 return View(contract);
@@ -151,7 +146,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 volContractManager.DeleteAVolContract(id);
                 return RedirectToAction("Index", new { idofvol });
             }
