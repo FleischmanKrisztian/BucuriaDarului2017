@@ -44,16 +44,12 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                if (dbcontext.nointernet == true)
-                {
-                    TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = VolMongoConstants.CONNECTION_MODE_OFFLINE;
-                }
+                
                 if (dbcontext.english == true)
                 {
                     TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "en";
                 }
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = dbcontext.numberofdocsperpage;
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
                 List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
@@ -134,7 +130,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
@@ -146,7 +141,6 @@ namespace Finalaplication.Controllers
 
         public ActionResult ImportUpdate(string docsimported)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             ViewBag.documentsimported = docsimported;
             return View();
         }
@@ -155,7 +149,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
