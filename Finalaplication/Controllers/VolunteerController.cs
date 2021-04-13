@@ -30,14 +30,12 @@ namespace Finalaplication.Controllers
 
         public ActionResult FileUpload()
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
@@ -129,7 +127,6 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filter13 = lowerdate.ToString(); }
                 if (upperdate != date)
                 { ViewBag.Filter14 = upperdate.ToString(); }
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.searchedFullname = searchedFullname;
                 ViewBag.active = Active;
@@ -168,7 +165,6 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_VOLUNTEER);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER;
             HttpContext.Session.SetString(key, ids);
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
@@ -204,7 +200,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return RedirectToAction("Index", "Volcontract", new { idofvol = id });
             }
             catch
@@ -217,7 +212,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Volunteer volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
@@ -232,7 +226,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
@@ -246,7 +239,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
@@ -277,7 +269,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 ViewBag.id = id;
                 return View(volunteer);
@@ -293,7 +284,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
@@ -324,7 +314,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
@@ -339,7 +328,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 if (Inactive == false)
                 {
