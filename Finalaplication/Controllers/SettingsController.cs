@@ -20,7 +20,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
@@ -36,6 +35,7 @@ namespace Finalaplication.Controllers
             set.Quantity = quantity;
             set.Lang = lang;
             ViewBag.Lang = lang;
+            settingsManager.UpdateSettings(set);
             TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
             TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
             Response.Cookies.Append(
@@ -58,16 +58,16 @@ namespace Finalaplication.Controllers
                 Settings set = settingsManager.GetSettingsItem();
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
-
                 return RedirectToAction("Index", "Home");
             }
             catch
             {
                 Settings set = new Settings
                 {
-                    Lang = "English",
+                    Lang = "en",
                     Quantity = 15,
                 };
+                settingsManager.AddSettingsToDB(set);
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
 

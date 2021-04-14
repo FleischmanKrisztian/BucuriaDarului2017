@@ -1,5 +1,4 @@
-﻿using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
+﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolcontractHelpers;
 using Finalaplication.DatabaseHandler;
 using Finalaplication.DatabaseManager;
@@ -24,7 +23,7 @@ namespace Finalaplication.Controllers
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
-                Volunteer vol =volunteerManager.GetOneVolunteer(idofvol);
+                Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
                 volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
                 ViewBag.nameofvol = vol.Fullname;
                 ViewBag.idofvol = idofvol;

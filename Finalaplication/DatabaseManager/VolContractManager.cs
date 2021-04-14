@@ -4,7 +4,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using VolCommon;
 
 namespace Finalaplication.DatabaseManager
 {
@@ -44,6 +43,7 @@ namespace Finalaplication.DatabaseManager
             Volcontract returnVolContract = volcontractcollection.Find(filter).FirstOrDefault();
             return returnVolContract;
         }
+
         internal List<Volcontract> GetListOfVolunteersContracts()
         {
             IMongoCollection<Volcontract> volcontractcollection = dbcontext.DatabaseLocal.GetCollection<Volcontract>("Contracts");

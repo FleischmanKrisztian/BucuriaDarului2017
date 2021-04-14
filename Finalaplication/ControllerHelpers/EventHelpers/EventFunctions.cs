@@ -14,7 +14,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             newevent.PlaceOfEvent = eventstring[1];
             try
             {
-            newevent.DateOfEvent = Convert.ToDateTime(eventstring[2]);
+                newevent.DateOfEvent = Convert.ToDateTime(eventstring[2]);
             }
             catch
             {
@@ -23,7 +23,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             }
             try
             {
-            newevent.NumberOfVolunteersNeeded = Convert.ToInt32(eventstring[3]);
+                newevent.NumberOfVolunteersNeeded = Convert.ToInt32(eventstring[3]);
             }
             catch
             {
@@ -38,7 +38,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             return newevent;
         }
 
-        internal static List <Event> GetEventsAfterFilters(List<Event> events, string searching, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        internal static List<Event> GetEventsAfterFilters(List<Event> events, string searching, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerdate, DateTime upperdate)
         {
             if (searching != null)
             {
@@ -180,7 +180,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             if (AllocatedVolunteers != null)
             {
                 string[] split = AllocatedVolunteers.Split(" / ");
-                return split.Count()-1;
+                return split.Count() - 1;
             }
             return 0;
         }

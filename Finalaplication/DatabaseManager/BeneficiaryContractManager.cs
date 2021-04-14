@@ -5,7 +5,6 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Finalaplication.DatabaseManager
 {
@@ -33,6 +32,7 @@ namespace Finalaplication.DatabaseManager
             Beneficiarycontract returnBeneficiaryContract = benecontractcollection.Find(filter).FirstOrDefault();
             return returnBeneficiaryContract;
         }
+
         internal List<Beneficiarycontract> GetListOfBeneficiariesContracts()
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dbcontext.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");

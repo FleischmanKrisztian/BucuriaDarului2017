@@ -10,7 +10,7 @@ namespace Finalaplication.DatabaseHandler
     public class EventManager
     {
         private MongoDBContextLocal dbcontext = new MongoDBContextLocal();
-        
+
         internal void AddEventToDB(Event ev)
         {
             IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
@@ -31,10 +31,11 @@ namespace Finalaplication.DatabaseHandler
             Event returnevent = eventcollection.Find(filter).FirstOrDefault();
             return returnevent;
         }
+
         internal List<Event> GetListOfEvents()
         {
             IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
-            List <Event> events = eventcollection.AsQueryable().ToList();
+            List<Event> events = eventcollection.AsQueryable().ToList();
             return events;
         }
 

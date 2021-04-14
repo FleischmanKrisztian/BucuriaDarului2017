@@ -214,7 +214,6 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult SponsorAllocation(string[] sponsorids, string Evid)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();

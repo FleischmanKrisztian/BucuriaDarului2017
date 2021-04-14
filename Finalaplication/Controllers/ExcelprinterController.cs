@@ -12,7 +12,7 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class ExcelprinterController : ControllerBase
     {
-        private MongoDBContext dbcontext;
+        private MongoDBContextLocal dBContextLocal;
         private IMongoCollection<Volunteer> volunteerscollection;
         private IMongoCollection<Event> eventscollection;
         private IMongoCollection<Sponsor> sponsorcollection;
@@ -22,7 +22,7 @@ namespace Finalaplication.Controllers
         [HttpGet("{keys}", Name = "Get")]
         public string Get(string keys)
         {
-            dbcontext = new MongoDBContext();
+            dBContextLocal = new MongoDBContextLocal();
             string ids_ = string.Empty;
             string header = string.Empty;
             string key1 = string.Empty;
@@ -39,8 +39,8 @@ namespace Finalaplication.Controllers
 
             string[] finalHeader = new string[45];
             if (header != null)
-            { 
-                finalHeader = ControllerHelper.SplitedHeader(header); 
+            {
+                finalHeader = ControllerHelper.SplitedHeader(header);
             }
 
             string jsonstring = "";
@@ -50,7 +50,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+                sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
@@ -155,7 +155,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                benefeciarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+                benefeciarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
@@ -493,7 +493,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                volunteerscollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+                volunteerscollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
@@ -655,7 +655,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                eventscollection = dbcontext.database.GetCollection<Event>("Events");
+                eventscollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))

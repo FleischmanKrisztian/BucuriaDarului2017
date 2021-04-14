@@ -31,6 +31,7 @@ namespace Finalaplication.DatabaseHandler
             Volunteer volunteer = volunteercollection.Find(filter).FirstOrDefault();
             return volunteer;
         }
+
         internal List<Volunteer> GetListOfVolunteers()
         {
             IMongoCollection<Volunteer> volunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");

@@ -31,6 +31,7 @@ namespace Finalaplication.DatabaseHandler
             Sponsor returnSponsor = Sponsorcollection.Find(filter).FirstOrDefault();
             return returnSponsor;
         }
+
         internal List<Sponsor> GetListOfSponsors()
         {
             IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
@@ -38,13 +39,6 @@ namespace Finalaplication.DatabaseHandler
             return Sponsors;
         }
 
-        internal void UpdateSponsor(FilterDefinition<Sponsor> filter ,UpdateDefinition<Sponsor> Sponsortoupdate)
-        {
-            IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
-            Sponsorcollection.UpdateOne(filter, Sponsortoupdate);
-        }
-
-        
         internal void UpdateSponsor(Sponsor sponsorupdate, string id)
         {
             IMongoCollection<Sponsor> sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");

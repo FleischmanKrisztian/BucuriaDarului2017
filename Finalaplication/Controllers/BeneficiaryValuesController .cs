@@ -11,15 +11,15 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class BeneficiaryValuesController : ControllerBase
     {
-        private MongoDBContext dbcontext;
+        private MongoDBContextLocal dBContextLocal;
         private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
 
         [HttpGet("{id}", Name = "Getbeneficiary")]
         public string Get(string id)
         {
             string jsonstring;
-            dbcontext = new MongoDBContext();
-            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            dBContextLocal = new MongoDBContextLocal();
+            beneficiarycontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             var beneficiarycontract = beneficiarycontractcollection.AsQueryable().Where(z => z.ContractID == id);
             jsonstring = JsonConvert.SerializeObject(beneficiarycontract);
             return jsonstring;

@@ -5,7 +5,6 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Finalaplication.DatabaseManager
 {
@@ -33,6 +32,7 @@ namespace Finalaplication.DatabaseManager
             Beneficiary beneficiary = beneficiarycollection.Find(filter).FirstOrDefault();
             return beneficiary;
         }
+
         internal List<Beneficiary> GetListOfBeneficiaries()
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbcontext.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
@@ -48,12 +48,10 @@ namespace Finalaplication.DatabaseManager
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }
 
-
         internal void DeleteBeneficiary(string id)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbcontext.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
             beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
         }
-
     }
 }

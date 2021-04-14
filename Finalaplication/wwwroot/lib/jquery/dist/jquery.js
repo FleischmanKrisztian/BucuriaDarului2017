@@ -292,7 +292,7 @@ jQuery.extend = jQuery.fn.extend = function() {
                     }, 100);
                 });
         });
-    
+
 jQuery.extend( {
 	// Unique for each copy of jQuery on the page
 	expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),

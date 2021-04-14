@@ -28,11 +28,11 @@
     <br />
     @if (Convert.ToInt64(docsimported) > 1)
     {
-    <h3>You have succesfully imported @docsimported  documents.</h3>
+        <h3>You have succesfully imported @docsimported  documents.</h3>
     }
     else if (Convert.ToInt64(docsimported) == 1)
     {
-    <h3>You have succesfully imported @docsimported  document.</h3>
+        <h3>You have succesfully imported @docsimported  document.</h3>
     }
     else
     {
@@ -48,7 +48,7 @@
                 <h2>The following documents have been skipped:</h2>
                 foreach (var a in words)
                 {
-                <h4 style="text-align:center">@duplicates </h4>
+                    <h4 style="text-align:center">@duplicates </h4>
                     <br />
                 }
             }

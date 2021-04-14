@@ -29,14 +29,12 @@ namespace Finalaplication.Controllers
 
         public ActionResult FileUpload()
         {
-            
             return View();
         }
 
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-           
             try
             {
                 List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
@@ -90,7 +88,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                
                 return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
             }
             catch
@@ -166,7 +163,7 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filter30 = activesince.ToString(); }
                 if (activetill != date)
                 { ViewBag.Filter31 = activetill.ToString(); }
-                
+
                 ViewBag.SortOrder = sortOrder;
                 ViewBag.searching = searching;
                 ViewBag.active = Active;
@@ -231,7 +228,7 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_BENEFICIARY);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY;
             HttpContext.Session.SetString(key, ids);
-           
+
             return View();
         }
 
@@ -253,7 +250,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                
                 Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
                 return View(beneficiary);
             }
@@ -267,7 +263,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-               
                 return View();
             }
             catch
@@ -281,7 +276,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-               
                 if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
@@ -321,7 +315,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-               
                 Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
                 ViewBag.id = id;
                 return View(beneficiary);
@@ -337,7 +330,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-               
                 if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
@@ -375,7 +367,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-               
                 Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
                 return View(beneficiary);
             }
@@ -390,7 +381,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-              
                 try
                 {
                     if (Inactive == false)

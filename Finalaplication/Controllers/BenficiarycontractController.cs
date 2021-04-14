@@ -1,5 +1,4 @@
-﻿using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
+﻿using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
@@ -29,7 +28,6 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Beneficiarycontract> benficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
                 Beneficiary benenficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);
                 benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();

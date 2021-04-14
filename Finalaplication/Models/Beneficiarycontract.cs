@@ -39,6 +39,5 @@ namespace Finalaplication.Models
 
         public string IdInvestigation { get; set; }
         public string IdApplication { get; set; }
-
     }
 }

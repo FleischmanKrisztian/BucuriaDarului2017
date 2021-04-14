@@ -27,6 +27,5 @@ namespace VolCommon
         public int NumberAllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
-
     }
 }

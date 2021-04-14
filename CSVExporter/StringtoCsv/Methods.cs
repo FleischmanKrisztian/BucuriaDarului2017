@@ -2,7 +2,6 @@
 using CsvHelper;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -70,7 +69,8 @@ namespace CSVExporter.StringtoCsv
             }
             return csvString.ToString();
         }
-        public static Dictionary<string,string> Xmldecoder()
+
+        public static Dictionary<string, string> Xmldecoder()
         {
             //Loading Xml
             string path = System.Environment.GetEnvironmentVariable("BucuriaDaruluiDirectory");

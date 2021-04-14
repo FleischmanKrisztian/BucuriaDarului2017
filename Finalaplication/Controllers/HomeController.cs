@@ -1,65 +1,44 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.ControllerHelpers.VolunteerHelpers;
+using Finalaplication.DatabaseHandler;
+using Finalaplication.DatabaseLocalManager;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Finalaplication.Controllers
 {
     public class HomeController : Controller
     {
         private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
-        private IMongoCollection<Volunteer> vollunteercollection;
-        private IMongoCollection<Sponsor> sponsorcollection;
-        private IMongoCollection<Volcontract> volcontractcollection;
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
-        private readonly IStringLocalizer<HomeController> _localizer;
 
-        public HomeController(IStringLocalizer<HomeController> localizer)
-        {
-            dBContextLocal = new MongoDBContextLocal();
-
-            try
-            {
-                vollunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
-                sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
-                volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-                beneficiarycontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            }
-            catch (Exception)
-            {
-            }
-            _localizer = localizer;
-        }
+        private EventManager eventManager = new EventManager();
+        private SponsorManager sponsorManager = new SponsorManager();
+        private VolunteerManager volunteerManager = new VolunteerManager();
+        private SettingsManager settingsManager = new SettingsManager();
+        private VolContractManager volContractManager = new VolContractManager();
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
 
         public IActionResult Index()
         {
             try
             {
-                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = 15;
-                TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "English";
-                //if (dBContextLocal.english == true)
-                //{
-                //    TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "English";
-                //}
-                //TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = dBContextLocal.numberofdocsperpage;
-                List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
-                List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
-                List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
-                List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
+                List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
+                List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
+                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
+                Settings appsettings = settingsManager.GetSettingsItem();
+                TempData[VolMongoConstants.CONNECTION_LANGUAGE] = appsettings.Lang;
+                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = appsettings.Quantity;
 
                 int bd = 0;
                 int vc = 0;
                 int sc = 0;
                 int bc = 0;
+
                 int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
                 foreach (var item in volunteers)
                 {
@@ -108,7 +87,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return RedirectToAction("Changeenvironment", "Settings");
+                return RedirectToAction("Localserver", "Home");
             }
         }
 
@@ -138,7 +117,6 @@ namespace Finalaplication.Controllers
                 return RedirectToAction("Localserver", "Home");
             }
         }
-
 
         public ActionResult ImportUpdate(string docsimported)
         {

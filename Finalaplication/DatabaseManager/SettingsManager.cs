@@ -1,6 +1,8 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 
 namespace Finalaplication.DatabaseLocalManager
 {
@@ -14,6 +16,26 @@ namespace Finalaplication.DatabaseLocalManager
             Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
 
             return set;
+        }
+
+        internal void AddSettingsToDB(Settings settings)
+        {
+            IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
+            try
+            {
+                settingcollection.InsertOne(settings);
+            }
+            catch
+            {
+                Console.WriteLine("There was an error adding Settings");
+            }
+        }
+
+        internal void UpdateSettings(Settings settingtoupdate)
+        {
+            IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
+            var filter = Builders<Settings>.Filter.Eq("_id", ObjectId.Parse(settingtoupdate.settingID));
+            settingcollection.FindOneAndReplace(filter, settingtoupdate);
         }
     }
 }

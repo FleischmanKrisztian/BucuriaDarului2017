@@ -35,7 +35,7 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-             try
+            try
             {
                 string path = " ";
                 if (UniversalFunctions.File_is_not_empty(Files))

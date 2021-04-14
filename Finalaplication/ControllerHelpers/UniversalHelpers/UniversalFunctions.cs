@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
-using System.Globalization;
 using System.IO;
-using System.Collections.Generic;
 
 namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {

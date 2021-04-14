@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 using VolCommon;
 
 namespace Finalaplication.Models
@@ -10,6 +9,5 @@ namespace Finalaplication.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string BeneficiaryID { get; set; }
-
     }
 }

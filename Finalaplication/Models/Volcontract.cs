@@ -46,6 +46,5 @@ namespace Finalaplication.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
-
     }
 }
