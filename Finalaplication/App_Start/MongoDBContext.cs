@@ -9,9 +9,8 @@ namespace Finalaplication.App_Start
     public class MongoDBContext
     {
         public IMongoDatabase database;
-        private MongoDBContextOffline dbcontextoffline;
+        private MongoDBContextLocal dBContextLocal;
         private IMongoCollection<Settings> settingcollection;
-        public bool nointernet = false;
         public bool english = false;
         public int numberofdocsperpage;
 
@@ -22,7 +21,7 @@ namespace Finalaplication.App_Start
         /// <param name="dbName"></param>
         /// <param name="portNum"></param>
         /// <returns></returns>
-        private IMongoDatabase GetDatabaseForAddressDbNameAndPort(string address, string dbName, int portNum)
+        private IMongoDatabase GetDatabaseLocalForAddressDbNameAndPort(string address, string dbName, int portNum)
         {
             MongoClient mongoClient = null;
 
@@ -48,14 +47,14 @@ namespace Finalaplication.App_Start
         }
 
         /// <summary>
-        /// Creates a MongoDb Client and retrieves the Database.
+        /// Creates a MongoDb Client and retrieves the DatabaseLocal.
         ///
         /// </summary>
         /// <param name="envVarNameServer"></param>
         /// <param name="envVarDbName"></param>
         /// <param name="envVarNamePort"></param>
         /// <returns></returns>
-        private IMongoDatabase GetDatabaseForEnvironmentVars(
+        private IMongoDatabase GetDatabaseLocalForEnvironmentVars(
             string envVarNameServer,
             string envVarDbName,
             string envVarNamePort)
@@ -63,86 +62,28 @@ namespace Finalaplication.App_Start
             string envServerAddress = Environment.GetEnvironmentVariable(envVarNameServer);
             string envServerPort = Environment.GetEnvironmentVariable(envVarNamePort);
             int numServerPort = Convert.ToInt32(envServerPort);
-            string envDatabaseName = Environment.GetEnvironmentVariable(envVarDbName);
+            string envDatabaseLocalName = Environment.GetEnvironmentVariable(envVarDbName);
 
-            return GetDatabaseForAddressDbNameAndPort(envServerAddress, envDatabaseName, numServerPort);
+            return GetDatabaseLocalForAddressDbNameAndPort(envServerAddress, envDatabaseLocalName, numServerPort);
         }
 
         public MongoDBContext()
         {
-            try
+            dBContextLocal = new MongoDBContextLocal();
+            settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
+            var totalCount = settingcollection.CountDocuments(new BsonDocument());
+            if (totalCount == 0)
             {
-                dbcontextoffline = new MongoDBContextOffline();
-                settingcollection = dbcontextoffline.databaseoffline.GetCollection<Settings>("Settings");
-                var totalCount = settingcollection.CountDocuments(new BsonDocument());
-                //In case there is no settings saved it initializes one with these default values.
-                if (totalCount == 0)
+                Settings sett = new Settings
                 {
-                    Settings sett = new Settings
-                    {
-                        Env = VolMongoConstants.CONNECTION_MODE_OFFLINE,
-                        Lang = "English",
-                        Quantity = 15
-                    };
-                    settingcollection.InsertOne(sett);
-                }
-
-                Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
-
-                bool useOnline = (set.Env == VolMongoConstants.CONNECTION_MODE_ONLINE);
-                try
-                {
-                    if (useOnline)
-                    {
-                        database = GetDatabaseForEnvironmentVars(
-                            VolMongoConstants.SERVER_NAME_MAIN,
-                            VolMongoConstants.DATABASE_NAME_MAIN,
-                            "");
-                    }
-                    else
-                    {
-                        // Offline mode considered secondary
-                        database = GetDatabaseForEnvironmentVars(
-                            VolMongoConstants.SERVER_NAME_SECONDARY,
-                            VolMongoConstants.DATABASE_NAME_SECONDARY,
-                            VolMongoConstants.SERVER_PORT_SECONDARY);
-                    }
-                }
-                catch (Exception)
-                {
-                    //In case there is no internet it changes the environment to offline so it will not try to connect a second time.
-                    set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
-                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), set);
-                    var client = new MongoClient();
-                    database = client.GetDatabase("BucuriaDaruluiOffline");
-                }
+                    Lang = "English",
+                    Quantity = 15
+                };
+                settingcollection.InsertOne(sett);
             }
-            catch
-            {
-                // Write online/offline setting
-                Settings sett = new Settings();
-                try
-                {
-                    Settings set = settingcollection.AsQueryable().FirstOrDefault();
-                    sett.settingID = set.settingID;
-                    sett.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
-                    sett.Lang = set.Lang;
-                    sett.Quantity = set.Quantity;
-                    settingcollection.ReplaceOne(y => y.Env.Contains("i"), sett);
-                    var client = new MongoClient();
-                    database = client.GetDatabase("BucuriaDaruluiOffline");
-                }
-                catch
-                {
-                }
-            }
-            Settings settin = settingcollection.AsQueryable().FirstOrDefault();
-            if (settin.Env == VolMongoConstants.CONNECTION_MODE_OFFLINE)
-            {
-                nointernet = true;
-            }
-            numberofdocsperpage = settin.Quantity;
-            if (settin.Lang == "en")
+            Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            numberofdocsperpage = set.Quantity;
+            if (set.Lang == "English")
             {
                 english = true;
             }

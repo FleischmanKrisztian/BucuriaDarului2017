@@ -11,8 +11,6 @@ namespace Finalaplication.Models
 
         public string Lang { get; set; }
 
-        public string Env { get; set; }
-
         public int Quantity { get; set; }
     }
 }
