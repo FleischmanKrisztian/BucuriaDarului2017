@@ -16,7 +16,7 @@ namespace Finalaplication.Controllers
 {
     public class HomeController : Controller
     {
-        private MongoDBContext dbcontext;
+        private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
         private IMongoCollection<Volunteer> vollunteercollection;
         private IMongoCollection<Sponsor> sponsorcollection;
         private IMongoCollection<Volcontract> volcontractcollection;
@@ -25,14 +25,14 @@ namespace Finalaplication.Controllers
 
         public HomeController(IStringLocalizer<HomeController> localizer)
         {
-            dbcontext = new MongoDBContext();
+            dBContextLocal = new MongoDBContextLocal();
 
             try
             {
-                vollunteercollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
-                sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
-                volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-                beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+                vollunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
+                sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+                volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
+                beneficiarycontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             }
             catch (Exception)
             {
@@ -44,12 +44,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                
-                if (dbcontext.english == true)
-                {
-                    TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "en";
-                }
-                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = dbcontext.numberofdocsperpage;
+                TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = 15;
+                TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "English";
+                //if (dBContextLocal.english == true)
+                //{
+                //    TempData[VolMongoConstants.CONNECTION_LANGUAGE] = "English";
+                //}
+                //TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = dBContextLocal.numberofdocsperpage;
                 List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
                 List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
                 List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();

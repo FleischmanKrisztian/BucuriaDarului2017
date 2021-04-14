@@ -1,23 +1,19 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Common;
-using Finalaplication.DatabaseManager;
+﻿using Finalaplication.Common;
+using Finalaplication.DatabaseLocalManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using System;
-using System.Linq;
 
 namespace Finalaplication.Controllers
 {
     public class SettingsController : Controller
     {
-        
         private SettingsManager settingsManager = new SettingsManager();
+
         public SettingsController()
         {
-            
         }
 
         public IActionResult Settings()
@@ -34,44 +30,25 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Settings(string lang, string env, int quantity)
+        public ActionResult Settings(string lang, int quantity)
         {
             Settings set = settingsManager.GetSettingsItem();
-            set.Env = env;
             set.Quantity = quantity;
             set.Lang = lang;
             ViewBag.Lang = lang;
-            TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
             TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
             TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
             Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
-            new CookieOptions { 
-              Expires = DateTimeOffset.UtcNow.AddYears(1),
-              IsEssential = true,
-              SameSite = SameSiteMode.Lax }
+            new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax
+            }
       );
-
-
-            settingsManager.UpdateSettingsItem_Env(set);
             return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult Changeenvironment()
-        {
-            try
-            {
-                Settings set = settingsManager.GetSettingsItem();
-                set.Env = VolMongoConstants.CONNECTION_MODE_LOCAL;
-                settingsManager.UpdateSettingsItem_Env(set);
-                TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
-                return RedirectToAction("Index", "Home");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
         }
 
         public ActionResult Firststartup()
@@ -79,7 +56,6 @@ namespace Finalaplication.Controllers
             try
             {
                 Settings set = settingsManager.GetSettingsItem();
-                TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
 
@@ -89,11 +65,9 @@ namespace Finalaplication.Controllers
             {
                 Settings set = new Settings
                 {
-                    Lang = "en",
-                    Quantity = 10,
-                    Env = "offline"
+                    Lang = "English",
+                    Quantity = 15,
                 };
-                TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
 
