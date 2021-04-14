@@ -11,7 +11,6 @@ namespace Finalaplication.Common
 {
     public class ControllerHelper
     {
-        //So intreb pe Corina ce se intampla pe aici ca nu prea inteleg.
         public static string[] SplitedHeader(string header)
         {
             string[] splitedHeader = header.Split(",");

@@ -33,55 +33,11 @@ namespace Finalaplication.Controllers
                 Settings appsettings = settingsManager.GetSettingsItem();
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = appsettings.Lang;
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = appsettings.Quantity;
-
-                int bd = 0;
-                int vc = 0;
-                int sc = 0;
-                int bc = 0;
-
-                int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
-                foreach (var item in volunteers)
-                {
-                    int volbdday = UniversalFunctions.GetDayOfYear(item.Birthdate);
-                    if (UniversalFunctions.IsAboutToExpire(currentday, volbdday))
-                    {
-                        bd++;
-                    }
-                }
-                if (bd != 0)
-                    ViewBag.nrofbds = bd;
-                else
-                    ViewBag.nrofbds = 0;
-
-                foreach (var item in volcontracts)
-                {
-                    int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
-                    if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
-                    {
-                        vc++;
-                    }
-                }
-                ViewBag.nrofvc = vc;
-
-                foreach (var item in sponsors)
-                {
-                    int daytocompare = UniversalFunctions.GetDayOfYear(item.Contract.ExpirationDate);
-                    if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
-                    {
-                        sc++;
-                    }
-                }
-                ViewBag.nrofsc = sc;
-
-                foreach (var item in beneficiarycontracts)
-                {
-                    int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
-                    if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
-                    {
-                        bc++;
-                    }
-                }
-                ViewBag.nrofbc = bc;
+                
+                ViewBag.nrofbds = UniversalFunctions.GetNumberOfVolunteersWithBirthdays(volunteers);
+                ViewBag.nrofvc = UniversalFunctions.GetNumberOfExpiringVolContracts(volcontracts);
+                ViewBag.nrofsc = UniversalFunctions.GetNumberOfExpiringSponsorContracts(sponsors);
+                ViewBag.nrofbc = UniversalFunctions.GetNumberOfExpiringBeneficiaryContracts(beneficiarycontracts);
 
                 return View();
             }
