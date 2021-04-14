@@ -4,8 +4,6 @@ using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,12 +13,6 @@ namespace Finalaplication.Controllers
     {
         private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
-        private readonly IStringLocalizer<BeneficiarycontractController> _localizer;
-
-        public BeneficiarycontractController(IStringLocalizer<BeneficiarycontractController> localizer)
-        {
-            _localizer = localizer;
-        }
 
         [HttpGet]
         public IActionResult Index(string idofbeneficiary)
@@ -89,7 +81,6 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.NumberOfPortion = beneficiary.NumberOfPortions.ToString();
                         benenficiarycontract.IdApplication = beneficiary.Marca.IdAplication;
                         benenficiarycontract.IdInvestigation = beneficiary.Marca.IdInvestigation;
-
                         benenficiarycontract.Address = beneficiary.Adress;
                         benenficiarycontract.OwnerID = idofbeneficiary;
                         beneficiaryContractManager.AddBeneficiaryContractToDB(benenficiarycontract);
@@ -128,7 +119,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var contractid = new ObjectId(id);
                 var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
                 return View(contract);
             }

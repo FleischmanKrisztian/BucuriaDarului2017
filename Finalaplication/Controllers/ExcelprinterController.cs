@@ -1,8 +1,7 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Common;
+﻿using Finalaplication.Common;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -12,17 +11,14 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class ExcelprinterController : ControllerBase
     {
-        private MongoDBContextLocal dBContextLocal;
-        private IMongoCollection<Volunteer> volunteerscollection;
-        private IMongoCollection<Event> eventscollection;
-        private IMongoCollection<Sponsor> sponsorcollection;
-        private IMongoCollection<Beneficiary> benefeciarycollection;
+        private EventManager eventManager = new EventManager();
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        private SponsorManager sponsorManager = new SponsorManager();
+        private VolunteerManager volunteerManager = new VolunteerManager();
 
-        // GET: api/Excelprinter
         [HttpGet("{keys}", Name = "Get")]
         public string Get(string keys)
         {
-            dBContextLocal = new MongoDBContextLocal();
             string ids_ = string.Empty;
             string header = string.Empty;
             string key1 = string.Empty;
@@ -50,7 +46,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+                var sponsorcollection = sponsorManager.GetListOfSponsors();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
@@ -155,7 +151,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                benefeciarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+                var benefeciarycollection = beneficiaryManager.GetListOfBeneficiaries();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
@@ -493,7 +489,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                volunteerscollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
+                var volunteerscollection = volunteerManager.GetListOfVolunteers();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
@@ -655,7 +651,7 @@ namespace Finalaplication.Controllers
             {
                 string properties = ids[ids.Length - 1].Substring(27);
                 ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                eventscollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
+                var eventscollection = eventManager.GetListOfEvents();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))

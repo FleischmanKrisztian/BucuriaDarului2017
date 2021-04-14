@@ -1,20 +1,16 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseHandler;
-using Finalaplication.DatabaseLocalManager;
 using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 
 namespace Finalaplication.Controllers
 {
     public class HomeController : Controller
     {
-        private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
-
         private EventManager eventManager = new EventManager();
         private SponsorManager sponsorManager = new SponsorManager();
         private VolunteerManager volunteerManager = new VolunteerManager();
@@ -33,7 +29,7 @@ namespace Finalaplication.Controllers
                 Settings appsettings = settingsManager.GetSettingsItem();
                 TempData[VolMongoConstants.CONNECTION_LANGUAGE] = appsettings.Lang;
                 TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = appsettings.Quantity;
-                
+
                 ViewBag.nrofbds = UniversalFunctions.GetNumberOfVolunteersWithBirthdays(volunteers);
                 ViewBag.nrofvc = UniversalFunctions.GetNumberOfExpiringVolContracts(volcontracts);
                 ViewBag.nrofsc = UniversalFunctions.GetNumberOfExpiringSponsorContracts(sponsors);

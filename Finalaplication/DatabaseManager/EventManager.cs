@@ -5,15 +5,15 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
-namespace Finalaplication.DatabaseHandler
+namespace Finalaplication.DatabaseManager
 {
     public class EventManager
     {
-        private MongoDBContextLocal dbcontext = new MongoDBContextLocal();
+        private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
 
         internal void AddEventToDB(Event ev)
         {
-            IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
+            IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             try
             {
                 eventcollection.InsertOne(ev);
@@ -26,7 +26,7 @@ namespace Finalaplication.DatabaseHandler
 
         internal Event GetOneEvent(string id)
         {
-            IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
+            IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
             Event returnevent = eventcollection.Find(filter).FirstOrDefault();
             return returnevent;
@@ -34,14 +34,14 @@ namespace Finalaplication.DatabaseHandler
 
         internal List<Event> GetListOfEvents()
         {
-            IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
+            IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             List<Event> events = eventcollection.AsQueryable().ToList();
             return events;
         }
 
         internal void UpdateAnEvent(Event eventtoupdate, string id)
         {
-            IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
+            IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
             eventtoupdate.EventID = id;
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
@@ -49,7 +49,7 @@ namespace Finalaplication.DatabaseHandler
 
         internal void DeleteAnEvent(string id)
         {
-            IMongoCollection<Event> eventcollection = dbcontext.DatabaseLocal.GetCollection<Event>("Events");
+            IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id)));
         }
     }

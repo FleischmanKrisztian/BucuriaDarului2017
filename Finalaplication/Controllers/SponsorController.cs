@@ -2,7 +2,7 @@
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseHandler;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
-using SponsorManager = Finalaplication.DatabaseHandler.SponsorManager;
 
 namespace Finalaplication.Controllers
 {

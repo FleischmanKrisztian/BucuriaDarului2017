@@ -1,7 +1,7 @@
 ﻿using Finalaplication.App_Start;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 
 namespace Finalaplication.Controllers
 {
@@ -10,36 +10,30 @@ namespace Finalaplication.Controllers
         private MongoDBContextCommon dbContextCommon;
         private MongoDBContextLocal dbContextLocal;
 
-        private IMongoCollection<Event> eventcollectioncommon;
-        private IMongoCollection<Event> eventcollectionlocal;
-        private IMongoCollection<Volunteer> vollunteercollectioncommon;
-        private IMongoCollection<Volunteer> vollunteercollectionlocal;
-        private IMongoCollection<Beneficiary> beneficiarycollectioncommon;
-        private IMongoCollection<Beneficiary> beneficiarycollectionlocal;
-        private IMongoCollection<Sponsor> sponsorcollectioncommon;
-        private IMongoCollection<Sponsor> sponsorcollectionlocal;
-        private IMongoCollection<Volcontract> volcontractcollectioncommon;
-        private IMongoCollection<Volcontract> volcontractcollectionlocal;
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollectioncommon;
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollectionlocal;
+        private EventManager eventManager = new EventManager();
+        private SponsorManager sponsorManager = new SponsorManager();
+        private VolunteerManager volunteerManager = new VolunteerManager();
+        private SettingsManager settingsManager = new SettingsManager();
+        private VolContractManager volContractManager = new VolContractManager();
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
 
         public DatabaseManagementController()
         {
             dbContextLocal = new MongoDBContextLocal();
             dbContextCommon = new MongoDBContextCommon();
 
-            eventcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
-            vollunteercollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
-            beneficiarycollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
-            sponsorcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Sponsor>("Sponsors");
-            volcontractcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Volcontract>("Contracts");
-            beneficiarycontractcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            eventcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            vollunteercollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
-            beneficiarycollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
-            sponsorcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
-            volcontractcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-            beneficiarycontractcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            var eventcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
+            var vollunteercollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
+            var beneficiarycollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
+            var sponsorcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Sponsor>("Sponsors");
+            var volcontractcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Volcontract>("Contracts");
+            var beneficiarycontractcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            var eventcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Event>("Events");
+            var vollunteercollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
+            var beneficiarycollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+            var sponsorcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+            var volcontractcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
+            var beneficiarycontractcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
         }
 
         public IActionResult Servermanagement()

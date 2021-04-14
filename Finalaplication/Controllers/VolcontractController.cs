@@ -1,11 +1,8 @@
 ﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolcontractHelpers;
-using Finalaplication.DatabaseHandler;
 using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -130,7 +127,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var contractid = new ObjectId(id);
                 var contract = volContractManager.GetVolunteerContract(id);
                 return View(contract);
             }
