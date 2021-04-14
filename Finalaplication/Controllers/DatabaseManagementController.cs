@@ -13,7 +13,7 @@ namespace Finalaplication.Controllers
     public class DatabaseManagementController : Controller
     {
         private MongoDBContext dbcontext;
-        private MongoDBContextOffline dbcontextoffline;
+        private MongoDBContextLocal dbcontextoffline;
         private IMongoCollection<Event> eventcollection;
         private IMongoCollection<Settings> settingcollection;
         private IMongoCollection<Volunteer> vollunteercollection;
@@ -30,7 +30,7 @@ namespace Finalaplication.Controllers
 
         public DatabaseManagementController()
         {
-            dbcontextoffline = new MongoDBContextOffline();
+            dbcontextoffline = new MongoDBContextLocal();
 
             dbcontext = new MongoDBContext();
 

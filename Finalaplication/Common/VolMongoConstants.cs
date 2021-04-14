@@ -2,16 +2,16 @@
 {
     public class VolMongoConstants
     {
-        public const string SERVER_NAME_MAIN = "volmongo_server";
-        public const string SERVER_PORT_MAIN = "volmongo_port";
-        public const string DATABASE_NAME_MAIN = "volmongo_databasename";
+        public const string SERVER_NAME_LOCAL = "volmongo_server";
+        public const string SERVER_PORT_LOCAL = "volmongo_port";
+        public const string DATABASE_NAME_LOCAL = "volmongo_databasename";
 
-        public const string SERVER_NAME_SECONDARY = "volmongo_server2";
-        public const string SERVER_PORT_SECONDARY = "volmongo_port2";
-        public const string DATABASE_NAME_SECONDARY = "volmongo_databasename2";
+        public const string SERVER_NAME_COMMON = "volmongo_server2";
+        public const string SERVER_PORT_COMMON = "volmongo_port2";
+        public const string DATABASE_NAME_COMMON = "volmongo_databasename2";
 
-        public const string CONNECTION_MODE_ONLINE = "online";
-        public const string CONNECTION_MODE_OFFLINE = "offline";
+        public const string CONNECTION_MODE_COMMON = "common";
+        public const string CONNECTION_MODE_LOCAL = "local";
 
         public const string NUMBER_OF_ITEMS_PER_PAGE = "numberofdocuments";
         public const string CONNECTION_ENVIRONMENT = "environment";

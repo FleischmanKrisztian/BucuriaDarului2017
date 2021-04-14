@@ -63,7 +63,7 @@ namespace Finalaplication.Controllers
             try
             {
                 Settings set = settingsManager.GetSettingsItem();
-                set.Env = VolMongoConstants.CONNECTION_MODE_OFFLINE;
+                set.Env = VolMongoConstants.CONNECTION_MODE_LOCAL;
                 settingsManager.UpdateSettingsItem_Env(set);
                 TempData[VolMongoConstants.CONNECTION_ENVIRONMENT] = set.Env;
                 return RedirectToAction("Index", "Home");
