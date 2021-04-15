@@ -270,11 +270,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[41] == "1" || beneficiarystring[41] == "True")
             {
-                personal.Gender = VolCommon.Gender.Female;
+                personal.Gender = Gender.Female;
             }
             else
             {
-                personal.Gender = VolCommon.Gender.Male;
+                personal.Gender = Gender.Male;
             }
             if (beneficiarystring[42] != null)
             {
@@ -571,11 +571,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             {
                 if (beneficiarystring[42] == "F" || beneficiarystring[42] == "f")
                 {
-                    personal.Gender = VolCommon.Gender.Female;
+                    personal.Gender = Gender.Female;
                 }
                 else
                 {
-                    personal.Gender = VolCommon.Gender.Male;
+                    personal.Gender = Gender.Male;
                 }
 
                 beneficiary.Comments = beneficiarystring[22];

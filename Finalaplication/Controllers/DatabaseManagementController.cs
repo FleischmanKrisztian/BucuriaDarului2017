@@ -135,7 +135,7 @@ namespace Finalaplication.Controllers
                 if (!(localsponsors.Contains(sponsors[i]._id)))
                     sponsorManager.AddSponsorToDB(sponsors[i]);
                 else
-                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id)
+                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id);
             }
 
             for (int i = 0; i < volcontracts.Count(); i++)
