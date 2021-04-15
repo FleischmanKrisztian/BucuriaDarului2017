@@ -22,7 +22,7 @@ namespace Finalaplication.DatabaseManager
             }
             catch
             {
-                Console.WriteLine("There was an error adding Sponsor");
+                Console.WriteLine("There was an error adding Beneficiary Contract");
             }
         }
 
