@@ -5,7 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
-namespace Finalaplication.DatabaseManager
+namespace Finalaplication.LocalDatabaseManager
 {
     public class VolunteerManager
     {

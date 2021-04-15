@@ -4,7 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 
-namespace Finalaplication.DatabaseManager
+namespace Finalaplication.LocalDatabaseManager
 {
     public class SettingsManager
     {

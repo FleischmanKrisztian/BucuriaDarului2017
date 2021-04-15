@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Finalaplication.DatabaseManager
+namespace Finalaplication.LocalDatabaseManager
 {
     public class BeneficiaryContractManager
     {
