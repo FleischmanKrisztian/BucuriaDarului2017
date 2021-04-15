@@ -1,21 +1,29 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.LocalDatabaseManager;
+using Finalaplication.CommonDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Finalaplication.Controllers
 {
     public class DatabaseManagementController : Controller
     {
-        //private MongoDBContextCommon dbContextCommon;
-        //private MongoDBContextLocal dbContextLocal;
-
+        
         private EventManager eventManager = new EventManager();
         private SponsorManager sponsorManager = new SponsorManager();
         private VolunteerManager volunteerManager = new VolunteerManager();
         private SettingsManager settingsManager = new SettingsManager();
         private VolContractManager volContractManager = new VolContractManager();
+        private BeneficiaryManager beneManager = new BeneficiaryManager();
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+
+        private EventManagerCommon eventManager_ = new EventManagerCommon();
+        private SponsorManagerCommon sponsorManager_ = new SponsorManagerCommon();
+        private VolunteerManagerCommon volunteerManager_ = new VolunteerManagerCommon();
+        private VolunteerContractManagerCommon volContractManager_ = new VolunteerContractManagerCommon();
+        private BeneficiaryManagerCommon beneManager_ = new BeneficiaryManagerCommon();
+        private BeneficiaryContractManagerCommon beneficiaryContractManager_ = new BeneficiaryContractManagerCommon();
 
         public DatabaseManagementController()
         {
@@ -75,18 +83,18 @@ namespace Finalaplication.Controllers
 
         public ActionResult Pull()
         {
-            //List<Volunteer> volunteersoffline = vollunteercollectionoffline.AsQueryable<Volunteer>().ToList();
-            //List<Event> eventsoffline = eventcollectionoffline.AsQueryable<Event>().ToList();
-            //List<Beneficiary> beneficiariesoffline = beneficiarycollectionoffline.AsQueryable<Beneficiary>().ToList();
-            //List<Sponsor> sponsorsoffline = sponsorcollectionoffline.AsQueryable<Sponsor>().ToList();
-            //List<Volcontract> volcontractsoffline = volcontractcollectionoffline.AsQueryable<Volcontract>().ToList();
-            //List<Beneficiarycontract> beneficiarycontractsoffline = beneficiarycontractcollectionoffline.AsQueryable<Beneficiarycontract>().ToList();
-            //List<Volunteer> volunteers = vollunteercollection.AsQueryable<Volunteer>().ToList();
-            //List<Event> events = eventcollection.AsQueryable<Event>().ToList();
-            //List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable<Beneficiary>().ToList();
-            //List<Sponsor> sponsors = sponsorcollection.AsQueryable<Sponsor>().ToList();
-            //List<Volcontract> volcontracts = volcontractcollection.AsQueryable<Volcontract>().ToList();
-            //List<Beneficiarycontract> beneficiarycontracts = beneficiarycontractcollection.AsQueryable<Beneficiarycontract>().ToList();
+            List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
+            List<Event> eventslocal = eventManager.GetListOfEvents();
+            List<Beneficiary> beneficiarieslocal = beneManager.GetListOfBeneficiaries();
+            List<Sponsor> sponsorslocal = sponsorManager.GetListOfSponsors();
+            List<Volcontract> volcontractslocal = volContractManager.GetListOfVolunteersContracts();
+            List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+            List<Volunteer> volunteers = volunteerManager_.GetListOfVolunteers();
+            List<Event> events = eventManager_.GetListOfEvents();
+            List<Beneficiary> beneficiaries = beneManager_.GetListOfBeneficiaries();
+            List<Sponsor> sponsors = sponsorManager_.GetListOfSponsors();
+            List<Volcontract> volcontracts = volContractManager_.GetListOfVolunteersContracts();
+            List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager_.GetListOfBeneficiariesContracts();
 
             //string onlinevols = JsonConvert.SerializeObject(volunteers);
             //string onlineevents = JsonConvert.SerializeObject(events);
