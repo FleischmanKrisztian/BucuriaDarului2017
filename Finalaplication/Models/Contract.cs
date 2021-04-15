@@ -6,6 +6,7 @@ namespace VolCommon
     public class Contract
     {
         public bool HasContract { get; set; }
+
         public string NumberOfRegistration { get; set; }
 
         [DataType(DataType.Date)]

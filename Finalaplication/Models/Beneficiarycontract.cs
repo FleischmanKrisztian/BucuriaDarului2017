@@ -10,6 +10,7 @@ namespace Finalaplication.Models
         public string OwnerID { get; set; }
 
         public string Fullname { get; set; }
+
         public string NumberOfPortion { get; set; }
 
         public string CNP { get; set; }
@@ -17,6 +18,7 @@ namespace Finalaplication.Models
         public string Address { get; set; }
 
         public string Nrtel { get; set; }
+
         public string CIinfo { get; set; }
 
         [DataType(DataType.Date)]
@@ -34,6 +36,7 @@ namespace Finalaplication.Models
         public DateTime ExpirationDate { get; set; }
 
         public string IdInvestigation { get; set; }
+
         public string IdApplication { get; set; }
     }
 }
