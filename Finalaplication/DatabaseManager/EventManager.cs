@@ -16,6 +16,7 @@ namespace Finalaplication.DatabaseManager
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             try
             {
+                ev._id = Guid.NewGuid().ToString();
                 eventcollection.InsertOne(ev);
             }
             catch
@@ -43,7 +44,7 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
-            eventtoupdate.EventID = id;
+            eventtoupdate._id = id;
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
 

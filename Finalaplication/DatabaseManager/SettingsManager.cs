@@ -23,6 +23,7 @@ namespace Finalaplication.DatabaseManager
             IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
             try
             {
+                settings._id = Guid.NewGuid().ToString();
                 settingcollection.InsertOne(settings);
             }
             catch
@@ -34,7 +35,7 @@ namespace Finalaplication.DatabaseManager
         internal void UpdateSettings(Settings settingtoupdate)
         {
             IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
-            var filter = Builders<Settings>.Filter.Eq("_id", ObjectId.Parse(settingtoupdate.settingID));
+            var filter = Builders<Settings>.Filter.Eq("_id", ObjectId.Parse(settingtoupdate._id));
             settingcollection.FindOneAndReplace(filter, settingtoupdate);
         }
     }

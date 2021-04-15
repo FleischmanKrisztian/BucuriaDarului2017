@@ -16,6 +16,7 @@ namespace Finalaplication.DatabaseManager
             IMongoCollection<Volunteer> volunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
             try
             {
+                volunteer._id = Guid.NewGuid().ToString();
                 volunteercollection.InsertOne(volunteer);
             }
             catch
@@ -43,7 +44,7 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Volunteer> volunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
-            volunteertopdate.VolunteerID = id;
+            volunteertopdate._id = id;
             volunteercollection.FindOneAndReplace(filter, volunteertopdate);
         }
 

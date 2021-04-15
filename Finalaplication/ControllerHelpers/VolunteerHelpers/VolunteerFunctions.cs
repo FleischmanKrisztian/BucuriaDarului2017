@@ -14,7 +14,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             string stringofids = "vol";
             foreach (Volunteer vol in volunteers)
             {
-                stringofids = stringofids + "," + vol.VolunteerID;
+                stringofids = stringofids + "," + vol._id;
             }
             return stringofids;
         }
@@ -40,7 +40,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             List<Volunteer> volunteerlist = new List<Volunteer>();
             for (int i = 0; i < vols.Length; i++)
             {
-                Volunteer singlevolunteer = volunteers.Where(x => x.VolunteerID == vols[i]).First();
+                Volunteer singlevolunteer = volunteers.Where(x => x._id == vols[i]).First();
                 volunteerlist.Add(singlevolunteer);
             }
             return volunteerlist;

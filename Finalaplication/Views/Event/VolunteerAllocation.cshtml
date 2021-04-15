@@ -177,7 +177,7 @@
                     @if (strname.Contains(item.Fullname))
                     {
                         <td>
-                            <input type="checkbox" checked="checked" name="volunteerids" value="@item.VolunteerID" />
+                            <input type="checkbox" checked="checked" name="volunteerids" value="@item._id" />
                         </td>
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />
@@ -186,7 +186,7 @@
                     else
                     {
                         <td>
-                            <input type="checkbox" name="volunteerids" value="@item.VolunteerID" />
+                            <input type="checkbox" name="volunteerids" value="@item._id" />
                         </td>
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />

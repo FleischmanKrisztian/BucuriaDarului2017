@@ -28,6 +28,7 @@ namespace Finalaplication.DatabaseManager
             IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
             try
             {
+                contract._id = Guid.NewGuid().ToString();
                 volcontractcollection.InsertOne(contract);
             }
             catch

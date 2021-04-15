@@ -4,7 +4,7 @@ namespace wpfapp
 {
     internal class beneficiarycontract
     {
-        public string ContractID { get; set; }
+        public string _id { get; set; }
         public string OwnerID { get; set; }
         public string Fullname { get; set; }
         public string CNP { get; set; }

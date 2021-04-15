@@ -51,15 +51,15 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]);
+                        var sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
-                        var aux = jsonstring.IndexOf("SponsorID");
+                        var aux = jsonstring.IndexOf("_id");
                         jsonstring = jsonstring.Remove(aux - 1, 39);
                     }
                     else
                     {
                         bool first = true;
-                        Sponsor sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]).First();
+                        Sponsor sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -156,15 +156,15 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]);
+                        var beneficiary = benefeciarycollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
-                        var aux = jsonstring.IndexOf("BeneficiaryID");
+                        var aux = jsonstring.IndexOf("_id");
                         jsonstring = jsonstring.Remove(aux - 1, 43);
                     }
                     else
                     {
                         bool first = true;
-                        Beneficiary beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]).First();
+                        Beneficiary beneficiary = benefeciarycollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -494,15 +494,15 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var volunteer = volunteerscollection.AsQueryable().Where(z => z.VolunteerID == ids[i]);
+                        var volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
-                        var aux = jsonstring.IndexOf("VolunteerID");
+                        var aux = jsonstring.IndexOf("_id");
                         jsonstring = jsonstring.Remove(aux - 1, 41);
                     }
                     else
                     {
                         bool first = true;
-                        Volunteer volunteer = volunteerscollection.AsQueryable().Where(z => z.VolunteerID == ids[i]).First();
+                        Volunteer volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -656,15 +656,15 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]);
+                        var eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
-                        var aux = jsonstring.IndexOf("EventID");
+                        var aux = jsonstring.IndexOf("_id");
                         jsonstring = jsonstring.Remove(aux - 1, 37);
                     }
                     else
                     {
                         bool first = true;
-                        Event eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]).First();
+                        Event eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {

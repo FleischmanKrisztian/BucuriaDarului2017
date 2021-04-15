@@ -97,36 +97,36 @@ namespace Finalaplication.Controllers
 
             //for (int i = 0; i < volunteersoffline.Count(); i++)
             //{
-            //    if (!(onlinevols.Contains(volunteersoffline[i].VolunteerID)))
+            //    if (!(onlinevols.Contains(volunteersoffline[i]._id)))
             //        vollunteercollection.InsertOne(volunteersoffline[i]);
             //}
 
             //for (int i = 0; i < eventsoffline.Count(); i++)
             //{
-            //    if (!(onlineevents.Contains(eventsoffline[i].EventID)))
+            //    if (!(onlineevents.Contains(eventsoffline[i]._id)))
             //        eventcollection.InsertOne(eventsoffline[i]);
             //}
 
             //for (int i = 0; i < beneficiariesoffline.Count(); i++)
             //{
-            //    if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
+            //    if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i]._id)))
             //        beneficiarycollection.InsertOne(beneficiariesoffline[i]);
             //}
 
             //for (int i = 0; i < sponsorsoffline.Count(); i++)
             //{
-            //    if (!(onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
+            //    if (!(onlinesponsoprs.Contains(sponsorsoffline[i]._id)))
             //        sponsorcollection.InsertOne(sponsorsoffline[i]);
             //}
 
             //for (int i = 0; i < volcontractsoffline.Count(); i++)
             //{
-            //    if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
+            //    if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i]._id)))
             //        volcontractcollection.InsertOne(volcontractsoffline[i]);
             //}
             //for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
             //{
-            //    if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
+            //    if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i]._id)))
             //        beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
             //}
             return RedirectToAction("Servermanagement");
@@ -157,36 +157,36 @@ namespace Finalaplication.Controllers
 
         //    for (int i = 0; i < volunteersoffline.Count(); i++)
         //    {
-        //        if (!(onlinevols.Contains(volunteersoffline[i].VolunteerID)))
+        //        if (!(onlinevols.Contains(volunteersoffline[i]._id)))
         //            vollunteercollection.InsertOne(volunteersoffline[i]);
         //    }
 
         //    for (int i = 0; i < eventsoffline.Count(); i++)
         //    {
-        //        if (!(onlineevents.Contains(eventsoffline[i].EventID)))
+        //        if (!(onlineevents.Contains(eventsoffline[i]._id)))
         //            eventcollection.InsertOne(eventsoffline[i]);
         //    }
 
         //    for (int i = 0; i < beneficiariesoffline.Count(); i++)
         //    {
-        //        if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
+        //        if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i]._id)))
         //            beneficiarycollection.InsertOne(beneficiariesoffline[i]);
         //    }
 
         //    for (int i = 0; i < sponsorsoffline.Count(); i++)
         //    {
-        //        if (!(onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
+        //        if (!(onlinesponsoprs.Contains(sponsorsoffline[i]._id)))
         //            sponsorcollection.InsertOne(sponsorsoffline[i]);
         //    }
 
         //    for (int i = 0; i < volcontractsoffline.Count(); i++)
         //    {
-        //        if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
+        //        if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i]._id)))
         //            volcontractcollection.InsertOne(volcontractsoffline[i]);
         //    }
         //    for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
         //    {
-        //        if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
+        //        if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i]._id)))
         //            beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
         //    }
         //    return RedirectToAction("Servermanagement");
@@ -218,49 +218,49 @@ namespace Finalaplication.Controllers
 
         //    for (int i = 0; i < volunteersoffline.Count(); i++)
         //    {
-        //        if (!(onlinevols.Contains(volunteersoffline[i].VolunteerID)))
+        //        if (!(onlinevols.Contains(volunteersoffline[i]._id)))
         //            vollunteercollection.InsertOne(volunteersoffline[i]);
-        //        if ((onlinevols.Contains(volunteersoffline[i].VolunteerID)))
-        //            vollunteercollection.ReplaceOne(z => z.VolunteerID == volunteersoffline[i].VolunteerID, volunteersoffline[i]);
+        //        if ((onlinevols.Contains(volunteersoffline[i]._id)))
+        //            vollunteercollection.ReplaceOne(z => z._id == volunteersoffline[i]._id, volunteersoffline[i]);
         //    }
 
         //    for (int i = 0; i < eventsoffline.Count(); i++)
         //    {
-        //        if (!(onlineevents.Contains(eventsoffline[i].EventID)))
+        //        if (!(onlineevents.Contains(eventsoffline[i]._id)))
         //            eventcollection.InsertOne(eventsoffline[i]);
-        //        if ((onlineevents.Contains(eventsoffline[i].EventID)))
-        //            eventcollection.ReplaceOne(z => z.EventID == eventsoffline[i].EventID, eventsoffline[i]);
+        //        if ((onlineevents.Contains(eventsoffline[i]._id)))
+        //            eventcollection.ReplaceOne(z => z._id == eventsoffline[i]._id, eventsoffline[i]);
         //    }
 
         //    for (int i = 0; i < beneficiariesoffline.Count(); i++)
         //    {
-        //        if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
+        //        if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i]._id)))
         //            beneficiarycollection.InsertOne(beneficiariesoffline[i]);
-        //        if ((onlinebenefieciaries.Contains(beneficiariesoffline[i].BeneficiaryID)))
-        //            beneficiarycollection.ReplaceOne(z => z.BeneficiaryID == beneficiariesoffline[i].BeneficiaryID, beneficiariesoffline[i]);
+        //        if ((onlinebenefieciaries.Contains(beneficiariesoffline[i]._id)))
+        //            beneficiarycollection.ReplaceOne(z => z._id == beneficiariesoffline[i]._id, beneficiariesoffline[i]);
         //    }
 
         //    for (int i = 0; i < sponsorsoffline.Count(); i++)
         //    {
-        //        if (!(onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
+        //        if (!(onlinesponsoprs.Contains(sponsorsoffline[i]._id)))
         //            sponsorcollection.InsertOne(sponsorsoffline[i]);
-        //        if ((onlinesponsoprs.Contains(sponsorsoffline[i].SponsorID)))
-        //            sponsorcollection.ReplaceOne(z => z.SponsorID == sponsorsoffline[i].SponsorID, sponsorsoffline[i]);
+        //        if ((onlinesponsoprs.Contains(sponsorsoffline[i]._id)))
+        //            sponsorcollection.ReplaceOne(z => z._id == sponsorsoffline[i]._id, sponsorsoffline[i]);
         //    }
 
         //    for (int i = 0; i < volcontractsoffline.Count(); i++)
         //    {
-        //        if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
+        //        if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i]._id)))
         //            volcontractcollection.InsertOne(volcontractsoffline[i]);
-        //        if ((onlinevolcontrcarts.Contains(volcontractsoffline[i].ContractID)))
-        //            volcontractcollection.ReplaceOne(z => z.ContractID == volcontractsoffline[i].ContractID, volcontractsoffline[i]);
+        //        if ((onlinevolcontrcarts.Contains(volcontractsoffline[i]._id)))
+        //            volcontractcollection.ReplaceOne(z => z._id == volcontractsoffline[i]._id, volcontractsoffline[i]);
         //    }
         //    for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
         //    {
-        //        if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
+        //        if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i]._id)))
         //            beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
-        //        if ((onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i].ContractID)))
-        //            beneficiarycontractcollection.ReplaceOne(z => z.ContractID == beneficiarycontractsoffline[i].ContractID, beneficiarycontractsoffline[i]);
+        //        if ((onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i]._id)))
+        //            beneficiarycontractcollection.ReplaceOne(z => z._id == beneficiarycontractsoffline[i]._id, beneficiarycontractsoffline[i]);
         //    }
         //    return RedirectToAction("Servermanagement");
         //}

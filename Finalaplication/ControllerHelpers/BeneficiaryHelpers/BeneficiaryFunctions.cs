@@ -13,7 +13,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             string stringofids = "beneficiary";
             foreach (Beneficiary beneficiary in beneficiaries)
             {
-                stringofids = stringofids + "," + beneficiary.BeneficiaryID;
+                stringofids = stringofids + "," + beneficiary._id;
             }
             return stringofids;
         }
@@ -39,7 +39,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             List<Beneficiary> beneficiarylist = new List<Beneficiary>();
             for (int i = 0; i < beneficiaryids.Length; i++)
             {
-                Beneficiary singlebeneficiary = beneficiaries.Where(x => x.BeneficiaryID == beneficiaryids[i]).First();
+                Beneficiary singlebeneficiary = beneficiaries.Where(x => x._id == beneficiaryids[i]).First();
                 beneficiarylist.Add(singlebeneficiary);
             }
             return beneficiarylist;

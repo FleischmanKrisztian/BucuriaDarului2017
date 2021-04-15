@@ -16,6 +16,7 @@ namespace Finalaplication.DatabaseManager
             IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
             try
             {
+                sponsor._id = Guid.NewGuid().ToString();
                 Sponsorcollection.InsertOne(sponsor);
             }
             catch
@@ -43,7 +44,7 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Sponsor> sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
-            sponsorupdate.SponsorID = id;
+            sponsorupdate._id = id;
             sponsorcollection.FindOneAndReplace(filter, sponsorupdate);
         }
 

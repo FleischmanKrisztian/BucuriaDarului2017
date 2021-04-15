@@ -1,13 +1,9 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using VolCommon;
+﻿using VolCommon;
 
 namespace Finalaplication.Models
 {
     public class Event : EventBase
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string EventID { get; set; }
+        public string _id { get; set; }
     }
 }

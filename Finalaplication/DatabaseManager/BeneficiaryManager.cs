@@ -17,6 +17,7 @@ namespace Finalaplication.DatabaseManager
             IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
             try
             {
+                beneficiary._id = Guid.NewGuid().ToString();
                 beneficiarycollection.InsertOne(beneficiary);
             }
             catch
@@ -44,7 +45,7 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Beneficiary> Beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
-            beneficiarytopdate.BeneficiaryID = id;
+            beneficiarytopdate._id = id;
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }
 

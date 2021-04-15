@@ -56,7 +56,7 @@ namespace Finalaplication.Controllers
                     settings = new Settings
                     {
                         Lang = "en",
-                        Quantity = 15,
+                        Quantity = 15
                     };
                     settingsManager.AddSettingsToDB(settings);
                     TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;

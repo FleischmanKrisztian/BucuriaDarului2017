@@ -75,7 +75,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             string stringofids = "sponsor";
             foreach (Sponsor sponsor in sponsors)
             {
-                stringofids = stringofids + "," + sponsor.SponsorID;
+                stringofids = stringofids + "," + sponsor._id;
             }
             return stringofids;
         }
@@ -101,7 +101,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             List<Sponsor> sponsorlist = new List<Sponsor>();
             for (int i = 0; i < sponsorids.Length; i++)
             {
-                Sponsor singlesponsor = sponsors.Where(x => x.SponsorID == sponsorids[i]).First();
+                Sponsor singlesponsor = sponsors.Where(x => x._id == sponsorids[i]).First();
                 sponsorlist.Add(singlesponsor);
             }
             return sponsorlist;
