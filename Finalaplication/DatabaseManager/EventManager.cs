@@ -28,7 +28,7 @@ namespace Finalaplication.DatabaseManager
         internal Event GetOneEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Event>.Filter.Eq("_id",id);
             Event returnevent = eventcollection.Find(filter).FirstOrDefault();
             return returnevent;
         }
@@ -43,7 +43,7 @@ namespace Finalaplication.DatabaseManager
         internal void UpdateAnEvent(Event eventtoupdate, string id)
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Event>.Filter.Eq("_id",id);
             eventtoupdate._id = id;
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
@@ -51,7 +51,7 @@ namespace Finalaplication.DatabaseManager
         internal void DeleteAnEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id)));
+            eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", id));
         }
     }
 }

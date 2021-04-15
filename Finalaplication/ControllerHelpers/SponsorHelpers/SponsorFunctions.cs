@@ -72,7 +72,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
 
         internal static string GetStringOfIds(List<Sponsor> sponsors)
         {
-            string stringofids = "sponsor";
+            string stringofids = "sponsorCSV";
             foreach (Sponsor sponsor in sponsors)
             {
                 stringofids = stringofids + "," + sponsor._id;
@@ -122,25 +122,25 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
         {
             string ids_and_options = IDS + "(((";
             if (All == true)
-                ids_and_options = ids_and_options + "0";
+                ids_and_options += "0";
             if (NameOfSponsor == true)
-                ids_and_options = ids_and_options + "1";
+                ids_and_options += "1";
             if (Date == true)
-                ids_and_options = ids_and_options + "2";
+                ids_and_options += "2";
             if (HasContract == true)
-                ids_and_options = ids_and_options + "3";
+                ids_and_options += "3";
             if (ContractDetails == true)
-                ids_and_options = ids_and_options + "4";
+                ids_and_options += "4";
             if (PhoneNumber == true)
-                ids_and_options = ids_and_options + "5";
+                ids_and_options += "5";
             if (MailAdress == true)
-                ids_and_options = ids_and_options + "6";
+                ids_and_options += "6";
             if (MoneyAmount == true)
-                ids_and_options = ids_and_options + "7";
+                ids_and_options += "7";
             if (WhatGoods == true)
-                ids_and_options = ids_and_options + "8";
+                ids_and_options += "8";
             if (GoodsAmount == true)
-                ids_and_options = ids_and_options + "9";
+                ids_and_options += "9";
 
             return ids_and_options;
         }

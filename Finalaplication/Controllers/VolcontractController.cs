@@ -65,47 +65,40 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
-                    {
-                        Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
-                        volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
-                        volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
-                        volcontract.Birthdate = vol.Birthdate;
-                        volcontract.Fullname = vol.Fullname;
-                        volcontract.CNP = vol.CNP;
-                        volcontract.CIseria = vol.CIseria;
-                        volcontract.CINr = vol.CINr;
-                        volcontract.CIEliberat = vol.CIEliberat;
-                        volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
-                        volcontract.Hourcount = vol.HourCount;
-                        volcontract.CIeliberator = vol.CIeliberator;
-                        string address = string.Empty;
-                        if (vol.Address.District != null && vol.Address.District != "-")
-                        { address = vol.Address.District; }
-                        if (vol.Address.City != null && vol.Address.City != "-")
-                        { address = address + "," + vol.Address.City; }
-                        if (vol.Address.Street != null && vol.Address.Street != "-")
-                        { address = vol.Address.District; }
-                        if (vol.Address.Number != null && vol.Address.Number != "-")
-                        { address = address + "," + vol.Address.City; }
-                        volcontract.Address = address;
-                        volcontract.OwnerID = idofvol;
-                        volContractManager.AddVolunteerContractToDB(volcontract);
-                        return RedirectToAction("Index", new { idofvol });
-                    }
+                    Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
+                    volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
+                    volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
+                    volcontract.Birthdate = vol.Birthdate;
+                    volcontract.Fullname = vol.Fullname;
+                    volcontract.CNP = vol.CNP;
+                    volcontract.CIseria = vol.CIseria;
+                    volcontract.CINr = vol.CINr;
+                    volcontract.CIEliberat = vol.CIEliberat;
+                    volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
+                    volcontract.Hourcount = vol.HourCount;
+                    volcontract.CIeliberator = vol.CIeliberator;
+                    string address = string.Empty;
+                    if (vol.Address.District != null && vol.Address.District != "-")
+                    { address = vol.Address.District; }
+                    if (vol.Address.City != null && vol.Address.City != "-")
+                    { address = address + "," + vol.Address.City; }
+                    if (vol.Address.Street != null && vol.Address.Street != "-")
+                    { address = vol.Address.District; }
+                    if (vol.Address.Number != null && vol.Address.Number != "-")
+                    { address = address + "," + vol.Address.City; }
+                    volcontract.Address = address;
+                    volcontract.OwnerID = idofvol;
+                    volContractManager.AddVolunteerContractToDB(volcontract);
+                    return RedirectToAction("Index", new { idofvol });
                 }
-                catch
-                {
-                    ModelState.AddModelError("", "Unable to save changes! ");
-                }
-                return View(volcontract);
             }
             catch
             {
-                return RedirectToAction("Localserver", "Home");
+                ModelState.AddModelError("", "Unable to save changes! ");
             }
+            return RedirectToAction("Create", new { idofvol });
         }
 
         [HttpGet]

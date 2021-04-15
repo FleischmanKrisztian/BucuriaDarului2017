@@ -20,7 +20,7 @@ namespace Finalaplication.DatabaseManager
         internal void DeleteAVolContract(string id)
         {
             IMongoCollection<Volcontract> contractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-            contractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", ObjectId.Parse(id)));
+            contractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", id));
         }
 
         internal void AddVolunteerContractToDB(Volcontract contract)
@@ -40,7 +40,7 @@ namespace Finalaplication.DatabaseManager
         internal Volcontract GetVolunteerContract(string id)
         {
             IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-            var filter = Builders<Volcontract>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Volcontract>.Filter.Eq("_id", id);
             Volcontract returnVolContract = volcontractcollection.Find(filter).FirstOrDefault();
             return returnVolContract;
         }

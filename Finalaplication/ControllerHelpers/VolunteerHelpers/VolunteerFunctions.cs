@@ -11,7 +11,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
     {
         internal static string GetStringOfIds(List<Volunteer> volunteers)
         {
-            string stringofids = "vol";
+            string stringofids = "volunteerCSV";
             foreach (Volunteer vol in volunteers)
             {
                 stringofids = stringofids + "," + vol._id;
@@ -225,16 +225,16 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             {
                 if (volunteerstring[6] == "1")
                 {
-                    volunteer.Gender = VolCommon.Gender.Female;
+                    volunteer.Gender = Gender.Female;
                 }
                 else
                 {
-                    volunteer.Gender = VolCommon.Gender.Male;
+                    volunteer.Gender = Gender.Male;
                 }
             }
             catch
             {
-                volunteer.Gender = VolCommon.Gender.Male;
+                volunteer.Gender = Gender.Male;
             }
             volunteer.Desired_workplace = volunteerstring[7];
             volunteer.CNP = volunteerstring[8];
