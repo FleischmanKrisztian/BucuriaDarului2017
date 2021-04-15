@@ -4,6 +4,7 @@ using Finalaplication.CommonDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Finalaplication.Controllers
 {
@@ -96,12 +97,12 @@ namespace Finalaplication.Controllers
             List<Volcontract> volcontracts = volContractManager_.GetListOfVolunteersContracts();
             List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager_.GetListOfBeneficiariesContracts();
 
-            //string onlinevols = JsonConvert.SerializeObject(volunteers);
-            //string onlineevents = JsonConvert.SerializeObject(events);
-            //string onlinebenefieciaries = JsonConvert.SerializeObject(beneficiaries);
-            //string onlinesponsoprs = JsonConvert.SerializeObject(sponsors);
-            //string onlinevolcontrcarts = JsonConvert.SerializeObject(volcontracts);
-            //string onlinebeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontracts);
+            string localvols = JsonConvert.SerializeObject(volunteerslocal);
+            string localevents = JsonConvert.SerializeObject(eventslocal);
+            string localbenefieciaries = JsonConvert.SerializeObject(beneficiarieslocal);
+            string localsponsors = JsonConvert.SerializeObject(sponsorslocal);
+            string localvolcontrcarts = JsonConvert.SerializeObject(volcontractslocal);
+            string localbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontractslocal);
 
             //for (int i = 0; i < volunteersoffline.Count(); i++)
             //{
