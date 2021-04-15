@@ -84,7 +84,7 @@ namespace Finalaplication.Controllers
         }
 
         //FetchDataFromCommonDB
-        public ActionResult Pull()
+        public ActionResult Fetch()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
             List<Event> eventslocal = eventManager.GetListOfEvents();
