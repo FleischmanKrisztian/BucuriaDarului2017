@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Finalaplication.CommonDatabaseManager
 {
-    public class VolunteerManager
+    public class VolunteerManagerCommon
     {
         private MongoDBContextCommon dbContextCommon = new MongoDBContextCommon();
 
