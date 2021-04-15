@@ -46,6 +46,13 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             benecontractcollection.UpdateOne(filter, contract_toupdate);
         }
+        internal void UpdateBeneficiaryContract(Beneficiarycontract contractupdate, string id)
+        {
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id));
+            contractupdate._id = id;
+            benecontractcollection.FindOneAndReplace(filter, contractupdate);
+        }
 
         internal void DeleteBeneficiaryContract(string id)
         {

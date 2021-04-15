@@ -5,6 +5,7 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -82,6 +83,7 @@ namespace Finalaplication.Controllers
             return RedirectToAction("Servermanagement");
         }
 
+        //FetchDataFromCommonDB
         public ActionResult Pull()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
@@ -104,40 +106,52 @@ namespace Finalaplication.Controllers
             string localvolcontrcarts = JsonConvert.SerializeObject(volcontractslocal);
             string localbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontractslocal);
 
-            //for (int i = 0; i < volunteersoffline.Count(); i++)
-            //{
-            //    if (!(onlinevols.Contains(volunteersoffline[i]._id)))
-            //        vollunteercollection.InsertOne(volunteersoffline[i]);
-            //}
+            for (int i = 0; i < volunteers.Count(); i++)
+            {
+                if (!(localvols.Contains(volunteers[i]._id)))
+                    volunteerManager.AddVolunteerToDB(volunteers[i]);
+                else
+                    volunteerManager.UpdateAVolunteer(volunteers[i], volunteers[i]._id);
+            }
 
-            //for (int i = 0; i < eventsoffline.Count(); i++)
-            //{
-            //    if (!(onlineevents.Contains(eventsoffline[i]._id)))
-            //        eventcollection.InsertOne(eventsoffline[i]);
-            //}
+            for (int i = 0; i < events.Count(); i++)
+            {
+                if (!(localevents.Contains(events[i]._id)))
+                    eventManager.AddEventToDB(events[i]);
+                else
+                    eventManager.UpdateAnEvent(events[i], events[i]._id);
+            }
 
-            //for (int i = 0; i < beneficiariesoffline.Count(); i++)
-            //{
-            //    if (!(onlinebenefieciaries.Contains(beneficiariesoffline[i]._id)))
-            //        beneficiarycollection.InsertOne(beneficiariesoffline[i]);
-            //}
+            for (int i = 0; i < beneficiaries.Count(); i++)
+            {
+                if (!(localbenefieciaries.Contains(beneficiaries[i]._id)))
+                    beneManager.AddBeneficiaryToDB(beneficiaries[i]);
+                else
+                    beneManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
+            }
 
-            //for (int i = 0; i < sponsorsoffline.Count(); i++)
-            //{
-            //    if (!(onlinesponsoprs.Contains(sponsorsoffline[i]._id)))
-            //        sponsorcollection.InsertOne(sponsorsoffline[i]);
-            //}
+            for (int i = 0; i < sponsors.Count(); i++)
+            {
+                if (!(localsponsors.Contains(sponsors[i]._id)))
+                    sponsorManager.AddSponsorToDB(sponsors[i]);
+                else
+                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id)
+            }
 
-            //for (int i = 0; i < volcontractsoffline.Count(); i++)
-            //{
-            //    if (!(onlinevolcontrcarts.Contains(volcontractsoffline[i]._id)))
-            //        volcontractcollection.InsertOne(volcontractsoffline[i]);
-            //}
-            //for (int i = 0; i < beneficiarycontractsoffline.Count(); i++)
-            //{
-            //    if (!(onlinebeneficiarycontrcarts.Contains(beneficiarycontractsoffline[i]._id)))
-            //        beneficiarycontractcollection.InsertOne(beneficiarycontractsoffline[i]);
-            //}
+            for (int i = 0; i < volcontracts.Count(); i++)
+            {
+                if (!(localvolcontrcarts.Contains(volcontracts[i]._id)))
+                    volContractManager.AddVolunteerContractToDB(volcontracts[i]);
+                else
+                    volContractManager.UpdateVolunteerContract(volcontracts[i], volcontracts[i]._id);
+            }
+            for (int i = 0; i < beneficiarycontracts.Count(); i++)
+            {
+                if (!(localbeneficiarycontrcarts.Contains(beneficiarycontracts[i]._id)))
+                    beneficiaryContractManager.AddBeneficiaryContractToDB(beneficiarycontracts[i]);
+                else
+                    beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i]._id);
+            }
             return RedirectToAction("Servermanagement");
         }
 
