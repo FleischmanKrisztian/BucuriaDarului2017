@@ -2,7 +2,7 @@
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseManager;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

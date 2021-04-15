@@ -4,7 +4,7 @@ using Finalaplication.ControllerHelpers.EventHelpers;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.DatabaseManager;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
