@@ -29,7 +29,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal Event GetOneEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Event>.Filter.Eq("_id", id);
             Event returnevent = eventcollection.Find(filter).FirstOrDefault();
             return returnevent;
         }
@@ -44,7 +44,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void UpdateAnEvent(Event eventtoupdate, string id)
         {
             IMongoCollection<Event> eventcollection = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Event>.Filter.Eq("_id", id);
             eventtoupdate._id = id;
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
@@ -52,7 +52,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void DeleteAnEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
-            eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", ObjectId.Parse(id)));
+            eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", id));
         }
     }
 }

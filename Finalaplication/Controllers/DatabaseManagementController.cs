@@ -64,10 +64,75 @@ namespace Finalaplication.Controllers
 
         public ActionResult PushData()
         {
+            List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
+            List<Event> eventslocal = eventManager.GetListOfEvents();
+            List<Beneficiary> beneficiarieslocal = beneManager.GetListOfBeneficiaries();
+            List<Sponsor> sponsorslocal = sponsorManager.GetListOfSponsors();
+            List<Volcontract> volcontractslocal = volContractManager.GetListOfVolunteersContracts();
+            List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+            List<Volunteer> volunteers = volunteerManager_.GetListOfVolunteers();
+            List<Event> events = eventManager_.GetListOfEvents();
+            List<Beneficiary> beneficiaries = beneManager_.GetListOfBeneficiaries();
+            List<Sponsor> sponsors = sponsorManager_.GetListOfSponsors();
+            List<Volcontract> volcontracts = volContractManager_.GetListOfVolunteersContracts();
+            List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager_.GetListOfBeneficiariesContracts();
+
+            string commonvols = JsonConvert.SerializeObject(volunteers);
+            string commonevents = JsonConvert.SerializeObject(events);
+            string commonbenefieciaries = JsonConvert.SerializeObject(beneficiaries);
+            string commonsponsors = JsonConvert.SerializeObject(sponsors);
+            string commonvolcontrcarts = JsonConvert.SerializeObject(volcontracts);
+            string commonbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontracts);
+
+            for (int i = 0; i < volunteerslocal.Count(); i++)
+            {
+                if (!(commonvols.Contains(volunteerslocal[i]._id)))
+                    volunteerManager_.AddVolunteerToDB(volunteerslocal[i]);
+                else
+                    volunteerManager_.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
+            }
+
+            for (int i = 0; i < events.Count(); i++)
+            {
+                if (!(localevents.Contains(events[i]._id)))
+                    eventManager.AddEventToDB(events[i]);
+                else
+                    eventManager.UpdateAnEvent(events[i], events[i]._id);
+            }
+
+            for (int i = 0; i < beneficiaries.Count(); i++)
+            {
+                if (!(localbenefieciaries.Contains(beneficiaries[i]._id)))
+                    beneManager.AddBeneficiaryToDB(beneficiaries[i]);
+                else
+                    beneManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
+            }
+
+            for (int i = 0; i < sponsors.Count(); i++)
+            {
+                if (!(localsponsors.Contains(sponsors[i]._id)))
+                    sponsorManager.AddSponsorToDB(sponsors[i]);
+                else
+                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id);
+            }
+
+            for (int i = 0; i < volcontracts.Count(); i++)
+            {
+                if (!(localvolcontrcarts.Contains(volcontracts[i]._id)))
+                    volContractManager.AddVolunteerContractToDB(volcontracts[i]);
+                else
+                    volContractManager.UpdateVolunteerContract(volcontracts[i], volcontracts[i]._id);
+            }
+            for (int i = 0; i < beneficiarycontracts.Count(); i++)
+            {
+                if (!(localbeneficiarycontrcarts.Contains(beneficiarycontracts[i]._id)))
+                    beneficiaryContractManager.AddBeneficiaryContractToDB(beneficiarycontracts[i]);
+                else
+                    beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i]._id);
+            }
             return RedirectToAction("Servermanagement");
         }
-
-        //FetchDataFromCommonDB
+        
         public ActionResult Fetch()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
@@ -138,6 +203,15 @@ namespace Finalaplication.Controllers
             }
             return RedirectToAction("Servermanagement");
         }
+
+
+
+
+
+
+
+
+
 
         //MERGE CU PRIORIOTATE LA CEA COMUNA.
         //public ActionResult Merge()

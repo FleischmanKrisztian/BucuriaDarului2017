@@ -30,7 +30,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal Volunteer GetOneVolunteer(string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Volunteer>.Filter.Eq("_id", id);
             Volunteer volunteer = volunteercollection.Find(filter).FirstOrDefault();
             return volunteer;
         }
@@ -45,7 +45,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void UpdateAVolunteer(Volunteer volunteertopdate, string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Volunteer>.Filter.Eq("_id", id);
             volunteertopdate._id = id;
             volunteercollection.FindOneAndReplace(filter, volunteertopdate);
         }
@@ -53,7 +53,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void DeleteAVolunteer(string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
-            volunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", ObjectId.Parse(id)));
+            volunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", id));
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal Beneficiary GetOneBeneficiary(string id)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
-            var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
             Beneficiary beneficiary = beneficiarycollection.Find(filter).FirstOrDefault();
             return beneficiary;
         }
@@ -46,7 +46,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void UpdateABeneficiary(Beneficiary beneficiarytopdate, string id)
         {
             IMongoCollection<Beneficiary> Beneficiarycollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
-            var filter = Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
             beneficiarytopdate._id = id;
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }
@@ -54,7 +54,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void DeleteBeneficiary(string id)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
-            beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", ObjectId.Parse(id)));
+            beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", id));
         }
 
     }

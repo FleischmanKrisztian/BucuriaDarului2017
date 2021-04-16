@@ -49,7 +49,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void UpdateBeneficiaryContract(Beneficiarycontract contractupdate, string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", id);
             contractupdate._id = id;
             benecontractcollection.FindOneAndReplace(filter, contractupdate);
         }

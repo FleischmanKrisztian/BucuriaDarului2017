@@ -31,7 +31,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal Beneficiarycontract GetBeneficiaryContract(string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", id);
             Beneficiarycontract returnBeneficiaryContract = benecontractcollection.Find(filter).FirstOrDefault();
             return returnBeneficiaryContract;
         }
@@ -52,7 +52,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void DeleteBeneficiaryContract(string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            benecontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id)));
+            benecontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", id));
         }
 
         internal void DeleteAllContracts(string id)

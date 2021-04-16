@@ -28,7 +28,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal Sponsor GetOneSponsor(string id)
         {
             IMongoCollection<Sponsor> Sponsorcollection = dbContextCommon.DatabaseCommon.GetCollection<Sponsor>("Sponsors");
-            var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Sponsor>.Filter.Eq("_id", id);
             Sponsor returnSponsor = Sponsorcollection.Find(filter).FirstOrDefault();
             return returnSponsor;
         }
@@ -43,7 +43,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void UpdateSponsor(Sponsor sponsorupdate, string id)
         {
             IMongoCollection<Sponsor> sponsorcollection = dbContextCommon.DatabaseCommon.GetCollection<Sponsor>("Sponsors");
-            var filter = Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter = Builders<Sponsor>.Filter.Eq("_id", id);
             sponsorupdate._id = id;
             sponsorcollection.FindOneAndReplace(filter, sponsorupdate);
         }
@@ -51,7 +51,7 @@ namespace Finalaplication.CommonDatabaseManager
         internal void DeleteSponsor(string id)
         {
             IMongoCollection<Sponsor> Sponsorcollection = dbContextCommon.DatabaseCommon.GetCollection<Sponsor>("Sponsors");
-            Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", ObjectId.Parse(id)));
+            Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", id));
         }
     }
 }
