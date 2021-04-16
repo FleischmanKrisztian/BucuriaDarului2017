@@ -5,7 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
-namespace Finalaplication.DatabaseManager
+namespace Finalaplication.LocalDatabaseManager
 {
     public class VolContractManager
     {
@@ -56,6 +56,14 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
             volcontractcollection.UpdateOne(filter, contract_toupdate);
+        }
+
+        internal void UpdateVolunteerContract(Volcontract contractupdate, string id)
+        {
+            IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
+            var filter = Builders<Volcontract>.Filter.Eq("_id", ObjectId.Parse(id));
+            contractupdate._id = id;
+            volcontractcollection.FindOneAndReplace(filter, contractupdate);
         }
     }
 }

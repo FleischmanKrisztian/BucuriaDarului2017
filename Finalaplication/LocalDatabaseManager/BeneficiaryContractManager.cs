@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Finalaplication.DatabaseManager
+namespace Finalaplication.LocalDatabaseManager
 {
     public class BeneficiaryContractManager
     {
@@ -22,7 +22,7 @@ namespace Finalaplication.DatabaseManager
             }
             catch
             {
-                Console.WriteLine("There was an error adding Sponsor");
+                Console.WriteLine("There was an error adding Beneficiary Contract");
             }
         }
 
@@ -45,6 +45,13 @@ namespace Finalaplication.DatabaseManager
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             benecontractcollection.UpdateOne(filter, contract_toupdate);
+        }
+        internal void UpdateBeneficiaryContract(Beneficiarycontract contractupdate, string id)
+        {
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", ObjectId.Parse(id));
+            contractupdate._id = id;
+            benecontractcollection.FindOneAndReplace(filter, contractupdate);
         }
 
         internal void DeleteBeneficiaryContract(string id)

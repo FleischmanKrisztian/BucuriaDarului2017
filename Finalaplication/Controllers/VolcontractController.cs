@@ -1,6 +1,6 @@
 ﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolcontractHelpers;
-using Finalaplication.DatabaseManager;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

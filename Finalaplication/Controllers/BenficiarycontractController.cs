@@ -1,6 +1,6 @@
 ﻿using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseManager;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;

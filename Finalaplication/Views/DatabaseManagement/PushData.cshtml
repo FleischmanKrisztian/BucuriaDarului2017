@@ -1,20 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "MergeView";
+    ViewData["Title"] = "Pushdataview";
 }
 
 <h3 style="color:red">@Localizer["Warning! This action is unreversible!"]</h3>
 
 <br />
-<h4>@Localizer["This action will Merge the two databases data on the local database."]</h4>
 
 <br />
 <br />
 
 <h4>@Localizer["Are you sure you want to continue?"]</h4>
 <div>
-    <a href=@Url.Action( "Merge") class="btn btn-primary">@Localizer["Yes"]</a>
+
+    <a href=@Url.Action( "Push") class="btn btn-primary">@Localizer["Yes"]</a>
     <a href=@Url.Action( "Servermanagement") class="btn btn-primary">@Localizer["No"]</a>
 </div>
 <br />
