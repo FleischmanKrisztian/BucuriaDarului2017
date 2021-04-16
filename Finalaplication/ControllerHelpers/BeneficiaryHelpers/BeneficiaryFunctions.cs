@@ -10,7 +10,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
     {
         internal static string GetStringOfIds(List<Beneficiary> beneficiaries)
         {
-            string stringofids = "beneficiary";
+            string stringofids = "beneficiaryCSV";
             foreach (Beneficiary beneficiary in beneficiaries)
             {
                 stringofids = stringofids + "," + beneficiary._id;
@@ -712,7 +712,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             if (PhoneNumber == true)
                 ids_and_options = ids_and_options + "F";
             if (BirthPlace == true)
-                ids_and_options = ids_and_options + "G";
+                ids_and_options += "G";
             if (Studies == true)
                 ids_and_options = ids_and_options + "H";
             if (Profesion == true)

@@ -35,7 +35,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void UpdateSettings(Settings settingtoupdate)
         {
             IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
-            var filter = Builders<Settings>.Filter.Eq("_id", ObjectId.Parse(settingtoupdate._id));
+            var filter = Builders<Settings>.Filter.Eq("_id", settingtoupdate._id);
             settingcollection.FindOneAndReplace(filter, settingtoupdate);
         }
     }

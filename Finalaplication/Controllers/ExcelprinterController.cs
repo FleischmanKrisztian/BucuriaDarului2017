@@ -41,11 +41,12 @@ namespace Finalaplication.Controllers
 
             string jsonstring = "";
 
-            string[] ids = ids_.Split(",");
-            if (ids[0].Contains("sponsors"))
+            string[] auxstring = ids_.Split("(((");
+            string properties = auxstring[1];
+            string[] ids = auxstring[0].Split(",");
+
+            if (ids[0].Contains("sponsorCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 var sponsorcollection = sponsorManager.GetListOfSponsors();
                 for (int i = 1; i < ids.Length; i++)
                 {
@@ -53,8 +54,6 @@ namespace Finalaplication.Controllers
                     {
                         var sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
-                        var aux = jsonstring.IndexOf("_id");
-                        jsonstring = jsonstring.Remove(aux - 1, 39);
                     }
                     else
                     {
@@ -147,10 +146,8 @@ namespace Finalaplication.Controllers
                     }
                 }
             }
-            else if (ids[0].Contains("beneficiaries"))
+            else if (ids[0].Contains("beneficiaryCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 var benefeciarycollection = beneficiaryManager.GetListOfBeneficiaries();
                 for (int i = 1; i < ids.Length; i++)
                 {
@@ -158,8 +155,6 @@ namespace Finalaplication.Controllers
                     {
                         var beneficiary = benefeciarycollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
-                        var aux = jsonstring.IndexOf("_id");
-                        jsonstring = jsonstring.Remove(aux - 1, 43);
                     }
                     else
                     {
@@ -485,10 +480,8 @@ namespace Finalaplication.Controllers
                     }
                 }
             }
-            else if (ids[0].Contains("volunteers"))
+            else if (ids[0].Contains("volunteerCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 var volunteerscollection = volunteerManager.GetListOfVolunteers();
                 for (int i = 1; i < ids.Length; i++)
                 {
@@ -496,8 +489,6 @@ namespace Finalaplication.Controllers
                     {
                         var volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
-                        var aux = jsonstring.IndexOf("_id");
-                        jsonstring = jsonstring.Remove(aux - 1, 41);
                     }
                     else
                     {
@@ -647,10 +638,8 @@ namespace Finalaplication.Controllers
                     }
                 }
             }
-            else if (ids[0].Contains("events"))
+            else if (ids[0].Contains("eventCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
                 var eventscollection = eventManager.GetListOfEvents();
                 for (int i = 1; i < ids.Length; i++)
                 {
@@ -658,8 +647,6 @@ namespace Finalaplication.Controllers
                     {
                         var eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
-                        var aux = jsonstring.IndexOf("_id");
-                        jsonstring = jsonstring.Remove(aux - 1, 37);
                     }
                     else
                     {

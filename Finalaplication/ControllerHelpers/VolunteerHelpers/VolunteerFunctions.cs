@@ -11,7 +11,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
     {
         internal static string GetStringOfIds(List<Volunteer> volunteers)
         {
-            string stringofids = "vol";
+            string stringofids = "volunteerCSV";
             foreach (Volunteer vol in volunteers)
             {
                 stringofids = stringofids + "," + vol._id;

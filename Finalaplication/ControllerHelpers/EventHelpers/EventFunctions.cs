@@ -123,7 +123,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
 
         internal static string GetStringOfIds(List<Event> events)
         {
-            string stringofids = "events";
+            string stringofids = "eventCSV";
             foreach (Event eve in events)
             {
                 stringofids = stringofids + "," + eve._id;
