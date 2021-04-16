@@ -25,7 +25,6 @@ namespace Finalaplication.CommonDatabaseManager
             IMongoCollection<Beneficiary> beneficiarycollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
             try
             {
-                beneficiary._id = Guid.NewGuid().ToString();
                 beneficiarycollection.InsertOne(beneficiary);
             }
             catch

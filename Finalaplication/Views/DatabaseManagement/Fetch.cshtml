@@ -2,7 +2,7 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Fetchview";
+    ViewData["Title"] = "Fetch";
 }
 
 <h3 style="color:red">@Localizer["Warning! This action is unreversible!"]</h3>
@@ -18,7 +18,7 @@
 <h4>@Localizer["Are you sure you want to continue?"]</h4>
 <div>
 
-    <a href=@Url.Action( "Fetch") class="btn btn-primary">@Localizer["Yes"]</a>
+    <a href=@Url.Action( "FetchData") class="btn btn-primary">@Localizer["Yes"]</a>
     <a href=@Url.Action( "Servermanagement") class="btn btn-primary">@Localizer["No"]</a>
 </div>
 <br />

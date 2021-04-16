@@ -10,6 +10,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
         internal static Event GetEventFromString(string[] eventstring)
         {
             Event newevent = new Event();
+            newevent._id = Guid.NewGuid().ToString();
             newevent.NameOfEvent = eventstring[0];
             newevent.PlaceOfEvent = eventstring[1];
             try

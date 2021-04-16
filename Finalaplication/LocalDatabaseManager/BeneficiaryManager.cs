@@ -17,7 +17,6 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
             try
             {
-                beneficiary._id = Guid.NewGuid().ToString();
                 beneficiarycollection.InsertOne(beneficiary);
             }
             catch

@@ -80,6 +80,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
         internal static Volunteer GetVolunteerFromOtherString(string[] volunteerstring)
         {
             Volunteer volunteer = new Volunteer();
+            volunteer._id = Guid.NewGuid().ToString();
             volunteer.Fullname = volunteerstring[0];
 
             if (volunteerstring[1] != null || volunteerstring[1] != "")
@@ -180,6 +181,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
         internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
         {
             Volunteer volunteer = new Volunteer();
+            volunteer._id = Guid.NewGuid().ToString();
             volunteer.Fullname = volunteerstring[0];
             try
             {

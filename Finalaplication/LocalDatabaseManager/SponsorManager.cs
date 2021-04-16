@@ -16,7 +16,6 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
             try
             {
-                sponsor._id = Guid.NewGuid().ToString();
                 Sponsorcollection.InsertOne(sponsor);
             }
             catch

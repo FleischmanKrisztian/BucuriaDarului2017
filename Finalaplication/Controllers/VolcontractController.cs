@@ -3,6 +3,7 @@ using Finalaplication.ControllerHelpers.VolcontractHelpers;
 using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -68,6 +69,7 @@ namespace Finalaplication.Controllers
                 if (ModelState.IsValid)
                 {
                     Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
+                    volcontract._id = Guid.NewGuid().ToString();
                     volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
                     volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
                     volcontract.Birthdate = vol.Birthdate;

@@ -17,7 +17,6 @@ namespace Finalaplication.CommonDatabaseManager
             IMongoCollection<Event> eventcollection = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
             try
             {
-                ev._id = Guid.NewGuid().ToString();
                 eventcollection.InsertOne(ev);
             }
             catch

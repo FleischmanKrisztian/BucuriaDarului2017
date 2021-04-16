@@ -18,7 +18,6 @@ namespace Finalaplication.CommonDatabaseManager
             IMongoCollection<Volunteer> volunteercollection = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
             try
             {
-                volunteer._id = Guid.NewGuid().ToString();
                 volunteercollection.InsertOne(volunteer);
             }
             catch

@@ -16,7 +16,6 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             try
             {
-                ev._id = Guid.NewGuid().ToString();
                 eventcollection.InsertOne(ev);
             }
             catch

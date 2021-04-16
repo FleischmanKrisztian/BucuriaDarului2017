@@ -269,6 +269,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("Duration");
                 if (ModelState.IsValid)
                 {
+                    incomingevent._id = Guid.NewGuid().ToString();
                     incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
                     eventManager.AddEventToDB(incomingevent);
                     return RedirectToAction("Index");

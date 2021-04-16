@@ -16,6 +16,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             Contract c = new Contract();
             ContactInformation ci = new ContactInformation();
 
+            newsponsor._id = Guid.NewGuid().ToString();
             newsponsor.NameOfSponsor = sponsorstring[0];
 
             try

@@ -293,6 +293,7 @@ namespace Finalaplication.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    beneficiary._id = Guid.NewGuid().ToString();
                     beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
                     beneficiary.Image = UniversalFunctions.Addimage(image);
                     beneficiaryManager.AddBeneficiaryToDB(beneficiary);

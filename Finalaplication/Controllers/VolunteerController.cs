@@ -246,6 +246,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("CIEliberat");
                 if (ModelState.IsValid)
                 {
+                    volunteer._id = Guid.NewGuid().ToString();
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteer.Image = UniversalFunctions.Addimage(image);
                     volunteerManager.AddVolunteerToDB(volunteer);

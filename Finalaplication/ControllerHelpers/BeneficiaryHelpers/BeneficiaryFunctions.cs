@@ -59,7 +59,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
         internal static Beneficiary GetBeneficiaryFromOtherString(string[] beneficiarystring)
         {
             Beneficiary beneficiary = new Beneficiary();
-
+            beneficiary._id = Guid.NewGuid().ToString();
             try
             {
                 beneficiary.Fullname = beneficiarystring[1];
@@ -335,9 +335,10 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
         public static Beneficiary GetBeneficiaryFromString(string[] beneficiarystring)
         {
-            Beneficiary beneficiary = new Beneficiary
+            Beneficiary beneficiary = new Beneficiary();
+            beneficiary._id = Guid.NewGuid().ToString();
             {
-                HasGDPRAgreement = false
+                beneficiary.HasGDPRAgreement = false;
             };
             try
             {

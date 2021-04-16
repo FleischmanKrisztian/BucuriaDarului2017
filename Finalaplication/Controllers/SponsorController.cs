@@ -192,6 +192,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("Sponsorship.Date");
                 if (ModelState.IsValid)
                 {
+                    incomingsponsor._id = Guid.NewGuid().ToString();
                     incomingsponsor.Contract.RegistrationDate = incomingsponsor.Contract.RegistrationDate.AddHours(5);
                     incomingsponsor.Contract.ExpirationDate = incomingsponsor.Contract.ExpirationDate.AddHours(5);
                     sponsorManager.AddSponsorToDB(incomingsponsor);

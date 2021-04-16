@@ -19,7 +19,6 @@ namespace Finalaplication.CommonDatabaseManager
             IMongoCollection<Beneficiarycontract> benecontractcollection = dbContextCommon.DatabaseCommon.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             try
             {
-                beneficiarycontract._id = Guid.NewGuid().ToString();
                 benecontractcollection.InsertOne(beneficiarycontract);
             }
             catch

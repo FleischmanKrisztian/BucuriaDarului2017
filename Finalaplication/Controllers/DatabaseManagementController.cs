@@ -19,12 +19,12 @@ namespace Finalaplication.Controllers
         private BeneficiaryManager beneManager = new BeneficiaryManager();
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
 
-        private EventManagerCommon eventManager_ = new EventManagerCommon();
-        private SponsorManagerCommon sponsorManager_ = new SponsorManagerCommon();
-        private VolunteerManagerCommon volunteerManager_ = new VolunteerManagerCommon();
-        private VolunteerContractManagerCommon volContractManager_ = new VolunteerContractManagerCommon();
-        private BeneficiaryManagerCommon beneManager_ = new BeneficiaryManagerCommon();
-        private BeneficiaryContractManagerCommon beneficiaryContractManager_ = new BeneficiaryContractManagerCommon();
+        private EventManagerCommon commonEventManager = new EventManagerCommon();
+        private SponsorManagerCommon commonSponsorManager = new SponsorManagerCommon();
+        private VolunteerManagerCommon commonvolunteerManager = new VolunteerManagerCommon();
+        private VolunteerContractManagerCommon commonVolContractManager = new VolunteerContractManagerCommon();
+        private BeneficiaryManagerCommon commonBeneficiaryManager = new BeneficiaryManagerCommon();
+        private BeneficiaryContractManagerCommon commonBenefContractManager = new BeneficiaryContractManagerCommon();
 
         public DatabaseManagementController()
         {
@@ -42,25 +42,16 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Backupview()
+        public ActionResult Push()
         {
             return View();
         }
 
-        public ActionResult Restoreview()
+        public ActionResult Fetch()
         {
             return View();
         }
 
-        public ActionResult Mergeview()
-        {
-            return View();
-        }
-
-        public ActionResult Mergeview2()
-        {
-            return View();
-        }
 
         public ActionResult PushData()
         {
@@ -70,12 +61,12 @@ namespace Finalaplication.Controllers
             List<Sponsor> sponsorslocal = sponsorManager.GetListOfSponsors();
             List<Volcontract> volcontractslocal = volContractManager.GetListOfVolunteersContracts();
             List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiariesContracts();
-            List<Volunteer> volunteers = volunteerManager_.GetListOfVolunteers();
-            List<Event> events = eventManager_.GetListOfEvents();
-            List<Beneficiary> beneficiaries = beneManager_.GetListOfBeneficiaries();
-            List<Sponsor> sponsors = sponsorManager_.GetListOfSponsors();
-            List<Volcontract> volcontracts = volContractManager_.GetListOfVolunteersContracts();
-            List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager_.GetListOfBeneficiariesContracts();
+            List<Volunteer> volunteers = commonvolunteerManager.GetListOfVolunteers();
+            List<Event> events = commonEventManager.GetListOfEvents();
+            List<Beneficiary> beneficiaries = commonBeneficiaryManager.GetListOfBeneficiaries();
+            List<Sponsor> sponsors = commonSponsorManager.GetListOfSponsors();
+            List<Volcontract> volcontracts = commonVolContractManager.GetListOfVolunteersContracts();
+            List<Beneficiarycontract> beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
 
             string commonvols = JsonConvert.SerializeObject(volunteers);
             string commonevents = JsonConvert.SerializeObject(events);
@@ -83,57 +74,58 @@ namespace Finalaplication.Controllers
             string commonsponsors = JsonConvert.SerializeObject(sponsors);
             string commonvolcontrcarts = JsonConvert.SerializeObject(volcontracts);
             string commonbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontracts);
+           
 
             for (int i = 0; i < volunteerslocal.Count(); i++)
             {
                 if (!(commonvols.Contains(volunteerslocal[i]._id)))
-                    volunteerManager_.AddVolunteerToDB(volunteerslocal[i]);
+                    commonvolunteerManager.AddVolunteerToDB(volunteerslocal[i]);
                 else
-                    volunteerManager_.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
+                    commonvolunteerManager.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
             }
 
             for (int i = 0; i < eventslocal.Count(); i++)
             {
                 if (!(commonevents.Contains(eventslocal[i]._id)))
-                    eventManager_.AddEventToDB(eventslocal[i]);
+                    commonEventManager.AddEventToDB(eventslocal[i]);
                 else
-                    eventManager_.UpdateAnEvent(eventslocal[i], eventslocal[i]._id);
+                    commonEventManager.UpdateAnEvent(eventslocal[i], eventslocal[i]._id);
             }
 
             for (int i = 0; i < beneficiarieslocal.Count(); i++)
             {
                 if (!(commonbenefieciaries.Contains(beneficiarieslocal[i]._id)))
-                    beneManager_.AddBeneficiaryToDB(beneficiarieslocal[i]);
+                    commonBeneficiaryManager.AddBeneficiaryToDB(beneficiarieslocal[i]);
                 else
-                    beneManager_.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
+                    commonBeneficiaryManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
             }
 
             for (int i = 0; i < sponsorslocal.Count(); i++)
             {
                 if (!(commonsponsors.Contains(sponsorslocal[i]._id)))
-                    sponsorManager_.AddSponsorToDB(sponsorslocal[i]);
+                    commonSponsorManager.AddSponsorToDB(sponsorslocal[i]);
                 else
-                    sponsorManager_.UpdateSponsor(sponsorslocal[i], sponsorslocal[i]._id);
+                    commonSponsorManager.UpdateSponsor(sponsorslocal[i], sponsorslocal[i]._id);
             }
 
             for (int i = 0; i < volcontractslocal.Count(); i++)
             {
                 if (!(commonvolcontrcarts.Contains(volcontractslocal[i]._id)))
-                    volContractManager_.AddVolunteerContractToDB(volcontractslocal[i]);
+                    commonVolContractManager.AddVolunteerContractToDB(volcontractslocal[i]);
                 else
-                    volContractManager_.UpdateVolunteerContract(volcontractslocal[i], volcontractslocal[i]._id);
+                    commonVolContractManager.UpdateVolunteerContract(volcontractslocal[i], volcontractslocal[i]._id);
             }
             for (int i = 0; i < beneficiarycontractslocal.Count(); i++)
             {
                 if (!(commonbeneficiarycontrcarts.Contains(beneficiarycontractslocal[i]._id)))
-                    beneficiaryContractManager_.AddBeneficiaryContractToDB(beneficiarycontractslocal[i]);
+                    commonBenefContractManager.AddBeneficiaryContractToDB(beneficiarycontractslocal[i]);
                 else
-                    beneficiaryContractManager_.UpdateBeneficiaryContract(beneficiarycontractslocal[i], beneficiarycontractslocal[i]._id);
+                    commonBenefContractManager.UpdateBeneficiaryContract(beneficiarycontractslocal[i], beneficiarycontractslocal[i]._id);
             }
             return RedirectToAction("Servermanagement");
         }
         
-        public ActionResult Fetch()
+        public ActionResult FetchData()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
             List<Event> eventslocal = eventManager.GetListOfEvents();
@@ -141,12 +133,12 @@ namespace Finalaplication.Controllers
             List<Sponsor> sponsorslocal = sponsorManager.GetListOfSponsors();
             List<Volcontract> volcontractslocal = volContractManager.GetListOfVolunteersContracts();
             List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiariesContracts();
-            List<Volunteer> volunteers = volunteerManager_.GetListOfVolunteers();
-            List<Event> events = eventManager_.GetListOfEvents();
-            List<Beneficiary> beneficiaries = beneManager_.GetListOfBeneficiaries();
-            List<Sponsor> sponsors = sponsorManager_.GetListOfSponsors();
-            List<Volcontract> volcontracts = volContractManager_.GetListOfVolunteersContracts();
-            List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager_.GetListOfBeneficiariesContracts();
+            List<Volunteer> volunteers = commonvolunteerManager.GetListOfVolunteers();
+            List<Event> events = commonEventManager.GetListOfEvents();
+            List<Beneficiary> beneficiaries = commonBeneficiaryManager.GetListOfBeneficiaries();
+            List<Sponsor> sponsors = commonSponsorManager.GetListOfSponsors();
+            List<Volcontract> volcontracts = commonVolContractManager.GetListOfVolunteersContracts();
+            List<Beneficiarycontract> beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
 
             string localvols = JsonConvert.SerializeObject(volunteerslocal);
             string localevents = JsonConvert.SerializeObject(eventslocal);

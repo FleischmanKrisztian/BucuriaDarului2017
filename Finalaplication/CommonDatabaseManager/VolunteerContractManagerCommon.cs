@@ -30,7 +30,6 @@ namespace Finalaplication.CommonDatabaseManager
             IMongoCollection<Volcontract> volcontractcollection = dbContextCommon.DatabaseCommon.GetCollection<Volcontract>("Contracts");
             try
             {
-                contract._id = Guid.NewGuid().ToString();
                 volcontractcollection.InsertOne(contract);
             }
             catch
