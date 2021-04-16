@@ -15,7 +15,6 @@ namespace Finalaplication.Controllers
         private EventManager eventManager = new EventManager();
         private SponsorManager sponsorManager = new SponsorManager();
         private VolunteerManager volunteerManager = new VolunteerManager();
-        private SettingsManager settingsManager = new SettingsManager();
         private VolContractManager volContractManager = new VolContractManager();
         private BeneficiaryManager beneManager = new BeneficiaryManager();
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
@@ -29,21 +28,6 @@ namespace Finalaplication.Controllers
 
         public DatabaseManagementController()
         {
-            //dbContextLocal = new MongoDBContextLocal();
-            //dbContextCommon = new MongoDBContextCommon();
-
-            //var eventcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Event>("Events");
-            //var vollunteercollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Volunteer>("Volunteers");
-            //var beneficiarycollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Beneficiary>("Beneficiaries");
-            //var sponsorcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Sponsor>("Sponsors");
-            //var volcontractcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Volcontract>("Contracts");
-            //var beneficiarycontractcollectioncommon = dbContextCommon.DatabaseCommon.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            //var eventcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            //var vollunteercollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
-            //var beneficiarycollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
-            //var sponsorcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
-            //var volcontractcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-            //var beneficiarycontractcollectionlocal = dbContextLocal.DatabaseLocal.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
         }
 
         public IActionResult Servermanagement()
@@ -78,7 +62,7 @@ namespace Finalaplication.Controllers
             return View();
         }
 
-        public ActionResult Push()
+        public ActionResult PushData()
         {
             return RedirectToAction("Servermanagement");
         }
