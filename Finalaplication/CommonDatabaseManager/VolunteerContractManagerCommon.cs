@@ -59,5 +59,13 @@ namespace Finalaplication.CommonDatabaseManager
             IMongoCollection<Volcontract> volcontractcollection = dbContextCommon.DatabaseCommon.GetCollection<Volcontract>("Contracts");
             volcontractcollection.UpdateOne(filter, contract_toupdate);
         }
+
+        internal void UpdateVolunteerContract(Volcontract contractupdate, string id)
+        {
+            IMongoCollection<Volcontract> volcontractcollection = dbContextCommon.DatabaseCommon.GetCollection<Volcontract>("Contracts");
+            var filter = Builders<Volcontract>.Filter.Eq("_id", id);
+            contractupdate._id = id;
+            volcontractcollection.FindOneAndReplace(filter, contractupdate);
+        }
     }
 }

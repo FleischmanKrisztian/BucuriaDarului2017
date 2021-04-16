@@ -92,43 +92,43 @@ namespace Finalaplication.Controllers
                     volunteerManager_.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
             }
 
-            for (int i = 0; i < events.Count(); i++)
+            for (int i = 0; i < eventslocal.Count(); i++)
             {
-                if (!(localevents.Contains(events[i]._id)))
-                    eventManager.AddEventToDB(events[i]);
+                if (!(commonevents.Contains(eventslocal[i]._id)))
+                    eventManager_.AddEventToDB(eventslocal[i]);
                 else
-                    eventManager.UpdateAnEvent(events[i], events[i]._id);
+                    eventManager_.UpdateAnEvent(eventslocal[i], eventslocal[i]._id);
             }
 
-            for (int i = 0; i < beneficiaries.Count(); i++)
+            for (int i = 0; i < beneficiarieslocal.Count(); i++)
             {
-                if (!(localbenefieciaries.Contains(beneficiaries[i]._id)))
-                    beneManager.AddBeneficiaryToDB(beneficiaries[i]);
+                if (!(commonbenefieciaries.Contains(beneficiarieslocal[i]._id)))
+                    beneManager_.AddBeneficiaryToDB(beneficiarieslocal[i]);
                 else
-                    beneManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
+                    beneManager_.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
             }
 
-            for (int i = 0; i < sponsors.Count(); i++)
+            for (int i = 0; i < sponsorslocal.Count(); i++)
             {
-                if (!(localsponsors.Contains(sponsors[i]._id)))
-                    sponsorManager.AddSponsorToDB(sponsors[i]);
+                if (!(commonsponsors.Contains(sponsorslocal[i]._id)))
+                    sponsorManager_.AddSponsorToDB(sponsorslocal[i]);
                 else
-                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id);
+                    sponsorManager_.UpdateSponsor(sponsorslocal[i], sponsorslocal[i]._id);
             }
 
-            for (int i = 0; i < volcontracts.Count(); i++)
+            for (int i = 0; i < volcontractslocal.Count(); i++)
             {
-                if (!(localvolcontrcarts.Contains(volcontracts[i]._id)))
-                    volContractManager.AddVolunteerContractToDB(volcontracts[i]);
+                if (!(commonvolcontrcarts.Contains(volcontractslocal[i]._id)))
+                    volContractManager_.AddVolunteerContractToDB(volcontractslocal[i]);
                 else
-                    volContractManager.UpdateVolunteerContract(volcontracts[i], volcontracts[i]._id);
+                    volContractManager_.UpdateVolunteerContract(volcontractslocal[i], volcontractslocal[i]._id);
             }
-            for (int i = 0; i < beneficiarycontracts.Count(); i++)
+            for (int i = 0; i < beneficiarycontractslocal.Count(); i++)
             {
-                if (!(localbeneficiarycontrcarts.Contains(beneficiarycontracts[i]._id)))
-                    beneficiaryContractManager.AddBeneficiaryContractToDB(beneficiarycontracts[i]);
+                if (!(commonbeneficiarycontrcarts.Contains(beneficiarycontractslocal[i]._id)))
+                    beneficiaryContractManager_.AddBeneficiaryContractToDB(beneficiarycontractslocal[i]);
                 else
-                    beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i]._id);
+                    beneficiaryContractManager_.UpdateBeneficiaryContract(beneficiarycontractslocal[i], beneficiarycontractslocal[i]._id);
             }
             return RedirectToAction("Servermanagement");
         }
