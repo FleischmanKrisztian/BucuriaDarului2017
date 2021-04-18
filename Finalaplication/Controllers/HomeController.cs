@@ -1,22 +1,29 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
+using Finalaplication.DatabaseManager;
 using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 
 namespace Finalaplication.Controllers
 {
     public class HomeController : Controller
     {
-        private EventManager eventManager = new EventManager();
-        private SponsorManager sponsorManager = new SponsorManager();
-        private VolunteerManager volunteerManager = new VolunteerManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
+        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+
+        private EventManager eventManager = new EventManager(MongoDBContextLocal);
+        private SponsorManager sponsorManager = new SponsorManager(MongoDBContextLocal);
+        private VolunteerManager volunteerManager = new VolunteerManager(MongoDBContextLocal);
         private SettingsManager settingsManager = new SettingsManager();
-        private VolContractManager volContractManager = new VolContractManager();
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private VolContractManager volContractManager = new VolContractManager(MongoDBContextLocal);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(MongoDBContextLocal);
 
         public IActionResult Index()
         {

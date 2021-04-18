@@ -3,6 +3,7 @@ using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 
 namespace Finalaplication.Controllers
@@ -11,7 +12,13 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private VolContractManager volContractManager = new VolContractManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
+        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+
+        private VolContractManager volContractManager = new VolContractManager(MongoDBContextLocal);
 
         [HttpGet("{id}", Name = "GetExcelparams")]
         public string Get(string id)

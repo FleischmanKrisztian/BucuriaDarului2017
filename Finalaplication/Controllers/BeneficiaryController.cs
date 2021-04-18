@@ -1,4 +1,5 @@
 ﻿using Elm.Core.Parsers;
+using Finalaplication.App_Start;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.BeneficiaryHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -18,8 +19,14 @@ namespace Finalaplication.Controllers
     public class BeneficiaryController : Controller
     {
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
-        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
+        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(MongoDBContextLocal);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(MongoDBContextLocal);
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {

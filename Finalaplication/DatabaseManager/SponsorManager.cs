@@ -1,6 +1,5 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -9,11 +8,15 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class SponsorManager
     {
-        private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        MongoDBContext dBContext;
+        public SponsorManager(MongoDBContext mongoDBContext)
+        {
+            dBContext = mongoDBContext;
+        }
 
         internal void AddSponsorToDB(Sponsor sponsor)
         {
-            IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+            IMongoCollection<Sponsor> Sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
             try
             {
                 Sponsorcollection.InsertOne(sponsor);
@@ -26,7 +29,7 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal Sponsor GetOneSponsor(string id)
         {
-            IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+            IMongoCollection<Sponsor> Sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("_id", id);
             Sponsor returnSponsor = Sponsorcollection.Find(filter).FirstOrDefault();
             return returnSponsor;
@@ -34,14 +37,14 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal List<Sponsor> GetListOfSponsors()
         {
-            IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+            IMongoCollection<Sponsor> Sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
             List<Sponsor> Sponsors = Sponsorcollection.AsQueryable().ToList();
             return Sponsors;
         }
 
         internal void UpdateSponsor(Sponsor sponsorupdate, string id)
         {
-            IMongoCollection<Sponsor> sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
+            IMongoCollection<Sponsor> sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("_id", id);
             sponsorupdate._id = id;
             sponsorcollection.FindOneAndReplace(filter, sponsorupdate);
@@ -49,8 +52,8 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal void DeleteSponsor(string id)
         {
-            IMongoCollection<Sponsor> Sponsorcollection = dBContextLocal.DatabaseLocal.GetCollection<Sponsor>("Sponsors");
-            Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id",id));
+            IMongoCollection<Sponsor> Sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
+            Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", id));
         }
     }
 }

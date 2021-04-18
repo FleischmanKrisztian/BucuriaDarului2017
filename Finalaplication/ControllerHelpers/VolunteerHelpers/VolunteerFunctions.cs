@@ -77,6 +77,134 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             }
         }
 
+        internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
+        {
+            Volunteer volunteer = new Volunteer();
+            volunteer._id = Guid.NewGuid().ToString();
+            volunteer.Fullname = volunteerstring[0];
+            try
+            {
+                volunteer.Birthdate = Convert.ToDateTime(volunteerstring[1]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                volunteer.Birthdate = DateTime.MinValue;
+            }
+            Address address = new Address();
+
+            if (volunteerstring[2] != null || volunteerstring[2] != "")
+            {
+                address.District = volunteerstring[2];
+            }
+            else { address.District = "-"; }
+
+            if (volunteerstring[3] != null || volunteerstring[3] != "")
+            {
+                address.City = volunteerstring[3];
+            }
+            else
+            {
+                address.City = "-";
+            }
+
+            if (volunteerstring[4] != null || volunteerstring[4] != "")
+            {
+                address.Street = volunteerstring[4];
+            }
+            else { address.Street = "-"; }
+
+            if (volunteerstring[5] != null || volunteerstring[5] != "")
+            {
+                address.Number = volunteerstring[5];
+            }
+            else
+            {
+                address.Number = "-";
+            }
+            volunteer.Address = address;
+            try
+            {
+                if (volunteerstring[6] == "1")
+                {
+                    volunteer.Gender = Gender.Female;
+                }
+                else
+                {
+                    volunteer.Gender = Gender.Male;
+                }
+            }
+            catch
+            {
+                volunteer.Gender = Gender.Male;
+            }
+            volunteer.Desired_workplace = volunteerstring[7];
+            volunteer.CNP = volunteerstring[8];
+            volunteer.Field_of_activity = volunteerstring[9];
+            volunteer.Occupation = volunteerstring[10];
+            volunteer.CIseria = volunteerstring[11];
+            volunteer.CINr = volunteerstring[12];
+            try
+            {
+                volunteer.CIEliberat = Convert.ToDateTime(volunteerstring[13]);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date, defaulting to min value!");
+                volunteer.CIEliberat = DateTime.MinValue;
+            }
+            volunteer.CIeliberator = volunteerstring[14];
+            volunteer.InActivity = Convert.ToBoolean(volunteerstring[15]);
+            if (volunteerstring[16] != null || volunteerstring[16] != "")
+            {
+                volunteer.HourCount = Convert.ToInt16(volunteerstring[16]);
+            }
+            else
+            {
+                volunteer.HourCount = 0;
+            }
+            ContactInformation contactinformation = new ContactInformation();
+            if (volunteerstring[17] != null || volunteerstring[17] != "")
+            {
+                contactinformation.PhoneNumber = volunteerstring[17];
+            }
+            else
+            {
+                contactinformation.PhoneNumber = "-";
+            }
+            if (volunteerstring[18] != null || volunteerstring[18] != "")
+            {
+                contactinformation.MailAdress = volunteerstring[18];
+            }
+            else
+            {
+                contactinformation.MailAdress = "-";
+            }
+            volunteer.ContactInformation = contactinformation;
+            Additionalinfo additionalInformation = new Additionalinfo();
+
+            if (volunteerstring[19] == "True")
+            {
+                additionalInformation.HasDrivingLicence = true;
+            }
+            else
+            {
+                additionalInformation.HasDrivingLicence = false;
+            }
+
+            if (volunteerstring[20] == "True")
+            {
+                additionalInformation.HasCar = true;
+            }
+            else
+            {
+                additionalInformation.HasCar = false;
+            }
+            additionalInformation.Remark = volunteerstring[21];
+            volunteer.Additionalinfo = additionalInformation;
+            return volunteer;
+        }
+
         internal static Volunteer GetVolunteerFromOtherString(string[] volunteerstring)
         {
             Volunteer volunteer = new Volunteer();
@@ -175,133 +303,6 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
 
             volunteer.Address = a;
             volunteer.Additionalinfo = ai;
-            return volunteer;
-        }
-
-        internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
-        {
-            Volunteer volunteer = new Volunteer();
-            volunteer._id = Guid.NewGuid().ToString();
-            volunteer.Fullname = volunteerstring[0];
-            try
-            {
-                volunteer.Birthdate = Convert.ToDateTime(volunteerstring[1]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                volunteer.Birthdate = DateTime.MinValue;
-            }
-            Address address = new Address();
-
-            if (volunteerstring[2] != null || volunteerstring[2] != "")
-            {
-                address.District = volunteerstring[2];
-            }
-            else { address.District = "-"; }
-
-            if (volunteerstring[3] != null || volunteerstring[3] != "")
-            {
-                address.City = volunteerstring[3];
-            }
-            else
-            {
-                address.City = "-";
-            }
-
-            if (volunteerstring[4] != null || volunteerstring[4] != "")
-            {
-                address.Street = volunteerstring[4];
-            }
-            else { address.Street = "-"; }
-
-            if (volunteerstring[5] != null || volunteerstring[5] != "")
-            {
-                address.Number = volunteerstring[5];
-            }
-            else
-            {
-                address.Number = "-";
-            }
-            try
-            {
-                if (volunteerstring[6] == "1")
-                {
-                    volunteer.Gender = Gender.Female;
-                }
-                else
-                {
-                    volunteer.Gender = Gender.Male;
-                }
-            }
-            catch
-            {
-                volunteer.Gender = Gender.Male;
-            }
-            volunteer.Desired_workplace = volunteerstring[7];
-            volunteer.CNP = volunteerstring[8];
-            volunteer.Field_of_activity = volunteerstring[9];
-            volunteer.Occupation = volunteerstring[10];
-            volunteer.CIseria = volunteerstring[11];
-            volunteer.CINr = volunteerstring[12];
-            try
-            {
-                volunteer.CIEliberat = Convert.ToDateTime(volunteerstring[13]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                volunteer.CIEliberat = DateTime.MinValue;
-            }
-            volunteer.CIeliberator = volunteerstring[14];
-            volunteer.InActivity = Convert.ToBoolean(volunteerstring[15]);
-            if (volunteerstring[16] != null || volunteerstring[16] != "")
-            {
-                volunteer.HourCount = Convert.ToInt16(volunteerstring[16]);
-            }
-            else
-            {
-                volunteer.HourCount = 0;
-            }
-            ContactInformation contactinformation = new ContactInformation();
-            if (volunteerstring[17] != null || volunteerstring[17] != "")
-            {
-                contactinformation.PhoneNumber = volunteerstring[17];
-            }
-            else
-            {
-                contactinformation.PhoneNumber = "-";
-            }
-            if (volunteerstring[18] != null || volunteerstring[18] != "")
-            {
-                contactinformation.MailAdress = volunteerstring[18];
-            }
-            else
-            {
-                contactinformation.MailAdress = "-";
-            }
-            volunteer.ContactInformation = contactinformation;
-            Additionalinfo additionalInformation = new Additionalinfo();
-
-            if (volunteerstring[19] == "True")
-            {
-                additionalInformation.HasDrivingLicence = true;
-            }
-            else
-            {
-                additionalInformation.HasDrivingLicence = false;
-            }
-
-            if (volunteerstring[20] == "True")
-            {
-                additionalInformation.HasCar = true;
-            }
-            else
-            {
-                additionalInformation.HasCar = false;
-            }
-            additionalInformation.Remark = volunteerstring[21];
-            volunteer.Additionalinfo = additionalInformation;
             return volunteer;
         }
 

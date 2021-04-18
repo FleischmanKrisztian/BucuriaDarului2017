@@ -1,30 +1,40 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.LocalDatabaseManager;
-using Finalaplication.CommonDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Finalaplication.Controllers
 {
     public class DatabaseManagementController : Controller
     {
-        
-        private EventManager eventManager = new EventManager();
-        private SponsorManager sponsorManager = new SponsorManager();
-        private VolunteerManager volunteerManager = new VolunteerManager();
-        private VolContractManager volContractManager = new VolContractManager();
-        private BeneficiaryManager beneManager = new BeneficiaryManager();
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
 
-        private EventManagerCommon commonEventManager = new EventManagerCommon();
-        private SponsorManagerCommon commonSponsorManager = new SponsorManagerCommon();
-        private VolunteerManagerCommon commonvolunteerManager = new VolunteerManagerCommon();
-        private VolunteerContractManagerCommon commonVolContractManager = new VolunteerContractManagerCommon();
-        private BeneficiaryManagerCommon commonBeneficiaryManager = new BeneficiaryManagerCommon();
-        private BeneficiaryContractManagerCommon commonBenefContractManager = new BeneficiaryContractManagerCommon();
+        private static string SERVER_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_COMMON);
+        private static int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_COMMON));
+        private static string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
+
+        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private static MongoDBContext MongoDBContextCommon = new MongoDBContext(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+
+        private EventManager eventManager = new EventManager(MongoDBContextLocal);
+        private SponsorManager sponsorManager = new SponsorManager(MongoDBContextLocal);
+        private VolunteerManager volunteerManager = new VolunteerManager(MongoDBContextLocal);
+        private VolContractManager volContractManager = new VolContractManager(MongoDBContextLocal);
+        private BeneficiaryManager beneManager = new BeneficiaryManager(MongoDBContextLocal);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(MongoDBContextLocal);
+
+        private EventManager commonEventManager = new EventManager(MongoDBContextCommon);
+        private SponsorManager commonSponsorManager = new SponsorManager(MongoDBContextCommon);
+        private VolunteerManager commonvolunteerManager = new VolunteerManager(MongoDBContextCommon);
+        private VolContractManager commonVolContractManager = new VolContractManager(MongoDBContextCommon);
+        private BeneficiaryManager commonBeneficiaryManager = new BeneficiaryManager(MongoDBContextCommon);
+        private BeneficiaryContractManager commonBenefContractManager = new BeneficiaryContractManager(MongoDBContextCommon);
 
         public DatabaseManagementController()
         {
@@ -52,7 +62,6 @@ namespace Finalaplication.Controllers
             return View();
         }
 
-
         public ActionResult PushData()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
@@ -74,7 +83,6 @@ namespace Finalaplication.Controllers
             string commonsponsors = JsonConvert.SerializeObject(sponsors);
             string commonvolcontrcarts = JsonConvert.SerializeObject(volcontracts);
             string commonbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontracts);
-           
 
             for (int i = 0; i < volunteerslocal.Count(); i++)
             {
@@ -124,7 +132,7 @@ namespace Finalaplication.Controllers
             }
             return RedirectToAction("Servermanagement");
         }
-        
+
         public ActionResult FetchData()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
@@ -195,15 +203,6 @@ namespace Finalaplication.Controllers
             }
             return RedirectToAction("Servermanagement");
         }
-
-
-
-
-
-
-
-
-
 
         //MERGE CU PRIORIOTATE LA CEA COMUNA.
         //public ActionResult Merge()

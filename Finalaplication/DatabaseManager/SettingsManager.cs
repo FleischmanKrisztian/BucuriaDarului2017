@@ -1,18 +1,20 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 
-namespace Finalaplication.LocalDatabaseManager
+namespace Finalaplication.DatabaseManager
 {
     public class SettingsManager
     {
-        private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        private MongoDBContext dBContext = new MongoDBContext(
+           Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL),
+           int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL)),
+           Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL));
 
         internal Settings GetSettingsItem()
         {
-            IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
+            IMongoCollection<Settings> settingcollection = dBContext.Database.GetCollection<Settings>("Settings");
             Settings set = settingcollection.AsQueryable<Settings>().SingleOrDefault();
 
             return set;
@@ -20,7 +22,7 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal void AddSettingsToDB(Settings settings)
         {
-            IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
+            IMongoCollection<Settings> settingcollection = dBContext.Database.GetCollection<Settings>("Settings");
             try
             {
                 settings._id = Guid.NewGuid().ToString();
@@ -34,7 +36,7 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal void UpdateSettings(Settings settingtoupdate)
         {
-            IMongoCollection<Settings> settingcollection = dBContextLocal.DatabaseLocal.GetCollection<Settings>("Settings");
+            IMongoCollection<Settings> settingcollection = dBContext.Database.GetCollection<Settings>("Settings");
             var filter = Builders<Settings>.Filter.Eq("_id", settingtoupdate._id);
             settingcollection.FindOneAndReplace(filter, settingtoupdate);
         }
