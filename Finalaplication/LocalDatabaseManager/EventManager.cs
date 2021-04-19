@@ -1,8 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 
 namespace Finalaplication.LocalDatabaseManager
@@ -10,24 +8,19 @@ namespace Finalaplication.LocalDatabaseManager
     public class EventManager
     {
         private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         internal void AddEventToDB(Event ev)
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            try
-            {
-                eventcollection.InsertOne(ev);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Event");
-            }
+            modifiedDocumentManager.AddIDtoString(ev._id);
+            eventcollection.InsertOne(ev);
         }
 
         internal Event GetOneEvent(string id)
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id",id);
+            var filter = Builders<Event>.Filter.Eq("_id", id);
             Event returnevent = eventcollection.Find(filter).FirstOrDefault();
             return returnevent;
         }
@@ -42,13 +35,15 @@ namespace Finalaplication.LocalDatabaseManager
         internal void UpdateAnEvent(Event eventtoupdate, string id)
         {
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id",id);
+            var filter = Builders<Event>.Filter.Eq("_id", id);
             eventtoupdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
 
         internal void DeleteAnEvent(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Event> eventcollection = dBContextLocal.DatabaseLocal.GetCollection<Event>("Events");
             eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", id));
         }

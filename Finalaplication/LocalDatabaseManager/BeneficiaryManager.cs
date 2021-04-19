@@ -1,8 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,18 +9,13 @@ namespace Finalaplication.LocalDatabaseManager
     public class BeneficiaryManager
     {
         private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         internal void AddBeneficiaryToDB(Beneficiary beneficiary)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
-            try
-            {
-                beneficiarycollection.InsertOne(beneficiary);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Beneficiary!");
-            }
+            modifiedDocumentManager.AddIDtoString(beneficiary._id);
+            beneficiarycollection.InsertOne(beneficiary);
         }
 
         internal Beneficiary GetOneBeneficiary(string id)
@@ -45,11 +38,13 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Beneficiary> Beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
             beneficiarytopdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }
 
         internal void DeleteBeneficiary(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
             beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", id));
         }

@@ -1,24 +1,30 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Finalaplication.LocalDatabaseManager
 {
     public class VolContractManager
     {
         private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         internal void DeleteAVolunteersContracts(string id)
         {
             IMongoCollection<Volcontract> contractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
+            var contractlist = contractcollection.Find(zz => zz.OwnerID == id).ToList();
+            for (int i = 0; i < contractlist.Count(); i++)
+            {
+                modifiedDocumentManager.AddIDtoDeletionString(contractlist[i]._id);
+            }
             contractcollection.DeleteMany(Builders<Volcontract>.Filter.Eq("OwnerID", id));
         }
 
         internal void DeleteAVolContract(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Volcontract> contractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
             contractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", id));
         }
@@ -26,14 +32,8 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddVolunteerContractToDB(Volcontract contract)
         {
             IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-            try
-            {
-                volcontractcollection.InsertOne(contract);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Sponsor");
-            }
+            modifiedDocumentManager.AddIDtoString(contract._id);
+            volcontractcollection.InsertOne(contract);
         }
 
         internal Volcontract GetVolunteerContract(string id)
@@ -51,17 +51,12 @@ namespace Finalaplication.LocalDatabaseManager
             return contracts;
         }
 
-        internal void UpdateVolunteerContract(FilterDefinition<Volcontract> filter, UpdateDefinition<Volcontract> contract_toupdate)
-        {
-            IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
-            volcontractcollection.UpdateOne(filter, contract_toupdate);
-        }
-
         internal void UpdateVolunteerContract(Volcontract contractupdate, string id)
         {
             IMongoCollection<Volcontract> volcontractcollection = dBContextLocal.DatabaseLocal.GetCollection<Volcontract>("Contracts");
             var filter = Builders<Volcontract>.Filter.Eq("_id", id);
             contractupdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             volcontractcollection.FindOneAndReplace(filter, contractupdate);
         }
     }

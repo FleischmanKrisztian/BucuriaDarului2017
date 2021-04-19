@@ -10,12 +10,14 @@ namespace Finalaplication.LocalDatabaseManager
     public class VolunteerManager
     {
         private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         internal void AddVolunteerToDB(Volunteer volunteer)
         {
             IMongoCollection<Volunteer> volunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
             try
             {
+                modifiedDocumentManager.AddIDtoString(volunteer._id);
                 volunteercollection.InsertOne(volunteer);
             }
             catch
@@ -44,12 +46,14 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Volunteer> volunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("_id",id);
             volunteertopdate._id = id;
+            modifiedDocumentManager.AddIDtoString(volunteertopdate._id);
             volunteercollection.FindOneAndReplace(filter, volunteertopdate);
         }
 
         internal void DeleteAVolunteer(string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dBContextLocal.DatabaseLocal.GetCollection<Volunteer>("Volunteers");
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             volunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", id));
         }
     }

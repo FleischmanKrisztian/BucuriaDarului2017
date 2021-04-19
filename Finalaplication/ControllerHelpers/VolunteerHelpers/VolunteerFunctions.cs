@@ -223,6 +223,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             {
                 address.Number = "-";
             }
+            volunteer.Address = address;
             try
             {
                 if (volunteerstring[6] == "1")
