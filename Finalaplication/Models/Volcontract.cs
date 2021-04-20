@@ -1,15 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Finalaplication.Models
 {
     public class Volcontract
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string ContractID { get; set; }
+        public string _id { get; set; }
 
         public string OwnerID { get; set; }
 
@@ -46,6 +42,5 @@ namespace Finalaplication.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
-
     }
 }

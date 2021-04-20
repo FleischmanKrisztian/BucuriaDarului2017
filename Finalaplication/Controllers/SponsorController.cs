@@ -2,7 +2,7 @@
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseHandler;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
-using SponsorManager = Finalaplication.DatabaseHandler.SponsorManager;
 
 namespace Finalaplication.Controllers
 {
@@ -29,14 +28,12 @@ namespace Finalaplication.Controllers
 
         public ActionResult FileUpload()
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
                 string path = " ";
@@ -71,7 +68,6 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_SPONSOR);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR;
             HttpContext.Session.SetString(key, ids);
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
@@ -119,7 +115,6 @@ namespace Finalaplication.Controllers
                 ViewBag.WhatGoods = WhatGoods;
                 ViewBag.GoodsAmount = GoodsAmounts;
                 ViewBag.MoneyAmount = MoneyAmount;
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
 
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 page = UniversalFunctions.GetCurrentPage(page);
@@ -160,7 +155,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Sponsor detailssponsor = sponsorManager.GetOneSponsor(id);
                 return View(detailssponsor);
             }
@@ -174,7 +168,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
@@ -199,6 +192,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("Sponsorship.Date");
                 if (ModelState.IsValid)
                 {
+                    incomingsponsor._id = Guid.NewGuid().ToString();
                     incomingsponsor.Contract.RegistrationDate = incomingsponsor.Contract.RegistrationDate.AddHours(5);
                     incomingsponsor.Contract.ExpirationDate = incomingsponsor.Contract.ExpirationDate.AddHours(5);
                     sponsorManager.AddSponsorToDB(incomingsponsor);
@@ -220,7 +214,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Sponsor sponsor = sponsorManager.GetOneSponsor(id);
                 ViewBag.id = id;
                 return View(sponsor);
@@ -272,7 +265,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Sponsor showsponsor = sponsorManager.GetOneSponsor(id);
                 return View(showsponsor);
             }
@@ -287,7 +279,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 sponsorManager.DeleteSponsor(id);
                 return RedirectToAction("Index");
             }

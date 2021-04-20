@@ -12,28 +12,17 @@
 </div>
 <br />
 <br />
-@if (ViewBag.env == "offline")
-{
-    <div class="text-center">
-        <h3 style="color:red">
-            @Localizer["You are currently"] @ViewBag.env.
-        </h3>
-    </div>
-}
 <br />
-<head>
-    <style>
 
-        .i-circle {
-            background: #ff0000;
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 50%;
-            font-size: 15px;
-        }
-    </style>
-</head>
 <style>
+
+    .i-circle {
+        background: #ff0000;
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 50%;
+        font-size: 15px;
+    }
 
     .button {
         display: inline-block;
@@ -54,14 +43,14 @@
     <div class="row">
         <div class="col-md-4 col-sm-12">
             <a href="../Volunteer/Birthday" style="text-decoration:none">
-                <img src="~/Resources/poza5.jpg"  width="70%" height="70%" />
+                <img src="~/Resources/poza5.jpg" width="70%" height="70%" />
                 <span class="i-circle"> @nrbd</span><div class="card-img-overlay "> </div>
                 <p style="font-family:'Arial Black';">@Localizer["Volunteers : Birthday Alert"]</p>
             </a>
         </div>
         <div class="col-md-4 col-sm-12">
             <a href="../Volcontract/ContractExp" style="text-decoration:none">
-                <img src="~/Resources/poza3.jpg"  width="70%" height="70%" />
+                <img src="~/Resources/poza3.jpg" width="70%" height="70%" />
                 <span class="i-circle"> @nrvc</span><div class="card-img-overlay "></div>
                 <p style="font-family:'Arial Black';">@Localizer["Volunteers : Contract Alert"]</p>
             </a>
@@ -74,23 +63,18 @@
             </a>
         </div>
         <div class="col-md-4 col-sm-12">
-            <a href="../Beneficiarycontract/ContractExp" style="text-decoration:none"> 
+            <a href="../Beneficiarycontract/ContractExp" style="text-decoration:none">
                 <img src="~/Resources/poza1.jpg" width="70%" height="70%" />
                 <span class="i-circle"> @nrbc</span><div class="card-img-overlay "></div>
                 <p style="font-family:'Arial Black';">@Localizer["Beneficiaries : Contract Alert"]</p>
             </a>
         </div>
-        @if (ViewBag.env != "offline")
-        {
 
-
-            <div class="col-md-4 col-sm-12">
-                <a href="../DatabaseManagement/Servermanagement" style="text-decoration:none">
-                    <img src="~/Resources/bup.jpg" width="70%" height="70%" />
-                    <p style="font-family:'Arial Black';">   @Localizer["Backupdata"]</p>
-                </a>
-            </div>
-        }
+        <div class="col-md-4 col-sm-12">
+            <a href="../DatabaseManagement/Servermanagement" style="text-decoration:none">
+                <img src="~/Resources/bup.jpg" width="70%" height="70%" />
+                <p style="font-family:'Arial Black';">   @Localizer["Servermanagement"]</p>
+            </a>
+        </div>
     </div>
 </div>
-

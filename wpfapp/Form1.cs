@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Windows;
 using System.Windows.Forms;
 using Xceed.Words.NET;
 
@@ -15,7 +14,6 @@ namespace wpfapp
     public partial class Form1 : Form
     {
         private string filename;
-        
 
         public Form1()
         {
@@ -122,7 +120,6 @@ namespace wpfapp
                         filename = saveFileDialog1.FileName;
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
-                       
                     }
                     else
                     {
@@ -169,8 +166,6 @@ namespace wpfapp
                         filename = saveFileDialog1.FileName;
                         richTextBox2.Text = saveFileDialog1.FileName;
                         richTextBox3.Text = "File Saved succesfully";
-                       
-                        
                     }
                 }
             }
@@ -179,9 +174,8 @@ namespace wpfapp
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 richTextBox2.Text = saveFileDialog1.FileName;
                 richTextBox3.Text = "an error has occured";
-                
             }
-           
+
             PanelVisibility(richTextBox3.Text);
         }
 
@@ -263,20 +257,13 @@ namespace wpfapp
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            
-                
-                System.Diagnostics.Process.Start(filename);
-            
+            System.Diagnostics.Process.Start(filename);
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-           
-                
-                   string my_directory = Path.GetDirectoryName(filename);
-                Process.Start(my_directory);
-            
-            
+            string my_directory = Path.GetDirectoryName(filename);
+            Process.Start(my_directory);
         }
 
         private void PanelVisibility(string message)
@@ -288,9 +275,9 @@ namespace wpfapp
             else
             { panel2.Hide(); }
         }
+
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
         }
     }
 }

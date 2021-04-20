@@ -192,7 +192,6 @@
                     if (!new RegExp(expectedTypes).test(valueType)) {
                         throw new
 
-
                             (componentName.toUpperCase() + ": " + ("Option \"" + property + "\" provided type \"" + valueType + "\" ") + ("but expected type \"" + expectedTypes + "\"."));
                     }
                 }
@@ -2193,8 +2192,8 @@
             return _extends({
                 key: key
             }, rects[key], {
-                    area: getArea(rects[key])
-                });
+                area: getArea(rects[key])
+            });
         }).sort(function (a, b) {
             return b.area - a.area;
         });

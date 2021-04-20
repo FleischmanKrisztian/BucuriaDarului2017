@@ -1,10 +1,10 @@
 ﻿using Finalaplication.Common;
+using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
-using System.Globalization;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {
@@ -34,7 +34,7 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
 
         public static bool File_is_not_empty(IFormFile file)
         {
-            if (file.Length > 0)
+            if (file!= null || file.Length > 0)
                 return true;
             else
                 return false;
@@ -66,6 +66,66 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             {
                 return VolMongoConstants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
             }
+        }
+
+        internal static dynamic GetNumberOfExpiringBeneficiaryContracts(List<Beneficiarycontract> beneficiarycontracts)
+        {
+            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
+            int beneficiaryContractsCounter = 0;
+            foreach (var item in beneficiarycontracts)
+            {
+                int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
+                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
+                {
+                    beneficiaryContractsCounter++;
+                }
+            }
+            return beneficiaryContractsCounter;
+        }
+
+        internal static dynamic GetNumberOfExpiringSponsorContracts(List<Sponsor> sponsors)
+        {
+            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
+            int sponsorContractsCounter = 0;
+            foreach (var item in sponsors)
+            {
+                int daytocompare = UniversalFunctions.GetDayOfYear(item.Contract.ExpirationDate);
+                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
+                {
+                    sponsorContractsCounter++;
+                }
+            }
+            return sponsorContractsCounter;
+        }
+
+        internal static dynamic GetNumberOfExpiringVolContracts(List<Volcontract> volcontracts)
+        {
+            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
+            int volunteerContractsCounter = 0;
+            foreach (var item in volcontracts)
+            {
+                int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
+                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
+                {
+                    volunteerContractsCounter++;
+                }
+            }
+            return volunteerContractsCounter;
+        }
+
+        internal static int GetNumberOfVolunteersWithBirthdays(List<Volunteer> volunteers)
+        {
+            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
+            int birthdayCounter = 0;
+            foreach (var item in volunteers)
+            {
+                int volbdday = UniversalFunctions.GetDayOfYear(item.Birthdate);
+                if (UniversalFunctions.IsAboutToExpire(currentday, volbdday))
+                {
+                    birthdayCounter++;
+                }
+            }
+            return birthdayCounter;
         }
 
         internal static int GetCurrentPage(int page)

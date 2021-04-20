@@ -4,7 +4,7 @@ using Finalaplication.ControllerHelpers.EventHelpers;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.DatabaseHandler;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using EventManager = Finalaplication.DatabaseHandler.EventManager;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -32,14 +31,12 @@ namespace Finalaplication.Controllers
 
         public ActionResult FileUpload()
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
                 string path = " ";
@@ -105,7 +102,6 @@ namespace Finalaplication.Controllers
                 ViewBag.Sponsor = searchingSponsor;
                 ViewBag.Upperdate = upperdate;
                 ViewBag.Lowerdate = lowerdate;
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.nrofdocs = nrofdocs;
                 ViewBag.stringofids = stringofids;
@@ -125,7 +121,6 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_EVENT);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_EVENT;
             HttpContext.Session.SetString(key, ids);
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
@@ -149,7 +144,6 @@ namespace Finalaplication.Controllers
             {
                 page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.Page = page;
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 ViewBag.counter = volunteers.Count();
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
@@ -175,7 +169,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 volunteers = VolunteerFunctions.GetVolunteersByIds(volunteers, volunteerids);
                 Event eventtoallocateto = eventManager.GetOneEvent(Evid);
@@ -197,7 +190,6 @@ namespace Finalaplication.Controllers
             {
                 page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.Page = page;
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
                 ViewBag.counter = sponsors.Count();
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
@@ -221,7 +213,6 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult SponsorAllocation(string[] sponsorids, string Evid)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
@@ -242,7 +233,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Event detailedevent = eventManager.GetOneEvent(id);
                 return View(detailedevent);
             }
@@ -256,7 +246,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
@@ -280,6 +269,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("Duration");
                 if (ModelState.IsValid)
                 {
+                    incomingevent._id = Guid.NewGuid().ToString();
                     incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
                     eventManager.AddEventToDB(incomingevent);
                     return RedirectToAction("Index");
@@ -300,7 +290,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Event ourevent = eventManager.GetOneEvent(id);
                 ViewBag.id = id;
                 return View(ourevent);
@@ -316,7 +305,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 string eventasstring = JsonConvert.SerializeObject(incomingevent);
                 if (UniversalFunctions.ContainsSpecialChar(eventasstring))
                 {
@@ -349,7 +337,6 @@ namespace Finalaplication.Controllers
             try
             {
                 Event eventtoshow = eventManager.GetOneEvent(id);
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View(eventtoshow);
             }
             catch
@@ -363,7 +350,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 eventManager.DeleteAnEvent(id);
                 return RedirectToAction("Index");
             }

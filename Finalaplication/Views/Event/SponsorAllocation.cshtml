@@ -66,7 +66,8 @@
 </h2>
 @using (Html.BeginForm("/", "Event/SponsorAllocation/" + evid, FormMethod.Get))
 {
-    @Html.TextBox("searching")<input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
+    @Html.TextBox("searching")
+    <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
     <p>
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
@@ -165,7 +166,7 @@
                     @if (strname.Contains(item.NameOfSponsor))
                     {
                         <td>
-                            <input type="checkbox" checked="checked" name="sponsorids" value="@item.SponsorID" />
+                            <input type="checkbox" checked="checked" name="sponsorids" value="@item._id" />
                         </td>
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />
@@ -174,7 +175,7 @@
                     else
                     {
                         <td>
-                            <input type="checkbox" name="sponsorids" value="@item.SponsorID" />
+                            <input type="checkbox" name="sponsorids" value="@item._id" />
                         </td>
                         <td>
                             <input type="hidden" name="Evid" value="@ViewBag.Evid" />

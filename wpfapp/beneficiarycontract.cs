@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wpfapp
 {
-    class beneficiarycontract
+    internal class beneficiarycontract
     {
-        public string ContractID { get; set; }
+        public string _id { get; set; }
         public string OwnerID { get; set; }
         public string Fullname { get; set; }
         public string CNP { get; set; }
@@ -24,7 +20,5 @@ namespace wpfapp
         public string IdApplication { get; set; }
         public string ContractOption { get; set; }
         public string myOption { get; set; }
-
-
     }
 }

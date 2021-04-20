@@ -11,10 +11,10 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
     {
         internal static string GetStringOfIds(List<Volunteer> volunteers)
         {
-            string stringofids = "vol";
+            string stringofids = "volunteerCSV";
             foreach (Volunteer vol in volunteers)
             {
-                stringofids = stringofids + "," + vol.VolunteerID;
+                stringofids = stringofids + "," + vol._id;
             }
             return stringofids;
         }
@@ -40,7 +40,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             List<Volunteer> volunteerlist = new List<Volunteer>();
             for (int i = 0; i < vols.Length; i++)
             {
-                Volunteer singlevolunteer = volunteers.Where(x => x.VolunteerID == vols[i]).First();
+                Volunteer singlevolunteer = volunteers.Where(x => x._id == vols[i]).First();
                 volunteerlist.Add(singlevolunteer);
             }
             return volunteerlist;
@@ -80,6 +80,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
         internal static Volunteer GetVolunteerFromOtherString(string[] volunteerstring)
         {
             Volunteer volunteer = new Volunteer();
+            volunteer._id = Guid.NewGuid().ToString();
             volunteer.Fullname = volunteerstring[0];
 
             if (volunteerstring[1] != null || volunteerstring[1] != "")
@@ -180,6 +181,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
         internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
         {
             Volunteer volunteer = new Volunteer();
+            volunteer._id = Guid.NewGuid().ToString();
             volunteer.Fullname = volunteerstring[0];
             try
             {
@@ -221,20 +223,21 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             {
                 address.Number = "-";
             }
+            volunteer.Address = address;
             try
             {
                 if (volunteerstring[6] == "1")
                 {
-                    volunteer.Gender = VolCommon.Gender.Female;
+                    volunteer.Gender = Gender.Female;
                 }
                 else
                 {
-                    volunteer.Gender = VolCommon.Gender.Male;
+                    volunteer.Gender = Gender.Male;
                 }
             }
             catch
             {
-                volunteer.Gender = VolCommon.Gender.Male;
+                volunteer.Gender = Gender.Male;
             }
             volunteer.Desired_workplace = volunteerstring[7];
             volunteer.CNP = volunteerstring[8];

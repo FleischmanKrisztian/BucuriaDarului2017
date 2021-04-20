@@ -10,11 +10,12 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
         internal static Event GetEventFromString(string[] eventstring)
         {
             Event newevent = new Event();
+            newevent._id = Guid.NewGuid().ToString();
             newevent.NameOfEvent = eventstring[0];
             newevent.PlaceOfEvent = eventstring[1];
             try
             {
-            newevent.DateOfEvent = Convert.ToDateTime(eventstring[2]);
+                newevent.DateOfEvent = Convert.ToDateTime(eventstring[2]);
             }
             catch
             {
@@ -23,7 +24,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             }
             try
             {
-            newevent.NumberOfVolunteersNeeded = Convert.ToInt32(eventstring[3]);
+                newevent.NumberOfVolunteersNeeded = Convert.ToInt32(eventstring[3]);
             }
             catch
             {
@@ -38,7 +39,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             return newevent;
         }
 
-        internal static List <Event> GetEventsAfterFilters(List<Event> events, string searching, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        internal static List<Event> GetEventsAfterFilters(List<Event> events, string searching, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerdate, DateTime upperdate)
         {
             if (searching != null)
             {
@@ -123,10 +124,10 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
 
         internal static string GetStringOfIds(List<Event> events)
         {
-            string stringofids = "events";
+            string stringofids = "eventCSV";
             foreach (Event eve in events)
             {
-                stringofids = stringofids + "," + eve.EventID;
+                stringofids = stringofids + "," + eve._id;
             }
             return stringofids;
         }
@@ -157,20 +158,20 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
 
         internal static string GetAllocatedVolunteersString(List<Event> events, string id)
         {
-            Event returnedevent = events.Find(b => b.EventID.ToString() == id);
+            Event returnedevent = events.Find(b => b._id.ToString() == id);
             returnedevent.AllocatedVolunteers += " / ";
             return returnedevent.AllocatedVolunteers;
         }
 
         internal static string GetNameOfEvent(List<Event> events, string id)
         {
-            Event returnedevent = events.Find(b => b.EventID.ToString() == id);
+            Event returnedevent = events.Find(b => b._id.ToString() == id);
             return returnedevent.NameOfEvent;
         }
 
         internal static dynamic GetAllocatedSponsorsString(List<Event> events, string id)
         {
-            Event returnedevent = events.Find(b => b.EventID.ToString() == id);
+            Event returnedevent = events.Find(b => b._id.ToString() == id);
             returnedevent.AllocatedSponsors += " / ";
             return returnedevent.AllocatedSponsors;
         }
@@ -180,7 +181,7 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             if (AllocatedVolunteers != null)
             {
                 string[] split = AllocatedVolunteers.Split(" / ");
-                return split.Count()-1;
+                return split.Count() - 1;
             }
             return 0;
         }

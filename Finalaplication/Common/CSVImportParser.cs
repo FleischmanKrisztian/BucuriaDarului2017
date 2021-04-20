@@ -67,8 +67,6 @@ namespace Elm.Core.Parsers
             return SeparatorChars[0];
         }
 
-
-
         public static string[] GetHeader(string filename)
         {
             string firstLine;
@@ -102,6 +100,7 @@ namespace Elm.Core.Parsers
             }
             return type;
         }
+
         public static List<string[]> GetListFromCSV(string filename)
         {
             List<string[]> list = new List<string[]>();
@@ -180,9 +179,5 @@ namespace Elm.Core.Parsers
         }
 
         #endregion private functions
-
-        #region public functions
-
-        #endregion public functions
     }
 }

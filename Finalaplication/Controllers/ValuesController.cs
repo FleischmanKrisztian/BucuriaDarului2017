@@ -1,7 +1,7 @@
 ﻿using Finalaplication.App_Start;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -11,16 +11,13 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private MongoDBContext dbcontext;
-        private IMongoCollection<Volcontract> volcontractcollection;
+        private VolContractManager volContractManager = new VolContractManager();
 
         [HttpGet("{id}", Name = "GetExcelparams")]
         public string Get(string id)
         {
             string jsonstring;
-            dbcontext = new MongoDBContext();
-            volcontractcollection = dbcontext.database.GetCollection<Volcontract>("Contracts");
-            var volcontract = volcontractcollection.AsQueryable().Where(z => z.ContractID == id);
+            var volcontract = volContractManager.GetVolunteerContract(id);
             jsonstring = JsonConvert.SerializeObject(volcontract);
             return jsonstring;
         }

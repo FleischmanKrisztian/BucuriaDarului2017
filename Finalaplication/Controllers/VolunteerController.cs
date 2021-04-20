@@ -2,13 +2,11 @@
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.DatabaseHandler;
-using Finalaplication.DatabaseManager;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,14 +28,12 @@ namespace Finalaplication.Controllers
 
         public ActionResult FileUpload()
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
         [HttpPost]
         public ActionResult FileUpload(IFormFile Files)
         {
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             try
             {
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
@@ -129,7 +125,6 @@ namespace Finalaplication.Controllers
                 { ViewBag.Filter13 = lowerdate.ToString(); }
                 if (upperdate != date)
                 { ViewBag.Filter14 = upperdate.ToString(); }
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.searchedFullname = searchedFullname;
                 ViewBag.active = Active;
@@ -168,7 +163,6 @@ namespace Finalaplication.Controllers
             HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_VOLUNTEER);
             string key = VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER;
             HttpContext.Session.SetString(key, ids);
-            ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
             return View();
         }
 
@@ -204,7 +198,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return RedirectToAction("Index", "Volcontract", new { idofvol = id });
             }
             catch
@@ -217,7 +210,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 Volunteer volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
@@ -232,7 +224,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 return View();
             }
             catch
@@ -246,7 +237,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
@@ -256,6 +246,7 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("CIEliberat");
                 if (ModelState.IsValid)
                 {
+                    volunteer._id = Guid.NewGuid().ToString();
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteer.Image = UniversalFunctions.Addimage(image);
                     volunteerManager.AddVolunteerToDB(volunteer);
@@ -277,7 +268,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 ViewBag.id = id;
                 return View(volunteer);
@@ -293,7 +283,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
                 {
                     ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
@@ -324,7 +313,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 return View(volunteer);
             }
@@ -339,7 +327,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var volunteer = volunteerManager.GetOneVolunteer(id);
                 if (Inactive == false)
                 {

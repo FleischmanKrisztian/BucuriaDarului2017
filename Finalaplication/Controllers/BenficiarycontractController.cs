@@ -1,12 +1,10 @@
-﻿using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
+﻿using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseManager;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,12 +14,6 @@ namespace Finalaplication.Controllers
     {
         private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
-        private readonly IStringLocalizer<BeneficiarycontractController> _localizer;
-
-        public BeneficiarycontractController(IStringLocalizer<BeneficiarycontractController> localizer)
-        {
-            _localizer = localizer;
-        }
 
         [HttpGet]
         public IActionResult Index(string idofbeneficiary)
@@ -29,7 +21,6 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 List<Beneficiarycontract> benficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
                 Beneficiary benenficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);
                 benficiarycontracts = benficiarycontracts.Where(z => z.OwnerID.ToString() == idofbeneficiary).ToList();
@@ -62,7 +53,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 ViewBag.idofbeneficiary = id;
                 return View();
             }
@@ -82,6 +72,7 @@ namespace Finalaplication.Controllers
                     if (ModelState.IsValid)
                     {
                         Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);
+                        benenficiarycontract._id = Guid.NewGuid().ToString();
                         benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
                         benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
@@ -92,7 +83,6 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.NumberOfPortion = beneficiary.NumberOfPortions.ToString();
                         benenficiarycontract.IdApplication = beneficiary.Marca.IdAplication;
                         benenficiarycontract.IdInvestigation = beneficiary.Marca.IdInvestigation;
-
                         benenficiarycontract.Address = beneficiary.Adress;
                         benenficiarycontract.OwnerID = idofbeneficiary;
                         beneficiaryContractManager.AddBeneficiaryContractToDB(benenficiarycontract);
@@ -116,7 +106,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
 
                 return View(contract);
@@ -132,8 +121,6 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
-                var contractid = new ObjectId(id);
                 var contract = beneficiaryContractManager.GetBeneficiaryContract(id);
                 return View(contract);
             }
@@ -148,9 +135,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                ViewBag.env = TempData.Peek(VolMongoConstants.CONNECTION_ENVIRONMENT);
                 beneficiaryContractManager.DeleteBeneficiaryContract(id);
-
                 return RedirectToAction("Index", new { idofbeneficiary });
             }
             catch

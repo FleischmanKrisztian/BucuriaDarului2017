@@ -16,6 +16,7 @@ namespace VolCommon
         public DateTime CIEliberat { get; set; }
 
         public string CIeliberator { get; set; }
+
         public string CIinfo { get; set; }
 
         [DataType(DataType.Date)]

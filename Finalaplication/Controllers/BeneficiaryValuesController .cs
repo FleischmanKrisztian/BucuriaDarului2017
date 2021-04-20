@@ -1,9 +1,6 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Models;
+﻿using Finalaplication.LocalDatabaseManager;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -11,16 +8,13 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class BeneficiaryValuesController : ControllerBase
     {
-        private MongoDBContext dbcontext;
-        private IMongoCollection<Beneficiarycontract> beneficiarycontractcollection;
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
 
         [HttpGet("{id}", Name = "Getbeneficiary")]
         public string Get(string id)
         {
             string jsonstring;
-            dbcontext = new MongoDBContext();
-            beneficiarycontractcollection = dbcontext.database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            var beneficiarycontract = beneficiarycontractcollection.AsQueryable().Where(z => z.ContractID == id);
+            var beneficiarycontract = beneficiaryContractManager.GetBeneficiaryContract(id);
             jsonstring = JsonConvert.SerializeObject(beneficiarycontract);
             return jsonstring;
         }

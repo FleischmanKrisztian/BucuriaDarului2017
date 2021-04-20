@@ -1,5 +1,4 @@
-﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.Models;
+﻿using Finalaplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +10,10 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
     {
         internal static string GetStringOfIds(List<Beneficiary> beneficiaries)
         {
-            string stringofids = "beneficiary";
+            string stringofids = "beneficiaryCSV";
             foreach (Beneficiary beneficiary in beneficiaries)
             {
-                stringofids = stringofids + "," + beneficiary.BeneficiaryID;
+                stringofids = stringofids + "," + beneficiary._id;
             }
             return stringofids;
         }
@@ -40,7 +39,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             List<Beneficiary> beneficiarylist = new List<Beneficiary>();
             for (int i = 0; i < beneficiaryids.Length; i++)
             {
-                Beneficiary singlebeneficiary = beneficiaries.Where(x => x.BeneficiaryID == beneficiaryids[i]).First();
+                Beneficiary singlebeneficiary = beneficiaries.Where(x => x._id == beneficiaryids[i]).First();
                 beneficiarylist.Add(singlebeneficiary);
             }
             return beneficiarylist;
@@ -60,7 +59,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
         internal static Beneficiary GetBeneficiaryFromOtherString(string[] beneficiarystring)
         {
             Beneficiary beneficiary = new Beneficiary();
-
+            beneficiary._id = Guid.NewGuid().ToString();
             try
             {
                 beneficiary.Fullname = beneficiarystring[1];
@@ -271,11 +270,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[41] == "1" || beneficiarystring[41] == "True")
             {
-                personal.Gender = VolCommon.Gender.Female;
+                personal.Gender = Gender.Female;
             }
             else
             {
-                personal.Gender = VolCommon.Gender.Male;
+                personal.Gender = Gender.Male;
             }
             if (beneficiarystring[42] != null)
             {
@@ -336,9 +335,10 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
         public static Beneficiary GetBeneficiaryFromString(string[] beneficiarystring)
         {
-            Beneficiary beneficiary = new Beneficiary
+            Beneficiary beneficiary = new Beneficiary();
+            beneficiary._id = Guid.NewGuid().ToString();
             {
-                HasGDPRAgreement = false
+                beneficiary.HasGDPRAgreement = false;
             };
             try
             {
@@ -572,11 +572,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             {
                 if (beneficiarystring[42] == "F" || beneficiarystring[42] == "f")
                 {
-                    personal.Gender = VolCommon.Gender.Female;
+                    personal.Gender = Gender.Female;
                 }
                 else
                 {
-                    personal.Gender = VolCommon.Gender.Male;
+                    personal.Gender = Gender.Male;
                 }
 
                 beneficiary.Comments = beneficiarystring[22];
@@ -713,7 +713,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             if (PhoneNumber == true)
                 ids_and_options = ids_and_options + "F";
             if (BirthPlace == true)
-                ids_and_options = ids_and_options + "G";
+                ids_and_options += "G";
             if (Studies == true)
                 ids_and_options = ids_and_options + "H";
             if (Profesion == true)

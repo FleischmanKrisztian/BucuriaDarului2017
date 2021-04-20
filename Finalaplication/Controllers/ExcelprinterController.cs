@@ -1,8 +1,7 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Common;
+﻿using Finalaplication.Common;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -12,17 +11,14 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class ExcelprinterController : ControllerBase
     {
-        private MongoDBContext dbcontext;
-        private IMongoCollection<Volunteer> volunteerscollection;
-        private IMongoCollection<Event> eventscollection;
-        private IMongoCollection<Sponsor> sponsorcollection;
-        private IMongoCollection<Beneficiary> benefeciarycollection;
+        private EventManager eventManager = new EventManager();
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
+        private SponsorManager sponsorManager = new SponsorManager();
+        private VolunteerManager volunteerManager = new VolunteerManager();
 
-        // GET: api/Excelprinter
         [HttpGet("{keys}", Name = "Get")]
         public string Get(string keys)
         {
-            dbcontext = new MongoDBContext();
             string ids_ = string.Empty;
             string header = string.Empty;
             string key1 = string.Empty;
@@ -39,31 +35,30 @@ namespace Finalaplication.Controllers
 
             string[] finalHeader = new string[45];
             if (header != null)
-            { 
-                finalHeader = ControllerHelper.SplitedHeader(header); 
+            {
+                finalHeader = ControllerHelper.SplitedHeader(header);
             }
 
             string jsonstring = "";
 
-            string[] ids = ids_.Split(",");
-            if (ids[0].Contains("sponsors"))
+            string[] auxstring = ids_.Split("(((");
+            string properties = auxstring[1];
+            string[] ids = auxstring[0].Split(",");
+
+            if (ids[0].Contains("sponsorCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                sponsorcollection = dbcontext.database.GetCollection<Sponsor>("Sponsors");
+                var sponsorcollection = sponsorManager.GetListOfSponsors();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
                     {
-                        var sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]);
+                        var sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
-                        var aux = jsonstring.IndexOf("SponsorID");
-                        jsonstring = jsonstring.Remove(aux - 1, 39);
                     }
                     else
                     {
                         bool first = true;
-                        Sponsor sponsor = sponsorcollection.AsQueryable().Where(z => z.SponsorID == ids[i]).First();
+                        Sponsor sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -151,24 +146,20 @@ namespace Finalaplication.Controllers
                     }
                 }
             }
-            else if (ids[0].Contains("beneficiaries"))
+            else if (ids[0].Contains("beneficiaryCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                benefeciarycollection = dbcontext.database.GetCollection<Beneficiary>("Beneficiaries");
+                var benefeciarycollection = beneficiaryManager.GetListOfBeneficiaries();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
                     {
-                        var beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]);
+                        var beneficiary = benefeciarycollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(beneficiary);
-                        var aux = jsonstring.IndexOf("BeneficiaryID");
-                        jsonstring = jsonstring.Remove(aux - 1, 43);
                     }
                     else
                     {
                         bool first = true;
-                        Beneficiary beneficiary = benefeciarycollection.AsQueryable().Where(z => z.BeneficiaryID == ids[i]).First();
+                        Beneficiary beneficiary = benefeciarycollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -489,24 +480,20 @@ namespace Finalaplication.Controllers
                     }
                 }
             }
-            else if (ids[0].Contains("volunteers"))
+            else if (ids[0].Contains("volunteerCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                volunteerscollection = dbcontext.database.GetCollection<Volunteer>("Volunteers");
+                var volunteerscollection = volunteerManager.GetListOfVolunteers();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
                     {
-                        var volunteer = volunteerscollection.AsQueryable().Where(z => z.VolunteerID == ids[i]);
+                        var volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
-                        var aux = jsonstring.IndexOf("VolunteerID");
-                        jsonstring = jsonstring.Remove(aux - 1, 41);
                     }
                     else
                     {
                         bool first = true;
-                        Volunteer volunteer = volunteerscollection.AsQueryable().Where(z => z.VolunteerID == ids[i]).First();
+                        Volunteer volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -651,24 +638,20 @@ namespace Finalaplication.Controllers
                     }
                 }
             }
-            else if (ids[0].Contains("events"))
+            else if (ids[0].Contains("eventCSV"))
             {
-                string properties = ids[ids.Length - 1].Substring(27);
-                ids[ids.Length - 1] = ids[ids.Length - 1].Substring(0, 24);
-                eventscollection = dbcontext.database.GetCollection<Event>("Events");
+                var eventscollection = eventManager.GetListOfEvents();
                 for (int i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
                     {
-                        var eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]);
+                        var eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
-                        var aux = jsonstring.IndexOf("EventID");
-                        jsonstring = jsonstring.Remove(aux - 1, 37);
                     }
                     else
                     {
                         bool first = true;
-                        Event eventt = eventscollection.AsQueryable().Where(z => z.EventID == ids[i]).First();
+                        Event eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {

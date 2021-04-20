@@ -1,19 +1,16 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Finalaplication.Models
 {
     public class Beneficiarycontract
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string ContractID { get; set; }
+        public string _id { get; set; }
 
         public string OwnerID { get; set; }
 
         public string Fullname { get; set; }
+
         public string NumberOfPortion { get; set; }
 
         public string CNP { get; set; }
@@ -21,6 +18,7 @@ namespace Finalaplication.Models
         public string Address { get; set; }
 
         public string Nrtel { get; set; }
+
         public string CIinfo { get; set; }
 
         [DataType(DataType.Date)]
@@ -38,7 +36,7 @@ namespace Finalaplication.Models
         public DateTime ExpirationDate { get; set; }
 
         public string IdInvestigation { get; set; }
-        public string IdApplication { get; set; }
 
+        public string IdApplication { get; set; }
     }
 }
