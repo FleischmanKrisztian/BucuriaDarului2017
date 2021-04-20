@@ -178,6 +178,13 @@ namespace Finalaplication.Controllers
             List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
             string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
 
+            string volstring = JsonConvert.SerializeObject(volunteers);
+            string eventstring = JsonConvert.SerializeObject(events);
+            string benefieciarystring = JsonConvert.SerializeObject(beneficiaries);
+            string sponsorstring = JsonConvert.SerializeObject(sponsors);
+            string volcontractstring = JsonConvert.SerializeObject(volcontracts);
+            string benefcontractstring = JsonConvert.SerializeObject(beneficiarycontracts);
+
             string localvols = JsonConvert.SerializeObject(volunteerslocal);
             string localevents = JsonConvert.SerializeObject(eventslocal);
             string localbenefieciaries = JsonConvert.SerializeObject(beneficiarieslocal);
@@ -185,12 +192,17 @@ namespace Finalaplication.Controllers
             string localvolcontrcarts = JsonConvert.SerializeObject(volcontractslocal);
             string localbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontractslocal);
 
-            for (int i = 0; i < volunteers.Count(); i++)
+            for (int i = 0; i < volunteers.Count(); i++) 
             {
                 if (!(localvols.Contains(volunteers[i]._id)))
                     volunteerManager.AddVolunteerToDB(volunteers[i]);
                 else if (!modifiedids.Contains(volunteers[i]._id))
                     volunteerManager.UpdateAVolunteer(volunteers[i], volunteers[i]._id);
+            }
+            for (int i = 0; i < volunteerslocal.Count(); i++) 
+            {
+                if (!volstring.Contains(volunteerslocal[i]._id))
+                    volunteerManager.DeleteAVolunteer(volunteerslocal[i]._id);
             }
 
             for (int i = 0; i < events.Count(); i++)
@@ -200,6 +212,11 @@ namespace Finalaplication.Controllers
                 else if (!modifiedids.Contains(events[i]._id))
                     eventManager.UpdateAnEvent(events[i], events[i]._id);
             }
+            for (int i = 0; i < eventslocal.Count(); i++)
+            {
+                if (!eventstring.Contains(eventslocal[i]._id))
+                    eventManager.DeleteAnEvent(eventslocal[i]._id);
+            }
 
             for (int i = 0; i < beneficiaries.Count(); i++)
             {
@@ -207,6 +224,11 @@ namespace Finalaplication.Controllers
                     beneManager.AddBeneficiaryToDB(beneficiaries[i]);
                 else if (!modifiedids.Contains(beneficiaries[i]._id))
                     beneManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
+            }
+            for (int i = 0; i < beneficiarieslocal.Count(); i++)
+            {
+                if (!benefieciarystring.Contains(beneficiarieslocal[i]._id))
+                    beneManager.DeleteBeneficiary(beneficiarieslocal[i]._id);
             }
 
             for (int i = 0; i < sponsors.Count(); i++)
@@ -216,6 +238,11 @@ namespace Finalaplication.Controllers
                 else if (!modifiedids.Contains(sponsors[i]._id))
                     sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id);
             }
+            for (int i = 0; i < sponsorslocal.Count(); i++)
+            {
+                if (!sponsorstring.Contains(sponsorslocal[i]._id))
+                    sponsorManager.DeleteSponsor(sponsorslocal[i]._id);
+            }
 
             for (int i = 0; i < volcontracts.Count(); i++)
             {
@@ -224,6 +251,12 @@ namespace Finalaplication.Controllers
                 else if (!modifiedids.Contains(volcontracts[i]._id))
                     volContractManager.UpdateVolunteerContract(volcontracts[i], volcontracts[i]._id);
             }
+            for (int i = 0; i < volcontractslocal.Count(); i++)
+            {
+                if (!volcontractstring.Contains(volcontractslocal[i]._id))
+                    volContractManager.DeleteAVolContract(volcontractslocal[i]._id);
+            }
+
             for (int i = 0; i < beneficiarycontracts.Count(); i++)
             {
                 if (!(localbeneficiarycontrcarts.Contains(beneficiarycontracts[i]._id)))
@@ -231,6 +264,13 @@ namespace Finalaplication.Controllers
                 else if (!modifiedids.Contains(beneficiarycontracts[i]._id))
                     beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i]._id);
             }
+            for (int i = 0; i < beneficiarycontractslocal.Count(); i++)
+            {
+                if (!benefcontractstring.Contains(beneficiarycontractslocal[i]._id))
+                    beneficiaryContractManager.DeleteBeneficiaryContract(beneficiarycontractslocal[i]._id);
+            }
+
+            modifiedDocumentManager.DeleteAuxiliaryDatabases();
             return RedirectToAction("Servermanagement");
         }
 

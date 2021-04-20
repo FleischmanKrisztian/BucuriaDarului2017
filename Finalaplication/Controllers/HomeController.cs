@@ -1,10 +1,8 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Common;
+﻿using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 
 namespace Finalaplication.Controllers
