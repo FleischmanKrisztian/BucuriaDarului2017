@@ -1,7 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 
 namespace Finalaplication.LocalDatabaseManager
@@ -10,22 +9,15 @@ namespace Finalaplication.LocalDatabaseManager
     {
         private MongoDBContext dBContext;
 
-        public VolunteerManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
+        public VolunteerManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
-            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            dBContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
         internal void AddVolunteerToDB(Volunteer volunteer)
         {
             IMongoCollection<Volunteer> volunteercollection = dBContext.Database.GetCollection<Volunteer>("Volunteers");
-            try
-            {
-                volunteercollection.InsertOne(volunteer);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Volunteer!");
-            }
+            volunteercollection.InsertOne(volunteer);
         }
 
         internal Volunteer GetOneVolunteer(string id)

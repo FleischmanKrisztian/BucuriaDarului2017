@@ -23,15 +23,8 @@ namespace Finalaplication.DatabaseManager
         internal void AddSettingsToDB(Settings settings)
         {
             IMongoCollection<Settings> settingcollection = dBContext.Database.GetCollection<Settings>("Settings");
-            try
-            {
-                settings._id = Guid.NewGuid().ToString();
-                settingcollection.InsertOne(settings);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Settings");
-            }
+            settings._id = Guid.NewGuid().ToString();
+            settingcollection.InsertOne(settings);
         }
 
         internal void UpdateSettings(Settings settingtoupdate)

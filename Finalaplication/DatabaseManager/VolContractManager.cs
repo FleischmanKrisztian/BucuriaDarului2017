@@ -1,7 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 
 namespace Finalaplication.LocalDatabaseManager
@@ -10,9 +9,9 @@ namespace Finalaplication.LocalDatabaseManager
     {
         private MongoDBContext dBContext;
 
-        public VolContractManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
+        public VolContractManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
-            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            dBContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
         internal void DeleteAVolunteersContracts(string id)
@@ -30,14 +29,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddVolunteerContractToDB(Volcontract contract)
         {
             IMongoCollection<Volcontract> volcontractcollection = dBContext.Database.GetCollection<Volcontract>("Contracts");
-            try
-            {
-                volcontractcollection.InsertOne(contract);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Sponsor");
-            }
+            volcontractcollection.InsertOne(contract);
         }
 
         internal Volcontract GetVolunteerContract(string id)

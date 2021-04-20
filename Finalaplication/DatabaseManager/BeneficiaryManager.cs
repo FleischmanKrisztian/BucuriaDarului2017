@@ -1,7 +1,6 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,22 +10,15 @@ namespace Finalaplication.LocalDatabaseManager
     {
         public MongoDBContext dBContext;
 
-        public BeneficiaryManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
+        public BeneficiaryManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
-            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            dBContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
         internal void AddBeneficiaryToDB(Beneficiary beneficiary)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            try
-            {
-                beneficiarycollection.InsertOne(beneficiary);
-            }
-            catch
-            {
-                Console.WriteLine("There was an error adding Beneficiary!");
-            }
+            beneficiarycollection.InsertOne(beneficiary);
         }
 
         internal Beneficiary GetOneBeneficiary(string id)
