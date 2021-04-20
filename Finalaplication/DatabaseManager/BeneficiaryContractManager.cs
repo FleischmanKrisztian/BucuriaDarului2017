@@ -9,6 +9,7 @@ namespace Finalaplication.LocalDatabaseManager
     public class BeneficiaryContractManager
     {
         private MongoDBContext dBContext;
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         public BeneficiaryContractManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
@@ -18,6 +19,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddBeneficiaryContractToDB(Beneficiarycontract beneficiarycontract)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            modifiedDocumentManager.AddIDtoString(beneficiarycontract._id);
             benecontractcollection.InsertOne(beneficiarycontract);
         }
 
@@ -36,22 +38,18 @@ namespace Finalaplication.LocalDatabaseManager
             return contracts;
         }
 
-        internal void UpdateBeneficiaryContract(FilterDefinition<Beneficiarycontract> filter, UpdateDefinition<Beneficiarycontract> contract_toupdate)
-        {
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
-            benecontractcollection.UpdateOne(filter, contract_toupdate);
-        }
-
         internal void UpdateBeneficiaryContract(Beneficiarycontract contractupdate, string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             var filter = Builders<Beneficiarycontract>.Filter.Eq("_id", id);
             contractupdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             benecontractcollection.FindOneAndReplace(filter, contractupdate);
         }
 
         internal void DeleteBeneficiaryContract(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             benecontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("_id", id));
         }
@@ -59,6 +57,11 @@ namespace Finalaplication.LocalDatabaseManager
         internal void DeleteAllContracts(string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            var beneficiarycontractlist = benecontractcollection.Find(zz => zz.OwnerID == id).ToList();
+            for (int i = 0; i < beneficiarycontractlist.Count(); i++)
+            {
+                modifiedDocumentManager.AddIDtoDeletionString(beneficiarycontractlist[i]._id);
+            }
             benecontractcollection.DeleteMany(zzz => zzz.OwnerID == id);
         }
     }

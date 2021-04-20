@@ -9,6 +9,7 @@ namespace Finalaplication.LocalDatabaseManager
     public class BeneficiaryManager
     {
         public MongoDBContext dBContext;
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         public BeneficiaryManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
@@ -18,6 +19,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddBeneficiaryToDB(Beneficiary beneficiary)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
+            modifiedDocumentManager.AddIDtoString(beneficiary._id);
             beneficiarycollection.InsertOne(beneficiary);
         }
 
@@ -41,11 +43,13 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Beneficiary> Beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
             beneficiarytopdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }
 
         internal void DeleteBeneficiary(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", id));
         }

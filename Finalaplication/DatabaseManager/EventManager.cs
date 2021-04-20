@@ -8,6 +8,7 @@ namespace Finalaplication.LocalDatabaseManager
     public class EventManager
     {
         private MongoDBContext dBContext;
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         public EventManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
@@ -17,6 +18,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddEventToDB(Event ev)
         {
             IMongoCollection<Event> eventcollection = dBContext.Database.GetCollection<Event>("Events");
+            modifiedDocumentManager.AddIDtoString(ev._id);
             eventcollection.InsertOne(ev);
         }
 
@@ -40,11 +42,13 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Event> eventcollection = dBContext.Database.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", id);
             eventtoupdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             eventcollection.FindOneAndReplace(filter, eventtoupdate);
         }
 
         internal void DeleteAnEvent(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Event> eventcollection = dBContext.Database.GetCollection<Event>("Events");
             eventcollection.DeleteOne(Builders<Event>.Filter.Eq("_id", id));
         }

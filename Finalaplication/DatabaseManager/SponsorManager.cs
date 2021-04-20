@@ -8,6 +8,7 @@ namespace Finalaplication.LocalDatabaseManager
     public class SponsorManager
     {
         private MongoDBContext dBContext;
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
 
         public SponsorManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
@@ -17,6 +18,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddSponsorToDB(Sponsor sponsor)
         {
             IMongoCollection<Sponsor> Sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
+            modifiedDocumentManager.AddIDtoString(sponsor._id);
             Sponsorcollection.InsertOne(sponsor);
         }
 
@@ -40,11 +42,13 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Sponsor> sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("_id", id);
             sponsorupdate._id = id;
+            modifiedDocumentManager.AddIDtoString(id);
             sponsorcollection.FindOneAndReplace(filter, sponsorupdate);
         }
 
         internal void DeleteSponsor(string id)
         {
+            modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Sponsor> Sponsorcollection = dBContext.Database.GetCollection<Sponsor>("Sponsors");
             Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("_id", id));
         }
