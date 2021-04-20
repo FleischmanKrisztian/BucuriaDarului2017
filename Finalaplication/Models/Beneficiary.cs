@@ -1,7 +1,7 @@
-﻿using VolCommon;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using VolCommon;
 
 namespace Finalaplication.Models
 {

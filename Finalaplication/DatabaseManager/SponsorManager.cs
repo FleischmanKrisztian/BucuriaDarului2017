@@ -8,10 +8,11 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class SponsorManager
     {
-        MongoDBContext dBContext;
-        public SponsorManager(MongoDBContext mongoDBContext)
+        private MongoDBContext dBContext;
+
+        public SponsorManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
         {
-            dBContext = mongoDBContext;
+            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         }
 
         internal void AddSponsorToDB(Sponsor sponsor)

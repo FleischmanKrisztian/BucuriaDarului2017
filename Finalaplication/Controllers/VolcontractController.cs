@@ -1,5 +1,4 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
+﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolcontractHelpers;
 using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
@@ -16,10 +15,8 @@ namespace Finalaplication.Controllers
         private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
         private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
 
-        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-
-        private VolunteerManager volunteerManager = new VolunteerManager(MongoDBContextLocal);
-        private VolContractManager volContractManager = new VolContractManager(MongoDBContextLocal);
+        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         [HttpGet]
         public IActionResult Index(string idofvol)

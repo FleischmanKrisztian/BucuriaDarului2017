@@ -1,10 +1,8 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
+﻿using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +15,8 @@ namespace Finalaplication.Controllers
         private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
         private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
 
-        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-
-        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(MongoDBContextLocal);
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(MongoDBContextLocal);
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         [HttpGet]
         public IActionResult Index(string idofbeneficiary)

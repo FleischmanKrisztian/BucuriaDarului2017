@@ -34,7 +34,7 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
 
         public static bool File_is_not_empty(IFormFile file)
         {
-            if (file!= null || file.Length > 0)
+            if (file != null || file.Length > 0)
                 return true;
             else
                 return false;

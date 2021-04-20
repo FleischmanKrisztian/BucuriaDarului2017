@@ -1,6 +1,5 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -10,11 +9,11 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class BeneficiaryContractManager
     {
-        MongoDBContext dBContext;
+        private MongoDBContext dBContext;
 
-        public BeneficiaryContractManager(MongoDBContext mongoDBContext)
+        public BeneficiaryContractManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
         {
-            dBContext = mongoDBContext;
+            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         }
 
         internal void AddBeneficiaryContractToDB(Beneficiarycontract beneficiarycontract)
@@ -50,6 +49,7 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
             benecontractcollection.UpdateOne(filter, contract_toupdate);
         }
+
         internal void UpdateBeneficiaryContract(Beneficiarycontract contractupdate, string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");

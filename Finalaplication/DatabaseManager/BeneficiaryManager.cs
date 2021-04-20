@@ -11,9 +11,9 @@ namespace Finalaplication.LocalDatabaseManager
     {
         public MongoDBContext dBContext;
 
-        public BeneficiaryManager(MongoDBContext mongoDBContext)
+        public BeneficiaryManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
         {
-            dBContext = mongoDBContext;
+            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         }
 
         internal void AddBeneficiaryToDB(Beneficiary beneficiary)

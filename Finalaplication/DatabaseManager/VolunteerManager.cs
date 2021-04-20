@@ -8,10 +8,11 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class VolunteerManager
     {
-        MongoDBContext dBContext;
-        public VolunteerManager(MongoDBContext mongoDBContext)
+        private MongoDBContext dBContext;
+
+        public VolunteerManager(string SERVER_NAME_LOCAL, int SERVER_PORT_LOCAL, string DATABASE_NAME_LOCAL)
         {
-            dBContext = mongoDBContext;
+            dBContext = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         }
 
         internal void AddVolunteerToDB(Volunteer volunteer)

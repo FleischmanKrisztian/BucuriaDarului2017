@@ -19,22 +19,19 @@ namespace Finalaplication.Controllers
         private static int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_COMMON));
         private static string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
 
-        private static MongoDBContext MongoDBContextLocal = new MongoDBContext(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private static MongoDBContext MongoDBContextCommon = new MongoDBContext(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryManager beneManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
-        private EventManager eventManager = new EventManager(MongoDBContextLocal);
-        private SponsorManager sponsorManager = new SponsorManager(MongoDBContextLocal);
-        private VolunteerManager volunteerManager = new VolunteerManager(MongoDBContextLocal);
-        private VolContractManager volContractManager = new VolContractManager(MongoDBContextLocal);
-        private BeneficiaryManager beneManager = new BeneficiaryManager(MongoDBContextLocal);
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(MongoDBContextLocal);
-
-        private EventManager commonEventManager = new EventManager(MongoDBContextCommon);
-        private SponsorManager commonSponsorManager = new SponsorManager(MongoDBContextCommon);
-        private VolunteerManager commonvolunteerManager = new VolunteerManager(MongoDBContextCommon);
-        private VolContractManager commonVolContractManager = new VolContractManager(MongoDBContextCommon);
-        private BeneficiaryManager commonBeneficiaryManager = new BeneficiaryManager(MongoDBContextCommon);
-        private BeneficiaryContractManager commonBenefContractManager = new BeneficiaryContractManager(MongoDBContextCommon);
+        private EventManager commonEventManager = new EventManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private SponsorManager commonSponsorManager = new SponsorManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private VolunteerManager commonvolunteerManager = new VolunteerManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private VolContractManager commonVolContractManager = new VolContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private BeneficiaryManager commonBeneficiaryManager = new BeneficiaryManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private BeneficiaryContractManager commonBenefContractManager = new BeneficiaryContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
 
         public DatabaseManagementController()
         {
