@@ -56,6 +56,93 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             return beneficiariesnames;
         }
 
+        public static string ReturnRegistrationNumber(string details)
+        {
+            string registration_number =String.Empty;
+            
+            if (details != null)
+            {
+                string[] splitedString = details.Split("/");
+                registration_number = splitedString[0];
+            }
+           
+            return registration_number;
+        }
+        public static List<Beneficiarycontract> GetBeneficiaryContractsFromCsv(List<string[]> beneficiaryasstring, List<Beneficiary> beneficiarycollection, List<Beneficiarycontract> beneficiarycontractcollection)
+        {
+            List<Beneficiarycontract> to_be_inseted = new List<Beneficiarycontract>();
+            foreach (var details in beneficiaryasstring)
+            { if (details[9] != null || details[9] != "")
+                {
+                    if (details[15] != "" && details[16] != "")
+                    {
+                        var results = from b in beneficiarycollection
+                                      where b.CNP == details[9]
+                                      select b;
+
+                        string numberOfRegistration = ReturnRegistrationNumber(details[15]);
+                        if (beneficiarycontractcollection.Count(z => z.NumberOfRegistration == numberOfRegistration) != 0)
+                        { }
+                        else
+                        {
+                            foreach (var b in results)
+                            {
+                                Beneficiarycontract beneficiarycontract = new Beneficiarycontract
+                                {
+                                    Fullname = b.Fullname,
+                                    Address = b.Adress,
+                                    OwnerID = b._id,
+                                    Birthdate = b.PersonalInfo.Birthdate,
+                                    CIinfo = b.CI.CIinfo,
+                                    CNP = b.CNP,
+                                    IdApplication = b.Marca.IdAplication,
+                                    IdInvestigation = b.Marca.IdInvestigation,
+                                    Nrtel = b.PersonalInfo.PhoneNumber,
+                                    NumberOfPortion = b.NumberOfPortions.ToString(),
+                                    NumberOfRegistration = ReturnRegistrationNumber(details[15]),
+
+                                    RegistrationDate = DateTime.MinValue,
+                                    ExpirationDate = DateTime.MinValue
+                                };
+                                try
+                                {
+                                    string[] splitDates = details[16].Split('-');
+                                    string[] forRegistrtionDate = splitDates[0].Split('.');
+                                    string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                    DateTime data = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                    System.Globalization.CultureInfo.InvariantCulture);
+                                    beneficiarycontract.RegistrationDate = data.AddDays(1);
+
+                                    string[] forexpirationDate = splitDates[1].Split('.');
+                                    string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                    DateTime data_ = DateTime.ParseExact(forRegistrationDate, "yy-MM-dd",
+                                    System.Globalization.CultureInfo.InvariantCulture);
+                                    beneficiarycontract.ExpirationDate = data_.AddDays(1);
+                                }
+                                catch
+                                {
+                                    string[] splitDates = details[16].Split('-');
+                                    string[] forRegistrtionDate = splitDates[0].Split('.');
+                                    string forRegistrationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                    DateTime data = Convert.ToDateTime(forRegistrationDate);
+                                    beneficiarycontract.RegistrationDate = data.AddDays(1);
+
+                                    string[] forexpirationDate = splitDates[1].Split('.');
+                                    string forExpirationDate = forRegistrtionDate[2] + "-" + forRegistrtionDate[1] + "-" + forRegistrtionDate[0];
+                                    DateTime data_ = Convert.ToDateTime(forRegistrationDate);
+                                    beneficiarycontract.ExpirationDate = data_.AddDays(1);
+                                }
+                                to_be_inseted.Add(beneficiarycontract);
+
+                            }
+                        }
+                    }
+                }
+               
+            }
+            return to_be_inseted;
+        }
+
         internal static Beneficiary GetBeneficiaryFromOtherString(string[] beneficiarystring)
         {
             Beneficiary beneficiary = new Beneficiary();

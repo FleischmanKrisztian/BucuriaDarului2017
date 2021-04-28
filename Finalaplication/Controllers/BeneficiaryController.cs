@@ -55,7 +55,8 @@ namespace Finalaplication.Controllers
                                 beneficiaryManager.AddBeneficiaryToDB(beneficiary);
                             }
                         }
-                    }
+
+                         }
                     else
                     {
                         for (int i = 0; i < beneficiaryasstring.Count; i++)
@@ -69,6 +70,17 @@ namespace Finalaplication.Controllers
                             }
                         }
                     }
+
+                    List<Beneficiary> beneficiarycollection = beneficiaryManager.GetListOfBeneficiaries();
+                    List<Beneficiarycontract> beneficiaryContractCollection = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+                    List <Beneficiarycontract> beneficiaryContracts =BeneficiaryFunctions.GetBeneficiaryContractsFromCsv(beneficiaryasstring, beneficiarycollection, beneficiaryContractCollection);
+                   
+                    foreach (Beneficiarycontract bc in beneficiaryContracts)
+                    {
+                        bc._id = Guid.NewGuid().ToString();
+                     beneficiaryContractManager.AddBeneficiaryContractToDB(bc);
+                    }
+                    
                     UniversalFunctions.RemoveTempFile(path);
                     return RedirectToAction("ImportUpdate", "Home", new { docsimported });
                 }
