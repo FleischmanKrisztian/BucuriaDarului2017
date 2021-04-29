@@ -164,6 +164,7 @@
             this.Controls.Add(this.button1);
             this.Name = "UserControl2";
             this.Size = new System.Drawing.Size(494, 330);
+            this.Load += new System.EventHandler(this.UserControl2_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

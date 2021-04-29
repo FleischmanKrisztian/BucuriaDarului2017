@@ -16,29 +16,29 @@ namespace BackupDatabaseApp
         public Form1()
         {
             InitializeComponent();
-            string[] args = Environment.GetCommandLineArgs();
-            //args[0] is always the path to the application
-            RegisterMyProtocol(args[0]);
+            //string[] args = Environment.GetCommandLineArgs();
+            ////args[0] is always the path to the application
+            //RegisterMyProtocol(args[0]);
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             //^the method posted before, that edits registry
         }
 
-        private static void RegisterMyProtocol(string DatabaseManagement)  //myAppPath = full path to your application
-        {
-            RegistryKey key = Registry.ClassesRoot.OpenSubKey("DatabaseManagement");  //open myApp protocol's subkey
+        //private static void RegisterMyProtocol(string DatabaseManagement)  //myAppPath = full path to your application
+        //{
+        //    RegistryKey key = Registry.ClassesRoot.OpenSubKey("DatabaseManagement");  //open myApp protocol's subkey
 
-            if (key == null)  //if the protocol is not registered yet...we register it
-            {
-                key = Registry.ClassesRoot.CreateSubKey("DatabaseManagement");
-                key.SetValue(string.Empty, "URL:DatabaseManagement Protocol");
-                key.SetValue("URL Protocol", string.Empty);
-                key = key.CreateSubKey(@"shell\open\command");
-                key.SetValue(string.Empty, DatabaseManagement + " " + "%1");
-                //%1 represents the argument - this tells windows to open this program with an argument / parameter
-            }
+        //    if (key == null)  //if the protocol is not registered yet...we register it
+        //    {
+        //        key = Registry.ClassesRoot.CreateSubKey("DatabaseManagement");
+        //        key.SetValue(string.Empty, "URL:DatabaseManagement Protocol");
+        //        key.SetValue("URL Protocol", string.Empty);
+        //        key = key.CreateSubKey(@"shell\open\command");
+        //        key.SetValue(string.Empty, DatabaseManagement + " " + "%1");
+        //        //%1 represents the argument - this tells windows to open this program with an argument / parameter
+        //    }
 
-            key.Close();
-        }
+        //    key.Close();
+        //}
 
         private void Form1_Load(object sender, EventArgs e)
         {

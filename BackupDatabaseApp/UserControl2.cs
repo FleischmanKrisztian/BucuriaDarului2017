@@ -15,9 +15,16 @@ namespace BackupDatabaseApp
         public UserControl2()
         {
             InitializeComponent();
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
+            panel1.Hide();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void UserControl2_Load(object sender, EventArgs e)
         {
 
         }

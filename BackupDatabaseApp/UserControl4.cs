@@ -16,8 +16,7 @@ namespace BackupDatabaseApp
         {
             InitializeComponent();
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
-            //^the method posted before, that edits registry
-            panel1.Hide();
+            
         }
 
         private void UserControl4_Load(object sender, EventArgs e)
