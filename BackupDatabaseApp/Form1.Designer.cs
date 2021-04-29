@@ -28,17 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.panelside = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.userControl11 = new BackupDatabaseApp.UserControl1();
+            this.userControl21 = new BackupDatabaseApp.UserControl2();
+            this.userControl31 = new BackupDatabaseApp.UserControl3();
+            this.userControl41 = new BackupDatabaseApp.UserControl4();
             this.panelside.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -54,6 +53,8 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Backup Database";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseWaitCursor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -68,19 +69,8 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Restore Database";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(199, 57);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 31);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Welcome ";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.button2.UseWaitCursor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label2
             // 
@@ -89,17 +79,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(202, 113);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(465, 160);
-            this.label3.TabIndex = 4;
-            this.label3.Text = resources.GetString("label3.Text");
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label2.UseWaitCursor = true;
             // 
             // button3
             // 
@@ -114,6 +94,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "Delete Database";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.UseWaitCursor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // panelside
@@ -127,15 +108,44 @@
             this.panelside.Name = "panelside";
             this.panelside.Size = new System.Drawing.Size(170, 377);
             this.panelside.TabIndex = 6;
+            this.panelside.UseWaitCursor = true;
             // 
-            // pictureBox1
+            // userControl11
             // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(479, 33);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(162, 55);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.userControl11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl11.Location = new System.Drawing.Point(176, 23);
+            this.userControl11.Name = "userControl11";
+            this.userControl11.Size = new System.Drawing.Size(494, 308);
+            this.userControl11.TabIndex = 7;
+            this.userControl11.UseWaitCursor = true;
+            // 
+            // userControl21
+            // 
+            this.userControl21.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl21.Location = new System.Drawing.Point(176, 12);
+            this.userControl21.Name = "userControl21";
+            this.userControl21.Size = new System.Drawing.Size(494, 342);
+            this.userControl21.TabIndex = 8;
+            this.userControl21.UseWaitCursor = true;
+            // 
+            // userControl31
+            // 
+            this.userControl31.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl31.Location = new System.Drawing.Point(176, 12);
+            this.userControl31.Name = "userControl31";
+            this.userControl31.Size = new System.Drawing.Size(494, 308);
+            this.userControl31.TabIndex = 9;
+            this.userControl31.UseWaitCursor = true;
+            // 
+            // userControl41
+            // 
+            this.userControl41.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl41.Location = new System.Drawing.Point(176, 23);
+            this.userControl41.Name = "userControl41";
+            this.userControl41.Size = new System.Drawing.Size(494, 308);
+            this.userControl41.TabIndex = 10;
+            this.userControl41.UseWaitCursor = true;
+            this.userControl41.Load += new System.EventHandler(this.userControl41_Load);
             // 
             // Form1
             // 
@@ -143,17 +153,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(690, 377);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.userControl41);
+            this.Controls.Add(this.userControl31);
+            this.Controls.Add(this.userControl21);
+            this.Controls.Add(this.userControl11);
             this.Controls.Add(this.panelside);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.Text = "Backup Mongo Database";
+            this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelside.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,12 +174,13 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Panel panelside;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private UserControl1 userControl11;
+        private UserControl2 userControl21;
+        private UserControl3 userControl31;
+        private UserControl4 userControl41;
     }
 }
 
