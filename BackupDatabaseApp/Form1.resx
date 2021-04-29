@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label3.Text" xml:space="preserve">
-    <value>This application provides an easy way of managing database versions.
+    <value>This application provides an easy way of managing database version.
 
 In order to create a backup file,please select the Backup Data button .A new 
 window will appear in which you should provide a saving location for the file
