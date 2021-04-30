@@ -34,14 +34,16 @@
             this.button3 = new System.Windows.Forms.Button();
             this.panelside = new System.Windows.Forms.Panel();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.userControl41 = new BackupDatabaseApp.UserControl4();
             this.userControl31 = new BackupDatabaseApp.UserControl3();
             this.userControl21 = new BackupDatabaseApp.UserControl2();
             this.userControl11 = new BackupDatabaseApp.UserControl1();
-            this.button5 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panelside.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -131,6 +133,37 @@
             this.button4.UseWaitCursor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(5, 12);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(127, 28);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Back ";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.UseWaitCursor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Location = new System.Drawing.Point(498, 300);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(135, 54);
+            this.panel1.TabIndex = 12;
+            this.panel1.UseWaitCursor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::BackupDatabaseApp.Properties.Resources.Siemens_Logo;
+            this.pictureBox1.Location = new System.Drawing.Point(498, 52);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(158, 58);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
+            // 
             // userControl41
             // 
             this.userControl41.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -169,30 +202,13 @@
             this.userControl11.TabIndex = 7;
             this.userControl11.UseWaitCursor = true;
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(5, 12);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(127, 28);
-            this.button5.TabIndex = 11;
-            this.button5.Text = "Back ";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Location = new System.Drawing.Point(498, 300);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(135, 54);
-            this.panel1.TabIndex = 12;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(690, 377);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.userControl41);
             this.Controls.Add(this.userControl31);
@@ -207,6 +223,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelside.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,6 +243,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
