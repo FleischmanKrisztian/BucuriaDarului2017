@@ -75,6 +75,7 @@
             this.button2.TabIndex = 0;
             this.button2.Text = "Open Folder";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button4
             // 
@@ -84,6 +85,7 @@
             this.button4.TabIndex = 12;
             this.button4.Text = "Export";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // label1
             // 

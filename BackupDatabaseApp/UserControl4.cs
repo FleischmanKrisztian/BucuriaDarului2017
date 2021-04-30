@@ -23,5 +23,20 @@ namespace BackupDatabaseApp
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            DatabaseMethods databaseMethods = new DatabaseMethods();
+            if (textBox1.Text.Contains(Common.MongoConstants.DATABASE_NAME_COMMON))
+            {
+                databaseMethods.DeleteDatabase();
+
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("This action  failed!Please inseret a valid database name.");
+            }
+        }
     }
 }

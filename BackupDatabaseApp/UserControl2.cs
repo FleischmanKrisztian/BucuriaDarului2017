@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
 
 namespace BackupDatabaseApp
 {
     public partial class UserControl2 : UserControl
     {
-        private string my_directory;
+        private string filename;
         public UserControl2()
         {
             InitializeComponent();
@@ -32,13 +34,37 @@ namespace BackupDatabaseApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string strfilename;
+                strfilename = saveFileDialog1.FileName;
+                richTextBox1.Text = strfilename;
+                filename = strfilename;
+            }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string my_directory = Path.GetDirectoryName(filename);
+            Process.Start(my_directory);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DatabaseMethods databaseMethods = new DatabaseMethods();
+            string message=databaseMethods.BackupDatabase(filename);
+            richTextBox2.Text = message;
+            if (message.Contains("succesfuly"))
+            {
+                panel1.Show();
+            }
         }
     }
 }
