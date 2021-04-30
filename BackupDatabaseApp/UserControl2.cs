@@ -12,6 +12,7 @@ namespace BackupDatabaseApp
 {
     public partial class UserControl2 : UserControl
     {
+        private string my_directory;
         public UserControl2()
         {
             InitializeComponent();
@@ -26,6 +27,17 @@ namespace BackupDatabaseApp
 
         private void UserControl2_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            
 
         }
     }

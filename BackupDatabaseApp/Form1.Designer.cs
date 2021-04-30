@@ -33,11 +33,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.panelside = new System.Windows.Forms.Panel();
-            this.userControl11 = new BackupDatabaseApp.UserControl1();
-            this.userControl21 = new BackupDatabaseApp.UserControl2();
-            this.userControl31 = new BackupDatabaseApp.UserControl3();
+            this.button4 = new System.Windows.Forms.Button();
             this.userControl41 = new BackupDatabaseApp.UserControl4();
+            this.userControl31 = new BackupDatabaseApp.UserControl3();
+            this.userControl21 = new BackupDatabaseApp.UserControl2();
+            this.userControl11 = new BackupDatabaseApp.UserControl1();
+            this.button5 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panelside.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -100,6 +104,7 @@
             // panelside
             // 
             this.panelside.BackColor = System.Drawing.Color.Teal;
+            this.panelside.Controls.Add(this.button4);
             this.panelside.Controls.Add(this.button1);
             this.panelside.Controls.Add(this.button2);
             this.panelside.Controls.Add(this.button3);
@@ -110,14 +115,40 @@
             this.panelside.TabIndex = 6;
             this.panelside.UseWaitCursor = true;
             // 
-            // userControl11
+            // button4
             // 
-            this.userControl11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.userControl11.Location = new System.Drawing.Point(176, 23);
-            this.userControl11.Name = "userControl11";
-            this.userControl11.Size = new System.Drawing.Size(494, 308);
-            this.userControl11.TabIndex = 7;
-            this.userControl11.UseWaitCursor = true;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(-9, 321);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(179, 33);
+            this.button4.TabIndex = 6;
+            this.button4.Text = "Exit";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.UseWaitCursor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // userControl41
+            // 
+            this.userControl41.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl41.Location = new System.Drawing.Point(176, 23);
+            this.userControl41.Name = "userControl41";
+            this.userControl41.Size = new System.Drawing.Size(494, 293);
+            this.userControl41.TabIndex = 10;
+            this.userControl41.UseWaitCursor = true;
+            this.userControl41.Load += new System.EventHandler(this.userControl41_Load);
+            // 
+            // userControl31
+            // 
+            this.userControl31.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl31.Location = new System.Drawing.Point(176, 12);
+            this.userControl31.Name = "userControl31";
+            this.userControl31.Size = new System.Drawing.Size(494, 304);
+            this.userControl31.TabIndex = 9;
+            this.userControl31.UseWaitCursor = true;
             // 
             // userControl21
             // 
@@ -127,25 +158,34 @@
             this.userControl21.Size = new System.Drawing.Size(494, 342);
             this.userControl21.TabIndex = 8;
             this.userControl21.UseWaitCursor = true;
+            this.userControl21.Load += new System.EventHandler(this.userControl21_Load);
             // 
-            // userControl31
+            // userControl11
             // 
-            this.userControl31.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.userControl31.Location = new System.Drawing.Point(176, 12);
-            this.userControl31.Name = "userControl31";
-            this.userControl31.Size = new System.Drawing.Size(494, 308);
-            this.userControl31.TabIndex = 9;
-            this.userControl31.UseWaitCursor = true;
+            this.userControl11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.userControl11.Location = new System.Drawing.Point(176, 23);
+            this.userControl11.Name = "userControl11";
+            this.userControl11.Size = new System.Drawing.Size(494, 308);
+            this.userControl11.TabIndex = 7;
+            this.userControl11.UseWaitCursor = true;
             // 
-            // userControl41
+            // button5
             // 
-            this.userControl41.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.userControl41.Location = new System.Drawing.Point(176, 23);
-            this.userControl41.Name = "userControl41";
-            this.userControl41.Size = new System.Drawing.Size(494, 308);
-            this.userControl41.TabIndex = 10;
-            this.userControl41.UseWaitCursor = true;
-            this.userControl41.Load += new System.EventHandler(this.userControl41_Load);
+            this.button5.Location = new System.Drawing.Point(5, 12);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(127, 28);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Back ";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Location = new System.Drawing.Point(498, 300);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(135, 54);
+            this.panel1.TabIndex = 12;
             // 
             // Form1
             // 
@@ -153,6 +193,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(690, 377);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.userControl41);
             this.Controls.Add(this.userControl31);
             this.Controls.Add(this.userControl21);
@@ -165,6 +206,7 @@
             this.UseWaitCursor = true;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelside.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,6 +223,9 @@
         private UserControl2 userControl21;
         private UserControl3 userControl31;
         private UserControl4 userControl41;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
