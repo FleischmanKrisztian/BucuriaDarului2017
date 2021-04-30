@@ -30,7 +30,7 @@ namespace BackupDatabaseApp
             DatabaseMethods databaseMethods = new DatabaseMethods();
             if (textBox1.Text.Contains(Common.MongoConstants.DATABASE_NAME_COMMON))
             {
-                databaseMethods.DeleteDatabase();
+                databaseMethods.DeleteDatabase(textBox1.Text);
 
             }
             else

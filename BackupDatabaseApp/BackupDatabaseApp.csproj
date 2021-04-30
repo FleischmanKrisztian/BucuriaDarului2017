@@ -111,7 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\MongoConstants.cs" />
-    <Compile Include="DatabaseManagement\MongoDBContextCommon.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

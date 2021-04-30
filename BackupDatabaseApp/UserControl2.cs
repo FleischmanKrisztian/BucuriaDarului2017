@@ -66,5 +66,10 @@ namespace BackupDatabaseApp
                 panel1.Show();
             }
         }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
