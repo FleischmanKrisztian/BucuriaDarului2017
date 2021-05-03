@@ -7,7 +7,6 @@ namespace Finalaplication.Models
 {
     public class Beneficiary
     {
-        [JsonIgnore]
         public string _id { get; set; }
 
         [Required]

@@ -6,7 +6,6 @@ namespace Finalaplication.Models
 {
     public class Sponsor
     {
-        [JsonIgnore]
         public string _id { get; set; }
 
         [Required]
