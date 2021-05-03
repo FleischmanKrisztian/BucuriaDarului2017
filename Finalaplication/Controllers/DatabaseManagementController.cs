@@ -90,13 +90,17 @@ namespace Finalaplication.Controllers
 
             for (int i = 0; i < volunteerslocal.Count(); i++)
             {
+                // If the common db does not contain the volunteer and it has been created since the last fetch/push it gets added.
                 if (!commonvols.Contains(volunteerslocal[i]._id) && modifiedids.Contains(volunteerslocal[i]._id))
                     commonvolunteerManager.AddVolunteerToDB(volunteerslocal[i]);
+                // if the common db contains the volunteer, but it has been edited since last sync it gets updated, otherwise NO
                 else if (modifiedids.Contains(volunteerslocal[i]._id))
                     commonvolunteerManager.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
             }
             for (int i = 0; i < volunteers.Count(); i++)
             {
+                // if the document has been deleted it will get deleted from the common db aswell.
+                // the document will not be readded unless someone has modified the document with this ID.
                 if (deletedids.Contains(volunteers[i]._id))
                     commonvolunteerManager.DeleteAVolunteer(volunteers[i]._id);
             }
