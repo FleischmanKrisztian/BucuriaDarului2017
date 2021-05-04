@@ -1,5 +1,5 @@
 ﻿using Finalaplication.Common;
-using Finalaplication.LocalDatabaseManager;
+using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;

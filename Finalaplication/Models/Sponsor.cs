@@ -1,12 +1,11 @@
-﻿using VolCommon;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using VolCommon;
 
 namespace Finalaplication.Models
 {
     public class Sponsor
     {
-        [JsonIgnore]
         public string _id { get; set; }
 
         [Required]

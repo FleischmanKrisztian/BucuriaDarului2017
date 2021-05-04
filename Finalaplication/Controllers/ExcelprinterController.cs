@@ -3,6 +3,7 @@ using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 
 namespace Finalaplication.Controllers
@@ -11,10 +12,14 @@ namespace Finalaplication.Controllers
     [ApiController]
     public class ExcelprinterController : ControllerBase
     {
-        private EventManager eventManager = new EventManager();
-        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
-        private SponsorManager sponsorManager = new SponsorManager();
-        private VolunteerManager volunteerManager = new VolunteerManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
+        private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         [HttpGet("{keys}", Name = "Get")]
         public string Get(string keys)

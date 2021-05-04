@@ -1,8 +1,8 @@
-﻿using Finalaplication.CommonDatabaseManager;
-using Finalaplication.LocalDatabaseManager;
+﻿using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,20 +10,29 @@ namespace Finalaplication.Controllers
 {
     public class DatabaseManagementController : Controller
     {
-        private EventManager eventManager = new EventManager();
-        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
-        private SponsorManager sponsorManager = new SponsorManager();
-        private VolunteerManager volunteerManager = new VolunteerManager();
-        private VolContractManager volContractManager = new VolContractManager();
-        private BeneficiaryManager beneManager = new BeneficiaryManager();
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
 
-        private EventManagerCommon commonEventManager = new EventManagerCommon();
-        private SponsorManagerCommon commonSponsorManager = new SponsorManagerCommon();
-        private VolunteerManagerCommon commonvolunteerManager = new VolunteerManagerCommon();
-        private VolunteerContractManagerCommon commonVolContractManager = new VolunteerContractManagerCommon();
-        private BeneficiaryManagerCommon commonBeneficiaryManager = new BeneficiaryManagerCommon();
-        private BeneficiaryContractManagerCommon commonBenefContractManager = new BeneficiaryContractManagerCommon();
+        private static string SERVER_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_COMMON);
+        private static int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_COMMON));
+        private static string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
+
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+
+        private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryManager beneManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+
+        private EventManager commonEventManager = new EventManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private SponsorManager commonSponsorManager = new SponsorManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private VolunteerManager commonvolunteerManager = new VolunteerManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private VolContractManager commonVolContractManager = new VolContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private BeneficiaryManager commonBeneficiaryManager = new BeneficiaryManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+        private BeneficiaryContractManager commonBenefContractManager = new BeneficiaryContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
 
         public DatabaseManagementController()
         {
@@ -41,17 +50,12 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Push()
+        public ActionResult Synchronize()
         {
             return View();
         }
 
-        public ActionResult Fetch()
-        {
-            return View();
-        }
-
-        public ActionResult PushData()
+        public ActionResult SynchronizeData()
         {
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
             List<Event> eventslocal = eventManager.GetListOfEvents();
@@ -160,27 +164,12 @@ namespace Finalaplication.Controllers
             }
             modifiedDocumentManager.DeleteAuxiliaryDatabases();
 
-            return RedirectToAction("Servermanagement");
-        }
-
-        public ActionResult FetchData()
-        {
-            List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
-            List<Event> eventslocal = eventManager.GetListOfEvents();
-            List<Beneficiary> beneficiarieslocal = beneManager.GetListOfBeneficiaries();
-            List<Sponsor> sponsorslocal = sponsorManager.GetListOfSponsors();
-            List<Volcontract> volcontractslocal = volContractManager.GetListOfVolunteersContracts();
-            List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiariesContracts();
-
-            List<Volunteer> volunteers = commonvolunteerManager.GetListOfVolunteers();
-            List<Event> events = commonEventManager.GetListOfEvents();
-            List<Beneficiary> beneficiaries = commonBeneficiaryManager.GetListOfBeneficiaries();
-            List<Sponsor> sponsors = commonSponsorManager.GetListOfSponsors();
-            List<Volcontract> volcontracts = commonVolContractManager.GetListOfVolunteersContracts();
-            List<Beneficiarycontract> beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
-
-            List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
-            string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
+            volunteers = commonvolunteerManager.GetListOfVolunteers();
+            events = commonEventManager.GetListOfEvents();
+            beneficiaries = commonBeneficiaryManager.GetListOfBeneficiaries();
+            sponsors = commonSponsorManager.GetListOfSponsors();
+            volcontracts = commonVolContractManager.GetListOfVolunteersContracts();
+            beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
 
             string volstring = JsonConvert.SerializeObject(volunteers);
             string eventstring = JsonConvert.SerializeObject(events);
@@ -203,7 +192,7 @@ namespace Finalaplication.Controllers
                 else if (!modifiedids.Contains(volunteers[i]._id))
                     volunteerManager.UpdateAVolunteer(volunteers[i], volunteers[i]._id);
             }
-            for (int i = 0; i < volunteerslocal.Count(); i++) 
+            for (int i = 0; i < volunteerslocal.Count(); i++)
             {
                 if (!volstring.Contains(volunteerslocal[i]._id))
                     volunteerManager.DeleteAVolunteer(volunteerslocal[i]._id);

@@ -1,13 +1,12 @@
-﻿using VolCommon;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using VolCommon;
 
 namespace Finalaplication.Models
 {
     public class Beneficiary
     {
-        [JsonIgnore]
         public string _id { get; set; }
 
         [Required]

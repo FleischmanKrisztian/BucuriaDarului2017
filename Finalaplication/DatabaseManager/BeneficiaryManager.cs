@@ -8,19 +8,24 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class BeneficiaryManager
     {
-        private MongoDBContextLocal dBContextLocal = new MongoDBContextLocal();
+        public MongoDBContext dBContext;
         private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+
+        public BeneficiaryManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
+        {
+            dBContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
+        }
 
         internal void AddBeneficiaryToDB(Beneficiary beneficiary)
         {
-            IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+            IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             modifiedDocumentManager.AddIDtoString(beneficiary._id);
             beneficiarycollection.InsertOne(beneficiary);
         }
 
         internal Beneficiary GetOneBeneficiary(string id)
         {
-            IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+            IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
             Beneficiary beneficiary = beneficiarycollection.Find(filter).FirstOrDefault();
             return beneficiary;
@@ -28,14 +33,14 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal List<Beneficiary> GetListOfBeneficiaries()
         {
-            IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+            IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             List<Beneficiary> beneficiaries = beneficiarycollection.AsQueryable().ToList();
             return beneficiaries;
         }
 
         internal void UpdateABeneficiary(Beneficiary beneficiarytopdate, string id)
         {
-            IMongoCollection<Beneficiary> Beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+            IMongoCollection<Beneficiary> Beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
             beneficiarytopdate._id = id;
             modifiedDocumentManager.AddIDtoString(id);
@@ -45,7 +50,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void DeleteBeneficiary(string id)
         {
             modifiedDocumentManager.AddIDtoDeletionString(id);
-            IMongoCollection<Beneficiary> beneficiarycollection = dBContextLocal.DatabaseLocal.GetCollection<Beneficiary>("Beneficiaries");
+            IMongoCollection<Beneficiary> beneficiarycollection = dBContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", id));
         }
     }

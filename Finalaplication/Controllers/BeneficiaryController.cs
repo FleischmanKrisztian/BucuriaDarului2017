@@ -18,8 +18,12 @@ namespace Finalaplication.Controllers
     public class BeneficiaryController : Controller
     {
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
-        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager();
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager();
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
+        private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {

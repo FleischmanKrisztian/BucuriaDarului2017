@@ -17,9 +17,13 @@ namespace Finalaplication.Controllers
 {
     public class VolunteerController : Controller
     {
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
         private readonly IStringLocalizer<VolunteerController> _localizer;
-        private VolunteerManager volunteerManager = new VolunteerManager();
-        private VolContractManager volcontractManager = new VolContractManager();
+        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private VolContractManager volcontractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
         {
