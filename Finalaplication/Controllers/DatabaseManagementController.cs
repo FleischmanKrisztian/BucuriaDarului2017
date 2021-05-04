@@ -245,6 +245,7 @@ namespace Finalaplication.Controllers
                 else if (!modifiedids.Contains(beneficiarycontracts[i]._id))
                     beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i]._id);
             }
+            modifiedDocumentManager.DeleteAuxiliaryDatabases();
             return RedirectToAction("Servermanagement");
         }
     }
