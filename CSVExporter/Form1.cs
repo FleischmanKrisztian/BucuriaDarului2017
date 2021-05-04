@@ -16,13 +16,13 @@ namespace CSVExporter
         public Form1()
         {
             InitializeComponent();
+            panel2.Hide();
             try
             {
                 string[] args = Environment.GetCommandLineArgs();
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
                 //args[0] is always the path to the application
                 RegisterMyProtocol(args[0]);
-                panel2.Hide();
                 //^the method posted before, that edits registry
             }
             catch
@@ -124,6 +124,11 @@ namespace CSVExporter
 
         private void Form1_Load(object sender, EventArgs e)
         {
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
