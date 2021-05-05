@@ -14,7 +14,7 @@ namespace wpfapp
     public partial class Form1 : Form
     {
         private string filename;
-
+        private string value;
         public Form1()
         {
             InitializeComponent();
@@ -23,8 +23,9 @@ namespace wpfapp
             RegisterMyProtocol(args[0]);
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default;
             //^the method posted before, that edits registry
-            panel1.Hide();
+            additionalInfo1.Hide();
             panel2.Hide();
+            panel1.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -85,23 +86,9 @@ namespace wpfapp
                         if (volc.IdInvestigation != null)
                             doc.ReplaceText("<IdInvestigation>", volc.IdInvestigation);
 
-                        string aaa = textBox1.Text;
-                        string value = "test";
-                        if (radioButton1.Checked)
-                        {
-                            value = radioButton1.Text.ToString();
-                        }
-                        else if (radioButton2.Checked)
-                        { value = radioButton2.Text.ToString(); }
-                        else if (radioButton3.Checked)
-                        { value = radioButton3.Text.ToString(); }
-                        else if (radioButton4.Checked)
-                        { value = radioButton4.Text.ToString(); }
-                        else
-                            if (aaa != null)
-                        { value = aaa; }
-                        else { value = ""; }
+                        
                         volc.myOption = value;
+                        
 
                         doc.ReplaceText("<option>", volc.myOption);
                         doc.ReplaceText("<NumberOfPortions>", volc.NumberOfPortion);
@@ -218,6 +205,12 @@ namespace wpfapp
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
+            {
+                panel1.Show();
+                additionalInfo1.Show();
+            }
+           
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -236,19 +229,15 @@ namespace wpfapp
         {
         }
 
-        private void HideOrShow(string text)
-        {
-            if (text.Contains("ContractBeneficiar") == true || text.Contains("Contract_cadru_asistati_Fundatie") == true || text.Contains("beneficiar") == true || text.Contains("Beneficiar") == true)
-            {
-                panel1.Show();
-            }
-            else
-            { panel1.Hide(); }
-        }
+       
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            HideOrShow(richTextBox1.Text);
+            if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
+            {
+                additionalInfo1.Show();
+                panel1.Show();
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -278,6 +267,24 @@ namespace wpfapp
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void additionalInfo1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+           
+            value = additionalInfo1.MyVal;
+            additionalInfo1.Hide();
+            panel1.Hide();
         }
     }
 }

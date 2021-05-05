@@ -110,6 +110,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdditionalInfo.Designer.cs">
+      <DependentUpon>AdditionalInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="volcontract.cs" />
+    <EmbeddedResource Include="AdditionalInfo.resx">
+      <DependentUpon>AdditionalInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
