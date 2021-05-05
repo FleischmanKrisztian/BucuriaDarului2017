@@ -623,3 +623,6 @@ msgstr "File Options"
 
 msgid "Next"
 msgstr "Next"
+
+msgid "Synchronize"
+msgstr "Synchronize database"

@@ -622,3 +622,6 @@ msgid "FileOptions"
 msgstr "Opțiuni fișier"
 msgid "Next"
 msgstr "Următorul pas"
+
+msgid "Synchronize"
+msgstr "Sincronizează baza de date"
