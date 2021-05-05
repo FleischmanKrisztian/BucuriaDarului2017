@@ -36,6 +36,11 @@
             overflow-x: hidden;
         }
 
+        .dropdown-menu {
+            width: 350px !important;
+           
+        }
+
         .emp-profile {
             border-radius: 25px;
             padding: 5%;
@@ -66,7 +71,7 @@
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @Localizer["Select the properties"]:
                 </button>
-                <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown-menu scrollable-menu dropdownMenuWith" aria-labelledby="dropdownMenuButton" >
                     <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Name", isChecked: false)  @Localizer["Name"] </a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Birthdate", isChecked: false) @Localizer["Birthdate"]</a>
