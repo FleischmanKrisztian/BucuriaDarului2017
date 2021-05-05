@@ -7,17 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Bucuria Darului</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link href="~/css/bootstrapforoffline.css" rel="stylesheet"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="" />
-    </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/style.css" type="text/css" />
+    <script src="~/js/bootstrap.js" asp-append-version="true"></script>
+
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 </head>
 <body>
     <header>
@@ -52,12 +51,10 @@
                             </a>
                         </li>
                         <li>
-                        <li class="nav-item">
                             <div class="dropdown show">
                                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @Localizer["More"]
                                 </a>
-
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <a class="dropdown-item" href="../../Home/Contact">@Localizer["Contact"]</a>
                                     <a class="dropdown-item" href="../../Home/About">@Localizer["About"]</a>
@@ -78,31 +75,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-white bg-dark ">
-
-        <div class="container">
-            &copy; 2020 - Bucuria Darului - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-        </div>
+    <footer class="border-top footer text-white bg-dark">
+        &copy; 2021 - Bucuria Darului - <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
     </footer>
-
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    </environment>
-
-    <environment exclude="Development">
-        <script src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="">
-        </script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="">
-        </script>
-    </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

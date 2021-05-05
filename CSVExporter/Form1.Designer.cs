@@ -38,9 +38,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -150,15 +150,18 @@
             this.panel1.Size = new System.Drawing.Size(165, 364);
             this.panel1.TabIndex = 18;
             // 
-            // label1
+            // label2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(190, 57);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(262, 25);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Export file to csv format";
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(13, 80);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(145, 96);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "In order to \r\nexport, you \r\nhave to choose\r\nthe location, \r\nthen click the export" +
+    "\r\nbutton.";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button5
             // 
@@ -175,16 +178,15 @@
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // label2
+            // label1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 80);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 144);
-            this.label2.TabIndex = 1;
-            this.label2.Text = " Informations:\r\n\r\nIn order to be\r\navailable to \r\nexport you  \r\nhave to choose\r\nth" +
-    "e saving place,\r\nthe click export\r\nbutton.";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(190, 57);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(262, 25);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Export file to csv format";
             // 
             // Form1
             // 
