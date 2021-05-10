@@ -149,6 +149,7 @@ namespace Finalaplication.Controllers
                 page = UniversalFunctions.GetCurrentPage(page);
                 ViewBag.Page = page;
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
+                volunteers = VolunteerFunctions.GetVolunteerAfterSorting(volunteers, "Active_desc");
                 ViewBag.counter = volunteers.Count();
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 ViewBag.nrofdocs = nrofdocs;
