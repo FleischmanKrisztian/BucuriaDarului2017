@@ -184,7 +184,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Localserver", "Home");
             }
         }
 

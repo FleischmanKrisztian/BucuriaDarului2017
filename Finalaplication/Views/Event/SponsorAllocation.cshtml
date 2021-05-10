@@ -64,7 +64,7 @@
 <h2>
     @Localizer["SponsorAllocationto"]: @eventname
 </h2>
-@using (Html.BeginForm("/", "Event/SponsorAllocation/" + evid, FormMethod.Get))
+@using (Html.BeginForm("SponsorAllocation", "Event", FormMethod.Get))
 {
     @Html.TextBox("searching")
     <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
