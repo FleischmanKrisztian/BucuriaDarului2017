@@ -97,9 +97,10 @@
                         <label> @Localizer["HasContract"]: </label>
                     </div>
                     <div class="checkbox col-md-6">
-                        @Html.EditorFor(model => model.Contract.HasContract)
-                        @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })<hr />
-                    </div>
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.Contract.HasContract)</div>
+                            @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })<hr />
+                        </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-6">

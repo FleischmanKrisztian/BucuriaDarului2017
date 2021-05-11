@@ -95,7 +95,9 @@
                         @Localizer["Active"]:
                     </div>
                     <div class="col-md-6 checkbox">
-                        @Html.EditorFor(model => model.InActivity)
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.InActivity)
+                        </div>
                         @Html.ValidationMessageFor(model => model.InActivity, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -225,7 +227,9 @@
                         @Localizer["Hascar"]
                     </div>
                     <div class="col-md-6  checkbox">
-                        @Html.EditorFor(model => model.Additionalinfo.HasCar)
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.Additionalinfo.HasCar)
+                        </div>
                         @Html.ValidationMessageFor(model => model.Additionalinfo.HasCar, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -235,7 +239,9 @@
                         @Localizer["Hasdrivinglicense"]
                     </div>
                     <div class="col-md-6 checkbox">
-                        @Html.EditorFor(model => model.Additionalinfo.HasDrivingLicence)
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.Additionalinfo.HasDrivingLicence)
+                        </div>
                         @Html.ValidationMessageFor(model => model.Additionalinfo.HasDrivingLicence, "", new { @class = "text-danger" })
                         <hr />
                     </div>
