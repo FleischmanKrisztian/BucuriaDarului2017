@@ -362,7 +362,14 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("CI.ICExpirationDate");
                 if (ModelState.IsValid)
                 {
-                    beneficiary.Image = UniversalFunctions.Addimage(image);
+                    if (image != null)
+                    { beneficiary.Image = UniversalFunctions.Addimage(image); }
+                    else
+                    {
+                        Beneficiary b = beneficiaryManager.GetOneBeneficiary(id);
+                        beneficiary.Image = b.Image;
+                    }
+                    
                     beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
                     beneficiaryManager.UpdateABeneficiary(beneficiary, id);
 
