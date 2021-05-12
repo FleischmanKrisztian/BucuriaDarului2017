@@ -50,6 +50,20 @@ namespace Finalaplication.Controllers
             }
         }
 
+        public ActionResult SynchronizationResults(int numberOfModifictaions, int numberOfDeletions)
+        {
+            try
+            {
+                ViewBag.numberOfModifications = numberOfModifictaions.ToString();
+                ViewBag.numberOfDeletions = numberOfDeletions.ToString();
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
+        }
+
         public ActionResult Synchronize()
         {
             return View();
@@ -71,8 +85,12 @@ namespace Finalaplication.Controllers
             List<Beneficiarycontract> beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
 
             List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
-            string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
             List<DeletedIDS> deletedlist = modifiedDocumentManager.GetListOfDeletions();
+
+            int numberOfModifictaions = modifiedidlist.Count();
+            int numberOfDeletions = deletedlist.Count();
+
+            string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
             string deletedids = JsonConvert.SerializeObject(deletedlist);
 
             string commonvols = JsonConvert.SerializeObject(volunteers);
@@ -264,7 +282,7 @@ namespace Finalaplication.Controllers
             }
 
             modifiedDocumentManager.DeleteAuxiliaryDatabases();
-            return RedirectToAction("Servermanagement");
+            return RedirectToAction("SynchronizationResults", "DatabaseManagement", new { numberOfModifictaions, numberOfDeletions });
         }
     }
 }
