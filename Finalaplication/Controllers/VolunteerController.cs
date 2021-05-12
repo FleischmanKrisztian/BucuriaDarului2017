@@ -297,7 +297,12 @@ namespace Finalaplication.Controllers
                 ModelState.Remove("CIEliberat");
                 if (ModelState.IsValid)
                 {
-                    volunteer.Image = UniversalFunctions.Addimage(image);
+                    if (image != null)
+                    { volunteer.Image = UniversalFunctions.Addimage(image); }
+                    else
+                    {Volunteer v=volunteerManager.GetOneVolunteer(id);
+                        volunteer.Image = v.Image;
+                    }
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteerManager.UpdateAVolunteer(volunteer, id);
 
