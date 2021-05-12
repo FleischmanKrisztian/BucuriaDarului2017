@@ -552,7 +552,7 @@ msgstr "Select the properties"
 msgid "ContractDetails"
 msgstr "Contract Details"
 
-msgid "Cannot contain Special character ';'"
+msgid "nospecialchar"
 msgstr "Cannot contain Special character ';'"
 
 msgid "Filters"

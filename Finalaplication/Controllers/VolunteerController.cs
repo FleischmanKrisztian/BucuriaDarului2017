@@ -268,11 +268,12 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, bool containspecialchar)
         {
             try
             {
                 var volunteer = volunteerManager.GetOneVolunteer(id);
+                ViewBag.containsspecialchar = true;
                 ViewBag.id = id;
                 return View(volunteer);
             }
@@ -300,12 +301,15 @@ namespace Finalaplication.Controllers
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteerManager.UpdateAVolunteer(volunteer, id);
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index") ;
                 }
                 else
                 {
-                    return View("Volunteerwarning");
+                    ViewBag.id = id;
+                    bool containsspecialchar = true;
+                    return RedirectToAction("Edit", new { id, containsspecialchar });
                 }
+
             }
             catch
             {
