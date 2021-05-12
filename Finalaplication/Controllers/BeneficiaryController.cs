@@ -327,12 +327,13 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, bool containsspecialchar = false)
         {
             try
             {
                 Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
                 ViewBag.id = id;
+                ViewBag.containsspecialchar = containsspecialchar;
                 return View(beneficiary);
             }
             catch
@@ -377,7 +378,9 @@ namespace Finalaplication.Controllers
                 }
                 else
                 {
-                    return View("Volunteerwarning");
+                    ViewBag.id = id;
+                    bool containsspecialchar = true;
+                    return RedirectToAction("Edit", new { id, containsspecialchar });
                 }
             }
             catch

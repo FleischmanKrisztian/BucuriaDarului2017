@@ -268,12 +268,12 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Edit(string id, bool containspecialchar)
+        public ActionResult Edit(string id, bool containsspecialchar = false)
         {
             try
             {
                 var volunteer = volunteerManager.GetOneVolunteer(id);
-                ViewBag.containsspecialchar = true;
+                ViewBag.containsspecialchar = containsspecialchar;
                 ViewBag.id = id;
                 return View(volunteer);
             }
