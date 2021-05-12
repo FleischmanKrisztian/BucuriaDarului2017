@@ -23,6 +23,8 @@ namespace Finalaplication.Controllers
         private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
 
         private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
@@ -370,7 +372,14 @@ namespace Finalaplication.Controllers
                         Beneficiary b = beneficiaryManager.GetOneBeneficiary(id);
                         beneficiary.Image = b.Image;
                     }
-                    
+                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
+                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
+                    if (!modifiedids.Contains(id))
+                    {
+                        Beneficiary currentbeneficiary = beneficiaryManager.GetOneBeneficiary(id);
+                        string currentbenefasstring = JsonConvert.SerializeObject(currentbeneficiary);
+                        auxiliaryDBManager.AddDocumenttoDB(currentbenefasstring);
+                    }
                     beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
                     beneficiaryManager.UpdateABeneficiary(beneficiary, id);
 

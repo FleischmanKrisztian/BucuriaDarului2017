@@ -24,6 +24,8 @@ namespace Finalaplication.Controllers
         private readonly IStringLocalizer<SponsorController> _localizer;
 
         private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public SponsorController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<SponsorController> localizer)
@@ -250,6 +252,14 @@ namespace Finalaplication.Controllers
                     sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
                     sponsor.Sponsorship.Date = sponsor.Sponsorship.Date.AddHours(5);
 
+                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
+                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
+                    if (!modifiedids.Contains(id))
+                    {
+                        Sponsor currentsponsor = sponsorManager.GetOneSponsor(id);
+                        string currentsponsorasstring = JsonConvert.SerializeObject(currentsponsor);
+                        auxiliaryDBManager.AddDocumenttoDB(currentsponsorasstring);
+                    }
                     sponsorManager.UpdateSponsor(sponsor, id);
                     return RedirectToAction("Index");
                 }

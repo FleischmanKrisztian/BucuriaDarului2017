@@ -23,6 +23,8 @@ namespace Finalaplication.Controllers
 
         private readonly IStringLocalizer<VolunteerController> _localizer;
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private VolContractManager volcontractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
@@ -300,13 +302,23 @@ namespace Finalaplication.Controllers
                     if (image != null)
                     { volunteer.Image = UniversalFunctions.Addimage(image); }
                     else
-                    {Volunteer v=volunteerManager.GetOneVolunteer(id);
+                    {
+                        Volunteer v = volunteerManager.GetOneVolunteer(id);
                         volunteer.Image = v.Image;
                     }
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
+
+                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
+                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
+                    if (!modifiedids.Contains(id))
+                    {
+                        Volunteer currentvol = volunteerManager.GetOneVolunteer(id);
+                        string currentvolasstring = JsonConvert.SerializeObject(currentvol);
+                        auxiliaryDBManager.AddDocumenttoDB(currentvolasstring);
+                    }
                     volunteerManager.UpdateAVolunteer(volunteer, id);
 
-                    return RedirectToAction("Index") ;
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -314,7 +326,6 @@ namespace Finalaplication.Controllers
                     bool containsspecialchar = true;
                     return RedirectToAction("Edit", new { id, containsspecialchar });
                 }
-
             }
             catch
             {

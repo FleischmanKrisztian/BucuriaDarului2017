@@ -19,6 +19,7 @@ namespace Finalaplication.Controllers
         private static string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
 
         private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+        private AuxiliaryDBManager AuxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
@@ -50,10 +51,11 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult SynchronizationResults(int numberOfModifictaions, int numberOfDeletions)
+        public ActionResult SynchronizationResults(int numberOfModifictaions, int numberOfDeletions, string outOfSyncDocuments = "")
         {
             try
             {
+                ViewBag.outOfSyncDocuments = outOfSyncDocuments;
                 ViewBag.numberOfModifications = numberOfModifictaions.ToString();
                 ViewBag.numberOfDeletions = numberOfDeletions.ToString();
                 return View();
@@ -100,19 +102,32 @@ namespace Finalaplication.Controllers
             string commonvolcontracts = JsonConvert.SerializeObject(volcontracts);
             string commonbeneficiarycontracts = JsonConvert.SerializeObject(beneficiarycontracts);
 
+            string outOfSyncDocuments = "";
+
             for (int i = 0; i < volunteerslocal.Count(); i++)
             {
                 // If the common db does not contain the volunteer and it has been created since the last fetch/push it gets added.
                 if (!commonvols.Contains(volunteerslocal[i]._id) && modifiedids.Contains(volunteerslocal[i]._id))
                     commonvolunteerManager.AddVolunteerToDB(volunteerslocal[i]);
-                // if the common db contains the volunteer, but it has been edited since last sync it gets updated, otherwise NO
+                // if the common db contains the volunteer, but it has been edited since last sync it gets updated
                 else if (modifiedids.Contains(volunteerslocal[i]._id))
+                {
+                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(volunteerslocal[i]._id);
+                    string currentDocument = JsonConvert.SerializeObject(commonvolunteerManager.GetOneVolunteer(volunteerslocal[i]._id));
+                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
+                    currentDocument = currentDocument.Replace(" ", "");
+                    //Checking whether or not the Document has been modified since we have last synced.
+                    if (auxiliaryDocument != currentDocument)
+                    {
+                        outOfSyncDocuments += volunteerslocal[i].Fullname + ", ";
+                    }
                     commonvolunteerManager.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
+                }
             }
             for (int i = 0; i < volunteers.Count(); i++)
             {
                 // if the document has been deleted it will get deleted from the common db aswell.
-                // the document will not be readded unless someone has modified the document with this ID.
+                // the document will not be re-added unless someone has modified the document with this ID.
                 if (deletedids.Contains(volunteers[i]._id))
                     commonvolunteerManager.DeleteAVolunteer(volunteers[i]._id);
             }
@@ -122,7 +137,17 @@ namespace Finalaplication.Controllers
                 if (!commonevents.Contains(eventslocal[i]._id) && modifiedids.Contains(eventslocal[i]._id))
                     commonEventManager.AddEventToDB(eventslocal[i]);
                 else if (modifiedids.Contains(eventslocal[i]._id))
+                {
+                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(eventslocal[i]._id);
+                    string currentDocument = JsonConvert.SerializeObject(commonEventManager.GetOneEvent(eventslocal[i]._id));
+                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
+                    currentDocument = currentDocument.Replace(" ", "");
+                    if (auxiliaryDocument != currentDocument)
+                    {
+                        outOfSyncDocuments += eventslocal[i].NameOfEvent + ", ";
+                    }
                     commonEventManager.UpdateAnEvent(eventslocal[i], eventslocal[i]._id);
+                }
             }
             for (int i = 0; i < events.Count(); i++)
             {
@@ -135,7 +160,17 @@ namespace Finalaplication.Controllers
                 if (!commonbenefieciaries.Contains(beneficiarieslocal[i]._id) && modifiedids.Contains(beneficiarieslocal[i]._id))
                     commonBeneficiaryManager.AddBeneficiaryToDB(beneficiarieslocal[i]);
                 else if (modifiedids.Contains(beneficiarieslocal[i]._id))
+                {
+                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(beneficiarieslocal[i]._id);
+                    string currentDocument = JsonConvert.SerializeObject(commonBeneficiaryManager.GetOneBeneficiary(beneficiarieslocal[i]._id));
+                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
+                    currentDocument = currentDocument.Replace(" ", "");
+                    if (auxiliaryDocument != currentDocument)
+                    {
+                        outOfSyncDocuments += beneficiarieslocal[i].Fullname + ", ";
+                    }
                     commonBeneficiaryManager.UpdateABeneficiary(beneficiarieslocal[i], beneficiarieslocal[i]._id);
+                }
             }
             for (int i = 0; i < beneficiaries.Count(); i++)
             {
@@ -148,7 +183,17 @@ namespace Finalaplication.Controllers
                 if (!commonsponsors.Contains(sponsorslocal[i]._id) && modifiedids.Contains(sponsorslocal[i]._id))
                     commonSponsorManager.AddSponsorToDB(sponsorslocal[i]);
                 else if (modifiedids.Contains(sponsorslocal[i]._id))
+                {
+                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(sponsorslocal[i]._id);
+                    string currentDocument = JsonConvert.SerializeObject(commonSponsorManager.GetOneSponsor(sponsorslocal[i]._id));
+                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
+                    currentDocument = currentDocument.Replace(" ", "");
+                    if (auxiliaryDocument != currentDocument)
+                    {
+                        outOfSyncDocuments += sponsorslocal[i].NameOfSponsor + ", ";
+                    }
                     commonSponsorManager.UpdateSponsor(sponsorslocal[i], sponsorslocal[i]._id);
+                }
             }
             for (int i = 0; i < sponsors.Count(); i++)
             {
@@ -203,7 +248,7 @@ namespace Finalaplication.Controllers
             string localvolcontrcarts = JsonConvert.SerializeObject(volcontractslocal);
             string localbeneficiarycontrcarts = JsonConvert.SerializeObject(beneficiarycontractslocal);
 
-            for (int i = 0; i < volunteers.Count(); i++) 
+            for (int i = 0; i < volunteers.Count(); i++)
             {
                 if (!(localvols.Contains(volunteers[i]._id)))
                     volunteerManager.AddVolunteerToDB(volunteers[i]);
@@ -282,7 +327,8 @@ namespace Finalaplication.Controllers
             }
 
             modifiedDocumentManager.DeleteAuxiliaryDatabases();
-            return RedirectToAction("SynchronizationResults", "DatabaseManagement", new { numberOfModifictaions, numberOfDeletions });
+            AuxiliaryDBManager.DropAuxiliaryDatabase();
+            return RedirectToAction("SynchronizationResults", "DatabaseManagement", new { numberOfModifictaions, numberOfDeletions, outOfSyncDocuments });
         }
     }
 }

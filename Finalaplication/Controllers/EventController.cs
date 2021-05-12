@@ -25,6 +25,8 @@ namespace Finalaplication.Controllers
         private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
 
         private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
@@ -321,6 +323,14 @@ namespace Finalaplication.Controllers
                 if (ModelState.IsValid)
                 {
                     incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
+                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
+                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
+                    if (!modifiedids.Contains(id))
+                    {
+                        Event currentevent = eventManager.GetOneEvent(id);
+                        string currenteventasstring = JsonConvert.SerializeObject(currentevent);
+                        auxiliaryDBManager.AddDocumenttoDB(currenteventasstring);
+                    }
                     eventManager.UpdateAnEvent(incomingevent, id);
                     return RedirectToAction("Index");
                 }
