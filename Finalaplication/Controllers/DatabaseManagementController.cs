@@ -10,34 +10,6 @@ namespace Finalaplication.Controllers
 {
     public class DatabaseManagementController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
-
-        private static string SERVER_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_COMMON);
-        private static int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_COMMON));
-        private static string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
-
-        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
-        private AuxiliaryDBManager AuxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-
-        private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private BeneficiaryManager beneManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-
-        private EventManager commonEventManager = new EventManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
-        private SponsorManager commonSponsorManager = new SponsorManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
-        private VolunteerManager commonvolunteerManager = new VolunteerManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
-        private VolContractManager commonVolContractManager = new VolContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
-        private BeneficiaryManager commonBeneficiaryManager = new BeneficiaryManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
-        private BeneficiaryContractManager commonBenefContractManager = new BeneficiaryContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
-
-        public DatabaseManagementController()
-        {
-        }
 
         public IActionResult Servermanagement()
         {
@@ -73,6 +45,31 @@ namespace Finalaplication.Controllers
 
         public ActionResult SynchronizeData()
         {
+            string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
+            int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
+            string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+
+            string SERVER_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_COMMON);
+            int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_COMMON));
+            string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
+
+            ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
+            AuxiliaryDBManager AuxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+
+            EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            BeneficiaryManager beneManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+            BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+
+            EventManager commonEventManager = new EventManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+            SponsorManager commonSponsorManager = new SponsorManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+            VolunteerManager commonvolunteerManager = new VolunteerManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+            VolContractManager commonVolContractManager = new VolContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+            BeneficiaryManager commonBeneficiaryManager = new BeneficiaryManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+            BeneficiaryContractManager commonBenefContractManager = new BeneficiaryContractManager(SERVER_NAME_COMMON, SERVER_PORT_COMMON, DATABASE_NAME_COMMON);
+
             List<Volunteer> volunteerslocal = volunteerManager.GetListOfVolunteers();
             List<Event> eventslocal = eventManager.GetListOfEvents();
             List<Beneficiary> beneficiarieslocal = beneManager.GetListOfBeneficiaries();

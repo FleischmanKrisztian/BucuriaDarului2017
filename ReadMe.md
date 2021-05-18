@@ -74,10 +74,6 @@ Beneficiaries-fields:
  - Birthday alert;
  - Expiration contract alert;
 
-### Parameters and instruction for running the application :
-Here(https://github.com/FleischmanKrisztian/Finalapplication/blob/main/Developer%20Manual.md)
-
-
 
 
 
