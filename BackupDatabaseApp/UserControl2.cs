@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
 
 namespace BackupDatabaseApp
 {
     public partial class UserControl2 : UserControl
     {
         private string filename;
+
         public UserControl2()
         {
             InitializeComponent();
@@ -24,21 +18,18 @@ namespace BackupDatabaseApp
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void UserControl2_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog  = new System.Windows.Forms.FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                string strfilename;
-                strfilename = saveFileDialog1.FileName;
+                string strfilename = folderBrowserDialog.SelectedPath;
                 richTextBox1.Text = strfilename;
                 filename = strfilename;
             }
@@ -46,8 +37,6 @@ namespace BackupDatabaseApp
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -58,18 +47,17 @@ namespace BackupDatabaseApp
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DatabaseMethods databaseMethods = new DatabaseMethods();
-            string message=databaseMethods.BackupDatabase(filename);
-            richTextBox2.Text = message;
-            if (message.Contains("succesfuly"))
-            {
-                panel1.Show();
-            }
+            DatabaseMethods.BackupDatabase(filename);
+            richTextBox2.Text = "Backup was successful";
+            panel1.Show();
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
+        }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
         }
     }
 }

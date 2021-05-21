@@ -1,81 +1,77 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Diagnostics;
-using System.Windows;
+using System.IO;
 
 namespace BackupDatabaseApp
 {
-    class DatabaseMethods
+    internal class DatabaseMethods
     {
-        
-        internal string BackupDatabase(string filename)
+        internal static void BackupDatabase(string filename)
         {
-            string path  = Path.GetDirectoryName(filename);
-            string navigate_to_mongo_command = "/c cd " + Environment.GetEnvironmentVariable(Common.MongoConstants.MONGO_Path);
+            Process p = new Process();
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = "cmd.exe";
+            info.RedirectStandardInput = true;
+            info.UseShellExecute = false;
 
-            string backup_command = @"/k mongodump --host =" + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_NAME_COMMON)
-                + " --port =" + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_PORT_COMMON)
-                + " --db = " + Environment.GetEnvironmentVariable(Common.MongoConstants.DATABASE_NAME_COMMON)
-                + " --viewsAsCollections "
-                + "--archive = " + filename;
+            p.StartInfo = info;
+            p.Start();
 
-
-            ProcessStartInfo ps = new ProcessStartInfo();
-            ps.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
-            ps.FileName = "cmd.exe";
-            Process.Start(ps);
-
-
-
-
-            string message = "Error!!";
-            if (File.Exists(path))
-            { message = "This action was completead succesfuly!"; }
-            else
-            { message = "Error!!!"; }
-            
-            return message;
+            string pathtomongodump = Environment.GetEnvironmentVariable(Common.MongoConstants.MONGO_PATH);
+            using (StreamWriter sw = p.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    sw.WriteLine("cd " + pathtomongodump);
+                    sw.WriteLine("mongodump --host 192.168.0.143 --port 32770 -d BucuriaDaruluiCommon --out " + filename);
+                }
+            }
         }
 
-        internal string RestoreDatabase(string path)
+        internal static void RestoreDatabase(string filename)
         {
-           
-            string navigate_to_mongo_command = "/c cd " + Environment.GetEnvironmentVariable(Common.MongoConstants.MONGO_Path);
+            Process p = new Process();
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = "cmd.exe";
+            info.RedirectStandardInput = true;
+            info.UseShellExecute = false;
 
-            string backup_command = @"/k mongorestore --host =" + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_NAME_COMMON)
-                + " --port =" + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_PORT_COMMON)
-                + " --db = " + Environment.GetEnvironmentVariable(Common.MongoConstants.DATABASE_NAME_COMMON)
-                + "(${" + Environment.GetEnvironmentVariable(Common.MongoConstants.DATABASE_NAME_COMMON )+ "})  --archive =" + path;
+            p.StartInfo = info;
+            p.Start();
 
+            string pathcommand = "cd " + Environment.GetEnvironmentVariable(Common.MongoConstants.MONGO_PATH);
+            string restorecommand = "mongorestore --host 192.168.0.143 --port 32770 --drop -d BucuriaDaruluiCommon " + filename;
 
-            ProcessStartInfo ps = new ProcessStartInfo();
-            ps.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
-            //ps.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            ps.FileName = "cmd.exe";
-            Process.Start(ps);
-
-            string message = "Please choose a valid file!";
-            //if (path!=null)
-            // message = "This action was completead succesfuly!";
-
-            return message;
+            using (StreamWriter sw = p.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    sw.WriteLine(pathcommand);
+                    sw.WriteLine(restorecommand);
+                }
+            }
         }
 
-        internal void DeleteDatabase(string dbname)
+        internal static void DeleteDatabase(string databasename)
         {
-            //string command= "mongo <"+ dbname +"> --eval "db.dropDatabase()"";
-            string command="mongo";
-            ProcessStartInfo ps = new ProcessStartInfo();
-            ps.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
-            //ps.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            ps.FileName = "cmd.exe";
-            Process.Start("cmd.exe", command);
+            Process p = new Process();
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = "cmd.exe";
+            info.RedirectStandardInput = true;
+            info.UseShellExecute = false;
+
+            p.StartInfo = info;
+            p.Start();
+
+            using (StreamWriter sw = p.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    sw.WriteLine("mongo");
+                    sw.WriteLine("use " + databasename);
+                    sw.WriteLine("db.dropDatabase()");
+                }
+            }
         }
     }
 }

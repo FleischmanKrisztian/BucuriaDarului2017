@@ -42,7 +42,6 @@
             this.label3.Size = new System.Drawing.Size(488, 160);
             this.label3.TabIndex = 5;
             this.label3.Text = resources.GetString("label3.Text");
-            this.label3.UseWaitCursor = true;
             // 
             // label1
             // 
@@ -55,7 +54,6 @@
             this.label1.Size = new System.Drawing.Size(133, 31);
             this.label1.TabIndex = 6;
             this.label1.Text = "Welcome ";
-            this.label1.UseWaitCursor = true;
             // 
             // UserControl1
             // 
