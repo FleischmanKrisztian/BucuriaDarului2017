@@ -626,3 +626,6 @@ msgstr "Next"
 
 msgid "Synchronize"
 msgstr "Synchronize database"
+
+msgid "OpenDatabaseManagerApp"
+msgstr "Open database manager application"

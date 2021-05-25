@@ -625,3 +625,6 @@ msgstr "Următorul pas"
 
 msgid "Synchronize"
 msgstr "Sincronizează baza de date"
+
+msgid "OpenDatabaseManagerApp"
+msgstr "Deschide aplicație de gestionare bază de date"
