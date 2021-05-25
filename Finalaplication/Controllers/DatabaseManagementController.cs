@@ -43,6 +43,11 @@ namespace Finalaplication.Controllers
             return View();
         }
 
+        public ActionResult BackupManagerApp()
+        {
+            return Redirect("BackupManagerApp:asd");
+        }
+
         public ActionResult SynchronizeData()
         {
             string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);

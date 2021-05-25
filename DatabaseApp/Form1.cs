@@ -16,6 +16,24 @@ namespace BackupDatabaseApp
         public Form1()
         {
             InitializeComponent();
+            string[] args = Environment.GetCommandLineArgs();
+            RegisterMyProtocol(args[0]);
+        }
+
+        private static void RegisterMyProtocol(string BackupManagerAppPath)
+        {
+            RegistryKey key = Registry.ClassesRoot.OpenSubKey("BackupManagerApp");
+
+            if (key == null)
+            {
+                key = Registry.ClassesRoot.CreateSubKey("BackupManagerApp");
+                key.SetValue(string.Empty, "URL:BackupManagerApp Protocol");
+                key.SetValue("URL Protocol", string.Empty);
+                key = key.CreateSubKey(@"shell\open\command");
+                key.SetValue(string.Empty, BackupManagerAppPath);
+            }
+
+            key.Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
