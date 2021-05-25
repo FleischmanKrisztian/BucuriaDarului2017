@@ -1,4 +1,5 @@
-﻿using Finalaplication.ControllerHelpers.VolunteerHelpers;
+﻿using Finalaplication.ControllerHelpers.EventHelpers;
+using Finalaplication.ControllerHelpers.VolunteerHelpers;
 using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -103,6 +104,7 @@ namespace Finalaplication.Controllers
 
             string outOfSyncDocuments = "";
 
+            //
             List<Volunteer> volForDb = VolunteerFunctions.VolToBeAdded(volunteerslocal, commonvols, modifiedids);
             foreach (Volunteer var in volForDb)
             {
@@ -117,7 +119,7 @@ namespace Finalaplication.Controllers
               
                 if (modifiedids.Contains(volunteerslocal[i]._id))
                 {
-                    string auxiliaryDocument = auxiliaryDocuments.GetDocumentByID(volunteerslocal[i]._id);
+                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(volunteerslocal[i]._id);
                     string currentDocument = JsonConvert.SerializeObject(commonvolunteerManager.GetOneVolunteer(volunteerslocal[i]._id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -137,11 +139,17 @@ namespace Finalaplication.Controllers
                     commonvolunteerManager.DeleteAVolunteer(volunteers[i]._id);
             }
 
+            //
+            List<Event> eventsForDb = EventFunctions.EventsToBeAdded(eventslocal,commonevents, modifiedids);
+            foreach (Event var in eventsForDb)
+            {
+                commonEventManager.AddEventToDB(var);
+            }
+            
+               
             for (int i = 0; i < eventslocal.Count(); i++)
             {
-                if (!commonevents.Contains(eventslocal[i]._id) && modifiedids.Contains(eventslocal[i]._id))
-                    commonEventManager.AddEventToDB(eventslocal[i]);
-                else if (modifiedids.Contains(eventslocal[i]._id))
+                if (modifiedids.Contains(eventslocal[i]._id))
                 {
                     string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(eventslocal[i]._id);
                     string currentDocument = JsonConvert.SerializeObject(commonEventManager.GetOneEvent(eventslocal[i]._id));
@@ -159,6 +167,8 @@ namespace Finalaplication.Controllers
                 if (deletedids.Contains(events[i]._id))
                     commonEventManager.DeleteAnEvent(events[i]._id);
             }
+
+
 
             for (int i = 0; i < beneficiarieslocal.Count(); i++)
             {
