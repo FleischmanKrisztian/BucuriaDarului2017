@@ -63,10 +63,13 @@ namespace BackupDatabaseApp
             p.StartInfo = info;
             p.Start();
 
+            string pathcommand = "cd " + Environment.GetEnvironmentVariable(Common.MongoConstants.MONGO_PATH);
+
             using (StreamWriter sw = p.StandardInput)
             {
                 if (sw.BaseStream.CanWrite)
                 {
+                    sw.WriteLine(pathcommand);
                     sw.WriteLine("mongo");
                     sw.WriteLine("use " + databasename);
                     sw.WriteLine("db.dropDatabase()");
