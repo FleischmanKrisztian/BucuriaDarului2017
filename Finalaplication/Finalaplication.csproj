@@ -65,4 +65,16 @@
     <Folder Include="wwwroot\lib\NewFolder\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="wwwroot\Resources\contract.jpg" />
+    <None Include="wwwroot\Resources\csv.png" />
+    <None Include="wwwroot\Resources\delete.jpg" />
+    <None Include="wwwroot\Resources\detali.jpg" />
+    <None Include="wwwroot\Resources\edit.jpg" />
+    <None Include="wwwroot\Resources\import-csv.png" />
+    <None Include="wwwroot\Resources\print.jpg" />
+    <None Include="wwwroot\Resources\sponsor.jpg" />
+  </ItemGroup>
+
 </Project>
