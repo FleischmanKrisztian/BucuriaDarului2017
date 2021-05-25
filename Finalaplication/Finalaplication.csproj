@@ -18,6 +18,10 @@
     <None Remove="wwwroot\NewFolder\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\Resources\sponsor.jpg" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.5.2" />
@@ -75,6 +79,7 @@
     <None Include="wwwroot\Resources\import-csv.png" />
     <None Include="wwwroot\Resources\print.jpg" />
     <None Include="wwwroot\Resources\sponsor.jpg" />
+    <None Include="wwwroot\Resources\vol.jpg" />
   </ItemGroup>
 
 </Project>
