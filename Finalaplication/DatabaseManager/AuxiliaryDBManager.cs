@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Finalaplication.LocalDatabaseManager
 {
@@ -29,6 +30,12 @@ namespace Finalaplication.LocalDatabaseManager
             BsonDocument returndocument = auxiliarycollection.Find(filter).FirstOrDefault();
             string returnstring = returndocument.ToString();
             return returnstring;
+        }
+        internal List<BsonDocument> GetListDocuments()
+        {
+            List<BsonDocument> auxiliarycollection = dBContext.Database.GetCollection<BsonDocument>("Auxiliary").AsQueryable<BsonDocument>().ToList() ;
+          
+            return auxiliarycollection;
         }
 
         internal void DropAuxiliaryDatabase()

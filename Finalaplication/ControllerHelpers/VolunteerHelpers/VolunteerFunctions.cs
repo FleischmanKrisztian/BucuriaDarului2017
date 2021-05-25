@@ -1,5 +1,7 @@
 ﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.Models;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -503,6 +505,46 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
                 }
             }
             return returnlistofvols;
+        }
+
+        internal static List<Volunteer> VolToBeAdded(List<Volunteer> volunteerslocal, string commonvols, string modifiedids)
+        {
+            List<Volunteer> volunteersToAddToDB = new List<Volunteer>();
+            for (int i = 0; i < volunteerslocal.Count(); i++)
+            {
+                if (!commonvols.Contains(volunteerslocal[i]._id) && modifiedids.Contains(volunteerslocal[i]._id))
+                    volunteersToAddToDB.Add(volunteerslocal[i]);
+            }
+
+            return volunteersToAddToDB;
+
+        }
+
+        internal static Tuple<List<Volunteer>, string> DatabaseSyncVol(List<Volunteer> volunteerslocal, string outOfSyncDocuments , string modifiedids,List<BsonDocument> auxiliaryDocuments, List<Volunteer> allvols)
+        {
+            List<Volunteer> volsForUpDate = new List<Volunteer>();
+            for (int i = 0; i < volunteerslocal.Count(); i++)
+            {
+                if (modifiedids.Contains(volunteerslocal[i]._id))
+                {
+                   
+                    
+                    string auxiliaryDocument = auxiliaryDocuments.Find(volunteerslocal[i]._id);
+
+                    string currentDocument = JsonConvert.SerializeObject(allvols.Find(volunteerslocal[i]._id));
+                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
+                    currentDocument = currentDocument.Replace(" ", "");
+                    //Checking whether or not the Document has been modified since we have last synced.
+                    if (auxiliaryDocument != currentDocument)
+                    {
+                        outOfSyncDocuments += volunteerslocal[i].Fullname + ", ";
+                    }
+                    volsForUpDate.Add(volunteerslocal[i]);
+                }
+            }
+
+            Tuple<List<Volunteer>, string> return_tuple = Tuple.Create(volsForUpDate, outOfSyncDocuments);
+            return return_tuple;
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Finalaplication.LocalDatabaseManager;
+﻿using Finalaplication.ControllerHelpers.VolunteerHelpers;
+using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -101,15 +103,21 @@ namespace Finalaplication.Controllers
 
             string outOfSyncDocuments = "";
 
+            List<Volunteer> volForDb = VolunteerFunctions.VolToBeAdded(volunteerslocal, commonvols, modifiedids);
+            foreach (Volunteer var in volForDb)
+            {
+                commonvolunteerManager.AddVolunteerToDB(var);
+            }
+
+            List<BsonDocument> auxiliaryDocuments = AuxiliaryDBManager.GetListDocuments();
+            List<Volunteer> allvolscommon = commonvolunteerManager.GetListOfVolunteers();
+
             for (int i = 0; i < volunteerslocal.Count(); i++)
             {
-                // If the common db does not contain the volunteer and it has been created since the last fetch/push it gets added.
-                if (!commonvols.Contains(volunteerslocal[i]._id) && modifiedids.Contains(volunteerslocal[i]._id))
-                    commonvolunteerManager.AddVolunteerToDB(volunteerslocal[i]);
-                // if the common db contains the volunteer, but it has been edited since last sync it gets updated
-                else if (modifiedids.Contains(volunteerslocal[i]._id))
+              
+                if (modifiedids.Contains(volunteerslocal[i]._id))
                 {
-                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(volunteerslocal[i]._id);
+                    string auxiliaryDocument = auxiliaryDocuments.GetDocumentByID(volunteerslocal[i]._id);
                     string currentDocument = JsonConvert.SerializeObject(commonvolunteerManager.GetOneVolunteer(volunteerslocal[i]._id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");

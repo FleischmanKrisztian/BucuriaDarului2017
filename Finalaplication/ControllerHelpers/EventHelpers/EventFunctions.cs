@@ -185,5 +185,18 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             }
             return 0;
         }
+
+        internal static List<Event> EventsToBeAdded(List<Event> eventslocal, string commonevents, string modifiedids)
+        {
+            List<Event> eventsToAddToDB = new List<Event>();
+            for (int i = 0; i < eventslocal.Count(); i++)
+            {
+                if (!commonevents.Contains(eventslocal[i]._id) && modifiedids.Contains(eventslocal[i]._id))
+                    eventsToAddToDB.Add(eventslocal[i]);
+            }
+
+            return eventsToAddToDB;
+
+        }
     }
 }
