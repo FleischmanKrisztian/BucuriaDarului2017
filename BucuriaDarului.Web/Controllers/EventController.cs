@@ -13,6 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BucuriaDarului.Contexts;
+using BucuriaDarului.Gateway;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -30,9 +32,13 @@ namespace Finalaplication.Controllers
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
+        private readonly EventsImportContext _eventsImportContext;
+
         public EventController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<EventController> localizer)
         {
             _localizer = localizer;
+
+            _eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
         }
 
         public ActionResult FileUpload()
@@ -41,11 +47,11 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult FileUpload(IFormFile Files)
+        public ActionResult FileUpload(IFormFile Files)//TODO: It must be renamed Import
         {
             try
             {
-                string path = " ";
+                /*string path = " ";
                 if (UniversalFunctions.File_is_not_empty(Files))
                 {
                     path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
@@ -61,7 +67,10 @@ namespace Finalaplication.Controllers
                     Event ev = EventFunctions.GetEventFromString(Events[i]);
                     eventManager.AddEventToDB(ev);
                 }
-                UniversalFunctions.RemoveTempFile(path);
+                UniversalFunctions.RemoveTempFile(path);*/
+                Stream csvFile = Files.OpenReadStream();
+
+                _eventsImportContext.Execute(csvFile);
                 return RedirectToAction("Index");
             }
             catch

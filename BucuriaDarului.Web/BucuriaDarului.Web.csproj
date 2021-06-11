@@ -82,4 +82,10 @@
     <None Include="wwwroot\Resources\vol.jpg" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\BucuriaDarului.Contexts\BucuriaDarului.Contexts.csproj" />
+    <ProjectReference Include="..\BucuriaDarului.Gateway\BucuriaDarului.Gateway.csproj" />
+  </ItemGroup>
+
 </Project>
