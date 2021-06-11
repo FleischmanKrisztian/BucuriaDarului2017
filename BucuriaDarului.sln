@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finalaplication", "Finalaplication\Finalaplication.csproj", "{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finalaplication", "BucuriaDarului.Web\BucuriaDarului.Web.csproj", "{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSVExporter", "CSVExporter\CSVExporter.csproj", "{E4BFD6B6-1086-4546-A5F0-5C6BD8FF61AC}"
 EndProject
