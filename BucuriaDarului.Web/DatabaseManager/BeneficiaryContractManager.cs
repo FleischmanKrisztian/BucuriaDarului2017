@@ -1,6 +1,7 @@
 ﻿using Finalaplication.App_Start;
 using Finalaplication.Models;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,7 +23,9 @@ namespace Finalaplication.LocalDatabaseManager
             modifiedDocumentManager.AddIDtoString(beneficiarycontract._id);
             benecontractcollection.InsertOne(beneficiarycontract);
         }
-
+        internal static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable("volmongo_server");
+        internal static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable("volmongo_port"));
+        internal static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable("volmongo_databasename");
         internal Beneficiarycontract GetBeneficiaryContract(string id)
         {
             IMongoCollection<Beneficiarycontract> benecontractcollection = dBContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");

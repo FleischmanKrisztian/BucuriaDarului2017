@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "FileUpload";
+    ViewData["Title"] = "Import";
     string value = ViewBag.Progress;
 }
 <html>
@@ -24,7 +24,7 @@
 <br />
 <body>
     <div class="emp-profile">
-        <form action="./FileUpload"
+        <form action="./Import"
               enctype="multipart/form-data"
               method="post">
             <div class="row">

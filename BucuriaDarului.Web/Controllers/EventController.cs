@@ -32,44 +32,23 @@ namespace Finalaplication.Controllers
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
-        private readonly EventsImportContext _eventsImportContext;
-
         public EventController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<EventController> localizer)
         {
             _localizer = localizer;
-
-            _eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
         }
 
-        public ActionResult FileUpload()
+        public ActionResult Import()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult FileUpload(IFormFile Files)//TODO: It must be renamed Import
+        public ActionResult Import(IFormFile Files)
         {
             try
             {
-                /*string path = " ";
-                if (UniversalFunctions.File_is_not_empty(Files))
-                {
-                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
-                    UniversalFunctions.CreateFileStream(Files, path);
-                }
-                else
-                {
-                    return View();
-                }
-                List<string[]> Events = CSVImportParser.GetListFromCSV(path);
-                for (int i = 0; i < Events.Count; i++)
-                {
-                    Event ev = EventFunctions.GetEventFromString(Events[i]);
-                    eventManager.AddEventToDB(ev);
-                }
-                UniversalFunctions.RemoveTempFile(path);*/
+                var _eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
                 Stream csvFile = Files.OpenReadStream();
-
                 _eventsImportContext.Execute(csvFile);
                 return RedirectToAction("Index");
             }

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
 
 namespace BucuriaDarului.Contexts
 {
@@ -74,7 +74,7 @@ namespace BucuriaDarului.Contexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns != null && headerColumns.Length != 10;
+            return headerColumns.Length == 11;
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -90,99 +90,71 @@ namespace BucuriaDarului.Contexts
 
         private static List<Event> GetEventsFromCsv(List<string[]> lines)
         {
-            var result1 = new List<Event>();
+            var Events = new List<Event>();
 
             foreach (var line in lines)
             {
                 Event ev = new Event();
-
                 try
                 {
-                    ev.NameOfEvent = line[0];
-                }
-                catch
-                {
-                    ev.NameOfEvent = "Invalid name";
-                }
+                    ev._id = line[0];
+                    ev.NameOfEvent = line[1];
+                    ev.PlaceOfEvent = line[2];
 
-                try
-                {
-                    ev.PlaceOfEvent = line[1];
-                }
-                catch
-                {
-                    ev.PlaceOfEvent = "Invalid Place";
-                }
-
-                try
-                {
-                    if (line[2] == null || line[2] == "" || line[2] == "0")
+                    if (line[3] == null || line[3] == "" || line[3] == "0")
                     {
                         ev.DateOfEvent = DateTime.MinValue;
                     }
                     else
                     {
                         DateTime data;
-                        if (line[2].Contains("/") == true)
+                        if (line[3].Contains("/") == true)
                         {
-                            string[] date = line[2].Split(" ");
+                            string[] date = line[3].Split(" ");
                             string[] FinalDate = date[0].Split("/");
                             data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
                         }
                         else
                         {
-                            string[] anotherDate = line[2].Split('.');
+                            string[] anotherDate = line[3].Split('.');
                             data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                         }
-
                         ev.DateOfEvent = data.AddDays(1);
                     }
-                }
-                catch
-                {
-                    ev.DateOfEvent = DateTime.MinValue;
-                }
 
-                if (line[3] == "" || line[3] == null)
-                {
-                    ev.NumberOfVolunteersNeeded = 0;
-                }
-                else
-                {
-                    int number = 0;
-                    bool converted = false;
-                    converted = Int32.TryParse(line[3], out number);
-                    if (converted == true)
-                    {
-                        ev.NumberOfVolunteersNeeded = number;
-                    }
-                    else
+                    if (line[4] == "" || line[4] == null)
                     {
                         ev.NumberOfVolunteersNeeded = 0;
                     }
+                    else
+                    {
+                        int number = 0;
+                        bool converted = false;
+                        converted = Int32.TryParse(line[4], out number);
+                        if (converted) 
+                        {
+                            ev.NumberOfVolunteersNeeded = number;
+                        }
+                        else
+                        {
+                            ev.NumberOfVolunteersNeeded = 0;
+                        }
+                    }
+                    ev.TypeOfActivities = line[5];
+                    ev.TypeOfEvent = line[6];
+                    ev.Duration = line[7];
+                    ev.AllocatedVolunteers = line[8];
+                    ev.AllocatedSponsors = line[10];
                 }
-
-                try
+                catch (Exception ex)
                 {
-                    ev.TypeOfActivities = line[4];
-                    ev.TypeOfEvent = line[5];
-                    ev.Duration = line[6];
-                    ev.AllocatedVolunteers = line[7];
-                    ev.AllocatedSponsors = line[8];
+                    Console.WriteLine("An error has occured while importing!");
+                    Console.WriteLine(ex);
                 }
-                catch
-                {
-                    ev.TypeOfActivities = "An error has occured";
-                    ev.TypeOfEvent = "An error has occured";
-                    ev.Duration = "0";
-                    ev.AllocatedVolunteers = "An error has occured";
-                    ev.AllocatedSponsors = "An error has occured";
-                }
-
-                result1.Add(ev);
+                Events.Add(ev);
             }
 
-            return result1;
+            return Events;
         }
     }
 

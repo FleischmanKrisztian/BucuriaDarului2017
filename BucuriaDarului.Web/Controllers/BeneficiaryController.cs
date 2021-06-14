@@ -32,13 +32,13 @@ namespace Finalaplication.Controllers
             _localizer = localizer;
         }
 
-        public ActionResult FileUpload()
+        public ActionResult Import()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult FileUpload(IFormFile Files)
+        public ActionResult Import(IFormFile Files)
         {
             try
             {
