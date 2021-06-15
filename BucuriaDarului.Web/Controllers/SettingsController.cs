@@ -25,8 +25,8 @@ namespace Finalaplication.Controllers
             set.Lang = lang;
             ViewBag.Lang = lang;
             settingsManager.UpdateSettings(set);
-            TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
-            TempData[VolMongoConstants.CONNECTION_LANGUAGE] = set.Lang;
+            TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
+            TempData[Constants.CONNECTION_LANGUAGE] = set.Lang;
             Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
@@ -47,8 +47,8 @@ namespace Finalaplication.Controllers
                 Settings settings = settingsManager.GetSettingsItem();
                 if (settings != null)
                 {
-                    TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;
-                    TempData[VolMongoConstants.CONNECTION_LANGUAGE] = settings.Lang;
+                    TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;
+                    TempData[Constants.CONNECTION_LANGUAGE] = settings.Lang;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -59,8 +59,8 @@ namespace Finalaplication.Controllers
                         Quantity = 15
                     };
                     settingsManager.AddSettingsToDB(settings);
-                    TempData[VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;
-                    TempData[VolMongoConstants.CONNECTION_LANGUAGE] = settings.Lang;
+                    TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;
+                    TempData[Constants.CONNECTION_LANGUAGE] = settings.Lang;
 
                     return RedirectToAction("Index", "Home");
                 }

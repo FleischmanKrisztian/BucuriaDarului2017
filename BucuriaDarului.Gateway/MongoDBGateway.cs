@@ -1,10 +1,9 @@
-﻿using BucuriaDarului.Core.Gateways;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
 
 namespace BucuriaDarului.Gateway
 {
-    public class MongoDBGateway : IMongoDBGateway
+    public class MongoDBGateway
     {
         public IMongoDatabase Database;
 

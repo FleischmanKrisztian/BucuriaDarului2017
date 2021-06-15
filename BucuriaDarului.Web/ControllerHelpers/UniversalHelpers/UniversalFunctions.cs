@@ -59,12 +59,12 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
         {
             try
             {
-                string numberOfDocumentsAsString = tempDataDic.Peek(VolMongoConstants.NUMBER_OF_ITEMS_PER_PAGE).ToString();
+                string numberOfDocumentsAsString = tempDataDic.Peek(Constants.NUMBER_OF_ITEMS_PER_PAGE).ToString();
                 return Convert.ToInt16(numberOfDocumentsAsString);
             }
             catch
             {
-                return VolMongoConstants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
+                return Constants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
             }
         }
 

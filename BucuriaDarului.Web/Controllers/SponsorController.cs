@@ -17,9 +17,9 @@ namespace Finalaplication.Controllers
 {
     public class SponsorController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
 
         private readonly IStringLocalizer<SponsorController> _localizer;
 
@@ -71,9 +71,9 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_SPONSOR);
-            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_SPONSOR);
-            string key = VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR;
+            string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_SPONSOR);
+            HttpContext.Session.Remove(Constants.SESSION_KEY_SPONSOR);
+            string key = Constants.SECONDARY_SESSION_KEY_SPONSOR;
             HttpContext.Session.SetString(key, ids);
             return View();
         }
@@ -81,12 +81,12 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
-            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR);
-            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_SPONSOR);
+            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_SPONSOR);
+            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_SPONSOR);
             string ids_and_fields = SponsorFunctions.GetIdAndFieldString(IDS, All, NameOfSponsor, Date, MoneyAmount, WhatGoods, GoodsAmount, HasContract, ContractDetails, PhoneNumber, MailAdress);
-            string key1 = VolMongoConstants.SPONSORSESSION;
+            string key1 = Constants.SPONSORSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterSponsor(_localizer);
-            string key2 = VolMongoConstants.SPONSORHEADER;
+            string key2 = Constants.SPONSORHEADER;
             ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);
@@ -133,7 +133,7 @@ namespace Finalaplication.Controllers
                 string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
                 ViewBag.stringofids = stringofids;
                 sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
-                string key = VolMongoConstants.SESSION_KEY_SPONSOR;
+                string key = Constants.SESSION_KEY_SPONSOR;
                 HttpContext.Session.SetString(key, stringofids);
 
                 return View(sponsors);

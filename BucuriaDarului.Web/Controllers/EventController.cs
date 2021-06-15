@@ -22,9 +22,9 @@ namespace Finalaplication.Controllers
     public class EventController : Controller
     {
         private readonly IStringLocalizer<EventController> _localizer;
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
 
         private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
@@ -62,46 +62,12 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                //TODO: FIX THIS:
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-
-                List<Event> events = eventManager.GetListOfEvents();
-                events = EventFunctions.GetEventsAfterFilters(events, searching, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
-                ViewBag.counter = events.Count();
-                string stringofids = EventFunctions.GetStringOfIds(events);
-                events = EventFunctions.GetEventsAfterPaging(events, page, nrofdocs);
-                string key = VolMongoConstants.SESSION_KEY_EVENT;
-                HttpContext.Session.SetString(key, stringofids);
-
-                if (searching != null)
-                { ViewBag.Filter1 = searching; }
-                if (searchingPlace != null)
-                { ViewBag.Filter2 = searchingPlace; }
-                if (searchingActivity != null)
-                { ViewBag.Filter3 = searchingActivity; }
-                if (searchingType != null)
-                { ViewBag.Filter4 = searchingType; }
-                if (searchingVolunteers != null)
-                { ViewBag.Filter5 = searchingVolunteers; }
-                if (searchingSponsor != null)
-                { ViewBag.Filter6 = searchingSponsor; }
-                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-                if (lowerdate != date)
-                { ViewBag.Filter7 = lowerdate.ToString(); }
-                if (upperdate != date)
-                { ViewBag.Filter8 = upperdate.ToString(); }
-                ViewBag.searching = searching;
-                ViewBag.Activity = searchingActivity;
-                ViewBag.Place = searchingPlace;
-                ViewBag.Type = searchingType;
-                ViewBag.Volunteer = searchingVolunteers;
-                ViewBag.Sponsor = searchingSponsor;
-                ViewBag.Upperdate = upperdate;
-                ViewBag.Lowerdate = lowerdate;
-                ViewBag.page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.nrofdocs = nrofdocs;
-                ViewBag.stringofids = stringofids;
-
-                return View(events);
+                EventsMainDisplayIndexRequest request = new EventsMainDisplayIndexRequest(searching, page, nrofdocs,  searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
+                var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
+                EventsMainDisplayIndexResponse QueriedData = eventsMainDisplayIndexContext.Execute(request);
+                return View(QueriedData);
             }
             catch
             {
@@ -110,11 +76,10 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver()
+        public ActionResult CSVSaver(string stringOfIDs)
         {
-            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_EVENT);
-            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_EVENT);
-            string key = VolMongoConstants.SECONDARY_SESSION_KEY_EVENT;
+            string ids = stringOfIDs;
+            string key = Constants.SECONDARY_SESSION_KEY_EVENT;
             HttpContext.Session.SetString(key, ids);
             return View();
         }
@@ -122,12 +87,12 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
-            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_EVENT);
-            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_EVENT);
+            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_EVENT);
+            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_EVENT);
             string ids_and_fields = EventFunctions.GetIdAndFieldString(IDS, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities);
-            string key1 = VolMongoConstants.EVENTSESSION;
+            string key1 = Constants.EVENTSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
-            string key2 = VolMongoConstants.EVENTHEADER;
+            string key2 = Constants.EVENTHEADER;
             ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);

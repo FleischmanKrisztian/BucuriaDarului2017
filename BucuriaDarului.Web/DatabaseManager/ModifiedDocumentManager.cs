@@ -9,9 +9,9 @@ namespace Finalaplication.LocalDatabaseManager
     public class ModifiedDocumentManager
     {
         private MongoDBContext dBContext = new MongoDBContext(
-          Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL),
-          int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL)),
-          Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL));
+          Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL),
+          int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL)),
+          Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL));
 
         public void AddIDtoString(string id)
         {

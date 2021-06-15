@@ -18,9 +18,9 @@ namespace Finalaplication.Controllers
     public class BeneficiaryController : Controller
     {
         private readonly IStringLocalizer<BeneficiaryController> _localizer;
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
 
         private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
@@ -227,7 +227,7 @@ namespace Finalaplication.Controllers
                 string stringofids = BeneficiaryFunctions.GetStringOfIds(beneficiaries);
                 ViewBag.stringofids = stringofids;
                 beneficiaries = BeneficiaryFunctions.GetBeneficiariesAfterPaging(beneficiaries, page, nrofdocs);
-                string key = VolMongoConstants.SESSION_KEY_BENEFICIARY;
+                string key = Constants.SESSION_KEY_BENEFICIARY;
                 HttpContext.Session.SetString(key, stringofids);
 
                 return View(beneficiaries);
@@ -241,9 +241,9 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_BENEFICIARY);
-            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_BENEFICIARY);
-            string key = VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY;
+            string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_BENEFICIARY);
+            HttpContext.Session.Remove(Constants.SESSION_KEY_BENEFICIARY);
+            string key = Constants.SECONDARY_SESSION_KEY_BENEFICIARY;
             HttpContext.Session.SetString(key, ids);
 
             return View();
@@ -252,12 +252,12 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
         {
-            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY);
-            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_BENEFICIARY);
+            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_BENEFICIARY);
+            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_BENEFICIARY);
             string ids_and_fields = BeneficiaryFunctions.GetIdAndFieldString(IDS, PhoneNumber, SpouseName, Gender, Expences, Income, HousingType, HasHome, Married, HealthCard, HealthInsurance, Addictions, ChronicCondition, Disalility, HealthState, Profesion, SeniorityInWorkField, Ocupation, BirthPlace, Studies, CI_Info, IdContract, IdInvestigation, IdAplication, marca, All, CNP, Fullname, Active, Canteen, HomeDelivery, HomeDeliveryDriver, HasGDPRAgreement, Adress, NumberOfPortions, LastTimeActiv, WeeklyPackage);
-            string key1 = VolMongoConstants.BENEFICIARYSESSION;
+            string key1 = Constants.BENEFICIARYSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterBeneficiary(_localizer);
-            string key2 = VolMongoConstants.BENEFICIARYHEADER;
+            string key2 = Constants.BENEFICIARYHEADER;
             ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);

@@ -50,13 +50,13 @@ namespace Finalaplication.Controllers
 
         public ActionResult SynchronizeData()
         {
-            string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
-            int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
-            string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+            string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
+            int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
+            string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
 
-            string SERVER_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_COMMON);
-            int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_COMMON));
-            string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_COMMON);
+            string SERVER_NAME_COMMON = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_COMMON);
+            int SERVER_PORT_COMMON = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_COMMON));
+            string DATABASE_NAME_COMMON = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_COMMON);
 
             ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
             AuxiliaryDBManager AuxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);

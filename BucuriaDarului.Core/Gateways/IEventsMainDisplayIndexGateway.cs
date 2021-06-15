@@ -2,8 +2,8 @@
 
 namespace BucuriaDarului.Core.Gateways
 {
-    public interface IModifiedIDGateway
+    public interface IEventsMainDisplayIndexGateway
     {
-        void AddIDtoModifications(string id);
+        List<Event> GetListOfEvents();
     }
 }

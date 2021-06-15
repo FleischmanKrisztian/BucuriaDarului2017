@@ -1,6 +1,6 @@
 ﻿namespace Finalaplication.Common
 {
-    public class VolMongoConstants
+    public class Constants
     {
         public const string SERVER_NAME_LOCAL = "volmongo_server";
         public const string SERVER_PORT_LOCAL = "volmongo_port";

@@ -17,9 +17,9 @@ namespace Finalaplication.Controllers
 {
     public class VolunteerController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.VolMongoConstants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.VolMongoConstants.DATABASE_NAME_LOCAL);
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
 
         private readonly IStringLocalizer<VolunteerController> _localizer;
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
@@ -101,7 +101,7 @@ namespace Finalaplication.Controllers
                 string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
                 volunteers = VolunteerFunctions.GetVolunteerAfterPaging(volunteers, page, nrofdocs);
                 volunteers = VolunteerFunctions.GetVolunteerAfterSorting(volunteers, sortOrder);
-                string key = VolMongoConstants.SESSION_KEY_VOLUNTEER;
+                string key = Constants.SESSION_KEY_VOLUNTEER;
                 HttpContext.Session.SetString(key, stringofids);
 
                 if (HasDrivingLicence == true)
@@ -165,9 +165,9 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVSaver()
         {
-            string ids = HttpContext.Session.GetString(VolMongoConstants.SESSION_KEY_VOLUNTEER);
-            HttpContext.Session.Remove(VolMongoConstants.SESSION_KEY_VOLUNTEER);
-            string key = VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER;
+            string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_VOLUNTEER);
+            HttpContext.Session.Remove(Constants.SESSION_KEY_VOLUNTEER);
+            string key = Constants.SECONDARY_SESSION_KEY_VOLUNTEER;
             HttpContext.Session.SetString(key, ids);
             return View();
         }
@@ -175,12 +175,12 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult CSVSaver(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
-            string IDS = HttpContext.Session.GetString(VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER);
-            HttpContext.Session.Remove(VolMongoConstants.SECONDARY_SESSION_KEY_VOLUNTEER);
+            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
+            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
             string ids_and_fields = VolunteerFunctions.GetIdAndFieldString(IDS, All, Name, Birthdate, Address, Gender, Desired_Workplace, CNP, Field_of_Activity, Occupation, CI_Info, Activity, Hour_Count, Contact_Information, Additional_info);
-            string key1 = VolMongoConstants.VOLUNTEERSESSION;
+            string key1 = Constants.VOLUNTEERSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterVolunteer(_localizer);
-            string key2 = VolMongoConstants.VOLUNTEERHEADER;
+            string key2 = Constants.VOLUNTEERHEADER;
             ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);
