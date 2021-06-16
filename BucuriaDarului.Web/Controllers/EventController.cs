@@ -63,10 +63,9 @@ namespace Finalaplication.Controllers
             try
             {
                 //TODO: FIX THIS:
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                EventsMainDisplayIndexRequest request = new EventsMainDisplayIndexRequest(searching, page, nrofdocs,  searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate);
+                int nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
-                EventsMainDisplayIndexResponse QueriedData = eventsMainDisplayIndexContext.Execute(request);
+                var QueriedData = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate));
                 return View(QueriedData);
             }
             catch

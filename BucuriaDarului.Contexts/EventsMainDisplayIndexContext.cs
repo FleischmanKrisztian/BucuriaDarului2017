@@ -16,77 +16,71 @@ namespace BucuriaDarului.Contexts
         }
 
         public EventsMainDisplayIndexResponse Execute(EventsMainDisplayIndexRequest request)
-        { 
-
+        {
             List<Event> Events = dataGateway.GetListOfEvents();
 
             Events = GetEventsAfterFilters(Events, request.FilterData);
 
-            int EventsafterFiltering = Events.Count();
+            int eventsAfterFiltering = Events.Count();
 
-            string stringofids = GetStringOfIds(Events);
+            string stringOfIDs = GetStringOfIds(Events);
 
             Events = GetEventsAfterPaging(Events, request.PagingData);
 
-            return new EventsMainDisplayIndexResponse(Events,request.FilterData,request.PagingData, EventsafterFiltering, stringofids);
+            return new EventsMainDisplayIndexResponse(Events, request.FilterData, request.PagingData, eventsAfterFiltering, stringOfIDs);
         }
 
-        internal static List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
+        private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
         {
-            if (filterData.Search != null)
+            events = events.Where(x => x.NameOfEvent.Contains(filterData.NameOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
+
+            List<Event> auxiliaryEvents = events;
+            foreach (var e in auxiliaryEvents)
             {
-                events = events.Where(x => x.NameOfEvent.Contains(filterData.Search, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                if (e.PlaceOfEvent == null)
+                    e.PlaceOfEvent = "";
             }
-            if (filterData.SearchLocation != null)
+            try
             {
-                List<Event> ev = events;
-                foreach (var e in ev)
-                {
-                    if (e.PlaceOfEvent == null || e.PlaceOfEvent == "")
-                    { e.PlaceOfEvent = "-"; }
-                }
-                events = ev.Where(x => x.PlaceOfEvent.Contains(filterData.SearchLocation, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            events = events.Where(x => x.PlaceOfEvent.Contains(filterData.PlaceOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
-            if (filterData.SearchActivity != null)
+            catch
             {
-                List<Event> ev = events;
-                foreach (var e in ev)
-                {
-                    if (e.TypeOfActivities == null || e.TypeOfActivities == "")
-                    { e.TypeOfActivities = "-"; }
-                }
-                events = ev.Where(x => x.TypeOfActivities.Contains(filterData.SearchActivity, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                //throw new ArgumentNullException();
             }
-            if (filterData.SearchType != null)
-            {
-                List<Event> ev = events;
-                foreach (var e in ev)
-                {
-                    if (e.TypeOfEvent == null || e.TypeOfEvent == "")
-                    { e.TypeOfEvent = "-"; }
-                }
-                events = ev.Where(x => x.TypeOfEvent.Contains(filterData.SearchType, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-            if (filterData.SearchVolunteers != null)
-            {
-                List<Event> ev = events;
-                foreach (var e in ev)
-                {
-                    if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
-                    { e.AllocatedVolunteers = "-"; }
-                }
-                events = ev.Where(x => x.AllocatedVolunteers.Contains(filterData.SearchVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-            if (filterData.SearchSponsors != null)
-            {
-                List<Event> ev = events;
-                foreach (var e in ev)
-                {
-                    if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
-                    { e.AllocatedSponsors = "-"; }
-                }
-                events = ev.Where(x => x.AllocatedSponsors.Contains(filterData.SearchSponsors, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
+
+
+            //List<Event> ev = events;
+            //foreach (var e in ev)
+            //{
+            //    if (e.TypeOfActivities == null || e.TypeOfActivities == "")
+            //    { e.TypeOfActivities = "-"; }
+            //}
+            events = events.Where(x => x.TypeOfActivities.Contains(filterData.TypeOfActivites, StringComparison.InvariantCultureIgnoreCase)).ToList();
+
+            //auxiliaryEvents = events;
+            //foreach (var e in auxiliaryEvents)
+            //{
+            //    if (e.TypeOfEvent == null || e.TypeOfEvent == "")
+            //    { e.TypeOfEvent = "-"; }
+            //}
+            events = events.Where(x => x.TypeOfEvent.Contains(filterData.TypeOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            //auxiliaryEvents = events;
+            //foreach (var e in auxiliaryEvents)
+            //{
+            //    if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
+            //    { e.AllocatedVolunteers = "-"; }
+            //}
+            events = events.Where(x => x.AllocatedVolunteers.Contains(filterData.AllocatedVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
+
+            //auxiliaryEvents = events;
+            //foreach (var e in auxiliaryEvents)
+            //{
+            //    if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
+            //    { e.AllocatedSponsors = "-"; }
+            //}
+            events = events.Where(x => x.AllocatedSponsors.Contains(filterData.AllocatedSponsors, StringComparison.InvariantCultureIgnoreCase)).ToList();
+
             if (Dateinputreceived(filterData.LowerDate))
             {
                 events = events.Where(x => x.DateOfEvent > filterData.LowerDate).ToList();
@@ -98,7 +92,7 @@ namespace BucuriaDarului.Contexts
             return events;
         }
 
-        public string GetStringOfIds(List<Event> events)
+        private string GetStringOfIds(List<Event> events)
         {
             string stringofids = "eventCSV";
             foreach (Event eve in events)
@@ -108,7 +102,7 @@ namespace BucuriaDarului.Contexts
             return stringofids;
         }
 
-        internal static List<Event> GetEventsAfterPaging(List<Event> events, PagingData pagingData)
+        private List<Event> GetEventsAfterPaging(List<Event> events, PagingData pagingData)
         {
             events = events.AsQueryable().Skip((pagingData.CurrentPage - 1) * pagingData.NrOfDocumentsPerPage).ToList();
             events = events.AsQueryable().Take(pagingData.NrOfDocumentsPerPage).ToList();
@@ -127,22 +121,21 @@ namespace BucuriaDarului.Contexts
 
     public class EventsMainDisplayIndexRequest
     {
-
         public FilterData FilterData { get; set; }
 
         public PagingData PagingData { get; set; }
 
-        public EventsMainDisplayIndexRequest(string searching, int page, int nrofdocs,  string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string? searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        public EventsMainDisplayIndexRequest(string searching, int page, int nrofdocs, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string? searchingSponsor, DateTime lowerdate, DateTime upperdate)
         {
             FilterData filterData = new FilterData();
             PagingData pagingData = new PagingData();
 
-            filterData.Search = searching ?? "";
-            filterData.SearchLocation = searchingPlace ?? "";
-            filterData.SearchActivity = searchingActivity ?? "";
-            filterData.SearchType = searchingType ?? "";
-            filterData.SearchVolunteers = searchingVolunteers ?? "";
-            filterData.SearchSponsors = searchingSponsor ?? "";
+            filterData.NameOfEvent = searching ?? "";
+            filterData.PlaceOfEvent = searchingPlace ?? "";
+            filterData.TypeOfActivites = searchingActivity ?? "";
+            filterData.TypeOfEvent = searchingType ?? "";
+            filterData.AllocatedVolunteers = searchingVolunteers ?? "";
+            filterData.AllocatedSponsors = searchingSponsor ?? "";
             filterData.LowerDate = lowerdate;
             filterData.UpperDate = upperdate;
 
@@ -153,7 +146,7 @@ namespace BucuriaDarului.Contexts
             this.PagingData = pagingData;
         }
 
-        internal static int GetCurrentPage(int page)
+        private int GetCurrentPage(int page)
         {
             if (page > 0)
                 return page;
@@ -164,7 +157,6 @@ namespace BucuriaDarului.Contexts
             }
         }
     }
-
 
     public class EventsMainDisplayIndexResponse
     {
@@ -197,17 +189,17 @@ namespace BucuriaDarului.Contexts
 
     public class FilterData
     {
-        public string Search { get; set; }
+        public string NameOfEvent { get; set; }
 
-        public string SearchLocation { get; set; }
+        public string PlaceOfEvent { get; set; }
 
-        public string SearchActivity { get; set; }
+        public string TypeOfActivites { get; set; }
 
-        public string SearchType { get; set; }
+        public string TypeOfEvent { get; set; }
 
-        public string SearchVolunteers { get; set; }
+        public string AllocatedVolunteers { get; set; }
 
-        public string SearchSponsors { get; set; }
+        public string AllocatedSponsors { get; set; }
 
         public DateTime LowerDate { get; set; }
 
