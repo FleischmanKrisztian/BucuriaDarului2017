@@ -1,12 +1,11 @@
-﻿@model IEnumerable<Finalaplication.Models.Event>
+﻿@model System.String
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.Extensions.Options
 @{
-    ViewData["Title"] = "CSVSaver";
-
+    ViewData["Title"] = "CSVExporter";
 }
 <head>
     <style>
@@ -37,11 +36,10 @@
             overflow-x: hidden;
         }
 
-       
         .dropdown-menu {
             width: 500px !important;
         }
-    
+
         .emp-profile {
             border-radius: 25px;
             padding: 5%;
@@ -56,8 +54,7 @@
 <br />
 <br />
 <br />
-<form method="post" action="/Event/CSVSaver" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form method="post" action="/Event/CSVExporter" enctype="multipart/form-data">
     <div class=" .emp-profile">
         <h1>CSV Saver</h1>
         <hr />
@@ -88,7 +85,7 @@
         <div class="row align-items-center">
             <div class="col-3">
                 <br />
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" name="stringOfIDs" value="@Model">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
                 </button>
                 | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>

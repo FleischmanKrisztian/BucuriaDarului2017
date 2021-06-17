@@ -12,6 +12,7 @@ namespace Finalaplication.Models
 
     public class Volunteer
     {
+        [JsonIgnore]
         public string _id { get; set; }
 
         public string Fullname { get; set; }

@@ -163,7 +163,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver()
+        public ActionResult CSVExporter()
         {
             string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_VOLUNTEER);
             HttpContext.Session.Remove(Constants.SESSION_KEY_VOLUNTEER);
@@ -173,7 +173,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
+        public ActionResult CSVExporter(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
             string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
             HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);

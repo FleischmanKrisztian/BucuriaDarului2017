@@ -69,7 +69,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver()
+        public ActionResult CSVExporter()
         {
             string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_SPONSOR);
             HttpContext.Session.Remove(Constants.SESSION_KEY_SPONSOR);
@@ -79,7 +79,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
+        public ActionResult CSVExporter(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
         {
             string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_SPONSOR);
             HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_SPONSOR);

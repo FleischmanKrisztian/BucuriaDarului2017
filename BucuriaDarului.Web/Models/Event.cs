@@ -1,6 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Finalaplication.Models
 {
@@ -11,6 +11,7 @@ namespace Finalaplication.Models
         [Required]
         public string NameOfEvent { get; set; }
 
+        [DefaultValue("")]
         public string PlaceOfEvent { get; set; }
 
         [DataType(DataType.Date)]

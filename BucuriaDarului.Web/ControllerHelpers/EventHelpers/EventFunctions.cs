@@ -47,30 +47,6 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
             return events;
         }
 
-        internal static string GetIdAndFieldString(string IDS, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
-        {
-            string ids_and_options = IDS + "(((";
-            if (All)
-                ids_and_options += "0";
-            if (NameOfEvent)
-                ids_and_options += "1";
-            if (PlaceOfEvent)
-                ids_and_options += "2";
-            if (DateOfEvent)
-                ids_and_options += "3";
-            if (TypeOfActivities)
-                ids_and_options += "4";
-            if (TypeOfEvent)
-                ids_and_options += "5";
-            if (Duration)
-                ids_and_options += "6";
-            if (AllocatedVolunteers)
-                ids_and_options += "7";
-            if (AllocatedSponsors)
-                ids_and_options += "8";
-            return ids_and_options;
-        }
-
         internal static string GetAllocatedVolunteersString(List<Event> events, string id)
         {
             Event returnedevent = events.Find(b => b._id.ToString() == id);
@@ -99,6 +75,20 @@ namespace Finalaplication.ControllerHelpers.EventHelpers
                 return split.Count() - 1;
             }
             return 0;
+        }
+
+        internal static Event ChangeNullValues(Event incomingevent)
+        {
+            foreach (var property in incomingevent.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+                var value = property.GetValue(incomingevent, null);
+                if (propertyType == typeof(string) && value == null)
+                {
+                    property.SetValue(incomingevent, string.Empty);
+                }
+            }
+            return incomingevent;
         }
     }
 }

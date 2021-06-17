@@ -1,4 +1,5 @@
-﻿using Elm.Core.Parsers;
+﻿using BucuriaDarului.Contexts;
+using BucuriaDarului.Gateway;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.EventHelpers;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
@@ -13,8 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BucuriaDarului.Contexts;
-using BucuriaDarului.Gateway;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
@@ -65,8 +64,8 @@ namespace Finalaplication.Controllers
                 //TODO: FIX THIS:
                 int nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
-                var QueriedData = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate));
-                return View(QueriedData);
+                var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate));
+                return View(model);
             }
             catch
             {
@@ -75,26 +74,18 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVSaver(string stringOfIDs)
+        public ActionResult CSVExporter(string stringOfIDs)
         {
-            string ids = stringOfIDs;
-            string key = Constants.SECONDARY_SESSION_KEY_EVENT;
-            HttpContext.Session.SetString(key, ids);
-            return View();
+            return View(model: stringOfIDs);
         }
 
         [HttpPost]
-        public ActionResult CSVSaver(bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
+        public ActionResult CSVExporter(string stringOfIDs, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
         {
-            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_EVENT);
-            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_EVENT);
-            string ids_and_fields = EventFunctions.GetIdAndFieldString(IDS, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities);
-            string key1 = Constants.EVENTSESSION;
-            string header = ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
-            string key2 = Constants.EVENTHEADER;
-            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
-            string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
-            return Redirect(csvexporterlink);
+            string header =  ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
+            var eventsExporterContext = new EventsExporterContext();
+            eventsExporterContext.Execute(stringOfIDs, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities, header);
+            return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 
         public ActionResult VolunteerAllocation(string id, int page, string searching)
@@ -219,6 +210,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
+                incomingevent = EventFunctions.ChangeNullValues(incomingevent);
                 string eventasstring = JsonConvert.SerializeObject(incomingevent);
                 if (UniversalFunctions.ContainsSpecialChar(eventasstring))
                 {

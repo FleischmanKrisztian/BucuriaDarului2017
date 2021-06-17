@@ -33,52 +33,10 @@ namespace BucuriaDarului.Contexts
         private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
         {
             events = events.Where(x => x.NameOfEvent.Contains(filterData.NameOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-            List<Event> auxiliaryEvents = events;
-            foreach (var e in auxiliaryEvents)
-            {
-                if (e.PlaceOfEvent == null)
-                    e.PlaceOfEvent = "";
-            }
-            try
-            {
             events = events.Where(x => x.PlaceOfEvent.Contains(filterData.PlaceOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-            catch
-            {
-                //throw new ArgumentNullException();
-            }
-
-
-            //List<Event> ev = events;
-            //foreach (var e in ev)
-            //{
-            //    if (e.TypeOfActivities == null || e.TypeOfActivities == "")
-            //    { e.TypeOfActivities = "-"; }
-            //}
             events = events.Where(x => x.TypeOfActivities.Contains(filterData.TypeOfActivites, StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-            //auxiliaryEvents = events;
-            //foreach (var e in auxiliaryEvents)
-            //{
-            //    if (e.TypeOfEvent == null || e.TypeOfEvent == "")
-            //    { e.TypeOfEvent = "-"; }
-            //}
             events = events.Where(x => x.TypeOfEvent.Contains(filterData.TypeOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            //auxiliaryEvents = events;
-            //foreach (var e in auxiliaryEvents)
-            //{
-            //    if (e.AllocatedVolunteers == null || e.AllocatedVolunteers == "")
-            //    { e.AllocatedVolunteers = "-"; }
-            //}
             events = events.Where(x => x.AllocatedVolunteers.Contains(filterData.AllocatedVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-            //auxiliaryEvents = events;
-            //foreach (var e in auxiliaryEvents)
-            //{
-            //    if (e.AllocatedSponsors == null || e.AllocatedSponsors == "")
-            //    { e.AllocatedSponsors = "-"; }
-            //}
             events = events.Where(x => x.AllocatedSponsors.Contains(filterData.AllocatedSponsors, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
             if (Dateinputreceived(filterData.LowerDate))
@@ -92,14 +50,23 @@ namespace BucuriaDarului.Contexts
             return events;
         }
 
+        private string CheckIfNull(string incomingFilter)
+        {
+            if(incomingFilter == null)
+            {
+                incomingFilter = "";
+            }
+            return incomingFilter;
+        }
+
         private string GetStringOfIds(List<Event> events)
         {
-            string stringofids = "eventCSV";
+            string stringOfIDs = "eventCSV";
             foreach (Event eve in events)
             {
-                stringofids = stringofids + "," + eve._id;
+                stringOfIDs = stringOfIDs + "," + eve._id;
             }
-            return stringofids;
+            return stringOfIDs;
         }
 
         private List<Event> GetEventsAfterPaging(List<Event> events, PagingData pagingData)
@@ -111,8 +78,8 @@ namespace BucuriaDarului.Contexts
 
         private static bool Dateinputreceived(DateTime date)
         {
-            DateTime comparisondate = new DateTime(0003, 1, 1);
-            if (date > comparisondate)
+            DateTime comparisonDate = new DateTime(0003, 1, 1);
+            if (date > comparisonDate)
                 return true;
             else
                 return false;

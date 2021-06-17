@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.Extensions.Options
 @{
-    ViewData["Title"] = "CSVSaver";
+    ViewData["Title"] = "CSVExporter";
 
 }
 <head>
@@ -51,7 +51,7 @@
 <br />
 <br />
 <br />
-<form method="post" action="/Sponsor/CSVSaver" enctype="multipart/form-data">
+<form method="post" action="/Sponsor/CSVExporter" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=" .emp-profile">
         <h1>CSV Saver</h1>

@@ -179,7 +179,7 @@ namespace Finalaplication.Common
 
         internal static void CreateDictionaries(string key1, string key2, string ids_and_fields, string header)
         {
-            if (DictionaryHelper.d.ContainsKey(key1) == true)
+            if (DictionaryHelper.d.ContainsKey(key1))
             {
                 DictionaryHelper.d[key1] = ids_and_fields;
             }
