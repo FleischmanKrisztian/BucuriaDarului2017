@@ -82,28 +82,6 @@ namespace Finalaplication.Common
             return result;
         }
 
-        public static string GetHeaderForExcelPrinterEvent(IStringLocalizer<EventController> _localizer)
-        {
-            string[] header = new string[8];
-            header[0] = _localizer["Nameofevent"];
-            header[1] = _localizer["Placeofevent"];
-            header[2] = _localizer["Dateofevent"];
-            header[3] = _localizer["Typeofactivities"];
-            header[4] = _localizer["Typeofevent"];
-            header[5] = _localizer["Duration"];
-            header[6] = _localizer["Allocatedvolunteers"];
-            header[7] = _localizer["Allocatedsponsors"];
-            string result = string.Empty;
-            for (int i = 0; i < header.Count(); i++)
-            {
-                if (i == 0)
-                { result = header[i]; }
-                else
-                { result = result + "," + header[i]; }
-            }
-            return result;
-        }
-
         public static string GetHeaderForExcelPrinterSponsor(IStringLocalizer<SponsorController> _localizer)
         {
             string[] header = new string[10];

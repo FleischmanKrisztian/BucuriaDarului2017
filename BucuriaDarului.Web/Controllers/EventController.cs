@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
@@ -78,13 +77,13 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(string stringOfIDs, bool all, bool allocatedSponsors, bool allocatedVolunteers, bool duration, bool typeOfEvent, bool nameOfEvent, bool placeOfEvent, bool dateOfEvent, bool typeOfActivities)
+        //Get Properties as FORM/Object
+        public ActionResult CSVExporter(string stringOfIDs, Properties properties)
         {
-            string header =  ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
             var eventsExporterContext = new EventsExporterContext();
-            var eventsExportData = eventsExporterContext.Execute(stringOfIDs, all, allocatedSponsors, allocatedVolunteers, duration, typeOfEvent, nameOfEvent, placeOfEvent, dateOfEvent, typeOfActivities, header);
-
-            DictionaryHelper.d = eventsExportData;
+            //Pass the properties object
+            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(stringOfIDs, properties, _localizer));
+            DictionaryHelper.d = eventsExportData.Dictionary;
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 
