@@ -17,17 +17,17 @@ namespace BucuriaDarului.Contexts
 
         public EventsMainDisplayIndexResponse Execute(EventsMainDisplayIndexRequest request)
         {
-            List<Event> Events = dataGateway.GetListOfEvents();
+            List<Event> events = dataGateway.GetListOfEvents();
 
-            Events = GetEventsAfterFilters(Events, request.FilterData);
+            events = GetEventsAfterFilters(events, request.FilterData);
 
-            int eventsAfterFiltering = Events.Count();
+            int eventsAfterFiltering = events.Count();
 
-            string stringOfIDs = GetStringOfIds(Events);
+            string stringOfIDs = GetStringOfIds(events);
 
-            Events = GetEventsAfterPaging(Events, request.PagingData);
+            events = GetEventsAfterPaging(events, request.PagingData);
 
-            return new EventsMainDisplayIndexResponse(Events, request.FilterData, request.PagingData, eventsAfterFiltering, stringOfIDs);
+            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, eventsAfterFiltering, stringOfIDs);
         }
 
         private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
@@ -39,24 +39,15 @@ namespace BucuriaDarului.Contexts
             events = events.Where(x => x.AllocatedVolunteers.Contains(filterData.AllocatedVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
             events = events.Where(x => x.AllocatedSponsors.Contains(filterData.AllocatedSponsors, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-            if (Dateinputreceived(filterData.LowerDate))
+            if (DateinputReceived(filterData.LowerDate))
             {
                 events = events.Where(x => x.DateOfEvent > filterData.LowerDate).ToList();
             }
-            if (Dateinputreceived(filterData.UpperDate))
+            if (DateinputReceived(filterData.UpperDate))
             {
                 events = events.Where(x => x.DateOfEvent <= filterData.UpperDate).ToList();
             }
             return events;
-        }
-
-        private string CheckIfNull(string incomingFilter)
-        {
-            if(incomingFilter == null)
-            {
-                incomingFilter = "";
-            }
-            return incomingFilter;
         }
 
         private string GetStringOfIds(List<Event> events)
@@ -76,7 +67,7 @@ namespace BucuriaDarului.Contexts
             return events;
         }
 
-        private static bool Dateinputreceived(DateTime date)
+        private static bool DateinputReceived(DateTime date)
         {
             DateTime comparisonDate = new DateTime(0003, 1, 1);
             if (date > comparisonDate)

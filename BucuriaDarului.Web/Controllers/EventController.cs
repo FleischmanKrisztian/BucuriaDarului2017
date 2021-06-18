@@ -46,9 +46,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var _eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-                Stream csvFile = Files.OpenReadStream();
-                _eventsImportContext.Execute(csvFile);
+                var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
+                eventsImportContext.Execute(Files.OpenReadStream());
                 return RedirectToAction("Index");
             }
             catch
@@ -57,14 +56,13 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult Index(string searching, int page, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        public ActionResult Index(string searching, int page, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
             try
             {
-                //TODO: FIX THIS:
                 int nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
-                var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerdate, upperdate));
+                var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerDate, upperDate));
                 return View(model);
             }
             catch
@@ -80,11 +78,11 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(string stringOfIDs, bool All, bool AllocatedSponsors, bool AllocatedVolunteers, bool Duration, bool TypeOfEvent, bool NameOfEvent, bool PlaceOfEvent, bool DateOfEvent, bool TypeOfActivities)
+        public ActionResult CSVExporter(string stringOfIDs, bool all, bool allocatedSponsors, bool allocatedVolunteers, bool duration, bool typeOfEvent, bool nameOfEvent, bool placeOfEvent, bool dateOfEvent, bool typeOfActivities)
         {
             string header =  ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
             var eventsExporterContext = new EventsExporterContext();
-            eventsExporterContext.Execute(stringOfIDs, All, AllocatedSponsors, AllocatedVolunteers, Duration, TypeOfEvent, NameOfEvent, PlaceOfEvent, DateOfEvent, TypeOfActivities, header);
+            eventsExporterContext.Execute(stringOfIDs, all, allocatedSponsors, allocatedVolunteers, duration, typeOfEvent, nameOfEvent, placeOfEvent, dateOfEvent, typeOfActivities, header);
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 
