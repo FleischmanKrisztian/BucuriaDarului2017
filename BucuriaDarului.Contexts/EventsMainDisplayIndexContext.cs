@@ -163,4 +163,18 @@ namespace BucuriaDarului.Contexts
 
         public DateTime UpperDate { get; set; }
     }
+
+    public class CsvExportParamenters
+    {
+        public string stringOfIDs { get; set; }
+        public bool all { get; set; }
+        public bool allocatedSponsors { get; set; }
+        public bool allocatedVolunteers { get; set; }
+        public bool duration { get; set; }
+        public bool typeOfEvent { get; set; }
+        public bool nameOfEvent { get; set; }
+        public bool placeOfEvent { get; set; }
+        public bool dateOfEvent { get; set; }
+        public bool typeOfActivities { get; set; }
+    }
 }

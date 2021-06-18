@@ -74,12 +74,25 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVExporter(string stringOfIDs)
         {
-            return View(model: stringOfIDs);
+            CsvExportParamenters csv = new CsvExportParamenters();
+            csv.stringOfIDs = stringOfIDs;
+            return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(string stringOfIDs, bool all, bool allocatedSponsors, bool allocatedVolunteers, bool duration, bool typeOfEvent, bool nameOfEvent, bool placeOfEvent, bool dateOfEvent, bool typeOfActivities)
+        public ActionResult CSVExporter(CsvExportParamenters csv)
         {
+            string stringOfIDs = csv.stringOfIDs;
+            bool all = csv.all;
+            bool allocatedSponsors = csv.allocatedSponsors;
+            bool allocatedVolunteers = csv.allocatedVolunteers;
+            bool duration = csv.duration;
+            bool typeOfEvent=csv.typeOfEvent;
+            bool nameOfEvent = csv.nameOfEvent;
+            bool placeOfEvent = csv.placeOfEvent;
+            bool dateOfEvent = csv.dateOfEvent;
+            bool typeOfActivities = csv.typeOfActivities;
+
             string header =  ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
             var eventsExporterContext = new EventsExporterContext();
             var eventsExportData = eventsExporterContext.Execute(stringOfIDs, all, allocatedSponsors, allocatedVolunteers, duration, typeOfEvent, nameOfEvent, placeOfEvent, dateOfEvent, typeOfActivities, header);

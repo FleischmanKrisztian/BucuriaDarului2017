@@ -1,9 +1,7 @@
-﻿@model System.String
+﻿@model BucuriaDarului.Contexts.CsvExportParamenters
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Localization
-@using Microsoft.Extensions.Options
+
 @{
     ViewData["Title"] = "CSVExporter";
 }
@@ -52,45 +50,141 @@
 </head>
 <br />
 <br />
-<br />
-<br />
-<form method="post" action="/Event/CSVExporter" enctype="multipart/form-data">
-    <div class=" .emp-profile">
-        <h1>CSV Saver</h1>
-        <hr />
-        <br />
-        <div class="row">
-            <div class="col-md-9">
-                <h3>
-                    @Localizer["Please choose what you want the Excel to contain"]:
-                </h3>
-            </div>
-            <div class="dropdown col-md-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @Localizer["Select the properties"]:
-                </button>
-                <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfEvent", isChecked: false) @Localizer["Nameofevent"] </a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("PlaceOfEvent", isChecked: false) @Localizer["Placeofevent"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("DateOfEvent", isChecked: false) @Localizer["Dateofevent"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("TypeOfActivities", isChecked: false) @Localizer["Typeofactivities"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("TypeOfEvent", isChecked: false) @Localizer["Typeofevent"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Duration", isChecked: false) @Localizer["Duration"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("AllocatedVolunteers", isChecked: false) @Localizer["Allocatedvolunteers"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("AllocatedSponsors", isChecked: false) @Localizer["Allocatedsponsors"]</a>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="container emp-profile">
+    <h3>
+        @Localizer["Please choose what you want the Excel to contain"]:
+    </h3>
+    <br/>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Check this for all fields"]:</label>
                 </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.all)
+                    <hr />
+                </div>
+
             </div>
         </div>
-        <div class="row align-items-center">
-            <div class="col-3">
-                <br />
-                <button type="submit" class="btn btn-primary" name="stringOfIDs" value="@Model">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
-                </button>
-                | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Nameofevent"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.nameOfEvent)
+                    <hr />
+                </div>
+
             </div>
         </div>
-        <br />
+
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Placeofevent"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.placeOfEvent)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Dateofevent"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.dateOfEvent)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Typeofactivities"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.typeOfActivities)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Typeofevent"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.typeOfEvent)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Duration"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.duration)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Allocatedvolunteers"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.allocatedVolunteers)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Allocatedsponsors"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.allocatedSponsors)
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
+            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+        </div>
     </div>
-</form>
+</div>
+}
