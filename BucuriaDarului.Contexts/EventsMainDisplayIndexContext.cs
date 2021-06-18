@@ -163,4 +163,5 @@ namespace BucuriaDarului.Contexts
 
         public DateTime UpperDate { get; set; }
     }
+    
 }
