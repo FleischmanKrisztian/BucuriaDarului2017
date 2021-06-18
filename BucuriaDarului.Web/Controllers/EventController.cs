@@ -82,7 +82,9 @@ namespace Finalaplication.Controllers
         {
             string header =  ControllerHelper.GetHeaderForExcelPrinterEvent(_localizer);
             var eventsExporterContext = new EventsExporterContext();
-            eventsExporterContext.Execute(stringOfIDs, all, allocatedSponsors, allocatedVolunteers, duration, typeOfEvent, nameOfEvent, placeOfEvent, dateOfEvent, typeOfActivities, header);
+            var eventsExportData = eventsExporterContext.Execute(stringOfIDs, all, allocatedSponsors, allocatedVolunteers, duration, typeOfEvent, nameOfEvent, placeOfEvent, dateOfEvent, typeOfActivities, header);
+
+            DictionaryHelper.d = eventsExportData;
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 

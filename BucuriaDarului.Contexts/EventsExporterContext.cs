@@ -9,8 +9,7 @@ namespace BucuriaDarului.Contexts
             string idsAndFields = GetIdAndFieldString(stringOfIDs, all, allocatedSponsors, allocatedVolunteers, duration, typeOfEvent, nameOfEvent, placeOfEvent, dateOfEvent, typeOfActivities);
             string key1 = Constants.EVENTSESSION;
             string key2 = Constants.EVENTHEADER;
-            Dictionary<string, string> dictionary = CreateDictionaries(key1, key2, idsAndFields, header);
-            return dictionary;
+            return CreateDictionaries(key1, key2, idsAndFields, header);
         }
 
         private string GetIdAndFieldString(string stringOfIDs, bool all, bool allocatedSponsors, bool allocatedVolunteers, bool duration, bool typeOfEvent, bool nameOfEvent, bool placeOfEvent, bool dateOfEvent, bool typeOfActivities)
@@ -41,28 +40,25 @@ namespace BucuriaDarului.Contexts
 
         private Dictionary<string, string> CreateDictionaries(string key1, string key2, string idsAndFields, string header)
         {
-            //    var dictionary = new Dictionary<string, string>();
-            //    dictionary.Add(key1, idsAndFields);
-            //    dictionary.Add(key2, header);
-            //    return dictionary;
+            var result = new Dictionary<string, string>();
 
-            if (DictionaryHelper.d.ContainsKey(key1) == true)
+            if (result.ContainsKey(key1) == true)
             {
-                DictionaryHelper.d[key1] = idsAndFields;
+                result[key1] = idsAndFields;
             }
             else
             {
-                DictionaryHelper.d.Add(key1, idsAndFields);
+                result.Add(key1, idsAndFields);
             }
-            if (DictionaryHelper.d.ContainsKey(key2) == true)
+            if (result.ContainsKey(key2) == true)
             {
-                DictionaryHelper.d[key2] = header;
+                result[key2] = header;
             }
             else
             {
-                DictionaryHelper.d.Add(key2, header);
+                result.Add(key2, header);
             }
-            return DictionaryHelper.d;
+            return result;
         }
     }
 }
