@@ -8,31 +8,31 @@ namespace BucuriaDarului.Contexts
     {
         public EventsExporterResponse Execute(EventsExporterRequest request)
         {
-            string idsAndFields = GetIdAndFieldString(request.StringOfIDs,request.Properties);
+            string idsAndFields = GetIdAndFieldString(request.csv);
             string header = GetHeaderForExcelPrinterEvent(request.Localizer);
             return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),200,"");
         }
 
-        private string GetIdAndFieldString(string stringOfIDs, Properties properties)
+        private string GetIdAndFieldString(CsvExportParamenters csv)
         {
-            string ids_and_options = stringOfIDs + "(((";
-            if (properties.All)
+            string ids_and_options = csv.stringOfIDs + "(((";
+            if (csv.All)
                 ids_and_options += "0";
-            if (properties.NameOfEvent)
+            if (csv.NameOfEvent)
                 ids_and_options += "1";
-            if (properties.PlaceOfEvent)
+            if (csv.PlaceOfEvent)
                 ids_and_options += "2";
-            if (properties.DateOfEvent)
+            if (csv.DateOfEvent)
                 ids_and_options += "3";
-            if (properties.TypeOfActivities)
+            if (csv.TypeOfActivities)
                 ids_and_options += "4";
-            if (properties.TypeOfEvent)
+            if (csv.TypeOfEvent)
                 ids_and_options += "5";
-            if (properties.Duration)
+            if (csv.Duration)
                 ids_and_options += "6";
-            if (properties.AllocatedVolunteer)
+            if (csv.AllocatedVolunteers)
                 ids_and_options += "7";
-            if (properties.AllocatedSponsors)
+            if (csv.AllocatedSponsors)
                 ids_and_options += "8";
             return ids_and_options;
         }
@@ -85,30 +85,27 @@ namespace BucuriaDarului.Contexts
 
     public class EventsExporterRequest
     {
-        public EventsExporterRequest(string stringOfIDs, Properties properties, IStringLocalizer localizer)
+        public EventsExporterRequest(CsvExportParamenters csv_, IStringLocalizer localizer)
         {
-            StringOfIDs = stringOfIDs;
-            Properties = properties;
+            csv = csv_;
             Localizer = localizer;
         }
 
-        public string StringOfIDs { get; set; }
-        public Properties Properties { get; set; }
+        public CsvExportParamenters csv { get; set; }
         public IStringLocalizer Localizer { get; set; }
     }
 
-
-    public class Properties
+    public class CsvExportParamenters
     {
-        public string StringOfIDs;
-        public bool All;
-        public bool AllocatedSponsors;
-        public bool AllocatedVolunteer;
-        public bool Duration;
-        public bool TypeOfEvent;
-        public bool NameOfEvent;
-        public bool PlaceOfEvent;
-        public bool DateOfEvent;
-        public bool TypeOfActivities;
+        public string stringOfIDs { get; set; }
+        public bool All { get; set; }
+        public bool AllocatedSponsors { get; set; }
+        public bool AllocatedVolunteers { get; set; }
+        public bool Duration { get; set; }
+        public bool TypeOfEvent { get; set; }
+        public bool NameOfEvent { get; set; }
+        public bool PlaceOfEvent { get; set; }
+        public bool DateOfEvent { get; set; }
+        public bool TypeOfActivities { get; set; }
     }
 }
