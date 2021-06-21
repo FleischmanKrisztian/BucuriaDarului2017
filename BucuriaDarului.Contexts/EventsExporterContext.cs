@@ -10,8 +10,7 @@ namespace BucuriaDarului.Contexts
         {
             string idsAndFields = GetIdAndFieldString(request.StringOfIDs,request.Properties);
             string header = GetHeaderForExcelPrinterEvent(request.Localizer);
-            var dict = CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header);
-            return new EventsExporterResponse(dict,200,"");
+            return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),200,"");
         }
 
         private string GetIdAndFieldString(string stringOfIDs, Properties properties)
