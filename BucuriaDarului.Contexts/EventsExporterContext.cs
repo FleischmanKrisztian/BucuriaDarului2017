@@ -85,9 +85,9 @@ namespace BucuriaDarului.Contexts
 
     public class EventsExporterRequest
     {
-        public EventsExporterRequest(CsvExportParamenters csv_, IStringLocalizer localizer)
+        public EventsExporterRequest(CsvExportParamenters csvExportProperties, IStringLocalizer localizer)
         {
-            csv = csv_;
+            csv = csvExportProperties;
             Localizer = localizer;
         }
 

@@ -79,11 +79,10 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(CsvExportParamenters csv)
+        public ActionResult CSVExporter(CsvExportParamenters csvExportProperties)
         { 
             var eventsExporterContext = new EventsExporterContext();
-            //Pass the properties object
-            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest( csv, _localizer));
+            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest( csvExportProperties, _localizer));
             DictionaryHelper.d = eventsExportData.Dictionary;
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }

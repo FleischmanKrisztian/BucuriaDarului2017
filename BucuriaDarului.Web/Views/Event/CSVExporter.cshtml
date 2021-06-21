@@ -68,7 +68,7 @@
                         <label> @Localizer["Check this for all fields"]:</label>
                     </div>
                     <div class="col-md-2">
-                        @Html.EditorFor(model => model.All)
+                        @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true })
                         <hr />
                     </div>
 
