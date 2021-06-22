@@ -83,7 +83,7 @@ namespace BucuriaDarului.Contexts
 
         public PagingData PagingData { get; set; }
 
-        public EventsMainDisplayIndexRequest(string searching, int page, int nrofdocs, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string? searchingSponsor, DateTime lowerdate, DateTime upperdate)
+        public EventsMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string? searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
             FilterData filterData = new FilterData();
             PagingData pagingData = new PagingData();
@@ -94,14 +94,14 @@ namespace BucuriaDarului.Contexts
             filterData.TypeOfEvent = searchingType ?? "";
             filterData.AllocatedVolunteers = searchingVolunteers ?? "";
             filterData.AllocatedSponsors = searchingSponsor ?? "";
-            filterData.LowerDate = lowerdate;
-            filterData.UpperDate = upperdate;
+            filterData.LowerDate = lowerDate;
+            filterData.UpperDate = upperDate;
 
             pagingData.CurrentPage = GetCurrentPage(page);
-            pagingData.NrOfDocumentsPerPage = nrofdocs;
+            pagingData.NrOfDocumentsPerPage = nrOfDocs;
 
-            this.FilterData = filterData;
-            this.PagingData = pagingData;
+            FilterData = filterData;
+            PagingData = pagingData;
         }
 
         private int GetCurrentPage(int page)

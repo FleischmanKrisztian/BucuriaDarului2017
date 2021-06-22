@@ -6,48 +6,55 @@ namespace BucuriaDarului.Contexts
 {
     public class EventsExporterContext
     {
+        private readonly IStringLocalizer localizer;
+
+        public EventsExporterContext(IStringLocalizer localizer)
+        {
+            this.localizer = localizer;
+        }
+
         public EventsExporterResponse Execute(EventsExporterRequest request)
         {
-            string idsAndFields = GetIdAndFieldString(request.csv);
-            string header = GetHeaderForExcelPrinterEvent(request.Localizer);
+            string idsAndFields = GetIdAndFieldString(request.ExportParamenters);
+            string header = GetHeaderForExcelPrinterEvent();
             return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),200,"");
         }
 
-        private string GetIdAndFieldString(CsvExportParamenters csv)
+        private string GetIdAndFieldString(ExportParamenters csv)
         {
-            string ids_and_options = csv.stringOfIDs + "(((";
+            string idsAndOptions = csv.StringOfIDs + "(((";
             if (csv.All)
-                ids_and_options += "0";
+                idsAndOptions += "0";
             if (csv.NameOfEvent)
-                ids_and_options += "1";
+                idsAndOptions += "1";
             if (csv.PlaceOfEvent)
-                ids_and_options += "2";
+                idsAndOptions += "2";
             if (csv.DateOfEvent)
-                ids_and_options += "3";
+                idsAndOptions += "3";
             if (csv.TypeOfActivities)
-                ids_and_options += "4";
+                idsAndOptions += "4";
             if (csv.TypeOfEvent)
-                ids_and_options += "5";
+                idsAndOptions += "5";
             if (csv.Duration)
-                ids_and_options += "6";
+                idsAndOptions += "6";
             if (csv.AllocatedVolunteers)
-                ids_and_options += "7";
+                idsAndOptions += "7";
             if (csv.AllocatedSponsors)
-                ids_and_options += "8";
-            return ids_and_options;
+                idsAndOptions += "8";
+            return idsAndOptions;
         }
 
-        public static string GetHeaderForExcelPrinterEvent(IStringLocalizer _localizer)
+        private string GetHeaderForExcelPrinterEvent()
         {
             string[] header = new string[8];
-            header[0] = _localizer["Nameofevent"];
-            header[1] = _localizer["Placeofevent"];
-            header[2] = _localizer["Dateofevent"];
-            header[3] = _localizer["Typeofactivities"];
-            header[4] = _localizer["Typeofevent"];
-            header[5] = _localizer["Duration"];
-            header[6] = _localizer["Allocatedvolunteers"];
-            header[7] = _localizer["Allocatedsponsors"];
+            header[0] = localizer["Nameofevent"];
+            header[1] = localizer["Placeofevent"];
+            header[2] = localizer["Dateofevent"];
+            header[3] = localizer["Typeofactivities"];
+            header[4] = localizer["Typeofevent"];
+            header[5] = localizer["Duration"];
+            header[6] = localizer["Allocatedvolunteers"];
+            header[7] = localizer["Allocatedsponsors"];
             string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)
             {
@@ -85,19 +92,17 @@ namespace BucuriaDarului.Contexts
 
     public class EventsExporterRequest
     {
-        public EventsExporterRequest(CsvExportParamenters csvExportProperties, IStringLocalizer localizer)
+        public EventsExporterRequest(ExportParamenters exportProperties)
         {
-            csv = csvExportProperties;
-            Localizer = localizer;
+            ExportParamenters = exportProperties;
         }
 
-        public CsvExportParamenters csv { get; set; }
-        public IStringLocalizer Localizer { get; set; }
+        public ExportParamenters ExportParamenters { get; set; }
     }
 
-    public class CsvExportParamenters
+    public class ExportParamenters
     {
-        public string stringOfIDs { get; set; }
+        public string StringOfIDs { get; set; }
         public bool All { get; set; }
         public bool AllocatedSponsors { get; set; }
         public bool AllocatedVolunteers { get; set; }

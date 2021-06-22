@@ -73,21 +73,19 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVExporter(string stringOfIDs)
         {
-            CsvExportParamenters csv = new CsvExportParamenters();
-            csv.stringOfIDs = stringOfIDs;
+            ExportParamenters csv = new ExportParamenters();
+            csv.StringOfIDs = stringOfIDs;
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(CsvExportParamenters csvExportProperties)
+        public ActionResult CSVExporter(ExportParamenters csvExportProperties)
         { 
-            var eventsExporterContext = new EventsExporterContext();
-            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest( csvExportProperties, _localizer));
+            var eventsExporterContext = new EventsExporterContext(_localizer);
+            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest( csvExportProperties ));
             DictionaryHelper.d = eventsExportData.Dictionary;
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
-         
-
 
         public ActionResult VolunteerAllocation(string id, int page, string searching)
         {
