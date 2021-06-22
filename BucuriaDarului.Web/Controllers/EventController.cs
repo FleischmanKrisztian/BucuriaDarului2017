@@ -41,12 +41,12 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile Files)
+        public ActionResult Import(IFormFile file)
         {
             try
             {
                 var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-                eventsImportContext.Execute(Files.OpenReadStream());
+                eventsImportContext.Execute(file.OpenReadStream());
                 return RedirectToAction("Index");
             }
             catch
@@ -73,8 +73,8 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVExporter(string stringOfIDs)
         {
-            ExportParamenters csv = new ExportParamenters();
-            csv.StringOfIDs = stringOfIDs;
+            var exportParamenters = new ExportParamenters();
+            exportParamenters.StringOfIDs = stringOfIDs;
             return View();
         }
 
@@ -183,8 +183,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Event detailedevent = eventManager.GetOneEvent(id);
-                return View(detailedevent);
+                var eventDetailGateway = new EventDetailGateway();
+                var model = eventDetailGateway.ReturnEvent(id);
+                return View(model);
             }
             catch
             {
