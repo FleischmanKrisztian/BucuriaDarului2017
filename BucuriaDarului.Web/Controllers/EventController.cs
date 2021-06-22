@@ -1,5 +1,7 @@
 ﻿using BucuriaDarului.Contexts;
 using BucuriaDarului.Gateway;
+
+//using BucuriaDarului.Core;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.EventHelpers;
 using Finalaplication.ControllerHelpers.SponsorHelpers;
@@ -80,9 +82,9 @@ namespace Finalaplication.Controllers
 
         [HttpPost]
         public ActionResult CSVExporter(ExportParamenters csvExportProperties)
-        { 
+        {
             var eventsExporterContext = new EventsExporterContext(_localizer);
-            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest( csvExportProperties ));
+            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
             DictionaryHelper.d = eventsExportData.Dictionary;
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
@@ -195,41 +197,24 @@ namespace Finalaplication.Controllers
 
         public ActionResult Create()
         {
-            try
-            {
-                return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Event incomingevent)
+        public ActionResult Create(BucuriaDarului.Core.Event incomingevent)
         {
             try
             {
-                incomingevent = EventFunctions.ChangeNullValues(incomingevent);
-                string eventasstring = JsonConvert.SerializeObject(incomingevent);
-                if (UniversalFunctions.ContainsSpecialChar(eventasstring))
+                var eventCreateContext = new EventCreateContext(new EventCreateGateway());
+                var eventCreateResponse = eventCreateContext.Execute(new EventCreateRequest(incomingevent));
+                if (eventCreateResponse.ContainsSpecialChar)
                 {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-                ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
-                ModelState.Remove("Duration");
-                if (ModelState.IsValid)
-                {
-                    incomingevent._id = Guid.NewGuid().ToString();
-                    incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
-                    eventManager.AddEventToDB(incomingevent);
-                    return RedirectToAction("Index");
+                    ViewBag.ContainsSpecialChar = true;
+                    return View();
                 }
                 else
                 {
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
-                    return View();
+                    return RedirectToAction("Index");
                 }
             }
             catch

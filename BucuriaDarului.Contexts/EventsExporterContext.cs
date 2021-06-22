@@ -17,7 +17,7 @@ namespace BucuriaDarului.Contexts
         {
             string idsAndFields = GetIdAndFieldString(request.ExportParamenters);
             string header = GetHeaderForExcelPrinterEvent();
-            return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),200,"");
+            return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),"");
         }
 
         private string GetIdAndFieldString(ExportParamenters csv)
@@ -79,13 +79,11 @@ namespace BucuriaDarului.Contexts
     public class EventsExporterResponse
     {
         public Dictionary<string, string> Dictionary { get; set; }
-        public int StatusCode { get; set; }
         public string Message { get; set; }
 
-        public EventsExporterResponse(Dictionary<string,string> dictionary, int statusCode, string message)
+        public EventsExporterResponse(Dictionary<string,string> dictionary, string message)
         {
             Dictionary = dictionary;
-            StatusCode = statusCode;
             Message = message;
         }
     }
