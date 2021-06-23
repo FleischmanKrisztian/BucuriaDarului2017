@@ -167,7 +167,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.HourCount)
                     </td>
-                    @if (Model.AllocatedVolunteersIdString.Contains(item.Fullname))
+                    @if (Model.Event.AllocatedVolunteers.Contains(item.Fullname))
                     {
                         <td>
                             <input type="checkbox" checked="checked" name="volunteerids" value="@item._id" />

@@ -109,13 +109,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-                volunteers = VolunteerFunctions.GetVolunteersByIds(volunteers, volunteerids);
-                Event eventtoallocateto = eventManager.GetOneEvent(Evid);
-                string nameofvolunteers = VolunteerFunctions.GetVolunteerNames(volunteers);
-                eventtoallocateto.AllocatedVolunteers = nameofvolunteers;
-                eventtoallocateto.NumberAllocatedVolunteers = EventFunctions.VolunteersAllocatedCounter(nameofvolunteers);
-                eventManager.UpdateAnEvent(eventtoallocateto, Evid);
+                var allocatedVolunteerContext = new EventsMainDisplayVolunteerAllocationContext(new EventsVolunteerAllocationDisplayIndexGateway());
+                allocatedVolunteerContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest( volunteerids,  Evid));
                 return RedirectToAction("Index");
             }
             catch
