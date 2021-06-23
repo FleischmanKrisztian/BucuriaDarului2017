@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BucuriaDarului.Gateway
 {
-    public class EventsVolunteerAllocationDisplayIndexGateway: IEnventsMainDataVolunteerAllocationGateways
+    public class EventsVolunteerAllocationDataGateway: IEnventsVolunteerAllocationGateway
     {
         private MongoDBGateway dBContext = new MongoDBGateway();
 
@@ -36,7 +36,7 @@ namespace BucuriaDarului.Gateway
             return volunteers;
         }
 
-        public void UpDateEvent(string eventId, Event eventToUpdate)
+        public void UpdateEvent(string eventId, Event eventToUpdate)
         {
             dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             IMongoCollection<Event> eventcollection = dBContext.Database.GetCollection<Event>("Events");

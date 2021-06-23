@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace BucuriaDarului.Contexts
 {
-    public class EventsMainDisplayVolunteerAllocationContext
+    public class EventsVolunteerAllocationContext
     {
-        private readonly IEnventsMainDataVolunteerAllocationGateways dataGateway;
+        private readonly IEnventsVolunteerAllocationGateway dataGateway;
 
-        public EventsMainDisplayVolunteerAllocationContext(IEnventsMainDataVolunteerAllocationGateways dataGateway)
+        public EventsVolunteerAllocationContext(IEnventsVolunteerAllocationGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
@@ -29,16 +29,16 @@ namespace BucuriaDarului.Contexts
 
             return new EventsVolunteerAllocationDisplayResponse(event_, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData);
         }
-        public void  UdateAllocationToEvent(EventsVolunteerAllocationRequest request)
+
+        public void UdateAllocationToEvent(EventsVolunteerAllocationRequest request)
         {
             Event event_ = dataGateway.GetEvent(request.EventId);
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
-            string nameofvolunteers = GetVolunteerNames(volunteers);
+            string nameOfVolunteers = GetVolunteerNames(volunteers);
             event_.AllocatedVolunteers = GetVolunteerNames(volunteers);
-            event_.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameofvolunteers);
-            dataGateway.UpDateEvent(request.EventId,event_);
-            
+            event_.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameOfVolunteers);
+            dataGateway.UpdateEvent(request.EventId, event_);
         }
 
         private int VolunteersAllocatedCounter(string AllocatedVolunteers)
@@ -50,6 +50,7 @@ namespace BucuriaDarului.Contexts
             }
             return 0;
         }
+
         private string GetVolunteerNames(List<Volunteer> volunteers)
         {
             string volnames = "";
@@ -60,12 +61,14 @@ namespace BucuriaDarului.Contexts
             }
             return volnames;
         }
+
         private string GetAllocatedVolunteersString(List<Event> events, string id)
         {
             Event returnedevent = events.Find(b => b._id.ToString() == id);
             returnedevent.AllocatedVolunteers += " / ";
             return returnedevent.AllocatedVolunteers;
         }
+
         private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] vols)
         {
             List<Volunteer> volunteerlist = new List<Volunteer>();
@@ -76,6 +79,7 @@ namespace BucuriaDarului.Contexts
             }
             return volunteerlist;
         }
+
         private List<Volunteer> GetVolunteersAfterPaging(List<Volunteer> volunteers, int page, int nrofdocs)
         {
             volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
@@ -113,7 +117,6 @@ namespace BucuriaDarului.Contexts
         }
     }
 
-
     public class EventsVolunteerAllocationDisplayRequest
     {
         public string EventId { get; set; }
@@ -149,27 +152,28 @@ namespace BucuriaDarului.Contexts
                 page = 1;
                 return page;
             }
-            
         }
     }
+
     public class EventsVolunteerAllocationRequest
     {
         public string EventId { get; set; }
         public string[] VolunteerIds { get; set; }
 
-        public EventsVolunteerAllocationRequest(string[] volunteerids, string eventId)
+        public EventsVolunteerAllocationRequest(string[] volunteerIds, string eventId)
         {
             this.EventId = eventId;
-            this.VolunteerIds = volunteerids;
+            this.VolunteerIds = volunteerIds;
         }
-      }
+    }
+
     //public class EventsVolunteerAllocationResponse
     //{
     //    public List<Volunteer> Volunteers { get; set; }
     //    public Event Event { get; set; }
     //    public string NameOfVolunteers { get; set; }
     //    public EventsVolunteerAllocationResponse(Event event_, List<Volunteer> volunteers, string nameOfVolunteers)
-    //    { 
+    //    {
     //        Event = event_;
     //        Volunteers = volunteers;
     //        NameOfVolunteers = nameOfVolunteers;
@@ -177,8 +181,8 @@ namespace BucuriaDarului.Contexts
 
     //}
 
-        public class EventsVolunteerAllocationDisplayResponse
-        {
+    public class EventsVolunteerAllocationDisplayResponse
+    {
         public Event Event { get; set; }
         public List<Volunteer> Volunteers { get; set; }
         public int TotalVolunteers { get; set; }

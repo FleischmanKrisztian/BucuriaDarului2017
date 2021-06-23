@@ -94,7 +94,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedVolunteerContext = new EventsMainDisplayVolunteerAllocationContext(new EventsVolunteerAllocationDisplayIndexGateway());
+                var allocatedVolunteerContext = new EventsVolunteerAllocationContext(new EventsVolunteerAllocationDataGateway());
                 var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest( id, page,  nrofdocs, searching));
                 return View(model);
             }
@@ -109,7 +109,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedVolunteerContext = new EventsMainDisplayVolunteerAllocationContext(new EventsVolunteerAllocationDisplayIndexGateway());
+                var allocatedVolunteerContext = new EventsVolunteerAllocationContext(new EventsVolunteerAllocationDataGateway());
                 allocatedVolunteerContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest( volunteerids,  Evid));
                 return RedirectToAction("Index");
             }
@@ -123,21 +123,12 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.Page = page;
-                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-                ViewBag.counter = sponsors.Count();
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.nrofdocs = nrofdocs;
-                string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
-                ViewBag.stringofids = stringofids;
-                sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
-                List<Event> events = eventManager.GetListOfEvents();
-                ViewBag.strname = EventFunctions.GetAllocatedSponsorsString(events, id);
-                ViewBag.Eventname = EventFunctions.GetNameOfEvent(events, id);
-                ViewBag.Evid = id;
-                sponsors = SponsorFunctions.GetSponsorsAfterSearching(sponsors, searching);
-                return View(sponsors);
+
+
+                var allocatedSponsorContext = new EventsSponsorAllocationContext(new EventsSponsorAllocationDataGateway());
+                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
+                return View(model);
             }
             catch
             {
@@ -150,12 +141,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-                sponsors = SponsorFunctions.GetSponsorsByIds(sponsors, sponsorids);
-                Event eventtoallocateto = eventManager.GetOneEvent(Evid);
-                string nameofsponsors = SponsorFunctions.GetSponsorNames(sponsors);
-                eventtoallocateto.AllocatedSponsors = nameofsponsors;
-                eventManager.UpdateAnEvent(eventtoallocateto, Evid);
+                var allocatedSponsorContext = new EventsSponsorAllocationContext(new EventsSponsorAllocationDataGateway());
+                allocatedSponsorContext.UdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorids, Evid));
                 return RedirectToAction("Index");
             }
             catch

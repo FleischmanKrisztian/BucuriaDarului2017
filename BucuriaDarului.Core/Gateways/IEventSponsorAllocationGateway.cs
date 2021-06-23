@@ -4,12 +4,11 @@ using System.Text;
 
 namespace BucuriaDarului.Core.Gateways
 {
-    public interface IEnventsMainDataVolunteerAllocationGateways
+    public interface IEventSponsorAllocationGateway
     {
         Event GetEvent(string eventId);
         List<Event> GetListOfEvents();
-        List<Volunteer> GetListOfVolunteers();
-        void UpDateEvent(string eventId,Event eventToUpdate);
-
+        List<Sponsor> GetListOfSponsors();
+        void UpdateEvent(string eventId, Event eventToUpdate);
     }
 }
