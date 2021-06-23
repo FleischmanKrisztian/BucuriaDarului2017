@@ -64,8 +64,8 @@
     <div class="pagination">
         <pre style="white-space:pre-wrap;">
             @{
-                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
-                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
+                int maxpage = (Model.TotalVolunteers / Model.PagingData.NrOfDocumentsPerPage) + 1;
+                if (Model.TotalVolunteers % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalVolunteers != 0)
                 {
                     maxpage--;
                 }
