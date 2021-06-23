@@ -83,7 +83,7 @@ namespace BucuriaDarului.Contexts
 
         public PagingData PagingData { get; set; }
 
-        public EventsMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string? searchingSponsor, DateTime lowerDate, DateTime upperDate)
+        public EventsMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
             FilterData filterData = new FilterData();
             PagingData pagingData = new PagingData();
@@ -163,5 +163,4 @@ namespace BucuriaDarului.Contexts
 
         public DateTime UpperDate { get; set; }
     }
-    
 }

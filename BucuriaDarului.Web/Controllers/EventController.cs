@@ -15,7 +15,6 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 
 namespace Finalaplication.Controllers
 {
@@ -227,9 +226,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Event ourevent = eventManager.GetOneEvent(id);
-                ViewBag.id = id;
-                return View(ourevent);
+                var eventEditGateway = new EventEditGateway();
+                var model = eventEditGateway.ReturnEvent(id);
+                return View(model);
             }
             catch
             {
@@ -238,37 +237,21 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Event incomingevent)
+        public ActionResult Edit(BucuriaDarului.Core.Event incomingevent)
         {
             try
             {
-                string eventasstring = JsonConvert.SerializeObject(incomingevent);
-                if (UniversalFunctions.ContainsSpecialChar(eventasstring))
+                var eventEditRequest = new EventEditRequest(incomingevent);
+                var eventEditContext = new EventEditContext(new EventEditGateway());
+                var eventEditResponse = eventEditContext.Execute(eventEditRequest);
+                if (eventEditResponse.ContainsSpecialChar)
                 {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-                ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
-                ModelState.Remove("Duration");
-                if (ModelState.IsValid)
-                {
-                    incomingevent.DateOfEvent = incomingevent.DateOfEvent.AddHours(5);
-                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
-                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
-                    if (!modifiedids.Contains(id))
-                    {
-                        Event currentevent = eventManager.GetOneEvent(id);
-                        string currenteventasstring = JsonConvert.SerializeObject(currentevent);
-                        auxiliaryDBManager.AddDocumenttoDB(currenteventasstring);
-                    }
-                    eventManager.UpdateAnEvent(incomingevent, id);
-                    return RedirectToAction("Index");
+                    ViewBag.ContainsSpecialChar = true;
+                    return View(incomingevent);
                 }
                 else
                 {
-                    ViewBag.id = id;
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(eventasstring);
-                    return View();
+                    return RedirectToAction("Index");
                 }
             }
             catch
@@ -281,8 +264,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                Event eventtoshow = eventManager.GetOneEvent(id);
-                return View(eventtoshow);
+                var eventDeleteGateway = new EventDeleteGateway();
+                var model = eventDeleteGateway.ReturnEvent(id);
+                return View(model);
             }
             catch
             {
@@ -295,7 +279,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                eventManager.DeleteAnEvent(id);
+                var eventDeleteGateway = new EventDeleteGateway();
+                var model = eventDeleteGateway.DeleteEvent(id);
                 return RedirectToAction("Index");
             }
             catch

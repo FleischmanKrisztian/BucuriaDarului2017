@@ -5,10 +5,7 @@ This is a developer manual for the application made by Fleischman Krisztian and 
 ### REQUIREMENTS
 - Visual studio 2019 (https://visualstudio.microsoft.com)
 - Mongo database (https://www.mongodb.com/try/download/community)
-- Docker (https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
-- dotnet SDK 3.x  (https://dotnet.microsoft.com/download/dotnet-core/3.0)
-- you must have virtualisation enabled, this is achieved in the BIOS when the PC is booting up, and can be verified in task manager/performance tab
-
+- dotnet SDK 4.7  (https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
 ### Helpers (NOT A REQUIREMENT)
  - Mongo Compass (Helps visualise/manage the database)
@@ -21,7 +18,7 @@ After getting the application from https://github.com/FleischmanKrisztian/Finala
 - volmongo_databasename2  = BucuriaDaruluiCommon   (Common DB)
 - volmongo_port = 27017 (This is the port for the offline/local mongodatabase by default its 27017)
 - volmongo_port2 = 32770 (The port of the MongoDB running on your NAS) 
-- volmongo_server2 = localhost (the server name running locally is localhost)
+- volmongo_server = localhost (the server name running locally is localhost)
 - volmongo_server2  =  192.169.0.143 (The IP address of your NAS)
 
 2. Make sure you have your servers up and running

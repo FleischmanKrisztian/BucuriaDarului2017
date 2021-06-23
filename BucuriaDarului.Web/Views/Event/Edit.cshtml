@@ -1,7 +1,6 @@
-﻿@model Finalaplication.Models.Event
+﻿@model BucuriaDarului.Core.Event
 @{
     ViewBag.Title = "Edit";
-    string id = ViewBag.id;
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
@@ -53,15 +52,14 @@
         }
     </style>
 </head>
-@if (ViewBag.containsspecialchar == true)
+@if (ViewBag.ContainsSpecialChar == true)
 {
     <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>
 }
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <input type="hidden" name="id" value="@id" />
+    @Html.HiddenFor(model=>model._id, new { _id = Model._id })
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-9">
