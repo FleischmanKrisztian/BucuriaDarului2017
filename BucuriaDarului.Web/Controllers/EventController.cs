@@ -93,22 +93,26 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.Page = page;
-                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-                volunteers = VolunteerFunctions.GetVolunteerAfterSorting(volunteers, "Active_desc");
-                ViewBag.counter = volunteers.Count();
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.nrofdocs = nrofdocs;
-                string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
-                ViewBag.stringofids = stringofids;
-                volunteers = VolunteerFunctions.GetVolunteersAfterPaging(volunteers, page, nrofdocs);
-                List<Event> events = eventManager.GetListOfEvents();
-                ViewBag.strname = EventFunctions.GetAllocatedVolunteersString(events, id);
-                ViewBag.Eventname = EventFunctions.GetNameOfEvent(events, id);
-                ViewBag.Evid = id;
-                volunteers = VolunteerFunctions.GetVolunteersAfterSearching(volunteers, searching);
-                return View(volunteers);
+                var allocatedVolunteerContext = new EventsMainDisplayVolunteerAllocationContext(new EventsVolunteerAllocationDisplayIndexGateway());
+                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest( id, page,  nrofdocs, searching));
+
+                //page = UniversalFunctions.GetCurrentPage(page);
+                //ViewBag.Page = page;
+                //List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
+                //volunteers = VolunteerFunctions.GetVolunteerAfterSorting(volunteers, "Active_desc");
+                //ViewBag.counter = volunteers.Count();
+                //string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
+                //ViewBag.stringofids = stringofids;
+                //volunteers = VolunteerFunctions.GetVolunteersAfterPaging(volunteers, page, nrofdocs);
+                //List<Event> events = eventManager.GetListOfEvents();
+                //ViewBag.strname = EventFunctions.GetAllocatedVolunteersString(events, id);
+                //ViewBag.Eventname = EventFunctions.GetNameOfEvent(events, id);
+                //ViewBag.Evid = id;
+                //volunteers = VolunteerFunctions.GetVolunteersAfterSearching(volunteers, searching);
+
+
+                return View(model);
             }
             catch
             {

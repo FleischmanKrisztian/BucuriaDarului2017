@@ -1,17 +1,10 @@
-﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+﻿@model BucuriaDarului.Contexts.EventsVolunteerAllocationDisplayResponse
 @{
     ViewBag.Title = "VolunteerAllocation";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-@{
-    string evid = ViewBag.Evid.ToString();
-    string strname = ViewBag.strname.ToString();
-    string eventname = ViewBag.Eventname.ToString();
-    int currentpage = ViewBag.Page;
-    string stringofids = ViewBag.stringofids;
 
-}
 <head>
     <style>
 
@@ -62,7 +55,7 @@
     </style>
 </head>
 <h2>
-    @Localizer["VolunteerAllocationto"]: @eventname
+    @Localizer["VolunteerAllocationto"]: @Model.Event.NameOfEvent
 </h2>
 @using (Html.BeginForm("VolunteerAllocation", "Event", FormMethod.Get))
 {@Html.TextBox("searching")
@@ -77,49 +70,49 @@
                     maxpage--;
                 }
 
-                if(currentpage==1)
+                if(Model.PagingData.CurrentPage==1)
                 {
-                    @Html.ActionLink("1", "VolunteerAllocation", new { page = 1, searching = ViewBag.searching}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "VolunteerAllocation", new { page = 1, searching = Model.FilterData.NameOfVolunteer}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "VolunteerAllocation", new { page = 1, searching = ViewBag.searching })
+                    @Html.ActionLink("1", "VolunteerAllocation", new { page = 1, searching = Model.FilterData.NameOfVolunteer })
                 }
-                if(currentpage>=5)
+                if(Model.PagingData.CurrentPage >= 5)
                 {
-                    @Html.ActionLink("<<", "VolunteerAllocation", new { page = currentpage-1, searching = ViewBag.searching })
+                    @Html.ActionLink("<<", "VolunteerAllocation", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfVolunteer })
                 }
-                if(currentpage>3)
+                if(Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink((currentpage-2).ToString(), "VolunteerAllocation", new { page = currentpage-2, searching = ViewBag.searching })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "VolunteerAllocation", new { page = Model.PagingData.CurrentPage - 2,  searching = Model.FilterData.NameOfVolunteer })
                 }
-                if(currentpage>2)
+                if(Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((currentpage-1).ToString(), "VolunteerAllocation", new { page = currentpage-1, searching = ViewBag.searching })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "VolunteerAllocation", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfVolunteer })
                 }
-                if(currentpage!=1 && currentpage!= maxpage)
+                if(Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "VolunteerAllocation", new { page = currentpage, searching = ViewBag.searching }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "VolunteerAllocation", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfVolunteer }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                if(currentpage<maxpage-1)
+                if(Model.PagingData.CurrentPage < maxpage -1)
                 {
-                    @Html.ActionLink((currentpage+1).ToString(), "VolunteerAllocation", new { page = currentpage+1, searching = ViewBag.searching })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "VolunteerAllocation", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfVolunteer })
                 }
-                if(currentpage<maxpage-2)
+                if(Model.PagingData.CurrentPage < maxpage -2)
                 {
-                    @Html.ActionLink((currentpage+2).ToString(), "VolunteerAllocation", new { page = currentpage+2, searching = ViewBag.searching })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "VolunteerAllocation", new { page = Model.PagingData.CurrentPage + 2, searching = Model.FilterData.NameOfVolunteer })
                 }
-                if(currentpage<maxpage-3)
+                if(Model.PagingData.CurrentPage < maxpage -3)
                 {
-                    @Html.ActionLink(">>", "VolunteerAllocation", new { page = currentpage+1, searching = ViewBag.searching })
+                    @Html.ActionLink(">>", "VolunteerAllocation", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfVolunteer })
                 }
-                 if(maxpage!=1 && currentpage==maxpage)
+                if(maxpage!=1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "VolunteerAllocation", new { page = maxpage, searching = ViewBag.searching}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "VolunteerAllocation", new { page = maxpage, searching = Model.FilterData.NameOfVolunteer }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "VolunteerAllocation", new { page = maxpage, searching = ViewBag.searching })
+                    @Html.ActionLink(maxpage.ToString(), "VolunteerAllocation", new { page = maxpage, searching = Model.FilterData.NameOfVolunteer })
                 }
             }
             </pre>
@@ -148,7 +141,7 @@
             </th>
             <th></th>
         </tr>
-        @if (Model.Count() == 0)
+        @if (Model.TotalVolunteers == 0)
         {
             <tr>
                 <td colspan="3 " style="color:red">
@@ -158,7 +151,7 @@
         }
         else
         {
-            foreach (var item in Model)
+            foreach (var item in Model.Volunteers)
             {
 
                 <tr>
@@ -174,13 +167,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.HourCount)
                     </td>
-                    @if (strname.Contains(item.Fullname))
+                    @if (Model.AllocatedVolunteersIdString.Contains(item.Fullname))
                     {
                         <td>
                             <input type="checkbox" checked="checked" name="volunteerids" value="@item._id" />
                         </td>
                         <td>
-                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                            <input type="hidden" name="Evid" value="@Model.Event._id" />
                         </td>
                     }
                     else
@@ -189,7 +182,7 @@
                             <input type="checkbox" name="volunteerids" value="@item._id" />
                         </td>
                         <td>
-                            <input type="hidden" name="Evid" value="@ViewBag.Evid" />
+                            <input type="hidden" name="Evid" value="@Model.Event._id" />
                         </td>
                     }
                 </tr>

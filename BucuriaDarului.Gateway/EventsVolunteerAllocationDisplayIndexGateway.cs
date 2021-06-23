@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BucuriaDarului.Gateway
 {
-    class IEventsVolunteerAllocationDisplayIndexGateway: IEnventsMainDataVolunteerAllocationGateways
+    public class EventsVolunteerAllocationDisplayIndexGateway: IEnventsMainDataVolunteerAllocationGateways
     {
         private MongoDBGateway dBContext = new MongoDBGateway();
 
@@ -19,6 +19,14 @@ namespace BucuriaDarului.Gateway
             Event returnevent = eventCollection.Find(filter).FirstOrDefault();
             return returnevent;
            
+        }
+
+        public List<Event> GetListOfEvents()
+        {
+            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            IMongoCollection<Event> eventCollection = dBContext.Database.GetCollection<Event>("Events");
+            List<Event> events = eventCollection.AsQueryable().ToList();
+            return events;
         }
         public List<Volunteer> GetListOfVolunteers()
         {
@@ -41,5 +49,5 @@ namespace BucuriaDarului.Gateway
         }
 
     }
-    }
-}
+  }
+
