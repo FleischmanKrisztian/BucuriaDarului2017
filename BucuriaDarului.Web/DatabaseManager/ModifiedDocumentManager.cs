@@ -16,18 +16,22 @@ namespace Finalaplication.LocalDatabaseManager
         public void AddIDtoString(string id)
         {
             IMongoCollection<ModifiedIDs> modifiedIDS = dBContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
-            ModifiedIDs modified = new ModifiedIDs();
-            modified._id = Guid.NewGuid().ToString();
-            modified.ModifiedId = id;
+            ModifiedIDs modified = new ModifiedIDs
+            {
+                _id = Guid.NewGuid().ToString(),
+                ModifiedId = id
+            };
             modifiedIDS.InsertOne(modified);
         }
 
         internal void AddIDtoDeletionString(string id)
         {
             IMongoCollection<DeletedIDS> deletedIDS = dBContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
-            DeletedIDS deleted = new DeletedIDS();
-            deleted._id = Guid.NewGuid().ToString();
-            deleted.DeletedId = id;
+            DeletedIDS deleted = new DeletedIDS
+            {
+                _id = Guid.NewGuid().ToString(),
+                DeletedId = id
+            };
             deletedIDS.InsertOne(deleted);
         }
 

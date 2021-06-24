@@ -56,8 +56,10 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult CSVExporter(string stringOfIDs)
         {
-            var exportParamenters = new ExportParamenters();
-            exportParamenters.StringOfIDs = stringOfIDs;
+            var exportParamenters = new ExportParamenters
+            {
+                StringOfIDs = stringOfIDs
+            };
             return View();
         }
 

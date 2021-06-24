@@ -52,18 +52,20 @@ namespace BucuriaDarului.Contexts
                 response.IsValid = false;
             }
 
-            var validatedEvent = new Event();
-            validatedEvent._id = request._id;
-            validatedEvent.NameOfEvent = request.NameOfEvent;
-            validatedEvent.PlaceOfEvent = request.PlaceOfEvent;
-            validatedEvent.DateOfEvent = request.DateOfEvent.AddHours(5);
-            validatedEvent.NumberOfVolunteersNeeded = request.NumberOfVolunteersNeeded;
-            validatedEvent.TypeOfActivities = request.TypeOfActivities;
-            validatedEvent.TypeOfEvent = request.TypeOfEvent;
-            validatedEvent.Duration = request.Duration;
-            validatedEvent.AllocatedVolunteers = request.AllocatedVolunteers;
-            validatedEvent.NumberAllocatedVolunteers = request.NumberAllocatedVolunteers;
-            validatedEvent.AllocatedSponsors = request.AllocatedSponsors;
+            var validatedEvent = new Event
+            {
+                _id = request._id,
+                NameOfEvent = request.NameOfEvent,
+                PlaceOfEvent = request.PlaceOfEvent,
+                DateOfEvent = request.DateOfEvent.AddHours(5),
+                NumberOfVolunteersNeeded = request.NumberOfVolunteersNeeded,
+                TypeOfActivities = request.TypeOfActivities,
+                TypeOfEvent = request.TypeOfEvent,
+                Duration = request.Duration,
+                AllocatedVolunteers = request.AllocatedVolunteers,
+                NumberAllocatedVolunteers = request.NumberAllocatedVolunteers,
+                AllocatedSponsors = request.AllocatedSponsors
+            };
 
             return validatedEvent;
         }
