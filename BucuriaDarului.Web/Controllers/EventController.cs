@@ -73,7 +73,7 @@ namespace Finalaplication.Controllers
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 
-        public ActionResult VolunteerAllocation(string id, int page, string searching)
+        public ActionResult VolunteerAllocationDisplay(string id, int page, string searching)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Finalaplication.Controllers
 
                    return RedirectToAction("Index");
                 else
-                    return RedirectToAction("VolunteerAllocation","Event");
+                    return RedirectToAction("VolunteerAllocationDisplay","Event");
 
             }
             catch
@@ -110,7 +110,7 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult SponsorAllocation(string id, int page, string searching)
+        public ActionResult SponsorAllocationDisplay(string id, int page, string searching)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace Finalaplication.Controllers
 
                     return RedirectToAction("Index");
                 else
-                    return RedirectToAction("SponsorAllocation", "Event");
+                    return RedirectToAction("SponsorAllocationDisplay", "Event");
             }
             catch
             {
