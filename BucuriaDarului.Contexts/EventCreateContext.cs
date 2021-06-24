@@ -8,6 +8,7 @@ namespace BucuriaDarului.Contexts
     public class EventCreateContext
     {
         private readonly IEventCreateGateway dataGateway;
+        EventCreateResponse response = new EventCreateResponse("", false, true);
 
         public EventCreateContext(IEventCreateGateway dataGateway)
         {
@@ -16,25 +17,46 @@ namespace BucuriaDarului.Contexts
 
         public EventCreateResponse Execute(EventCreateRequest request)
         {
-            var response = new EventCreateResponse("", false);
-            var @event = ChangeNullValues(request.Incomingevent);
+            
+            var noNullRequest = ChangeNullValues(request);
 
-            if (ContainsSpecialchar(@event))
+            if (ContainsSpecialchar(noNullRequest))
             {
                 response.ContainsSpecialChar = true;
-                response.Message = "The Object Cannot contain Semi-Colons";
+                response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
-            @event._id = Guid.NewGuid().ToString();
+            var @event = ValidateRequest(noNullRequest);
 
-            @event.DateOfEvent = @event.DateOfEvent.AddHours(5);
-
-            if (response.ContainsSpecialChar == false)
+            if (response.ContainsSpecialChar == false && response.IsValid)
             {
                 dataGateway.Insert(@event);
             }
-
             return response;
+        }
+
+        private Event ValidateRequest(EventCreateRequest request)
+        {
+            if(request.NameOfEvent=="")
+            {
+                response.Message += "The Event must have a name! ";
+                response.IsValid = false;
+            }
+
+            var validatedEvent = new Event();
+            validatedEvent._id = Guid.NewGuid().ToString();
+            validatedEvent.NameOfEvent = request.NameOfEvent;
+            validatedEvent.PlaceOfEvent = request.PlaceOfEvent;
+            validatedEvent.DateOfEvent = request.DateOfEvent.AddHours(5);            
+            validatedEvent.NumberOfVolunteersNeeded = request.NumberOfVolunteersNeeded;
+            validatedEvent.TypeOfActivities = request.TypeOfActivities;
+            validatedEvent.TypeOfEvent = request.TypeOfEvent;
+            validatedEvent.Duration = request.Duration;
+            validatedEvent.AllocatedVolunteers = request.AllocatedVolunteers;
+            validatedEvent.NumberAllocatedVolunteers = request.NumberAllocatedVolunteers;
+            validatedEvent.AllocatedSponsors = request.AllocatedSponsors;
+
+            return validatedEvent;
         }
 
         private bool ContainsSpecialchar(object @event)
@@ -48,18 +70,18 @@ namespace BucuriaDarului.Contexts
             return containsSpecialChar;
         }
 
-        private Event ChangeNullValues(Event incomingevent)
+        private EventCreateRequest ChangeNullValues(EventCreateRequest request)
         {
-            foreach (var property in incomingevent.GetType().GetProperties())
+            foreach (var property in request.GetType().GetProperties())
             {
                 var propertyType = property.PropertyType;
-                var value = property.GetValue(incomingevent, null);
+                var value = property.GetValue(request, null);
                 if (propertyType == typeof(string) && value == null)
                 {
-                    property.SetValue(incomingevent, string.Empty);
+                    property.SetValue(request, string.Empty);
                 }
             }
-            return incomingevent;
+            return request;
         }
     }
 
@@ -67,22 +89,38 @@ namespace BucuriaDarului.Contexts
     {
         public string Message { get; set; }
 
+        public bool IsValid { get; set; }
+
         public bool ContainsSpecialChar { get; set; }
 
-        public EventCreateResponse(string message, bool containsSpecialChar)
+        public EventCreateResponse(string message, bool containsSpecialChar, bool isValid)
         {
             Message = message;
             ContainsSpecialChar = containsSpecialChar;
+            IsValid = isValid;
         }
     }
 
     public class EventCreateRequest
     {
-        public Event Incomingevent { get; set; }
+        public string NameOfEvent { get; set; }
 
-        public EventCreateRequest(Event incomingEvent)
-        {
-            Incomingevent = incomingEvent;
-        }
+        public string PlaceOfEvent { get; set; }
+
+        public DateTime DateOfEvent { get; set; }
+
+        public int NumberOfVolunteersNeeded { get; set; }
+
+        public string TypeOfActivities { get; set; }
+
+        public string TypeOfEvent { get; set; }
+
+        public string Duration { get; set; }
+
+        public string AllocatedVolunteers { get; set; }
+
+        public int NumberAllocatedVolunteers { get; set; }
+
+        public string AllocatedSponsors { get; set; }
     }
 }

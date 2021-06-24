@@ -1,20 +1,11 @@
 ﻿using BucuriaDarului.Contexts;
 using BucuriaDarului.Gateway;
-
-//using BucuriaDarului.Core;
 using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.EventHelpers;
-using Finalaplication.ControllerHelpers.SponsorHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.LocalDatabaseManager;
-using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Finalaplication.Controllers
 {
@@ -85,7 +76,7 @@ namespace Finalaplication.Controllers
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedVolunteerContext = new EventsVolunteerAllocationContext(new EventsVolunteerAllocationDataGateway());
-                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest( id, page,  nrofdocs, searching));
+                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching));
                 return View(model);
             }
             catch
@@ -100,7 +91,7 @@ namespace Finalaplication.Controllers
             try
             {
                 var allocatedVolunteerContext = new EventsVolunteerAllocationContext(new EventsVolunteerAllocationDataGateway());
-                allocatedVolunteerContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest( volunteerids,  Evid));
+                allocatedVolunteerContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerids, Evid));
                 return RedirectToAction("Index");
             }
             catch
@@ -114,7 +105,6 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-
 
                 var allocatedSponsorContext = new EventsSponsorAllocationContext(new EventsSponsorAllocationDataGateway());
                 var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
@@ -161,15 +151,24 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(BucuriaDarului.Core.Event incomingevent)
+        public ActionResult Create(EventCreateRequest request)
         {
             try
             {
                 var eventCreateContext = new EventCreateContext(new EventCreateGateway());
-                var eventCreateResponse = eventCreateContext.Execute(new EventCreateRequest(incomingevent));
+                var eventCreateResponse = eventCreateContext.Execute(request);
                 if (eventCreateResponse.ContainsSpecialChar)
                 {
                     ViewBag.ContainsSpecialChar = true;
+                    ModelState.Remove("NumberOfVolunteersNeeded");
+                    ModelState.Remove("DateOfEvent");
+                    return View();
+                }
+                else if (!eventCreateResponse.IsValid)
+                {
+                    ModelState.Remove("NumberOfVolunteersNeeded");
+                    ModelState.Remove("DateOfEvent");
+                    ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
                     return View();
                 }
                 else
@@ -198,17 +197,25 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(BucuriaDarului.Core.Event incomingevent)
+        public ActionResult Edit(EventEditRequest request)
         {
             try
             {
-                var eventEditRequest = new EventEditRequest(incomingevent);
                 var eventEditContext = new EventEditContext(new EventEditGateway());
-                var eventEditResponse = eventEditContext.Execute(eventEditRequest);
+                var eventEditResponse = eventEditContext.Execute(request);
                 if (eventEditResponse.ContainsSpecialChar)
                 {
                     ViewBag.ContainsSpecialChar = true;
-                    return View(incomingevent);
+                    ModelState.Remove("NumberOfVolunteersNeeded");
+                    ModelState.Remove("DateOfEvent");
+                    return View(eventEditResponse.Event);
+                }
+                else if (!eventEditResponse.IsValid)
+                {
+                    ModelState.Remove("NumberOfVolunteersNeeded");
+                    ModelState.Remove("DateOfEvent");
+                    ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
+                    return View(eventEditResponse.Event);
                 }
                 else
                 {

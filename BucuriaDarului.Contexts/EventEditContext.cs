@@ -1,12 +1,14 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
 using Newtonsoft.Json;
+using System;
 
 namespace BucuriaDarului.Contexts
 {
     public class EventEditContext
     {
         private readonly IEventEditGateway dataGateway;
+        EventEditResponse response = new EventEditResponse("", false, true);
 
         public EventEditContext(IEventEditGateway dataGateway)
         {
@@ -15,22 +17,19 @@ namespace BucuriaDarului.Contexts
 
         public EventEditResponse Execute(EventEditRequest request)
         {
-            var response = new EventEditResponse();
+            var noNullRequest = ChangeNullValues(request);
 
-            var @event = ChangeNullValues(request.IncomingEvent);
-
-            if (ContainsSpecialchar(@event))
+            if (ContainsSpecialchar(noNullRequest))
             {
                 response.ContainsSpecialChar = true;
-                response.Message = "The Object Cannot contain Semi-Colons";
+                response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
-            @event.DateOfEvent = @event.DateOfEvent.AddHours(5);
+            var @event = ValidateRequest(noNullRequest);
 
-            if (response.ContainsSpecialChar == false)
+            if (response.ContainsSpecialChar == false && response.IsValid)
             {
                 var modifiedList = dataGateway.ReturnModificationList();
-
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
                 if (!modifiedListString.Contains(@event._id))
                 {
@@ -40,9 +39,35 @@ namespace BucuriaDarului.Contexts
                 }
                 dataGateway.Edit(@event);
             }
+            response.Event = @event;
 
             return response;
         }
+
+        private Event ValidateRequest(EventEditRequest request)
+        {
+            if (request.NameOfEvent == "")
+            {
+                response.Message += "The Event must have a name! ";
+                response.IsValid = false;
+            }
+
+            var validatedEvent = new Event();
+            validatedEvent._id = request._id;
+            validatedEvent.NameOfEvent = request.NameOfEvent;
+            validatedEvent.PlaceOfEvent = request.PlaceOfEvent;
+            validatedEvent.DateOfEvent = request.DateOfEvent.AddHours(5);
+            validatedEvent.NumberOfVolunteersNeeded = request.NumberOfVolunteersNeeded;
+            validatedEvent.TypeOfActivities = request.TypeOfActivities;
+            validatedEvent.TypeOfEvent = request.TypeOfEvent;
+            validatedEvent.Duration = request.Duration;
+            validatedEvent.AllocatedVolunteers = request.AllocatedVolunteers;
+            validatedEvent.NumberAllocatedVolunteers = request.NumberAllocatedVolunteers;
+            validatedEvent.AllocatedSponsors = request.AllocatedSponsors;
+
+            return validatedEvent;
+        }
+
 
         private bool ContainsSpecialchar(object @event)
         {
@@ -55,34 +80,59 @@ namespace BucuriaDarului.Contexts
             return containsSpecialChar;
         }
 
-        private Event ChangeNullValues(Event incomingevent)
+        private EventEditRequest ChangeNullValues(EventEditRequest request)
         {
-            foreach (var property in incomingevent.GetType().GetProperties())
+            foreach (var property in request.GetType().GetProperties())
             {
                 var propertyType = property.PropertyType;
-                var value = property.GetValue(incomingevent, null);
+                var value = property.GetValue(request, null);
                 if (propertyType == typeof(string) && value == null)
                 {
-                    property.SetValue(incomingevent, string.Empty);
+                    property.SetValue(request, string.Empty);
                 }
             }
-            return incomingevent;
+            return request;
         }
     }
 
     public class EventEditResponse
     {
+        public Event Event { get; set; }
         public string Message { get; set; }
+
+        public bool IsValid { get; set; }
+
         public bool ContainsSpecialChar { get; set; }
+
+        public EventEditResponse(string message, bool containsSpecialChar, bool isValid)
+        {
+            Message = message;
+            ContainsSpecialChar = containsSpecialChar;
+            IsValid = isValid;
+        }
     }
 
     public class EventEditRequest
     {
-        public Event IncomingEvent { get; set; }
+        public string _id { get; set; }
+        public string NameOfEvent { get; set; }
 
-        public EventEditRequest(Event incomingevent)
-        {
-            IncomingEvent = incomingevent;
-        }
+        public string PlaceOfEvent { get; set; }
+
+        public DateTime DateOfEvent { get; set; }
+
+        public int NumberOfVolunteersNeeded { get; set; }
+
+        public string TypeOfActivities { get; set; }
+
+        public string TypeOfEvent { get; set; }
+
+        public string Duration { get; set; }
+
+        public string AllocatedVolunteers { get; set; }
+
+        public int NumberAllocatedVolunteers { get; set; }
+
+        public string AllocatedSponsors { get; set; }
     }
 }
