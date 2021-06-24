@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace BucuriaDarului.Contexts
 {
-    public class EventsVolunteerAllocationContext
+    public class EventVolunteerAllocationDisplayContext
     {
-        private readonly IEnventsVolunteerAllocationGateway dataGateway;
+        private readonly IEventVolunteerAllocationDisplayGateway dataGateway;
 
-        public EventsVolunteerAllocationContext(IEnventsVolunteerAllocationGateway dataGateway)
+        public EventVolunteerAllocationDisplayContext(IEventVolunteerAllocationDisplayGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
@@ -24,61 +24,11 @@ namespace BucuriaDarului.Contexts
             volunteers = GetVolunteerAfterSorting(volunteers, request.FilterData.VolunteerActivity);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
             volunteers = GetVolunteersAfterSearching(volunteers, request.FilterData.NameOfVolunteer);
-            List<Event> events = dataGateway.GetListOfEvents();
-            string AllocatedVolunteersIdString = GetAllocatedVolunteersString(events, request.EventId);
+            //string AllocatedVolunteersIdString = GetAllocatedVolunteersString(event_, request.EventId);
 
             return new EventsVolunteerAllocationDisplayResponse(event_, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData);
         }
-
-        public void UdateAllocationToEvent(EventsVolunteerAllocationRequest request)
-        {
-            Event event_ = dataGateway.GetEvent(request.EventId);
-            List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
-            volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
-            string nameOfVolunteers = GetVolunteerNames(volunteers);
-            event_.AllocatedVolunteers = GetVolunteerNames(volunteers);
-            event_.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameOfVolunteers);
-            dataGateway.UpdateEvent(request.EventId, event_);
-        }
-
-        private int VolunteersAllocatedCounter(string AllocatedVolunteers)
-        {
-            if (AllocatedVolunteers != null)
-            {
-                string[] split = AllocatedVolunteers.Split(" / ");
-                return split.Count() - 1;
-            }
-            return 0;
-        }
-
-        private string GetVolunteerNames(List<Volunteer> volunteers)
-        {
-            string volnames = "";
-            for (int i = 0; i < volunteers.Count; i++)
-            {
-                var volunteer = volunteers[i];
-                volnames = volnames + volunteer.Fullname + " / ";
-            }
-            return volnames;
-        }
-
-        private string GetAllocatedVolunteersString(List<Event> events, string id)
-        {
-            Event returnedevent = events.Find(b => b._id.ToString() == id);
-            returnedevent.AllocatedVolunteers += " / ";
-            return returnedevent.AllocatedVolunteers;
-        }
-
-        private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] vols)
-        {
-            List<Volunteer> volunteerlist = new List<Volunteer>();
-            for (int i = 0; i < vols.Length; i++)
-            {
-                Volunteer singlevolunteer = volunteers.Where(x => x._id == vols[i]).First();
-                volunteerlist.Add(singlevolunteer);
-            }
-            return volunteerlist;
-        }
+ 
 
         private List<Volunteer> GetVolunteersAfterPaging(List<Volunteer> volunteers, int page, int nrofdocs)
         {
@@ -155,31 +105,8 @@ namespace BucuriaDarului.Contexts
         }
     }
 
-    public class EventsVolunteerAllocationRequest
-    {
-        public string EventId { get; set; }
-        public string[] VolunteerIds { get; set; }
-
-        public EventsVolunteerAllocationRequest(string[] volunteerIds, string eventId)
-        {
-            this.EventId = eventId;
-            this.VolunteerIds = volunteerIds;
-        }
-    }
-
-    //public class EventsVolunteerAllocationResponse
-    //{
-    //    public List<Volunteer> Volunteers { get; set; }
-    //    public Event Event { get; set; }
-    //    public string NameOfVolunteers { get; set; }
-    //    public EventsVolunteerAllocationResponse(Event event_, List<Volunteer> volunteers, string nameOfVolunteers)
-    //    {
-    //        Event = event_;
-    //        Volunteers = volunteers;
-    //        NameOfVolunteers = nameOfVolunteers;
-    //    }
-
-    //}
+    
+   
 
     public class EventsVolunteerAllocationDisplayResponse
     {

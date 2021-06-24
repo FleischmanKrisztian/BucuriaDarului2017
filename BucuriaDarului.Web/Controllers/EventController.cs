@@ -1,4 +1,5 @@
 ﻿using BucuriaDarului.Contexts;
+using BucuriaDarului.Core.Gateways;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -77,8 +78,9 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedVolunteerContext = new EventsVolunteerAllocationContext(new EventsVolunteerAllocationDataGateway());
-                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching));
+                var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
+                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest( id, page,  nrofdocs, searching));
+
                 return View(model);
             }
             catch
@@ -92,9 +94,15 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedVolunteerContext = new EventsVolunteerAllocationContext(new EventsVolunteerAllocationDataGateway());
-                allocatedVolunteerContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerids, Evid));
-                return RedirectToAction("Index");
+
+                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationGateway());
+                var response=allocatedVolunteerUpdateContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerids, Evid));
+                if(response.UpdateCompleted==true)
+
+                   return RedirectToAction("Index");
+                else
+                    return RedirectToAction("VolunteerAllocation","Event");
+
             }
             catch
             {
