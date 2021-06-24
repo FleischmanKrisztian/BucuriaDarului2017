@@ -95,8 +95,8 @@ namespace Finalaplication.Controllers
             try
             {
 
-                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationGateway());
-                var response=allocatedVolunteerUpdateContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
+                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
+                var response=allocatedVolunteerUpdateContext.UpdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 if(response.UpdateCompleted==true)
 
                    return RedirectToAction("Index");
@@ -115,8 +115,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-
-                var allocatedSponsorContext = new EventsSponsorAllocationContext(new EventsSponsorAllocationDataGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
                 var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
                 return View(model);
             }
@@ -127,13 +126,17 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult SponsorAllocation(string[] sponsorids, string Evid)
+        public ActionResult SponsorAllocation(string[] sponsorIds, string evId)
         {
             try
             {
-                var allocatedSponsorContext = new EventsSponsorAllocationContext(new EventsSponsorAllocationDataGateway());
-                allocatedSponsorContext.UdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorids, Evid));
-                return RedirectToAction("Index");
+                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
+                var response=allocatedSponsorContext.UpdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorIds, evId));
+                if (response.UpdateCompleted == true)
+
+                    return RedirectToAction("Index");
+                else
+                    return RedirectToAction("SponsorAllocation", "Event");
             }
             catch
             {

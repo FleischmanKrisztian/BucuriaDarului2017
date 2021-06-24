@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BucuriaDarului.Core.Gateways
 {
-    public interface IEventSponsorAllocationGateway
+    public interface IEventSponsorAllocationDisplayGateway
     {
         Event GetEvent(string eventId);
         List<Event> GetListOfEvents();

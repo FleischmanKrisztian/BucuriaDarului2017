@@ -7,11 +7,11 @@ using System.Text;
 
 namespace BucuriaDarului.Contexts
 {
-    public class EventsSponsorAllocationContext
+    public class EventSponsorAllocationDisplayContext
     {
-        private readonly IEventSponsorAllocationGateway dataGateway;
+        private readonly IEventSponsorAllocationDisplayGateway dataGateway;
 
-        public EventsSponsorAllocationContext(IEventSponsorAllocationGateway dataGateway)
+        public EventSponsorAllocationDisplayContext(IEventSponsorAllocationDisplayGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
@@ -30,35 +30,7 @@ namespace BucuriaDarului.Contexts
             return new EventsSponsorAllocationDisplayResponse(event_, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData);
 
         }
-        public void UdateAllocationToEvent(EventsSponsorAllocationRequest request)
-        {
-            Event event_ = dataGateway.GetEvent(request.EventId);
-            List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
-            sponsors = GetSponsorsByIds(sponsors, request.SponsorIds);
-            event_.AllocatedSponsors= GetSponsorNames(sponsors);
-            dataGateway.UpdateEvent(request.EventId, event_);
-        }
-
-        private string GetSponsorNames(List<Sponsor> sponsors)
-        {
-            string sponsornames = "";
-            for (int i = 0; i < sponsors.Count; i++)
-            {
-                var sponsor = sponsors[i];
-                sponsornames = sponsornames + sponsor.NameOfSponsor + " / ";
-            }
-            return sponsornames;
-        }
-        private List<Sponsor> GetSponsorsByIds(List<Sponsor> sponsors, string[] sponsorids)
-        {
-            List<Sponsor> sponsorlist = new List<Sponsor>();
-            for (int i = 0; i < sponsorids.Length; i++)
-            {
-                Sponsor singlesponsor = sponsors.Where(x => x._id == sponsorids[i]).First();
-                sponsorlist.Add(singlesponsor);
-            }
-            return sponsorlist;
-        }
+        
         private dynamic GetAllocatedSponsorsString(List<Event> events, string id)
         {
             Event returnedevent = events.Find(b => b._id.ToString() == id);
@@ -147,18 +119,7 @@ namespace BucuriaDarului.Contexts
         }
     }
 
-    public class EventsSponsorAllocationRequest
-    {
-        public string EventId { get; set; }
-        public string[] SponsorIds { get; set; }
-
-        public EventsSponsorAllocationRequest(string[] sponsorIds, string eventId)
-        {
-            this.EventId = eventId;
-            this.SponsorIds = sponsorIds;
-        }
-    }
-
+   
     public class SponsorAllocationPagingData
     {
         public int CurrentPage { get; set; }

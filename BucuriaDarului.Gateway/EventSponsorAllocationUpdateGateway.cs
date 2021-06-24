@@ -1,13 +1,11 @@
-﻿using System;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
-using System.Collections.Generic;
-using System.Text;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway
 {
-    public class EventsSponsorAllocationDataGateway : IEventSponsorAllocationDisplayGateway
+    public class EventSponsorAllocationUpdateGateway : IEventSponsorAllocationUpdateGateway
     {
         private MongoDBGateway dBContext = new MongoDBGateway();
 
@@ -18,16 +16,8 @@ namespace BucuriaDarului.Gateway
             var filter = Builders<Event>.Filter.Eq("_id", eventId);
             Event returnevent = eventCollection.Find(filter).FirstOrDefault();
             return returnevent;
-
         }
 
-        public List<Event> GetListOfEvents()
-        {
-            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            IMongoCollection<Event> eventCollection = dBContext.Database.GetCollection<Event>("Events");
-            List<Event> events = eventCollection.AsQueryable().ToList();
-            return events;
-        }
         public List<Sponsor> GetListOfSponsors()
         {
             dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
@@ -45,7 +35,6 @@ namespace BucuriaDarului.Gateway
             ModifiedIDGateway modifiedIDGateway = new ModifiedIDGateway();
             modifiedIDGateway.AddIDtoModifications(eventId);
             eventcollection.FindOneAndReplace(filter, eventToUpdate);
-
         }
     }
 }
