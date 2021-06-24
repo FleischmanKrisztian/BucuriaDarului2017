@@ -90,13 +90,13 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult VolunteerAllocation(string[] volunteerids, string Evid)
+        public ActionResult VolunteerAllocation(string[] volunteerIds, string evId)
         {
             try
             {
 
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationGateway());
-                var response=allocatedVolunteerUpdateContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerids, Evid));
+                var response=allocatedVolunteerUpdateContext.UdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 if(response.UpdateCompleted==true)
 
                    return RedirectToAction("Index");
