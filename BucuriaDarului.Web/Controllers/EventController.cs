@@ -96,7 +96,7 @@ namespace Finalaplication.Controllers
             {
 
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
-                var response=allocatedVolunteerUpdateContext.UpdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
+                var response=allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 if(response.UpdateCompleted==true)
 
                    return RedirectToAction("Index");
@@ -131,7 +131,7 @@ namespace Finalaplication.Controllers
             try
             {
                 var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
-                var response=allocatedSponsorContext.UpdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorIds, evId));
+                var response=allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.UpdateCompleted == true)
 
                     return RedirectToAction("Index");
@@ -140,7 +140,7 @@ namespace Finalaplication.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Localserver", "Home");
             }
         }
 
