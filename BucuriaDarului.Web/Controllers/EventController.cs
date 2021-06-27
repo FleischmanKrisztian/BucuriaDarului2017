@@ -98,10 +98,9 @@ namespace Finalaplication.Controllers
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
                 var response=allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 if(response.UpdateCompleted==true)
-
-                   return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 else
-                    return RedirectToAction("VolunteerAllocationDisplay","Event");
+                    return RedirectToAction("VolunteerAllocationDisplay", "Event", new { id = evId });
 
             }
             catch
@@ -136,7 +135,7 @@ namespace Finalaplication.Controllers
 
                     return RedirectToAction("Index");
                 else
-                    return RedirectToAction("SponsorAllocationDisplay", "Event");
+                    return RedirectToAction("SponsorAllocationDisplay", "Event", new { id = evId });
             }
             catch
             {
