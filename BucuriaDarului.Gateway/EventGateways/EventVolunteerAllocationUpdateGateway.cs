@@ -1,15 +1,12 @@
-﻿using System;
-using BucuriaDarului.Core;
-using System.Collections.Generic;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
-using System.Text;
 using MongoDB.Driver;
-using BucuriaDarului.Core;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway
 {
     public class EventVolunteerAllocationUpdateGateway : IEventVolunteerAllocationUpdateGateway
-    { 
+    {
         private MongoDBGateway dBContext = new MongoDBGateway();
 
         public Event GetEvent(string eventId)
@@ -19,7 +16,6 @@ namespace BucuriaDarului.Gateway
             var filter = Builders<Event>.Filter.Eq("_id", eventId);
             Event returnevent = eventCollection.Find(filter).FirstOrDefault();
             return returnevent;
-
         }
 
         public List<Volunteer> GetListOfVolunteers()
@@ -39,7 +35,6 @@ namespace BucuriaDarului.Gateway
             ModifiedIDGateway modifiedIDGateway = new ModifiedIDGateway();
             modifiedIDGateway.AddIDtoModifications(eventId);
             eventcollection.FindOneAndReplace(filter, eventToUpdate);
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BucuriaDarului.Contexts;
+
+using BucuriaDarului.Contexts;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -80,6 +81,7 @@ namespace Finalaplication.Controllers
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
                 var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching, messages));
+=
 
                 return View(model);
             }
@@ -98,16 +100,16 @@ namespace Finalaplication.Controllers
                 var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 string m = "";
                 if (response.UpdateCompleted == true)
-                    //{
-                    //    if (response.Message.Count != 0)
-                    //    {
-                    //        foreach (var r in response.Message)
-                    //            m = r.Value;
-                    //    }
-                    //    return RedirectToAction("VolunteerAllocationDisplay", new { id=evId, messages=m, page = 1, searching = "" });
+                    {
+                        if (response.Message.Count != 0)
+                       {
+                            foreach (var r in response.Message)
+                                m = r.Value;
+                        }
+                        return RedirectToAction("VolunteerAllocationDisplay", new { id=evId, messages=m, page = 1, searching = "" });
 
-                    //}
-                    return RedirectToAction("Index");
+                    }
+                    //return RedirectToAction("Index");
                 else
 
                 {
