@@ -31,7 +31,7 @@ namespace Finalaplication.Controllers
             try
             {
                 var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-                eventsImportContext.Execute(file.OpenReadStream());
+                var response=eventsImportContext.Execute(file.OpenReadStream());
                 return RedirectToAction("Index");
             }
             catch
