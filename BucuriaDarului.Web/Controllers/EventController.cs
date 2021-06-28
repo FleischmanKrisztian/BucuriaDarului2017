@@ -1,5 +1,4 @@
 ﻿using BucuriaDarului.Contexts;
-using BucuriaDarului.Core.Gateways;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -79,7 +78,7 @@ namespace Finalaplication.Controllers
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
-                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest( id, page,  nrofdocs, searching));
+                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching));
 
                 return View(model);
             }
@@ -94,15 +93,13 @@ namespace Finalaplication.Controllers
         {
             try
             {
-
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
-                var response=allocatedVolunteerUpdateContext.UpdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
-                if(response.UpdateCompleted==true)
+                var response = allocatedVolunteerUpdateContext.UpdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
+                if (response.UpdateCompleted == true)
 
-                   return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 else
-                    return RedirectToAction("VolunteerAllocationDisplay","Event");
-
+                    return RedirectToAction("VolunteerAllocationDisplay", "Event");
             }
             catch
             {
@@ -131,7 +128,7 @@ namespace Finalaplication.Controllers
             try
             {
                 var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
-                var response=allocatedSponsorContext.UpdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorIds, evId));
+                var response = allocatedSponsorContext.UpdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.UpdateCompleted == true)
 
                     return RedirectToAction("Index");
