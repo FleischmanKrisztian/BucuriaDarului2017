@@ -1,4 +1,3 @@
-
 using BucuriaDarului.Contexts;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
 
 namespace Finalaplication.Controllers
 {
@@ -74,14 +72,13 @@ namespace Finalaplication.Controllers
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 
-        public ActionResult VolunteerAllocationDisplay(string id,  string messages, int page, string searching)
+        public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)
         {
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
                 var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching, messages));
-=
 
                 return View(model);
             }
@@ -98,29 +95,11 @@ namespace Finalaplication.Controllers
             {
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
                 var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
-                string m = "";
-                if (response.UpdateCompleted == true)
-                    {
-                        if (response.Message.Count != 0)
-                       {
-                            foreach (var r in response.Message)
-                                m = r.Value;
-                        }
-                        return RedirectToAction("VolunteerAllocationDisplay", new { id=evId, messages=m, page = 1, searching = "" });
-
-                    }
-                    //return RedirectToAction("Index");
+               
+                if (response.IsValid)
+                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
                 else
-
-                {
-                    if (response.Message.Count != 0)
-                    {
-                        foreach (var r in response.Message)
-                            m = r.Value;
-                    }
-                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = m, page = 1, searching = "" });
-
-                }
+                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
             }
             catch
             {
@@ -133,7 +112,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway(), new SingleEventReturnerGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
                 var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
                 return View(model);
             }
@@ -166,8 +145,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var singleEventReturnerGateway = new SingleEventReturnerGateway();
-                var model = singleEventReturnerGateway.ReturnEvent(id);
+                var model = SingleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch
@@ -217,8 +195,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var singleEventReturnerGateway = new SingleEventReturnerGateway();
-                var model = singleEventReturnerGateway.ReturnEvent(id);
+                var model = SingleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch
@@ -232,7 +209,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventEditContext = new EventEditContext(new EventEditGateway(), new SingleEventReturnerGateway());
+                var eventEditContext = new EventEditContext(new EventEditGateway());
                 var eventEditResponse = eventEditContext.Execute(request);
                 if (eventEditResponse.ContainsSpecialChar)
                 {
@@ -263,8 +240,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var singleEventReturnerGateway = new SingleEventReturnerGateway();
-                var model = singleEventReturnerGateway.ReturnEvent(id);
+                var model = SingleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch

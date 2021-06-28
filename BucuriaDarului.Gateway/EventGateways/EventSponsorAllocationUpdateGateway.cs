@@ -27,5 +27,11 @@ namespace BucuriaDarului.Gateway
             modifiedIDGateway.AddIDtoModifications(eventId);
             eventcollection.FindOneAndReplace(filter, eventToUpdate);
         }
+
+
+        public Event ReturnEvent(string eventId)
+        {
+            return SingleEventReturnerGateway.ReturnEvent(eventId);
+        }
     }
 }

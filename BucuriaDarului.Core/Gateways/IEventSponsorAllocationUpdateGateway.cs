@@ -8,5 +8,6 @@ namespace BucuriaDarului.Core.Gateways
     {
         List<Sponsor> GetListOfSponsors();
         void UpdateEvent(string EventId, Event event_);
+        Event ReturnEvent(string eventId);
     }
 }

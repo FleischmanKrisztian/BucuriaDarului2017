@@ -1,9 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Gateway
 {
@@ -19,6 +17,10 @@ namespace BucuriaDarului.Gateway
             return volunteers;
         }
 
+        public Event ReturnEvent(string eventId)
+        {
+            return SingleEventReturnerGateway.ReturnEvent(eventId);
+        }
     }
   }
 

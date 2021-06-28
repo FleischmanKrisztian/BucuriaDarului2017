@@ -25,12 +25,12 @@ namespace BucuriaDarului.Contexts
             var result = ExtractImportRawData(dataToImport);
             if (result.Count()==0)
             {
-                mesages.Add(new KeyValuePair<string, string>("error","File is empty.Please try again!"));
+                mesages.Add(new KeyValuePair<string, string>("error","File is empty. Please try again!"));
             }
             var eventsFromCsv = GetEventsFromCsv(result);
             if (eventsFromCsv.Count() == 0)
             {
-                mesages.Add(new KeyValuePair<string, string>("error2", "File type is wrong!Please imort a valid file for event documents"));
+                mesages.Add(new KeyValuePair<string, string>("error2", "File type is wrong! Please import a valid file for event documents!"));
             }
 
             dataGateway.Insert(eventsFromCsv);
