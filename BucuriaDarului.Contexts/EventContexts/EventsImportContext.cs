@@ -1,14 +1,14 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventsImportContext
     {
@@ -21,21 +21,21 @@ namespace BucuriaDarului.Contexts
 
         public Response Execute(Stream dataToImport)
         {
-            List<KeyValuePair<string, string>> mesages = new List<KeyValuePair<string, string>>();
+            var messages = new List<KeyValuePair<string, string>>();
             var result = ExtractImportRawData(dataToImport);
-            if (result.Count()==0)
+            if (result.Count() == 0)
             {
-                mesages.Add(new KeyValuePair<string, string>("error","File is empty. Please try again!"));
+                messages.Add(new KeyValuePair<string, string>("error", "File is empty. Please try again!"));
             }
             var eventsFromCsv = GetEventsFromCsv(result);
             if (eventsFromCsv.Count() == 0)
             {
-                mesages.Add(new KeyValuePair<string, string>("error2", "File type is wrong! Please import a valid file for event documents!"));
+                messages.Add(new KeyValuePair<string, string>("error2", "File type is wrong! Please import a valid file for event documents!"));
             }
 
             dataGateway.Insert(eventsFromCsv);
 
-            return new Response(mesages);
+            return new Response(messages);
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
@@ -100,11 +100,11 @@ namespace BucuriaDarului.Contexts
 
         private static List<Event> GetEventsFromCsv(List<string[]> lines)
         {
-            var Events = new List<Event>();
+            var events = new List<Event>();
 
             foreach (var line in lines)
             {
-                Event ev = new Event();
+                var ev = new Event();
                 try
                 {
                     ev._id = line[0];
@@ -120,13 +120,13 @@ namespace BucuriaDarului.Contexts
                         DateTime data;
                         if (line[3].Contains("/") == true)
                         {
-                            string[] date = line[3].Split(" ");
-                            string[] FinalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(FinalDate[2] + "-" + FinalDate[0] + "-" + FinalDate[1]);
+                            var date = line[3].Split(" ");
+                            var finalDate = date[0].Split("/");
+                            data = Convert.ToDateTime(finalDate[2] + "-" + finalDate[0] + "-" + finalDate[1]);
                         }
                         else
                         {
-                            string[] anotherDate = line[3].Split('.');
+                            var anotherDate = line[3].Split('.');
                             data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
                         }
                         ev.DateOfEvent = data.AddDays(1);
@@ -138,17 +138,9 @@ namespace BucuriaDarului.Contexts
                     }
                     else
                     {
-                        int number = 0;
-                        bool converted = false;
-                        converted = Int32.TryParse(line[4], out number);
-                        if (converted) 
-                        {
-                            ev.NumberOfVolunteersNeeded = number;
-                        }
-                        else
-                        {
-                            ev.NumberOfVolunteersNeeded = 0;
-                        }
+                        var converted = false;
+                        converted = int.TryParse(line[4], out var number);
+                        ev.NumberOfVolunteersNeeded = converted ? number : 0;
                     }
                     ev.TypeOfActivities = line[5];
                     ev.TypeOfEvent = line[6];
@@ -158,13 +150,13 @@ namespace BucuriaDarului.Contexts
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An error has occured while importing!");
+                    Console.WriteLine("An error has occurred while importing!");
                     Console.WriteLine(ex);
                 }
-                Events.Add(ev);
+                events.Add(ev);
             }
 
-            return Events;
+            return events;
         }
     }
 
@@ -197,7 +189,7 @@ namespace BucuriaDarului.Contexts
                 Messages = messages;
             }
             else
-                messages.Add(new KeyValuePair<string, string>("Succes", "The document was succesfuly imported!"));
+                messages.Add(new KeyValuePair<string, string>("Success", "The document was successfully imported!"));
         }
     }
 }

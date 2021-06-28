@@ -1,9 +1,9 @@
-﻿using BucuriaDarului.Core;
+﻿using System;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
 using Newtonsoft.Json;
-using System;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventEditContext
     {
@@ -19,7 +19,7 @@ namespace BucuriaDarului.Contexts
         {
             var noNullRequest = ChangeNullValues(request);
 
-            if (ContainsSpecialchar(noNullRequest))
+            if (ContainsSpecialChar(noNullRequest))
             {
                 response.ContainsSpecialChar = true;
                 response.Message = "The Object Cannot contain Semi-Colons! ";
@@ -33,8 +33,8 @@ namespace BucuriaDarului.Contexts
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
                 if (!modifiedListString.Contains(@event._id))
                 {
-                    Event beforeEditingEvent = dataGateway.ReturnEvent(@event._id);
-                    string beforeEditingEventString = JsonConvert.SerializeObject(beforeEditingEvent);
+                    var beforeEditingEvent = dataGateway.ReturnEvent(@event._id);
+                    var beforeEditingEventString = JsonConvert.SerializeObject(beforeEditingEvent);
                     dataGateway.AddEventToModifiedList(beforeEditingEventString);
                 }
                 dataGateway.Edit(@event);
@@ -70,18 +70,14 @@ namespace BucuriaDarului.Contexts
             return validatedEvent;
         }
 
-        private bool ContainsSpecialchar(object @event)
+        private bool ContainsSpecialChar(object @event)
         {
             string eventString = JsonConvert.SerializeObject(@event);
-            bool containsSpecialChar = false;
-            if (eventString.Contains(";"))
-            {
-                containsSpecialChar = true;
-            }
+            bool containsSpecialChar = eventString.Contains(";");
             return containsSpecialChar;
         }
 
-        private EventEditRequest ChangeNullValues(EventEditRequest request)
+        private static EventEditRequest ChangeNullValues(EventEditRequest request)
         {
             foreach (var property in request.GetType().GetProperties())
             {

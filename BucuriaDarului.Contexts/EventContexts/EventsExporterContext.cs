@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Localization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Localization;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventsExporterContext
     {
@@ -15,12 +15,12 @@ namespace BucuriaDarului.Contexts
 
         public EventsExporterResponse Execute(EventsExporterRequest request)
         {
-            string idsAndFields = GetIdAndFieldString(request.ExportParamenters);
+            string idsAndFields = GetIdAndFieldString(request.ExportParameters);
             string header = GetHeaderForExcelPrinterEvent();
             return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),"");
         }
 
-        private string GetIdAndFieldString(ExportParamenters csv)
+        private string GetIdAndFieldString(ExportParameters csv)
         {
             string idsAndOptions = csv.StringOfIDs + "(((";
             if (csv.All)
@@ -68,9 +68,11 @@ namespace BucuriaDarului.Contexts
 
         private Dictionary<string, string> CreateDictionaries(string key1, string key2, string idsAndFields, string header)
         {
-            var result = new Dictionary<string, string>();
-            result.Add(key1, idsAndFields);
-            result.Add(key2, header);
+            var result = new Dictionary<string, string>
+            {
+                { key1, idsAndFields },
+                { key2, header }
+            };
 
             return result;
         }
@@ -90,15 +92,15 @@ namespace BucuriaDarului.Contexts
 
     public class EventsExporterRequest
     {
-        public EventsExporterRequest(ExportParamenters exportProperties)
+        public EventsExporterRequest(ExportParameters exportProperties)
         {
-            ExportParamenters = exportProperties;
+            ExportParameters = exportProperties;
         }
 
-        public ExportParamenters ExportParamenters { get; set; }
+        public ExportParameters ExportParameters { get; set; }
     }
 
-    public class ExportParamenters
+    public class ExportParameters
     {
         public string StringOfIDs { get; set; }
         public bool All { get; set; }

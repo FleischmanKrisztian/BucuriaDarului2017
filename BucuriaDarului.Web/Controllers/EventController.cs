@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using BucuriaDarului.Contexts.EventContexts;
 
 namespace Finalaplication.Controllers
 {
@@ -54,17 +55,13 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter(string stringOfIDs)
+        public ActionResult CSVExporter()
         {
-            var exportParamenters = new ExportParamenters
-            {
-                StringOfIDs = stringOfIDs
-            };
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(ExportParamenters csvExportProperties)
+        public ActionResult CSVExporter(ExportParameters csvExportProperties)
         {
             var eventsExporterContext = new EventsExporterContext(_localizer);
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
@@ -97,7 +94,7 @@ namespace Finalaplication.Controllers
                 var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                
                 if (response.IsValid)
-                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
+                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
                 else
                     return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
             }

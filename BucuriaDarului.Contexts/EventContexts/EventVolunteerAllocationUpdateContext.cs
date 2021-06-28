@@ -1,9 +1,9 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventVolunteerAllocationUpdateContext
     {
@@ -18,12 +18,12 @@ namespace BucuriaDarului.Contexts
         {
             var result = new EventsVolunteerAllocationResponse();
 
-            Event @event = dataGateway.ReturnEvent(request.EventId);
+            var @event = dataGateway.ReturnEvent(request.EventId);
 
-            List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
+            var volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
-            string nameOfVolunteers = GetVolunteerNames(volunteers);
-            string volunteerForAllocation = GetVolunteerNames(volunteers);
+            var nameOfVolunteers = GetVolunteerNames(volunteers);
+            var volunteerForAllocation = GetVolunteerNames(volunteers);
             @event.AllocatedVolunteers = volunteerForAllocation;
             @event.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameOfVolunteers);
             dataGateway.UpdateEvent(request.EventId, @event);
@@ -40,7 +40,7 @@ namespace BucuriaDarului.Contexts
         {
             if (allocatedVolunteers != null)
             {
-                string[] split = allocatedVolunteers.Split(" / ");
+                var split = allocatedVolunteers.Split(" / ");
                 return split.Count() - 1;
             }
             return 0;
@@ -48,23 +48,22 @@ namespace BucuriaDarului.Contexts
 
         private string GetVolunteerNames(List<Volunteer> volunteers)
         {
-            string result = "";
-            for (int i = 0; i < volunteers.Count; i++)
+            var result = "";
+            foreach (var volunteer in volunteers)
             {
-                var volunteer = volunteers[i];
                 result = result + volunteer.Fullname + " / ";
             }
             return result;
         }
 
-
+        // Can Probably simplify here
         private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] ids)
         {
-            List<Volunteer> volunteerList = new List<Volunteer>();
-            for (int i = 0; i < ids.Length; i++)
+            var volunteerList = new List<Volunteer>();
+            foreach (var id in ids)
             {
-                Volunteer singlevolunteer = volunteers.Where(x => x._id == ids[i]).First();
-                volunteerList.Add(singlevolunteer);
+                var singleVolunteer = volunteers.First(x => x._id == id);
+                volunteerList.Add(singleVolunteer);
             }
             return volunteerList;
         }

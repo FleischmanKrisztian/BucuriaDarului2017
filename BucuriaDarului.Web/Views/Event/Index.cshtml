@@ -1,4 +1,4 @@
-﻿@model BucuriaDarului.Contexts.EventsMainDisplayIndexResponse
+﻿@model BucuriaDarului.Contexts.EventContexts.EventsMainDisplayIndexResponse
 @{
     ViewBag.Title = "Events";
 }
@@ -83,47 +83,47 @@
 
                 if(Model.PagingData.CurrentPage==1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfEvent, searchingPlace= Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites , searchingType= Model.FilterData.TypeOfEvent ,  searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor= Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfEvent, searchingPlace= Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities , searchingType= Model.FilterData.TypeOfEvent ,  searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor= Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                 if(Model.PagingData.CurrentPage>=5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage-1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage-1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                 if(Model.PagingData.CurrentPage>3)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage-2).ToString(), "Index", new { page = Model.PagingData.CurrentPage-2, searching = Model.FilterData.NameOfEvent,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink((Model.PagingData.CurrentPage-2).ToString(), "Index", new { page = Model.PagingData.CurrentPage-2, searching = Model.FilterData.NameOfEvent,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                 if(Model.PagingData.CurrentPage>2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage-1).ToString(), "Index", new { page = Model.PagingData.CurrentPage-1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink((Model.PagingData.CurrentPage-1).ToString(), "Index", new { page = Model.PagingData.CurrentPage-1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                 if(Model.PagingData.CurrentPage!=1 && Model.PagingData.CurrentPage!= maxpage)
                 {
-                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if(Model.PagingData.CurrentPage<maxpage-1)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage+1).ToString(), "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink((Model.PagingData.CurrentPage+1).ToString(), "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                 if(Model.PagingData.CurrentPage<maxpage-2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage+2).ToString(), "Index", new { page = Model.PagingData.CurrentPage+2, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink((Model.PagingData.CurrentPage+2).ToString(), "Index", new { page = Model.PagingData.CurrentPage+2, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                 if(Model.PagingData.CurrentPage<maxpage-3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivites,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
                  if(maxpage!=1 && Model.PagingData.CurrentPage==maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivites,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivites, searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
             }
             </pre>
@@ -146,9 +146,9 @@
         @Localizer["Placeofevent"]:@Model.FilterData.PlaceOfEvent
     </div>
 }
-@if (Model.FilterData.TypeOfActivites != "")
+@if (Model.FilterData.TypeOfActivities != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Typeofactivities"]: @Model.FilterData.TypeOfActivites
+        @Localizer["Typeofactivities"]: @Model.FilterData.TypeOfActivities
     </div>
 }
 @if (Model.FilterData.TypeOfEvent != "")
