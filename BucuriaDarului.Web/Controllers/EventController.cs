@@ -24,13 +24,18 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile file)
+        public ActionResult Import(IFormFile file, string messages)
         {
             try
             {
+                ViewBag.message = messages;
                 var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
                 var response=eventsImportContext.Execute(file.OpenReadStream());
-                return RedirectToAction("Index");
+
+               // if (response.IsValid)
+                    return RedirectToAction("Import", new { messages = "The document was succesfuly imported!" });
+                //else
+                //    return RedirectToAction("Import", new { messages = response.Messages[1].Value }); 
             }
             catch
             {
@@ -107,13 +112,13 @@ namespace Finalaplication.Controllers
             }
         }
 
-        public ActionResult SponsorAllocationDisplay(string id, int page, string searching)
+        public ActionResult SponsorAllocationDisplay(string id, string messages, int page, string searching)
         {
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
-                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
+                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching,messages));
                 return View(model);
             }
             catch
@@ -129,11 +134,10 @@ namespace Finalaplication.Controllers
             {
                 var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
                 var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
-                if (response.UpdateCompleted == true)
-
-                    return RedirectToAction("Index");
+                if (response.IsValid)
+                    return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
                 else
-                    return RedirectToAction("SponsorAllocationDisplay", "Event", new { id = evId });
+                    return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
             }
             catch
             {

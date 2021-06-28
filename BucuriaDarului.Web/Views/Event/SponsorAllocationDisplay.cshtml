@@ -121,6 +121,18 @@
     </p>
 
 }
+
+@if (Model.Messages != "" & Model.Messages != null)
+{
+
+    <div>
+        <h3 style="color:red">
+            @Html.DisplayFor(model => Model.Messages)
+        </h3>
+    </div>
+
+
+}
 <br />
 <form action="/Event/SponsorAllocation" method="post">
     <table class="table">
@@ -136,7 +148,7 @@
             </th>
             <th></th>
         </tr>
-        @if (Model.TotalSponsors== 0)
+        @if (Model.TotalSponsors == 0)
         {
             <tr>
                 <td colspan="3 " style="color:red">

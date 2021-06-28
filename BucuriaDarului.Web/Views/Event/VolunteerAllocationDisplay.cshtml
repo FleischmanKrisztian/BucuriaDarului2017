@@ -134,83 +134,81 @@
     <div>
         <h3 style="color:red">
             @Html.DisplayFor(model => Model.Messages)
-            </h3>
-        </div>
+        </h3>
+    </div>
 
+}
 
+<br />
+<form action="/Event/VolunteerAllocation" method="post">
+    <table class="table">
+        <tr>
+            <th>
+                @Localizer["Fullname"]:
+            </th>
+            <th>
+                @Localizer["Desiredarea"]:
+            </th>
+            <th>
+                @Localizer["Active"]:
+            </th>
+            <th>
+                @Localizer["Hourcount"]:
+            </th>
+            <th>
+                @Localizer["Allocationstatus"]:
+            </th>
+            <th></th>
+        </tr>
+        @if (Model.TotalVolunteers == 0)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["There is no Volunteer to Allocate with such name!"]
+                </td>
+            </tr>
         }
+        else
+        {
+            foreach (var item in Model.Volunteers)
+            {
 
-
-        <br />
-        <form action="/Event/VolunteerAllocation" method="post">
-            <table class="table">
                 <tr>
-                    <th>
-                        @Localizer["Fullname"]:
-                    </th>
-                    <th>
-                        @Localizer["Desiredarea"]:
-                    </th>
-                    <th>
-                        @Localizer["Active"]:
-                    </th>
-                    <th>
-                        @Localizer["Hourcount"]:
-                    </th>
-                    <th>
-                        @Localizer["Allocationstatus"]:
-                    </th>
-                    <th></th>
-                </tr>
-                @if (Model.TotalVolunteers == 0)
-                {
-                    <tr>
-                        <td colspan="3 " style="color:red">
-                            @Localizer["There is no Volunteer to Allocate with such name!"]
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    foreach (var item in Model.Volunteers)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fullname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Desired_workplace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InActivity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HourCount)
+                    </td>
+                    @if (Model.Event.AllocatedVolunteers.Contains(item.Fullname))
                     {
-
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Fullname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Desired_workplace)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InActivity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.HourCount)
-                            </td>
-                            @if (Model.Event.AllocatedVolunteers.Contains(item.Fullname))
-                            {
-                                <td>
-                                    <input type="checkbox" checked="checked" name="volunteerIds" value="@item._id" />
-                                </td>
-                                <td>
-                                    <input type="hidden" name="evId" value="@Model.Event._id" />
-                                </td>
-                            }
-                            else
-                            {
-                                <td>
-                                    <input type="checkbox" name="volunteerIds" value="@item._id" />
-                                </td>
-                                <td>
-                                    <input type="hidden" name="evId" value="@Model.Event._id" />
-                                </td>
-                            }
-                        </tr>
+                        <td>
+                            <input type="checkbox" checked="checked" name="volunteerIds" value="@item._id" />
+                        </td>
+                        <td>
+                            <input type="hidden" name="evId" value="@Model.Event._id" />
+                        </td>
                     }
-                }
-            </table>
-            <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
-            <br />
-        </form>
-        <br />
+                    else
+                    {
+                        <td>
+                            <input type="checkbox" name="volunteerIds" value="@item._id" />
+                        </td>
+                        <td>
+                            <input type="hidden" name="evId" value="@Model.Event._id" />
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </table>
+    <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+    <br />
+</form>
+<br />

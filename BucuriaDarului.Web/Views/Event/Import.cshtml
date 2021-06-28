@@ -3,6 +3,7 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Import";
+    string message = ViewBag.message;
 }
 <html>
 <head>
@@ -20,6 +21,12 @@
 </head>
 <br />
 <br />
+<div>
+    <h3 style="color:red">
+        @message
+    </h3>
+</div>
+
 <br />
 <br />
 <body>

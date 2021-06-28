@@ -27,7 +27,7 @@ namespace BucuriaDarului.Contexts
             List<Event> events = dataGateway.GetListOfEvents();
             string AllocatedVolunteersIdString = GetAllocatedSponsorsString(events, request.EventId);
 
-            return new EventsSponsorAllocationDisplayResponse(event_, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData);
+            return new EventsSponsorAllocationDisplayResponse(event_, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData, request.Messages);
 
         }
         
@@ -68,8 +68,8 @@ namespace BucuriaDarului.Contexts
         public string EventId { get; set; }
         public SponsorAllocationPagingData PagingData { get; set; }
         public SponsorAllocationFilterData FilterData { get; set; }
-
-        public EventsSponsorsAllocationDisplayRequest(string eventId, int page, int nrofdocs, string searching)
+        public string Messages { get; set; }
+        public EventsSponsorsAllocationDisplayRequest(string eventId, int page, int nrOfDocs, string searching, string messages)
         {
             this.EventId = eventId;
             SponsorAllocationPagingData pagingData = new SponsorAllocationPagingData();
@@ -80,10 +80,11 @@ namespace BucuriaDarului.Contexts
             else
                 filterData.NameOfSponsor = "";
             pagingData.CurrentPage = GetCurrentPage(page);
-            pagingData.NrOfDocumentsPerPage = nrofdocs;
+            pagingData.NrOfDocumentsPerPage = nrOfDocs;
 
-            this.FilterData = filterData;
-            this.PagingData = pagingData;
+           FilterData = filterData;
+           PagingData = pagingData;
+            Messages = messages;
         }
         private int GetCurrentPage(int page)
         {
@@ -107,8 +108,9 @@ namespace BucuriaDarului.Contexts
 
         public SponsorAllocationPagingData PagingData { get; set; }
         public SponsorAllocationFilterData FilterData { get; set; }
+        public string Messages { get; set; }
 
-        public EventsSponsorAllocationDisplayResponse(Event event_, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData)
+            public EventsSponsorAllocationDisplayResponse(Event event_, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
         {
             Event = event_;
             Sponsors = sponsors;
@@ -116,6 +118,7 @@ namespace BucuriaDarului.Contexts
             AllocatedSponsorsIdString = allocatedSponsorsIdString;
             PagingData = pagingData;
             FilterData = filterData;
+            Messages = messages;
         }
     }
 

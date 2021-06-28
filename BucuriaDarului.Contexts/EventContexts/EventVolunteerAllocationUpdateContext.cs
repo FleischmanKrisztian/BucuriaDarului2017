@@ -85,12 +85,12 @@ namespace BucuriaDarului.Contexts
     public class EventsVolunteerAllocationResponse
     {
         public bool IsValid { get; set; }
-        public List<KeyValuePair<string, string>> Message { get; set; }
+       
 
         public EventsVolunteerAllocationResponse()
         {
             IsValid = true;
-            Message = new List<KeyValuePair<string, string>>();
+          
         }
     }
 }

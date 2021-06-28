@@ -21,21 +21,23 @@ namespace BucuriaDarului.Contexts
 
         public Response Execute(Stream dataToImport)
         {
-            List<KeyValuePair<string, string>> mesages = new List<KeyValuePair<string, string>>();
+            Response response = new Response();
             var result = ExtractImportRawData(dataToImport);
-            if (result.Count()==0)
+            
+            if (result.Count() == 0)
             {
-                mesages.Add(new KeyValuePair<string, string>("error","File is empty. Please try again!"));
+                response.IsValid = false;
+                response.Messages.Add(new KeyValuePair<string, string>("error", "File is empty. Please try again!"));
             }
             var eventsFromCsv = GetEventsFromCsv(result);
             if (eventsFromCsv.Count() == 0)
             {
-                mesages.Add(new KeyValuePair<string, string>("error2", "File type is wrong! Please import a valid file for event documents!"));
+                response.IsValid = false;
+                response.Messages.Add(new KeyValuePair<string, string>("error2", "File type is wrong! Please import a valid file for event documents!"));
             }
-
             dataGateway.Insert(eventsFromCsv);
 
-            return new Response(mesages);
+            return response;
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
@@ -141,7 +143,7 @@ namespace BucuriaDarului.Contexts
                         int number = 0;
                         bool converted = false;
                         converted = Int32.TryParse(line[4], out number);
-                        if (converted) 
+                        if (converted)
                         {
                             ev.NumberOfVolunteersNeeded = number;
                         }
@@ -189,15 +191,12 @@ namespace BucuriaDarului.Contexts
     public class Response
     {
         public List<KeyValuePair<string, string>> Messages { get; set; }
+        public bool IsValid { get; set; }
 
-        public Response(List<KeyValuePair<string, string>> messages)
+        public Response()
         {
-            if (messages.Count != 0)
-            {
-                Messages = messages;
-            }
-            else
-                messages.Add(new KeyValuePair<string, string>("Succes", "The document was succesfuly imported!"));
+            IsValid = true;
+            Messages = new List<KeyValuePair<string, string>>();
         }
     }
 }
