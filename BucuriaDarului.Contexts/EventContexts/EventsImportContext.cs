@@ -19,13 +19,23 @@ namespace BucuriaDarului.Contexts
             this.dataGateway = dataGateway;
         }
 
-        public void Execute(Stream dataToImport)
+        public Response Execute(Stream dataToImport)
         {
+            List<KeyValuePair<string, string>> mesages = new List<KeyValuePair<string, string>>();
             var result = ExtractImportRawData(dataToImport);
-
+            if (result.Count()==0)
+            {
+                mesages.Add(new KeyValuePair<string, string>("error","File is empty.Please try again!"));
+            }
             var eventsFromCsv = GetEventsFromCsv(result);
+            if (eventsFromCsv.Count() == 0)
+            {
+                mesages.Add(new KeyValuePair<string, string>("error2", "File type is wrong!Please imort a valid file for event documents"));
+            }
 
             dataGateway.Insert(eventsFromCsv);
+
+            return new Response(mesages);
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
@@ -173,6 +183,21 @@ namespace BucuriaDarului.Contexts
             }
 
             return CsvUtils.CsvSeparator;
+        }
+    }
+
+    public class Response
+    {
+        public List<KeyValuePair<string, string>> Messages { get; set; }
+
+        public Response(List<KeyValuePair<string, string>> messages)
+        {
+            if (messages.Count != 0)
+            {
+                Messages = messages;
+            }
+            else
+                messages.Add(new KeyValuePair<string, string>("Succes", "The document was succesfuly imported!"));
         }
     }
 }
