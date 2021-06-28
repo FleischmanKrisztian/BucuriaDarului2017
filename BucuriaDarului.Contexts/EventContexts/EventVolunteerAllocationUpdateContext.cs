@@ -19,8 +19,8 @@ namespace BucuriaDarului.Contexts
         public EventsVolunteerAllocationResponse Execute(EventsVolunteerAllocationRequest request)
         {
             bool updateCompleted = false;
-            string message = "";
-            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
+            List<KeyValuePair<string, string>> messages = new List<KeyValuePair<string, string>>();
+            Event event_ = dataGateway.GetEvent(request.EventId);
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
             string nameOfVolunteers = GetVolunteerNames(volunteers);
@@ -30,15 +30,15 @@ namespace BucuriaDarului.Contexts
             dataGateway.UpdateEvent(request.EventId, event_);
             if (event_.AllocatedVolunteers == volunteerForAllocation)
             { updateCompleted = true;
-                message = "The event has been successfuly updated!";
+               
             }
             else
             {
                 updateCompleted = false;
-                message = "Update failed!!!";
+                messages.Add(item: new KeyValuePair<string, string>("fail", "Update failed!Please try again!"));
             }
 
-            return new EventsVolunteerAllocationResponse(updateCompleted, message);
+            return new EventsVolunteerAllocationResponse(updateCompleted, messages);
         }
 
         private int VolunteersAllocatedCounter(string AllocatedVolunteers)
@@ -95,16 +95,17 @@ namespace BucuriaDarului.Contexts
     public class EventsVolunteerAllocationResponse
     {
         public bool UpdateCompleted { get; set; }
-        public string Message { get; set; }
+        public List<KeyValuePair<string,string>> Message { get; set; }
 
-        public EventsVolunteerAllocationResponse(bool updatedCompleted, string message)
+        public EventsVolunteerAllocationResponse(bool updatedCompleted, List<KeyValuePair<string, string>> messages)
         {
             this.UpdateCompleted = updatedCompleted;
-
-            if (message != " " && message != null)
-                this.Message = message;
+            this.Message = new List<KeyValuePair<string, string>>();
+            if (messages.Count() != 0)
+                this.Message = messages;
             else
-                this.Message = "Update failed!!!";
+                Message.Add(item: new KeyValuePair<string, string>("success", "The event has been successfuly updated!"));
+
         }
     }
 }

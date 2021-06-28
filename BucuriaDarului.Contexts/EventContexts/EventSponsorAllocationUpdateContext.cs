@@ -21,8 +21,8 @@ namespace BucuriaDarului.Contexts
         public EventSponsorAllocationResponse Execute(EventsSponsorAllocationRequest request)
         {
             bool updateCompleted = false;
-            string message = "";
-            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
+            Event event_ = dataGateway.GetEvent(request.EventId);
+            List<KeyValuePair<string, string>> messages = new List<KeyValuePair<string, string>>();
             List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
             sponsors = GetSponsorsByIds(sponsors, request.SponsorIds);
             string allocatedSponsors = GetSponsorNames(sponsors);
@@ -32,14 +32,14 @@ namespace BucuriaDarului.Contexts
             if (event_.AllocatedSponsors == allocatedSponsors)
             {
                 updateCompleted = true;
-                message = "The event has been successfuly updated!";
+
             }
             else
             {
                 updateCompleted = false;
-                message = "Update failed!!!";
+                messages.Add(item: new KeyValuePair<string, string>("fail", "Update failed!Please try again!"));
             }
-            return new EventSponsorAllocationResponse(updateCompleted, message);
+            return new EventSponsorAllocationResponse(updateCompleted, messages);
         }
 
         private string GetSponsorNames(List<Sponsor> sponsors)
@@ -79,16 +79,16 @@ namespace BucuriaDarului.Contexts
     public class EventSponsorAllocationResponse
     {
         public bool UpdateCompleted { get; set; }
-        public string Message { get; set; }
+        public List<KeyValuePair<string, string>> Messages { get; set; }
 
-        public EventSponsorAllocationResponse(bool updatedCompleted, string message)
+        public EventSponsorAllocationResponse(bool updatedCompleted, List<KeyValuePair<string, string>> messages)
         {
             this.UpdateCompleted = updatedCompleted;
 
-            if (message != " " && message != null)
-                this.Message = message;
+            if (messages.Count() != 0)
+                Messages = messages;
             else
-                this.Message = "Update failed!!!";
+                Messages.Add(item: new KeyValuePair<string, string>("success", "The event has been successfuly updated!"));
         }
     }
 }
