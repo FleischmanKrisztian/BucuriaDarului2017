@@ -1,4 +1,3 @@
-
 using BucuriaDarului.Contexts;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
 
 namespace Finalaplication.Controllers
 {
@@ -74,14 +72,13 @@ namespace Finalaplication.Controllers
             return Redirect("csvexporterapp:eventSession;eventHeader");
         }
 
-        public ActionResult VolunteerAllocationDisplay(string id,  string messages, int page, string searching)
+        public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)
         {
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
+                var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway(), new SingleEventReturnerGateway());
                 var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching, messages));
-=
 
                 return View(model);
             }
@@ -96,20 +93,19 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
+                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway(), new SingleEventReturnerGateway());
                 var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 string m = "";
                 if (response.UpdateCompleted == true)
+                {
+                    if (response.Message.Count != 0)
                     {
-                        if (response.Message.Count != 0)
-                       {
-                            foreach (var r in response.Message)
-                                m = r.Value;
-                        }
-                        return RedirectToAction("VolunteerAllocationDisplay", new { id=evId, messages=m, page = 1, searching = "" });
-
+                        foreach (var r in response.Message)
+                            m = r.Value;
                     }
-                    //return RedirectToAction("Index");
+                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = m, page = 1, searching = "" });
+                }
+                //return RedirectToAction("Index");
                 else
 
                 {
@@ -119,7 +115,6 @@ namespace Finalaplication.Controllers
                             m = r.Value;
                     }
                     return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = m, page = 1, searching = "" });
-
                 }
             }
             catch
@@ -148,7 +143,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway(), new SingleEventReturnerGateway());
                 var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.UpdateCompleted == true)
 

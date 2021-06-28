@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts
         {
             bool updateCompleted = false;
             List<KeyValuePair<string, string>> messages = new List<KeyValuePair<string, string>>();
-            Event event_ = dataGateway.GetEvent(request.EventId);
+            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
             string nameOfVolunteers = GetVolunteerNames(volunteers);
