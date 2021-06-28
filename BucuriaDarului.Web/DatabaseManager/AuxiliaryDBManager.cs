@@ -7,24 +7,24 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class AuxiliaryDBManager
     {
-        private MongoDBContext dBContext;
+        private MongoDBContext dbContext;
 
         public AuxiliaryDBManager(string SERVER_NAME, int SERVER_PORT, string DATABASE_NAME)
         {
-            dBContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
+            dbContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
         internal void AddDocumenttoDB(string documentToAdd)
         {
             BsonDocument documentAsBson;
             BsonDocument.TryParse(documentToAdd, out documentAsBson);
-            IMongoCollection<BsonDocument> AuxiliaryCollection = dBContext.Database.GetCollection<BsonDocument>("Auxiliary");
+            IMongoCollection<BsonDocument> AuxiliaryCollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
             AuxiliaryCollection.InsertOne(documentAsBson);
         }
 
         internal string GetDocumentByID(string id)
         {
-            IMongoCollection<BsonDocument> auxiliarycollection = dBContext.Database.GetCollection<BsonDocument>("Auxiliary");
+            IMongoCollection<BsonDocument> auxiliarycollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
             var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
             BsonDocument returndocument = auxiliarycollection.Find(filter).FirstOrDefault();
             string returnstring = returndocument.ToString();
@@ -33,7 +33,7 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal void DropAuxiliaryDatabase()
         {
-            dBContext.Database.DropCollection("Auxiliary");
+            dbContext.Database.DropCollection("Auxiliary");
         }
     }
 }

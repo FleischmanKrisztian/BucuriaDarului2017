@@ -8,7 +8,7 @@ namespace BucuriaDarului.Contexts
     public class EventEditContext
     {
         private readonly IEventEditGateway dataGateway;
-        EventEditResponse response = new EventEditResponse("", false, true);
+        private EventEditResponse response = new EventEditResponse("", false, true);
 
         public EventEditContext(IEventEditGateway dataGateway)
         {
@@ -69,7 +69,6 @@ namespace BucuriaDarului.Contexts
 
             return validatedEvent;
         }
-
 
         private bool ContainsSpecialchar(object @event)
         {

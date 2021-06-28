@@ -254,8 +254,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventDeleteGateway = new EventDeleteGateway();
-                var model = eventDeleteGateway.DeleteEvent(id);
+                EventDeleteGateway.DeleteEvent(id);
                 return RedirectToAction("Index");
             }
             catch
