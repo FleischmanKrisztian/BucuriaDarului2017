@@ -112,7 +112,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway(), new SingleEventReturnerGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
                 var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
                 return View(model);
             }
@@ -127,7 +127,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway(), new SingleEventReturnerGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
                 var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.UpdateCompleted == true)
 
@@ -145,8 +145,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var singleEventReturnerGateway = new SingleEventReturnerGateway();
-                var model = singleEventReturnerGateway.ReturnEvent(id);
+                var model = SingleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch
@@ -196,8 +195,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var singleEventReturnerGateway = new SingleEventReturnerGateway();
-                var model = singleEventReturnerGateway.ReturnEvent(id);
+                var model = SingleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch
@@ -211,7 +209,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventEditContext = new EventEditContext(new EventEditGateway(), new SingleEventReturnerGateway());
+                var eventEditContext = new EventEditContext(new EventEditGateway());
                 var eventEditResponse = eventEditContext.Execute(request);
                 if (eventEditResponse.ContainsSpecialChar)
                 {
@@ -242,8 +240,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var singleEventReturnerGateway = new SingleEventReturnerGateway();
-                var model = singleEventReturnerGateway.ReturnEvent(id);
+                var model = SingleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch

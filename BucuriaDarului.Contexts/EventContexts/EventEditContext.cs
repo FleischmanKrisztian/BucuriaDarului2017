@@ -8,13 +8,11 @@ namespace BucuriaDarului.Contexts
     public class EventEditContext
     {
         private readonly IEventEditGateway dataGateway;
-        private readonly ISingleEventReturnergateway singleEventReturnergateway;
         EventEditResponse response = new EventEditResponse("", false, true);
 
-        public EventEditContext(IEventEditGateway dataGateway, ISingleEventReturnergateway singleEventReturnergateway)
+        public EventEditContext(IEventEditGateway dataGateway)
         {
             this.dataGateway = dataGateway;
-            this.singleEventReturnergateway = singleEventReturnergateway;
         }
 
         public EventEditResponse Execute(EventEditRequest request)
@@ -35,7 +33,7 @@ namespace BucuriaDarului.Contexts
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
                 if (!modifiedListString.Contains(@event._id))
                 {
-                    Event beforeEditingEvent = singleEventReturnergateway.ReturnEvent(@event._id);
+                    Event beforeEditingEvent = dataGateway.ReturnEvent(@event._id);
                     string beforeEditingEventString = JsonConvert.SerializeObject(beforeEditingEvent);
                     dataGateway.AddEventToModifiedList(beforeEditingEventString);
                 }

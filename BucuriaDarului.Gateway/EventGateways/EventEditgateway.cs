@@ -36,5 +36,10 @@ namespace BucuriaDarului.Gateway
             IMongoCollection<BsonDocument> AuxiliaryCollection = dBContext.Database.GetCollection<BsonDocument>("Auxiliary");
             AuxiliaryCollection.InsertOne(documentAsBson);
         }
+
+        public Event ReturnEvent(string eventId)
+        {
+            return SingleEventReturnerGateway.ReturnEvent(eventId);
+        }
     }
 }
