@@ -1,9 +1,9 @@
-﻿using BucuriaDarului.Core;
+﻿using System;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
 using Newtonsoft.Json;
-using System;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventCreateContext
     {
@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts
             
             var noNullRequest = ChangeNullValues(request);
 
-            if (ContainsSpecialchar(noNullRequest))
+            if (ContainsSpecialChar(noNullRequest))
             {
                 response.ContainsSpecialChar = true;
                 response.Message = "The Object Cannot contain Semi-Colons! ";
@@ -61,14 +61,10 @@ namespace BucuriaDarului.Contexts
             return validatedEvent;
         }
 
-        private bool ContainsSpecialchar(object @event)
+        private static bool ContainsSpecialChar(object @event)
         {
             string eventString = JsonConvert.SerializeObject(@event);
-            bool containsSpecialChar = false;
-            if (eventString.Contains(";"))
-            {
-                containsSpecialChar = true;
-            }
+            bool containsSpecialChar = eventString.Contains(";");
             return containsSpecialChar;
         }
 

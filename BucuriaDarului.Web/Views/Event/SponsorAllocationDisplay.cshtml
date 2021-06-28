@@ -1,4 +1,4 @@
-﻿@model BucuriaDarului.Contexts.EventsSponsorAllocationDisplayResponse
+﻿@model BucuriaDarului.Contexts.EventContexts.EventsSponsorAllocationDisplayResponse
 @{
     ViewBag.Title = "SponsorAllocation";
 }
@@ -57,7 +57,7 @@
 <h2>
     @Localizer["SponsorAllocationto"]: @Model.Event.NameOfEvent
 </h2>
-@using (Html.BeginForm("SponsorAllocation", "Event", FormMethod.Get))
+@using (Html.BeginForm("SponsorAllocationDisplay", "Event", FormMethod.Get))
 {
     @Html.TextBox("searching")
     <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
@@ -65,7 +65,7 @@
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
             @{
-                int maxpage = (Model.TotalSponsors/ Model.PagingData.NrOfDocumentsPerPage) + 1;
+                int maxpage = (Model.TotalSponsors / Model.PagingData.NrOfDocumentsPerPage) + 1;
                 if (Model.TotalSponsors % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalSponsors != 0)
                 {
                     maxpage--;
@@ -73,47 +73,47 @@
 
                 if(Model.PagingData.CurrentPage==1)
                 {
-                    @Html.ActionLink("1", "SponsorAllocation", new { page = 1, searching = Model.FilterData.NameOfSponsor}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "SponsorAllocationDisplay", new {id = Model.Event._id, page = 1, searching = Model.FilterData.NameOfSponsor}, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "SponsorAllocation", new { page = 1, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink("1", "SponsorAllocationDisplay", new { id = Model.Event._id, page = 1, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(Model.PagingData.CurrentPage >= 5)
                 {
-                    @Html.ActionLink("<<", "SponsorAllocation", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink("<<", "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "SponsorAllocation", new { page = Model.PagingData.CurrentPage - 2, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage - 2, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "SponsorAllocation", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "SponsorAllocation", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if(Model.PagingData.CurrentPage < maxpage-1)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "SponsorAllocation", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(Model.PagingData.CurrentPage < maxpage-2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "SponsorAllocation", new { page = Model.PagingData.CurrentPage + 2, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage + 2, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(Model.PagingData.CurrentPage < maxpage-3)
                 {
-                    @Html.ActionLink(">>", "SponsorAllocation", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink(">>", "SponsorAllocationDisplay", new { id = Model.Event._id, page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor })
                 }
                 if(maxpage!=1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "SponsorAllocation", new { page = maxpage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = maxpage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "SponsorAllocation", new { page = maxpage, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink(maxpage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event._id, page = maxpage, searching = Model.FilterData.NameOfSponsor })
                 }
             }
             </pre>

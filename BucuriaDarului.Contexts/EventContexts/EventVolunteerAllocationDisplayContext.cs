@@ -1,10 +1,10 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventVolunteerAllocationDisplayContext
     {
@@ -17,23 +17,23 @@ namespace BucuriaDarului.Contexts
 
         public EventsVolunteerAllocationDisplayResponse Execute(EventsVolunteerAllocationDisplayRequest request)
         {
-            Event event_ = dataGateway.ReturnEvent(request.EventId);
-            List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
-            int totalVolunteers = volunteers.Count();
-            string volunteersIdString = GetStringOfIds(volunteers);
+            var @event = dataGateway.ReturnEvent(request.EventId);
+            var volunteers = dataGateway.GetListOfVolunteers();
+            var totalVolunteers = volunteers.Count();
+            var volunteersIdString = GetStringOfIds(volunteers);
             volunteers = GetVolunteerAfterSorting(volunteers, request.FilterData.VolunteerActivity);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
             volunteers = GetVolunteersAfterSearching(volunteers, request.FilterData.NameOfVolunteer);
 
 
-            return new EventsVolunteerAllocationDisplayResponse(event_, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData, request.Messages);
+            return new EventsVolunteerAllocationDisplayResponse(@event, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData, request.Messages);
         }
  
 
-        private List<Volunteer> GetVolunteersAfterPaging(List<Volunteer> volunteers, int page, int nrofdocs)
+        private List<Volunteer> GetVolunteersAfterPaging(List<Volunteer> volunteers, int page, int nrOfDocs)
         {
-            volunteers = volunteers.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-            volunteers = volunteers.AsQueryable().Take(nrofdocs).ToList();
+            volunteers = volunteers.AsQueryable().Skip((page - 1) * nrOfDocs).ToList();
+            volunteers = volunteers.AsQueryable().Take(nrOfDocs).ToList();
             return volunteers;
         }
 
@@ -58,12 +58,12 @@ namespace BucuriaDarului.Contexts
 
         private string GetStringOfIds(List<Volunteer> volunteers)
         {
-            string stringofids = "volunteerCSV";
-            foreach (Volunteer vol in volunteers)
+            var getStringOfIds = "volunteerCSV";
+            foreach (var vol in volunteers)
             {
-                stringofids = stringofids + "," + vol._id;
+                getStringOfIds = getStringOfIds + "," + vol._id;
             }
-            return stringofids;
+            return getStringOfIds;
         }
     }
 
@@ -76,13 +76,10 @@ namespace BucuriaDarului.Contexts
         public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrOfDocs, string searching, string messages)
         {
             this.EventId = id;
-            VolunteerAllocationPagingData pagingData = new VolunteerAllocationPagingData();
-            VolunteerAllocationFilterData filterData = new VolunteerAllocationFilterData();
+            var pagingData = new VolunteerAllocationPagingData();
+            var filterData = new VolunteerAllocationFilterData();
 
-            if (searching != null && searching != "")
-                filterData.NameOfVolunteer = searching;
-            else
-                filterData.NameOfVolunteer = "";
+            filterData.NameOfVolunteer = !string.IsNullOrEmpty(searching) ? searching : "";
 
             filterData.VolunteerActivity = "Active_desc";
 
@@ -94,7 +91,7 @@ namespace BucuriaDarului.Contexts
             Messages = messages;
         }
 
-        private int GetCurrentPage(int page)
+        private static int GetCurrentPage(int page)
         {
             if (page > 0)
                 return page;
@@ -118,9 +115,9 @@ namespace BucuriaDarului.Contexts
 
         public  string Messages { get; set; }
 
-        public EventsVolunteerAllocationDisplayResponse(Event event_, List<Volunteer> volunteers, int totalVolunteers, string allocateVolunteersIdString, VolunteerAllocationPagingData pagingData, VolunteerAllocationFilterData filterData, string messages)
+        public EventsVolunteerAllocationDisplayResponse(Event @event, List<Volunteer> volunteers, int totalVolunteers, string allocateVolunteersIdString, VolunteerAllocationPagingData pagingData, VolunteerAllocationFilterData filterData, string messages)
         {
-            Event = event_;
+            Event = @event;
             Volunteers = volunteers;
             TotalVolunteers = totalVolunteers;
             AllocatedVolunteersIdString = allocateVolunteersIdString;

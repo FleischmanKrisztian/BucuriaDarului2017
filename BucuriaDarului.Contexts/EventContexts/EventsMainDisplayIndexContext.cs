@@ -1,10 +1,10 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventsMainDisplayIndexContext
     {
@@ -17,13 +17,13 @@ namespace BucuriaDarului.Contexts
 
         public EventsMainDisplayIndexResponse Execute(EventsMainDisplayIndexRequest request)
         {
-            List<Event> events = dataGateway.GetListOfEvents();
+            var events = dataGateway.GetListOfEvents();
 
             events = GetEventsAfterFilters(events, request.FilterData);
 
-            int eventsAfterFiltering = events.Count();
+            var eventsAfterFiltering = events.Count();
 
-            string stringOfIDs = GetStringOfIds(events);
+            var stringOfIDs = GetStringOfIds(events);
 
             events = GetEventsAfterPaging(events, request.PagingData);
 
@@ -34,16 +34,16 @@ namespace BucuriaDarului.Contexts
         {
             events = events.Where(x => x.NameOfEvent.Contains(filterData.NameOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
             events = events.Where(x => x.PlaceOfEvent.Contains(filterData.PlaceOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            events = events.Where(x => x.TypeOfActivities.Contains(filterData.TypeOfActivites, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            events = events.Where(x => x.TypeOfActivities.Contains(filterData.TypeOfActivities, StringComparison.InvariantCultureIgnoreCase)).ToList();
             events = events.Where(x => x.TypeOfEvent.Contains(filterData.TypeOfEvent, StringComparison.InvariantCultureIgnoreCase)).ToList();
             events = events.Where(x => x.AllocatedVolunteers.Contains(filterData.AllocatedVolunteers, StringComparison.InvariantCultureIgnoreCase)).ToList();
             events = events.Where(x => x.AllocatedSponsors.Contains(filterData.AllocatedSponsors, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-            if (DateinputReceived(filterData.LowerDate))
+            if (DateInputReceived(filterData.LowerDate))
             {
                 events = events.Where(x => x.DateOfEvent > filterData.LowerDate).ToList();
             }
-            if (DateinputReceived(filterData.UpperDate))
+            if (DateInputReceived(filterData.UpperDate))
             {
                 events = events.Where(x => x.DateOfEvent <= filterData.UpperDate).ToList();
             }
@@ -52,7 +52,7 @@ namespace BucuriaDarului.Contexts
 
         private string GetStringOfIds(List<Event> events)
         {
-            string stringOfIDs = "eventCSV";
+            var stringOfIDs = "eventCSV";
             foreach (Event eve in events)
             {
                 stringOfIDs = stringOfIDs + "," + eve._id;
@@ -67,13 +67,10 @@ namespace BucuriaDarului.Contexts
             return events;
         }
 
-        private static bool DateinputReceived(DateTime date)
+        private static bool DateInputReceived(DateTime date)
         {
-            DateTime comparisonDate = new DateTime(0003, 1, 1);
-            if (date > comparisonDate)
-                return true;
-            else
-                return false;
+            var comparisonDate = new DateTime(0003, 1, 1);
+            return date > comparisonDate;
         }
     }
 
@@ -85,12 +82,12 @@ namespace BucuriaDarului.Contexts
 
         public EventsMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
-            FilterData filterData = new FilterData();
-            PagingData pagingData = new PagingData();
+            var filterData = new FilterData();
+            var pagingData = new PagingData();
 
             filterData.NameOfEvent = searching ?? "";
             filterData.PlaceOfEvent = searchingPlace ?? "";
-            filterData.TypeOfActivites = searchingActivity ?? "";
+            filterData.TypeOfActivities = searchingActivity ?? "";
             filterData.TypeOfEvent = searchingType ?? "";
             filterData.AllocatedVolunteers = searchingVolunteers ?? "";
             filterData.AllocatedSponsors = searchingSponsor ?? "";
@@ -151,7 +148,7 @@ namespace BucuriaDarului.Contexts
 
         public string PlaceOfEvent { get; set; }
 
-        public string TypeOfActivites { get; set; }
+        public string TypeOfActivities { get; set; }
 
         public string TypeOfEvent { get; set; }
 

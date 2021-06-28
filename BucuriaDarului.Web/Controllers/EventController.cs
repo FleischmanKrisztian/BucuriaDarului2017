@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using BucuriaDarului.Contexts.EventContexts;
 
 namespace Finalaplication.Controllers
 {
@@ -59,17 +60,13 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter(string stringOfIDs)
+        public ActionResult CsvExporter()
         {
-            var exportParamenters = new ExportParamenters
-            {
-                StringOfIDs = stringOfIDs
-            };
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(ExportParamenters csvExportProperties)
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
             var eventsExporterContext = new EventsExporterContext(_localizer);
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
@@ -81,9 +78,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+                var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
-                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching, messages));
+                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
 
                 return View(model);
             }
@@ -102,7 +99,7 @@ namespace Finalaplication.Controllers
                 var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                
                 if (response.IsValid)
-                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
+                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
                 else
                     return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
             }
@@ -116,9 +113,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
+                var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching,messages));
+
                 return View(model);
             }
             catch
@@ -138,6 +135,7 @@ namespace Finalaplication.Controllers
                     return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
                 else
                     return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
+
             }
             catch
             {

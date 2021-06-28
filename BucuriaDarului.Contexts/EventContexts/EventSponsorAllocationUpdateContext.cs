@@ -3,7 +3,7 @@ using BucuriaDarului.Core.Gateways;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventSponsorAllocationUpdateContext
     {
@@ -19,10 +19,11 @@ namespace BucuriaDarului.Contexts
             EventSponsorAllocationResponse response = new EventSponsorAllocationResponse();
             Event event_ = dataGateway.ReturnEvent(request.EventId);
             List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
+
             sponsors = GetSponsorsByIds(sponsors, request.SponsorIds);
-            string allocatedSponsors = GetSponsorNames(sponsors);
-            event_.AllocatedSponsors = allocatedSponsors;
-            dataGateway.UpdateEvent(request.EventId, event_);
+            var allocatedSponsors = GetSponsorNames(sponsors);
+            @event.AllocatedSponsors = allocatedSponsors;
+            dataGateway.UpdateEvent(request.EventId, @event);
 
             if (event_.AllocatedSponsors != allocatedSponsors)
             {
@@ -34,24 +35,25 @@ namespace BucuriaDarului.Contexts
 
         private string GetSponsorNames(List<Sponsor> sponsors)
         {
-            string sponsornames = "";
-            for (int i = 0; i < sponsors.Count; i++)
+            var sponsorNames = "";
+            foreach (var sponsor in sponsors)
             {
-                var sponsor = sponsors[i];
-                sponsornames = sponsornames + sponsor.NameOfSponsor + " / ";
+                sponsorNames = sponsorNames + sponsor.NameOfSponsor + " / ";
             }
-            return sponsornames;
+            return sponsorNames;
         }
 
-        private List<Sponsor> GetSponsorsByIds(List<Sponsor> sponsors, string[] sponsorids)
+        // Can probably only return the names of sponsors in this method
+        private List<Sponsor> GetSponsorsByIds(List<Sponsor> sponsors, string[] sponsorIds)
+
         {
-            List<Sponsor> sponsorlist = new List<Sponsor>();
-            for (int i = 0; i < sponsorids.Length; i++)
+            var sponsorList = new List<Sponsor>();
+            foreach (var sponsorId in sponsorIds)
             {
-                Sponsor singlesponsor = sponsors.Where(x => x._id == sponsorids[i]).First();
-                sponsorlist.Add(singlesponsor);
+                var singleSponsor = sponsors.First(x => x._id == sponsorId);
+                sponsorList.Add(singleSponsor);
             }
-            return sponsorlist;
+            return sponsorList;
         }
     }
 

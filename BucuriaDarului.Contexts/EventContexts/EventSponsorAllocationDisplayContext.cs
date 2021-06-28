@@ -3,9 +3,8 @@ using BucuriaDarului.Core.Gateways;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace BucuriaDarului.Contexts
+namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventSponsorAllocationDisplayContext
     {
@@ -18,25 +17,20 @@ namespace BucuriaDarului.Contexts
 
         public EventsSponsorAllocationDisplayResponse Execute(EventsSponsorsAllocationDisplayRequest request)
         {
-            Event event_ = dataGateway.ReturnEvent(request.EventId);
-            List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
-            int totalSponsors = sponsors.Count();
-            string sponsorsIdString = GetStringOfIds(sponsors);
-            sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
+            var @event = dataGateway.ReturnEvent(request.EventId);
+            var sponsors = dataGateway.GetListOfSponsors();
+            var sponsorsIdString = GetStringOfIds(sponsors);
             sponsors = GetSponsorsAfterSearching(sponsors, request.FilterData.NameOfSponsor);
             List<Event> events = dataGateway.GetListOfEvents();
             string AllocatedVolunteersIdString = GetAllocatedSponsorsString(events, request.EventId);
 
             return new EventsSponsorAllocationDisplayResponse(event_, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData, request.Messages);
 
+
+            return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData);
         }
-        
-        private dynamic GetAllocatedSponsorsString(List<Event> events, string id)
-        {
-            Event returnedevent = events.Find(b => b._id.ToString() == id);
-            returnedevent.AllocatedSponsors += " / ";
-            return returnedevent.AllocatedSponsors;
-        }
+
+
         private List<Sponsor> GetSponsorsAfterSearching(List<Sponsor> sponsors, string searching)
         {
             if (searching != null)
@@ -45,40 +39,39 @@ namespace BucuriaDarului.Contexts
             }
             return sponsors;
         }
-        private List<Sponsor> GetSponsorsAfterPaging(List<Sponsor> sponsors, int page, int nrofdocs)
+
+        private List<Sponsor> GetSponsorsAfterPaging(List<Sponsor> sponsors, int page, int nrOfDocs)
         {
-            sponsors = sponsors.AsQueryable().Skip((page - 1) * nrofdocs).ToList();
-            sponsors = sponsors.AsQueryable().Take(nrofdocs).ToList();
+            sponsors = sponsors.AsQueryable().Skip((page - 1) * nrOfDocs).ToList();
+            sponsors = sponsors.AsQueryable().Take(nrOfDocs).ToList();
             return sponsors;
         }
+
         private string GetStringOfIds(List<Sponsor> sponsors)
         {
-            string stringofids = "sponsorCSV";
-            foreach (Sponsor sponsor in sponsors)
+            var stringOfIds = "sponsorCSV";
+            foreach (var sponsor in sponsors)
             {
-                stringofids = stringofids + "," + sponsor._id;
+                stringOfIds = stringOfIds + "," + sponsor._id;
             }
-            return stringofids;
+            return stringOfIds;
         }
     }
-
 
     public class EventsSponsorsAllocationDisplayRequest
     {
         public string EventId { get; set; }
         public SponsorAllocationPagingData PagingData { get; set; }
         public SponsorAllocationFilterData FilterData { get; set; }
+
         public string Messages { get; set; }
         public EventsSponsorsAllocationDisplayRequest(string eventId, int page, int nrOfDocs, string searching, string messages)
         {
             this.EventId = eventId;
-            SponsorAllocationPagingData pagingData = new SponsorAllocationPagingData();
-            SponsorAllocationFilterData filterData = new SponsorAllocationFilterData();
+            var pagingData = new SponsorAllocationPagingData();
+            var filterData = new SponsorAllocationFilterData();
 
-            if (searching != null && searching != "")
-                filterData.NameOfSponsor = searching;
-            else
-                filterData.NameOfSponsor = "";
+            filterData.NameOfSponsor = !string.IsNullOrEmpty(searching) ? searching : "";
             pagingData.CurrentPage = GetCurrentPage(page);
             pagingData.NrOfDocumentsPerPage = nrOfDocs;
 
@@ -86,16 +79,13 @@ namespace BucuriaDarului.Contexts
            PagingData = pagingData;
             Messages = messages;
         }
-        private int GetCurrentPage(int page)
+
+        private static int GetCurrentPage(int page)
         {
             if (page > 0)
                 return page;
-            else
-            {
-                page = 1;
-                return page;
-            }
-
+            page = 1;
+            return page;
         }
     }
 
@@ -110,9 +100,10 @@ namespace BucuriaDarului.Contexts
         public SponsorAllocationFilterData FilterData { get; set; }
         public string Messages { get; set; }
 
-            public EventsSponsorAllocationDisplayResponse(Event event_, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
+
+        public EventsSponsorAllocationDisplayResponse(Event event_, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
         {
-            Event = event_;
+            Event = @event;
             Sponsors = sponsors;
             TotalSponsors = totalSponsors;
             AllocatedSponsorsIdString = allocatedSponsorsIdString;
@@ -122,7 +113,6 @@ namespace BucuriaDarului.Contexts
         }
     }
 
-   
     public class SponsorAllocationPagingData
     {
         public int CurrentPage { get; set; }
@@ -133,6 +123,5 @@ namespace BucuriaDarului.Contexts
     public class SponsorAllocationFilterData
     {
         public string NameOfSponsor { get; set; }
-      
     }
 }
