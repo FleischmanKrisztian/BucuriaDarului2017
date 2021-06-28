@@ -9,25 +9,22 @@ namespace BucuriaDarului.Contexts
     public class EventVolunteerAllocationDisplayContext
     {
         private readonly IEventVolunteerAllocationDisplayGateway dataGateway;
-        private readonly ISingleEventReturnergateway singleEventReturnergateway;
 
-        public EventVolunteerAllocationDisplayContext(IEventVolunteerAllocationDisplayGateway dataGateway, ISingleEventReturnergateway singleEventReturnergateway)
+        public EventVolunteerAllocationDisplayContext(IEventVolunteerAllocationDisplayGateway dataGateway)
         {
             this.dataGateway = dataGateway;
-            this.singleEventReturnergateway = singleEventReturnergateway;
         }
-
 
         public EventsVolunteerAllocationDisplayResponse Execute(EventsVolunteerAllocationDisplayRequest request)
         {
-            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
+            Event event_ = dataGateway.ReturnEvent(request.EventId);
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             int totalVolunteers = volunteers.Count();
             string volunteersIdString = GetStringOfIds(volunteers);
             volunteers = GetVolunteerAfterSorting(volunteers, request.FilterData.VolunteerActivity);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
             volunteers = GetVolunteersAfterSearching(volunteers, request.FilterData.NameOfVolunteer);
-            //string AllocatedVolunteersIdString = GetAllocatedVolunteersString(event_, request.EventId);
+
 
             return new EventsVolunteerAllocationDisplayResponse(event_, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData, request.Messages);
         }
@@ -76,7 +73,7 @@ namespace BucuriaDarului.Contexts
         public VolunteerAllocationPagingData PagingData { get; set; }
         public VolunteerAllocationFilterData FilterData { get; set; }
         public  string  Messages { get; set; }
-        public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrofdocs, string searching, string messages)
+        public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrOfDocs, string searching, string messages)
         {
             this.EventId = id;
             VolunteerAllocationPagingData pagingData = new VolunteerAllocationPagingData();
@@ -90,11 +87,11 @@ namespace BucuriaDarului.Contexts
             filterData.VolunteerActivity = "Active_desc";
 
             pagingData.CurrentPage = GetCurrentPage(page);
-            pagingData.NrOfDocumentsPerPage = nrofdocs;
+            pagingData.NrOfDocumentsPerPage = nrOfDocs;
 
-            this.FilterData = filterData;
-            this.PagingData = pagingData;
-            this.Messages = messages;
+            FilterData = filterData;
+            PagingData = pagingData;
+            Messages = messages;
         }
 
         private int GetCurrentPage(int page)
@@ -108,9 +105,6 @@ namespace BucuriaDarului.Contexts
             }
         }
     }
-
-    
-   
 
     public class EventsVolunteerAllocationDisplayResponse
     {

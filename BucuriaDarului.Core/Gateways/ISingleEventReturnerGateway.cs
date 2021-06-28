@@ -7,6 +7,6 @@ namespace BucuriaDarului.Core.Gateways
 {
     public interface ISingleEventReturnergateway
     {
-        Event ReturnEvent(string EventId);
+    
     }
 }

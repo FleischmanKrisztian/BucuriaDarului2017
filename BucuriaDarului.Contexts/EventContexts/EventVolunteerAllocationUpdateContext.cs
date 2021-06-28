@@ -8,44 +8,39 @@ namespace BucuriaDarului.Contexts
     public class EventVolunteerAllocationUpdateContext
     {
         private readonly IEventVolunteerAllocationUpdateGateway dataGateway;
-        private readonly ISingleEventReturnergateway singleEventReturnergateway;
 
-        public EventVolunteerAllocationUpdateContext(IEventVolunteerAllocationUpdateGateway dataGateway, ISingleEventReturnergateway singleEventReturnergateway)
+        public EventVolunteerAllocationUpdateContext(IEventVolunteerAllocationUpdateGateway dataGateway)
         {
             this.dataGateway = dataGateway;
-            this.singleEventReturnergateway = singleEventReturnergateway;
         }
 
         public EventsVolunteerAllocationResponse Execute(EventsVolunteerAllocationRequest request)
         {
-            bool updateCompleted = false;
-            List<KeyValuePair<string, string>> messages = new List<KeyValuePair<string, string>>();
-            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
+            var result = new EventsVolunteerAllocationResponse();
+
+            Event @event = dataGateway.ReturnEvent(request.EventId);
+
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
             string nameOfVolunteers = GetVolunteerNames(volunteers);
             string volunteerForAllocation = GetVolunteerNames(volunteers);
-            event_.AllocatedVolunteers = volunteerForAllocation;
-            event_.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameOfVolunteers);
-            dataGateway.UpdateEvent(request.EventId, event_);
-            if (event_.AllocatedVolunteers == volunteerForAllocation)
-            { updateCompleted = true;
-               
-            }
-            else
+            @event.AllocatedVolunteers = volunteerForAllocation;
+            @event.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameOfVolunteers);
+            dataGateway.UpdateEvent(request.EventId, @event);
+
+            if (@event.AllocatedVolunteers != volunteerForAllocation)
             {
-                updateCompleted = false;
-                messages.Add(item: new KeyValuePair<string, string>("fail", "Update failed!Please try again!"));
+                result.IsValid = false;
             }
 
-            return new EventsVolunteerAllocationResponse(updateCompleted, messages);
+            return result;
         }
 
-        private int VolunteersAllocatedCounter(string AllocatedVolunteers)
+        private int VolunteersAllocatedCounter(string allocatedVolunteers)
         {
-            if (AllocatedVolunteers != null)
+            if (allocatedVolunteers != null)
             {
-                string[] split = AllocatedVolunteers.Split(" / ");
+                string[] split = allocatedVolunteers.Split(" / ");
                 return split.Count() - 1;
             }
             return 0;
@@ -53,30 +48,25 @@ namespace BucuriaDarului.Contexts
 
         private string GetVolunteerNames(List<Volunteer> volunteers)
         {
-            string volnames = "";
+            string result = "";
             for (int i = 0; i < volunteers.Count; i++)
             {
                 var volunteer = volunteers[i];
-                volnames = volnames + volunteer.Fullname + " / ";
+                result = result + volunteer.Fullname + " / ";
             }
-            return volnames;
+            return result;
         }
 
-        private string GetAllocatedVolunteersString(Event event_, string id)
-        {
-            event_.AllocatedVolunteers += " / ";
-            return event_.AllocatedVolunteers;
-        }
 
-        private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] vols)
+        private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] ids)
         {
-            List<Volunteer> volunteerlist = new List<Volunteer>();
-            for (int i = 0; i < vols.Length; i++)
+            List<Volunteer> volunteerList = new List<Volunteer>();
+            for (int i = 0; i < ids.Length; i++)
             {
-                Volunteer singlevolunteer = volunteers.Where(x => x._id == vols[i]).First();
-                volunteerlist.Add(singlevolunteer);
+                Volunteer singlevolunteer = volunteers.Where(x => x._id == ids[i]).First();
+                volunteerList.Add(singlevolunteer);
             }
-            return volunteerlist;
+            return volunteerList;
         }
     }
 
@@ -94,18 +84,13 @@ namespace BucuriaDarului.Contexts
 
     public class EventsVolunteerAllocationResponse
     {
-        public bool UpdateCompleted { get; set; }
-        public List<KeyValuePair<string,string>> Message { get; set; }
+        public bool IsValid { get; set; }
+        public List<KeyValuePair<string, string>> Message { get; set; }
 
-        public EventsVolunteerAllocationResponse(bool updatedCompleted, List<KeyValuePair<string, string>> messages)
+        public EventsVolunteerAllocationResponse()
         {
-            this.UpdateCompleted = updatedCompleted;
-            this.Message = new List<KeyValuePair<string, string>>();
-            if (messages.Count() != 0)
-                this.Message = messages;
-            else
-                Message.Add(item: new KeyValuePair<string, string>("success", "The event has been successfuly updated!"));
-
+            IsValid = true;
+            Message = new List<KeyValuePair<string, string>>();
         }
     }
 }
