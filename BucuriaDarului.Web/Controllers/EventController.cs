@@ -1,4 +1,4 @@
-using BucuriaDarului.Contexts;
+using BucuriaDarului.Contexts.EventContexts;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using BucuriaDarului.Contexts.EventContexts;
 
 namespace Finalaplication.Controllers
 {
@@ -31,12 +30,8 @@ namespace Finalaplication.Controllers
             {
                 ViewBag.message = messages;
                 var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-                var response=eventsImportContext.Execute(file.OpenReadStream());
-
-               // if (response.IsValid)
-                    return RedirectToAction("Import", new { messages = "The document was succesfuly imported!" });
-                //else
-                //    return RedirectToAction("Import", new { messages = response.Messages[1].Value }); 
+                eventsImportContext.Execute(file.OpenReadStream());
+                return RedirectToAction("Import");
             }
             catch
             {
@@ -97,7 +92,7 @@ namespace Finalaplication.Controllers
             {
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
                 var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
-               
+
                 if (response.IsValid)
                     return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
                 else
@@ -114,7 +109,8 @@ namespace Finalaplication.Controllers
             try
             {
                 var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching,messages));
+                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
+                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
 
                 return View(model);
             }
@@ -135,7 +131,6 @@ namespace Finalaplication.Controllers
                     return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
                 else
                     return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
-
             }
             catch
             {

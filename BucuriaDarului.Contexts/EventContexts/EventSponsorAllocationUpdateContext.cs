@@ -17,7 +17,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public EventSponsorAllocationResponse Execute(EventsSponsorAllocationRequest request)
         {
             EventSponsorAllocationResponse response = new EventSponsorAllocationResponse();
-            Event event_ = dataGateway.ReturnEvent(request.EventId);
+            Event @event= dataGateway.ReturnEvent(request.EventId);
             List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
 
             sponsors = GetSponsorsByIds(sponsors, request.SponsorIds);
@@ -25,7 +25,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             @event.AllocatedSponsors = allocatedSponsors;
             dataGateway.UpdateEvent(request.EventId, @event);
 
-            if (event_.AllocatedSponsors != allocatedSponsors)
+            if (@event.AllocatedSponsors != allocatedSponsors)
             {
                 response.IsValid = false;
                 

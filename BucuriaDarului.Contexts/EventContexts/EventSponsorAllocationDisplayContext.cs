@@ -19,15 +19,13 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             var @event = dataGateway.ReturnEvent(request.EventId);
             var sponsors = dataGateway.GetListOfSponsors();
+            int totalSponsors = sponsors.Count();
             var sponsorsIdString = GetStringOfIds(sponsors);
             sponsors = GetSponsorsAfterSearching(sponsors, request.FilterData.NameOfSponsor);
             List<Event> events = dataGateway.GetListOfEvents();
-            string AllocatedVolunteersIdString = GetAllocatedSponsorsString(events, request.EventId);
+            
 
-            return new EventsSponsorAllocationDisplayResponse(event_, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData, request.Messages);
-
-
-            return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData);
+            return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData, request.Messages);
         }
 
 
@@ -101,7 +99,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public string Messages { get; set; }
 
 
-        public EventsSponsorAllocationDisplayResponse(Event event_, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
+        public EventsSponsorAllocationDisplayResponse(Event @event, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
         {
             Event = @event;
             Sponsors = sponsors;

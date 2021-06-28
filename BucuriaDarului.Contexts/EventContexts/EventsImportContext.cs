@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -19,26 +19,13 @@ namespace BucuriaDarului.Contexts.EventContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream dataToImport)
+        public void Execute(Stream dataToImport)
         {
-            Response response = new Response();
-            var result = ExtractImportRawData(dataToImport);
             
-            if (result.Count() == 0)
-            {
-                response.IsValid = false;
-                response.Messages.Add(new KeyValuePair<string, string>("error", "File is empty. Please try again!"));
-            }
+            var result = ExtractImportRawData(dataToImport);
             var eventsFromCsv = GetEventsFromCsv(result);
-            if (eventsFromCsv.Count() == 0)
-            {
-                response.IsValid = false;
-                response.Messages.Add(new KeyValuePair<string, string>("error2", "File type is wrong! Please import a valid file for event documents!"));
-
-            }
             dataGateway.Insert(eventsFromCsv);
-            return response;
-
+           
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
@@ -152,7 +139,6 @@ namespace BucuriaDarului.Contexts.EventContexts
                         {
                             ev.NumberOfVolunteersNeeded = 0;
                         }
-
                     }
                     ev.TypeOfActivities = line[5];
                     ev.TypeOfEvent = line[6];
@@ -190,16 +176,5 @@ namespace BucuriaDarului.Contexts.EventContexts
         }
     }
 
-    public class Response
-    {
-        public List<KeyValuePair<string, string>> Messages { get; set; }
-        public bool IsValid { get; set; }
-
-        public Response()
-        {
-            IsValid = true;
-            Messages = new List<KeyValuePair<string, string>>();
-
-        }
-    }
+   
 }
