@@ -8,14 +8,14 @@ namespace Finalaplication.LocalDatabaseManager
 {
     public class ModifiedDocumentManager
     {
-        private MongoDBContext dBContext = new MongoDBContext(
+        private MongoDBContext dbContext = new MongoDBContext(
           Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL),
           int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL)),
           Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL));
 
         public void AddIDtoString(string id)
         {
-            IMongoCollection<ModifiedIDs> modifiedIDS = dBContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
+            IMongoCollection<ModifiedIDs> modifiedIDS = dbContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
             ModifiedIDs modified = new ModifiedIDs
             {
                 _id = Guid.NewGuid().ToString(),
@@ -26,7 +26,7 @@ namespace Finalaplication.LocalDatabaseManager
 
         internal void AddIDtoDeletionString(string id)
         {
-            IMongoCollection<DeletedIDS> deletedIDS = dBContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
+            IMongoCollection<DeletedIDS> deletedIDS = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
             DeletedIDS deleted = new DeletedIDS
             {
                 _id = Guid.NewGuid().ToString(),
@@ -37,22 +37,22 @@ namespace Finalaplication.LocalDatabaseManager
 
         public List<ModifiedIDs> GetListOfModifications()
         {
-            IMongoCollection<ModifiedIDs> modifiedcollection = dBContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
+            IMongoCollection<ModifiedIDs> modifiedcollection = dbContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
             List<ModifiedIDs> modifiedIDs = modifiedcollection.AsQueryable().ToList();
             return modifiedIDs;
         }
 
         internal List<DeletedIDS> GetListOfDeletions()
         {
-            IMongoCollection<DeletedIDS> deletedcollection = dBContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
+            IMongoCollection<DeletedIDS> deletedcollection = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
             List<DeletedIDS> deletedIDs = deletedcollection.AsQueryable().ToList();
             return deletedIDs;
         }
 
         internal void DeleteAuxiliaryDatabases()
         {
-            dBContext.Database.DropCollection("DeletedIDS");
-            dBContext.Database.DropCollection("ModifiedIDS");
+            dbContext.Database.DropCollection("DeletedIDS");
+            dbContext.Database.DropCollection("ModifiedIDS");
         }
     }
 }

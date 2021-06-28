@@ -8,32 +8,32 @@ namespace BucuriaDarului.Gateway
 {
     public class EventEditGateway : IEventEditGateway
     {
-        private MongoDBGateway dBContext = new MongoDBGateway();
+        private MongoDBGateway dbContext = new MongoDBGateway();
 
         public void Edit(Event @event)
         {
-            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            IMongoCollection<Event> eventcollection = dBContext.Database.GetCollection<Event>("Events");
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", @event._id);
             ModifiedIDGateway modifiedIDGateway = new ModifiedIDGateway();
             modifiedIDGateway.AddIDtoModifications(@event._id); ;
-            eventcollection.FindOneAndReplace(filter, @event);
+            eventCollection.FindOneAndReplace(filter, @event);
         }
 
         public List<ModifiedIDs> ReturnModificationList()
         {
-            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            IMongoCollection<ModifiedIDs> modifiedcollection = dBContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            IMongoCollection<ModifiedIDs> modifiedcollection = dbContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
             List<ModifiedIDs> modifiedIDs = modifiedcollection.AsQueryable().ToList();
             return modifiedIDs;
         }
 
         public void AddEventToModifiedList(string beforeEditingEventString)
         {
-            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             BsonDocument documentAsBson;
             BsonDocument.TryParse(beforeEditingEventString, out documentAsBson);
-            IMongoCollection<BsonDocument> AuxiliaryCollection = dBContext.Database.GetCollection<BsonDocument>("Auxiliary");
+            IMongoCollection<BsonDocument> AuxiliaryCollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
             AuxiliaryCollection.InsertOne(documentAsBson);
         }
 

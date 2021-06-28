@@ -7,12 +7,12 @@ namespace BucuriaDarului.Gateway
     {
         public static Event ReturnEvent(string id)
         {
-            MongoDBGateway dBContext = new MongoDBGateway();
+            MongoDBGateway dbContext = new MongoDBGateway();
 
-            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            IMongoCollection<Event> eventcollection = dBContext.Database.GetCollection<Event>("Events");
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", id);
-            return eventcollection.Find(filter).FirstOrDefault();
+            return eventCollection.Find(filter).FirstOrDefault();
         }
     }
 }
