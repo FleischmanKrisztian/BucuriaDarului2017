@@ -16,7 +16,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventSponsorAllocationResponse Execute(EventsSponsorAllocationRequest request)
         {
-            var updateCompleted = false;
+            bool updateCompleted;
             var @event = dataGateway.ReturnEvent(request.EventId);
             var messages = new List<KeyValuePair<string, string>>();
             var sponsors = dataGateway.GetListOfSponsors();

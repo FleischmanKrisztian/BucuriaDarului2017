@@ -19,10 +19,10 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             var @event = dataGateway.ReturnEvent(request.EventId);
             var sponsors = dataGateway.GetListOfSponsors();
-            var totalSponsors = sponsors.Count();
             var sponsorsIdString = GetStringOfIds(sponsors);
-            sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
             sponsors = GetSponsorsAfterSearching(sponsors, request.FilterData.NameOfSponsor);
+            var totalSponsors = sponsors.Count();
+            sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
 
             return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData);
         }

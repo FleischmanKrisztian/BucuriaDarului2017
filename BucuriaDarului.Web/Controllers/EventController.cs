@@ -55,13 +55,13 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter()
+        public ActionResult CsvExporter()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(ExportParameters csvExportProperties)
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
             var eventsExporterContext = new EventsExporterContext(_localizer);
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
@@ -73,9 +73,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+                var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
-                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching, messages));
+                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
 
                 return View(model);
             }
@@ -108,9 +108,9 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+                var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
-                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
+                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrOfDocs, searching));
                 return View(model);
             }
             catch
@@ -126,11 +126,9 @@ namespace Finalaplication.Controllers
             {
                 var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
                 var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
-                if (response.UpdateCompleted == true)
-
+                if (response.UpdateCompleted)
                     return RedirectToAction("Index");
-                else
-                    return RedirectToAction("SponsorAllocationDisplay", "Event", new { id = evId });
+                return RedirectToAction("SponsorAllocationDisplay", "Event", new { id = evId });
             }
             catch
             {
