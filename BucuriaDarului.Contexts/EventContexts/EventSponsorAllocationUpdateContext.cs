@@ -10,17 +10,19 @@ namespace BucuriaDarului.Contexts
     public class EventSponsorAllocationUpdateContext
     {
         private readonly IEventSponsorAllocationUpdateGateway dataGateway;
+        private readonly ISingleEventReturnergateway singleEventReturnergateway;
 
-        public EventSponsorAllocationUpdateContext(IEventSponsorAllocationUpdateGateway dataGateway)
+        public EventSponsorAllocationUpdateContext(IEventSponsorAllocationUpdateGateway dataGateway, ISingleEventReturnergateway singleEventReturnergateway)
         {
             this.dataGateway = dataGateway;
+            this.singleEventReturnergateway = singleEventReturnergateway;
         }
 
         public EventSponsorAllocationResponse Execute(EventsSponsorAllocationRequest request)
         {
             bool updateCompleted = false;
             string message = "";
-            Event event_ = dataGateway.GetEvent(request.EventId);
+            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
             List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
             sponsors = GetSponsorsByIds(sponsors, request.SponsorIds);
             string allocatedSponsors = GetSponsorNames(sponsors);

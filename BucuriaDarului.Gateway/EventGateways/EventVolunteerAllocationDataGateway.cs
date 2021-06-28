@@ -11,16 +11,6 @@ namespace BucuriaDarului.Gateway
     {
         private MongoDBGateway dBContext = new MongoDBGateway();
 
-        public Event GetEvent(string eventId)
-        {
-            dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            IMongoCollection<Event> eventCollection = dBContext.Database.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", eventId);
-            Event returnevent = eventCollection.Find(filter).FirstOrDefault();
-            return returnevent;
-           
-        }
-
         public List<Volunteer> GetListOfVolunteers()
         {
             dBContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);

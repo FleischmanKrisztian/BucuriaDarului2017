@@ -77,7 +77,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
+                var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway(), new SingleEventReturnerGateway());
                 var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrofdocs, searching));
 
                 return View(model);
@@ -93,7 +93,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
+                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway(), new SingleEventReturnerGateway());
                 var response=allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
                 if(response.UpdateCompleted==true)
                     return RedirectToAction("Index");
@@ -112,7 +112,7 @@ namespace Finalaplication.Controllers
             try
             {
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway(), new SingleEventReturnerGateway());
                 var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrofdocs, searching));
                 return View(model);
             }
@@ -127,7 +127,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
+                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway(), new SingleEventReturnerGateway());
                 var response=allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.UpdateCompleted == true)
 
@@ -145,8 +145,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventDetailGateway = new EventDetailGateway();
-                var model = eventDetailGateway.ReturnEvent(id);
+                var singleEventReturnerGateway = new SingleEventReturnerGateway();
+                var model = singleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch
@@ -196,8 +196,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventEditGateway = new EventEditGateway();
-                var model = eventEditGateway.ReturnEvent(id);
+                var singleEventReturnerGateway = new SingleEventReturnerGateway();
+                var model = singleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch
@@ -211,7 +211,7 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventEditContext = new EventEditContext(new EventEditGateway());
+                var eventEditContext = new EventEditContext(new EventEditGateway(), new SingleEventReturnerGateway());
                 var eventEditResponse = eventEditContext.Execute(request);
                 if (eventEditResponse.ContainsSpecialChar)
                 {
@@ -242,8 +242,8 @@ namespace Finalaplication.Controllers
         {
             try
             {
-                var eventDeleteGateway = new EventDeleteGateway();
-                var model = eventDeleteGateway.ReturnEvent(id);
+                var singleEventReturnerGateway = new SingleEventReturnerGateway();
+                var model = singleEventReturnerGateway.ReturnEvent(id);
                 return View(model);
             }
             catch

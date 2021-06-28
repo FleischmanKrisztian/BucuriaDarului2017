@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace BucuriaDarului.Core.Gateways
 {
-    public interface IEventVolunteerAllocationDisplayGateway
+    public interface ISingleEventReturnergateway
     {
-        List<Volunteer> GetListOfVolunteers();
+        Event ReturnEvent(string EventId);
     }
 }

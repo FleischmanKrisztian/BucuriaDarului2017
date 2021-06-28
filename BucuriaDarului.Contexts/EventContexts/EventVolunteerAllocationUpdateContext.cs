@@ -8,17 +8,19 @@ namespace BucuriaDarului.Contexts
     public class EventVolunteerAllocationUpdateContext
     {
         private readonly IEventVolunteerAllocationUpdateGateway dataGateway;
+        private readonly ISingleEventReturnergateway singleEventReturnergateway;
 
-        public EventVolunteerAllocationUpdateContext(IEventVolunteerAllocationUpdateGateway dataGateway)
+        public EventVolunteerAllocationUpdateContext(IEventVolunteerAllocationUpdateGateway dataGateway, ISingleEventReturnergateway singleEventReturnergateway)
         {
             this.dataGateway = dataGateway;
+            this.singleEventReturnergateway = singleEventReturnergateway;
         }
 
         public EventsVolunteerAllocationResponse Execute(EventsVolunteerAllocationRequest request)
         {
             bool updateCompleted = false;
             string message = "";
-            Event event_ = dataGateway.GetEvent(request.EventId);
+            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
             string nameOfVolunteers = GetVolunteerNames(volunteers);

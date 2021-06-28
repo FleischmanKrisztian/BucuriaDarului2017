@@ -9,15 +9,18 @@ namespace BucuriaDarului.Contexts
     public class EventVolunteerAllocationDisplayContext
     {
         private readonly IEventVolunteerAllocationDisplayGateway dataGateway;
+        private readonly ISingleEventReturnergateway singleEventReturnergateway;
 
-        public EventVolunteerAllocationDisplayContext(IEventVolunteerAllocationDisplayGateway dataGateway)
+        public EventVolunteerAllocationDisplayContext(IEventVolunteerAllocationDisplayGateway dataGateway, ISingleEventReturnergateway singleEventReturnergateway)
         {
             this.dataGateway = dataGateway;
+            this.singleEventReturnergateway = singleEventReturnergateway;
         }
+
 
         public EventsVolunteerAllocationDisplayResponse Execute(EventsVolunteerAllocationDisplayRequest request)
         {
-            Event event_ = dataGateway.GetEvent(request.EventId);
+            Event event_ = singleEventReturnergateway.ReturnEvent(request.EventId);
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
             int totalVolunteers = volunteers.Count();
             string volunteersIdString = GetStringOfIds(volunteers);

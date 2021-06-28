@@ -1,9 +1,10 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways;
 using MongoDB.Driver;
 
 namespace BucuriaDarului.Gateway
 {
-    public class EventDetailGateway
+    public class SingleEventReturnerGateway : ISingleEventReturnergateway
     {
         private MongoDBGateway dBContext = new MongoDBGateway();
 
