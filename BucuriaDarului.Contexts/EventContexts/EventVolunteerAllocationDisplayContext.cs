@@ -26,7 +26,7 @@ namespace BucuriaDarului.Contexts
             volunteers = GetVolunteersAfterSearching(volunteers, request.FilterData.NameOfVolunteer);
             //string AllocatedVolunteersIdString = GetAllocatedVolunteersString(event_, request.EventId);
 
-            return new EventsVolunteerAllocationDisplayResponse(event_, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData);
+            return new EventsVolunteerAllocationDisplayResponse(event_, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData, request.Messages);
         }
  
 
@@ -72,8 +72,8 @@ namespace BucuriaDarului.Contexts
         public string EventId { get; set; }
         public VolunteerAllocationPagingData PagingData { get; set; }
         public VolunteerAllocationFilterData FilterData { get; set; }
-
-        public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrofdocs, string searching)
+        public  string  Messages { get; set; }
+        public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrofdocs, string searching, string messages)
         {
             this.EventId = id;
             VolunteerAllocationPagingData pagingData = new VolunteerAllocationPagingData();
@@ -91,6 +91,7 @@ namespace BucuriaDarului.Contexts
 
             this.FilterData = filterData;
             this.PagingData = pagingData;
+            this.Messages = messages;
         }
 
         private int GetCurrentPage(int page)
@@ -118,7 +119,9 @@ namespace BucuriaDarului.Contexts
         public VolunteerAllocationPagingData PagingData { get; set; }
         public VolunteerAllocationFilterData FilterData { get; set; }
 
-        public EventsVolunteerAllocationDisplayResponse(Event event_, List<Volunteer> volunteers, int totalVolunteers, string allocateVolunteersIdString, VolunteerAllocationPagingData pagingData, VolunteerAllocationFilterData filterData)
+        public  string Messages { get; set; }
+
+        public EventsVolunteerAllocationDisplayResponse(Event event_, List<Volunteer> volunteers, int totalVolunteers, string allocateVolunteersIdString, VolunteerAllocationPagingData pagingData, VolunteerAllocationFilterData filterData, string messages)
         {
             Event = event_;
             Volunteers = volunteers;
@@ -126,6 +129,8 @@ namespace BucuriaDarului.Contexts
             AllocatedVolunteersIdString = allocateVolunteersIdString;
             PagingData = pagingData;
             FilterData = filterData;
+            Messages = messages;
+            
         }
     }
 
