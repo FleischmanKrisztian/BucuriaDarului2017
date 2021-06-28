@@ -1,4 +1,4 @@
-﻿using BucuriaDarului.Contexts;
+using BucuriaDarului.Contexts;
 using BucuriaDarului.Gateway;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -94,12 +94,12 @@ namespace Finalaplication.Controllers
             try
             {
                 var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
-                var response = allocatedVolunteerUpdateContext.UpdateAllocationToEvent(new EventsVolunteerAllocationRequest(volunteerIds, evId));
-                if (response.UpdateCompleted == true)
-
+                var response=allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
+                if(response.UpdateCompleted==true)
                     return RedirectToAction("Index");
                 else
-                    return RedirectToAction("VolunteerAllocationDisplay", "Event");
+                    return RedirectToAction("VolunteerAllocationDisplay", "Event", new { id = evId });
+
             }
             catch
             {
@@ -128,16 +128,16 @@ namespace Finalaplication.Controllers
             try
             {
                 var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
-                var response = allocatedSponsorContext.UpdateAllocationToEvent(new EventsSponsorAllocationRequest(sponsorIds, evId));
+                var response=allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.UpdateCompleted == true)
 
                     return RedirectToAction("Index");
                 else
-                    return RedirectToAction("SponsorAllocationDisplay", "Event");
+                    return RedirectToAction("SponsorAllocationDisplay", "Event", new { id = evId });
             }
             catch
             {
-                return View();
+                return RedirectToAction("Localserver", "Home");
             }
         }
 

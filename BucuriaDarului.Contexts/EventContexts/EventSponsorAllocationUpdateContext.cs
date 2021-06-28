@@ -16,7 +16,7 @@ namespace BucuriaDarului.Contexts
             this.dataGateway = dataGateway;
         }
 
-        public EventSponsorAllocationResponse UpdateAllocationToEvent(EventsSponsorAllocationRequest request)
+        public EventSponsorAllocationResponse Execute(EventsSponsorAllocationRequest request)
         {
             bool updateCompleted = false;
             string message = "";
