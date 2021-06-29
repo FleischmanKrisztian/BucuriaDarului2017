@@ -26,32 +26,18 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Import(IFormFile file, string messages)
         {
-            try
-            {
-                ViewBag.message = messages;
-                var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-                eventsImportContext.Execute(file.OpenReadStream());
-                return RedirectToAction("Import");
-            }
-            catch
-            {
-                return RedirectToAction("IncorrectFile", "Home");
-            }
+            ViewBag.message = messages;
+            var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
+            eventsImportContext.Execute(file.OpenReadStream());
+            return RedirectToAction("Import");
         }
 
         public ActionResult Index(string searching, int page, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
-            try
-            {
-                int nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
-                var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerDate, upperDate));
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            int nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
+            var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerDate, upperDate));
+            return View(model);
         }
 
         [HttpGet]
@@ -71,84 +57,49 @@ namespace Finalaplication.Controllers
 
         public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)
         {
-            try
-            {
-                var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
-                var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
+            var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
 
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult VolunteerAllocation(string[] volunteerIds, string evId)
         {
-            try
-            {
-                var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
-                var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
+            var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
+            var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
 
-                if (response.IsValid)
-                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
-                else
-                    return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            if (response.IsValid)
+                return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
+            else
+                return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
         }
 
         public ActionResult SponsorAllocationDisplay(string id, string messages, int page, string searching)
         {
-            try
-            {
-                var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
-                var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
+            var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
 
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult SponsorAllocation(string[] sponsorIds, string evId)
         {
-            try
-            {
-                var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
-                var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
-                if (response.IsValid)
-                    return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
-                else
-                    return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
+            var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
+            if (response.IsValid)
+                return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
+            else
+                return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
         }
 
         public ActionResult Details(string id)
         {
-            try
-            {
-                var model = SingleEventReturnerGateway.ReturnEvent(id);
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleEventReturnerGateway.ReturnEvent(id);
+            return View(model);
         }
 
         public ActionResult Create()
@@ -159,105 +110,70 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Create(EventCreateRequest request)
         {
-            try
+            var eventCreateContext = new EventCreateContext(new EventCreateGateway());
+            var eventCreateResponse = eventCreateContext.Execute(request);
+            if (eventCreateResponse.ContainsSpecialChar)
             {
-                var eventCreateContext = new EventCreateContext(new EventCreateGateway());
-                var eventCreateResponse = eventCreateContext.Execute(request);
-                if (eventCreateResponse.ContainsSpecialChar)
-                {
-                    ViewBag.ContainsSpecialChar = true;
-                    ModelState.Remove("NumberOfVolunteersNeeded");
-                    ModelState.Remove("DateOfEvent");
-                    return View();
-                }
-                else if (!eventCreateResponse.IsValid)
-                {
-                    ModelState.Remove("NumberOfVolunteersNeeded");
-                    ModelState.Remove("DateOfEvent");
-                    ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
-                    return View();
-                }
-                else
-                {
-                    return RedirectToAction("Index");
-                }
+                ViewBag.ContainsSpecialChar = true;
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                return View();
             }
-            catch
+            else if (!eventCreateResponse.IsValid)
             {
-                return RedirectToAction("Localserver", "Home");
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
         }
 
         public ActionResult Edit(string id)
         {
-            try
-            {
-                var model = SingleEventReturnerGateway.ReturnEvent(id);
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleEventReturnerGateway.ReturnEvent(id);
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(EventEditRequest request)
         {
-            try
+            var eventEditContext = new EventEditContext(new EventEditGateway());
+            var eventEditResponse = eventEditContext.Execute(request);
+            if (eventEditResponse.ContainsSpecialChar)
             {
-                var eventEditContext = new EventEditContext(new EventEditGateway());
-                var eventEditResponse = eventEditContext.Execute(request);
-                if (eventEditResponse.ContainsSpecialChar)
-                {
-                    ViewBag.ContainsSpecialChar = true;
-                    ModelState.Remove("NumberOfVolunteersNeeded");
-                    ModelState.Remove("DateOfEvent");
-                    return View(eventEditResponse.Event);
-                }
-                else if (!eventEditResponse.IsValid)
-                {
-                    ModelState.Remove("NumberOfVolunteersNeeded");
-                    ModelState.Remove("DateOfEvent");
-                    ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
-                    return View(eventEditResponse.Event);
-                }
-                else
-                {
-                    return RedirectToAction("Index");
-                }
+                ViewBag.ContainsSpecialChar = true;
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                return View(eventEditResponse.Event);
             }
-            catch
+            else if (!eventEditResponse.IsValid)
             {
-                return RedirectToAction("Localserver", "Home");
+                ModelState.Remove("NumberOfVolunteersNeeded");
+                ModelState.Remove("DateOfEvent");
+                ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
+                return View(eventEditResponse.Event);
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
         }
 
         public ActionResult Delete(string id)
         {
-            try
-            {
-                var model = SingleEventReturnerGateway.ReturnEvent(id);
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleEventReturnerGateway.ReturnEvent(id);
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection collection)
         {
-            try
-            {
-                EventDeleteGateway.DeleteEvent(id);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            EventDeleteGateway.DeleteEvent(id);
+            return RedirectToAction("Index");
         }
     }
 }

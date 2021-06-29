@@ -40,8 +40,6 @@ namespace Finalaplication
                 new CultureInfo("en"),
                 new CultureInfo("ro"),
            };
-           //Session["id"] = "3,x";
-           //Session["email"] = "";
            opts.DefaultRequestCulture = new RequestCulture("en");
            // Formatting numbers, dates, etc.
            opts.SupportedCultures = supportedCultures;
@@ -67,7 +65,6 @@ namespace Finalaplication
         public void Configure(IApplicationBuilder app)
         {
             app.UseExceptionHandler("/Home/Localserver");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
 
             app.UseHttpsRedirection();
