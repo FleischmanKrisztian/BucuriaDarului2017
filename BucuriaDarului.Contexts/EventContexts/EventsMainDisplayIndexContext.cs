@@ -55,7 +55,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var stringOfIDs = "eventCSV";
             foreach (Event eve in events)
             {
-                stringOfIDs = stringOfIDs + "," + eve._id;
+                stringOfIDs = stringOfIDs + "," + eve.Id;
             }
             return stringOfIDs;
         }

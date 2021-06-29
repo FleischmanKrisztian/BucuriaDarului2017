@@ -97,7 +97,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 var ev = new Event();
                 try
                 {
-                    ev._id = line[0];
+                    ev.Id = line[0];
                     ev.NameOfEvent = line[1];
                     ev.PlaceOfEvent = line[2];
 

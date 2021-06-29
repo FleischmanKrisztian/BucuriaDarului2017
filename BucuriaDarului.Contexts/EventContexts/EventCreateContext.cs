@@ -45,7 +45,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             var validatedEvent = new Event
             {
-                _id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 NameOfEvent = request.NameOfEvent,
                 PlaceOfEvent = request.PlaceOfEvent,
                 DateOfEvent = request.DateOfEvent.AddHours(5),

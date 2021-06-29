@@ -31,9 +31,9 @@ namespace BucuriaDarului.Contexts.EventContexts
             {
                 var modifiedList = dataGateway.ReturnModificationList();
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
-                if (!modifiedListString.Contains(@event._id))
+                if (!modifiedListString.Contains(@event.Id))
                 {
-                    var beforeEditingEvent = dataGateway.ReturnEvent(@event._id);
+                    var beforeEditingEvent = dataGateway.ReturnEvent(@event.Id);
                     var beforeEditingEventString = JsonConvert.SerializeObject(beforeEditingEvent);
                     dataGateway.AddEventToModifiedList(beforeEditingEventString);
                 }
@@ -54,7 +54,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             var validatedEvent = new Event
             {
-                _id = request._id,
+                Id = request.Id,
                 NameOfEvent = request.NameOfEvent,
                 PlaceOfEvent = request.PlaceOfEvent,
                 DateOfEvent = request.DateOfEvent.AddHours(5),
@@ -111,7 +111,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
     public class EventEditRequest
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
         public string NameOfEvent { get; set; }
 
         public string PlaceOfEvent { get; set; }

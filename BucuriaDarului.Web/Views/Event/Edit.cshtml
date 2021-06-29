@@ -59,7 +59,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model=>model._id, new { _id = Model._id })
+    @Html.HiddenFor(model=>model.Id, new { Id = Model.Id })
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-9">

@@ -17,7 +17,7 @@ namespace BucuriaDarului.Gateway
             ModifiedIDGateway modifiedIDGateway = new ModifiedIDGateway();
             foreach (var eve in events)
             {
-                modifiedIDGateway.AddIDtoModifications(eve._id);
+                modifiedIDGateway.AddIDtoModifications(eve.Id);
             }
         }
     }

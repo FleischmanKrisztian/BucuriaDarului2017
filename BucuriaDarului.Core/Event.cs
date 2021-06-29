@@ -4,7 +4,7 @@ namespace BucuriaDarului.Core
 {
     public class Event
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string NameOfEvent { get; set; }
 

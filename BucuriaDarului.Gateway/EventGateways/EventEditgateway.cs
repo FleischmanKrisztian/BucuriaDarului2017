@@ -14,9 +14,9 @@ namespace BucuriaDarului.Gateway
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", @event._id);
+            var filter = Builders<Event>.Filter.Eq("Id", @event.Id);
             ModifiedIDGateway modifiedIDGateway = new ModifiedIDGateway();
-            modifiedIDGateway.AddIDtoModifications(@event._id); ;
+            modifiedIDGateway.AddIDtoModifications(@event.Id); ;
             eventCollection.FindOneAndReplace(filter, @event);
         }
 
