@@ -63,8 +63,8 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool ContainsSpecialChar(object @event)
         {
-            string eventString = JsonConvert.SerializeObject(@event);
-            bool containsSpecialChar = eventString.Contains(";");
+            var eventString = JsonConvert.SerializeObject(@event);
+            var containsSpecialChar = eventString.Contains(";");
             return containsSpecialChar;
         }
 

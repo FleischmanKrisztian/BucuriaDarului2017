@@ -89,7 +89,6 @@ namespace BucuriaDarului.Contexts.EventContexts
         public EventsVolunteerAllocationResponse()
         {
             IsValid = true;
-          
         }
     }
 }

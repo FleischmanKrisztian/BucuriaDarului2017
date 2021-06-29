@@ -128,9 +128,8 @@ namespace BucuriaDarului.Contexts.EventContexts
                     }
                     else
                     {
-                        int number = 0;
-                        bool converted = false;
-                        converted = Int32.TryParse(line[4], out number);
+                        var converted = false;
+                        converted = Int32.TryParse(line[4], out var number);
                         if (converted)
                         {
                             ev.NumberOfVolunteersNeeded = number;

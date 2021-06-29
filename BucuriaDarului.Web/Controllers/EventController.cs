@@ -128,7 +128,7 @@ namespace Finalaplication.Controllers
                 var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
                 var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
                 if (response.IsValid)
-                    return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfuly updated!", page = 1, searching = "" });
+                    return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
                 else
                     return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
             }

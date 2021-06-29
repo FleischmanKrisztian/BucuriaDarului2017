@@ -77,7 +77,6 @@ namespace BucuriaDarului.Contexts.EventContexts
         public EventSponsorAllocationResponse()
         {
             IsValid = true;
-           
         }
     }
 }

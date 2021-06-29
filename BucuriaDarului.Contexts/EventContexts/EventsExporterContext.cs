@@ -15,8 +15,8 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventsExporterResponse Execute(EventsExporterRequest request)
         {
-            string idsAndFields = GetIdAndFieldString(request.ExportParameters);
-            string header = GetHeaderForExcelPrinterEvent();
+            var idsAndFields = GetIdAndFieldString(request.ExportParameters);
+            var header = GetHeaderForExcelPrinterEvent();
             return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),"");
         }
 
