@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Localization;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Localization;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -16,8 +16,20 @@ namespace BucuriaDarului.Contexts.EventContexts
         public EventsExporterResponse Execute(EventsExporterRequest request)
         {
             var idsAndFields = GetIdAndFieldString(request.ExportParameters);
+
             var header = GetHeaderForExcelPrinterEvent();
-            return new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header),"");
+            var response = new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header));
+            response.IsValid = CheckForProperties(idsAndFields);
+            return response;
+        }
+
+        private bool CheckForProperties(string idsAndFields)
+        {
+            var splitstring = idsAndFields.Split("(((");
+            if (splitstring[1] == "")
+                return false;
+
+            return true;
         }
 
         private string GetIdAndFieldString(ExportParameters csv)
@@ -81,12 +93,13 @@ namespace BucuriaDarului.Contexts.EventContexts
     public class EventsExporterResponse
     {
         public Dictionary<string, string> Dictionary { get; set; }
-        public string Message { get; set; }
 
-        public EventsExporterResponse(Dictionary<string,string> dictionary, string message)
+        public bool IsValid { get; set; }
+
+        public EventsExporterResponse(Dictionary<string, string> dictionary)
         {
             Dictionary = dictionary;
-            Message = message;
+            IsValid = true;
         }
     }
 

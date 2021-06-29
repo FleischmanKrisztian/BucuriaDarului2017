@@ -19,13 +19,47 @@ namespace BucuriaDarului.Contexts.EventContexts
             this.dataGateway = dataGateway;
         }
 
-        public void Execute(Stream dataToImport)
+        public EventImportResponse Execute(Stream dataToImport)
         {
-            
-            var result = ExtractImportRawData(dataToImport);
-            var eventsFromCsv = GetEventsFromCsv(result);
-            dataGateway.Insert(eventsFromCsv);
-           
+            var response = new EventImportResponse();
+            if (FileIsNotEmpty(dataToImport))
+            {
+                response.Message.Add(new KeyValuePair<string, string>("EmptyFile", "File Cannot be Empty!"));
+                response.IsValid = false;
+            }
+
+            if (!IsTheCorrectHeader(GetHeaderColumns(dataToImport)))
+            {
+                response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
+                response.IsValid = false;
+            }
+
+            if (response.IsValid)
+            {
+                var result = ExtractImportRawData(dataToImport);
+                var eventsFromCsv = GetEventsFromCsv(result, response);
+                dataGateway.Insert(eventsFromCsv);
+            }
+
+            return response;
+        }
+
+        private string[] GetHeaderColumns(Stream dataToImport)
+        {
+            using var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
+            var headerLine = reader.ReadLine();
+
+            var csvSeparator = CsvUtils.DetectSeparator(headerLine);
+
+            var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
+            return headerColumns;
+        }
+
+        private bool FileIsNotEmpty(Stream dataToimport)
+        {
+            if (dataToimport.Length > 0)
+                return false;
+            return true;
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
@@ -35,6 +69,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             var csvSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var i = 0;
+
             while (reader.Peek() >= 0)
             {
                 if (IsHeader(i))
@@ -74,7 +109,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns.Length == 11;
+            return headerColumns[0].Contains("Event", StringComparison.InvariantCultureIgnoreCase) || headerColumns[0].Contains("Eveniment", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -88,7 +123,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             return i == 0;
         }
 
-        private static List<Event> GetEventsFromCsv(List<string[]> lines)
+        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response)
         {
             var events = new List<Event>();
 
@@ -145,15 +180,28 @@ namespace BucuriaDarului.Contexts.EventContexts
                     ev.AllocatedVolunteers = line[8];
                     ev.AllocatedSponsors = line[10];
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine("An error has occurred while importing!");
-                    Console.WriteLine(ex);
+                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Event type!")));
+                    response.IsValid = false;
                 }
                 events.Add(ev);
             }
 
             return events;
+        }
+    }
+
+    public class EventImportResponse
+    {
+        public bool IsValid { get; set; }
+
+        public List<KeyValuePair<string, string>> Message { get; set; }
+
+        public EventImportResponse()
+        {
+            IsValid = true;
+            Message = new List<KeyValuePair<string, string>>();
         }
     }
 
@@ -174,6 +222,4 @@ namespace BucuriaDarului.Contexts.EventContexts
             return CsvUtils.CsvSeparator;
         }
     }
-
-   
 }

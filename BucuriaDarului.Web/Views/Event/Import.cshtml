@@ -1,51 +1,49 @@
-﻿@model IEnumerable<Finalaplication.Models.Beneficiary>
-@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Import";
-    string message = ViewBag.message;
 }
 <html>
-<head>
-    <style>
+    <head>
+        <style>
 
-        .emp-profile {
-            border-radius: 25px;
-            padding: 5%;
-            margin-bottom: 3%;
-            border: 2px solid lightgray;
-            background: #fff;
-            /*background-color:lightgray*/
-        }
-    </style>
-</head>
-<br />
-<br />
-
-
-<br />
-<br />
-<body>
-    <div class="emp-profile">
-        <form action="./Import"
-              enctype="multipart/form-data"
-              method="post">
-            <div class="row">
-                <div class="col-md-3">
-                    <h4><label for="files">@Localizer["Choose"]:</label></h4>
+            .emp-profile {
+                border-radius: 25px;
+                padding: 5%;
+                margin-bottom: 3%;
+                border: 2px solid lightgray;
+                background: #fff;
+            }
+        </style>
+    </head>
+    <body>
+    <br />
+    <br />
+        <h3 style="color:red">
+            @ViewBag.message
+        </h3>
+    <br />
+    <br />
+        <div class="emp-profile">
+            <form action="./Import"
+                  enctype="multipart/form-data"
+                  method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4><label for="files">@Localizer["Choose"]:</label></h4>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="file" id="myFile" name="Files">
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <input type="file" id="myFile" name="Files">
+                <hr />
+                <div style="padding-top:2%;">
+                    <button class="buttonx" type="submit">@Localizer["Upload"]</button>
                 </div>
-            </div>
-            <hr />
-            <div style="padding-top:2%;">
-                <button class="buttonx" type="submit">@Localizer["Upload"]</button>
-            </div>
-            <div style="margin-top:15px">
-                <output name="result"></output>
-            </div>
-        </form>
-    </div>
-</body>
+                <div style="margin-top:15px">
+                    <output name="result"></output>
+                </div>
+            </form>
+        </div>
+    </body>
 </html>

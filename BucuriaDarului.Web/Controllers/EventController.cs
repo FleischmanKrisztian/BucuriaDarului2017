@@ -18,18 +18,21 @@ namespace Finalaplication.Controllers
             _localizer = localizer;
         }
 
-        public ActionResult Import()
+        public ActionResult Import(string message)
         {
+            ViewBag.message = message;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile file, string messages)
+        public ActionResult Import(IFormFile Files)
         {
-            ViewBag.message = messages;
             var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-            eventsImportContext.Execute(file.OpenReadStream());
-            return RedirectToAction("Import");
+            var response = eventsImportContext.Execute(Files.OpenReadStream());
+            if (response.IsValid)
+                return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
+            else
+                return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
         public ActionResult Index(string searching, int page, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
@@ -41,8 +44,9 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CsvExporter()
+        public ActionResult CsvExporter(string message)
         {
+            ViewBag.message = message;
             return View();
         }
 
@@ -52,7 +56,9 @@ namespace Finalaplication.Controllers
             var eventsExporterContext = new EventsExporterContext(_localizer);
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
             DictionaryHelper.d = eventsExportData.Dictionary;
-            return Redirect("csvexporterapp:eventSession;eventHeader");
+            if (eventsExportData.IsValid)
+                return Redirect("csvexporterapp:eventSession;eventHeader");
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 
         public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)
