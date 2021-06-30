@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace VolCommon
+namespace BucuriaDarului.Core
 {
     public class CI
     {

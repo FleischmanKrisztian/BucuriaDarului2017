@@ -649,6 +649,7 @@ namespace Finalaplication.Controllers
                     if (properties.Contains("0"))
                     {
                         var eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]);
+                        //MUST SERIALIZE WITHOUT THE ID PROPERTY HERE
                         jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
                     }
                     else

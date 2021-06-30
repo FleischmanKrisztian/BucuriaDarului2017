@@ -8,20 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BucuriaDarului.Contexts.EventContexts
+namespace BucuriaDarului.Contexts.BeneficiaryContexts
 {
-    public class EventsImportContext
+    public class BeneficiaryImportContext
     {
-        private readonly IEventsImportDataGateway dataGateway;
+        private readonly IBeneficiaryImportGateway dataGateway;
 
-        public EventsImportContext(IEventsImportDataGateway dataGateway)
+        public BeneficiaryImportContext(IBeneficiaryImportGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
 
-        public EventImportResponse Execute(Stream dataToImport)
+        public BeneficiaryImportResponse Execute(Stream dataToImport)
         {
-            var response = new EventImportResponse();
+            var response = new BeneficiaryImportResponse();
             if (FileIsNotEmpty(dataToImport))
             {
                 response.Message.Add(new KeyValuePair<string, string>("EmptyFile", "File Cannot be Empty!"));
@@ -30,15 +30,15 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             if (!IsTheCorrectHeader(GetHeaderColumns(dataToImport)))
             {
-                response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
+                response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Beneficiary!"));
                 response.IsValid = false;
             }
 
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                var eventsFromCsv = GetEventsFromCsv(result, response);
-                dataGateway.Insert(eventsFromCsv);
+                var beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
+                dataGateway.Insert(beneficiariesFromCsv);
             }
 
             return response;
@@ -52,6 +52,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var csvSeparator = CsvUtils.DetectSeparator(headerLine);
 
             var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
+
             return headerColumns;
         }
 
@@ -65,11 +66,11 @@ namespace BucuriaDarului.Contexts.EventContexts
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
         {
             List<string[]> result = new List<string[]>();
-            //FOR SOME REASON THIS READER DECIDED TO GIVE UP?
             using var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
 
             var csvSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var i = 0;
+
             while (reader.Peek() >= 0)
             {
                 if (IsHeader(i))
@@ -109,8 +110,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            // WE Have to modify HERE if we change the ExporterCOntroller to serialize without the ID property.
-            return headerColumns[1].Contains("Event", StringComparison.InvariantCultureIgnoreCase) || headerColumns[1].Contains("Eveniment", StringComparison.InvariantCultureIgnoreCase);
+            return headerColumns[0].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[1].Contains("Active", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -124,82 +124,35 @@ namespace BucuriaDarului.Contexts.EventContexts
             return i == 0;
         }
 
-        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response)
+        private static List<Beneficiary> GetBeneficiaryFromCsv(List<string[]> lines, BeneficiaryImportResponse response)
         {
-            var events = new List<Event>();
+            var beneficiaries = new List<Beneficiary>();
 
             foreach (var line in lines)
             {
-                var ev = new Event();
+                var beneficiary = new Beneficiary();
                 try
                 {
-                    ev.Id = line[0];
-                    ev.NameOfEvent = line[1];
-                    ev.PlaceOfEvent = line[2];
-
-                    if (line[3] == null || line[3] == "" || line[3] == "0")
-                    {
-                        ev.DateOfEvent = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime data;
-                        if (line[3].Contains("/") == true)
-                        {
-                            var date = line[3].Split(" ");
-                            var finalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(finalDate[2] + "-" + finalDate[0] + "-" + finalDate[1]);
-                        }
-                        else
-                        {
-                            var anotherDate = line[3].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                        }
-                        ev.DateOfEvent = data.AddDays(1);
-                    }
-
-                    if (line[4] == "" || line[4] == null)
-                    {
-                        ev.NumberOfVolunteersNeeded = 0;
-                    }
-                    else
-                    {
-                        var converted = false;
-                        converted = Int32.TryParse(line[4], out var number);
-                        if (converted)
-                        {
-                            ev.NumberOfVolunteersNeeded = number;
-                        }
-                        else
-                        {
-                            ev.NumberOfVolunteersNeeded = 0;
-                        }
-                    }
-                    ev.TypeOfActivities = line[5];
-                    ev.TypeOfEvent = line[6];
-                    ev.Duration = line[7];
-                    ev.AllocatedVolunteers = line[8];
-                    ev.AllocatedSponsors = line[10];
                 }
                 catch
                 {
-                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Event type!")));
+                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Beneficiary type!")));
                     response.IsValid = false;
                 }
-                events.Add(ev);
+                beneficiaries.Add(beneficiary);
             }
 
-            return events;
+            return beneficiaries;
         }
     }
 
-    public class EventImportResponse
+    public class BeneficiaryImportResponse
     {
         public bool IsValid { get; set; }
 
         public List<KeyValuePair<string, string>> Message { get; set; }
 
-        public EventImportResponse()
+        public BeneficiaryImportResponse()
         {
             IsValid = true;
             Message = new List<KeyValuePair<string, string>>();

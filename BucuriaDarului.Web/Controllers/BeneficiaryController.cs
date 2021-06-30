@@ -1,4 +1,6 @@
-﻿using Elm.Core.Parsers;
+﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
+using BucuriaDarului.Gateway;
+using Elm.Core.Parsers;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.BeneficiaryHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -32,85 +34,26 @@ namespace Finalaplication.Controllers
             _localizer = localizer;
         }
 
-        public ActionResult Import()
+        public ActionResult Import(string message)
         {
+            ViewBag.message = message;
             return View();
         }
 
         [HttpPost]
         public ActionResult Import(IFormFile Files)
         {
-            try
-            {
-                List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
-                int docsimported = 0;
-                if (UniversalFunctions.File_is_not_empty(Files))
-                {
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
-                    UniversalFunctions.CreateFileStream(Files, path);
-                    List<string[]> beneficiaryasstring = CSVImportParser.GetListFromCSV(path);
-                    if (CSVImportParser.DefaultBeneficiaryCSVFormat(path))
-                    {
-                        for (int i = 0; i < beneficiaryasstring.Count; i++)
-                        {
-                            Beneficiary beneficiary = new Beneficiary();
-                            beneficiary = BeneficiaryFunctions.GetBeneficiaryFromString(beneficiaryasstring[i]);
-                            if (BeneficiaryFunctions.DoesNotExist(beneficiaries, beneficiary))
-                            {
-                                docsimported++;
-                                beneficiaryManager.AddBeneficiaryToDB(beneficiary);
-                            }
-                        }
-
-                         }
-                    else
-                    {
-                        for (int i = 0; i < beneficiaryasstring.Count; i++)
-                        {
-                            Beneficiary beneficiary = new Beneficiary();
-                            beneficiary = BeneficiaryFunctions.GetBeneficiaryFromOtherString(beneficiaryasstring[i]);
-                            if (BeneficiaryFunctions.DoesNotExist(beneficiaries, beneficiary))
-                            {
-                                docsimported++;
-                                beneficiaryManager.AddBeneficiaryToDB(beneficiary);
-                            }
-                        }
-                    }
-
-                    List<Beneficiary> beneficiarycollection = beneficiaryManager.GetListOfBeneficiaries();
-                    List<Beneficiarycontract> beneficiaryContractCollection = beneficiaryContractManager.GetListOfBeneficiariesContracts();
-                    List <Beneficiarycontract> beneficiaryContracts =BeneficiaryFunctions.GetBeneficiaryContractsFromCsv(beneficiaryasstring, beneficiarycollection, beneficiaryContractCollection);
-                   
-                    foreach (Beneficiarycontract bc in beneficiaryContracts)
-                    {
-                        bc._id = Guid.NewGuid().ToString();
-                     beneficiaryContractManager.AddBeneficiaryContractToDB(bc);
-                    }
-                    
-                    UniversalFunctions.RemoveTempFile(path);
-                    return RedirectToAction("ImportUpdate", "Home", new { docsimported });
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-                return RedirectToAction("IncorrectFile", "Home");
-            }
+            var eventsImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
+            var response = eventsImportContext.Execute(Files.OpenReadStream());
+            if (response.IsValid)
+                return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
+            else
+                return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
         public ActionResult Contracts(string id)
         {
-            try
-            {
                 return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
         }
 
         public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)

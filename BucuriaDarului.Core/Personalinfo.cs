@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace Finalaplication.Models
+namespace BucuriaDarului.Core
 {
     public class Personalinfo
     {
