@@ -2,9 +2,9 @@
 {
     public class Marca
     {
-        public string marca { get; set; }
+        public string MarcaName { get; set; }
 
-        public string IdAplication { get; set; }
+        public string IdApplication { get; set; }
 
         public string IdInvestigation { get; set; }
 

@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VolCommon;
+using BucuriaDarului.Core;
+using CI = BucuriaDarului.Core.CI;
+using Gender = BucuriaDarului.Core.Gender;
+using Marca = BucuriaDarului.Core.Marca;
 
 namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 {
@@ -13,7 +16,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             string stringofids = "beneficiaryCSV";
             foreach (Beneficiary beneficiary in beneficiaries)
             {
-                stringofids = stringofids + "," + beneficiary._id;
+                stringofids = stringofids + "," + beneficiary.Id;
             }
             return stringofids;
         }
@@ -39,7 +42,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             List<Beneficiary> beneficiarylist = new List<Beneficiary>();
             for (int i = 0; i < beneficiaryids.Length; i++)
             {
-                Beneficiary singlebeneficiary = beneficiaries.Where(x => x._id == beneficiaryids[i]).First();
+                Beneficiary singlebeneficiary = beneficiaries.Where(x => x.Id == beneficiaryids[i]).First();
                 beneficiarylist.Add(singlebeneficiary);
             }
             return beneficiarylist;
@@ -90,12 +93,12 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                                 Beneficiarycontract beneficiarycontract = new Beneficiarycontract
                                 {
                                     Fullname = b.Fullname,
-                                    Address = b.Adress,
-                                    OwnerID = b._id,
+                                    Address = b.Address,
+                                    OwnerID = b.Id,
                                     Birthdate = b.PersonalInfo.Birthdate,
-                                    CIinfo = b.CI.CIinfo,
+                                    CIinfo = b.CI.Info,
                                     CNP = b.CNP,
-                                    IdApplication = b.Marca.IdAplication,
+                                    IdApplication = b.Marca.IdApplication,
                                     IdInvestigation = b.Marca.IdInvestigation,
                                     Nrtel = b.PersonalInfo.PhoneNumber,
                                     NumberOfPortion = b.NumberOfPortions.ToString(),
@@ -146,7 +149,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
         internal static Beneficiary GetBeneficiaryFromOtherString(string[] beneficiarystring)
         {
             Beneficiary beneficiary = new Beneficiary();
-            beneficiary._id = Guid.NewGuid().ToString();
+            beneficiary.Id = Guid.NewGuid().ToString();
             try
             {
                 beneficiary.Fullname = beneficiarystring[1];
@@ -157,11 +160,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             }
             try
             {
-                beneficiary.Adress = beneficiarystring[8];
+                beneficiary.Address = beneficiarystring[8];
             }
             catch
             {
-                beneficiary.Adress = "Incorrect address";
+                beneficiary.Address = "Incorrect address";
             }
 
             if (beneficiarystring[3] == "Activ" || beneficiarystring[3] == "activ" || beneficiarystring[3] == "Da" || beneficiarystring[3] == "DA" || beneficiarystring[3] == "da")
@@ -184,13 +187,13 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[5] == "da" || beneficiarystring[5] == "DA" || beneficiarystring[5] == "DA")
             {
-                beneficiary.Weeklypackage = true;
+                beneficiary.WeeklyPackage = true;
             }
             else
             {
-                beneficiary.Weeklypackage = false;
+                beneficiary.WeeklyPackage = false;
             }
-            if (beneficiary.Weeklypackage == true)
+            if (beneficiary.WeeklyPackage == true)
             { beneficiary.Canteen = false; }
             else
             { beneficiary.Canteen = true; }
@@ -227,21 +230,21 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             try
             {
                 Marca Marcabeneficiarystring = new Marca();
-                if (beneficiarystring[12] != null) { Marcabeneficiarystring.marca = beneficiarystring[12]; }
-                if (beneficiarystring[13] != null) { Marcabeneficiarystring.IdAplication = beneficiarystring[13]; }
+                if (beneficiarystring[12] != null) { Marcabeneficiarystring.MarcaName = beneficiarystring[12]; }
+                if (beneficiarystring[13] != null) { Marcabeneficiarystring.IdApplication = beneficiarystring[13]; }
                 if (beneficiarystring[14] != null) { Marcabeneficiarystring.IdInvestigation = beneficiarystring[14]; }
                 if (beneficiarystring[15] != null) { Marcabeneficiarystring.IdContract = beneficiarystring[15]; }
                 beneficiary.Marca = Marcabeneficiarystring;
             }
             catch
             {
-                beneficiary.Marca.marca = "error";
-                beneficiary.Marca.IdAplication = "error";
+                beneficiary.Marca.MarcaName = "error";
+                beneficiary.Marca.IdApplication = "error";
                 beneficiary.Marca.IdInvestigation = "error";
                 beneficiary.Marca.IdContract = "error";
             }
 
-            Personalinfo personal = new Personalinfo();
+            PersonalInfo personal = new PersonalInfo();
             try
             {
                 if (beneficiarystring[18] != null || beneficiarystring[18] != "")
@@ -259,24 +262,24 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                     personal.Studies = beneficiarystring[20];
                 }
 
-                personal.Profesion = beneficiarystring[21];
-                personal.Ocupation = beneficiarystring[22];
+                personal.Profession = beneficiarystring[21];
+                personal.Occupation = beneficiarystring[22];
                 personal.SeniorityInWorkField = beneficiarystring[23];
                 personal.HealthState = beneficiarystring[24];
             }
             catch
             {
-                beneficiary.PersonalInfo.Profesion = "Error";
-                beneficiary.PersonalInfo.Ocupation = "Error";
+                beneficiary.PersonalInfo.Profession = "Error";
+                beneficiary.PersonalInfo.Occupation = "Error";
                 beneficiary.PersonalInfo.SeniorityInWorkField = "Error";
                 beneficiary.PersonalInfo.HealthState = "Error";
             }
 
             if (beneficiarystring[25] != " " || beneficiarystring[25] != null)
             {
-                personal.Disalility = beneficiarystring[25];
+                personal.Disability = beneficiarystring[25];
             }
-            else { personal.Disalility = " "; }
+            else { personal.Disability = " "; }
 
             if (beneficiarystring[26] != " " || beneficiarystring[26] != null)
             {
@@ -334,9 +337,9 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[35] != " " || beneficiarystring[35] != null)
             {
-                personal.Expences = beneficiarystring[35];
+                personal.Expenses = beneficiarystring[35];
             }
-            else { personal.Expences = " "; }
+            else { personal.Expenses = " "; }
             try
             {
                 try
@@ -378,7 +381,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             {
                 if (beneficiarystring[11] == null || beneficiarystring[11] == "")
                 {
-                    ciInfo.ExpirationDateCI = DateTime.MinValue;
+                    ciInfo.ExpirationDate = DateTime.MinValue;
                 }
                 else
                 {
@@ -396,24 +399,24 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                         data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
                     System.Globalization.CultureInfo.InvariantCulture); ;
                     }
-                    ciInfo.ExpirationDateCI = data.AddDays(1);
+                    ciInfo.ExpirationDate = data.AddDays(1);
                 }
             }
             catch
             {
-                ciInfo.ExpirationDateCI = DateTime.MinValue;
+                ciInfo.ExpirationDate = DateTime.MinValue;
             }
 
             try
             {
-                ciInfo.CIinfo = beneficiarystring[10];
+                ciInfo.Info = beneficiarystring[10];
 
                 if (beneficiarystring[10] != "" || beneficiarystring[10] != null)
                 { ciInfo.HasId = false; }
             }
             catch
             {
-                ciInfo.CIinfo = "";
+                ciInfo.Info = "";
             }
             beneficiary.PersonalInfo = personal;
             beneficiary.CI = ciInfo;
@@ -423,7 +426,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
         public static Beneficiary GetBeneficiaryFromString(string[] beneficiarystring)
         {
             Beneficiary beneficiary = new Beneficiary();
-            beneficiary._id = Guid.NewGuid().ToString();
+            beneficiary.Id = Guid.NewGuid().ToString();
             {
                 beneficiary.HasGDPRAgreement = false;
             };
@@ -437,11 +440,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             }
             try
             {
-                beneficiary.Adress = beneficiarystring[7];
+                beneficiary.Address = beneficiarystring[7];
             }
             catch
             {
-                beneficiary.Adress = "Incorrect address";
+                beneficiary.Address = "Incorrect address";
             }
 
             if (beneficiarystring[1] == "true" || beneficiarystring[1] == "True" || beneficiarystring[1] == "Activ" || beneficiarystring[1] == "activ")
@@ -472,11 +475,11 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[2] == "da" || beneficiarystring[2] == "DA" || beneficiarystring[2] == "Da")
             {
-                beneficiary.Weeklypackage = true;
+                beneficiary.WeeklyPackage = true;
             }
             else
             {
-                beneficiary.Weeklypackage = false;
+                beneficiary.WeeklyPackage = false;
             }
 
             if (beneficiarystring[5] != null || beneficiarystring[5] != "")
@@ -511,21 +514,21 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             try
             {
                 Marca Marcabeneficiarystring = new Marca();
-                if (beneficiarystring[16] != null) { Marcabeneficiarystring.marca = beneficiarystring[16]; }
-                if (beneficiarystring[17] != null) { Marcabeneficiarystring.IdAplication = beneficiarystring[17]; }
+                if (beneficiarystring[16] != null) { Marcabeneficiarystring.MarcaName = beneficiarystring[16]; }
+                if (beneficiarystring[17] != null) { Marcabeneficiarystring.IdApplication = beneficiarystring[17]; }
                 if (beneficiarystring[18] != null) { Marcabeneficiarystring.IdInvestigation = beneficiarystring[18]; }
                 if (beneficiarystring[19] != null) { Marcabeneficiarystring.IdContract = beneficiarystring[19]; }
                 beneficiary.Marca = Marcabeneficiarystring;
             }
             catch
             {
-                beneficiary.Marca.marca = "error";
-                beneficiary.Marca.IdAplication = "error";
+                beneficiary.Marca.MarcaName = "error";
+                beneficiary.Marca.IdApplication = "error";
                 beneficiary.Marca.IdInvestigation = "error";
                 beneficiary.Marca.IdContract = "error";
             }
 
-            Personalinfo personal = new Personalinfo();
+            PersonalInfo personal = new PersonalInfo();
             try
             {
                 if (beneficiarystring[24] != null || beneficiarystring[24] != "")
@@ -543,24 +546,24 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                     personal.Studies = beneficiarystring[26];
                 }
 
-                personal.Profesion = beneficiarystring[27];
-                personal.Ocupation = beneficiarystring[28];
+                personal.Profession = beneficiarystring[27];
+                personal.Occupation = beneficiarystring[28];
                 personal.SeniorityInWorkField = beneficiarystring[29];
                 personal.HealthState = beneficiarystring[30];
             }
             catch
             {
-                beneficiary.PersonalInfo.Profesion = "Error";
-                beneficiary.PersonalInfo.Ocupation = "Error";
+                beneficiary.PersonalInfo.Profession = "Error";
+                beneficiary.PersonalInfo.Occupation = "Error";
                 beneficiary.PersonalInfo.SeniorityInWorkField = "Error";
                 beneficiary.PersonalInfo.HealthState = "Error";
             }
 
             if (beneficiarystring[31] != " " || beneficiarystring[31] != null)
             {
-                personal.Disalility = beneficiarystring[31];
+                personal.Disability = beneficiarystring[31];
             }
-            else { personal.Disalility = " "; }
+            else { personal.Disability = " "; }
 
             if (beneficiarystring[32] != " " || beneficiarystring[32] != null)
             {
@@ -618,9 +621,9 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[41] != " " || beneficiarystring[41] != null)
             {
-                personal.Expences = beneficiarystring[41];
+                personal.Expenses = beneficiarystring[41];
             }
-            else { personal.Expences = " "; }
+            else { personal.Expenses = " "; }
 
             try
             {
@@ -675,7 +678,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (beneficiarystring[22] == null || beneficiarystring[22] == "")
             {
-                beneficiary.LastTimeActiv = DateTime.MinValue;
+                beneficiary.LastTimeActive = DateTime.MinValue;
             }
             else
             {
@@ -693,7 +696,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                     data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
                 System.Globalization.CultureInfo.InvariantCulture); ;
                 }
-                beneficiary.LastTimeActiv = data.AddDays(1);
+                beneficiary.LastTimeActive = data.AddDays(1);
             }
 
             CI ciInfo = new CI();
@@ -702,7 +705,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             {
                 if (beneficiarystring[15] == null || beneficiarystring[15] == "")
                 {
-                    ciInfo.ExpirationDateCI = DateTime.MinValue;
+                    ciInfo.ExpirationDate = DateTime.MinValue;
                 }
                 else
                 {
@@ -720,24 +723,24 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                         data = DateTime.ParseExact(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0], "yy-MM-dd",
                 System.Globalization.CultureInfo.InvariantCulture); ;
                     }
-                    ciInfo.ExpirationDateCI = data.AddDays(1);
+                    ciInfo.ExpirationDate = data.AddDays(1);
                 }
             }
             catch
             {
-                ciInfo.ExpirationDateCI = DateTime.MinValue;
+                ciInfo.ExpirationDate = DateTime.MinValue;
             }
 
             try
             {
-                ciInfo.CIinfo = beneficiarystring[14];
+                ciInfo.Info = beneficiarystring[14];
 
                 if (beneficiarystring[14] != "" || beneficiarystring[14] != null)
                 { ciInfo.HasId = true; }
             }
             catch
             {
-                ciInfo.CIinfo = "";
+                ciInfo.Info = "";
             }
             beneficiary.PersonalInfo = personal;
             beneficiary.CI = ciInfo;
@@ -886,7 +889,7 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
 
             if (Weeklypackage == true)
             {
-                beneficiaries = beneficiaries.Where(x => x.Weeklypackage == true).ToList();
+                beneficiaries = beneficiaries.Where(x => x.WeeklyPackage == true).ToList();
             }
 
             if (Canteen == true)
@@ -933,22 +936,22 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             {
                 foreach (var b in beneficiaries)
                 {
-                    if (b.Adress == null || b.Adress == "")
-                        b.Adress = "-";
+                    if (b.Address == null || b.Address == "")
+                        b.Address = "-";
                 }
-                beneficiaries = beneficiaries.Where(x => x.Adress.Contains(searchingAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.Address.Contains(searchingAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
             if (searchingPO != null)
             {
                 foreach (var b in beneficiaries)
                 {
-                    if (b.PersonalInfo.Ocupation == null || b.PersonalInfo.Ocupation == "")
-                        b.PersonalInfo.Ocupation = "-";
-                    if (b.PersonalInfo.Profesion == null || b.PersonalInfo.Profesion == "")
-                        b.PersonalInfo.Profesion = "-";
+                    if (b.PersonalInfo.Occupation == null || b.PersonalInfo.Occupation == "")
+                        b.PersonalInfo.Occupation = "-";
+                    if (b.PersonalInfo.Profession == null || b.PersonalInfo.Profession == "")
+                        b.PersonalInfo.Profession = "-";
                 }
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Ocupation.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Profesion.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Occupation.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Profession.Contains(searchingPO, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
             if (searchingNumberOfPortions != 0)
@@ -1002,12 +1005,12 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
                 {
                     if (b.PersonalInfo.HealthState == null || b.PersonalInfo.HealthState == "")
                         b.PersonalInfo.HealthState = "-";
-                    if (b.PersonalInfo.Disalility == null || b.PersonalInfo.Disalility == "")
-                        b.PersonalInfo.Disalility = "-";
+                    if (b.PersonalInfo.Disability == null || b.PersonalInfo.Disability == "")
+                        b.PersonalInfo.Disability = "-";
                     if (b.PersonalInfo.ChronicCondition == null || b.PersonalInfo.ChronicCondition == "")
                         b.PersonalInfo.ChronicCondition = "-";
                 }
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthState.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disalility.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthState.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disability.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(searchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
             if (searchingAddictions != null)
@@ -1066,10 +1069,10 @@ namespace Finalaplication.ControllerHelpers.BeneficiaryHelpers
             {
                 foreach (var b in beneficiaries)
                 {
-                    if (b.PersonalInfo.Expences == null || b.PersonalInfo.Expences == "")
-                        b.PersonalInfo.Expences = "-";
+                    if (b.PersonalInfo.Expenses == null || b.PersonalInfo.Expenses == "")
+                        b.PersonalInfo.Expenses = "-";
                 }
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Expences.Contains(searchingExpences, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Expenses.Contains(searchingExpences, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
             switch (sortOrder)

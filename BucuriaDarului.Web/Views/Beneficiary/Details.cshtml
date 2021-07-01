@@ -1,4 +1,4 @@
-﻿@model Finalaplication.Models.Beneficiary
+﻿@model BucuriaDarului.Core.Beneficiary
 @{
     ViewBag.Title = "Details";
 }
@@ -222,7 +222,7 @@
                         @Localizer["Beneficiary"]
                     </h6>
                     <p class="proile-rating">@Localizer["Active"]: <span>@Html.DisplayFor(model => model.Active)</span></p>
-                    <p class="proile-rating2">@Localizer["Lasttimeactive"]: <span>@Html.DisplayFor(model => model.LastTimeActiv)</span></p>
+                    <p class="proile-rating2">@Localizer["Lasttimeactive"]: <span>@Html.DisplayFor(model => model.LastTimeActive)</span></p>
                     <div class="tab">
                         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Generalinformation')"><img src="~/Resources/general_info.png" width="30" height="30" title=@Localizer["Generalinformation"]></button>
                         <button class="tablinks" onclick="openTab(event, 'IDInformation')"><img src="~/Resources/id_info.png" width="30" height="30" title=@Localizer["IDInformation"]></button>
@@ -233,7 +233,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <a href=@Url.Action( "Edit",  new { id = Model._id})><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]> </a>|
+                <a href=@Url.Action( "Edit",  new { id = Model.Id})><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]> </a>|
                 @*<a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>*@
                 <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
             </div>
@@ -243,10 +243,10 @@
                 <div class="profile-work">
                     <p> @Localizer["Marcadetails"]</p>
                     @Localizer["Marca"]:
-                    @Html.DisplayFor(model => model.Marca.marca)
+                    @Html.DisplayFor(model => model.Marca.MarcaName)
                     </br>
                     @Localizer["IDapplication"]:
-                    @Html.DisplayFor(model => model.Marca.IdAplication)
+                    @Html.DisplayFor(model => model.Marca.IdApplication)
                     </br>
                     @Localizer["IDcontract"]:
                     @Html.DisplayFor(model => model.Marca.IdContract)
@@ -262,7 +262,7 @@
                             <label>@Localizer["AddressInformation"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p> @Html.DisplayFor(model => model.Adress)</p>
+                            <p> @Html.DisplayFor(model => model.Address)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -310,7 +310,7 @@
                             <label>@Localizer["Weeklypackage"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.Weeklypackage)</p>
+                            <p>@Html.DisplayFor(model => model.WeeklyPackage)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -382,7 +382,7 @@
                             <label>@Localizer["Expenses"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p> @Html.DisplayFor(model => model.PersonalInfo.Expences)</p>
+                            <p> @Html.DisplayFor(model => model.PersonalInfo.Expenses)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -408,7 +408,7 @@
                             <label> @Localizer["CiInfo"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.CI.CIinfo)</p>
+                            <p>@Html.DisplayFor(model => model.CI.Info)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -416,7 +416,7 @@
                             <label>@Localizer["ExpirationDateCI"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.CI.ExpirationDateCI)</p>
+                            <p>@Html.DisplayFor(model => model.CI.ExpirationDate)</p>
                         </div>
                     </div>
                 </div>
@@ -468,7 +468,7 @@
                             <label>@Localizer["Disability"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.PersonalInfo.Disalility)</p>
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Disability)</p>
                         </div>
                     </div>
                 </div>
@@ -504,7 +504,7 @@
                             <label>@Localizer["Occupation"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.PersonalInfo.Ocupation)</p>
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Occupation)</p>
                         </div>
                     </div>
                     <div class="row">
@@ -512,7 +512,7 @@
                             <label>@Localizer["Profession"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.PersonalInfo.Profesion)</p>
+                            <p>@Html.DisplayFor(model => model.PersonalInfo.Profession)</p>
                         </div>
                     </div>
                     <div class="row">

@@ -1,13 +1,14 @@
-﻿using BucuriaDarului.Core;
+﻿using System.Collections.Generic;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using MongoDB.Driver;
-using System.Collections.Generic;
 
-namespace BucuriaDarului.Gateway
+namespace BucuriaDarului.Gateway.EventGateways
 {
     public class EventVolunteerAllocationDataGateway: IEventVolunteerAllocationDisplayGateway
     {
-        private MongoDBGateway dbContext = new MongoDBGateway();
+        private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
         public List<Volunteer> GetListOfVolunteers()
         {

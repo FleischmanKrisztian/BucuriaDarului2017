@@ -1,23 +1,23 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.EventGateways;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 
-namespace BucuriaDarului.Gateway.EventGateways
+namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {
-    public class EventEditGateway : IEventEditGateway
+    public class BeneficiaryEditGateway : IBeneficiaryEditGateway
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
-        public void Edit(Event @event)
+        public void Edit(Beneficiary beneficiary)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var eventCollection = dbContext.Database.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", @event.Id);
+            var beneficiaryCollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
+            var filter = Builders<Beneficiary>.Filter.Eq("_id", beneficiary.Id);
             var modifiedIdGateway = new ModifiedIDGateway();
-            modifiedIdGateway.AddIDtoModifications(@event.Id);
-            eventCollection.FindOneAndReplace(filter, @event);
+            modifiedIdGateway.AddIDtoModifications(beneficiary.Id);
+            beneficiaryCollection.FindOneAndReplace(filter, beneficiary);
         }
 
         public List<ModifiedIDs> ReturnModificationList()
@@ -28,17 +28,17 @@ namespace BucuriaDarului.Gateway.EventGateways
             return modifiedIDs;
         }
 
-        public void AddEventToModifiedList(string beforeEditingEventString)
+        public void AddBeneficiaryToModifiedList(string beforeEditingBeneficiaryString)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            BsonDocument.TryParse(beforeEditingEventString, out var documentAsBson);
+            BsonDocument.TryParse(beforeEditingBeneficiaryString, out var documentAsBson);
             var auxiliaryCollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
             auxiliaryCollection.InsertOne(documentAsBson);
         }
 
-        public Event ReturnEvent(string eventId)
+        public Beneficiary ReturnBeneficiary(string beneficiaryId)
         {
-            return SingleEventReturnerGateway.ReturnEvent(eventId);
+            return SingleBeneficiaryReturnerGateway.ReturnBeneficiary(beneficiaryId);
         }
     }
 }

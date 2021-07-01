@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace BucuriaDarului.Core.Gateways
+namespace BucuriaDarului.Core.Gateways.EventGateways
 {
     public interface IEventSponsorAllocationDisplayGateway
     {
         List<Event> GetListOfEvents();
         List<Sponsor> GetListOfSponsors();
-        void UpdateEvent(string eventId, Event eventToUpdate);
         Event ReturnEvent(string eventId);
     }
 }

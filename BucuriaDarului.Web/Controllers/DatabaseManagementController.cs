@@ -5,6 +5,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
+using Event = Finalaplication.Models.Event;
+using ModifiedIDs = Finalaplication.Models.ModifiedIDs;
+using Sponsor = Finalaplication.Models.Sponsor;
+using Volunteer = Finalaplication.Models.Volunteer;
 
 namespace Finalaplication.Controllers
 {
@@ -159,25 +164,25 @@ namespace Finalaplication.Controllers
 
             for (int i = 0; i < beneficiarieslocal.Count(); i++)
             {
-                if (!commonbenefieciaries.Contains(beneficiarieslocal[i]._id) && modifiedids.Contains(beneficiarieslocal[i]._id))
+                if (!commonbenefieciaries.Contains(beneficiarieslocal[i].Id) && modifiedids.Contains(beneficiarieslocal[i].Id))
                     commonBeneficiaryManager.AddBeneficiaryToDB(beneficiarieslocal[i]);
-                else if (modifiedids.Contains(beneficiarieslocal[i]._id))
+                else if (modifiedids.Contains(beneficiarieslocal[i].Id))
                 {
-                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(beneficiarieslocal[i]._id);
-                    string currentDocument = JsonConvert.SerializeObject(commonBeneficiaryManager.GetOneBeneficiary(beneficiarieslocal[i]._id));
+                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(beneficiarieslocal[i].Id);
+                    string currentDocument = JsonConvert.SerializeObject(commonBeneficiaryManager.GetOneBeneficiary(beneficiarieslocal[i].Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
                     if (auxiliaryDocument != currentDocument)
                     {
                         outOfSyncDocuments += beneficiarieslocal[i].Fullname + ", ";
                     }
-                    commonBeneficiaryManager.UpdateABeneficiary(beneficiarieslocal[i], beneficiarieslocal[i]._id);
+                    commonBeneficiaryManager.UpdateABeneficiary(beneficiarieslocal[i], beneficiarieslocal[i].Id);
                 }
             }
             for (int i = 0; i < beneficiaries.Count(); i++)
             {
-                if (deletedids.Contains(beneficiaries[i]._id))
-                    commonBeneficiaryManager.DeleteBeneficiary(beneficiaries[i]._id);
+                if (deletedids.Contains(beneficiaries[i].Id))
+                    commonBeneficiaryManager.DeleteBeneficiary(beneficiaries[i].Id);
             }
 
             for (int i = 0; i < sponsorslocal.Count(); i++)
@@ -278,15 +283,15 @@ namespace Finalaplication.Controllers
 
             for (int i = 0; i < beneficiaries.Count(); i++)
             {
-                if (!(localbenefieciaries.Contains(beneficiaries[i]._id)))
+                if (!(localbenefieciaries.Contains(beneficiaries[i].Id)))
                     beneManager.AddBeneficiaryToDB(beneficiaries[i]);
-                else if (!modifiedids.Contains(beneficiaries[i]._id))
-                    beneManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i]._id);
+                else if (!modifiedids.Contains(beneficiaries[i].Id))
+                    beneManager.UpdateABeneficiary(beneficiaries[i], beneficiaries[i].Id);
             }
             for (int i = 0; i < beneficiarieslocal.Count(); i++)
             {
-                if (!benefieciarystring.Contains(beneficiarieslocal[i]._id))
-                    beneManager.DeleteBeneficiary(beneficiarieslocal[i]._id);
+                if (!benefieciarystring.Contains(beneficiarieslocal[i].Id))
+                    beneManager.DeleteBeneficiary(beneficiarieslocal[i].Id);
             }
 
             for (int i = 0; i < sponsors.Count(); i++)

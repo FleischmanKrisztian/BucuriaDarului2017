@@ -10,7 +10,7 @@ namespace BucuriaDarului.Core
 
         public bool Active { get; set; }
 
-        public bool Weeklypackage { get; set; }
+        public bool WeeklyPackage { get; set; }
 
         public bool Canteen { get; set; }
 
@@ -20,7 +20,7 @@ namespace BucuriaDarului.Core
 
         public bool HasGDPRAgreement { get; set; }
 
-        public string Adress { get; set; }
+        public string Address { get; set; }
 
         public string CNP { get; set; }
 
@@ -30,11 +30,11 @@ namespace BucuriaDarului.Core
 
         public int NumberOfPortions { get; set; }
 
-        public DateTime LastTimeActiv { get; set; }
+        public DateTime LastTimeActive { get; set; }
 
         public string Comments { get; set; }
 
-        public Personalinfo PersonalInfo { get; set; }
+        public PersonalInfo PersonalInfo { get; set; }
 
         public byte[] Image { get; set; }
     }

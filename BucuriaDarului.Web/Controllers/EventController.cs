@@ -1,5 +1,6 @@
 using BucuriaDarului.Contexts.EventContexts;
 using BucuriaDarului.Gateway;
+using BucuriaDarului.Gateway.EventGateways;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +39,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult Index(string searching, int page, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
-            int nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
             var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerDate, upperDate));
             return View(model);
@@ -119,17 +120,15 @@ namespace Finalaplication.Controllers
         {
             var eventCreateContext = new EventCreateContext(new EventCreateGateway());
             var eventCreateResponse = eventCreateContext.Execute(request);
+            ModelState.Remove("NumberOfVolunteersNeeded");
+            ModelState.Remove("DateOfEvent");
             if (eventCreateResponse.ContainsSpecialChar)
             {
                 ViewBag.ContainsSpecialChar = true;
-                ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
                 return View();
             }
             else if (!eventCreateResponse.IsValid)
             {
-                ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
                 ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
                 return View();
             }
@@ -150,17 +149,15 @@ namespace Finalaplication.Controllers
         {
             var eventEditContext = new EventEditContext(new EventEditGateway());
             var eventEditResponse = eventEditContext.Execute(request);
+            ModelState.Remove("NumberOfVolunteersNeeded");
+            ModelState.Remove("DateOfEvent");
             if (eventEditResponse.ContainsSpecialChar)
             {
                 ViewBag.ContainsSpecialChar = true;
-                ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
                 return View(eventEditResponse.Event);
             }
             else if (!eventEditResponse.IsValid)
             {
-                ModelState.Remove("NumberOfVolunteersNeeded");
-                ModelState.Remove("DateOfEvent");
                 ModelState.AddModelError("NameOfEvent", "Name Of Event must not be empty");
                 return View(eventEditResponse.Event);
             }

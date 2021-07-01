@@ -1,4 +1,4 @@
-﻿namespace BucuriaDarului.Core.Gateways
+﻿namespace BucuriaDarului.Core.Gateways.EventGateways
 {
     public interface IEventCreateGateway
     {

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using BucuriaDarului.Core.Gateways.EventGateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -55,16 +56,16 @@ namespace BucuriaDarului.Contexts.EventContexts
             return headerColumns;
         }
 
-        private bool FileIsNotEmpty(Stream dataToimport)
+        private bool FileIsNotEmpty(Stream dataToImport)
         {
-            if (dataToimport.Length > 0)
+            if (dataToImport.Length > 0)
                 return false;
             return true;
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
         {
-            List<string[]> result = new List<string[]>();
+            var result = new List<string[]>();
             //FOR SOME REASON THIS READER DECIDED TO GIVE UP?
             using var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
 
@@ -109,7 +110,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            // WE Have to modify HERE if we change the ExporterCOntroller to serialize without the ID property.
+            // WE Have to modify HERE if we change the ExporterController to serialize without the ID property.
             return headerColumns[1].Contains("Event", StringComparison.InvariantCultureIgnoreCase) || headerColumns[1].Contains("Eveniment", StringComparison.InvariantCultureIgnoreCase);
         }
 

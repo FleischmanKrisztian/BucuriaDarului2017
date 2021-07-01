@@ -1,14 +1,14 @@
-﻿using System;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using Newtonsoft.Json;
+using System;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
     public class EventCreateContext
     {
         private readonly IEventCreateGateway dataGateway;
-        EventCreateResponse response = new EventCreateResponse("", false, true);
+        private EventCreateResponse response = new EventCreateResponse("", false, true);
 
         public EventCreateContext(IEventCreateGateway dataGateway)
         {
@@ -17,7 +17,6 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventCreateResponse Execute(EventCreateRequest request)
         {
-            
             var noNullRequest = ChangeNullValues(request);
 
             if (ContainsSpecialChar(noNullRequest))
@@ -37,7 +36,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private Event ValidateRequest(EventCreateRequest request)
         {
-            if(request.NameOfEvent=="")
+            if (request.NameOfEvent == "")
             {
                 response.Message += "The Event must have a name! ";
                 response.IsValid = false;

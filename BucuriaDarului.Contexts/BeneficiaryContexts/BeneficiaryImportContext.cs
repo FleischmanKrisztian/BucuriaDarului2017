@@ -56,9 +56,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return headerColumns;
         }
 
-        private bool FileIsNotEmpty(Stream dataToimport)
+        private bool FileIsNotEmpty(Stream dataToImport)
         {
-            if (dataToimport.Length > 0)
+            if (dataToImport.Length > 0)
                 return false;
             return true;
         }

@@ -1,13 +1,14 @@
-﻿using BucuriaDarului.Core;
+﻿using System.Collections.Generic;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using MongoDB.Driver;
-using System.Collections.Generic;
 
-namespace BucuriaDarului.Gateway
+namespace BucuriaDarului.Gateway.EventGateways
 {
     public class EventVolunteerAllocationUpdateGateway : IEventVolunteerAllocationUpdateGateway
     {
-        private MongoDBGateway dbContext = new MongoDBGateway();
+        private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
         public List<Volunteer> GetListOfVolunteers()
         {
@@ -23,8 +24,8 @@ namespace BucuriaDarului.Gateway
             IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("_id", eventId);
             eventToUpdate.Id = eventId;
-            ModifiedIDGateway modifiedIDGateway = new ModifiedIDGateway();
-            modifiedIDGateway.AddIDtoModifications(eventId);
+            ModifiedIDGateway modifiedIdGateway = new ModifiedIDGateway();
+            modifiedIdGateway.AddIDtoModifications(eventId);
             eventCollection.FindOneAndReplace(filter, eventToUpdate);
         }
 

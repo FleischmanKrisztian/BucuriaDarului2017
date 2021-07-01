@@ -2,7 +2,7 @@
 
 namespace BucuriaDarului.Core
 {
-    public class Personalinfo
+    public class PersonalInfo
     {
         public DateTime Birthdate { get; set; }
 
@@ -12,15 +12,15 @@ namespace BucuriaDarului.Core
 
         public string Studies { get; set; }
 
-        public string Profesion { get; set; }
+        public string Profession { get; set; }
 
-        public string Ocupation { get; set; }
+        public string Occupation { get; set; }
 
         public string SeniorityInWorkField { get; set; }
 
         public string HealthState { get; set; }
 
-        public string Disalility { get; set; }
+        public string Disability { get; set; }
 
         public string ChronicCondition { get; set; }
 
@@ -40,7 +40,7 @@ namespace BucuriaDarului.Core
 
         public string Income { get; set; }
 
-        public string Expences { get; set; }
+        public string Expenses { get; set; }
 
         public Gender Gender { get; set; }
     }

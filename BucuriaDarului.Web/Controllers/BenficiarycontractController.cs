@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
 
 namespace Finalaplication.Controllers
 {
@@ -81,12 +82,12 @@ namespace Finalaplication.Controllers
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;
                         benenficiarycontract.Fullname = beneficiary.Fullname;
                         benenficiarycontract.CNP = beneficiary.CNP;
-                        benenficiarycontract.CIinfo = beneficiary.CI.CIinfo;
+                        benenficiarycontract.CIinfo = beneficiary.CI.Info;
                         benenficiarycontract.Nrtel = beneficiary.PersonalInfo.PhoneNumber;
                         benenficiarycontract.NumberOfPortion = beneficiary.NumberOfPortions.ToString();
-                        benenficiarycontract.IdApplication = beneficiary.Marca.IdAplication;
+                        benenficiarycontract.IdApplication = beneficiary.Marca.IdApplication;
                         benenficiarycontract.IdInvestigation = beneficiary.Marca.IdInvestigation;
-                        benenficiarycontract.Address = beneficiary.Adress;
+                        benenficiarycontract.Address = beneficiary.Address;
                         benenficiarycontract.OwnerID = idofbeneficiary;
                         beneficiaryContractManager.AddBeneficiaryContractToDB(benenficiarycontract);
                         return RedirectToAction("Index", new { idofbeneficiary });

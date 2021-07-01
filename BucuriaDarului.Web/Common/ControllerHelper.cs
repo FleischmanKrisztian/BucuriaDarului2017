@@ -1,24 +1,18 @@
-﻿using Finalaplication.Controllers;
+﻿using BucuriaDarului.Web.Controllers;
+using Finalaplication.Common;
+using Finalaplication.Controllers;
 using Microsoft.Extensions.Localization;
 using System.Linq;
 
-namespace Finalaplication.Common
+namespace BucuriaDarului.Web.Common
 {
     public class ControllerHelper
     {
-        public static string[] SplitedHeader(string header)
+        public static string[] SplitHeader(string header)
         {
-            string[] splitedHeader = header.Split(",");
-            int s = splitedHeader.Count();
-            if (header != null)
-            {
-                return splitedHeader;
-            }
-            else
-            {
-                string[] result = new string[s + 1];
-                return result;
-            }
+            var splitHeader = header.Split(",");
+
+            return splitHeader;
         }
 
         public static string GetAnswer(string finalHeader, bool toBeCompared)

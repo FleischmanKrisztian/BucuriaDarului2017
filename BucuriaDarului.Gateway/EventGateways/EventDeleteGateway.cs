@@ -1,7 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using MongoDB.Driver;
 
-namespace BucuriaDarului.Gateway
+namespace BucuriaDarului.Gateway.EventGateways
 {
     public class EventDeleteGateway
     {

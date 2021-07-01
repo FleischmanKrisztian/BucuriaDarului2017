@@ -1,7 +1,7 @@
-﻿using System;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using Newtonsoft.Json;
+using System;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {

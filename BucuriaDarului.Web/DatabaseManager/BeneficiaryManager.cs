@@ -3,6 +3,7 @@ using Finalaplication.Models;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
 
 namespace Finalaplication.LocalDatabaseManager
 {
@@ -19,7 +20,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddBeneficiaryToDB(Beneficiary beneficiary)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            modifiedDocumentManager.AddIDtoString(beneficiary._id);
+            modifiedDocumentManager.AddIDtoString(beneficiary.Id);
             beneficiarycollection.InsertOne(beneficiary);
         }
 
@@ -42,7 +43,7 @@ namespace Finalaplication.LocalDatabaseManager
         {
             IMongoCollection<Beneficiary> Beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
-            beneficiarytopdate._id = id;
+            beneficiarytopdate.Id = id;
             modifiedDocumentManager.AddIDtoString(id);
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
         }

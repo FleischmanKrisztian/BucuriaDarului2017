@@ -2,6 +2,7 @@
 using System.Linq;
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
+using BucuriaDarului.Core.Gateways.EventGateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {

@@ -1,21 +1,21 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway;
-using Elm.Core.Parsers;
+using BucuriaDarului.Gateway.BeneficiaryGateways;
+using BucuriaDarului.Web.Common;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.BeneficiaryHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.LocalDatabaseManager;
-using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class BeneficiaryController : Controller
     {
@@ -25,9 +25,6 @@ namespace Finalaplication.Controllers
         private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Constants.DATABASE_NAME_LOCAL);
 
         private BeneficiaryManager beneficiaryManager = new BeneficiaryManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
-        private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public BeneficiaryController(IStringLocalizer<BeneficiaryController> localizer)
         {
@@ -43,8 +40,8 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Import(IFormFile Files)
         {
-            var eventsImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
-            var response = eventsImportContext.Execute(Files.OpenReadStream());
+            var beneficiaryImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
+            var response = beneficiaryImportContext.Execute(Files.OpenReadStream());
             if (response.IsValid)
                 return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
             else
@@ -53,7 +50,7 @@ namespace Finalaplication.Controllers
 
         public ActionResult Contracts(string id)
         {
-                return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
+            return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
         }
 
         public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
@@ -182,7 +179,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter()
+        public ActionResult CsvExporter()
         {
             string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_BENEFICIARY);
             HttpContext.Session.Remove(Constants.SESSION_KEY_BENEFICIARY);
@@ -193,7 +190,7 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(bool All, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
+        public ActionResult CsvExporter(bool All, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
         {
             string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_BENEFICIARY);
             HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_BENEFICIARY);
@@ -232,157 +229,103 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Beneficiary beneficiary, IFormFile image)
+        public ActionResult Create(BeneficiaryCreateRequest request, IFormFile image)
         {
-            try
+            var beneficiaryCreateContext = new BeneficiaryCreateContext(new BeneficiaryCreateGateway());
+            var fileBytes = new byte[0];
+            if (image != null)
             {
-                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary)))
+                if (image.Length > 0)
                 {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-                ModelState.Remove("CI.ExpirationDateCI");
-                ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
-                ModelState.Remove("Marca.IdAplication");
-                ModelState.Remove("CI.CIEliberat");
-                ModelState.Remove("Marca.IdContract");
-                ModelState.Remove("Marca.IdInvestigation");
-                ModelState.Remove("NumberOfPortions");
-                ModelState.Remove("LastTimeActiv");
-                ModelState.Remove("Personalinfo.Birthdate");
-                ModelState.Remove("CI.ICExpirationDate");
-
-                if (ModelState.IsValid)
-                {
-                    beneficiary._id = Guid.NewGuid().ToString();
-                    beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
-                    beneficiary.Image = UniversalFunctions.Addimage(image);
-                    beneficiaryManager.AddBeneficiaryToDB(beneficiary);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary));
-                    return View();
+                    using var ms = new MemoryStream();
+                    image.CopyTo(ms);
+                    fileBytes = ms.ToArray();
                 }
             }
-            catch
+
+            var beneficiaryCreateResponse = beneficiaryCreateContext.Execute(request, fileBytes);
+            ModelState.Remove("Contract.RegistrationDate");
+            ModelState.Remove("Contract.ExpirationDate");
+            ModelState.Remove("Marca.IdApplication");
+            ModelState.Remove("Marca.IdContract");
+            ModelState.Remove("Marca.IdInvestigation");
+            ModelState.Remove("NumberOfPortions");
+            ModelState.Remove("LastTimeActive");
+            ModelState.Remove("PersonalInfo.Birthdate");
+            ModelState.Remove("CI.ExpirationDate");
+            if (beneficiaryCreateResponse.ContainsSpecialChar)
             {
-                return RedirectToAction("Localserver", "Home");
+                ViewBag.ContainsSpecialChar = true;
+                return View();
+            }
+            else if (!beneficiaryCreateResponse.IsValid)
+            {
+                ModelState.AddModelError("Fullname", "Name Of Beneficiary must not be empty");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
         }
 
-        public ActionResult Edit(string id, bool containsspecialchar = false)
+        public ActionResult Edit(string id)
         {
-            try
-            {
-                Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
-                ViewBag.id = id;
-                ViewBag.containsspecialchar = containsspecialchar;
-                return View(beneficiary);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Beneficiary beneficiary, IFormFile image)
+        public ActionResult Edit(BeneficiaryEditRequest request, IFormFile image)
         {
-            try
+            var fileBytes = new byte[0];
+            if (image != null)
             {
-                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(beneficiary)))
+                if (image.Length > 0)
                 {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-                ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
-                ModelState.Remove("Marca.IdAplication");
-                ModelState.Remove("CI.ExpirationDateCI");
-                ModelState.Remove("Marca.IdContract");
-                ModelState.Remove("Marca.IdInvestigation");
-                ModelState.Remove("NumberOfPortions");
-                ModelState.Remove("LastTimeActiv");
-                ModelState.Remove("Personalinfo.Birthdate");
-                ModelState.Remove("CI.ICExpirationDate");
-                if (ModelState.IsValid)
-                {
-                    if (image != null)
-                    { beneficiary.Image = UniversalFunctions.Addimage(image); }
-                    else
-                    {
-                        Beneficiary b = beneficiaryManager.GetOneBeneficiary(id);
-                        beneficiary.Image = b.Image;
-                    }
-                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
-                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
-                    if (!modifiedids.Contains(id))
-                    {
-                        Beneficiary currentbeneficiary = beneficiaryManager.GetOneBeneficiary(id);
-                        string currentbenefasstring = JsonConvert.SerializeObject(currentbeneficiary);
-                        auxiliaryDBManager.AddDocumenttoDB(currentbenefasstring);
-                    }
-                    beneficiary.PersonalInfo.Birthdate = beneficiary.PersonalInfo.Birthdate.AddHours(5);
-                    beneficiaryManager.UpdateABeneficiary(beneficiary, id);
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.id = id;
-                    bool containsspecialchar = true;
-                    return RedirectToAction("Edit", new { id, containsspecialchar });
+                    using var ms = new MemoryStream();
+                    image.CopyTo(ms);
+                    fileBytes = ms.ToArray();
                 }
             }
-            catch
+            var beneficiaryEditContext = new BeneficiaryEditContext(new BeneficiaryEditGateway());
+            var beneficiaryEditResponse = beneficiaryEditContext.Execute(request, fileBytes);
+            ModelState.Remove("Contract.RegistrationDate");
+            ModelState.Remove("Contract.ExpirationDate");
+            ModelState.Remove("Marca.IdApplication");
+            ModelState.Remove("Marca.IdContract");
+            ModelState.Remove("Marca.IdInvestigation");
+            ModelState.Remove("NumberOfPortions");
+            ModelState.Remove("LastTimeActive");
+            ModelState.Remove("PersonalInfo.Birthdate");
+            ModelState.Remove("CI.ExpirationDate");
+            if (beneficiaryEditResponse.ContainsSpecialChar)
             {
-                return RedirectToAction("Localserver", "Home");
+                ViewBag.ContainsSpecialChar = true;
+                return View(beneficiaryEditResponse.Beneficiary);
+            }
+            else if (!beneficiaryEditResponse.IsValid)
+            {
+                ModelState.AddModelError("Fullname", "Name Of Beneficiary must not be empty");
+                return View(beneficiaryEditResponse.Beneficiary);
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
         }
 
         public ActionResult Delete(string id)
         {
-            try
-            {
-                Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
-                return View(beneficiary);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Delete(string id, Beneficiary beneficiary, bool Inactive)
+        public ActionResult Delete(string id, IFormCollection collection)
         {
-            try
-            {
-                try
-                {
-                    if (Inactive == false)
-                    {
-                        beneficiaryManager.DeleteBeneficiary(id);
-                        beneficiaryContractManager.DeleteAllContracts(id);
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        beneficiary.Active = false;
-                        beneficiaryManager.UpdateABeneficiary(beneficiary, id);
-                        return RedirectToAction("Index");
-                    }
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            BeneficiaryDeleteGateway.DeleteBeneficiary(id);
+            return RedirectToAction("Index");
         }
     }
 }
