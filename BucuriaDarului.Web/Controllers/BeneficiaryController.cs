@@ -207,8 +207,8 @@ namespace BucuriaDarului.Web.Controllers
         {
             try
             {
-                Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(id);
-                return View(beneficiary);
+                var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
+                return View(model);
             }
             catch
             {
