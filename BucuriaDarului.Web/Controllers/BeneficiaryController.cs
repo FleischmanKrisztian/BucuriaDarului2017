@@ -56,7 +56,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Index(string sortOrder, string searching, bool active, string searchingBirthPlace, bool hasContract, bool homeless, DateTime lowerDate, DateTime upperDate, DateTime activeSince, DateTime activeTill, int page, bool weeklyPackage, bool canteen, bool homeDelivery, string searchingDriver, bool hasGDPRAgreement, string searchingAddress, bool hasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-             var beneficiariesMainDisplayIndexContext = new BeneficiariesMainDisplayIndexContext(new BeneficiariesMainDisplayIndexGateway());
+            var beneficiariesMainDisplayIndexContext = new BeneficiariesMainDisplayIndexContext(new BeneficiariesMainDisplayIndexGateway());
             var model = beneficiariesMainDisplayIndexContext.Execute(new BucuriaDarului.Contexts.BeneficiaryContexts.BeneficiariesMainDisplayIndexRequest(searching, page,  nrOfDocs,  sortOrder, active,searchingBirthPlace,  hasContract,  homeless, lowerDate,  upperDate,  activeSince,  activeTill, weeklyPackage,  canteen,  homeDelivery,  searchingDriver, hasGDPRAgreement,  searchingAddress,  hasID, searchingNumberOfPortions,  searchingComments, searchingStudies,  searchingPO,  searchingSeniority,  searchingHealthState, searchingAddictions,  searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome,  searchingHousingType,  searchingIncome,  searchingExpences,  gender));
             //ViewBag.SortOrder = sortOrder;
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -129,13 +129,6 @@ namespace BucuriaDarului.Web.Controllers
             //{ ViewBag.Filter30 = activesince.ToString(); }
             //if (activetill != date)
             //{ ViewBag.Filter31 = activetill.ToString(); }
-
-            //ViewBag.SortOrder = sortOrder;
-            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            //ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
-            //ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
-            //ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
 
 
             return View(model);
