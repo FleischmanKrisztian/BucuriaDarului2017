@@ -53,129 +53,92 @@ namespace BucuriaDarului.Web.Controllers
             return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
         }
 
-        public ActionResult Index(string sortOrder, string searching, bool Active, string searchingBirthPlace, bool HasContract, bool Homeless, DateTime lowerdate, DateTime upperdate, DateTime activesince, DateTime activetill, int page, bool Weeklypackage, bool Canteen, bool HomeDelivery, string searchingDriver, bool HasGDPRAgreement, string searchingAddress, bool HasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
+        public ActionResult Index(string sortOrder, string searching, bool active, string searchingBirthPlace, bool hasContract, bool homeless, DateTime lowerDate, DateTime upperDate, DateTime activeSince, DateTime activeTill, int page, bool weeklyPackage, bool canteen, bool homeDelivery, string searchingDriver, bool hasGDPRAgreement, string searchingAddress, bool hasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {
-            try
-            {
-                if (searching != null)
-                { ViewBag.Filters1 = searching; }
-                if (Active == true)
-                { ViewBag.Filters2 = ""; }
-                if (searchingBirthPlace != null)
-                { ViewBag.Filters3 = searchingBirthPlace; }
-                if (HasContract == true)
-                { ViewBag.Filters4 = ""; }
-                if (Homeless == true)
-                { ViewBag.Filters5 = ""; }
-                if (Weeklypackage == true)
-                { ViewBag.Filters6 = ""; }
-                if (Canteen == true)
-                { ViewBag.Filters7 = ""; }
-                if (HomeDelivery == true)
-                { ViewBag.Filters8 = ""; }
-                if (searchingDriver != null)
-                { ViewBag.Filter9 = searchingDriver; }
-                if (HasGDPRAgreement == true)
-                { ViewBag.Filters10 = ""; }
-                if (searchingAddress != null)
-                { ViewBag.Filters11 = searchingAddress; }
-                if (HasID == true)
-                { ViewBag.Filters12 = ""; }
-                if (searchingNumberOfPortions != 0)
-                { ViewBag.Filters13 = searchingNumberOfPortions.ToString(); }
-                if (searchingComments != null)
-                { ViewBag.Filters14 = searchingComments; }
-                if (searchingStudies != null)
-                { ViewBag.Filters15 = searchingStudies; }
-                if (searchingPO != null)
-                { ViewBag.Filters16 = searchingPO; }
-                if (searchingSeniority != null)
-                { ViewBag.Filters17 = searchingSeniority; }
-                if (searchingHealthState != null)
-                { ViewBag.Filters18 = searchingHealthState; }
-                if (searchingAddictions != null)
-                { ViewBag.Filters19 = searchingAddictions; }
-                if (searchingMarried != null)
-                { ViewBag.Filters20 = searchingMarried; }
-                if (searchingHealthInsurance == true)
-                { ViewBag.Filters21 = ""; }
-                if (searchingHealthCard == true)
-                { ViewBag.Filters22 = ""; }
-                if (searchingHasHome == true)
-                { ViewBag.Filters23 = ""; }
-                if (searchingHousingType != null)
-                { ViewBag.Filters24 = searchingHousingType; }
-                if (searchingIncome != null)
-                { ViewBag.Filters25 = searchingIncome; }
-                if (searchingExpences != null)
-                { ViewBag.Filters26 = searchingExpences; }
-                if (gender != null)
-                { ViewBag.Filters27 = gender; }
-                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-                if (lowerdate != date)
-                { ViewBag.Filter28 = lowerdate.ToString(); }
-                if (upperdate != date)
-                { ViewBag.Filter29 = upperdate.ToString(); }
-                if (activesince != date)
-                { ViewBag.Filter30 = activesince.ToString(); }
-                if (activetill != date)
-                { ViewBag.Filter31 = activetill.ToString(); }
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+             var beneficiariesMainDisplayIndexContext = new BeneficiariesMainDisplayIndexContext(new BeneficiariesMainDisplayIndexGateway());
+            var model = beneficiariesMainDisplayIndexContext.Execute(new BucuriaDarului.Contexts.BeneficiaryContexts.BeneficiariesMainDisplayIndexRequest(searching, page,  nrOfDocs,  sortOrder, active,searchingBirthPlace,  hasContract,  homeless, lowerDate,  upperDate,  activeSince,  activeTill, weeklyPackage,  canteen,  homeDelivery,  searchingDriver, hasGDPRAgreement,  searchingAddress,  hasID, searchingNumberOfPortions,  searchingComments, searchingStudies,  searchingPO,  searchingSeniority,  searchingHealthState, searchingAddictions,  searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome,  searchingHousingType,  searchingIncome,  searchingExpences,  gender));
+            //ViewBag.SortOrder = sortOrder;
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            //ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
+            //ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+            //ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
 
-                ViewBag.SortOrder = sortOrder;
-                ViewBag.searching = searching;
-                ViewBag.active = Active;
-                ViewBag.hascontract = HasContract;
-                ViewBag.Upperdate = upperdate;
-                ViewBag.Lowerdate = lowerdate;
-                ViewBag.Homeless = Homeless;
-                ViewBag.Weeklypackage = Weeklypackage;
-                ViewBag.Canteen = Canteen;
-                ViewBag.Activesince = activesince;
-                ViewBag.Activetill = activetill;
-                ViewBag.HomeDelivery = HomeDelivery;
-                ViewBag.searchingDriver = searchingDriver;
-                ViewBag.HasGDPRAgreement = HasGDPRAgreement;
-                ViewBag.searchingAddress = searchingAddress;
-                ViewBag.HasID = HasID;
-                ViewBag.searchingNumberOfPortions = searchingNumberOfPortions;
-                ViewBag.searchingComments = searchingComments;
-                ViewBag.searchingBirthPlace = searchingBirthPlace;
-                ViewBag.searchingStudies = searchingStudies;
-                ViewBag.searchingPO = searchingPO;
-                ViewBag.searchingSeniority = searchingSeniority;
-                ViewBag.searchingHealthState = searchingHealthState;
-                ViewBag.searchingAddictions = searchingAddictions;
-                ViewBag.searchingMarried = searchingMarried;
-                ViewBag.searchingHealthInsurance = searchingHealthInsurance;
-                ViewBag.searchingHealthCard = searchingHealthCard;
-                ViewBag.searchingHasHome = searchingHasHome;
-                ViewBag.searchingIncome = searchingIncome;
-                ViewBag.searchingExpences = searchingExpences;
-                ViewBag.gender = gender;
-                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-                ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
-                ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
-                ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
-                List<Beneficiary> beneficiaries = beneficiaryManager.GetListOfBeneficiaries();
-                page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.page = page;
-                beneficiaries = BeneficiaryFunctions.GetBeneficiariesAfterFilters(beneficiaries, sortOrder, searching, Active, searchingBirthPlace, HasContract, Homeless, lowerdate, upperdate, activesince, activetill, page, Weeklypackage, Canteen, HomeDelivery, searchingDriver, HasGDPRAgreement, searchingAddress, HasID, searchingNumberOfPortions, searchingComments, searchingStudies, searchingPO, searchingSeniority, searchingHealthState, searchingAddictions, searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome, searchingHousingType, searchingIncome, searchingExpences, gender);
-                ViewBag.counter = beneficiaries.Count();
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.nrofdocs = nrofdocs;
-                string stringofids = BeneficiaryFunctions.GetStringOfIds(beneficiaries);
-                ViewBag.stringofids = stringofids;
-                beneficiaries = BeneficiaryFunctions.GetBeneficiariesAfterPaging(beneficiaries, page, nrofdocs);
-                string key = Constants.SESSION_KEY_BENEFICIARY;
-                HttpContext.Session.SetString(key, stringofids);
 
-                return View(beneficiaries);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            //if (searching != null)
+            //{ ViewBag.Filters1 = searching; }
+            //if (Active == true)
+            //{ ViewBag.Filters2 = ""; }
+            //if (searchingBirthPlace != null)
+            //{ ViewBag.Filters3 = searchingBirthPlace; }
+            //if (HasContract == true)
+            //{ ViewBag.Filters4 = ""; }
+            //if (Homeless == true)
+            //{ ViewBag.Filters5 = ""; }
+            //if (Weeklypackage == true)
+            //{ ViewBag.Filters6 = ""; }
+            //if (Canteen == true)
+            //{ ViewBag.Filters7 = ""; }
+            //if (HomeDelivery == true)
+            //{ ViewBag.Filters8 = ""; }
+            //if (searchingDriver != null)
+            //{ ViewBag.Filter9 = searchingDriver; }
+            //if (HasGDPRAgreement == true)
+            //{ ViewBag.Filters10 = ""; }
+            //if (searchingAddress != null)
+            //{ ViewBag.Filters11 = searchingAddress; }
+            //if (HasID == true)
+            //{ ViewBag.Filters12 = ""; }
+            //if (searchingNumberOfPortions != 0)
+            //{ ViewBag.Filters13 = searchingNumberOfPortions.ToString(); }
+            //if (searchingComments != null)
+            //{ ViewBag.Filters14 = searchingComments; }
+            //if (searchingStudies != null)
+            //{ ViewBag.Filters15 = searchingStudies; }
+            //if (searchingPO != null)
+            //{ ViewBag.Filters16 = searchingPO; }
+            //if (searchingSeniority != null)
+            //{ ViewBag.Filters17 = searchingSeniority; }
+            //if (searchingHealthState != null)
+            //{ ViewBag.Filters18 = searchingHealthState; }
+            //if (searchingAddictions != null)
+            //{ ViewBag.Filters19 = searchingAddictions; }
+            //if (searchingMarried != null)
+            //{ ViewBag.Filters20 = searchingMarried; }
+            //if (searchingHealthInsurance == true)
+            //{ ViewBag.Filters21 = ""; }
+            //if (searchingHealthCard == true)
+            //{ ViewBag.Filters22 = ""; }
+            //if (searchingHasHome == true)
+            //{ ViewBag.Filters23 = ""; }
+            //if (searchingHousingType != null)
+            //{ ViewBag.Filters24 = searchingHousingType; }
+            //if (searchingIncome != null)
+            //{ ViewBag.Filters25 = searchingIncome; }
+            //if (searchingExpences != null)
+            //{ ViewBag.Filters26 = searchingExpences; }
+            //if (gender != null)
+            //{ ViewBag.Filters27 = gender; }
+            //DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
+            //if (lowerdate != date)
+            //{ ViewBag.Filter28 = lowerdate.ToString(); }
+            //if (upperdate != date)
+            //{ ViewBag.Filter29 = upperdate.ToString(); }
+            //if (activesince != date)
+            //{ ViewBag.Filter30 = activesince.ToString(); }
+            //if (activetill != date)
+            //{ ViewBag.Filter31 = activetill.ToString(); }
+
+            //ViewBag.SortOrder = sortOrder;
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            //ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
+            //ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+            //ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+
+
+            return View(model);
         }
 
         [HttpGet]

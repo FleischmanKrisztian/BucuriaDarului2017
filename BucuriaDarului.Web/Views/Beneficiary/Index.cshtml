@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BucuriaDarului.Core.Beneficiary>
+﻿@model BucuriaDarului.Contexts.BeneficiaryContexts.BeneficiariesMainDisplayIndexResponse
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
@@ -86,7 +86,7 @@
     </style>
 </head>
 <h2>
-    @Localizer["Beneficiaries"] <small> (@ViewBag.counter)</small>
+    @Localizer["Beneficiaries"] <small> (@Model.TotalBeneficiaries)</small>
 </h2>
 
 @using (Html.BeginForm("Index", "Beneficiary", FormMethod.Get))
@@ -102,15 +102,15 @@
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
             @{
-                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
-                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
+                int maxpage = (@Model.TotalBeneficiaries / Model.PagingData.NrOfDocumentsPerPage) + 1;
+                if (@Model.TotalBeneficiaries % Model.PagingData.NrOfDocumentsPerPage == 0 && @Model.TotalBeneficiaries != 0)
                 {
                     maxpage--;
                 }
 
                 if (currentpage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
@@ -158,79 +158,79 @@
     </p>
     <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all beneficiaries"]</a>
     <br />
-    @if (string1 != null)
+    @if (Model.FilterData.BeneficiaryName!= null)
     {
         <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Fullname"]:@string1
+            @Localizer["Fullname"]:@Model.FilterData.BeneficiaryName
         </div>
     }
-    @if (string3 != null)
+    @if (Model.FilterData.SearchingBirthPlace != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Birthplace"]:@string3
-            :@string2
+            @Localizer["Birthplace"]:@Model.FilterData.SearchingBirthPlace
+            :@Model.FilterData.Active
         </div>
     }
-    @if (string2 != null)
+    @if (Model.FilterData.Active != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Active"]:
         </div>
     }
-    @if (string4 != null)
+    @if (Model.FilterData.HasContract!= false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["HasContract"]
         </div>
     }
 
-    @if (string5 != null)
+    @if (Model.FilterData.Homeless != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Homeless"]
         </div>
     }
 
-    @if (string6 != null)
+    @if (Model.FilterData.WeeklyPackage != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Weeklypackage"]
         </div>
     }
-    @if (string7 != null)
+    @if (Model.FilterData.Canteen!= false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Canteen"]
         </div>
     }
 
-    @if (string8 != null)
+    @if (Model.FilterData.HomeDelivery != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Homedelivery"]
         </div>
     }
 
-    @if (string9 != null)
+    @if (Model.FilterData.SearchingDriver != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Homedeliverydriver"]:@string9
+            @Localizer["Homedeliverydriver"]:@Model.FilterData.SearchingDriver
         </div>
     }
 
-    @if (string10 != null)
+    @if (Model.FilterData.HasGDPRAgreement != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["HasGDPRagreement"]:@string10
+            @Localizer["HasGDPRagreement"]:@Model.FilterData.HasGDPRAgreement
         </div>
     }
-    @if (string11 != null)
+    @if (Model.FilterData.SearchingAddress != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Address"]:@string11
+            @Localizer["Address"]:@Model.FilterData.SearchingAddress
         </div>
     }
 
-    @if (string12 != null)
+    @if (Model.FilterData.HasID != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["HasID"]
         </div>
     }
 
-    @if (string13 != null)
+    @if (Model.FilterData.SearchingNumberOfPortions != 0)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Numberofportions"]:@string13
-        </div>
+    @Localizer["Numberofportions"]:@Model.FilterData.SearchingNumberOfPortions
+</div>
     }
     @if (string14 != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
