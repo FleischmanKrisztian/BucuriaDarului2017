@@ -13,142 +13,139 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             this.localizer = localizer;
         }
 
-        //public BeneficiaryExporterResponse Execute(BeneficiaryExporterRequest request)
-        //{
-        //    //var idsAndFields = GetIdAndFieldString(request.ExportParameters);
-
-        //    var header = GetHeaderForExcelPrinterEvent(localizer);
-        //    var response = new BeneficiaryExporterResponse(CreateDictionaries(Constants.BENEFICIARYSESSION, Constants.BENEFICIARYHEADER, idsAndFields, header));
-        //    response.IsValid = CheckForProperties(idsAndFields);
-        //    return response;
-        //}
+        public BeneficiaryExporterResponse Execute(BeneficiaryExporterRequest request)
+        {
+            var idsAndFields = GetIdAndFieldString(request.ExportParameters);
+            var header = GetHeaderForExcelPrinterBeneficiary();
+            var response = new BeneficiaryExporterResponse(CreateDictionaries(Constants.BENEFICIARYSESSION, Constants.BENEFICIARYHEADER, idsAndFields, header));
+            response.IsValid = CheckForProperties(idsAndFields);
+            return response;
+        }
 
         private bool CheckForProperties(string idsAndFields)
         {
-            var splitstring = idsAndFields.Split("(((");
-            if (splitstring[1] == "")
+            var splitStrings = idsAndFields.Split("(((");
+            if (splitStrings[1] == "")
                 return false;
 
             return true;
         }
 
-        //private string GetIdAndFieldString(ExportParameters csv)
-        //{
-        //    string ids_and_options = csv.StringOfIDs + "(((";
-        //    if (All == true)
-        //        ids_and_options = ids_and_options + "0";
-        //    if (Fullname == true)
-        //        ids_and_options = ids_and_options + "1";
-        //    if (Active == true)
-        //        ids_and_options = ids_and_options + "2";
-        //    if (Canteen == true)
-        //        ids_and_options = ids_and_options + "3";
-        //    if (HomeDelivery == true)
-        //        ids_and_options = ids_and_options + "4";
-        //    if (HomeDeliveryDriver == true)
-        //        ids_and_options = ids_and_options + "5";
-        //    if (HasGDPRAgreement == true)
-        //        ids_and_options = ids_and_options + "6";
-        //    if (Adress == true)
-        //        ids_and_options = ids_and_options + "7";
-        //    if (CNP == true)
-        //        ids_and_options = ids_and_options + "8";
-        //    if (CI_Info == true)
-        //        ids_and_options = ids_and_options + "9";
-        //    if (marca == true)
-        //        ids_and_options = ids_and_options + "A";
-        //    if (IdInvestigation == true)
-        //        ids_and_options = ids_and_options + "B";
-        //    if (IdAplication == true)
-        //        ids_and_options = ids_and_options + "C";
-        //    if (NumberOfPortions == true)
-        //        ids_and_options = ids_and_options + "D";
-        //    if (LastTimeActiv == true)
-        //        ids_and_options = ids_and_options + "E";
-        //    if (PhoneNumber == true)
-        //        ids_and_options = ids_and_options + "F";
-        //    if (BirthPlace == true)
-        //        ids_and_options += "G";
-        //    if (Studies == true)
-        //        ids_and_options = ids_and_options + "H";
-        //    if (Profesion == true)
-        //        ids_and_options = ids_and_options + "I";
-        //    if (Ocupation == true)
-        //        ids_and_options = ids_and_options + "J";
-        //    if (SeniorityInWorkField == true)
-        //        ids_and_options = ids_and_options + "K";
-        //    if (HealthState == true)
-        //        ids_and_options = ids_and_options + "L";
-        //    if (Disalility == true)
-        //        ids_and_options = ids_and_options + "M";
-        //    if (ChronicCondition == true)
-        //        ids_and_options = ids_and_options + "N";
-        //    if (Addictions == true)
-        //        ids_and_options = ids_and_options + "O";
-        //    if (HealthInsurance == true)
-        //        ids_and_options = ids_and_options + "Z";
-        //    if (HealthCard == true)
-        //        ids_and_options = ids_and_options + "P";
-        //    if (Married == true)
-        //        ids_and_options = ids_and_options + "Q";
-        //    if (SpouseName == true)
-        //        ids_and_options = ids_and_options + "R";
-        //    if (HasHome == true)
-        //        ids_and_options = ids_and_options + "S";
-        //    if (HousingType == true)
-        //        ids_and_options = ids_and_options + "T";
-        //    if (Income == true)
-        //        ids_and_options = ids_and_options + "U";
-        //    if (Expences == true)
-        //        ids_and_options = ids_and_options + "V";
-        //    if (Gender == true)
-        //        ids_and_options = ids_and_options + "W";
-        //    if (WeeklyPackage == true)
-        //        ids_and_options = ids_and_options + "Z";
-        //    return ids_and_options;
-        //}
-
-        private string GetHeaderForExcelPrinterEvent(IStringLocalizer _localizer)
+        private string GetIdAndFieldString(ExportParameters csv)
         {
-            string[] header = new string[35];
-            header[0] = _localizer["Fullname"];
-            header[1] = _localizer["Active"];
-            header[2] = _localizer["Canteen"];
-            header[3] = _localizer["HomeDelivery"];
-            header[4] = _localizer["Homedeliverydriver"];
-            header[5] = _localizer["HasGDPRagreement"];
-            header[6] = _localizer["AddressInformation"];
-            header[7] = _localizer["CNP"];
-            header[8] = _localizer["CISeria"];
-            header[9] = _localizer["CIEliberat"];
-            header[10] = _localizer["Marca"];
-            header[11] = _localizer["IDinvestigation"];
-            header[12] = _localizer["IDapplication"];
-            header[13] = _localizer["NumberOfPortions"];
-            header[14] = _localizer["Lastimeactiv"];
-            header[15] = _localizer["Phonenumber"];
-            header[16] = _localizer["Birthplace"];
-            header[17] = _localizer["Studies"];
-            header[18] = _localizer["Profession"];
-            header[19] = _localizer["Occupation"];
-            header[20] = _localizer["Seniorityinworkfield"];
-            header[21] = _localizer["Healthstate"];
-            header[22] = _localizer["Disability"];
-            header[23] = _localizer["Chroniccondition"];
-            header[24] = _localizer["Addictions"];
-            header[25] = _localizer["Hashealthinsurance"];
-            header[26] = _localizer["Hashealthcard"];
-            header[27] = _localizer["Married"];
-            header[28] = _localizer["Spousename"];
-            header[29] = _localizer["Homeless"];
-            header[30] = _localizer["Housingtype"];
-            header[31] = _localizer["Income"];
-            header[32] = _localizer["Expenses"];
-            header[33] = _localizer["Gender"];
-            header[34] = _localizer["Weeklypackage"];
+            var idsAndOptions = csv.StringOfIDs + "(((";
+            if (csv.All)
+                idsAndOptions += "0";
+            if (csv.Fullname)
+                idsAndOptions += "1";
+            if (csv.Active)
+                idsAndOptions += "2";
+            if (csv.Canteen)
+                idsAndOptions += "3";
+            if (csv.HomeDelivery)
+                idsAndOptions += "4";
+            if (csv.HomeDeliveryDriver)
+                idsAndOptions += "5";
+            if (csv.HasGDPRAgreement)
+                idsAndOptions += "6";
+            if (csv.Address)
+                idsAndOptions += "7";
+            if (csv.CNP)
+                idsAndOptions += "8";
+            if (csv.CIInfo)
+                idsAndOptions += "9";
+            if (csv.Marca)
+                idsAndOptions += "A";
+            if (csv.IdInvestigation)
+                idsAndOptions += "B";
+            if (csv.IdApplication)
+                idsAndOptions += "C";
+            if (csv.NumberOfPortions)
+                idsAndOptions += "D";
+            if (csv.LastTimeActive)
+                idsAndOptions += "E";
+            if (csv.PhoneNumber)
+                idsAndOptions += "F";
+            if (csv.BirthPlace)
+                idsAndOptions += "G";
+            if (csv.Studies)
+                idsAndOptions += "H";
+            if (csv.Profession)
+                idsAndOptions += "I";
+            if (csv.Occupation)
+                idsAndOptions += "J";
+            if (csv.SeniorityInWorkField)
+                idsAndOptions += "K";
+            if (csv.HealthState)
+                idsAndOptions += "L";
+            if (csv.Disability)
+                idsAndOptions += "M";
+            if (csv.ChronicCondition)
+                idsAndOptions += "N";
+            if (csv.Addictions)
+                idsAndOptions += "O";
+            if (csv.HealthInsurance)
+                idsAndOptions += "Z";
+            if (csv.HealthCard)
+                idsAndOptions += "P";
+            if (csv.Married)
+                idsAndOptions += "Q";
+            if (csv.SpouseName)
+                idsAndOptions += "R";
+            if (csv.HasHome)
+                idsAndOptions += "S";
+            if (csv.HousingType)
+                idsAndOptions += "T";
+            if (csv.Income)
+                idsAndOptions += "U";
+            if (csv.Expenses)
+                idsAndOptions += "V";
+            if (csv.Gender)
+                idsAndOptions += "W";
+            return idsAndOptions;
+        }
 
-            string result = string.Empty;
-            for (int i = 0; i < header.Count(); i++)
+        private string GetHeaderForExcelPrinterBeneficiary()
+        {
+            var header = new string[35];
+            header[0] = localizer["Fullname"];
+            header[1] = localizer["Active"];
+            header[2] = localizer["Canteen"];
+            header[3] = localizer["HomeDelivery"];
+            header[4] = localizer["HomeDeliveryDriver"];
+            header[5] = localizer["HasGDPRagreement"];
+            header[6] = localizer["AddressInformation"];
+            header[7] = localizer["CNP"];
+            header[8] = localizer["CISeria"];
+            header[9] = localizer["CIEliberat"];
+            header[10] = localizer["Marca"];
+            header[11] = localizer["IDinvestigation"];
+            header[12] = localizer["IDapplication"];
+            header[13] = localizer["NumberOfPortions"];
+            header[14] = localizer["LastTimeActive"];
+            header[15] = localizer["PhoneNumber"];
+            header[16] = localizer["Birthplace"];
+            header[17] = localizer["Studies"];
+            header[18] = localizer["Profession"];
+            header[19] = localizer["Occupation"];
+            header[20] = localizer["SeniorityInWorkField"];
+            header[21] = localizer["HealthState"];
+            header[22] = localizer["Disability"];
+            header[23] = localizer["ChronicCondition"];
+            header[24] = localizer["Addictions"];
+            header[25] = localizer["HasHealthInsurance"];
+            header[26] = localizer["HasHealthCard"];
+            header[27] = localizer["Married"];
+            header[28] = localizer["SpouseName"];
+            header[29] = localizer["Homeless"];
+            header[30] = localizer["HousingType"];
+            header[31] = localizer["Income"];
+            header[32] = localizer["Expenses"];
+            header[33] = localizer["Gender"];
+            header[34] = localizer["WeeklyPackage"];
+
+            var result = string.Empty;
+            for (var i = 0; i < header.Count(); i++)
             {
                 if (i == 0)
                 { result = header[i]; }
@@ -197,6 +194,39 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     {
         public string StringOfIDs { get; set; }
         public bool All { get; set; }
-        //  INTORDUS VARIABILELE DOIN VIEW
+        public bool Fullname { get; set; }
+        public bool Active { get; set; }
+        public bool Canteen { get; set; }
+        public bool HomeDelivery { get; set; }
+        public bool HomeDeliveryDriver { get; set; }
+        public bool HasGDPRAgreement { get; set; }
+        public bool Address { get; set; }
+        public bool CNP { get; set; }
+        public bool CIInfo { get; set; }
+        public bool Marca { get; set; }
+        public bool IdInvestigation { get; set; }
+        public bool IdApplication { get; set; }
+        public bool NumberOfPortions { get; set; }
+        public bool LastTimeActive { get; set; }
+        public bool PhoneNumber { get; set; }
+        public bool BirthPlace { get; set; }
+        public bool Studies { get; set; }
+        public bool Profession { get; set; }
+        public bool Occupation { get; set; }
+        public bool SeniorityInWorkField { get; set; }
+        public bool HealthState { get; set; }
+        public bool Disability { get; set; }
+        public bool ChronicCondition { get; set; }
+        public bool Addictions { get; set; }
+        public bool HealthInsurance { get; set; }
+        public bool HealthCard { get; set; }
+        public bool Married { get; set; }
+        public bool SpouseName { get; set; }
+        public bool HasHome { get; set; }
+        public bool HousingType { get; set; }
+        public bool Income { get; set; }
+        public bool Expenses { get; set; }
+        public bool Gender { get; set; }
+        public bool WeeklyPackage { get; set; }
     }
 }

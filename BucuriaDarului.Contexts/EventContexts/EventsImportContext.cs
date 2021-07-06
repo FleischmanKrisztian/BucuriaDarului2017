@@ -31,37 +31,25 @@ namespace BucuriaDarului.Contexts.EventContexts
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                if(result[0].Contains("File must be of type Event!"))
+                if (result[0].Contains("File must be of type Event!"))
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
+                    response.Message.Add(
+                        new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
                     response.IsValid = false;
                 }
                 else
                 {
-                var eventsFromCsv = GetEventsFromCsv(result, response);
-                dataGateway.Insert(eventsFromCsv);
+                    var eventsFromCsv = GetEventsFromCsv(result, response);
+                    dataGateway.Insert(eventsFromCsv);
                 }
             }
 
             return response;
         }
 
-        private string[] GetHeaderColumns(Stream dataToImport)
-        {
-            var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
-            var headerLine = reader.ReadLine();
-
-            var csvSeparator = CsvUtils.DetectSeparator(headerLine);
-
-            var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
-            return headerColumns;
-        }
-
         private bool FileIsNotEmpty(Stream dataToImport)
         {
-            if (dataToImport.Length > 0)
-                return false;
-            return true;
+            return dataToImport.Length <= 0;
         }
 
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
@@ -84,9 +72,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                     if (!IsTheCorrectHeader(headerColumns))
                     {
                         var returnList = new List<string[]>();
-                        var strarray = new string[60];
-                        strarray[0] = "File must be of type Event!";
-                        returnList.Add(strarray);
+                        var strArray = new string[60];
+                        strArray[0] = "File must be of type Event!";
+                        returnList.Add(strArray);
 
                         return returnList;
                     }
@@ -115,7 +103,6 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            // WE Have to modify HERE if we change the ExporterController to serialize without the ID property.
             return headerColumns[1].Contains("Event", StringComparison.InvariantCultureIgnoreCase) || headerColumns[1].Contains("Eveniment", StringComparison.InvariantCultureIgnoreCase);
         }
 

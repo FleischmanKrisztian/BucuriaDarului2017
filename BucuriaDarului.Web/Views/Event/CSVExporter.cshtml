@@ -51,19 +51,20 @@
 <br />
 <br />
 
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
 <div class="container emp-profile">
-    <h3>
-        @Localizer["Please choose what you want the Excel to contain"]:
-    </h3>
     <div>
         <h3 style="color:red">
             @ViewBag.message
         </h3>
     </div>
+    <h3>
+        @Localizer["Please choose what you want the Excel to contain"]:
+    </h3>
     <br />
     <div class="row">
         <div class="col-md-9">
@@ -84,7 +85,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Nameofevent"]:</label>
+                    <label> @Localizer["NameOfEvent"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.NameOfEvent)
@@ -98,7 +99,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Placeofevent"]:</label>
+                    <label> @Localizer["PlaceOfEvent"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.PlaceOfEvent)
@@ -111,7 +112,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Dateofevent"]:</label>
+                    <label> @Localizer["DateOfEvent"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.DateOfEvent)
@@ -124,7 +125,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Typeofactivities"]:</label>
+                    <label> @Localizer["TypeOfActivities"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.TypeOfActivities)
@@ -137,7 +138,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Typeofevent"]:</label>
+                    <label> @Localizer["TypeOfEvent"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.TypeOfEvent)
@@ -163,7 +164,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Allocatedvolunteers"]:</label>
+                    <label> @Localizer["AllocatedVolunteers"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.AllocatedVolunteers)
@@ -176,7 +177,7 @@
             <div class="row">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="col-md-6">
-                    <label> @Localizer["Allocatedsponsors"]:</label>
+                    <label> @Localizer["AllocatedSponsors"]:</label>
                 </div>
                 <div class="col-md-2">
                     @Html.EditorFor(model => model.AllocatedSponsors)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BucuriaDarului.Core.Beneficiary>
+﻿@model BucuriaDarului.Contexts.BeneficiaryContexts.ExportParameters
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Builder
@@ -52,69 +52,66 @@
 <br />
 <br />
 
-<form method="post" action="/Beneficiary/CSVExporter" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class=" .emp-profile">
-        <h1>CSV Saver</h1>
-        <hr />
-        <br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container emp-profile">
+        <div>
+            <h3 style="color: red">
+                @ViewBag.message
+            </h3>
+        </div>
         <div class="row">
-            <div class="col-md-9">
-                <h3>
-                    @Localizer["Please choose what you want the Excel to contain"]:
-                </h3>
-            </div>
-            <div class="dropdown col-md-3">
+        <h3>
+            @Localizer["Please choose what you want the Excel to contain"]:
+        </h3>
+            <div class="dropdown col-md-12" align="right">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @Localizer["Select the properties"]:
                 </button>
-                <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Fullname", isChecked: false)  @Localizer["Fullname"] </a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Active", isChecked: false) @Localizer["Active"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Canteen", isChecked: false)  @Localizer["Canteen"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("WeeklyPackage", isChecked: false)  @Localizer["Weeklypackage"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HomeDelivery", isChecked: false) @Localizer["HomeDelivery"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HomeDeliveryDriver", isChecked: false)  @Localizer["Homedeliverydriver"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HasGDPRAgreement", isChecked: false) @Localizer["HasGDPRagreement"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Adress", isChecked: false) @Localizer["AddressInformation"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("CNP", isChecked: false) @Localizer["CNP"]</a>
-                    <a class="dropdown-item" href="#">  @Html.CheckBox("CI_Info", isChecked: false) @Localizer["CiInfo"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("marca", isChecked: false) @Localizer["Marca"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("IdInvestigation", isChecked: false)  @Localizer["IDinvestigation"] </a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("IdAplication", isChecked: false) @Localizer["IDapplication"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("NumberOfPortions", isChecked: false)  @Localizer["NumberOfPortions"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("BirthPlace", isChecked: false) @Localizer["Birthplace"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Studies", isChecked: false)  @Localizer["Studies"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Profesion", isChecked: false) @Localizer["Profession"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Ocupation", isChecked: false) @Localizer["Occupation"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("SeniorityInWorkField", isChecked: false) @Localizer["Seniorityinworkfield"]</a>
-                    <a class="dropdown-item" href="#">  @Html.CheckBox("HealthState", isChecked: false) @Localizer["Healthstate"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Disalility", isChecked: false) @Localizer["Disability"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("ChronicCondition", isChecked: false)  @Localizer["Chroniccondition"] </a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Addictions", isChecked: false) @Localizer["Addictions"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HealthInsurance", isChecked: false)  @Localizer["Hashealthinsurance"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HealthCard", isChecked: false) @Localizer["Hashealthcard"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Married", isChecked: false)  @Localizer["Married"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("SpouseName", isChecked: false) @Localizer["Spousename"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HasHome", isChecked: false) @Localizer["Hashome"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HousingType", isChecked: false) @Localizer["Housingtype"]</a>
-                    <a class="dropdown-item" href="#">  @Html.CheckBox("Income", isChecked: false) @Localizer["Income"]</a>
-                    <a class="dropdown-item" href="#">  @Html.CheckBox("Expences", isChecked: false) @Localizer["Expenses"]</a>
-                    <a class="dropdown-item" href="#">  @Html.CheckBox("Gender", isChecked: false) @Localizer["Gender"]</a>
+                <div class="dropdown-menu scrollable-menu col-md-12" align="right" aria-labelledby="dropdownMenuButton">
+                    @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true }) @Localizer["Check this for all fields"] <br />
+                    @Html.CheckBoxFor(model => model.Fullname) @Localizer["Fullname"]<br />
+                    @Html.CheckBoxFor(model => model.Active) @Localizer["Active"]<br />
+                    @Html.CheckBoxFor(model => model.Canteen) @Localizer["Canteen"]<br />
+                    @Html.CheckBoxFor(model => model.HomeDelivery) @Localizer["HomeDelivery"]<br />
+                    @Html.CheckBoxFor(model => model.HomeDeliveryDriver) @Localizer["HomeDeliveryDriver"]<br />
+                    @Html.CheckBoxFor(model => model.HasGDPRAgreement) @Localizer["HasGDPRagreement"]<br />
+                    @Html.CheckBoxFor(model => model.Address) @Localizer["AddressInformation"]<br />
+                    @Html.CheckBoxFor(model => model.CNP) @Localizer["CNP"]<br />
+                    @Html.CheckBoxFor(model => model.CIInfo) @Localizer["CiInfo"]<br />
+                    @Html.CheckBoxFor(model => model.Marca) @Localizer["Marca"]<br />
+                    @Html.CheckBoxFor(model => model.IdInvestigation) @Localizer["IDinvestigation"]<br />
+                    @Html.CheckBoxFor(model => model.IdApplication) @Localizer["IDapplication"]<br />
+                    @Html.CheckBoxFor(model => model.NumberOfPortions) @Localizer["NumberOfPortions"]<br />
+                    @Html.CheckBoxFor(model => model.LastTimeActive) @Localizer["LastTimeActive"]<br />
+                    @Html.CheckBoxFor(model => model.PhoneNumber) @Localizer["PhoneNumber"]<br />
+                    @Html.CheckBoxFor(model => model.BirthPlace) @Localizer["Birthplace"]<br />
+                    @Html.CheckBoxFor(model => model.Studies) @Localizer["Studies"]<br />
+                    @Html.CheckBoxFor(model => model.Profession) @Localizer["Profession"]<br />
+                    @Html.CheckBoxFor(model => model.Occupation) @Localizer["Occupation"]<br />
+                    @Html.CheckBoxFor(model => model.SeniorityInWorkField) @Localizer["SeniorityInWorkField"]<br />
+                    @Html.CheckBoxFor(model => model.HealthState) @Localizer["HealthState"]<br />
+                    @Html.CheckBoxFor(model => model.Disability) @Localizer["Disability"]<br />
+                    @Html.CheckBoxFor(model => model.ChronicCondition) @Localizer["ChronicCondition"]<br />
+                    @Html.CheckBoxFor(model => model.Addictions) @Localizer["Addictions"]<br />
+                    @Html.CheckBoxFor(model => model.HealthInsurance) @Localizer["HasHealthInsurance"]<br />
+                    @Html.CheckBoxFor(model => model.HealthCard) @Localizer["HasHealthCard"]<br />
+                    @Html.CheckBoxFor(model => model.Married) @Localizer["Married"]<br />
+                    @Html.CheckBoxFor(model => model.SpouseName) @Localizer["SpouseName"]<br />
+                    @Html.CheckBoxFor(model => model.HasHome) @Localizer["HasHome"]<br />
+                    @Html.CheckBoxFor(model => model.HousingType) @Localizer["HousingType"]<br />
+                    @Html.CheckBoxFor(model => model.Income) @Localizer["Income"]<br />
+                    @Html.CheckBoxFor(model => model.Expenses) @Localizer["Expenses"]<br />
+                    @Html.CheckBoxFor(model => model.Gender) @Localizer["Gender"]<br />
                 </div>
             </div>
         </div>
-        <div class="row align-items-center">
-            <div class="col-3">
-                <br />
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
-                </button>
-
-                | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
-            </div>
+        <br/>
+        <div class="col-md-3">
+            <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
+            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
-        <br />
     </div>
-</form>
+}

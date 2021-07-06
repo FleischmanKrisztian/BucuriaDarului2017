@@ -28,13 +28,13 @@ namespace Finalaplication.Controllers
         [HttpGet("{keys}", Name = "Get")]
         public string Get(string keys)
         {
-            string ids_ = string.Empty;
-            string header = string.Empty;
-            string key1 = string.Empty;
-            string key2 = string.Empty;
+            var ids_ = string.Empty;
+            var header = string.Empty;
+            var key1 = string.Empty;
+            var key2 = string.Empty;
             if (keys.Contains(";") == true)
             {
-                string[] splited = keys.Split(";");
+                var splited = keys.Split(";");
                 key1 = splited[0];
                 key2 = splited[1];
             }
@@ -42,38 +42,38 @@ namespace Finalaplication.Controllers
             DictionaryHelper.d.TryGetValue(key1, out ids_);
             DictionaryHelper.d.TryGetValue(key2, out header);
 
-            string[] finalHeader = new string[45];
+            var finalHeader = new string[45];
             if (header != null)
             {
                 finalHeader = ControllerHelper.SplitHeader(header);
             }
 
-            string jsonstring = "";
+            var jsonstring = "";
 
-            string[] auxstring = ids_.Split("(((");
-            string properties = auxstring[1];
-            string[] ids = auxstring[0].Split(",");
+            var auxiliaryStrings = ids_.Split("(((");
+            var properties = auxiliaryStrings[1];
+            var ids = auxiliaryStrings[0].Split(",");
 
             if (ids[0].Contains("sponsorCSV"))
             {
-                var sponsorcollection = sponsorManager.GetListOfSponsors();
-                for (int i = 1; i < ids.Length; i++)
+                var listOfSponsors = sponsorManager.GetListOfSponsors();
+                for (var i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
                     {
-                        var sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]);
-                        jsonstring = jsonstring + JsonConvert.SerializeObject(sponsor);
+                        var sponsor = listOfSponsors.AsQueryable().Where(z => z._id == ids[i]);
+                        jsonstring += JsonConvert.SerializeObject(sponsor);
                     }
                     else
                     {
-                        bool first = true;
-                        Sponsor sponsor = sponsorcollection.AsQueryable().Where(z => z._id == ids[i]).First();
-                        jsonstring = jsonstring + "[{";
+                        var first = true;
+                        var sponsor = listOfSponsors.AsQueryable().First(z => z._id == ids[i]);
+                        jsonstring += "[{";
                         if (properties.Contains("1"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
                             jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + sponsor.NameOfSponsor + "\"";
                             first = false;
@@ -82,7 +82,7 @@ namespace Finalaplication.Controllers
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
                             jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + sponsor.Sponsorship.Date + "\"";
                             first = false;
@@ -174,7 +174,7 @@ namespace Finalaplication.Controllers
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
 
                             jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + beneficiary.Fullname + "\"";
@@ -645,94 +645,89 @@ namespace Finalaplication.Controllers
             }
             else if (ids[0].Contains("eventCSV"))
             {
-                var eventscollection = eventManager.GetListOfEvents();
-                for (int i = 1; i < ids.Length; i++)
+                var listOfEvents = eventManager.GetListOfEvents();
+                for (var i = 1; i < ids.Length; i++)
                 {
                     if (properties.Contains("0"))
                     {
-                        var eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]);
-                        //MUST SERIALIZE WITHOUT THE ID PROPERTY HERE
-                        jsonstring = jsonstring + JsonConvert.SerializeObject(eventt);
+                        var @event = listOfEvents.AsQueryable().Where(z => z._id == ids[i]);
+                        jsonstring += JsonConvert.SerializeObject(@event);
                     }
                     else
                     {
-                        bool first = true;
-                        Event eventt = eventscollection.AsQueryable().Where(z => z._id == ids[i]).First();
+                        var first = true;
+                        var @event = listOfEvents.AsQueryable().First(z => z._id == ids[i]);
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
-                            if (!first)
-                            {
-                                jsonstring = jsonstring + ",";
-                            }
-                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + eventt.NameOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[0] + "\":" + "\"" + @event.NameOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("2"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + eventt.PlaceOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[1] + "\":" + "\"" + @event.PlaceOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("3"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + eventt.DateOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[2] + "\":" + "\"" + @event.DateOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + eventt.TypeOfActivities + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[3] + "\":" + "\"" + @event.TypeOfActivities + "\"";
                             first = false;
                         }
                         if (properties.Contains("5"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + eventt.TypeOfEvent + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + @event.TypeOfEvent + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + eventt.Duration + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[5] + "\":" + "\"" + @event.Duration + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + eventt.AllocatedVolunteers + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + @event.AllocatedVolunteers + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
                         {
                             if (!first)
                             {
-                                jsonstring = jsonstring + ",";
+                                jsonstring += ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[7] + "\":" + "\"" + eventt.AllocatedSponsors + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[7] + "\":" + "\"" + @event.AllocatedSponsors + "\"";
                             first = false;
                         }
 
-                        jsonstring = jsonstring + "}]";
+                        jsonstring += "}]";
                     }
                 }
             }

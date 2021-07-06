@@ -16,7 +16,6 @@ namespace BucuriaDarului.Contexts.EventContexts
         public EventsExporterResponse Execute(EventsExporterRequest request)
         {
             var idsAndFields = GetIdAndFieldString(request.ExportParameters);
-
             var header = GetHeaderForExcelPrinterEvent();
             var response = new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);

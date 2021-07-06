@@ -57,11 +57,12 @@
     @Localizer["Beneficiaries"] <small> (@Model.TotalBeneficiaries)</small>
 </h2>
 
+
 @using (Html.BeginForm("Index", "Beneficiary", FormMethod.Get))
 {<div>
 
         <a href=@Url.Action( "Create")><img src="~/Resources/new_beneficiary.png" width="40" height="40" title=@Localizer["CreateNew"]></a>
-        <a href=@Url.Action("CSVExporter")><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
+        <a href=@Url.Action("CsvExporter", new { stringOfIDs = Model.StringOfIDs })><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
         <a href=@Url.Action("Import")><img src="~/Resources/import-csv.png" width="40" height="40" title=@Localizer["UploadFromCsv"]></a>
 
         <br />

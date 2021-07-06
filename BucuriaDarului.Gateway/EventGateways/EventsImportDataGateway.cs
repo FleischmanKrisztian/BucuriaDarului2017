@@ -6,7 +6,7 @@ namespace BucuriaDarului.Gateway.EventGateways
 {
     public class EventsImportDataGateway : IEventsImportDataGateway
     {
-        private MongoDBGateway dbContext = new MongoDBGateway();
+        private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
         public void Insert(List<Event> events)
         {

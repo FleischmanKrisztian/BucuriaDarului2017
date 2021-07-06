@@ -17,7 +17,7 @@ namespace BucuriaDarului.Web.Common
 
         public static string GetAnswer(string finalHeader, bool toBeCompared)
         {
-            string result = string.Empty;
+            var result = string.Empty;
             if (finalHeader.ToString() == "Activ" || finalHeader.Contains("are") == true || finalHeader.Contains("Are") == true || finalHeader.Contains("Cantină") == true || finalHeader.Contains("Pachet") == true || finalHeader.Contains("Fără") == true || finalHeader.Contains("Livrare") == true || finalHeader.Contains("Mașină") == true)
             {
                 if (toBeCompared == true)

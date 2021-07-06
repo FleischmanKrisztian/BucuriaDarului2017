@@ -1,14 +1,13 @@
+using System;
 using BucuriaDarului.Contexts.EventContexts;
-using BucuriaDarului.Gateway;
 using BucuriaDarului.Gateway.EventGateways;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using System;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class EventController : Controller
     {

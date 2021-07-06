@@ -1,15 +1,13 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
 using BucuriaDarului.Gateway;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
-using BucuriaDarului.Web.Common;
-using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.BeneficiaryHelpers;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.IO;
+using Finalaplication.Common;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -48,7 +46,7 @@ namespace BucuriaDarului.Web.Controllers
         {
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var beneficiariesMainDisplayIndexContext = new BeneficiariesMainDisplayIndexContext(new BeneficiariesMainDisplayIndexGateway());
-            var model = beneficiariesMainDisplayIndexContext.Execute(new BucuriaDarului.Contexts.BeneficiaryContexts.BeneficiariesMainDisplayIndexRequest(searching, page, nrOfDocs, sortOrder, active, searchingBirthPlace, hasContract, homeless, lowerDate, upperDate, activeSince, activeTill, weeklyPackage, canteen, homeDelivery, searchingDriver, hasGDPRAgreement, searchingAddress, hasID, searchingNumberOfPortions, searchingComments, searchingStudies, searchingPO, searchingSeniority, searchingHealthState, searchingAddictions, searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome, searchingHousingType, searchingIncome, searchingExpences, gender));
+            var model = beneficiariesMainDisplayIndexContext.Execute(new BeneficiariesMainDisplayIndexRequest(searching, page, nrOfDocs, sortOrder, active, searchingBirthPlace, hasContract, homeless, lowerDate, upperDate, activeSince, activeTill, weeklyPackage, canteen, homeDelivery, searchingDriver, hasGDPRAgreement, searchingAddress, hasID, searchingNumberOfPortions, searchingComments, searchingStudies, searchingPO, searchingSeniority, searchingHealthState, searchingAddictions, searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome, searchingHousingType, searchingIncome, searchingExpences, gender));
             return View(model);
         }
 
@@ -59,16 +57,16 @@ namespace BucuriaDarului.Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult CsvExporter(ExportParameters csvExportProperties)
-        //{
-        //    var beneficiaryExporterContext = new BeneficiaryExporterContext(_localizer);
-        //    var beneficiaryExportData = beneficiaryExporterContext.Execute(new BeneficiaryExporterRequest(csvExportProperties));
-        //    DictionaryHelper.d = beneficiaryExportData.Dictionary;
-        //    if (beneficiaryExportData.IsValid)
-        //        return Redirect("csvexporterapp:beneficiarySession;beneficiaryHeader");
-        //    return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
-        //}
+        [HttpPost]
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
+        {
+            var beneficiaryExporterContext = new BeneficiaryExporterContext(_localizer);
+            var beneficiaryExportData = beneficiaryExporterContext.Execute(new BeneficiaryExporterRequest(csvExportProperties));
+            DictionaryHelper.d = beneficiaryExportData.Dictionary;
+            if (beneficiaryExportData.IsValid)
+                return Redirect("csvexporterapp:beneficiarySession;beneficiaryHeader");
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+        }
 
         public ActionResult Details(string id)
         {
