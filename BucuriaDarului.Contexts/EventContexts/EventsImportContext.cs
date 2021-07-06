@@ -1,5 +1,5 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using BucuriaDarului.Core.Gateways.EventGateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -29,17 +28,19 @@ namespace BucuriaDarului.Contexts.EventContexts
                 response.IsValid = false;
             }
 
-            if (!IsTheCorrectHeader(GetHeaderColumns(dataToImport)))
-            {
-                response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
-                response.IsValid = false;
-            }
-
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
+                if(result[0].Contains("File must be of type Event!"))
+                {
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
+                    response.IsValid = false;
+                }
+                else
+                {
                 var eventsFromCsv = GetEventsFromCsv(result, response);
                 dataGateway.Insert(eventsFromCsv);
+                }
             }
 
             return response;
@@ -47,7 +48,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private string[] GetHeaderColumns(Stream dataToImport)
         {
-            using var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
+            var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
             var headerLine = reader.ReadLine();
 
             var csvSeparator = CsvUtils.DetectSeparator(headerLine);
@@ -66,8 +67,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         private static List<string[]> ExtractImportRawData(Stream dataToImport)
         {
             var result = new List<string[]>();
-            //FOR SOME REASON THIS READER DECIDED TO GIVE UP?
-            using var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
+            var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
 
             var csvSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var i = 0;
@@ -83,7 +83,12 @@ namespace BucuriaDarului.Contexts.EventContexts
 
                     if (!IsTheCorrectHeader(headerColumns))
                     {
-                        return new List<string[]>();
+                        var returnList = new List<string[]>();
+                        var strarray = new string[60];
+                        strarray[0] = "File must be of type Event!";
+                        returnList.Add(strarray);
+
+                        return returnList;
                     }
                 }
                 else

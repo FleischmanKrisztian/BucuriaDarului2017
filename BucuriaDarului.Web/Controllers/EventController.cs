@@ -29,7 +29,6 @@ namespace Finalaplication.Controllers
         public ActionResult Import(IFormFile Files)
         {
             var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-            //ERROR HERE?
             var response = eventsImportContext.Execute(Files.OpenReadStream());
             if (response.IsValid)
                 return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
