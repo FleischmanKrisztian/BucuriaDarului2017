@@ -38,27 +38,39 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private List<Beneficiary> GetBeneficiariesAfterFilters(List<Beneficiary> beneficiaries, FilterData filterData)
         {
-            beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(filterData.BeneficiaryName, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.HomeDeliveryDriver.Contains(filterData.SearchingDriver, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.Address.Contains(filterData.SearchingAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Occupation.Contains(filterData.SearchingPO, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Profession.Contains(filterData.SearchingPO, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.Comments.Contains(filterData.SearchingComments, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingBirthPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Studies.Contains(filterData.SearchingStudies, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.SeniorityInWorkField.Contains(filterData.SearchingSeniority, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthState.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disability.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Addictions.Contains(filterData.SearchingAddictions, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Married.Contains(filterData.SearchingMarried, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.SpouseName.Contains(filterData.SearchingMarried, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Income.Contains(filterData.SearchingIncome, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Income.Contains(filterData.SearchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Expenses.Contains(filterData.SearchingExpences, StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-
+            //we have some errors here
+            if (filterData.BeneficiaryName != null)
+                beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(filterData.BeneficiaryName, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingDriver != null)
+                beneficiaries = beneficiaries.Where(x => x.HomeDeliveryDriver.Contains(filterData.SearchingDriver, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingAddress != null)
+                beneficiaries = beneficiaries.Where(x => x.Address.Contains(filterData.SearchingAddress, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingPO != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Occupation.Contains(filterData.SearchingPO, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Profession.Contains(filterData.SearchingPO, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingComments != null) 
+                beneficiaries = beneficiaries.Where(x => x.Comments.Contains(filterData.SearchingComments, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingBirthPlace != null) 
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingBirthPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingStudies != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingStudies, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingSeniority != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingSeniority, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingHealthState != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthState.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disability.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingAddictions != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingAddictions, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingMarried != null) 
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Married.Contains(filterData.SearchingMarried, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.SpouseName.Contains(filterData.SearchingMarried, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingIncome != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingIncome.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingHousingType != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingExpences != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingExpences.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingNumberOfPortions != 0)
             {
                 beneficiaries = beneficiaries.Where(x => x.NumberOfPortions.Equals(filterData.SearchingNumberOfPortions)).ToList();
             }
-
 
             if (filterData.Homeless == true)
             {
@@ -84,6 +96,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             {
                 beneficiaries = beneficiaries.Where(x => x.HomeDelivery == true).ToList();
             }
+            
 
             if (filterData.HasGDPRAgreement == true)
             {
@@ -105,7 +118,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthCard == true).ToList();
             }
 
-           
             if (filterData.Gender != " All")
             {
                 if (filterData.Gender == "Male")
@@ -115,17 +127,24 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 if (filterData.Gender == "Female")
                 { beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Gender.Equals(Gender.Female)).ToList(); }
             }
-
             
-            if (DateInputReceived(filterData.LowerDate))
+            if (DateInputReceived(filterData.LowerDate) )
             {
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate > filterData.LowerDate).ToList();
             }
-            if (DateInputReceived(filterData.UpperDate))
+            if (DateInputReceived(filterData.UpperDate) )
             {
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate <= filterData.UpperDate).ToList();
             }
-            switch (filterData.SortOrder)
+           
+                if (DateInputReceived(filterData.ActiveTill))
+                {
+                    beneficiaries = beneficiaries.Where(x => x.LastTimeActive > filterData.ActiveTill).ToList();
+                }
+            
+            
+            
+            switch (filterData.SortOrder.SortOrder)
             {
                 case "Gender":
                     beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Gender).ToList();
@@ -183,19 +202,18 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     public class BeneficiariesMainDisplayIndexRequest
     {
         public FilterData FilterData { get; set; }
-
+        public Sort SortOrder { get; set; }
         public PagingData PagingData { get; set; }
 
         public BeneficiariesMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string sortOrder, bool active, string searchingBirthPlace, bool hasContract, bool homeless, DateTime lowerDate, DateTime upperDate, DateTime activeSince, DateTime activeTill, bool weeklyPackage, bool canteen, bool homeDelivery, string searchingDriver, bool hasGDPRAgreement, string searchingAddress, bool hasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
         {
             var filterData = new FilterData();
             var pagingData = new PagingData();
-
-            filterData.BeneficiaryName = searching ?? "";
+            filterData.BeneficiaryName = searching ?? null;
             filterData.Active = active;
             filterData.LowerDate = lowerDate;
             filterData.UpperDate = upperDate;
-            filterData.SearchingBirthPlace = searchingBirthPlace ?? "";
+            filterData.SearchingBirthPlace = searchingBirthPlace ??null;
             filterData.HasContract = hasContract;
             filterData.Homeless = homeless;
             filterData.ActiveSince = activeSince;
@@ -203,28 +221,28 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             filterData.WeeklyPackage = weeklyPackage;
             filterData.Canteen = canteen;
             filterData.HomeDelivery = homeDelivery;
-            filterData.SearchingDriver = searchingDriver ?? "";
+            filterData.SearchingDriver = searchingDriver ?? null;
             filterData.HasGDPRAgreement = hasGDPRAgreement;
-            filterData.SearchingAddress = searchingAddress ?? "";
+            filterData.SearchingAddress = searchingAddress ?? null;
             filterData.HasID = hasID;
             if (searchingNumberOfPortions != 0)
                 filterData.SearchingNumberOfPortions = searchingNumberOfPortions;
 
-            filterData.SearchingComments = searchingComments ?? "";
-            filterData.SearchingStudies = searchingStudies ?? "";
-            filterData.SearchingPO = searchingPO ?? "";
-            filterData.SearchingSeniority = searchingSeniority ?? "";
-            filterData.SearchingHealthState = searchingHealthState ?? "";
-            filterData.SearchingAddictions = searchingAddictions ?? "";
-            filterData.SearchingMarried = searchingMarried ?? "";
+            filterData.SearchingComments = searchingComments ?? null;
+            filterData.SearchingStudies = searchingStudies ??null;
+            filterData.SearchingPO = searchingPO ?? null;
+            filterData.SearchingSeniority = searchingSeniority ?? null;
+            filterData.SearchingHealthState = searchingHealthState ?? null;
+            filterData.SearchingAddictions = searchingAddictions ?? null;
+            filterData.SearchingMarried = searchingMarried ?? null;
             filterData.SearchingHealthInsurance = searchingHealthInsurance;
             filterData.SearchingHealthCard = searchingHealthCard;
             filterData.SearchingHasHome = searchingHasHome;
-            filterData.SearchingHousingType = searchingHousingType ?? "";
-            filterData.SearchingIncome = searchingIncome ?? "";
-            filterData.SearchingExpences = searchingExpences ?? "";
+            filterData.SearchingHousingType = searchingHousingType ?? null;
+            filterData.SearchingIncome = searchingIncome ?? null;
+            filterData.SearchingExpences = searchingExpences ??null;
             filterData.Gender = gender;
-
+            filterData.SortOrder = new Sort(sortOrder);
 
             pagingData.CurrentPage = GetCurrentPage(page);
             pagingData.NrOfDocumentsPerPage = nrOfDocs;
@@ -262,6 +280,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             Beneficiaries = beneficiaries;
             FilterData = filterData;
             PagingData = pagingData;
+
             TotalBeneficiaries = beneficiariesAfterFiltering;
             StringOfIDs = stringOfIDs;
         }
@@ -278,9 +297,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     {
         public string BeneficiaryName { get; set; }
 
-        public string SortOrder { get; set; }
         public bool Active { get; set; }
-
         public string SearchingBirthPlace { get; set; }
         public bool HasContract { get; set; }
         public bool Homeless { get; set; }
@@ -310,5 +327,27 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public string SearchingIncome { get; set; }
         public string SearchingExpences { get; set; }
         public string Gender { get; set; }
+
+        public Sort SortOrder { get; set; }
+    }
+
+    public class Sort
+    {
+        public string SortOrder { get; set; }
+        public string NameSortParm { get; set; }
+        public string DateSortParm { get; set; }
+        public string FullnameSort { get; set; }
+        public string Gendersort { get; set; }
+        public string Activesort { get; set; }
+
+        public Sort(string sortOrder)
+        {
+            SortOrder = sortOrder;
+            NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
+            Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+            Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+        }
     }
 }

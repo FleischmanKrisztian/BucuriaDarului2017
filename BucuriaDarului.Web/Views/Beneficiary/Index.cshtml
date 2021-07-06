@@ -3,39 +3,7 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Index";
-    int currentpage = ViewBag.Page;
-    string stringofids = ViewBag.stringofids;
-    string string1 = ViewBag.Filters1;
-    string string2 = ViewBag.Filters2;
-    string string3 = ViewBag.Filters3;
-    string string4 = ViewBag.Filters4;
-    string string5 = ViewBag.Filters5;
-    string string6 = ViewBag.Filters6;
-    string string7 = ViewBag.Filters7;
-    string string8 = ViewBag.Filters8;
-    string string9 = ViewBag.Filters9;
-    string string10 = ViewBag.Filters10;
-    string string11 = ViewBag.Filters11;
-    string string12 = ViewBag.Filters12;
-    string string13 = ViewBag.Filters13;
-    string string14 = ViewBag.Filters14;
-    string string15 = ViewBag.Filters15;
-    string string16 = ViewBag.Filters16;
-    string string17 = ViewBag.Filters17;
-    string string18 = ViewBag.Filters18;
-    string string19 = ViewBag.Filters19;
-    string string20 = ViewBag.Filters20;
-    string string21 = ViewBag.Filters21;
-    string string22 = ViewBag.Filters22;
-    string string23 = ViewBag.Filters23;
-    string string24 = ViewBag.Filters24;
-    string string25 = ViewBag.Filters25;
-    string string26 = ViewBag.Filters26;
-    string string27 = ViewBag.Filters27;
-    string string28 = ViewBag.Filters28;
-    string string29 = ViewBag.Filters29;
-    string string30 = ViewBag.Filters30;
-    string string31 = ViewBag.Filters31;
+    
 
 }
 <head>
@@ -108,49 +76,49 @@
                     maxpage--;
                 }
 
-                if (currentpage == 1)
+                if (Model.PagingData.CurrentPage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink("1", "Index", new { page = 1, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (currentpage >= 5)
+                if (Model.PagingData.CurrentPage >= 5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = currentpage - 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (currentpage > 3)
+                if (Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink((currentpage - 2).ToString(), "Index", new { page = currentpage - 2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (currentpage > 2)
+                if (Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((currentpage - 1).ToString(), "Index", new { page = currentpage - 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (currentpage != 1 && currentpage != maxpage)
+                if (Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                if (currentpage < maxpage - 1)
+                if (Model.PagingData.CurrentPage < maxpage - 1)
                 {
-                    @Html.ActionLink((currentpage + 1).ToString(), "Index", new { page = currentpage + 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (currentpage < maxpage - 2)
+                if (Model.PagingData.CurrentPage < maxpage - 2)
                 {
-                    @Html.ActionLink((currentpage + 2).ToString(), "Index", new { page = currentpage + 2, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (currentpage < maxpage - 3)
+                if (Model.PagingData.CurrentPage < maxpage - 3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = currentpage + 1, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
-                if (maxpage != 1 && currentpage == maxpage)
+                if (maxpage != 1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = ViewBag.SortOrder, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, Weeklypackage = ViewBag.Weeklypackage, Canteen = ViewBag.Canteen, HomeDelivery = ViewBag.HomeDelivery, searchingDriver = ViewBag.searchingDriver, HasGDPRAgreement = ViewBag.HasGDPRAgreement, searchingAddress = ViewBag.searchingAddress, HasID = ViewBag.HasID, searchingNumberOfPortions = ViewBag.searchingNumberOfPortions, searchingComments = ViewBag.searchingComments, searchingBirthPlace = ViewBag.searchingBirthPlace, searchingStudies = ViewBag.searchingStudies, searchingPO = ViewBag.searchingPO, searchingSeniority = ViewBag.searchingSeniority, searchingHealthState = ViewBag.searchingHealthState, searchingAddictions = ViewBag.searchingAddictions, searchingMarried = ViewBag.searchingMarried, searchingHealthInsurance = ViewBag.searchingHealthInsurance, searchingHealthCard = ViewBag.searchingHealthCard, searchingHasHome = ViewBag.searchingHasHome, searchingIncome = ViewBag.searchingIncome, searchingExpences = ViewBag.searchingExpences, gender = ViewBag.gender, activetill = ViewBag.Activetill, activesince = ViewBag.Activesince })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sortOrder = Model.FilterData.SortOrder.SortOrder, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, weeklyPackage = Model.FilterData.WeeklyPackage, canteen = Model.FilterData.Canteen, homeDelivery = Model.FilterData.HomeDelivery, searchingDriver = Model.FilterData.SearchingDriver, HasGDPRAgreement = Model.FilterData.HasGDPRAgreement, searchingAddress = Model.FilterData.SearchingAddress, hasID = Model.FilterData.HasID, searchingNumberOfPortions = Model.FilterData.SearchingNumberOfPortions, searchingComments = Model.FilterData.SearchingComments, searchingBirthPlace = Model.FilterData.SearchingBirthPlace, searchingStudies = Model.FilterData.SearchingStudies, searchingPO = Model.FilterData.SearchingPO, searchingSeniority = Model.FilterData.SearchingSeniority, searchingHealthState = Model.FilterData.SearchingHealthState, searchingAddictions = Model.FilterData.SearchingAddictions, searchingMarried = Model.FilterData.SearchingMarried, searchingHealthInsurance = Model.FilterData.SearchingHealthInsurance, searchingHealthCard = Model.FilterData.SearchingHealthCard, searchingHasHome = Model.FilterData.SearchingHasHome, searchingIncome = Model.FilterData.SearchingIncome, searchingExpences = Model.FilterData.SearchingExpences, gender = Model.FilterData.Gender, activeTill = Model.FilterData.ActiveTill, activeSince = Model.FilterData.ActiveSince })
                 }
             }
             </pre>
@@ -167,13 +135,13 @@
     @if (Model.FilterData.SearchingBirthPlace != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Birthplace"]:@Model.FilterData.SearchingBirthPlace
-            :@Model.FilterData.Active
+            
         </div>
     }
     @if (Model.FilterData.Active != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Active"]:
-        </div>
+    @Localizer["Active"]::@Model.FilterData.Active
+</div>
     }
     @if (Model.FilterData.HasContract!= false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
@@ -232,114 +200,114 @@
     @Localizer["Numberofportions"]:@Model.FilterData.SearchingNumberOfPortions
 </div>
     }
-    @if (string14 != null)
+    @if (Model.FilterData.SearchingComments != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Comments"]:@string14
-        </div>
+    @Localizer["Comments"]:@Model.FilterData.SearchingComments
+</div>
     }
-    @if (string15 != null)
+    @if (Model.FilterData.SearchingStudies != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Studies"]:@string15
-        </div>
+    @Localizer["Studies"]:@Model.FilterData.SearchingStudies
+</div>
     }
 
-    @if (string16 != null)
+    @if (Model.FilterData.SearchingPO != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Profesion&Ocupation"]:@string16
-        </div>
+    @Localizer["Profesion&Ocupation"]:@Model.FilterData.SearchingPO
+</div>
     }
-    @if (string17 != null)
+    @if (Model.FilterData.SearchingSeniority != null)
     {
-        <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Seniorityinworkfield"]:@string17
-        </div>
+<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+    @Localizer["Seniorityinworkfield"]:@Model.FilterData.SearchingSeniority
+</div>
     }
 
-    @if (string18 != null)
+    @if (Model.FilterData.SearchingHealthState != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["HealthState&Disalility&ChronicCondition"]:@string18
-        </div>
+    @Localizer["HealthState&Disalility&ChronicCondition"]:@Model.FilterData.SearchingHealthState
+</div>
     }
-    @if (string19 != null)
+    @if (Model.FilterData.SearchingAddictions != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Addictions"]: @string19
-        </div>
+    @Localizer["Addictions"]: @Model.FilterData.SearchingAddictions
+</div>
     }
-    @if (string20 != null)
+    @if (Model.FilterData.SearchingMarried != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Married&SpouseName"]
         </div>
     }
 
-    @if (string21 != null)
+    @if (Model.FilterData.SearchingHealthInsurance != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Healthinsurance"]
         </div>
     }
-    @if (string22 != null)
+    @if (Model.FilterData.SearchingHealthCard != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Healthcard"]
         </div>
     }
 
-    @if (string24 != null)
+    @if (Model.FilterData.SearchingHousingType != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Housingtype"]:@string24
-        </div>
+    @Localizer["Housingtype"]:@Model.FilterData.SearchingHousingType
+</div>
     }
-    @if (string25 != null)
+    @if (Model.FilterData.SearchingIncome != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Income"]:@string25
-        </div>
-    }
-
-    @if (string26 != null)
-    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Expences"]:@string26
-        </div>
-    }
-    @if (string27 != null)
-    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Gender"]:@string27
+            @Localizer["Income"]:@Model.FilterData.SearchingIncome
         </div>
     }
 
-    @if (string28 != null)
+    @if (Model.FilterData.SearchingExpences != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["BornAfter"]:@string13
-        </div>
-    }@if (string29 != null)
-    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["BornBefore"]:@string14
-        </div>
-    }@if (string30 != null)
-    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Inntinf"]:@string15
+            @Localizer["Expences"]:@Model.FilterData.SearchingExpences
         </div>
     }
-    @if (string31 != null)
+    @if (Model.FilterData.Gender != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["intsuo"]:@string16
+    @Localizer["Gender"]:@Model.FilterData.Gender
+</div>
+    }
+
+    @if (Model.FilterData.LowerDate != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["BornAfter"]:@Model.FilterData.LowerDate
         </div>
+    }@if (Model.FilterData.UpperDate != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["BornBefore"]:@Model.FilterData.UpperDate
+        </div>
+    }@if (Model.FilterData.ActiveSince != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Inntinf"]:@Model.FilterData.ActiveSince
+        </div>
+    }
+    @if (Model.FilterData.ActiveTill != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+    @Localizer["intsuo"]:@Model.FilterData.ActiveTill
+</div>
     }
     <table class="table">
 
         <tr>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Fullname"]</a>
+                <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
 
                 @Html.TextBox("searching")
             </th>
 
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = ViewBag.Activesort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Active"]</a>
+                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Active"]</a>
                 <dd class="col-sm-2">
                     @Html.CheckBox("Active")
                 </dd>
             </th>
             <th>
                 <dt>
-                    <a href=@Url.Action("Index", new { sortOrder = ViewBag.Gendersort, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Gender"]</a>
+                    <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Gender"]</a>
                 </dt>
                 <dd></dd>
             </th>
@@ -357,7 +325,7 @@
             </th>
             <th valign="top">
                 <dt>
-                    <a href=@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, searching = ViewBag.searching, HasContract = ViewBag.hascontract, Active = ViewBag.active, Homeless = ViewBag.Homeless, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate })>@Localizer["Birthdate"]</a>
+                    <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Birthdate"]</a>
                 </dt>
                 <dd></dd>
             </th>
@@ -490,7 +458,7 @@
         {
             <tr>
                 <td colspan="3 " style="color:red">
-                    @Localizer["IndexMessage"]
+                    @Localizer["IndexMessageBeneficiary"]
                 </td>
             </tr>
         }
