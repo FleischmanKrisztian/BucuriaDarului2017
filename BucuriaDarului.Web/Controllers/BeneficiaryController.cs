@@ -142,29 +142,22 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult CsvExporter()
+        public ActionResult CsvExporter(string message)
         {
-            string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_BENEFICIARY);
-            HttpContext.Session.Remove(Constants.SESSION_KEY_BENEFICIARY);
-            string key = Constants.SECONDARY_SESSION_KEY_BENEFICIARY;
-            HttpContext.Session.SetString(key, ids);
-
+            ViewBag.message = message;
             return View();
         }
 
-        [HttpPost]
-        public ActionResult CsvExporter(bool All, bool PhoneNumber, bool SpouseName, bool Gender, bool Expences, bool Income, bool HousingType, bool HasHome, bool Married, bool HealthCard, bool HealthInsurance, bool Addictions, bool ChronicCondition, bool Disalility, bool HealthState, bool Profesion, bool SeniorityInWorkField, bool Ocupation, bool BirthPlace, bool Studies, bool CI_Info, bool IdContract, bool IdInvestigation, bool IdAplication, bool marca, bool CNP, bool Fullname, bool Active, bool Canteen, bool HomeDelivery, bool HomeDeliveryDriver, bool HasGDPRAgreement, bool Adress, bool NumberOfPortions, bool LastTimeActiv, bool WeeklyPackage)
-        {
-            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_BENEFICIARY);
-            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_BENEFICIARY);
-            string ids_and_fields = BeneficiaryFunctions.GetIdAndFieldString(IDS, PhoneNumber, SpouseName, Gender, Expences, Income, HousingType, HasHome, Married, HealthCard, HealthInsurance, Addictions, ChronicCondition, Disalility, HealthState, Profesion, SeniorityInWorkField, Ocupation, BirthPlace, Studies, CI_Info, IdContract, IdInvestigation, IdAplication, marca, All, CNP, Fullname, Active, Canteen, HomeDelivery, HomeDeliveryDriver, HasGDPRAgreement, Adress, NumberOfPortions, LastTimeActiv, WeeklyPackage);
-            string key1 = Constants.BENEFICIARYSESSION;
-            string header = ControllerHelper.GetHeaderForExcelPrinterBeneficiary(_localizer);
-            string key2 = Constants.BENEFICIARYHEADER;
-            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
-            string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
-            return Redirect(csvexporterlink);
-        }
+        //[HttpPost]
+        //public ActionResult CsvExporter(ExportParameters csvExportProperties)
+        //{
+        //    var beneficiaryExporterContext = new BeneficiaryExporterContext(_localizer);
+        //    var beneficiaryExportData = beneficiaryExporterContext.Execute(new BeneficiaryExporterRequest(csvExportProperties));
+        //    DictionaryHelper.d = beneficiaryExportData.Dictionary;
+        //    if (beneficiaryExportData.IsValid)
+        //        return Redirect("csvexporterapp:beneficiarySession;beneficiaryHeader");
+        //    return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+        //}
 
         public ActionResult Details(string id)
         {
@@ -196,6 +189,7 @@ namespace BucuriaDarului.Web.Controllers
         {
             var beneficiaryCreateContext = new BeneficiaryCreateContext(new BeneficiaryCreateGateway());
             var fileBytes = new byte[0];
+
             if (image != null)
             {
                 if (image.Length > 0)
