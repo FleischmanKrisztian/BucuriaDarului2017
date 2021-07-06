@@ -1,13 +1,13 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
 using BucuriaDarului.Gateway;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
+using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.IO;
-using Finalaplication.Common;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -70,27 +70,14 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Details(string id)
         {
-            try
-            {
-                var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
+            return View(model);
         }
 
-        public ActionResult Create()
+        public ActionResult Create(string message)
         {
-            try
-            {
-                return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            ViewBag.message = message;
+            return View();
         }
 
         [HttpPost]
@@ -119,24 +106,16 @@ namespace BucuriaDarului.Web.Controllers
             ModelState.Remove("LastTimeActive");
             ModelState.Remove("PersonalInfo.Birthdate");
             ModelState.Remove("CI.ExpirationDate");
-            if (beneficiaryCreateResponse.ContainsSpecialChar)
+            if (!beneficiaryCreateResponse.IsValid)
             {
-                ViewBag.ContainsSpecialChar = true;
-                return View();
+                return RedirectToAction("Create", new { message = beneficiaryCreateResponse.Message });
             }
-            else if (!beneficiaryCreateResponse.IsValid)
-            {
-                ModelState.AddModelError("Fullname", "Name Of Beneficiary must not be empty");
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, string message)
         {
+            ViewBag.message = message;
             var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
             return View(model);
         }
@@ -165,20 +144,12 @@ namespace BucuriaDarului.Web.Controllers
             ModelState.Remove("LastTimeActive");
             ModelState.Remove("PersonalInfo.Birthdate");
             ModelState.Remove("CI.ExpirationDate");
-            if (beneficiaryEditResponse.ContainsSpecialChar)
+
+            if (!beneficiaryEditResponse.IsValid)
             {
-                ViewBag.ContainsSpecialChar = true;
-                return View(beneficiaryEditResponse.Beneficiary);
+                return RedirectToAction("Edit", new {id = request.Id, message = beneficiaryEditResponse.Message });
             }
-            else if (!beneficiaryEditResponse.IsValid)
-            {
-                ModelState.AddModelError("Fullname", "Name Of Beneficiary must not be empty");
-                return View(beneficiaryEditResponse.Beneficiary);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(string id)

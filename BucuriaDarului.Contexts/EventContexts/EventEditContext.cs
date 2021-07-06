@@ -8,7 +8,7 @@ namespace BucuriaDarului.Contexts.EventContexts
     public class EventEditContext
     {
         private readonly IEventEditGateway dataGateway;
-        private EventEditResponse response = new EventEditResponse("", false, true);
+        private EventEditResponse response = new EventEditResponse("", true);
 
         public EventEditContext(IEventEditGateway dataGateway)
         {
@@ -21,13 +21,13 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             if (ContainsSpecialChar(noNullRequest))
             {
-                response.ContainsSpecialChar = true;
+                response.IsValid = false;
                 response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
             var @event = ValidateRequest(noNullRequest);
 
-            if (response.ContainsSpecialChar == false && response.IsValid)
+            if (response.IsValid)
             {
                 var modifiedList = dataGateway.ReturnModificationList();
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
@@ -99,12 +99,9 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public bool IsValid { get; set; }
 
-        public bool ContainsSpecialChar { get; set; }
-
-        public EventEditResponse(string message, bool containsSpecialChar, bool isValid)
+        public EventEditResponse(string message, bool isValid)
         {
             Message = message;
-            ContainsSpecialChar = containsSpecialChar;
             IsValid = isValid;
         }
     }

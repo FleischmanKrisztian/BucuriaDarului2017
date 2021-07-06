@@ -8,7 +8,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     public class BeneficiaryEditContext
     {
         private readonly IBeneficiaryEditGateway dataGateway;
-        private BeneficiaryEditResponse response = new BeneficiaryEditResponse("", false, true);
+        private BeneficiaryEditResponse response = new BeneficiaryEditResponse("", true);
 
         public BeneficiaryEditContext(IBeneficiaryEditGateway dataGateway)
         {
@@ -21,13 +21,13 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
             if (ContainsSpecialChar(noNullRequest))
             {
-                response.ContainsSpecialChar = true;
+                response.IsValid = false;
                 response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
             var beneficiary = ValidateRequest(noNullRequest, image);
 
-            if (response.ContainsSpecialChar == false && response.IsValid)
+            if (response.IsValid)
             {
                 var modifiedList = dataGateway.ReturnModificationList();
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
@@ -110,12 +110,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public bool IsValid { get; set; }
 
-        public bool ContainsSpecialChar { get; set; }
-
-        public BeneficiaryEditResponse(string message, bool containsSpecialChar, bool isValid)
+        public BeneficiaryEditResponse(string message, bool isValid)
         {
             Message = message;
-            ContainsSpecialChar = containsSpecialChar;
             IsValid = isValid;
         }
     }

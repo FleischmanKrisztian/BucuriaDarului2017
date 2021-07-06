@@ -50,10 +50,11 @@
         }
     </style>
 </head>
-@if (ViewBag.ContainsSpecialChar == true)
-{
-    <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>
-}
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
 <form method="post" action="/Beneficiary/Edit" enctype="multipart/form-data">
     @Html.HiddenFor(model=>model.Id, new { Id = Model.Id })
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

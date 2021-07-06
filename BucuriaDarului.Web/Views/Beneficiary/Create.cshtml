@@ -51,10 +51,11 @@
         }
     </style>
 </head>
-@if (ViewBag.containsspecialchar == true)
-{
-    <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>
-}
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

@@ -8,7 +8,7 @@ namespace BucuriaDarului.Contexts.EventContexts
     public class EventCreateContext
     {
         private readonly IEventCreateGateway dataGateway;
-        private EventCreateResponse response = new EventCreateResponse("", false, true);
+        private EventCreateResponse response = new EventCreateResponse("", true);
 
         public EventCreateContext(IEventCreateGateway dataGateway)
         {
@@ -21,13 +21,13 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             if (ContainsSpecialChar(noNullRequest))
             {
-                response.ContainsSpecialChar = true;
+                response.IsValid = false;
                 response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
             var @event = ValidateRequest(noNullRequest);
 
-            if (response.ContainsSpecialChar == false && response.IsValid)
+            if (response.IsValid)
             {
                 dataGateway.Insert(@event);
             }
@@ -88,12 +88,9 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public bool IsValid { get; set; }
 
-        public bool ContainsSpecialChar { get; set; }
-
-        public EventCreateResponse(string message, bool containsSpecialChar, bool isValid)
+        public EventCreateResponse(string message, bool isValid)
         {
             Message = message;
-            ContainsSpecialChar = containsSpecialChar;
             IsValid = isValid;
         }
     }
