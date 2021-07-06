@@ -17,8 +17,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public BeneficiaryCreateResponse Execute(BeneficiaryCreateRequest request, byte[] image)
         {
+            
             var noNullRequest = ChangeNullValues(request);
-
+            
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.ContainsSpecialChar = true;
@@ -88,8 +89,24 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     property.SetValue(request, string.Empty);
                 }
             }
+           
+            foreach (var property in request.PersonalInfo.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+                if (propertyType != typeof(DateTime))
+                {
+                    var value = property.GetValue(request.PersonalInfo, null);
+                    if (propertyType == typeof(string) && value == null)
+                    {
+                        property.SetValue(request.PersonalInfo, string.Empty);
+                    }
+                }   
+            }
+
             return request;
         }
+
+        
     }
 
     public class BeneficiaryCreateResponse
@@ -141,5 +158,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public PersonalInfo PersonalInfo { get; set; }
 
         public byte[] Image { get; set; }
+
+       
     }
+
+    
 }
