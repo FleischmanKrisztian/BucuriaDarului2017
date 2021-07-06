@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BucuriaDarului.Gateway.SponsorGateways;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
-namespace BucuriaDarului.Web.Controllers
+namespace Finalaplication.Controllers
 {
     public class SponsorController : Controller
     {
@@ -161,27 +162,13 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Details(string id)
         {
-            try
-            {
-                Sponsor detailssponsor = sponsorManager.GetOneSponsor(id);
-                return View(detailssponsor);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
+            return View(model);
         }
 
         public ActionResult Create()
         {
-            try
-            {
                 return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
         }
 
         [HttpPost]
@@ -220,16 +207,8 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Edit(string id)
         {
-            try
-            {
-                Sponsor sponsor = sponsorManager.GetOneSponsor(id);
-                ViewBag.id = id;
-                return View(sponsor);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
+            return View(model);
         }
 
         [HttpPost]
@@ -279,29 +258,15 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Delete(string id)
         {
-            try
-            {
-                Sponsor showsponsor = sponsorManager.GetOneSponsor(id);
-                return View(showsponsor);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection collection)
         {
-            try
-            {
-                sponsorManager.DeleteSponsor(id);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            SponsorDeleteGateway.DeleteSponsor(id);
+            return RedirectToAction("Index");
         }
     }
 }
