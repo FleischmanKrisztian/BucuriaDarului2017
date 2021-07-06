@@ -38,6 +38,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private List<Beneficiary> GetBeneficiariesAfterFilters(List<Beneficiary> beneficiaries, FilterData filterData)
         {
+            //we have some errors here
             if (filterData.BeneficiaryName != null)
                 beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(filterData.BeneficiaryName, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingDriver != null)
