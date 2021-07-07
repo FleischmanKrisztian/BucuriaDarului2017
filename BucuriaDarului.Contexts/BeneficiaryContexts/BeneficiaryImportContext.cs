@@ -84,7 +84,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     if (!IsTheCorrectHeader(headerColumns))
                     {
                         var returnList = new List<string[]>();
-                        var strArray = new string[60];
+                        var strArray = new string[1];
                         strArray[0] = "File must be of type Beneficiary!";
                         returnList.Add(strArray);
 
