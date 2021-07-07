@@ -8,6 +8,6 @@ namespace BucuriaDarului.Core
     {
         public string PhoneNumber { get; set; }
 
-        public string EmailAddress { get; set; }
+        public string MailAddress { get; set; }
     }
 }

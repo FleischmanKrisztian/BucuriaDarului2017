@@ -611,7 +611,7 @@ namespace Finalaplication.Controllers
                             }
                             jsonstring = jsonstring + "\"" + finalHeader[19] + "\":" + "\"" + volunteer.ContactInformation.PhoneNumber + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.ContactInformation.EmailAddress + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.ContactInformation.MailAddress + "\"";
                             first = false;
                         }
                         if (properties.Contains("D"))

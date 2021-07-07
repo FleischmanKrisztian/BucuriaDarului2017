@@ -190,8 +190,8 @@
                         @Localizer["EmailAddress"]:
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.ContactInformation.EmailAddress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ContactInformation.EmailAddress, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.ContactInformation.MailAddress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContactInformation.MailAddress, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>

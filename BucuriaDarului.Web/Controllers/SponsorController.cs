@@ -1,4 +1,6 @@
 ﻿using BucuriaDarului.Gateway.SponsorGateways;
+using BucuriaDarului.Contexts.SponsorContexts;
+// using BucuriaDarului.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class SponsorController : Controller
     {
@@ -93,57 +95,62 @@ namespace Finalaplication.Controllers
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);
         }
-
-        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
+        // TODO: what is the difference between searching & ContactInfo? in the Sponsor class ContactInformation is a class with 2 strings as fields
+        // TODO: ContactInfo is the phone or email????
+        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerDate, DateTime upperDate, bool hasContract, string WhatGoods, string MoneyAmount, string GoodsAmount)
 
         {
-            try
-            {
-                if (searching != null)
-                { ViewBag.Filters1 = searching; }
-                if (ContactInfo != null)
-                { ViewBag.Filters2 = ContactInfo; }
-                if (HasContract == true)
-                { ViewBag.Filters3 = ""; }
-                if (WhatGoods != null)
-                { ViewBag.Filters4 = WhatGoods; }
-                if (MoneyAmount != null)
-                { ViewBag.Filters5 = MoneyAmount; }
-                if (GoodsAmounts != null)
-                { ViewBag.Filters6 = GoodsAmounts; }
-                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-                if (lowerdate != date)
-                { ViewBag.Filter7 = lowerdate.ToString(); }
-                if (upperdate != date)
-                { ViewBag.Filter8 = upperdate.ToString(); }
-                ViewBag.Contact = ContactInfo;
-                ViewBag.searching = searching;
-                ViewBag.Upperdate = upperdate;
-                ViewBag.Lowerdate = lowerdate;
-                ViewBag.HasContract = HasContract;
-                ViewBag.WhatGoods = WhatGoods;
-                ViewBag.GoodsAmount = GoodsAmounts;
-                ViewBag.MoneyAmount = MoneyAmount;
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            var sponsorsMainDisplayIndexContext = new SponsorsMainDisplayIndexContext(new SponsorMainDisplayIndexGateway());
+            var model = sponsorsMainDisplayIndexContext.Execute(new SponsorsMainDisplayIndexRequest(searching, page, nrOfDocs, ContactInfo, lowerDate, upperDate, hasContract, WhatGoods, MoneyAmount, GoodsAmount));
+            return View(model);
+            //try
+            //{
+            //    if (searching != null)
+            //    { ViewBag.Filters1 = searching; }
+            //    if (ContactInfo != null)
+            //    { ViewBag.Filters2 = ContactInfo; }
+            //    if (HasContract == true)
+            //    { ViewBag.Filters3 = ""; }
+            //    if (WhatGoods != null)
+            //    { ViewBag.Filters4 = WhatGoods; }
+            //    if (MoneyAmount != null)
+            //    { ViewBag.Filters5 = MoneyAmount; }
+            //    if (GoodsAmounts != null)
+            //    { ViewBag.Filters6 = GoodsAmounts; }
+            //    DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
+            //    if (lowerdate != date)
+            //    { ViewBag.Filter7 = lowerdate.ToString(); }
+            //    if (upperdate != date)
+            //    { ViewBag.Filter8 = upperdate.ToString(); }
+            //    ViewBag.Contact = ContactInfo;
+            //    ViewBag.searching = searching;
+            //    ViewBag.Upperdate = upperdate;
+            //    ViewBag.Lowerdate = lowerdate;
+            //    ViewBag.HasContract = HasContract;
+            //    ViewBag.WhatGoods = WhatGoods;
+            //    ViewBag.GoodsAmount = GoodsAmounts;
+            //    ViewBag.MoneyAmount = MoneyAmount;
 
-                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-                page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.page = page;
-                sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors, searching, ContactInfo, lowerdate, upperdate, HasContract, WhatGoods, MoneyAmount, GoodsAmounts);
-                ViewBag.counter = sponsors.Count();
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                ViewBag.nrofdocs = nrofdocs;
-                string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
-                ViewBag.stringofids = stringofids;
-                sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
-                string key = Constants.SESSION_KEY_SPONSOR;
-                HttpContext.Session.SetString(key, stringofids);
+            //    List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
+            //    page = UniversalFunctions.GetCurrentPage(page);
+            //    ViewBag.page = page;
+            //    sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors, searching, ContactInfo, lowerdate, upperdate, HasContract, WhatGoods, MoneyAmount, GoodsAmounts);
+            //    ViewBag.counter = sponsors.Count();
+            //    int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            //    ViewBag.nrofdocs = nrofdocs;
+            //    string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
+            //    ViewBag.stringofids = stringofids;
+            //    sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
+            //    string key = Constants.SESSION_KEY_SPONSOR;
+            //    HttpContext.Session.SetString(key, stringofids);
 
-                return View(sponsors);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            //    return View(sponsors);
+            //}
+            //catch
+            //{
+            //    return RedirectToAction("Localserver", "Home");
+            //}
         }
 
         public ActionResult ContractExp()

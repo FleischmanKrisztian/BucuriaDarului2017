@@ -150,7 +150,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     var contactInformation = new ContactInformation
                     {
                         PhoneNumber = line[14],
-                        EmailAddress = line[15]
+                        MailAddress = line[15]
                     };
                     volunteer.ContactInformation = contactInformation;
 

@@ -185,12 +185,12 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
                 {
                     if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.PhoneNumber == "")
                         v.ContactInformation.PhoneNumber = "-";
-                    if (v.ContactInformation.EmailAddress == null || v.ContactInformation.EmailAddress == "")
-                        v.ContactInformation.EmailAddress = "-";
+                    if (v.ContactInformation.MailAddress == null || v.ContactInformation.MailAddress == "")
+                        v.ContactInformation.MailAddress = "-";
                 }
                 try
                 {
-                    volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.EmailAddress.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAddress.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 catch { }
             }
