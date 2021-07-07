@@ -273,20 +273,20 @@
 </div>
     }
 
-    @if (Model.FilterData.LowerDate != null)
+    @if (Model.FilterData.LowerDate != null && Model.FilterData.LowerDate.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["BornAfter"]:@Model.FilterData.LowerDate
         </div>
-    }@if (Model.FilterData.UpperDate != null)
+    }@if (Model.FilterData.UpperDate != null && Model.FilterData.UpperDate.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["BornBefore"]:@Model.FilterData.UpperDate
         </div>
-    }@if (Model.FilterData.ActiveSince != null)
+    }@if (Model.FilterData.ActiveSince != null && Model.FilterData.ActiveSince.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Inntinf"]:@Model.FilterData.ActiveSince
         </div>
     }
-    @if (Model.FilterData.ActiveTill != null)
+    @if (Model.FilterData.ActiveTill != null&& Model.FilterData.ActiveTill.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
     @Localizer["intsuo"]:@Model.FilterData.ActiveTill
 </div>
@@ -337,7 +337,7 @@
                         @Localizer["Filters"]:
                     </button>
 
-                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;overflow: scroll;">
                         <dt class="col-sm-8">@Localizer["Homeless"]: </dt>
                         <dd class="col-sm-2">
                             @Html.CheckBox("Homeless")
