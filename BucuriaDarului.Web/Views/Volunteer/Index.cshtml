@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+﻿@model IEnumerable<BucuriaDarului.Core.Volunteer>
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Builder
@@ -201,7 +201,7 @@
        @Html.CheckBox("Active")
        </th >
        <th >
-       @Localizer["Phonenumber"]
+       @Localizer["PhoneNumber"]
        </th >
        <th >
        <a href= @Url.Action("Index", new { sortOrder = ViewBag.Gendersort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }) >@Localizer["Gender"] </a >
@@ -307,10 +307,10 @@
        @Html.DisplayFor(modelItem => item.HourCount)
        </td >
        <td >
-       <a href= @Url.Action("Edit", new { id = item._id }) > <img src="~/Resources/edit.jpg" width="40" height="40" title=" @Localizer["Edit"]" > </a > |
-       <a href= @Url.Action("Details", new { id = item._id }) > <img src="~/Resources/detali.jpg" width="40" height="40" title= "@Localizer["Details"]" > </a > |
-       <a href= @Url.Action("Delete", new { id = item._id }) > <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]" > </a >
-       <a href= @Url.Action("Contracts", new { id = item._id }) > <img src="~/Resources/contract.jpg" width="40" height="40" title= "@Localizer["Contracts"]" > </a >
+       <a href= @Url.Action("Edit", new { id = item.Id }) > <img src="~/Resources/edit.jpg" width="40" height="40" title=" @Localizer["Edit"]" > </a > |
+       <a href= @Url.Action("Details", new { id = item.Id }) > <img src="~/Resources/detali.jpg" width="40" height="40" title= "@Localizer["Details"]" > </a > |
+       <a href= @Url.Action("Delete", new { id = item.Id }) > <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]" > </a >
+       <a href= @Url.Action("Contracts", new { id = item.Id }) > <img src="~/Resources/contract.jpg" width="40" height="40" title= "@Localizer["Contracts"]" > </a >
        </td >
        </tr >
             }

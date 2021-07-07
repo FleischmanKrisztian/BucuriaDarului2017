@@ -1,10 +1,9 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
-using MongoDB.Driver;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
+using MongoDB.Driver;
 
-namespace BucuriaDarului.Gateway
+namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {
     public class BeneficiaryImportGateway : IBeneficiaryImportGateway
     {

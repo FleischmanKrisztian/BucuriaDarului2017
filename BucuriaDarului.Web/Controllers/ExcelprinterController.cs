@@ -6,9 +6,6 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using BucuriaDarului.Core;
-using Event = Finalaplication.Models.Event;
-using Sponsor = Finalaplication.Models.Sponsor;
-using Volunteer = Finalaplication.Models.Volunteer;
 
 namespace Finalaplication.Controllers
 {
@@ -494,13 +491,13 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]);
+                        var volunteer = volunteerscollection.AsQueryable().Where(z => z.Id == ids[i]);
                         jsonstring = jsonstring + JsonConvert.SerializeObject(volunteer);
                     }
                     else
                     {
                         bool first = true;
-                        Volunteer volunteer = volunteerscollection.AsQueryable().Where(z => z._id == ids[i]).First();
+                        Volunteer volunteer = volunteerscollection.AsQueryable().Where(z => z.Id == ids[i]).First();
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {
@@ -526,14 +523,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[14] + "\":" + "\"" + volunteer.Address.District + "\"";
-                            jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[15] + "\":" + "\"" + volunteer.Address.City + "\"";
-                            jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[16] + "\":" + "\"" + volunteer.Address.Street + "\"";
-                            jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[17] + "\":" + "\"" + volunteer.Address.Number + "\"";
-
+                            jsonstring = jsonstring + "\"" + finalHeader[14] + "\":" + "\"" + volunteer.Address + "\"";
                             first = false;
                         }
                         if (properties.Contains("4"))
@@ -551,7 +541,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + volunteer.Desired_workplace + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[4] + "\":" + "\"" + volunteer.DesiredWorkplace + "\"";
                             first = false;
                         }
                         if (properties.Contains("6"))
@@ -569,7 +559,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + volunteer.Field_of_activity + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[6] + "\":" + "\"" + volunteer.FieldOfActivity + "\"";
                             first = false;
                         }
                         if (properties.Contains("8"))
@@ -587,13 +577,12 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[18] + "\":" + "\"" + volunteer.CIseria + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[15] + "\":" + "\"" + volunteer.CI.HasId + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[19] + "\":" + "\"" + volunteer.CINr + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[16] + "\":" + "\"" + volunteer.CI.Info + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.CIEliberat + "\"";
-                            jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[21] + "\":" + "\"" + volunteer.CIeliberator + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[17] + "\":" + "\"" + volunteer.CI.ExpirationDate + "\"";
+
                             first = false;
                         }
                         if (properties.Contains("A"))
@@ -620,9 +609,9 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.ContactInformation.PhoneNumber + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[19] + "\":" + "\"" + volunteer.ContactInformation.PhoneNumber + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[21] + "\":" + "\"" + volunteer.ContactInformation.MailAdress + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[20] + "\":" + "\"" + volunteer.ContactInformation.EmailAddress + "\"";
                             first = false;
                         }
                         if (properties.Contains("D"))
@@ -631,11 +620,11 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[22] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[22], volunteer.Additionalinfo.HasDrivingLicence) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[21] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[22], volunteer.AdditionalInfo.HasDrivingLicense) + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[23], volunteer.Additionalinfo.HasCar) + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[22] + "\":" + "\"" + ControllerHelper.GetAnswer(finalHeader[23], volunteer.AdditionalInfo.HasCar) + "\"";
                             jsonstring = jsonstring + ",";
-                            jsonstring = jsonstring + "\"" + finalHeader[24] + "\":" + "\"" + volunteer.Additionalinfo.Remark + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[23] + "\":" + "\"" + volunteer.AdditionalInfo.Remark + "\"";
 
                             first = false;
                         }

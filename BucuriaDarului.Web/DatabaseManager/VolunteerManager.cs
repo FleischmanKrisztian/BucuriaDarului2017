@@ -2,6 +2,7 @@
 using Finalaplication.Models;
 using MongoDB.Driver;
 using System.Collections.Generic;
+using BucuriaDarului.Core;
 
 namespace Finalaplication.LocalDatabaseManager
 {
@@ -18,7 +19,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void AddVolunteerToDB(Volunteer volunteer)
         {
             IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            modifiedDocumentManager.AddIDtoString(volunteer._id);
+            modifiedDocumentManager.AddIDtoString(volunteer.Id);
             volunteercollection.InsertOne(volunteer);
         }
 
@@ -41,8 +42,8 @@ namespace Finalaplication.LocalDatabaseManager
         {
             IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("_id", id);
-            volunteertopdate._id = id;
-            modifiedDocumentManager.AddIDtoString(volunteertopdate._id);
+            volunteertopdate.Id = id;
+            modifiedDocumentManager.AddIDtoString(volunteertopdate.Id);
             volunteercollection.FindOneAndReplace(filter, volunteertopdate);
         }
 

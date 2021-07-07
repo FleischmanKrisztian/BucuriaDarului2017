@@ -240,28 +240,18 @@
             <div class="col-md-3">
                 <div class="profile-work">
                     <p> @Localizer["ContactInfo"]</p>
-                    @Localizer["Phonenumber"]:
+                    @Localizer["PhoneNumber"]:
                     @Html.DisplayFor(model => model.ContactInformation.PhoneNumber)
                     <br />
-                    @Localizer["Emailaddress"]:
-                    @Html.DisplayFor(model => model.ContactInformation.MailAdress)
+                    @Localizer["EmailAddress"]:
+                    @Html.DisplayFor(model => model.ContactInformation.EmailAddress)
                 </div>
             </div>
             <div class="col-md-8">
                 <div id="Generalinformation" class="tabcontent">
                     <div class="row">
-                        <div class=" col-md-6">  <label> @Localizer["District"]:</label></div>
-                        <div class="col-md-6"> @Html.DisplayFor(model => model.Address.District)</div>
-                    </div>
-                    <div class="row">
-                        <div class=" col-md-6"> <label> @Localizer["City"]:</label></div>
-                        <div class="col-md-6"> @Html.DisplayFor(model => model.Address.City)</div>
-                    </div> <div class="row">
-                        <div class=" col-md-6">  <label> @Localizer["Street"]: </label></div>
-                        <div class="col-md-6">@Html.DisplayFor(model => model.Address.Street)</div>
-                    </div> <div class="row">
-                        <div class=" col-md-6">  <label>  @Localizer["Number"]:</label></div>
-                        <div class="col-md-6">@Html.DisplayFor(model => model.Address.Number)</div>
+                        <div class=" col-md-6">  <label> @Localizer["Address"]:</label></div>
+                        <div class="col-md-6"> @Html.DisplayFor(model => model.Address)</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -291,34 +281,34 @@
                 <div id="Volunteering" class="tabcontent">
                     <div class="row">
                         <div class="col-md-6"><label>@Localizer["Remarks"]:</label></div>
-                        <div class="col-md-6">@Html.DisplayFor(model => model.Additionalinfo.Remark)</div>
+                        <div class="col-md-6">@Html.DisplayFor(model => model.AdditionalInfo.Remark)</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6"><label>@Localizer["Hasdrivinglicense"]:</label></div>
-                        <div class="col-md-6">@Html.DisplayFor(model => model.Additionalinfo.HasDrivingLicence)</div>
+                        <div class="col-md-6">@Html.DisplayFor(model => model.AdditionalInfo.HasDrivingLicense)</div>
                     </div>
                     <div class="row">
                         <div class=" col-md-6"><label>@Localizer["Hascar"]:</label></div>
-                        <div classs="col-md-6" style="padding-left:2%;">@Html.DisplayFor(model => model.Additionalinfo.HasCar)</div>
+                        <div classs="col-md-6" style="padding-left:2%;">@Html.DisplayFor(model => model.AdditionalInfo.HasCar)</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label>
-                                @Localizer["Desiredarea"]:
+                                @Localizer["DesiredArea"]:
                             </label>
                         </div>
-                        <div class="col-md-6"> @Html.DisplayFor(model => model.Desired_workplace)</div>
+                        <div class="col-md-6"> @Html.DisplayFor(model => model.DesiredWorkplace)</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6"><label> @Localizer["Fieldofactivity"]:</label></div>
-                        <div class="col-md-6">@Html.DisplayFor(model => model.Field_of_activity)</div>
+                        <div class="col-md-6"><label> @Localizer["FieldOfActivity"]:</label></div>
+                        <div class="col-md-6">@Html.DisplayFor(model => model.FieldOfActivity)</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6"><label>@Localizer["Occupation"]:</label></div>
                         <div class="col-md-6">@Html.DisplayFor(model => model.Occupation)</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6"><label> @Localizer["Hourcount"]:</label></div>
+                        <div class="col-md-6"><label> @Localizer["HourCount"]:</label></div>
                         <div class="col-md-6">@Html.DisplayFor(model => model.HourCount)</div>
                     </div>
                     <div class="row">
@@ -329,38 +319,28 @@
                 <div class="tabcontent" id="IDInformation">
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["CISERIE"]:</label>
+                            <label>@Localizer["HasId"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>
-                                @Html.DisplayFor(model => model.CIseria)
+                                @Html.DisplayFor(model => model.CI.HasId)
                             </p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["CINR"]:</label>
+                            <label>@Localizer["IdInfo"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>  @Html.DisplayFor(model => model.CINr)</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label> @Localizer["CIELIBERAT"]:</label>
-                        </div>
-                        <div class="col-md-6">
-                            <p> @Html.DisplayFor(model => model.CIEliberat)</p>
+                            <p>  @Html.DisplayFor(model => model.CI.Info)</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label> @Localizer["CIELIBERATOR"]:</label>
+                            <label> @Localizer["IdExpirationDate"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>
-                                @Html.DisplayFor(model => model.CIeliberator)
-                            </p>
+                            <p> @Html.DisplayFor(model => model.CI.ExpirationDate)</p>
                         </div>
                     </div>
                 </div>

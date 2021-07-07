@@ -1,4 +1,5 @@
-﻿using Finalaplication.Common;
+﻿using BucuriaDarului.Core;
+using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.DatabaseManager;
 using Finalaplication.LocalDatabaseManager;
@@ -6,6 +7,7 @@ using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using Sponsor = Finalaplication.Models.Sponsor;
 
 namespace Finalaplication.Controllers
 {
@@ -15,7 +17,6 @@ namespace Finalaplication.Controllers
         private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
         private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
 
-        private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SettingsManager settingsManager = new SettingsManager();

@@ -65,8 +65,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingIncome.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingHousingType != null)
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            if (filterData.SearchingExpences != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingExpences.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.SearchingExpenses != null)
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingExpenses.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingNumberOfPortions != 0)
             {
                 beneficiaries = beneficiaries.Where(x => x.NumberOfPortions.Equals(filterData.SearchingNumberOfPortions)).ToList();
@@ -205,7 +205,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public Sort SortOrder { get; set; }
         public PagingData PagingData { get; set; }
 
-        public BeneficiariesMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string sortOrder, bool active, string searchingBirthPlace, bool hasContract, bool homeless, DateTime lowerDate, DateTime upperDate, DateTime activeSince, DateTime activeTill, bool weeklyPackage, bool canteen, bool homeDelivery, string searchingDriver, bool hasGDPRAgreement, string searchingAddress, bool hasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpences, string gender)
+        public BeneficiariesMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string sortOrder, bool active, string searchingBirthPlace, bool hasContract, bool homeless, DateTime lowerDate, DateTime upperDate, DateTime activeSince, DateTime activeTill, bool weeklyPackage, bool canteen, bool homeDelivery, string searchingDriver, bool hasGDPRAgreement, string searchingAddress, bool hasID, int searchingNumberOfPortions, string searchingComments, string searchingStudies, string searchingPO, string searchingSeniority, string searchingHealthState, string searchingAddictions, string searchingMarried, bool searchingHealthInsurance, bool searchingHealthCard, bool searchingHasHome, string searchingHousingType, string searchingIncome, string searchingExpenses, string gender)
         {
             var filterData = new FilterData();
             var pagingData = new PagingData();
@@ -240,7 +240,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             filterData.SearchingHasHome = searchingHasHome;
             filterData.SearchingHousingType = searchingHousingType ?? null;
             filterData.SearchingIncome = searchingIncome ?? null;
-            filterData.SearchingExpences = searchingExpences ??null;
+            filterData.SearchingExpenses = searchingExpenses ??null;
             filterData.Gender = gender;
             filterData.SortOrder = new Sort(sortOrder);
 
@@ -325,7 +325,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public bool SearchingHasHome { get; set; }
         public string SearchingHousingType { get; set; }
         public string SearchingIncome { get; set; }
-        public string SearchingExpences { get; set; }
+        public string SearchingExpenses { get; set; }
         public string Gender { get; set; }
 
         public Sort SortOrder { get; set; }

@@ -1,27 +1,27 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerGateways;
 
-namespace BucuriaDarului.Contexts.BeneficiaryContexts
+namespace BucuriaDarului.Contexts.VolunteerContexts
 {
-    public class BeneficiaryImportContext
+    public class VolunteerImportContext
     {
-        private readonly IBeneficiaryImportGateway dataGateway;
+        private readonly IVolunteerImportGateway dataGateway;
 
-        public BeneficiaryImportContext(IBeneficiaryImportGateway dataGateway)
+        public VolunteerImportContext(IVolunteerImportGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
 
-        public BeneficiaryImportResponse Execute(Stream dataToImport)
+        public VolunteerImportResponse Execute(Stream dataToImport)
         {
-            var response = new BeneficiaryImportResponse();
+            var response = new VolunteerImportResponse();
             if (FileIsNotEmpty(dataToImport))
             {
                 response.Message.Add(new KeyValuePair<string, string>("EmptyFile", "File Cannot be Empty!"));
@@ -34,12 +34,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 var stringArray = result[0];
                 if (stringArray[0].Contains("File must be of type"))
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Beneficiary!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
                     response.IsValid = false;
                 }
                 else
                 {
-                    var beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
+                    var beneficiariesFromCsv = GetVolunteerFromCsv(result, response);
                     dataGateway.Insert(beneficiariesFromCsv);
                 }
             }
@@ -73,7 +73,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     {
                         var returnList = new List<string[]>();
                         var strArray = new string[1];
-                        strArray[0] = "File must be of type Beneficiary!";
+                        strArray[0] = "File must be of type Volunteer!";
                         returnList.Add(strArray);
 
                         return returnList;
@@ -103,7 +103,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Active", StringComparison.InvariantCultureIgnoreCase);
+            return headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Birthdate", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -117,97 +117,63 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return i == 0;
         }
 
-        private static List<Beneficiary> GetBeneficiaryFromCsv(List<string[]> lines, BeneficiaryImportResponse response)
+        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response)
         {
-            var beneficiaries = new List<Beneficiary>();
+            var volunteers = new List<Volunteer>();
 
             foreach (var line in lines)
             {
-                var beneficiary = new Beneficiary();
+                var volunteer = new Volunteer();
                 try
                 {
-                    beneficiary.Id = line[0];
-                    beneficiary.Fullname = line[1];
-                    beneficiary.Active = Convert.ToBoolean(line[2]);
-                    beneficiary.WeeklyPackage = Convert.ToBoolean(line[3]);
-                    beneficiary.Canteen = Convert.ToBoolean(line[4]);
-                    beneficiary.HomeDelivery = Convert.ToBoolean(line[5]);
-                    beneficiary.HomeDeliveryDriver = line[6];
-                    beneficiary.HasGDPRAgreement = Convert.ToBoolean(line[7]);
-                    beneficiary.Address = line[8];
-                    beneficiary.CNP = line[9];
+                    //CODE HERE
+                    volunteer.Id = line[0];
+                    volunteer.Fullname = line[1];
+                    volunteer.Birthdate = Convert.ToDateTime(line[2]);
+                    volunteer.Address = line[3];
+                    volunteer.Gender = Convert.ToInt16(line[4]) == 0 ? Gender.Male : Gender.Female;
+                    volunteer.DesiredWorkplace = line[5];
+                    volunteer.CNP = line[6];
+                    volunteer.FieldOfActivity = line[7];
+                    volunteer.Occupation = line[8];
 
+                    //MAYBE WRONG HERE
                     var cI = new CI
                     {
-                        HasId = Convert.ToBoolean(line[10]),
-                        Info = line[11],
-                        ExpirationDate = Convert.ToDateTime(line[12])
+                        HasId = Convert.ToBoolean(line[9]),
+                        Info = line[10],
+                        ExpirationDate = Convert.ToDateTime(line[11])
                     };
 
-                    beneficiary.CI = cI;
+                    volunteer.CI = cI;
+                    //volunteer.CIseria = line[7];
+                    //volunteer.CNP = line[6];
+                    //volunteer.FieldOfActivity = line[7];
+                    //volunteer.CNP = line[6];
+                    //volunteer.FieldOfActivity = line[7];
 
-                    var marca = new Marca
-                    {
-                        MarcaName = line[13],
-                        IdApplication = line[14],
-                        IdInvestigation = line[15],
-                        IdContract = line[16]
-                    };
 
-                    beneficiary.Marca = marca;
 
-                    beneficiary.NumberOfPortions = Convert.ToInt16(line[17]);
-                    beneficiary.LastTimeActive = Convert.ToDateTime(line[18]);
-                    beneficiary.Comments = line[19];
-
-                    var personalInfo = new PersonalInfo
-                    {
-                        Birthdate = Convert.ToDateTime(line[20]),
-                        PhoneNumber = line[21],
-                        BirthPlace = line[22],
-                        Studies = line[23],
-                        Profession = line[24],
-                        Occupation = line[25],
-                        SeniorityInWorkField = line[26],
-                        HealthState = line[27],
-                        Disability = line[28],
-                        ChronicCondition = line[29],
-                        Addictions = line[30],
-                        HealthInsurance = Convert.ToBoolean(line[31]),
-                        HealthCard = Convert.ToBoolean(line[32]),
-                        Married = line[33],
-                        SpouseName = line[34],
-                        HasHome = Convert.ToBoolean(line[35]),
-                        HousingType = line[36],
-                        Income = line[37],
-                        Expenses = line[38]
-                    };
-
-                    var gender = Convert.ToInt16(line[39]) == 0 ? Gender.Male : Gender.Female;
-                    personalInfo.Gender = gender;
-
-                    beneficiary.PersonalInfo = personalInfo;
-                    //beneficiary.Image = Convert.ToByte(line[40]); FOR IMAGE
                 }
                 catch
                 {
-                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Beneficiary type!")));
+                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Volunteer type!")));
                     response.IsValid = false;
                 }
-                beneficiaries.Add(beneficiary);
+                volunteers.Add(volunteer);
             }
 
-            return beneficiaries;
+            return volunteers;
         }
     }
 
-    public class BeneficiaryImportResponse
+    public class VolunteerImportResponse
     {
         public bool IsValid { get; set; }
 
         public List<KeyValuePair<string, string>> Message { get; set; }
 
-        public BeneficiaryImportResponse()
+        public VolunteerImportResponse()
         {
             IsValid = true;
             Message = new List<KeyValuePair<string, string>>();

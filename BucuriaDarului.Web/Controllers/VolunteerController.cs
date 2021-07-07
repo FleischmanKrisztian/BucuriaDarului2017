@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BucuriaDarului.Contexts.VolunteerContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.Common;
 using Elm.Core.Parsers;
@@ -9,11 +11,11 @@ using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolunteerHelpers;
 using Finalaplication.LocalDatabaseManager;
-using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using ModifiedIDs = Finalaplication.Models.ModifiedIDs;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -34,62 +36,21 @@ namespace BucuriaDarului.Web.Controllers
             _localizer = localizer;
         }
 
-        public ActionResult Import()
+        public ActionResult Import(string message)
         {
+            ViewBag.message = message;
             return View();
         }
 
         [HttpPost]
         public ActionResult Import(IFormFile Files)
         {
-            try
-            {
-                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-                int docsimported = 0;
-                if (UniversalFunctions.File_is_not_empty(Files))
-                {
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
-                    UniversalFunctions.CreateFileStream(Files, path);
-                    List<string[]> volunteersasstring = CSVImportParser.GetListFromCSV(path);
-                    if (CSVImportParser.DefaultVolunteerCSVFormat(path))
-                    {
-                        for (int i = 0; i < volunteersasstring.Count; i++)
-                        {
-                            Volunteer volunteer = new Volunteer();
-                            volunteer = VolunteerFunctions.GetVolunteerFromString(volunteersasstring[i]);
-
-                            if (VolunteerFunctions.DoesNotExist(volunteers, volunteer))
-                            {
-                                docsimported++;
-                                volunteerManager.AddVolunteerToDB(volunteer);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < volunteersasstring.Count; i++)
-                        {
-                            Volunteer volunteer = new Volunteer();
-                            volunteer = VolunteerFunctions.GetVolunteerFromOtherString(volunteersasstring[i]);
-                            if (VolunteerFunctions.DoesNotExist(volunteers, volunteer))
-                            {
-                                docsimported++;
-                                volunteerManager.AddVolunteerToDB(volunteer);
-                            }
-                        }
-                    }
-                    UniversalFunctions.RemoveTempFile(path);
-                    return RedirectToAction("ImportUpdate", "Home", new { docsimported });
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-                return RedirectToAction("IncorrectFile", "Home");
-            }
+            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway());
+            var response = volunteerImportContext.Execute(Files.OpenReadStream());
+            if (response.IsValid)
+                return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
+            else
+                return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
         public ActionResult Index(string searchedFullname, string searchedContact, string sortOrder, bool Active, bool HasCar, bool HasDrivingLicence, DateTime lowerdate, DateTime upperdate, int page, string gender, string searchedAddress, string searchedworkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
@@ -175,11 +136,11 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool Desired_Workplace, bool CNP, bool Field_of_Activity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
+        public ActionResult CSVExporter(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool DesiredWorkplace, bool CNP, bool FieldOfActivity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
         {
             string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
             HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
-            string ids_and_fields = VolunteerFunctions.GetIdAndFieldString(IDS, All, Name, Birthdate, Address, Gender, Desired_Workplace, CNP, Field_of_Activity, Occupation, CI_Info, Activity, Hour_Count, Contact_Information, Additional_info);
+            string ids_and_fields = VolunteerFunctions.GetIdAndFieldString(IDS, All, Name, Birthdate, Address, Gender, DesiredWorkplace, CNP, FieldOfActivity, Occupation, CI_Info, Activity, Hour_Count, Contact_Information, Additional_info);
             string key1 = Constants.VOLUNTEERSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterVolunteer(_localizer);
             string key2 = Constants.VOLUNTEERHEADER;
@@ -254,7 +215,7 @@ namespace BucuriaDarului.Web.Controllers
                 ModelState.Remove("CIEliberat");
                 if (ModelState.IsValid)
                 {
-                    volunteer._id = Guid.NewGuid().ToString();
+                    volunteer.Id = Guid.NewGuid().ToString();
                     volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
                     volunteer.Image = UniversalFunctions.Addimage(image);
                     volunteerManager.AddVolunteerToDB(volunteer);

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Finalaplication.Models.Volunteer>
+﻿@model IEnumerable<BucuriaDarului.Core.Volunteer>
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Builder
@@ -77,9 +77,9 @@
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Birthdate", isChecked: false) @Localizer["Birthdate"]</a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Address", isChecked: false)  @Localizer["Address"]</a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Gender", isChecked: false) @Localizer["Gender"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Desired_Workplace", isChecked: false)  @Localizer["Desiredarea"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("DesiredWorkplace", isChecked: false)  @Localizer["Desiredarea"]</a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("CNP", isChecked: false) @Localizer["CNP"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Field_of_Activity", isChecked: false) @Localizer["Fieldofactivity"]</a>
+                    <a class="dropdown-item" href="#"> @Html.CheckBox("FieldOfActivity", isChecked: false) @Localizer["Fieldofactivity"]</a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Occupation", isChecked: false)  @Localizer["Ocupation"]</a>
                     <a class="dropdown-item" href="#">  @Html.CheckBox("CI_Info", isChecked: false) @Localizer["CI_Info"]</a>
                     <a class="dropdown-item" href="#"> @Html.CheckBox("Activity", isChecked: false) @Localizer["Active"]</a>

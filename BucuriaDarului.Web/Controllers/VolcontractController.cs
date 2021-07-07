@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
 
 namespace Finalaplication.Controllers
 {
@@ -79,22 +80,10 @@ namespace Finalaplication.Controllers
                     volcontract.Birthdate = vol.Birthdate;
                     volcontract.Fullname = vol.Fullname;
                     volcontract.CNP = vol.CNP;
-                    volcontract.CIseria = vol.CIseria;
-                    volcontract.CINr = vol.CINr;
-                    volcontract.CIEliberat = vol.CIEliberat;
+                    volcontract.CI = vol.CI;
                     volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
                     volcontract.Hourcount = vol.HourCount;
-                    volcontract.CIeliberator = vol.CIeliberator;
-                    string address = string.Empty;
-                    if (vol.Address.District != null && vol.Address.District != "-")
-                    { address = vol.Address.District; }
-                    if (vol.Address.City != null && vol.Address.City != "-")
-                    { address = address + "," + vol.Address.City; }
-                    if (vol.Address.Street != null && vol.Address.Street != "-")
-                    { address = vol.Address.District; }
-                    if (vol.Address.Number != null && vol.Address.Number != "-")
-                    { address = address + "," + vol.Address.City; }
-                    volcontract.Address = address;
+                    volcontract.Address = vol.Address;
                     volcontract.OwnerID = idofvol;
                     volContractManager.AddVolunteerContractToDB(volcontract);
                     return RedirectToAction("Index", new { idofvol });

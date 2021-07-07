@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using BucuriaDarului.Core;
+using Sponsor = Finalaplication.Models.Sponsor;
 
 namespace Finalaplication.ControllerHelpers.UniversalHelpers
 {

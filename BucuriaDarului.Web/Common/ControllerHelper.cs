@@ -42,27 +42,24 @@ namespace BucuriaDarului.Web.Common
             header[1] = _localizer["Birthdate"];
             header[2] = _localizer["Address"];
             header[3] = _localizer["Gender"];
-            header[4] = _localizer["Desiredarea"];
+            header[4] = _localizer["DesiredArea"];
             header[5] = _localizer["CNP"];
-            header[6] = _localizer["Fieldofactivity"];
-            header[7] = _localizer["Ocupation"];
+            header[6] = _localizer["FieldOfActivity"];
+            header[7] = _localizer["Occupation"];
             header[8] = _localizer["CI_Info"];
             header[9] = _localizer["Active"];
             header[10] = _localizer["HourCount"];
             header[11] = _localizer["ContactInfo"];
             header[12] = _localizer["Additional_info"];
-            header[14] = _localizer["District"];
-            header[15] = _localizer["City"];
-            header[16] = _localizer["Street"];
-            header[17] = _localizer["Number"];
+            header[14] = _localizer["Address"];
             header[18] = _localizer["CISeria"];
             header[19] = _localizer["CINr"];
             header[20] = _localizer["CIEliberat"];
             header[21] = _localizer["CIeliberator"];
-            header[20] = _localizer["Phonenumber"];
-            header[21] = _localizer["Emailaddress"];
-            header[22] = _localizer["Hasdrivinglicense"];
-            header[23] = _localizer["Hascar"];
+            header[20] = _localizer["PhoneNumber"];
+            header[21] = _localizer["EmailAddress"];
+            header[22] = _localizer["HasDrivingLicense"];
+            header[23] = _localizer["HasCar"];
             header[24] = _localizer["Remarks"];
 
             string result = string.Empty;
@@ -79,15 +76,15 @@ namespace BucuriaDarului.Web.Common
         public static string GetHeaderForExcelPrinterSponsor(IStringLocalizer<SponsorController> _localizer)
         {
             string[] header = new string[10];
-            header[0] = _localizer["Nameofsponsor"];
+            header[0] = _localizer["NameOfSponsor"];
             header[1] = _localizer["Date"];
-            header[2] = _localizer["Moneyamount"];
-            header[3] = _localizer["Whatgoods"];
-            header[4] = _localizer["Goodsamount"];
+            header[2] = _localizer["MoneyAmount"];
+            header[3] = _localizer["WhatGoods"];
+            header[4] = _localizer["GoodsAmount"];
             header[5] = _localizer["HasContract"];
             header[6] = _localizer["ContractDetails"];
-            header[7] = _localizer["Phonenumber"];
-            header[8] = _localizer["Emailaddress"];
+            header[7] = _localizer["PhoneNumber"];
+            header[8] = _localizer["EmailAddress"];
             string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)
             {
@@ -117,7 +114,7 @@ namespace BucuriaDarului.Web.Common
             header[12] = _localizer["IDapplication"];
             header[13] = _localizer["NumberOfPortions"];
             header[14] = _localizer["Lastimeactiv"];
-            header[15] = _localizer["Phonenumber"];
+            header[15] = _localizer["PhoneNumber"];
             header[16] = _localizer["Birthplace"];
             header[17] = _localizer["Studies"];
             header[18] = _localizer["Profession"];
@@ -132,11 +129,11 @@ namespace BucuriaDarului.Web.Common
             header[27] = _localizer["Married"];
             header[28] = _localizer["Spousename"];
             header[29] = _localizer["Homeless"];
-            header[30] = _localizer["Housingtype"];
+            header[30] = _localizer["HousingType"];
             header[31] = _localizer["Income"];
             header[32] = _localizer["Expenses"];
             header[33] = _localizer["Gender"];
-            header[34] = _localizer["Weeklypackage"];
+            header[34] = _localizer["WeeklyPackage"];
 
             string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)

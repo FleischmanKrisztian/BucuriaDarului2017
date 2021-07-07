@@ -1,9 +1,8 @@
 ﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VolCommon;
+using BucuriaDarului.Core;
 
 namespace Finalaplication.ControllerHelpers.VolunteerHelpers
 {
@@ -14,7 +13,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             string stringofids = "volunteerCSV";
             foreach (Volunteer vol in volunteers)
             {
-                stringofids = stringofids + "," + vol._id;
+                stringofids = stringofids + "," + vol.Id;
             }
             return stringofids;
         }
@@ -40,7 +39,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             List<Volunteer> volunteerlist = new List<Volunteer>();
             for (int i = 0; i < vols.Length; i++)
             {
-                Volunteer singlevolunteer = volunteers.Where(x => x._id == vols[i]).First();
+                Volunteer singlevolunteer = volunteers.Where(x => x.Id == vols[i]).First();
                 volunteerlist.Add(singlevolunteer);
             }
             return volunteerlist;
@@ -77,234 +76,7 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             }
         }
 
-        internal static Volunteer GetVolunteerFromString(string[] volunteerstring)
-        {
-            Volunteer volunteer = new Volunteer();
-            volunteer._id = Guid.NewGuid().ToString();
-            volunteer.Fullname = volunteerstring[0];
-            try
-            {
-                volunteer.Birthdate = Convert.ToDateTime(volunteerstring[1]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                volunteer.Birthdate = DateTime.MinValue;
-            }
-            Address address = new Address();
-
-            if (volunteerstring[2] != null || volunteerstring[2] != "")
-            {
-                address.District = volunteerstring[2];
-            }
-            else { address.District = "-"; }
-
-            if (volunteerstring[3] != null || volunteerstring[3] != "")
-            {
-                address.City = volunteerstring[3];
-            }
-            else
-            {
-                address.City = "-";
-            }
-
-            if (volunteerstring[4] != null || volunteerstring[4] != "")
-            {
-                address.Street = volunteerstring[4];
-            }
-            else { address.Street = "-"; }
-
-            if (volunteerstring[5] != null || volunteerstring[5] != "")
-            {
-                address.Number = volunteerstring[5];
-            }
-            else
-            {
-                address.Number = "-";
-            }
-            volunteer.Address = address;
-            try
-            {
-                if (volunteerstring[6] == "1")
-                {
-                    volunteer.Gender = Gender.Female;
-                }
-                else
-                {
-                    volunteer.Gender = Gender.Male;
-                }
-            }
-            catch
-            {
-                volunteer.Gender = Gender.Male;
-            }
-            volunteer.Desired_workplace = volunteerstring[7];
-            volunteer.CNP = volunteerstring[8];
-            volunteer.Field_of_activity = volunteerstring[9];
-            volunteer.Occupation = volunteerstring[10];
-            volunteer.CIseria = volunteerstring[11];
-            volunteer.CINr = volunteerstring[12];
-            try
-            {
-                volunteer.CIEliberat = Convert.ToDateTime(volunteerstring[13]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                volunteer.CIEliberat = DateTime.MinValue;
-            }
-            volunteer.CIeliberator = volunteerstring[14];
-            volunteer.InActivity = Convert.ToBoolean(volunteerstring[15]);
-            if (volunteerstring[16] != null || volunteerstring[16] != "")
-            {
-                volunteer.HourCount = Convert.ToInt16(volunteerstring[16]);
-            }
-            else
-            {
-                volunteer.HourCount = 0;
-            }
-            ContactInformation contactinformation = new ContactInformation();
-            if (volunteerstring[17] != null || volunteerstring[17] != "")
-            {
-                contactinformation.PhoneNumber = volunteerstring[17];
-            }
-            else
-            {
-                contactinformation.PhoneNumber = "-";
-            }
-            if (volunteerstring[18] != null || volunteerstring[18] != "")
-            {
-                contactinformation.MailAdress = volunteerstring[18];
-            }
-            else
-            {
-                contactinformation.MailAdress = "-";
-            }
-            volunteer.ContactInformation = contactinformation;
-            Additionalinfo additionalInformation = new Additionalinfo();
-
-            if (volunteerstring[19] == "True")
-            {
-                additionalInformation.HasDrivingLicence = true;
-            }
-            else
-            {
-                additionalInformation.HasDrivingLicence = false;
-            }
-
-            if (volunteerstring[20] == "True")
-            {
-                additionalInformation.HasCar = true;
-            }
-            else
-            {
-                additionalInformation.HasCar = false;
-            }
-            additionalInformation.Remark = volunteerstring[21];
-            volunteer.Additionalinfo = additionalInformation;
-            return volunteer;
-        }
-
-        internal static Volunteer GetVolunteerFromOtherString(string[] volunteerstring)
-        {
-            Volunteer volunteer = new Volunteer();
-            volunteer._id = Guid.NewGuid().ToString();
-            volunteer.Fullname = volunteerstring[0];
-
-            if (volunteerstring[1] != null || volunteerstring[1] != "")
-            {
-                try
-                {
-                    DateTime myDate = DateTime.ParseExact(volunteerstring[1].Substring(1, 2) + "-" + volunteerstring[1].Substring(3, 2) + "-" + volunteerstring[1].Substring(5, 2), "yy-MM-dd",
-                    System.Globalization.CultureInfo.InvariantCulture);
-                    volunteer.Birthdate = myDate.AddHours(5);
-                }
-                catch
-                {
-                    volunteer.Birthdate = DateTime.MinValue;
-                }
-            }
-
-            Address a = new Address();
-
-            if (volunteerstring[2] != null || volunteerstring[2] != "")
-            {
-                a.District = volunteerstring[2];
-            }
-            else
-            {
-                a.District = "-";
-            }
-            a.City = "-";
-            a.Street = "-";
-            a.Number = "-";
-
-            volunteer.Gender = Gender.Male;
-
-            if (volunteerstring[9] != null || volunteerstring[9] != "")
-            {
-                volunteer.Desired_workplace = volunteerstring[9];
-            }
-            else
-            {
-                volunteer.Desired_workplace = "-";
-            }
-            if (volunteerstring[1] != null || volunteerstring[1] != "")
-            {
-                volunteer.CNP = volunteerstring[1];
-            }
-            else
-            {
-                volunteer.CNP = "-";
-            }
-
-            if (volunteerstring[3] != null)
-            {
-                if (volunteerstring[3] != "")
-                {
-                    string[] splited = volunteerstring[3].Split(" ");
-                    volunteer.CIseria = splited[0];
-                    volunteer.CINr = splited[1];
-                }
-                else
-                {
-                    volunteer.CIseria = "Error";
-                    volunteer.CINr = "Error";
-                }
-            }
-
-            volunteer.CIEliberat = DateTime.MinValue;
-
-            volunteer.HourCount = 0;
-
-            ContactInformation c = new ContactInformation();
-            if (volunteerstring[4] != null || volunteerstring[4] != "")
-            {
-                c.PhoneNumber = volunteerstring[4];
-            }
-            else
-            {
-                c.PhoneNumber = "-";
-            }
-
-            volunteer.ContactInformation = c;
-            Additionalinfo ai = new Additionalinfo
-            {
-                HasDrivingLicence = false
-            };
-            if (volunteerstring[8] != null)
-            {
-                ai.Remark = volunteerstring[8];
-            }
-            else { ai.Remark = "-"; }
-            ai.HasCar = false;
-
-            volunteer.Occupation = "-";
-
-            volunteer.Address = a;
-            volunteer.Additionalinfo = ai;
-            return volunteer;
-        }
+       
 
         internal static List<Volunteer> GetVolunteerAfterSorting(List<Volunteer> volunteers, string sortOrder)
         {
@@ -373,21 +145,21 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
             }
             if (searchedworkplace != null)
             {
-                volunteers = volunteers.Where(x => x.Desired_workplace.Contains(searchedworkplace, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                volunteers = volunteers.Where(x => x.DesiredWorkplace.Contains(searchedworkplace, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
             if (searchedOccupation != null)
             {
                 List<Volunteer> vol = volunteers;
                 foreach (var v in vol)
                 {
-                    if (v.Field_of_activity == null || v.Field_of_activity == "")
-                    { v.Field_of_activity = "-"; }
+                    if (v.FieldOfActivity == null || v.FieldOfActivity == "")
+                    { v.FieldOfActivity = "-"; }
                     if (v.Occupation == null || v.Occupation == "")
                     { v.Occupation = "-"; }
                 }
                 try
                 {
-                    volunteers = vol.Where(x => x.Field_of_activity.Contains(searchedOccupation, StringComparison.InvariantCultureIgnoreCase) || x.Occupation.Contains(searchedOccupation, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    volunteers = vol.Where(x => x.FieldOfActivity.Contains(searchedOccupation, StringComparison.InvariantCultureIgnoreCase) || x.Occupation.Contains(searchedOccupation, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 catch { }
             }
@@ -396,12 +168,12 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
                 List<Volunteer> vol = volunteers;
                 foreach (var v in vol)
                 {
-                    if (v.Additionalinfo.Remark == null || v.Additionalinfo.Remark == "")
-                        v.Additionalinfo.Remark = "";
+                    if (string.IsNullOrEmpty(v.AdditionalInfo.Remark))
+                        v.AdditionalInfo.Remark = "";
                 }
                 try
                 {
-                    volunteers = vol.Where(x => x.Additionalinfo.Remark.Contains(searchedRemarks, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    volunteers = vol.Where(x => x.AdditionalInfo.Remark.Contains(searchedRemarks, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 catch { }
             }
@@ -413,12 +185,12 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
                 {
                     if (v.ContactInformation.PhoneNumber == null || v.ContactInformation.PhoneNumber == "")
                         v.ContactInformation.PhoneNumber = "-";
-                    if (v.ContactInformation.MailAdress == null || v.ContactInformation.MailAdress == "")
-                        v.ContactInformation.MailAdress = "-";
+                    if (v.ContactInformation.EmailAddress == null || v.ContactInformation.EmailAddress == "")
+                        v.ContactInformation.EmailAddress = "-";
                 }
                 try
                 {
-                    volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                    volunteers = vol.Where(x => x.ContactInformation.PhoneNumber.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.EmailAddress.Contains(searchedContact, StringComparison.InvariantCultureIgnoreCase)).ToList();
                 }
                 catch { }
             }
@@ -447,16 +219,16 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
 
             if (hasDrivingLicence)
             {
-                volunteers = volunteers.Where(x => x.Additionalinfo.HasDrivingLicence == true).ToList();
+                volunteers = volunteers.Where(x => x.AdditionalInfo.HasDrivingLicense == true).ToList();
             }
             if (hasCar)
             {
-                volunteers = volunteers.Where(x => x.Additionalinfo.HasCar == true).ToList();
+                volunteers = volunteers.Where(x => x.AdditionalInfo.HasCar == true).ToList();
             }
             return volunteers;
         }
 
-        internal static string GetIdAndFieldString(string IDS, bool all, bool name, bool birthdate, bool address, bool gender, bool desired_Workplace, bool cnp, bool field_of_Activity, bool occupation, bool cI_Info, bool activity, bool hour_Count, bool contact_Information, bool additional_info)
+        internal static string GetIdAndFieldString(string IDS, bool all, bool name, bool birthdate, bool address, bool gender, bool DesiredWorkplace, bool cnp, bool FieldOfActivity, bool occupation, bool cI_Info, bool activity, bool hour_Count, bool contact_Information, bool additional_info)
         {
             string ids_and_options = IDS + "(((";
             if (all)
@@ -469,11 +241,11 @@ namespace Finalaplication.ControllerHelpers.VolunteerHelpers
                 ids_and_options += "3";
             if (gender)
                 ids_and_options += "4";
-            if (desired_Workplace)
+            if (DesiredWorkplace)
                 ids_and_options += "5";
             if (cnp)
                 ids_and_options += "6";
-            if (field_of_Activity)
+            if (FieldOfActivity)
                 ids_and_options += "7";
             if (occupation)
                 ids_and_options += "8";

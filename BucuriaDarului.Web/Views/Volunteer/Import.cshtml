@@ -1,4 +1,3 @@
-@model IEnumerable<Finalaplication.Models.Volunteer>
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
@@ -15,13 +14,15 @@
             margin-bottom: 3%;
             border: 2px solid lightgray;
             background: #fff;
-            /*background-color:lightgray*/
         }
     </style>
 </head>
 <br />
 <br />
 <br />
+<h3 style="color:red">
+    @ViewBag.message
+</h3>
 <br />
 <body>
     <div class="emp-profile">
