@@ -12,7 +12,7 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
         public void Insert(List<Volunteer> volunteers)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Beneficiaries");
+            var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var modifiedIdGateway = new ModifiedIDGateway();
             foreach (var volunteer in volunteers)
             {

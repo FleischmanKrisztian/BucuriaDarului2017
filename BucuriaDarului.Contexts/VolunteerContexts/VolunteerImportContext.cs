@@ -39,8 +39,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
                 else
                 {
-                    var beneficiariesFromCsv = GetVolunteerFromCsv(result, response);
-                    dataGateway.Insert(beneficiariesFromCsv);
+                    var volunteersFromCsv = GetVolunteerFromCsv(result, response);
+                    dataGateway.Insert(volunteersFromCsv);
                 }
             }
 
@@ -126,7 +126,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 var volunteer = new Volunteer();
                 try
                 {
-                    //CODE HERE
                     volunteer.Id = line[0];
                     volunteer.Fullname = line[1];
                     volunteer.Birthdate = Convert.ToDateTime(line[2]);
@@ -137,7 +136,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.FieldOfActivity = line[7];
                     volunteer.Occupation = line[8];
 
-                    //MAYBE WRONG HERE
                     var cI = new CI
                     {
                         HasId = Convert.ToBoolean(line[9]),
@@ -146,14 +144,25 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     };
 
                     volunteer.CI = cI;
-                    //volunteer.CIseria = line[7];
-                    //volunteer.CNP = line[6];
-                    //volunteer.FieldOfActivity = line[7];
-                    //volunteer.CNP = line[6];
-                    //volunteer.FieldOfActivity = line[7];
+                    volunteer.InActivity = Convert.ToBoolean(line[12]);
+                    volunteer.HourCount = Convert.ToInt16(line[13]);
 
+                    var contactInformation = new ContactInformation
+                    {
+                        PhoneNumber = line[14],
+                        EmailAddress = line[15]
+                    };
+                    volunteer.ContactInformation = contactInformation;
 
+                    var additionalInformation = new AdditionalInfo
+                    {
+                        HasDrivingLicense = Convert.ToBoolean(line[16]),
+                        HasCar = Convert.ToBoolean(line[17]),
+                        Remark = line[18]
+                    };
 
+                    volunteer.AdditionalInfo = additionalInformation;
+                    //volunteer.Image = line[19];
                 }
                 catch
                 {
