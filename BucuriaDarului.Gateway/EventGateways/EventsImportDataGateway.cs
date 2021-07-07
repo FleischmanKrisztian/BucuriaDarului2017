@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
+using MongoDB.Driver;
 using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.EventGateways
@@ -12,11 +13,15 @@ namespace BucuriaDarului.Gateway.EventGateways
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var eventCollection = dbContext.Database.GetCollection<Event>("Events");
-            eventCollection.InsertMany(events);
-            var modifiedIDGateway = new ModifiedIDGateway();
+            var modifiedIdGateway = new ModifiedIDGateway();
             foreach (var eve in events)
             {
-                modifiedIDGateway.AddIDtoModifications(eve.Id);
+                var filter = Builders<Event>.Filter.Eq("_id", eve.Id);
+                if (eventCollection.Find(filter).FirstOrDefault() == null)
+                {
+                    eventCollection.InsertOne(eve);
+                    modifiedIdGateway.AddIDtoModifications(eve.Id);
+                }
             }
         }
     }

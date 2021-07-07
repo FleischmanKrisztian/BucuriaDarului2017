@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BucuriaDarului.Core.Gateways
+namespace BucuriaDarului.Core.Gateways.BeneficiaryGateways
 {
     public interface IBeneficiaryImportGateway
     {

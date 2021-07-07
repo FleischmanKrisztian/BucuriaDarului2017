@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContexts
 {
@@ -45,18 +46,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             }
 
             return response;
-        }
-
-        private string[] GetHeaderColumns(Stream dataToImport)
-        {
-            using var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
-            var headerLine = reader.ReadLine();
-
-            var csvSeparator = CsvUtils.DetectSeparator(headerLine);
-
-            var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
-
-            return headerColumns;
         }
 
         private bool FileIsNotEmpty(Stream dataToImport)
