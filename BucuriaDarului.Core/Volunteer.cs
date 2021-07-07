@@ -10,7 +10,7 @@ namespace BucuriaDarului.Core
 
     public class Volunteer {
       
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string Fullname { get; set; }
 

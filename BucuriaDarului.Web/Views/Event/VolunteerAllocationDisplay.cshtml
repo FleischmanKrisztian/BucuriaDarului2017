@@ -189,7 +189,7 @@
                     @if (Model.Event.AllocatedVolunteers.Contains(item.Fullname))
                     {
                         <td>
-                            <input type="checkbox" checked="checked" name="volunteerIds" value="@item._id" />
+                            <input type="checkbox" checked="checked" name="volunteerIds" value="@item.Id" />
                         </td>
                         <td>
                             <input type="hidden" name="evId" value="@Model.Event.Id" />
@@ -198,7 +198,7 @@
                     else
                     {
                         <td>
-                            <input type="checkbox" name="volunteerIds" value="@item._id" />
+                            <input type="checkbox" name="volunteerIds" value="@item.Id" />
                         </td>
                         <td>
                             <input type="hidden" name="evId" value="@Model.Event.Id" />

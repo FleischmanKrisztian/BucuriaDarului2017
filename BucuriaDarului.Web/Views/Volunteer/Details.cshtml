@@ -1,4 +1,4 @@
-﻿@model Finalaplication.Models.Volunteer
+﻿@model BucuriaDarului.Core.Volunteer
 @{
     ViewBag.Title = "Details";
 }
@@ -231,7 +231,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <a href=@Url.Action( "Edit",  new { id = Model._id })><img src="~/Resources/edit.jpg" width="50" height="50" title=@Localizer["Edit"]></a> |
+                <a href=@Url.Action( "Edit",  new { id = Model.Id })><img src="~/Resources/edit.jpg" width="50" height="50" title=@Localizer["Edit"]></a> |
                 @*<a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>*@
                 <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
             </div>
