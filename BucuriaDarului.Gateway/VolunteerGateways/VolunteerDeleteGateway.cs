@@ -12,9 +12,9 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
         {
             var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var beneficiaryCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
+            var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("_id", id);
-            beneficiaryCollection.DeleteOne(filter);
+            volunteerCollection.DeleteOne(filter);
         }
     }
 }
