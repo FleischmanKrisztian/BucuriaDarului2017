@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BucuriaDarului.Core.Gateways.VolunteerGateways
 {
-    public interface IListDisplayVolunteers
+    public interface IListDisplayVolunteersGateway
     {
         List<Volunteer> GetListOfVolunteers();
     }

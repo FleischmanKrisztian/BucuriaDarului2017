@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using BucuriaDarului.Contexts.VolunteerContexts;
+﻿using BucuriaDarului.Contexts.VolunteerContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.Common;
-using Elm.Core.Parsers;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolunteerHelpers;
@@ -15,6 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ModifiedIDs = Finalaplication.Models.ModifiedIDs;
 
 namespace BucuriaDarului.Web.Controllers
@@ -145,16 +143,9 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Birthday()
         {
-            try
-            {
-                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-                volunteers = VolunteerFunctions.GetVolunteersWithBirthdays(volunteers);
-                return View(volunteers);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var volunteerContext = new VolunteerBirthdayDisplayContext(new ListVolunteersGateway());
+            var volunteers = volunteerContext.Execute();
+            return View(volunteers);
         }
 
         public ActionResult Contracts(string id)

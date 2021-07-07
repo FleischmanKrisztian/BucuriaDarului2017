@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.VolunteerGateways
 {
-    public class ListVolunteersGateway : IListDisplayVolunteers
+    public class ListVolunteersGateway : IListDisplayVolunteersGateway
     {
         private MongoDBGateway dbContext = new MongoDBGateway();
 
