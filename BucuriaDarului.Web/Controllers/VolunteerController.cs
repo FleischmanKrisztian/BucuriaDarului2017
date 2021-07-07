@@ -126,27 +126,21 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter()
+        public ActionResult CsvExporter(string message)
         {
-            string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_VOLUNTEER);
-            HttpContext.Session.Remove(Constants.SESSION_KEY_VOLUNTEER);
-            string key = Constants.SECONDARY_SESSION_KEY_VOLUNTEER;
-            HttpContext.Session.SetString(key, ids);
+            ViewBag.message = message;
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(bool All, bool Name, bool Birthdate, bool Address, bool Gender, bool DesiredWorkplace, bool CNP, bool FieldOfActivity, bool Occupation, bool CI_Info, bool Activity, bool Hour_Count, bool Contact_Information, bool Additional_info)
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
-            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
-            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_VOLUNTEER);
-            string ids_and_fields = VolunteerFunctions.GetIdAndFieldString(IDS, All, Name, Birthdate, Address, Gender, DesiredWorkplace, CNP, FieldOfActivity, Occupation, CI_Info, Activity, Hour_Count, Contact_Information, Additional_info);
-            string key1 = Constants.VOLUNTEERSESSION;
-            string header = ControllerHelper.GetHeaderForExcelPrinterVolunteer(_localizer);
-            string key2 = Constants.VOLUNTEERHEADER;
-            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
-            string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
-            return Redirect(csvexporterlink);
+            var volunteerExporterContext = new VolunteerExporterContext(_localizer);
+            var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
+            DictionaryHelper.d = volunteerExportData.Dictionary;
+            if (volunteerExportData.IsValid)
+                return Redirect("csvexporterapp:volunteerSession;volunteerHeader");
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 
         public ActionResult Birthday()

@@ -175,13 +175,13 @@
 
     @if (Model.FilterData.SearchingDriver != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Homedeliverydriver"]:@Model.FilterData.SearchingDriver
+            @Localizer["HomeDeliveryDriver"]:@Model.FilterData.SearchingDriver
         </div>
     }
 
     @if (Model.FilterData.HasGDPRAgreement != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["HasGDPRagreement"]:@Model.FilterData.HasGDPRAgreement
+            @Localizer["HasGDPRAgreement"]:@Model.FilterData.HasGDPRAgreement
         </div>
     }
     @if (Model.FilterData.SearchingAddress != null)
@@ -198,7 +198,7 @@
 
     @if (Model.FilterData.SearchingNumberOfPortions != 0)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Numberofportions"]:@Model.FilterData.SearchingNumberOfPortions
+    @Localizer["NumberOfPortions"]:@Model.FilterData.SearchingNumberOfPortions
 </div>
     }
     @if (Model.FilterData.SearchingComments != null)
@@ -214,13 +214,13 @@
 
     @if (Model.FilterData.SearchingPO != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Profesion&Ocupation"]:@Model.FilterData.SearchingPO
+    @Localizer["Profesion&Occupation"]:@Model.FilterData.SearchingPO
 </div>
     }
     @if (Model.FilterData.SearchingSeniority != null)
     {
 <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Seniorityinworkfield"]:@Model.FilterData.SearchingSeniority
+    @Localizer["SeniorityInWorkField"]:@Model.FilterData.SearchingSeniority
 </div>
     }
 
@@ -356,11 +356,11 @@
                         <dd class="col-sm-2">
                             @Html.CheckBox("HomeDelivery")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Homedeliverydriver"]:</dt>
+                        <dt class="col-sm-8">@Localizer["HomeDeliveryDriver"]:</dt>
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingDriver")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["HasGDPRagreement"]:</dt>
+                        <dt class="col-sm-8">@Localizer["HasGDPRAgreement"]:</dt>
                         <dd class="col-sm-2">
                             @Html.CheckBox("HasGDPRAgreement")
                         </dd>
@@ -373,7 +373,7 @@
                         <dd class="col-sm-2">
                             @Html.CheckBox("HasID")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Numberofportions"]: </dt>
+                        <dt class="col-sm-8">@Localizer["NumberOfPortions"]: </dt>
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingNumberOfPortions")
                         </dd>
@@ -397,11 +397,11 @@
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingStudies")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Profesion&Ocupation"]: </dt>
+                        <dt class="col-sm-8">@Localizer["Profesion&Occupation"]: </dt>
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingPO")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Seniorityinworkfield"]: </dt>
+                        <dt class="col-sm-8">@Localizer["SeniorityInWorkField"]: </dt>
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingSeniority")
                         </dd>
@@ -417,11 +417,11 @@
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingMarried")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Hashealthinsurance"]: </dt>
+                        <dt class="col-sm-8">@Localizer["HasHealthInsurance"]: </dt>
                         <dd class="col-sm-2">
                             @Html.CheckBox("searchingHealthInsurance")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Hashealthcard"]:</dt>
+                        <dt class="col-sm-8">@Localizer["HasHealthCard"]:</dt>
                         <dd class="col-sm-2">
                             @Html.CheckBox("searchingHealthCard")
                         </dd>

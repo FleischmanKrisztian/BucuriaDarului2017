@@ -222,7 +222,7 @@
                         @Localizer["Beneficiary"]
                     </h6>
                     <p class="proile-rating">@Localizer["Active"]: <span>@Html.DisplayFor(model => model.Active)</span></p>
-                    <p class="proile-rating2">@Localizer["Lasttimeactive"]: <span>@Html.DisplayFor(model => model.LastTimeActive)</span></p>
+                    <p class="proile-rating2">@Localizer["LastTimeActive"]: <span>@Html.DisplayFor(model => model.LastTimeActive)</span></p>
                     <div class="tab">
                         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Generalinformation')"><img src="~/Resources/general_info.png" width="30" height="30" title=@Localizer["Generalinformation"]></button>
                         <button class="tablinks" onclick="openTab(event, 'IDInformation')"><img src="~/Resources/id_info.png" width="30" height="30" title=@Localizer["IDInformation"]></button>
@@ -245,13 +245,13 @@
                     @Localizer["Marca"]:
                     @Html.DisplayFor(model => model.Marca.MarcaName)
                     </br>
-                    @Localizer["IDapplication"]:
+                    @Localizer["IdApplication"]:
                     @Html.DisplayFor(model => model.Marca.IdApplication)
                     </br>
                     @Localizer["IDcontract"]:
                     @Html.DisplayFor(model => model.Marca.IdContract)
                     </br>
-                    @Localizer["IDinvestigation"]:
+                    @Localizer["IdInvestigation"]:
                     @Html.DisplayFor(model => model.Marca.IdInvestigation)
                 </div>
             </div>
@@ -299,7 +299,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Spousename"]:</label>
+                            <label>@Localizer["SpouseName"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.PersonalInfo.SpouseName)</p>
@@ -315,7 +315,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label> @Localizer["Numberofportions"]:</label>
+                            <label> @Localizer["NumberOfPortions"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.NumberOfPortions)</p>
@@ -339,7 +339,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Homedeliverydriver"]:</label>
+                            <label>@Localizer["HomeDeliveryDriver"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.HomeDeliveryDriver)</p>
@@ -347,7 +347,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["HasGDPRagreement"]:</label>
+                            <label>@Localizer["HasGDPRAgreement"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p> @Html.DisplayFor(model => model.HasGDPRAgreement)</p>
@@ -424,7 +424,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>
-                                @Localizer["Hashealthinsurance"]:
+                                @Localizer["HasHealthInsurance"]:
                             </label>
                         </div>
                         <div class="col-md-6">
@@ -433,7 +433,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Hashealthcard"]:</label>
+                            <label>@Localizer["HasHealthCard"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.PersonalInfo.HealthCard)</p>
@@ -441,7 +441,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Healthstate"]:</label>
+                            <label>@Localizer["HealthState"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.PersonalInfo.HealthState)</p>
@@ -449,7 +449,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Chroniccondition"]:</label>
+                            <label>@Localizer["ChronicCondition"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.PersonalInfo.ChronicCondition)</p>
@@ -475,7 +475,7 @@
                 <div class="tabcontent" id="Housinginformation">
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Hashome"]:</label>
+                            <label>@Localizer["HasHome"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.PersonalInfo.HasHome)</p>
@@ -517,7 +517,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label>@Localizer["Seniorityinworkfield"]:</label>
+                            <label>@Localizer["SeniorityInWorkField"]:</label>
                         </div>
                         <div class="col-md-6">
                             <p>@Html.DisplayFor(model => model.PersonalInfo.SeniorityInWorkField)</p>

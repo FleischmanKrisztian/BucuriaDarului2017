@@ -102,47 +102,48 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 idsAndOptions += "V";
             if (csv.Gender)
                 idsAndOptions += "W";
+            if (csv.WeeklyPackage)
+                idsAndOptions += "X";
             return idsAndOptions;
         }
 
         private string GetHeaderForExcelPrinterBeneficiary()
         {
-            var header = new string[35];
+            var header = new string[34];
             header[0] = localizer["Fullname"];
             header[1] = localizer["Active"];
             header[2] = localizer["Canteen"];
             header[3] = localizer["HomeDelivery"];
             header[4] = localizer["HomeDeliveryDriver"];
-            header[5] = localizer["HasGDPRagreement"];
+            header[5] = localizer["HasGDPRAgreement"];
             header[6] = localizer["AddressInformation"];
             header[7] = localizer["CNP"];
-            header[8] = localizer["CISeria"];
-            header[9] = localizer["CIEliberat"];
-            header[10] = localizer["Marca"];
-            header[11] = localizer["IDinvestigation"];
-            header[12] = localizer["IDapplication"];
-            header[13] = localizer["NumberOfPortions"];
-            header[14] = localizer["LastTimeActive"];
-            header[15] = localizer["PhoneNumber"];
-            header[16] = localizer["Birthplace"];
-            header[17] = localizer["Studies"];
-            header[18] = localizer["Profession"];
-            header[19] = localizer["Occupation"];
-            header[20] = localizer["SeniorityInWorkField"];
-            header[21] = localizer["HealthState"];
-            header[22] = localizer["Disability"];
-            header[23] = localizer["ChronicCondition"];
-            header[24] = localizer["Addictions"];
-            header[25] = localizer["HasHealthInsurance"];
-            header[26] = localizer["HasHealthCard"];
-            header[27] = localizer["Married"];
-            header[28] = localizer["SpouseName"];
-            header[29] = localizer["Homeless"];
-            header[30] = localizer["HousingType"];
-            header[31] = localizer["Income"];
-            header[32] = localizer["Expenses"];
-            header[33] = localizer["Gender"];
-            header[34] = localizer["WeeklyPackage"];
+            header[8] = localizer["CIInfo"];
+            header[9] = localizer["Marca"];
+            header[10] = localizer["IdInvestigation"];
+            header[11] = localizer["IdApplication"];
+            header[12] = localizer["NumberOfPortions"];
+            header[13] = localizer["LastTimeActive"];
+            header[14] = localizer["PhoneNumber"];
+            header[15] = localizer["Birthplace"];
+            header[16] = localizer["Studies"];
+            header[17] = localizer["Profession"];
+            header[18] = localizer["Occupation"];
+            header[19] = localizer["SeniorityInWorkField"];
+            header[20] = localizer["HealthState"];
+            header[21] = localizer["Disability"];
+            header[22] = localizer["ChronicCondition"];
+            header[23] = localizer["Addictions"];
+            header[24] = localizer["HasHealthInsurance"];
+            header[25] = localizer["HasHealthCard"];
+            header[26] = localizer["Married"];
+            header[27] = localizer["SpouseName"];
+            header[28] = localizer["HasHome"];
+            header[29] = localizer["HousingType"];
+            header[30] = localizer["Income"];
+            header[31] = localizer["Expenses"];
+            header[32] = localizer["Gender"];
+            header[33] = localizer["WeeklyPackage"];
 
             var result = string.Empty;
             for (var i = 0; i < header.Count(); i++)

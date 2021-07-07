@@ -138,32 +138,32 @@
 @if (Model.FilterData.NameOfEvent != "")
 {
     <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Nameofevent"]:@Model.FilterData.NameOfEvent
+        @Localizer["NameOfEvent"]:@Model.FilterData.NameOfEvent
     </div>
 }
 @if (Model.FilterData.PlaceOfEvent != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Placeofevent"]:@Model.FilterData.PlaceOfEvent
+        @Localizer["PlaceOfEvent"]:@Model.FilterData.PlaceOfEvent
     </div>
 }
 @if (Model.FilterData.TypeOfActivities != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Typeofactivities"]: @Model.FilterData.TypeOfActivities
+        @Localizer["TypeOfActivities"]: @Model.FilterData.TypeOfActivities
     </div>
 }
 @if (Model.FilterData.TypeOfEvent != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Typeofevent"]:@Model.FilterData.TypeOfEvent
+        @Localizer["TypeOfEvent"]:@Model.FilterData.TypeOfEvent
     </div>
 }
 @if (Model.FilterData.AllocatedVolunteers != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Allocatedvolunteers"]:@Model.FilterData.AllocatedVolunteers
+        @Localizer["AllocatedVolunteers"]:@Model.FilterData.AllocatedVolunteers
     </div>
 }
 @if (Model.FilterData.AllocatedSponsors != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Allocatedsponsors"]:@Model.FilterData.AllocatedSponsors
+        @Localizer["AllocatedSponsors"]:@Model.FilterData.AllocatedSponsors
     </div>
 }
 @if (Model.FilterData.LowerDate > DateTime.MinValue.AddYears(3))
@@ -180,13 +180,13 @@
 <table class="table">
     <tr>
         <th>
-            @Localizer["Nameofevent"]:
+            @Localizer["NameOfEvent"]:
 
             @Html.TextBox("searching")
         </th>
 
         <th>
-            @Localizer["Dateofevent"]:
+            @Localizer["DateOfEvent"]:
         </th>
         <th>
             @Localizer["Numberofvolunteersneeded"]:
@@ -202,24 +202,24 @@
                 </button>
                 <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;overflow: scroll;">
 
-                    <dt class="col-sm-6">@Localizer["Placeofevent"]:</dt>
+                    <dt class="col-sm-6">@Localizer["PlaceOfEvent"]:</dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("searchingPlace")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Typeofactivities"]: </dt>
+                    <dt class="col-sm-6">@Localizer["TypeOfActivities"]: </dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("searchingActivity")
                     </dd>
 
-                    <dt class="col-sm-6">@Localizer["Typeofevent"]: </dt>
+                    <dt class="col-sm-6">@Localizer["TypeOfEvent"]: </dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("searchingType")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Allocatedvolunteers"]: </dt>
+                    <dt class="col-sm-6">@Localizer["AllocatedVolunteers"]: </dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("searchingVolunteers")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Allocatedsponsors"]:</dt>
+                    <dt class="col-sm-6">@Localizer["AllocatedSponsors"]:</dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("searchingSponsor")
                     </dd>
