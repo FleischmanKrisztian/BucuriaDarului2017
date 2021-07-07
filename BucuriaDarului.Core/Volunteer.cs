@@ -38,7 +38,6 @@ namespace BucuriaDarului.Core
 
         public AdditionalInfo AdditionalInfo { get; set; }
 
-        [JsonIgnore]
         public byte[] Image { get; set; }
     }
 

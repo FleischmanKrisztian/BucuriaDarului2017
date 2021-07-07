@@ -50,10 +50,12 @@
         }
     </style>
 </head>
-@if (ViewBag.containsspecialchar == true)
-{
-    <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>
-}
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
+
 <form method="post" action="/Volunteer/Create" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=" .emp-profile">
@@ -136,8 +138,9 @@
                     <div class="col-md-6">
                         @Localizer["HasId"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.CI.HasId, new { htmlAttributes = new { @class = "form-control" } })
+                    <div style=" padding-left:20px; padding-bottom:2px !important">
+                        @Html.EditorFor(model => model.CI.HasId)
+
                         @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
                         <hr />
                     </div>

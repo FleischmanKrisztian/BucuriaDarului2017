@@ -47,6 +47,11 @@
         }
     </style>
 </head>
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
 @if (ViewBag.containsspecialchar == true)
 {
     <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>

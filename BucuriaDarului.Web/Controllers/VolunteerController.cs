@@ -1,7 +1,6 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using BucuriaDarului.Web.Common;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.ControllerHelpers.VolunteerHelpers;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ModifiedIDs = Finalaplication.Models.ModifiedIDs;
 
@@ -162,75 +162,51 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Details(string id)
         {
-            try
-            {
-                var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
+            return View(model);
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(string message)
         {
-            try
-            {
-                return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            ViewBag.message = message;
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Volunteer volunteer, IFormFile image)
+        public ActionResult Create(VolunteerCreateRequest request, IFormFile image)
         {
-            try
+            var volunteerCreateContext = new VolunteerCreateContext(new VolunteerCreateGateway());
+            var fileBytes = new byte[0];
+
+            if (image != null)
             {
-                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
+                if (image.Length > 0)
                 {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-                ModelState.Remove("Birthdate");
-                ModelState.Remove("HourCount");
-                ModelState.Remove("CIEliberat");
-                if (ModelState.IsValid)
-                {
-                    volunteer.Id = Guid.NewGuid().ToString();
-                    volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
-                    volunteer.Image = UniversalFunctions.Addimage(image);
-                    volunteerManager.AddVolunteerToDB(volunteer);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer));
-                    return View();
+                    using var ms = new MemoryStream();
+                    image.CopyTo(ms);
+                    fileBytes = ms.ToArray();
                 }
             }
-            catch
+
+            var volunteerCreateResponse = volunteerCreateContext.Execute(request, fileBytes);
+
+            ModelState.Remove("Birthdate");
+            ModelState.Remove("HourCount");
+            ModelState.Remove("CIEliberat");
+
+            if (!volunteerCreateResponse.IsValid)
             {
-                return RedirectToAction("Localserver", "Home");
+                return RedirectToAction("Create", new { message = volunteerCreateResponse.Message });
             }
+            return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(string id, bool containsspecialchar = false)
+        public ActionResult Edit(string id, string message)
         {
-            try
-            {
-                var volunteer = volunteerManager.GetOneVolunteer(id);
-                ViewBag.containsspecialchar = containsspecialchar;
-                ViewBag.id = id;
-                return View(volunteer);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            ViewBag.message = message;
+            var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
+            return View(model);
         }
 
         [HttpPost]
