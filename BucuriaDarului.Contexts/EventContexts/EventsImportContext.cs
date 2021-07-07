@@ -72,9 +72,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                     if (!IsTheCorrectHeader(headerColumns))
                     {
                         var returnList = new List<string[]>();
-                        var strArray = new string[60];
-                        strArray[0] = "File must be of type Event!";
-                        returnList.Add(strArray);
+                        var strarray = new string[1];
+                        strarray[0] = "File must be of type Event!";
+                        returnList.Add(strarray);
 
                         return returnList;
                     }
