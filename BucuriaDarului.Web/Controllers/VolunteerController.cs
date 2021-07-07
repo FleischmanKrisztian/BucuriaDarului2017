@@ -8,12 +8,10 @@ using Finalaplication.LocalDatabaseManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ModifiedIDs = Finalaplication.Models.ModifiedIDs;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -210,51 +208,28 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Volunteer volunteer, IFormFile image)
+        public ActionResult Edit(VolunteerEditRequest request, IFormFile image)
         {
-            try
+            var fileBytes = new byte[0];
+            if (image != null)
             {
-                if (UniversalFunctions.ContainsSpecialChar(JsonConvert.SerializeObject(volunteer)))
+                if (image.Length > 0)
                 {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-                ModelState.Remove("Birthdate");
-                ModelState.Remove("HourCount");
-                ModelState.Remove("CIEliberat");
-                if (ModelState.IsValid)
-                {
-                    if (image != null)
-                    { volunteer.Image = UniversalFunctions.Addimage(image); }
-                    else
-                    {
-                        Volunteer v = volunteerManager.GetOneVolunteer(id);
-                        volunteer.Image = v.Image;
-                    }
-                    volunteer.Birthdate = volunteer.Birthdate.AddHours(5);
-
-                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
-                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
-                    if (!modifiedids.Contains(id))
-                    {
-                        Volunteer currentvol = volunteerManager.GetOneVolunteer(id);
-                        string currentvolasstring = JsonConvert.SerializeObject(currentvol);
-                        auxiliaryDBManager.AddDocumenttoDB(currentvolasstring);
-                    }
-                    volunteerManager.UpdateAVolunteer(volunteer, id);
-
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.id = id;
-                    bool containsspecialchar = true;
-                    return RedirectToAction("Edit", new { id, containsspecialchar });
+                    using var ms = new MemoryStream();
+                    image.CopyTo(ms);
+                    fileBytes = ms.ToArray();
                 }
             }
-            catch
+            var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway());
+            var volunteerEditResponse = volunteerEditContext.Execute(request, fileBytes);
+            ModelState.Remove("Birthdate");
+            ModelState.Remove("HourCount");
+            ModelState.Remove("CIEliberat");
+            if (!volunteerEditResponse.IsValid)
             {
-                return RedirectToAction("Localserver", "Home");
+                return RedirectToAction("Edit", new { id = request.Id, message = volunteerEditResponse.Message });
             }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(string id)
