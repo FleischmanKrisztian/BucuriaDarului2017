@@ -23,8 +23,6 @@ namespace BucuriaDarului.Web.Controllers
 
         private readonly IStringLocalizer<VolunteerController> _localizer;
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
-        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private VolContractManager volcontractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
@@ -234,40 +232,18 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Delete(string id)
         {
-            try
-            {
-                var volunteer = volunteerManager.GetOneVolunteer(id);
-                return View(volunteer);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
+            return View(model);
+            
         }
 
         [HttpPost]
-        public ActionResult Delete(string id, bool Inactive)
+        public ActionResult Delete(bool Inactive, string id, Volunteer volunteerToUpdate)
         {
-            try
-            {
-                var volunteer = volunteerManager.GetOneVolunteer(id);
-                if (Inactive == false)
-                {
-                    volunteerManager.DeleteAVolunteer(id);
-                    volcontractManager.DeleteAVolunteersContracts(id);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    volunteer.InActivity = false;
-                    volunteerManager.UpdateAVolunteer(volunteer, id);
-                    return RedirectToAction("Index");
-                }
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var delteVolunteerContext = new VolunteerDeleteContext(new VolunteerDeleteGateway());
+            delteVolunteerContext.Execute(Inactive,id, volunteerToUpdate);
+            return RedirectToAction("Index");
+            
         }
     }
 }
