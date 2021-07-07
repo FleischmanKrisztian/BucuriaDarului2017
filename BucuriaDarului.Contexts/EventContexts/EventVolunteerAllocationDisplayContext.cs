@@ -62,7 +62,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var getStringOfIds = "volunteerCSV";
             foreach (var vol in volunteers)
             {
-                getStringOfIds = getStringOfIds + "," + vol._id;
+                getStringOfIds = getStringOfIds + "," + vol.Id;
             }
             return getStringOfIds;
         }

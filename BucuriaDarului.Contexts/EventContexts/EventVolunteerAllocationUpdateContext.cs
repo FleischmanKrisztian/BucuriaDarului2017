@@ -63,7 +63,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var volunteerList = new List<Volunteer>();
             foreach (var id in ids)
             {
-                var singleVolunteer = volunteers.First(x => x._id == id);
+                var singleVolunteer = volunteers.First(x => x.Id == id);
                 volunteerList.Add(singleVolunteer);
             }
             return volunteerList;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.Common;
 using Elm.Core.Parsers;
 using Finalaplication.Common;
@@ -217,8 +218,8 @@ namespace BucuriaDarului.Web.Controllers
         {
             try
             {
-                Volunteer volunteer = volunteerManager.GetOneVolunteer(id);
-                return View(volunteer);
+                var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
+                return View(model);
             }
             catch
             {
