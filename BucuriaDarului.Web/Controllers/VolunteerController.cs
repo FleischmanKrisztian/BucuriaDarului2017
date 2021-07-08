@@ -240,8 +240,8 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Delete(bool Inactive, string id)
         {
-            var delteVolunteerContext = new VolunteerDeleteContext(new VolunteerDeleteGateway());
-            delteVolunteerContext.Execute(Inactive,id);
+            var deleteVolunteerContext = new VolunteerDeleteContext(new VolunteerDeleteGateway());
+            deleteVolunteerContext.Execute(Inactive,id);
             return RedirectToAction("Index");
             
         }
