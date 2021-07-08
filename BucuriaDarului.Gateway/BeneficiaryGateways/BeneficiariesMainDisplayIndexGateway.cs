@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {
-    public class BeneficiariesMainDisplayIndexGateway: IBeneficiaryMainDisplayIndexGateway
+    public class BeneficiariesMainDisplayIndexGateway: IBeneficiariesMainDisplayIndexGateway
     {
         private MongoDBGateway dbContext = new MongoDBGateway();
 
