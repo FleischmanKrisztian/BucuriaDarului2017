@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContexts
 {
-    public class BeneficiariesMainDisplayIndexContext
+    public class BeneficiaryMainDisplayIndexContext
     {
-        private readonly IBeneficiariesMainDisplayIndexGateway dataGateway;
+        private readonly IBeneficiaryMainDisplayIndexGateway dataGateway;
 
-        public BeneficiariesMainDisplayIndexContext(IBeneficiariesMainDisplayIndexGateway dataGateway)
+        public BeneficiaryMainDisplayIndexContext(IBeneficiaryMainDisplayIndexGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
@@ -21,7 +21,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             beneficiaries = GetBeneficiariesAfterFilters(beneficiaries, request.FilterData);
             var beneficiariesAfterFiltering = beneficiaries.Count();
             var stringOfIDs = GetStringOfIds(beneficiaries);
-            beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
+            beneficiaries = GetBeneficiariesAfterPaging(beneficiaries, request.PagingData);
 
             return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, beneficiariesAfterFiltering, stringOfIDs);
         }
@@ -38,7 +38,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private List<Beneficiary> GetBeneficiariesAfterFilters(List<Beneficiary> beneficiaries, FilterData filterData)
         {
-            //we have some errors here
             if (filterData.BeneficiaryName != null)
                 beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(filterData.BeneficiaryName, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingDriver != null)
@@ -182,7 +181,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return beneficiaries;
         }
 
-        private List<Beneficiary> GetEventsAfterPaging(List<Beneficiary> beneficiaries, PagingData pagingData)
+        private List<Beneficiary> GetBeneficiariesAfterPaging(List<Beneficiary> beneficiaries, PagingData pagingData)
         {
             beneficiaries = beneficiaries.AsQueryable().Skip((pagingData.CurrentPage - 1) * pagingData.NrOfDocumentsPerPage).ToList();
             beneficiaries = beneficiaries.AsQueryable().Take(pagingData.NrOfDocumentsPerPage).ToList();
@@ -224,7 +223,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             filterData.HasID = hasID;
             if (searchingNumberOfPortions != 0)
                 filterData.SearchingNumberOfPortions = searchingNumberOfPortions;
-
             filterData.SearchingComments = searchingComments ?? null;
             filterData.SearchingStudies = searchingStudies ?? null;
             filterData.SearchingPO = searchingPO ?? null;

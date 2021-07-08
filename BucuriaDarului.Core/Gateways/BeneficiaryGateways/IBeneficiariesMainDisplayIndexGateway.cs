@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BucuriaDarului.Core.Gateways.BeneficiaryGateways
 {
-    public interface IBeneficiariesMainDisplayIndexGateway
+    public interface IBeneficiaryMainDisplayIndexGateway
     {
         List<Beneficiary> GetListOfBeneficiaries();
     }
