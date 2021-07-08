@@ -15,7 +15,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             this.dataGateway = dataGateway;
         }
 
-        public void Execute(bool inactive, string id, Volunteer volunteerToUpdate)
+        public void Execute(bool inactive, string id)
         {
 
 
@@ -29,25 +29,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             {
                 Volunteer volunteer = dataGateway.GetVolunteer(id);
                 volunteer.InActivity = false;
-                volunteerToUpdate=volunteer;
+                var volunteerToUpdate=volunteer;
                 dataGateway.UpdateVolunteer(id, volunteerToUpdate);
                
             }
         }
     }
 
-    public class DeleteRequest
-    {
-        public Volunteer Volunteer { get; set; }
-
-        public string Id { get; set; }
-        public bool Inactive { get; set; }
-
-        public DeleteRequest(Volunteer volunteer,  bool inactive)
-        {
-            Volunteer = volunteer;
-            Id = volunteer.Id;
-            Inactive = true;
-        }
-    }
+    
 }

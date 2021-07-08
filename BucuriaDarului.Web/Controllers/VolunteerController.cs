@@ -238,10 +238,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(bool Inactive, string id, Volunteer volunteerToUpdate)
+        public ActionResult Delete(bool Inactive, string id)
         {
             var delteVolunteerContext = new VolunteerDeleteContext(new VolunteerDeleteGateway());
-            delteVolunteerContext.Execute(Inactive,id, volunteerToUpdate);
+            delteVolunteerContext.Execute(Inactive,id);
             return RedirectToAction("Index");
             
         }
