@@ -1,12 +1,13 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 using MongoDB.Driver;
 
 namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {
-    public class BeneficiaryDeleteGateway
+    public class BeneficiaryDeleteGateway: IBeneficiaryDeleteGateway
     {
         MongoDBGateway dbContext = new MongoDBGateway();
-        public static void DeleteBeneficiary(string id)
+        public  void DeleteBeneficiary(string id)
         {
             
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
@@ -15,7 +16,7 @@ namespace BucuriaDarului.Gateway.BeneficiaryGateways
             beneficiaryCollection.DeleteOne(filter);
         }
 
-        public Beneficiary GetVolunteer(string id)
+        public Beneficiary GetBeneficiary(string id)
         {
             return SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
         }

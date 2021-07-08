@@ -36,5 +36,4 @@ namespace BucuriaDarului.Core
         public string IdApplication { get; set; }
     }
 }
-    }
-}
+  

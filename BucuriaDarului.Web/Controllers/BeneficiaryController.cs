@@ -159,9 +159,11 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(string id, IFormCollection collection)
+        public ActionResult Delete(bool Inactive,string id)
         {
-            BeneficiaryDeleteGateway.DeleteBeneficiary(id);
+
+            var deleteBeneficiaryContext = new BeneficiaryDeleteContext(new BeneficiaryDeleteGateway());
+            deleteBeneficiaryContext.Execute(Inactive, id);
             return RedirectToAction("Index");
         }
     }
