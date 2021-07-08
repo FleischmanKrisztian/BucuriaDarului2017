@@ -83,11 +83,11 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
+        public ActionResult CSVExporter(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAddress)
         {
             string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_SPONSOR);
             HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_SPONSOR);
-            string ids_and_fields = SponsorFunctions.GetIdAndFieldString(IDS, All, NameOfSponsor, Date, MoneyAmount, WhatGoods, GoodsAmount, HasContract, ContractDetails, PhoneNumber, MailAdress);
+            string ids_and_fields = SponsorFunctions.GetIdAndFieldString(IDS, All, NameOfSponsor, Date, MoneyAmount, WhatGoods, GoodsAmount, HasContract, ContractDetails, PhoneNumber, MailAddress);
             string key1 = Constants.SPONSORSESSION;
             string header = ControllerHelper.GetHeaderForExcelPrinterSponsor(_localizer);
             string key2 = Constants.SPONSORHEADER;
@@ -95,62 +95,62 @@ namespace BucuriaDarului.Web.Controllers
             string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
             return Redirect(csvexporterlink);
         }
-        // TODO: what is the difference between searching & ContactInfo? in the Sponsor class ContactInformation is a class with 2 strings as fields
+        // TODO: what is the difference between searching(name) & ContactInfo? in the Sponsor class ContactInformation is a class with 2 strings as fields
         // TODO: ContactInfo is the phone or email????
-        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerDate, DateTime upperDate, bool hasContract, string WhatGoods, string MoneyAmount, string GoodsAmount)
+        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
 
         {
-            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-            var sponsorsMainDisplayIndexContext = new SponsorsMainDisplayIndexContext(new SponsorMainDisplayIndexGateway());
-            var model = sponsorsMainDisplayIndexContext.Execute(new SponsorsMainDisplayIndexRequest(searching, page, nrOfDocs, ContactInfo, lowerDate, upperDate, hasContract, WhatGoods, MoneyAmount, GoodsAmount));
-            return View(model);
-            //try
-            //{
-            //    if (searching != null)
-            //    { ViewBag.Filters1 = searching; }
-            //    if (ContactInfo != null)
-            //    { ViewBag.Filters2 = ContactInfo; }
-            //    if (HasContract == true)
-            //    { ViewBag.Filters3 = ""; }
-            //    if (WhatGoods != null)
-            //    { ViewBag.Filters4 = WhatGoods; }
-            //    if (MoneyAmount != null)
-            //    { ViewBag.Filters5 = MoneyAmount; }
-            //    if (GoodsAmounts != null)
-            //    { ViewBag.Filters6 = GoodsAmounts; }
-            //    DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-            //    if (lowerdate != date)
-            //    { ViewBag.Filter7 = lowerdate.ToString(); }
-            //    if (upperdate != date)
-            //    { ViewBag.Filter8 = upperdate.ToString(); }
-            //    ViewBag.Contact = ContactInfo;
-            //    ViewBag.searching = searching;
-            //    ViewBag.Upperdate = upperdate;
-            //    ViewBag.Lowerdate = lowerdate;
-            //    ViewBag.HasContract = HasContract;
-            //    ViewBag.WhatGoods = WhatGoods;
-            //    ViewBag.GoodsAmount = GoodsAmounts;
-            //    ViewBag.MoneyAmount = MoneyAmount;
+            //var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            //var sponsorsMainDisplayIndexContext = new SponsorsMainDisplayIndexContext(new SponsorMainDisplayIndexGateway());
+            //var model = sponsorsMainDisplayIndexContext.Execute(new SponsorsMainDisplayIndexRequest(searching, page, nrOfDocs, ContactInfo, lowerDate, upperDate, hasContract, WhatGoods, MoneyAmount, GoodsAmount));
+            //return View(model);
+            try
+            {
+                if (searching != null)
+                { ViewBag.Filters1 = searching; }
+                if (ContactInfo != null)
+                { ViewBag.Filters2 = ContactInfo; }
+                if (HasContract == true)
+                { ViewBag.Filters3 = ""; }
+                if (WhatGoods != null)
+                { ViewBag.Filters4 = WhatGoods; }
+                if (MoneyAmount != null)
+                { ViewBag.Filters5 = MoneyAmount; }
+                if (GoodsAmounts != null)
+                { ViewBag.Filters6 = GoodsAmounts; }
+                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
+                if (lowerdate != date)
+                { ViewBag.Filter7 = lowerdate.ToString(); }
+                if (upperdate != date)
+                { ViewBag.Filter8 = upperdate.ToString(); }
+                ViewBag.Contact = ContactInfo;
+                ViewBag.searching = searching;
+                ViewBag.Upperdate = upperdate;
+                ViewBag.Lowerdate = lowerdate;
+                ViewBag.HasContract = HasContract;
+                ViewBag.WhatGoods = WhatGoods;
+                ViewBag.GoodsAmount = GoodsAmounts;
+                ViewBag.MoneyAmount = MoneyAmount;
 
-            //    List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-            //    page = UniversalFunctions.GetCurrentPage(page);
-            //    ViewBag.page = page;
-            //    sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors, searching, ContactInfo, lowerdate, upperdate, HasContract, WhatGoods, MoneyAmount, GoodsAmounts);
-            //    ViewBag.counter = sponsors.Count();
-            //    int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-            //    ViewBag.nrofdocs = nrofdocs;
-            //    string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
-            //    ViewBag.stringofids = stringofids;
-            //    sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
-            //    string key = Constants.SESSION_KEY_SPONSOR;
-            //    HttpContext.Session.SetString(key, stringofids);
+                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
+                page = UniversalFunctions.GetCurrentPage(page);
+                ViewBag.page = page;
+                sponsors = SponsorFunctions.GetSponsorsAfterFilters(sponsors, searching, ContactInfo, lowerdate, upperdate, HasContract, WhatGoods, MoneyAmount, GoodsAmounts);
+                ViewBag.counter = sponsors.Count();
+                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+                ViewBag.nrofdocs = nrofdocs;
+                string stringofids = SponsorFunctions.GetStringOfIds(sponsors);
+                ViewBag.stringofids = stringofids;
+                sponsors = SponsorFunctions.GetSponsorsAfterPaging(sponsors, page, nrofdocs);
+                string key = Constants.SESSION_KEY_SPONSOR;
+                HttpContext.Session.SetString(key, stringofids);
 
-            //    return View(sponsors);
-            //}
-            //catch
-            //{
-            //    return RedirectToAction("Localserver", "Home");
-            //}
+                return View(sponsors);
+            }
+            catch
+            {
+                return RedirectToAction("Localserver", "Home");
+            }
         }
 
         public ActionResult ContractExp()
@@ -194,7 +194,7 @@ namespace BucuriaDarului.Web.Controllers
                 ModelState.Remove("Sponsorship.Date");
                 if (ModelState.IsValid)
                 {
-                    incomingsponsor._id = Guid.NewGuid().ToString();
+                    incomingsponsor.Id = Guid.NewGuid().ToString();
                     incomingsponsor.Contract.RegistrationDate = incomingsponsor.Contract.RegistrationDate.AddHours(5);
                     incomingsponsor.Contract.ExpirationDate = incomingsponsor.Contract.ExpirationDate.AddHours(5);
                     sponsorManager.AddSponsorToDB(incomingsponsor);
@@ -212,55 +212,27 @@ namespace BucuriaDarului.Web.Controllers
             }
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, string message)
         {
+            ViewBag.message = message;
             var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, Sponsor sponsor)
+        public ActionResult Edit(SponsorEditRequest request)
         {
-            try
+            var sponsorEditContext = new SponsorEditContext(new SponsorEditGateway());
+            var sponsorEditResponse = sponsorEditContext.Execute(request);
+            ModelState.Remove("Contract.RegistrationDate");
+            ModelState.Remove("Contract.ExpirationDate");
+            ModelState.Remove("Sponsorship.Date");
+                
+            if (!sponsorEditResponse.IsValid)
             {
-                string sponsorasstring = JsonConvert.SerializeObject(sponsor);
-                if (UniversalFunctions.ContainsSpecialChar(sponsorasstring))
-                {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
-
-                Sponsor currentsavedsponsor = sponsorManager.GetOneSponsor(id);
-                ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
-                ModelState.Remove("Sponsorship.Date");
-                if (ModelState.IsValid)
-                {
-                    sponsor.Contract.RegistrationDate = sponsor.Contract.RegistrationDate.AddHours(5);
-                    sponsor.Contract.ExpirationDate = sponsor.Contract.ExpirationDate.AddHours(5);
-                    sponsor.Sponsorship.Date = sponsor.Sponsorship.Date.AddHours(5);
-
-                    List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
-                    string modifiedids = JsonConvert.SerializeObject(modifiedidlist);
-                    if (!modifiedids.Contains(id))
-                    {
-                        Sponsor currentsponsor = sponsorManager.GetOneSponsor(id);
-                        string currentsponsorasstring = JsonConvert.SerializeObject(currentsponsor);
-                        auxiliaryDBManager.AddDocumenttoDB(currentsponsorasstring);
-                    }
-                    sponsorManager.UpdateSponsor(sponsor, id);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.id = id;
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(sponsorasstring);
-                    return View();
-                }
+                return RedirectToAction("Edit", new { id = request.Id, message = sponsorEditResponse.Message });
             }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(string id)

@@ -22,7 +22,7 @@ namespace BucuriaDarului.Gateway.EventGateways
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", eventId);
+            var filter = Builders<Event>.Filter.Eq("Id", eventId);
             eventToUpdate.Id = eventId;
             ModifiedIDGateway modifiedIdGateway = new ModifiedIDGateway();
             modifiedIdGateway.AddIDtoModifications(eventId);

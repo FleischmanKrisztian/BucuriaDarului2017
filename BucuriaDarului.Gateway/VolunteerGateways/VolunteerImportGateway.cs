@@ -16,7 +16,7 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
             var modifiedIdGateway = new ModifiedIDGateway();
             foreach (var volunteer in volunteers)
             {
-                var filter = Builders<Volunteer>.Filter.Eq("_id", volunteer.Id);
+                var filter = Builders<Volunteer>.Filter.Eq("Id", volunteer.Id);
                 if (volunteerCollection.Find(filter).FirstOrDefault() == null)
                 {
                     volunteerCollection.InsertOne(volunteer);

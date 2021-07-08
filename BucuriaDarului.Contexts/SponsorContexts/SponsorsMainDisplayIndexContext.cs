@@ -32,7 +32,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             var stringOfIDs = "sponsorCSV";
             foreach (Sponsor s in sponsors)
             {
-                stringOfIDs = stringOfIDs + "," + s._id;
+                stringOfIDs = stringOfIDs + "," + s.Id;
             }
             return stringOfIDs;
         }

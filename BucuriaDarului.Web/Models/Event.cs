@@ -6,7 +6,7 @@ namespace Finalaplication.Models
 {
     public class Event
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string NameOfEvent { get; set; }

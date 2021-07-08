@@ -7,7 +7,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
     public class SponsorEditContext
     {
         private readonly ISponsorEditGateway dataGateway;
-        private SponsorEditResponse response = new SponsorEditResponse("", false, true);
+        private SponsorEditResponse response = new SponsorEditResponse("", true);
 
         public SponsorEditContext(ISponsorEditGateway dataGateway)
         {
@@ -20,25 +20,24 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             if (ContainsSpecialChar(noNullRequest))
             {
-                response.ContainsSpecialChar = true;
                 response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
-            var @sponsor = ValidateRequest(noNullRequest);
+            var sponsor = ValidateRequest(noNullRequest);
 
-            if (response.ContainsSpecialChar == false && response.IsValid)
+            if (response.IsValid)
             {
                 var modifiedList = dataGateway.ReturnModificationList();
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
-                if (!modifiedListString.Contains(@sponsor._id))
+                if (!modifiedListString.Contains(sponsor.Id))
                 {
-                    var beforeEditingSponsor = dataGateway.ReturnSponsor(@sponsor._id);
+                    var beforeEditingSponsor = dataGateway.ReturnSponsor(sponsor.Id);
                     var beforeEditingSponsorString = JsonConvert.SerializeObject(beforeEditingSponsor);
                     dataGateway.AddSponsorToModifiedList(beforeEditingSponsorString);
                 }
-                dataGateway.Edit(@sponsor);
+                dataGateway.Edit(sponsor);
             }
-            response.Sponsor = @sponsor;
+            response.Sponsor = sponsor;
 
             return response;
         }
@@ -47,26 +46,30 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         {
             if (request.NameOfSponsor == "")
             {
-                response.Message += "The Event must have a name! ";
+                response.Message += "The Sponsor must have a name! ";
                 response.IsValid = false;
             }
-
+            // this is done in order to have correct time in the database 
+            request.Contract.RegistrationDate = request.Contract.RegistrationDate.AddHours(5);
+            request.Contract.ExpirationDate = request.Contract.ExpirationDate.AddHours(5);
+            request.Sponsorship.Date = request.Sponsorship.Date.AddHours(5);
             var validatedSponsor = new Sponsor
             {
-                _id = request._id,
+                Id = request.Id,
                 NameOfSponsor = request.NameOfSponsor,
                 Sponsorship = request.Sponsorship,
+
                 Contract = request.Contract,
                 ContactInformation = request.ContactInformation
-            };
+        };
 
             return validatedSponsor;
         }
 
-        private bool ContainsSpecialChar(object @event)
+        private bool ContainsSpecialChar(object sponsor)
         {
-            var eventString = JsonConvert.SerializeObject(@event);
-            var containsSpecialChar = eventString.Contains(";");
+            var sponsorString = JsonConvert.SerializeObject(sponsor);
+            var containsSpecialChar = sponsorString.Contains(";");
             return containsSpecialChar;
         }
 
@@ -81,6 +84,36 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                     property.SetValue(request, string.Empty);
                 }
             }
+            foreach (var property in request.ContactInformation.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+
+                var value = property.GetValue(request.ContactInformation, null);
+                if (propertyType == typeof(string) && value == null)
+                {
+                    property.SetValue(request.ContactInformation, string.Empty);
+                }
+            }
+            foreach (var property in request.Sponsorship.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+
+                var value = property.GetValue(request.Sponsorship, null);
+                if (propertyType == typeof(string) && value == null)
+                {
+                    property.SetValue(request.Sponsorship, string.Empty);
+                }
+            }
+            foreach (var property in request.Contract.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+
+                var value = property.GetValue(request.Contract, null);
+                if (propertyType == typeof(string) && value == null)
+                {
+                    property.SetValue(request.Contract, string.Empty);
+                }
+            }
             return request;
         }
     }
@@ -92,19 +125,16 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public bool IsValid { get; set; }
 
-        public bool ContainsSpecialChar { get; set; }
-
-        public SponsorEditResponse(string message, bool containsSpecialChar, bool isValid)
+        public SponsorEditResponse(string message, bool isValid)
         {
             Message = message;
-            ContainsSpecialChar = containsSpecialChar;
             IsValid = isValid;
         }
     }
 
     public class SponsorEditRequest
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
         public string NameOfSponsor { get; set; }
         public Sponsorship Sponsorship { get; set; }
 

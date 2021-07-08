@@ -26,7 +26,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal Beneficiary GetOneBeneficiary(string id)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
+            var filter = Builders<Beneficiary>.Filter.Eq("Id", id);
             Beneficiary beneficiary = beneficiarycollection.Find(filter).FirstOrDefault();
             return beneficiary;
         }
@@ -41,7 +41,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void UpdateABeneficiary(Beneficiary beneficiarytopdate, string id)
         {
             IMongoCollection<Beneficiary> Beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            var filter = Builders<Beneficiary>.Filter.Eq("_id", id);
+            var filter = Builders<Beneficiary>.Filter.Eq("Id", id);
             beneficiarytopdate.Id = id;
             modifiedDocumentManager.AddIDtoString(id);
             Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
@@ -51,7 +51,7 @@ namespace Finalaplication.LocalDatabaseManager
         {
             modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Beneficiary> beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("_id", id));
+            beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("Id", id));
         }
     }
 }

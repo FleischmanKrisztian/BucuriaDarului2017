@@ -22,7 +22,7 @@ namespace Finalaplication.LocalDatabaseManager
             var contractlist = contractcollection.Find(zz => zz.OwnerID == id).ToList();
             for (int i = 0; i < contractlist.Count(); i++)
             {
-                modifiedDocumentManager.AddIDtoDeletionString(contractlist[i]._id);
+                modifiedDocumentManager.AddIDtoDeletionString(contractlist[i].Id);
             }
             contractcollection.DeleteMany(Builders<Volcontract>.Filter.Eq("OwnerID", id));
         }
@@ -31,20 +31,20 @@ namespace Finalaplication.LocalDatabaseManager
         {
             modifiedDocumentManager.AddIDtoDeletionString(id);
             IMongoCollection<Volcontract> contractcollection = dbContext.Database.GetCollection<Volcontract>("Contracts");
-            contractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("_id", id));
+            contractcollection.DeleteOne(Builders<Volcontract>.Filter.Eq("Id", id));
         }
 
         internal void AddVolunteerContractToDB(Volcontract contract)
         {
             IMongoCollection<Volcontract> volcontractcollection = dbContext.Database.GetCollection<Volcontract>("Contracts");
-            modifiedDocumentManager.AddIDtoString(contract._id);
+            modifiedDocumentManager.AddIDtoString(contract.Id);
             volcontractcollection.InsertOne(contract);
         }
 
         internal Volcontract GetVolunteerContract(string id)
         {
             IMongoCollection<Volcontract> volcontractcollection = dbContext.Database.GetCollection<Volcontract>("Contracts");
-            var filter = Builders<Volcontract>.Filter.Eq("_id", id);
+            var filter = Builders<Volcontract>.Filter.Eq("Id", id);
             Volcontract returnVolContract = volcontractcollection.Find(filter).FirstOrDefault();
             return returnVolContract;
         }
@@ -59,8 +59,8 @@ namespace Finalaplication.LocalDatabaseManager
         internal void UpdateVolunteerContract(Volcontract contractupdate, string id)
         {
             IMongoCollection<Volcontract> volcontractcollection = dbContext.Database.GetCollection<Volcontract>("Contracts");
-            var filter = Builders<Volcontract>.Filter.Eq("_id", id);
-            contractupdate._id = id;
+            var filter = Builders<Volcontract>.Filter.Eq("Id", id);
+            contractupdate.Id = id;
             modifiedDocumentManager.AddIDtoString(id);
             volcontractcollection.FindOneAndReplace(filter, contractupdate);
         }

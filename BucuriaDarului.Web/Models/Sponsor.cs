@@ -7,7 +7,7 @@ namespace Finalaplication.Models
     public class Sponsor
     {
         [JsonIgnore]
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string NameOfSponsor { get; set; }

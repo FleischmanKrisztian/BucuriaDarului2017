@@ -5,7 +5,7 @@ namespace Finalaplication.Models
 {
     public class Beneficiarycontract
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string OwnerID { get; set; }
 

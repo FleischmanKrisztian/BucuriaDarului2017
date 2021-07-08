@@ -26,7 +26,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal Volunteer GetOneVolunteer(string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("_id", id);
+            var filter = Builders<Volunteer>.Filter.Eq("Id", id);
             Volunteer volunteer = volunteercollection.Find(filter).FirstOrDefault();
             return volunteer;
         }
@@ -41,7 +41,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal void UpdateAVolunteer(Volunteer volunteertopdate, string id)
         {
             IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("_id", id);
+            var filter = Builders<Volunteer>.Filter.Eq("Id", id);
             volunteertopdate.Id = id;
             modifiedDocumentManager.AddIDtoString(volunteertopdate.Id);
             volunteercollection.FindOneAndReplace(filter, volunteertopdate);
@@ -51,7 +51,7 @@ namespace Finalaplication.LocalDatabaseManager
         {
             IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             modifiedDocumentManager.AddIDtoDeletionString(id);
-            volunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("_id", id));
+            volunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("Id", id));
         }
     }
 }

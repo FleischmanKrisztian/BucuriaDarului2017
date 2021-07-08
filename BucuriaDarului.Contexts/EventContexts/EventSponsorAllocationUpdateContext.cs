@@ -51,7 +51,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var sponsorList = new List<Sponsor>();
             foreach (var sponsorId in sponsorIds)
             {
-                var singleSponsor = sponsors.First(x => x._id == sponsorId);
+                var singleSponsor = sponsors.First(x => x.Id == sponsorId);
                 sponsorList.Add(singleSponsor);
             }
             return sponsorList;

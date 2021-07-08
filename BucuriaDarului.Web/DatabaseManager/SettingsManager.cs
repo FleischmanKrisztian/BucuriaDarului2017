@@ -23,14 +23,14 @@ namespace Finalaplication.DatabaseManager
         internal void AddSettingsToDB(Settings settings)
         {
             IMongoCollection<Settings> settingcollection = dbContext.Database.GetCollection<Settings>("Settings");
-            settings._id = Guid.NewGuid().ToString();
+            settings.Id = Guid.NewGuid().ToString();
             settingcollection.InsertOne(settings);
         }
 
         internal void UpdateSettings(Settings settingtoupdate)
         {
             IMongoCollection<Settings> settingcollection = dbContext.Database.GetCollection<Settings>("Settings");
-            var filter = Builders<Settings>.Filter.Eq("_id", settingtoupdate._id);
+            var filter = Builders<Settings>.Filter.Eq("Id", settingtoupdate.Id);
             settingcollection.FindOneAndReplace(filter, settingtoupdate);
         }
     }

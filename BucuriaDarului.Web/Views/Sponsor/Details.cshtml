@@ -1,4 +1,4 @@
-﻿@model Finalaplication.Models.Sponsor
+﻿@model BucuriaDarului.Core.Sponsor
 @{
     ViewData["Title"] = "Details";
 }
@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <div class=" col-md-6"><label>@Localizer["EmailAddress"]: </label></div>
-                <div class="col-md-6">   @Html.DisplayFor(model => model.ContactInformation.MailAdress)<hr /></div>
+                <div class="col-md-6">   @Html.DisplayFor(model => model.ContactInformation.MailAddress)<hr /></div>
             </div>
             <div class="row">
                 <div class=" col-md-6"> <label> @Localizer["HasContract"]: </label></div>
@@ -103,7 +103,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <a href=@Url.Action( "Edit", new { id = Model._id })><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]></a> |
+            <a href=@Url.Action( "Edit", new { id = Model.Id })><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]></a> |
             <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     </div>

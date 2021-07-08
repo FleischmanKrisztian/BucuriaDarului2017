@@ -6,7 +6,7 @@ namespace Finalaplication.Models
 {
     public class Volcontract
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string OwnerID { get; set; }
 

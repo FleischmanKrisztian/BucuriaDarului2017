@@ -16,7 +16,7 @@ namespace BucuriaDarului.Gateway
             dbContext.ConnectToDB(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
             IMongoCollection<ModifiedIDs> modificationCollection = dbContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
             ModifiedIDs modified = new ModifiedIDs();
-            modified._id = Guid.NewGuid().ToString();
+            modified.Id = Guid.NewGuid().ToString();
             modified.ModifiedId = id;
             modificationCollection.InsertOne(modified);
         }

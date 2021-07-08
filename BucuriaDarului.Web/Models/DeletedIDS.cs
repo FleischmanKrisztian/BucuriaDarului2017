@@ -2,7 +2,7 @@
 {
     public class DeletedIDS
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string DeletedId { get; set; }
     }

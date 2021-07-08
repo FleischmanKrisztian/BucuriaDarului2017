@@ -16,7 +16,7 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("_id", volunteer.Id);
+            var filter = Builders<Volunteer>.Filter.Eq("Id", volunteer.Id);
             var modifiedIdGateway = new ModifiedIDGateway();
             modifiedIdGateway.AddIDtoModifications(volunteer.Id);
            volunteerCollection.FindOneAndReplace(filter, volunteer);

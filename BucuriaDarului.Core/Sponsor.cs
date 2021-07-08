@@ -4,7 +4,7 @@ namespace BucuriaDarului.Core
 {
     public class Sponsor
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string NameOfSponsor { get; set; }
 

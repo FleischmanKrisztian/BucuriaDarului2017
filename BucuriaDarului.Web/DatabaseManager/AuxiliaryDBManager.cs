@@ -25,7 +25,7 @@ namespace Finalaplication.LocalDatabaseManager
         internal string GetDocumentByID(string id)
         {
             IMongoCollection<BsonDocument> auxiliarycollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            var filter = Builders<BsonDocument>.Filter.Eq("Id", id);
             BsonDocument returndocument = auxiliarycollection.Find(filter).FirstOrDefault();
             string returnstring = returndocument.ToString();
             return returnstring;

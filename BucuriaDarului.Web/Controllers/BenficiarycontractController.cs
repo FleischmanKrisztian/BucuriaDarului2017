@@ -76,7 +76,7 @@ namespace Finalaplication.Controllers
                     if (ModelState.IsValid)
                     {
                         Beneficiary beneficiary = beneficiaryManager.GetOneBeneficiary(idofbeneficiary);
-                        benenficiarycontract._id = Guid.NewGuid().ToString();
+                        benenficiarycontract.Id = Guid.NewGuid().ToString();
                         benenficiarycontract.ExpirationDate = benenficiarycontract.ExpirationDate.AddDays(1);
                         benenficiarycontract.RegistrationDate = benenficiarycontract.RegistrationDate.AddDays(1);
                         benenficiarycontract.Birthdate = beneficiary.PersonalInfo.Birthdate;

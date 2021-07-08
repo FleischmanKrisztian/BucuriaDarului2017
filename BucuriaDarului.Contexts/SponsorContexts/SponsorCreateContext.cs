@@ -44,7 +44,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             var validatedSponsor = new Sponsor
             {
-                _id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 NameOfSponsor = request.NameOfSponsor,
                 Sponsorship = request.Sponsorship,
                 Contract = request.Contract,

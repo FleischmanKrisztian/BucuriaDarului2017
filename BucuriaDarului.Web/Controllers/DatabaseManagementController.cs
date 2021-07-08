@@ -110,13 +110,13 @@
 //            for (int i = 0; i < volunteerslocal.Count(); i++)
 //            {
 //                // If the common db does not contain the volunteer and it has been created since the last fetch/push it gets added.
-//                if (!commonvols.Contains(volunteerslocal[i]._id) && modifiedids.Contains(volunteerslocal[i]._id))
+//                if (!commonvols.Contains(volunteerslocal[i].Id) && modifiedids.Contains(volunteerslocal[i].Id))
 //                    commonvolunteerManager.AddVolunteerToDB(volunteerslocal[i]);
 //                // if the common db contains the volunteer, but it has been edited since last sync it gets updated
-//                else if (modifiedids.Contains(volunteerslocal[i]._id))
+//                else if (modifiedids.Contains(volunteerslocal[i].Id))
 //                {
-//                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(volunteerslocal[i]._id);
-//                    string currentDocument = JsonConvert.SerializeObject(commonvolunteerManager.GetOneVolunteer(volunteerslocal[i]._id));
+//                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(volunteerslocal[i].Id);
+//                    string currentDocument = JsonConvert.SerializeObject(commonvolunteerManager.GetOneVolunteer(volunteerslocal[i].Id));
 //                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
 //                    currentDocument = currentDocument.Replace(" ", "");
 //                    //Checking whether or not the Document has been modified since we have last synced.
@@ -124,38 +124,38 @@
 //                    {
 //                        outOfSyncDocuments += volunteerslocal[i].Fullname + ", ";
 //                    }
-//                    commonvolunteerManager.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i]._id);
+//                    commonvolunteerManager.UpdateAVolunteer(volunteerslocal[i], volunteerslocal[i].Id);
 //                }
 //            }
 //            for (int i = 0; i < volunteers.Count(); i++)
 //            {
 //                // if the document has been deleted it will get deleted from the common db aswell.
 //                // the document will not be re-added unless someone has modified the document with this ID.
-//                if (deletedids.Contains(volunteers[i]._id))
-//                    commonvolunteerManager.DeleteAVolunteer(volunteers[i]._id);
+//                if (deletedids.Contains(volunteers[i].Id))
+//                    commonvolunteerManager.DeleteAVolunteer(volunteers[i].Id);
 //            }
 
 //            for (int i = 0; i < eventslocal.Count(); i++)
 //            {
-//                if (!commonevents.Contains(eventslocal[i]._id) && modifiedids.Contains(eventslocal[i]._id))
+//                if (!commonevents.Contains(eventslocal[i].Id) && modifiedids.Contains(eventslocal[i].Id))
 //                    commonEventManager.AddEventToDB(eventslocal[i]);
-//                else if (modifiedids.Contains(eventslocal[i]._id))
+//                else if (modifiedids.Contains(eventslocal[i].Id))
 //                {
-//                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(eventslocal[i]._id);
-//                    string currentDocument = JsonConvert.SerializeObject(commonEventManager.GetOneEvent(eventslocal[i]._id));
+//                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(eventslocal[i].Id);
+//                    string currentDocument = JsonConvert.SerializeObject(commonEventManager.GetOneEvent(eventslocal[i].Id));
 //                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
 //                    currentDocument = currentDocument.Replace(" ", "");
 //                    if (auxiliaryDocument != currentDocument)
 //                    {
 //                        outOfSyncDocuments += eventslocal[i].NameOfEvent + ", ";
 //                    }
-//                    commonEventManager.UpdateAnEvent(eventslocal[i], eventslocal[i]._id);
+//                    commonEventManager.UpdateAnEvent(eventslocal[i], eventslocal[i].Id);
 //                }
 //            }
 //            for (int i = 0; i < events.Count(); i++)
 //            {
-//                if (deletedids.Contains(events[i]._id))
-//                    commonEventManager.DeleteAnEvent(events[i]._id);
+//                if (deletedids.Contains(events[i].Id))
+//                    commonEventManager.DeleteAnEvent(events[i].Id);
 //            }
 
 //            for (int i = 0; i < beneficiarieslocal.Count(); i++)
@@ -183,50 +183,50 @@
 
 //            for (int i = 0; i < sponsorslocal.Count(); i++)
 //            {
-//                if (!commonsponsors.Contains(sponsorslocal[i]._id) && modifiedids.Contains(sponsorslocal[i]._id))
+//                if (!commonsponsors.Contains(sponsorslocal[i].Id) && modifiedids.Contains(sponsorslocal[i].Id))
 //                    commonSponsorManager.AddSponsorToDB(sponsorslocal[i]);
-//                else if (modifiedids.Contains(sponsorslocal[i]._id))
+//                else if (modifiedids.Contains(sponsorslocal[i].Id))
 //                {
-//                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(sponsorslocal[i]._id);
-//                    string currentDocument = JsonConvert.SerializeObject(commonSponsorManager.GetOneSponsor(sponsorslocal[i]._id));
+//                    string auxiliaryDocument = AuxiliaryDBManager.GetDocumentByID(sponsorslocal[i].Id);
+//                    string currentDocument = JsonConvert.SerializeObject(commonSponsorManager.GetOneSponsor(sponsorslocal[i].Id));
 //                    auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
 //                    currentDocument = currentDocument.Replace(" ", "");
 //                    if (auxiliaryDocument != currentDocument)
 //                    {
 //                        outOfSyncDocuments += sponsorslocal[i].NameOfSponsor + ", ";
 //                    }
-//                    commonSponsorManager.UpdateSponsor(sponsorslocal[i], sponsorslocal[i]._id);
+//                    commonSponsorManager.UpdateSponsor(sponsorslocal[i], sponsorslocal[i].Id);
 //                }
 //            }
 //            for (int i = 0; i < sponsors.Count(); i++)
 //            {
-//                if (deletedids.Contains(sponsors[i]._id))
-//                    commonSponsorManager.DeleteSponsor(sponsors[i]._id);
+//                if (deletedids.Contains(sponsors[i].Id))
+//                    commonSponsorManager.DeleteSponsor(sponsors[i].Id);
 //            }
 
 //            for (int i = 0; i < volcontractslocal.Count(); i++)
 //            {
-//                if (!commonvolcontracts.Contains(volcontractslocal[i]._id) && modifiedids.Contains(volcontractslocal[i]._id))
+//                if (!commonvolcontracts.Contains(volcontractslocal[i].Id) && modifiedids.Contains(volcontractslocal[i].Id))
 //                    commonVolContractManager.AddVolunteerContractToDB(volcontractslocal[i]);
-//                else if (modifiedids.Contains(volcontractslocal[i]._id))
-//                    commonVolContractManager.UpdateVolunteerContract(volcontractslocal[i], volcontractslocal[i]._id);
+//                else if (modifiedids.Contains(volcontractslocal[i].Id))
+//                    commonVolContractManager.UpdateVolunteerContract(volcontractslocal[i], volcontractslocal[i].Id);
 //            }
 //            for (int i = 0; i < volcontracts.Count(); i++)
 //            {
-//                if (deletedids.Contains(volcontracts[i]._id))
-//                    commonVolContractManager.DeleteAVolContract(volcontracts[i]._id);
+//                if (deletedids.Contains(volcontracts[i].Id))
+//                    commonVolContractManager.DeleteAVolContract(volcontracts[i].Id);
 //            }
 //            for (int i = 0; i < beneficiarycontractslocal.Count(); i++)
 //            {
-//                if (!commonbeneficiarycontracts.Contains(beneficiarycontractslocal[i]._id) && modifiedids.Contains(beneficiarycontractslocal[i]._id))
+//                if (!commonbeneficiarycontracts.Contains(beneficiarycontractslocal[i].Id) && modifiedids.Contains(beneficiarycontractslocal[i].Id))
 //                    commonBenefContractManager.AddBeneficiaryContractToDB(beneficiarycontractslocal[i]);
-//                else if (modifiedids.Contains(beneficiarycontractslocal[i]._id))
-//                    commonBenefContractManager.UpdateBeneficiaryContract(beneficiarycontractslocal[i], beneficiarycontractslocal[i]._id);
+//                else if (modifiedids.Contains(beneficiarycontractslocal[i].Id))
+//                    commonBenefContractManager.UpdateBeneficiaryContract(beneficiarycontractslocal[i], beneficiarycontractslocal[i].Id);
 //            }
 //            for (int i = 0; i < beneficiarycontracts.Count(); i++)
 //            {
-//                if (deletedids.Contains(beneficiarycontracts[i]._id))
-//                    commonBenefContractManager.DeleteBeneficiaryContract(beneficiarycontracts[i]._id);
+//                if (deletedids.Contains(beneficiarycontracts[i].Id))
+//                    commonBenefContractManager.DeleteBeneficiaryContract(beneficiarycontracts[i].Id);
 //            }
 //            modifiedDocumentManager.DeleteAuxiliaryDatabases();
 
@@ -253,28 +253,28 @@
 
 //            for (int i = 0; i < volunteers.Count(); i++)
 //            {
-//                if (!(localvols.Contains(volunteers[i]._id)))
+//                if (!(localvols.Contains(volunteers[i].Id)))
 //                    volunteerManager.AddVolunteerToDB(volunteers[i]);
-//                else if (!modifiedids.Contains(volunteers[i]._id))
-//                    volunteerManager.UpdateAVolunteer(volunteers[i], volunteers[i]._id);
+//                else if (!modifiedids.Contains(volunteers[i].Id))
+//                    volunteerManager.UpdateAVolunteer(volunteers[i], volunteers[i].Id);
 //            }
 //            for (int i = 0; i < volunteerslocal.Count(); i++)
 //            {
-//                if (!volstring.Contains(volunteerslocal[i]._id))
-//                    volunteerManager.DeleteAVolunteer(volunteerslocal[i]._id);
+//                if (!volstring.Contains(volunteerslocal[i].Id))
+//                    volunteerManager.DeleteAVolunteer(volunteerslocal[i].Id);
 //            }
 
 //            for (int i = 0; i < events.Count(); i++)
 //            {
-//                if (!(localevents.Contains(events[i]._id)))
+//                if (!(localevents.Contains(events[i].Id)))
 //                    eventManager.AddEventToDB(events[i]);
-//                else if (!modifiedids.Contains(events[i]._id))
-//                    eventManager.UpdateAnEvent(events[i], events[i]._id);
+//                else if (!modifiedids.Contains(events[i].Id))
+//                    eventManager.UpdateAnEvent(events[i], events[i].Id);
 //            }
 //            for (int i = 0; i < eventslocal.Count(); i++)
 //            {
-//                if (!eventstring.Contains(eventslocal[i]._id))
-//                    eventManager.DeleteAnEvent(eventslocal[i]._id);
+//                if (!eventstring.Contains(eventslocal[i].Id))
+//                    eventManager.DeleteAnEvent(eventslocal[i].Id);
 //            }
 
 //            for (int i = 0; i < beneficiaries.Count(); i++)
@@ -292,41 +292,41 @@
 
 //            for (int i = 0; i < sponsors.Count(); i++)
 //            {
-//                if (!(localsponsors.Contains(sponsors[i]._id)))
+//                if (!(localsponsors.Contains(sponsors[i].Id)))
 //                    sponsorManager.AddSponsorToDB(sponsors[i]);
-//                else if (!modifiedids.Contains(sponsors[i]._id))
-//                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i]._id);
+//                else if (!modifiedids.Contains(sponsors[i].Id))
+//                    sponsorManager.UpdateSponsor(sponsors[i], sponsors[i].Id);
 //            }
 //            for (int i = 0; i < sponsorslocal.Count(); i++)
 //            {
-//                if (!sponsorstring.Contains(sponsorslocal[i]._id))
-//                    sponsorManager.DeleteSponsor(sponsorslocal[i]._id);
+//                if (!sponsorstring.Contains(sponsorslocal[i].Id))
+//                    sponsorManager.DeleteSponsor(sponsorslocal[i].Id);
 //            }
 
 //            for (int i = 0; i < volcontracts.Count(); i++)
 //            {
-//                if (!(localvolcontrcarts.Contains(volcontracts[i]._id)))
+//                if (!(localvolcontrcarts.Contains(volcontracts[i].Id)))
 //                    volContractManager.AddVolunteerContractToDB(volcontracts[i]);
-//                else if (!modifiedids.Contains(volcontracts[i]._id))
-//                    volContractManager.UpdateVolunteerContract(volcontracts[i], volcontracts[i]._id);
+//                else if (!modifiedids.Contains(volcontracts[i].Id))
+//                    volContractManager.UpdateVolunteerContract(volcontracts[i], volcontracts[i].Id);
 //            }
 //            for (int i = 0; i < volcontractslocal.Count(); i++)
 //            {
-//                if (!volcontractstring.Contains(volcontractslocal[i]._id))
-//                    volContractManager.DeleteAVolContract(volcontractslocal[i]._id);
+//                if (!volcontractstring.Contains(volcontractslocal[i].Id))
+//                    volContractManager.DeleteAVolContract(volcontractslocal[i].Id);
 //            }
 
 //            for (int i = 0; i < beneficiarycontracts.Count(); i++)
 //            {
-//                if (!(localbeneficiarycontrcarts.Contains(beneficiarycontracts[i]._id)))
+//                if (!(localbeneficiarycontrcarts.Contains(beneficiarycontracts[i].Id)))
 //                    beneficiaryContractManager.AddBeneficiaryContractToDB(beneficiarycontracts[i]);
-//                else if (!modifiedids.Contains(beneficiarycontracts[i]._id))
-//                    beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i]._id);
+//                else if (!modifiedids.Contains(beneficiarycontracts[i].Id))
+//                    beneficiaryContractManager.UpdateBeneficiaryContract(beneficiarycontracts[i], beneficiarycontracts[i].Id);
 //            }
 //            for (int i = 0; i < beneficiarycontractslocal.Count(); i++)
 //            {
-//                if (!benefcontractstring.Contains(beneficiarycontractslocal[i]._id))
-//                    beneficiaryContractManager.DeleteBeneficiaryContract(beneficiarycontractslocal[i]._id);
+//                if (!benefcontractstring.Contains(beneficiarycontractslocal[i].Id))
+//                    beneficiaryContractManager.DeleteBeneficiaryContract(beneficiarycontractslocal[i].Id);
 //            }
 
 //            modifiedDocumentManager.DeleteAuxiliaryDatabases();

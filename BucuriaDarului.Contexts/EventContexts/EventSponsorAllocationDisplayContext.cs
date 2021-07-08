@@ -51,7 +51,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var stringOfIds = "sponsorCSV";
             foreach (var sponsor in sponsors)
             {
-                stringOfIds = stringOfIds + "," + sponsor._id;
+                stringOfIds = stringOfIds + "," + sponsor.Id;
             }
             return stringOfIds;
         }

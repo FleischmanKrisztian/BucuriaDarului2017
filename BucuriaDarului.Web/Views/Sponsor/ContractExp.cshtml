@@ -35,13 +35,13 @@
                     @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ContactInformation.MailAdress)
+                    @Html.DisplayFor(modelItem => item.ContactInformation.MailAddress)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Contract.ExpirationDate)
                 </td>
                 <td>
-                    <a href=@Url.Action( "Details", new { id = item._id })><img src="~/Resources/detali.jpg" width="40" height="40" title=@Localizer["Details"]> </a>
+                    <a href=@Url.Action( "Details", new { id = item.Id })><img src="~/Resources/detali.jpg" width="40" height="40" title=@Localizer["Details"]> </a>
                 </td>
             </tr>
         }

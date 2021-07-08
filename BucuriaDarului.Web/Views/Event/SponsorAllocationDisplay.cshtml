@@ -171,7 +171,7 @@
                     @if (Model.Event.AllocatedSponsors.Contains(item.NameOfSponsor))
                     {
                         <td>
-                            <input type="checkbox" checked="checked" name="sponsorids" value="@item._id" />
+                            <input type="checkbox" checked="checked" name="sponsorids" value="@item.Id" />
                         </td>
                         <td>
                             <input type="hidden" name="evId" value="@Model.Event.Id" />
@@ -180,7 +180,7 @@
                     else
                     {
                         <td>
-                            <input type="checkbox" name="sponsorIds" value="@item._id" />
+                            <input type="checkbox" name="sponsorIds" value="@item.Id" />
                         </td>
                         <td>
                             <input type="hidden" name="evId" value="@Model.Event.Id" />

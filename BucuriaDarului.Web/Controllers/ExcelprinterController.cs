@@ -58,13 +58,13 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var sponsor = listOfSponsors.AsQueryable().Where(z => z._id == ids[i]);
+                        var sponsor = listOfSponsors.AsQueryable().Where(z => z.Id == ids[i]);
                         jsonstring += JsonConvert.SerializeObject(sponsor);
                     }
                     else
                     {
                         var first = true;
-                        var sponsor = listOfSponsors.AsQueryable().First(z => z._id == ids[i]);
+                        var sponsor = listOfSponsors.AsQueryable().First(z => z.Id == ids[i]);
                         jsonstring += "[{";
                         if (properties.Contains("1"))
                         {
@@ -118,7 +118,7 @@ namespace Finalaplication.Controllers
                             {
                                 jsonstring = jsonstring + ",";
                             }
-                            jsonstring = jsonstring + "\"" + finalHeader[8] + "\":" + "\"" + sponsor.ContactInformation.MailAdress + "\"";
+                            jsonstring = jsonstring + "\"" + finalHeader[8] + "\":" + "\"" + sponsor.ContactInformation.MailAddress + "\"";
                             first = false;
                         }
                         if (properties.Contains("7"))
@@ -639,13 +639,13 @@ namespace Finalaplication.Controllers
                 {
                     if (properties.Contains("0"))
                     {
-                        var @event = listOfEvents.AsQueryable().Where(z => z._id == ids[i]);
+                        var @event = listOfEvents.AsQueryable().Where(z => z.Id == ids[i]);
                         jsonstring += JsonConvert.SerializeObject(@event);
                     }
                     else
                     {
                         var first = true;
-                        var @event = listOfEvents.AsQueryable().First(z => z._id == ids[i]);
+                        var @event = listOfEvents.AsQueryable().First(z => z.Id == ids[i]);
                         jsonstring = jsonstring + "[{";
                         if (properties.Contains("1"))
                         {

@@ -16,7 +16,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             Contract c = new Contract();
             ContactInformation ci = new ContactInformation();
 
-            newsponsor._id = Guid.NewGuid().ToString();
+            newsponsor.Id = Guid.NewGuid().ToString();
             newsponsor.NameOfSponsor = sponsorstring[0];
 
             try
@@ -66,7 +66,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             newsponsor.Contract = c;
 
             ci.PhoneNumber = sponsorstring[9];
-            ci.MailAdress = sponsorstring[10];
+            ci.MailAddress = sponsorstring[10];
             newsponsor.ContactInformation = ci;
             return newsponsor;
         }
@@ -76,7 +76,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             string stringofids = "sponsorCSV";
             foreach (Sponsor sponsor in sponsors)
             {
-                stringofids = stringofids + "," + sponsor._id;
+                stringofids = stringofids + "," + sponsor.Id;
             }
             return stringofids;
         }
@@ -102,7 +102,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             List<Sponsor> sponsorlist = new List<Sponsor>();
             for (int i = 0; i < sponsorids.Length; i++)
             {
-                Sponsor singlesponsor = sponsors.Where(x => x._id == sponsorids[i]).First();
+                Sponsor singlesponsor = sponsors.Where(x => x.Id == sponsorids[i]).First();
                 sponsorlist.Add(singlesponsor);
             }
             return sponsorlist;
@@ -119,7 +119,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
             return sponsornames;
         }
 
-        internal static string GetIdAndFieldString(string IDS, bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAdress)
+        internal static string GetIdAndFieldString(string IDS, bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAddress)
         {
             string ids_and_options = IDS + "(((";
             if (All == true)
@@ -134,7 +134,7 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                 ids_and_options += "4";
             if (PhoneNumber == true)
                 ids_and_options += "5";
-            if (MailAdress == true)
+            if (MailAddress == true)
                 ids_and_options += "6";
             if (MoneyAmount == true)
                 ids_and_options += "7";
@@ -168,11 +168,11 @@ namespace Finalaplication.ControllerHelpers.SponsorHelpers
                 {
                     if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
                         s.ContactInformation.PhoneNumber = "-";
-                    if (s.ContactInformation.MailAdress == null || s.ContactInformation.MailAdress == "")
-                        s.ContactInformation.MailAdress = "-";
+                    if (s.ContactInformation.MailAddress == null || s.ContactInformation.MailAddress == "")
+                        s.ContactInformation.MailAddress = "-";
                 }
 
-                sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAdress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAddress.Contains(ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
 
             if (WhatGoods != null)

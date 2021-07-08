@@ -16,7 +16,7 @@ namespace BucuriaDarului.Gateway.BeneficiaryGateways
             var modifiedIdGateway = new ModifiedIDGateway();
             foreach (var beneficiary in beneficiaries)
             {
-                var filter = Builders<Beneficiary>.Filter.Eq("_id", beneficiary.Id);
+                var filter = Builders<Beneficiary>.Filter.Eq("Id", beneficiary.Id);
                 if (beneficiaryCollection.Find(filter).FirstOrDefault() == null)
                 {
                     beneficiaryCollection.InsertOne(beneficiary);

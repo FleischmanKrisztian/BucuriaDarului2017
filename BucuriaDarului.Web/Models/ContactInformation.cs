@@ -4,6 +4,6 @@
     {
         public string PhoneNumber { get; set; }
 
-        public string MailAdress { get; set; }
+        public string MailAddress { get; set; }
     }
 }

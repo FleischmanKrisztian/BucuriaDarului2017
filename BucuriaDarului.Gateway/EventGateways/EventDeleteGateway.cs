@@ -10,7 +10,7 @@ namespace BucuriaDarului.Gateway.EventGateways
             MongoDBGateway dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
-            var filter = Builders<Event>.Filter.Eq("_id", id);
+            var filter = Builders<Event>.Filter.Eq("Id", id);
             eventCollection.DeleteOne(filter);
         }
     }

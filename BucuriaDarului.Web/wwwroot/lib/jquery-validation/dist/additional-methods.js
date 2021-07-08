@@ -137,7 +137,7 @@
 
     /*
      * Código de identificación fiscal ( CIF ) is the tax identification code for Spanish legal entities
-     * Further rules can be found in Spanish on http://es.wikipedia.org/wiki/C%C3%B3digo_de_identificaci%C3%B3n_fiscal
+     * Further rules can be found in Spanish on http://es.wikipedia.org/wiki/C%C3%B3digo_deIdentificaci%C3%B3n_fiscal
      *
      * Spanish CIF structure:
      *

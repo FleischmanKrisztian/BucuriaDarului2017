@@ -18,7 +18,7 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<ModifiedIDs> modifiedIDS = dbContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
             ModifiedIDs modified = new ModifiedIDs
             {
-                _id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 ModifiedId = id
             };
             modifiedIDS.InsertOne(modified);
@@ -29,7 +29,7 @@ namespace Finalaplication.LocalDatabaseManager
             IMongoCollection<DeletedIDS> deletedIDS = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
             DeletedIDS deleted = new DeletedIDS
             {
-                _id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 DeletedId = id
             };
             deletedIDS.InsertOne(deleted);

@@ -2,7 +2,7 @@
 {
     public class Settings
     {
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         public string Lang { get; set; }
 

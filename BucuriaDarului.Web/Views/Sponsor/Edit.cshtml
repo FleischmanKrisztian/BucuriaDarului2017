@@ -1,7 +1,6 @@
-﻿@model Finalaplication.Models.Sponsor
+﻿@model BucuriaDarului.Core.Sponsor
 @{
     ViewBag.Title = "Edit";
-    string id = ViewBag.id;
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
@@ -51,14 +50,16 @@
         }
     </style>
 </head>
-@if (ViewBag.containsspecialchar == true)
-{
-    <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>
-}
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <input type="hidden" name="id" value="@id" />
+    @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
     <div class="container emp-profile">
         <div class="row">
             <div class="col-md-9">
@@ -87,8 +88,8 @@
                         <label>@Localizer["EmailAddress"]: </label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.ContactInformation.MailAdress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ContactInformation.MailAdress, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.ContactInformation.MailAddress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContactInformation.MailAddress, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
@@ -98,9 +99,10 @@
                     </div>
                     <div class="checkbox col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
-                            @Html.EditorFor(model => model.Contract.HasContract)</div>
-                            @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })<hr />
+                            @Html.EditorFor(model => model.Contract.HasContract)
                         </div>
+                        @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })<hr />
+                    </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-6">

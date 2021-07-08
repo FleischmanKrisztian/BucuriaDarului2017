@@ -16,7 +16,7 @@ namespace BucuriaDarului.Gateway.EventGateways
             var modifiedIdGateway = new ModifiedIDGateway();
             foreach (var eve in events)
             {
-                var filter = Builders<Event>.Filter.Eq("_id", eve.Id);
+                var filter = Builders<Event>.Filter.Eq("Id", eve.Id);
                 if (eventCollection.Find(filter).FirstOrDefault() == null)
                 {
                     eventCollection.InsertOne(eve);
