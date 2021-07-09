@@ -1,4 +1,4 @@
-﻿@model Finalaplication.Models.Sponsor
+﻿@model BucuriaDarului.Core.Sponsor
 @{
     ViewData["Title"] = "Create";
 }
@@ -50,12 +50,14 @@
         }
     </style>
 </head>
-@if (ViewBag.containsspecialchar == true)
-{
-    <div><h3 style="color:red">@Localizer["nospecialchar"]</h3></div>
-}
-@using (Html.BeginForm())
 
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
@@ -90,9 +92,10 @@
                     <div class=" col-md-6"><label> @Localizer["HasContract"]: </label></div>
                     <div class="checkbox col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
-                            @Html.EditorFor(model => model.Contract.HasContract)</div>
-                            @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })<hr />
+                            @Html.EditorFor(model => model.Contract.HasContract)
                         </div>
+                        @Html.ValidationMessageFor(model => model.Contract.HasContract, "", new { @class = "text-danger" })<hr />
+                    </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-6">  <label>  @Localizer["Numberofregistration"]:</label></div>

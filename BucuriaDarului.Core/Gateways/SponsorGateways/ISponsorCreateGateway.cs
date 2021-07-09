@@ -1,7 +1,8 @@
-﻿namespace BucuriaDarului.Core.Gateways.SponsorGateways
+﻿
+namespace BucuriaDarului.Core.Gateways.SponsorGateways
 {
     public interface ISponsorCreateGateway
     {
-        void Insert(Sponsor @sponsor);
+        void Insert(Sponsor sponsor);
     }
 }

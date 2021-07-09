@@ -173,43 +173,26 @@ namespace BucuriaDarului.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Create()
+        public ActionResult Create(string message)
         {
-                return View();
+            ViewBag.message = message;
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Sponsor incomingsponsor)
+        public ActionResult Create(SponsorCreateRequest request)
         {
-            try
-            {
-                string sponsorasstring = JsonConvert.SerializeObject(incomingsponsor);
-                if (UniversalFunctions.ContainsSpecialChar(sponsorasstring))
-                {
-                    ModelState.AddModelError("Cannot contain semi-colons", "Cannot contain semi-colons");
-                }
+            var sponsorCreateContext = new SponsorCreateContext(new SponsorCreateGateway());
+            var sponsorCreateResponse = sponsorCreateContext.Execute(request);
+            ModelState.Remove("Contract.RegistrationDate");
+            ModelState.Remove("Contract.ExpirationDate");
+            ModelState.Remove("Sponsorship.Date");
 
-                ModelState.Remove("Contract.RegistrationDate");
-                ModelState.Remove("Contract.ExpirationDate");
-                ModelState.Remove("Sponsorship.Date");
-                if (ModelState.IsValid)
-                {
-                    incomingsponsor.Id = Guid.NewGuid().ToString();
-                    incomingsponsor.Contract.RegistrationDate = incomingsponsor.Contract.RegistrationDate.AddHours(5);
-                    incomingsponsor.Contract.ExpirationDate = incomingsponsor.Contract.ExpirationDate.AddHours(5);
-                    sponsorManager.AddSponsorToDB(incomingsponsor);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.containsspecialchar = UniversalFunctions.ContainsSpecialChar(sponsorasstring);
-                    return View();
-                }
-            }
-            catch
+            if (!sponsorCreateResponse.IsValid)
             {
-                return RedirectToAction("Localserver", "Home");
+                return RedirectToAction("Create", new { message = sponsorCreateResponse.Message });
             }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(string id, string message)
