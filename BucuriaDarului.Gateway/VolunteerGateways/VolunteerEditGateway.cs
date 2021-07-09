@@ -19,7 +19,7 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
             var filter = Builders<Volunteer>.Filter.Eq("Id", volunteer.Id);
             var modifiedIdGateway = new ModifiedIDGateway();
             modifiedIdGateway.AddIDtoModifications(volunteer.Id);
-           volunteerCollection.FindOneAndReplace(filter, volunteer);
+            volunteerCollection.FindOneAndReplace(filter, volunteer);
         }
 
         public List<ModifiedIDs> ReturnModificationList()

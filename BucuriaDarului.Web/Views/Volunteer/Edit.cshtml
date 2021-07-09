@@ -54,7 +54,7 @@
 </div>
 
 <form method="post" action="/Volunteer/Edit" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="@id" />
+    @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">
         <hr />

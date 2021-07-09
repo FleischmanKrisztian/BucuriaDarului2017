@@ -52,36 +52,6 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiariesMainDisplayIndexContext = new VolunteerMainDisplayIndexContext(new VolunteerMainDisplayIndexGateway());
             var model = beneficiariesMainDisplayIndexContext.Execute(new VolunteerMainDisplayIndexRequest(nrOfDocs, page, searchedFullname, searchedContact, sortOrder, active, hasCar, hasDrivingLicence, lowerDate, upperDate, gender, searchedAddress, searchedWorkplace, searchedOccupation, searchedRemarks, searchedHourCount));
             return View(model);
-
-
-            //if (HasDrivingLicence == true)
-            //{ ViewBag.Filter1 = ""; }
-            //if (searchedFullname != null)
-            //{ ViewBag.Filters2 = searchedFullname; }
-            //if (searchedContact != null)
-            //{ ViewBag.Filter3 = searchedContact; }
-            //if (gender != null)
-            //{ ViewBag.Filter5 = gender; }
-            //if (searchedAddress != null)
-            //{ ViewBag.Filter6 = searchedAddress; }
-            //if (searchedworkplace != null)
-            //{ ViewBag.Filter7 = searchedworkplace; }
-            //if (searchedRemarks != null)
-            //{ ViewBag.Filter8 = searchedRemarks; }
-            //if (searchedOccupation != null)
-            //{ ViewBag.Filter9 = searchedOccupation; }
-            //if (searchedHourCount != 0)
-            //{ ViewBag.Filter10 = searchedHourCount.ToString(); }
-            //if (Active != false)
-            //{ ViewBag.Filter11 = ""; }
-            //if (HasCar != false)
-            //{ ViewBag.Filter12 = ""; }
-            //DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-            //if (lowerdate != date)
-            //{ ViewBag.Filter13 = lowerdate.ToString(); }
-            //if (upperdate != date)
-            //{ ViewBag.Filter14 = upperdate.ToString(); }
-
         }
 
         [HttpGet]
