@@ -52,11 +52,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 response.IsValid = false;
             }
 
+            request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);
             var validatedVolunteer = new Volunteer
             {
                 Id = request.Id,
                 Fullname = request.Fullname,
-                Birthdate = request.Birthdate,
+                Birthdate = request.Birthdate.AddHours(5),
                 Address = request.Address,
                 Gender = request.Gender,
                 DesiredWorkplace = request.DesiredWorkplace,
@@ -185,5 +186,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public AdditionalInfo AdditionalInfo { get; set; }
 
         public byte[] Image { get; set; }
+
     }
 }

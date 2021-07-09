@@ -41,12 +41,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 response.Message += "The Volunteer must have a name! ";
                 response.IsValid = false;
             }
-
+            request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);
             var validatedVolunteer = new Volunteer
             {
                 Id = Guid.NewGuid().ToString(),
                 Fullname = request.Fullname,
-                Birthdate = request.Birthdate,
+                Birthdate = request.Birthdate.AddHours(5),
                 Address = request.Address,
                 Gender = request.Gender,
                 DesiredWorkplace = request.DesiredWorkplace,

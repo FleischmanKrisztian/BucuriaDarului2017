@@ -52,6 +52,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 response.IsValid = false;
             }
 
+            request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);
+            request.PersonalInfo.Birthdate = request.PersonalInfo.Birthdate.AddHours(5);
             var validatedBeneficiary = new Beneficiary
             {
                 Id = request.Id,
@@ -67,7 +69,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 CI = request.CI,
                 Marca = request.Marca,
                 NumberOfPortions = request.NumberOfPortions,
-                LastTimeActive = request.LastTimeActive,
+                LastTimeActive = request.LastTimeActive.AddHours(5),
                 Comments = request.Comments,
                 PersonalInfo = request.PersonalInfo
             };

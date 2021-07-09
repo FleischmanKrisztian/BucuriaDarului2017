@@ -17,13 +17,8 @@ namespace BucuriaDarului.Web.Controllers
 {
     public class VolunteerController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Finalaplication.Common.Constants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Finalaplication.Common.Constants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Finalaplication.Common.Constants.DATABASE_NAME_LOCAL);
-
         private readonly IStringLocalizer<VolunteerController> _localizer;
-        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-
+       
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
         {
             _localizer = localizer;
