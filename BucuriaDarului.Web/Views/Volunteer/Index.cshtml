@@ -1,319 +1,301 @@
-﻿@model IEnumerable<BucuriaDarului.Core.Volunteer>
+﻿@model BucuriaDarului.Contexts.VolunteerContexts.VolunteerMainDisplayIndexResponse
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Localization
-@using Microsoft.Extensions.Options
-@inject IOptions<RequestLocalizationOptions> LocalizationOptions
 @{
     ViewBag.Title = Localizer["Volunteers"];
-    int currentpage = ViewBag.Page;
-    string stringofids = ViewBag.stringofids;
-    string string1 = ViewBag.Filter1;
-    string string2 = ViewBag.Filters2;
-    string string3 = ViewBag.Filter3;
-    string string5 = ViewBag.Filter5;
-    string string6 = ViewBag.Filter6;
-    string string7 = ViewBag.Filter7;
-    string string8 = ViewBag.Filter8;
-    string string9 = ViewBag.Filter9;
-    string string10 = ViewBag.Filter10;
-    string string11 = ViewBag.Filter11;
-    string string12 = ViewBag.Filter12;
-    string string13 = ViewBag.Filter13;
-    string string14 = ViewBag.Filter14;
-    string string15 = ViewBag.Filter15;
-    string string16 = ViewBag.Filter16;
+
 }
 
 <head>
     <link rel="stylesheet" href="~/css/style.css" type="text/css" />
-   <style>
-    .dropdown-menu {
-    width: 500px !important;
-    }
-   </style >
-</head >
+    <style>
+        .dropdown-menu {
+            width: 500px !important;
+        }
+    </style>
+</head>
 
-       <h2 >@Localizer["Volunteers"] <small > (@ViewBag.counter)</small > </h2 >
-       @if (ViewBag.wrongorder == true)
+<h2>@Localizer["Volunteers"] <small> (@Model.TotalVolunteers)</small> </h2>
+@if (ViewBag.wrongorder == true)
 {
-     <h3 style="color:red" >@Localizer["The date of active till cant be smaller that that of activesince!"] </h3 >
+    <h3 style="color:red">@Localizer["The date of active till cant be smaller that that of activesince!"] </h3>
 }
-       @using (Html.BeginForm("Index", "Volunteer", FormMethod.Get))
+@using (Html.BeginForm("Index", "Volunteer", FormMethod.Get))
 {
-     <div >
-       <a href= @Url.Action("Create") > <img src="~/Resources/vol.jpg" width="40" height="40" title= "@Localizer["CreateNew"]" > </a >
+    <div>
+        <a href=@Url.Action("Create")> <img src="~/Resources/vol.jpg" width="40" height="40" title="@Localizer["CreateNew"]"> </a>
 
-       <a href= @Url.Action("CSVExporter") > <img src="~/Resources/csv.png" width="40" height="40" title=" @Localizer["ExportToCsv"] "> </a >
-       <a href= @Url.Action("Import") > <img src="~/Resources/import-csv.png" width="40" height="40" title=" @Localizer["UploadFromCsv"]" > </a >
-       <br>
-       </div >
-     <p >
+        <a href=@Url.Action("CSVExporter")> <img src="~/Resources/csv.png" width="40" height="40" title=" @Localizer["ExportToCsv"] "> </a>
+        <a href=@Url.Action("Import")> <img src="~/Resources/import-csv.png" width="40" height="40" title=" @Localizer["UploadFromCsv"]"> </a>
+        <br>
+    </div>
+    <p>
 
-       <div class="pagination" >
-       <pre style="white-space:pre-wrap;" >
+        <div class="pagination">
+            <pre style="white-space:pre-wrap;">
        @{
-                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
-                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
+                int maxpage = (Model.TotalVolunteers/ Model.PagingData.NrOfDocumentsPerPage) + 1;
+                if (Model.TotalVolunteers % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalVolunteers != 0)
                 {
                     maxpage--;
                 }
 
-                if (currentpage == 1)
+                if (Model.PagingData.CurrentPage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, HasDriverLicence = ViewBag.hasDriverLicence, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasCar = ViewBag.hascar, HasDriverLicence = ViewBag.hasDriverLicence, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+           }
+           if (Model.PagingData.CurrentPage >= 5)
+           {
+                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
-                if (currentpage >= 5)
+                if (Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = currentpage - 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
-                if (currentpage > 3)
+                if (Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((currentpage - 2).ToString(), "Index", new { page = currentpage - 2, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
-                if (currentpage > 2)
+                if (Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink((currentpage - 1).ToString(), "Index", new { page = currentpage - 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                if (currentpage != 1 && currentpage != maxpage)
+                if (Model.PagingData.CurrentPage < maxpage - 1)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
-                if (currentpage < maxpage - 1)
+                if (Model.PagingData.CurrentPage < maxpage - 2)
                 {
-                    @Html.ActionLink((currentpage + 1).ToString(), "Index", new { page = currentpage + 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
-                if (currentpage < maxpage - 2)
+                if (Model.PagingData.CurrentPage < maxpage - 3)
                 {
-                    @Html.ActionLink((currentpage + 2).ToString(), "Index", new { page = currentpage + 2, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, HasDriverLicence = ViewBag.hasDriverLicence, Active = ViewBag.active, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
-                if (currentpage < maxpage - 3)
+                if (maxpage != 1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = currentpage + 1, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
-                }
-                if (maxpage != 1 && currentpage == maxpage)
-                {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = ViewBag.searchedFullname, sortOrder = ViewBag.SortOrder, Active = ViewBag.active, HasDriverLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicence, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
             }
-       </pre >
-       </div >
-       </p >
+       </pre>
+        </div>
+    </p>
 
-     <a href= @Url.Action("Index") class="btn btn-primary" >@Localizer["Show all volunteers"] </a >
-     <br>
+    <a href=@Url.Action("Index") class="btn btn-primary">@Localizer["Show all volunteers"] </a>
+    <br>
 
-    @if (string1 != null)
+    @if (Model.FilterData.HasDrivingLicence != false)
     {
-         <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Hasdrivinglicense"]
-       </div >
+        <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Hasdrivinglicense"]
+        </div>
     }
-    @if (string2 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Fullname"]
-       : @string2
-       </div >
+    @if (Model.FilterData.SearchedFullname != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Fullname"]
+            : @Model.FilterData.SearchedFullname
+        </div>
     }
-    @if (string3 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["ContactInfo"] : @string3
-       </div >
+    @if (Model.FilterData.SearchedContact != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["ContactInfo"] : @Model.FilterData.SearchedContact
+        </div>
     }
-    @if (string5 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Gender"] : @string5
-       </div >
+    @if (Model.FilterData.Gender != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Gender"] : @Model.FilterData.Gender
+        </div>
     }
-    @if (string6 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Address"] : @string6
-       </div >
+    @if (Model.FilterData.SearchedAddress != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Address"] : @Model.FilterData.SearchedAddress
+        </div>
     }
-    @if (string7 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["DesiredArea"] : @string7
-       </div >
-    }
-
-    @if (string8 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Remarks"] : @string8
-       </div >
+    @if (Model.FilterData.SearchedWorkplace != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["DesiredArea"] : @Model.FilterData.SearchedWorkplace
+        </div>
     }
 
-    @if (string9 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Occupation"] : @string9
-       </div >
-    }@if (string10 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["HourCount"] : @string10
-       </div >
-    }@if (string11 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["Active"]
-       </div >
-    }@if (string12 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["HasCar"]
-       </div >
-    }
-    @if (string13 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["BornAfter"] : @string13
-       </div >
-    }@if (string14 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["BornBefore"] : @string14
-       </div >
-    }@if (string15 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["activesince"] : @string15
-       </div >
-    }
-    @if (string16 != null)
-    { <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black " >
-       @Localizer["activetill"] : @string16
-       </div >
+    @if (Model.FilterData.SearchedRemarks != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Remarks"] : @Model.FilterData.SearchedRemarks
+        </div>
     }
 
-     <table class="table" >
-       <tr >
-       <th >
-       <a href= @Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }) >@Localizer["Fullname"] </a >
-       @Html.TextBox("searchedFullname")
-       </th >
-       <th >
-       <a href= @Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }) >@Localizer["BirthDate"] </a >
-       </th >
-       <th >
-       <a href= @Url.Action("Index", new { sortOrder = ViewBag.Activesort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }) >@Localizer["Active"] </a >
-       @Html.CheckBox("Active")
-       </th >
-       <th >
-       @Localizer["PhoneNumber"]
-       </th >
-       <th >
-       <a href= @Url.Action("Index", new { sortOrder = ViewBag.Gendersort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }) >@Localizer["Gender"] </a >
-       </th >
-       <th >
-       <a href= @Url.Action("Index", new { sortOrder = ViewBag.HourCountSort, searchedFullname = ViewBag.searchedFullname, HasDrivingLicence = ViewBag.hasDriverLicence, HasCar = ViewBag.hascar, Active = ViewBag.active, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, activesince = ViewBag.Activesince, activetill = ViewBag.Activetill, gender = ViewBag.Gender, searchedAddress = ViewBag.Address, searchedworkplace = ViewBag.DesiredWorkplace, searchedOccupation = ViewBag.Occupation, searchedRemarks = ViewBag.Remarks, searchedContact = ViewBag.ContactInfo, searchedHourCount = ViewBag.HourCount }) >@Localizer["HourCount"] </a >
-       @Html.TextBox("searchedHourCount")
-       </th >
-       <th >
-       <div class="dropdown" >
-       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-       @Localizer["Filters"] :
-       </button >
-       <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;overflow: scroll;" >
+    @if (Model.FilterData.SearchedOccupation != null)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Occupation"] : @Model.FilterData.SearchedOccupation
+        </div>
+    }@if (Model.FilterData.SearchedHourCount != 0)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["HourCount"] : @Model.FilterData.SearchedHourCount
+        </div>
+    }@if (Model.FilterData.Active != false)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["Active"]
+        </div>
+    }@if (Model.FilterData.HasCar != false)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["HasCar"]
+        </div>
+    }
+    @if (Model.FilterData.LowerDate != null && Model.FilterData.LowerDate.Year > DateTime.MinValue.Year)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["BornAfter"] : @Model.FilterData.LowerDate
+        </div>
+    }
+    @if (Model.FilterData.UpperDate != null && Model.FilterData.UpperDate.Year > DateTime.MinValue.Year)
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["BornBefore"] : @Model.FilterData.UpperDate
+        </div>
+    }
+    @*@if (Model.FilterData.ActiveSince  != null)
+        {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+                @Localizer["activesince"] : @string15
+            </div>
+        }
+        @if (Model.FilterData.UpperDate.ActiveTill != null)
+        {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+                @Localizer["activetill"] : @string16
+            </div>
+        }*@
 
-       <dt class="col-sm-6" >@Localizer["HasCar"] </dt >
-       <dd class="col-sm-2" >
-       @Html.CheckBox("HasCar")
-       </dd >
-       <dt class="col-sm-6" >@Localizer["Hasdrivinglicense"] </dt >
-       <dd class="col-sm-2" >
-       @Html.CheckBox("HasDrivingLicence")
-       </dd >
-       <dt class="col-sm-6" >@Localizer["BornAfter"] :</dt >
-       <dd class="col-sm-2" >
-       <input type="date" name="lowerdate" >
-       </dd >
-       <dt class="col-sm-6" >@Localizer["BornBefore"] :</dt >
-       <dd class="col-sm-3" >
-       <input type="date" name="upperdate" >
-       </dd >
-       <dt class="col-sm-7" >@Localizer["activesince"] :</dt >
-       <dd class="col-sm-1" >
-       <input type="date" name="activesince" >
-       </dd >
-       <dt class="col-sm-6" >@Localizer["activetill"] :</dt >
-       <dd class="col-sm-3" >
-       <input type="date" name="activetill" >
-       </dd >
-       <dt class="col-sm-6" >@Localizer["Gender"] :</dt >
-       <dd class="col-sm-6" >
-       <input type="radio" name="gender" value="All" checked="checked" / >@Localizer["All"]
-       <input type="radio" name="gender" value="Male" / >@Localizer["Male"]
-       <input type="radio" name="gender" value="Female" / >@Localizer["Female"]
-       </dd >
-       <dt class="col-sm-6" >@Localizer["Address"] :</dt >
-       <dd class="col-sm-2" >
-       @Html.TextBox("searchedAddress")
-       </dd >
-       <dt class="col-sm-6" >@Localizer["DesiredArea"] :</dt >
-       <dd class="col-sm-2" >
-       @Html.TextBox("searchedworkplace")
-       </dd >
-       <dt class="col-sm-6" >@Localizer["Occupation"] :</dt >
-       <dd class="col-sm-2" >
-       @Html.TextBox("searchedOccupation")
-       </dd >
-       <dt class="col-sm-6" >@Localizer["Remarks"] :</dt >
-       <dd class="col-sm-2" >
-       @Html.TextBox("searchedRemarks")
-       </dd >
-       <dt class="col-sm-6" >@Localizer["ContactInfo"] :</dt >
-       <dd class="col-sm-2" >
-       @Html.TextBox("searchedContact")
-       </dd >
-       </div >
-       <button type="submit" class="btn btn-primary" >
-       <span class="glyphicon glyphicon-search" aria-hidden="true" > </span > @Localizer["Search"]
-       </button >
-       </div >
-       </th >
-       <th > </th >
-       </tr >
-       @if (Model.Count() == 0)
+    <table class="table">
+        <tr>
+            <th>
+                <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicence, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })>@Localizer["Fullname"] </a>
+                @Html.TextBox("searchedFullname")
+            </th>
+            <th>
+                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.DateSortParm,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicence, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["BirthDate"] </a>
+            </th>
+            <th>
+                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Activesort,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicence, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["Active"] </a>
+                @Html.CheckBox("Active")
+            </th>
+            <th>
+                @Localizer["PhoneNumber"]
+            </th>
+            <th>
+                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Gendersort,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicence, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["Gender"] </a>
+            </th>
+            <th>
+                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.HourCountSort, searchedFullname =Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicence, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["HourCount"] </a>
+                @Html.TextBox("searchedHourCount")
+            </th>
+            <th>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @Localizer["Filters"] :
+                    </button>
+                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;overflow: scroll;">
+
+                        <dt class="col-sm-6">@Localizer["HasCar"] </dt>
+                        <dd class="col-sm-2">
+                            @Html.CheckBox("hasCar")
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["Hasdrivinglicense"] </dt>
+                        <dd class="col-sm-2">
+                            @Html.CheckBox("hasDrivingLicence")
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["BornAfter"] :</dt>
+                        <dd class="col-sm-2">
+                            <input type="date" name="lowerdate">
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["BornBefore"] :</dt>
+                        <dd class="col-sm-3">
+                            <input type="date" name="upperdate">
+                        </dd>
+                        @*<dt class="col-sm-7">@Localizer["activesince"] :</dt>
+                        <dd class="col-sm-1">
+                            <input type="date" name="activesince">
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["activetill"] :</dt>
+                        <dd class="col-sm-3">
+                            <input type="date" name="activetill">
+                        </dd>*@
+                        <dt class="col-sm-6">@Localizer["gender"] :</dt>
+                        <dd class="col-sm-6">
+                            <input type="radio" name="gender" value="All" checked="checked" />@Localizer["All"]
+                            <input type="radio" name="gender" value="Male" />@Localizer["Male"]
+                            <input type="radio" name="gender" value="Female" />@Localizer["Female"]
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["Address"] :</dt>
+                        <dd class="col-sm-2">
+                            @Html.TextBox("searchedAddress")
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["DesiredArea"] :</dt>
+                        <dd class="col-sm-2">
+                            @Html.TextBox("searchedWorkplace")
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["Occupation"] :</dt>
+                        <dd class="col-sm-2">
+                            @Html.TextBox("searchedOccupation")
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["Remarks"] :</dt>
+                        <dd class="col-sm-2">
+                            @Html.TextBox("searchedRemarks")
+                        </dd>
+                        <dt class="col-sm-6">@Localizer["ContactInfo"] :</dt>
+                        <dd class="col-sm-2">
+                            @Html.TextBox("searchedContact")
+                        </dd>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"> </span> @Localizer["Search"]
+                    </button>
+                </div>
+            </th>
+            <th> </th>
+        </tr>
+        @if (Model.TotalVolunteers == 0)
         {
-             <tr >
-       <td colspan="3 " style="color:red" >
-       @Localizer["Error"]
-       </td >
-       </tr >
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["Error"]
+                </td>
+            </tr>
         }
         else
         {
-            foreach (var item in Model)
+            foreach (var item in Model.Volunteers)
             {
-                 <tr >
-       <td >
-       @Html.DisplayFor(modelItem => item.Fullname)
-       </td >
-       <td >
-       @Html.DisplayFor(modelItem => item.Birthdate)
-       </td >
-       <td >
-       @Html.DisplayFor(modelItem => item.InActivity)
-       </td >
-       <td >
-       @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
-       </td >
-       <td >
-       @Html.DisplayFor(modelItem => item.Gender)
-       </td >
-       <td >
-       @Html.DisplayFor(modelItem => item.HourCount)
-       </td >
-       <td >
-       <a href= @Url.Action("Edit", new { id = item.Id }) > <img src="~/Resources/edit.jpg" width="40" height="40" title=" @Localizer["Edit"]" > </a > |
-       <a href= @Url.Action("Details", new { id = item.Id }) > <img src="~/Resources/detali.jpg" width="40" height="40" title= "@Localizer["Details"]" > </a > |
-       <a href= @Url.Action("Delete", new { id = item.Id }) > <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]" > </a >
-       <a href= @Url.Action("Contracts", new { id = item.Id }) > <img src="~/Resources/contract.jpg" width="40" height="40" title= "@Localizer["Contracts"]" > </a >
-       </td >
-       </tr >
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fullname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Birthdate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InActivity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HourCount)
+                    </td>
+                    <td>
+                        <a href=@Url.Action("Edit", new { id = item.Id })> <img src="~/Resources/edit.jpg" width="40" height="40" title=" @Localizer["Edit"]"> </a> |
+                        <a href=@Url.Action("Details", new { id = item.Id })> <img src="~/Resources/detali.jpg" width="40" height="40" title="@Localizer["Details"]"> </a> |
+                        <a href=@Url.Action("Delete", new { id = item.Id })> <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]"> </a>
+                        <a href=@Url.Action("Contracts", new { id = item.Id })> <img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"> </a>
+                    </td>
+                </tr>
             }
         }
-       </table >
+    </table>
 }

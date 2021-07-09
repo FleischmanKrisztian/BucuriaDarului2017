@@ -151,10 +151,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Gender).ToList();
                     break;
 
-                case "Fullname":
-                    beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
-                    break;
-
                 case "Fullname_desc":
                     beneficiaries = beneficiaries.OrderByDescending(s => s.Fullname).ToList();
                     break;

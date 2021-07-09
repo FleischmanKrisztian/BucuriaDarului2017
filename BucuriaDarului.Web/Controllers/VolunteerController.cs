@@ -23,7 +23,6 @@ namespace BucuriaDarului.Web.Controllers
 
         private readonly IStringLocalizer<VolunteerController> _localizer;
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private VolContractManager volcontractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
         {
@@ -47,71 +46,42 @@ namespace BucuriaDarului.Web.Controllers
                 return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
-        public ActionResult Index(string searchedFullname, string searchedContact, string sortOrder, bool Active, bool HasCar, bool HasDrivingLicence, DateTime lowerdate, DateTime upperdate, int page, string gender, string searchedAddress, string searchedworkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
+        public ActionResult Index(string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicence, DateTime lowerDate, DateTime upperDate, int page, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
         {
-            
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-                volunteers = VolunteerFunctions.GetVolunteersAfterFilters(volunteers, searchedFullname, searchedContact, Active, HasCar, HasDrivingLicence, lowerdate, upperdate, gender, searchedAddress, searchedworkplace, searchedOccupation, searchedRemarks, searchedHourCount);
-                ViewBag.counter = volunteers.Count();
-                string stringofids = VolunteerFunctions.GetStringOfIds(volunteers);
-                volunteers = VolunteerFunctions.GetVolunteerAfterPaging(volunteers, page, nrofdocs);
-                volunteers = VolunteerFunctions.GetVolunteerAfterSorting(volunteers, sortOrder);
-                string key = Constants.SESSION_KEY_VOLUNTEER;
-                HttpContext.Session.SetString(key, stringofids);
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            var beneficiariesMainDisplayIndexContext = new VolunteerMainDisplayIndexContext(new VolunteerMainDisplayIndexGateway());
+            var model = beneficiariesMainDisplayIndexContext.Execute(new VolunteerMainDisplayIndexRequest(nrOfDocs, page, searchedFullname, searchedContact, sortOrder, active, hasCar, hasDrivingLicence, lowerDate, upperDate, gender, searchedAddress, searchedWorkplace, searchedOccupation, searchedRemarks, searchedHourCount));
+            return View(model);
 
-                if (HasDrivingLicence == true)
-                { ViewBag.Filter1 = ""; }
-                if (searchedFullname != null)
-                { ViewBag.Filters2 = searchedFullname; }
-                if (searchedContact != null)
-                { ViewBag.Filter3 = searchedContact; }
-                if (gender != null)
-                { ViewBag.Filter5 = gender; }
-                if (searchedAddress != null)
-                { ViewBag.Filter6 = searchedAddress; }
-                if (searchedworkplace != null)
-                { ViewBag.Filter7 = searchedworkplace; }
-                if (searchedRemarks != null)
-                { ViewBag.Filter8 = searchedRemarks; }
-                if (searchedOccupation != null)
-                { ViewBag.Filter9 = searchedOccupation; }
-                if (searchedHourCount != 0)
-                { ViewBag.Filter10 = searchedHourCount.ToString(); }
-                if (Active != false)
-                { ViewBag.Filter11 = ""; }
-                if (HasCar != false)
-                { ViewBag.Filter12 = ""; }
-                DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
-                if (lowerdate != date)
-                { ViewBag.Filter13 = lowerdate.ToString(); }
-                if (upperdate != date)
-                { ViewBag.Filter14 = upperdate.ToString(); }
-                ViewBag.page = UniversalFunctions.GetCurrentPage(page);
-                ViewBag.searchedFullname = searchedFullname;
-                ViewBag.active = Active;
-                ViewBag.ContactInfo = searchedContact;
-                ViewBag.SortOrder = sortOrder;
-                ViewBag.Address = searchedAddress;
-                ViewBag.Occupation = searchedOccupation;
-                ViewBag.Remarks = searchedRemarks;
-                ViewBag.HourCount = searchedHourCount;
-                ViewBag.Upperdate = upperdate;
-                ViewBag.Lowerdate = lowerdate;
-                ViewBag.Gender = gender;
-                ViewBag.hascar = HasCar;
-                ViewBag.DesiredWorkplace = searchedworkplace;
-                ViewBag.hasDriverLicence = HasDrivingLicence;
-                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-                ViewBag.FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
-                ViewBag.HourCountSort = sortOrder == "Hourcount" ? "Hourcount_desc" : "Hourcount";
-                ViewBag.Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
-                ViewBag.Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
-                ViewBag.nrofdocs = nrofdocs;
 
-                return View(volunteers);
-           
+            //if (HasDrivingLicence == true)
+            //{ ViewBag.Filter1 = ""; }
+            //if (searchedFullname != null)
+            //{ ViewBag.Filters2 = searchedFullname; }
+            //if (searchedContact != null)
+            //{ ViewBag.Filter3 = searchedContact; }
+            //if (gender != null)
+            //{ ViewBag.Filter5 = gender; }
+            //if (searchedAddress != null)
+            //{ ViewBag.Filter6 = searchedAddress; }
+            //if (searchedworkplace != null)
+            //{ ViewBag.Filter7 = searchedworkplace; }
+            //if (searchedRemarks != null)
+            //{ ViewBag.Filter8 = searchedRemarks; }
+            //if (searchedOccupation != null)
+            //{ ViewBag.Filter9 = searchedOccupation; }
+            //if (searchedHourCount != 0)
+            //{ ViewBag.Filter10 = searchedHourCount.ToString(); }
+            //if (Active != false)
+            //{ ViewBag.Filter11 = ""; }
+            //if (HasCar != false)
+            //{ ViewBag.Filter12 = ""; }
+            //DateTime date = Convert.ToDateTime("01.01.0001 00:00:00");
+            //if (lowerdate != date)
+            //{ ViewBag.Filter13 = lowerdate.ToString(); }
+            //if (upperdate != date)
+            //{ ViewBag.Filter14 = upperdate.ToString(); }
+
         }
 
         [HttpGet]
@@ -141,14 +111,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Contracts(string id)
         {
-            try
-            {
-                return RedirectToAction("Index", "Volcontract", new { idofvol = id });
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            return RedirectToAction("Index", "Volcontract", new { idofvol = id });
         }
 
         public ActionResult Details(string id)
@@ -229,16 +192,14 @@ namespace BucuriaDarului.Web.Controllers
         {
             var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
             return View(model);
-            
         }
 
         [HttpPost]
         public ActionResult Delete(bool Inactive, string id)
         {
             var deleteVolunteerContext = new VolunteerDeleteContext(new VolunteerDeleteGateway());
-            deleteVolunteerContext.Execute(Inactive,id);
+            deleteVolunteerContext.Execute(Inactive, id);
             return RedirectToAction("Index");
-            
         }
     }
 }
