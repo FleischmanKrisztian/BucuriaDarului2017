@@ -49,8 +49,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Index(string searchedFullname, string searchedContact, string sortOrder, bool Active, bool HasCar, bool HasDrivingLicence, DateTime lowerdate, DateTime upperdate, int page, string gender, string searchedAddress, string searchedworkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
         {
-            try
-            {
+            
                 int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 volunteers = VolunteerFunctions.GetVolunteersAfterFilters(volunteers, searchedFullname, searchedContact, Active, HasCar, HasDrivingLicence, lowerdate, upperdate, gender, searchedAddress, searchedworkplace, searchedOccupation, searchedRemarks, searchedHourCount);
@@ -112,11 +111,7 @@ namespace BucuriaDarului.Web.Controllers
                 ViewBag.nrofdocs = nrofdocs;
 
                 return View(volunteers);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+           
         }
 
         [HttpGet]

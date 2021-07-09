@@ -155,6 +155,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
                     break;
 
+                case "Fullname_desc":
+                    beneficiaries = beneficiaries.OrderByDescending(s => s.Fullname).ToList();
+                    break;
+
                 case "Active":
                     beneficiaries = beneficiaries.OrderBy(s => s.Active).ToList();
                     break;
@@ -163,15 +167,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     beneficiaries = beneficiaries.OrderByDescending(s => s.Active).ToList();
                     break;
 
-                case "name_desc":
-                    beneficiaries = beneficiaries.OrderByDescending(s => s.Fullname).ToList();
-                    break;
-
                 case "Date":
                     beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Birthdate).ToList();
                     break;
 
-                case "date_desc":
+                case "Date_desc":
                     beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Birthdate).ToList();
                     break;
 
@@ -331,7 +331,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     public class Sort
     {
         public string SortOrder { get; set; }
-        public string NameSortParm { get; set; }
         public string DateSortParm { get; set; }
         public string FullnameSort { get; set; }
         public string Gendersort { get; set; }
@@ -340,11 +339,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public Sort(string sortOrder)
         {
             SortOrder = sortOrder;
-            NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            DateSortParm = sortOrder == "Date" ? "Date_desc" : "Date";
             FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
             Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
             Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+
         }
     }
 }

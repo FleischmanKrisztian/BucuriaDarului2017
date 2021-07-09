@@ -295,20 +295,20 @@
 
         <tr>
             <th>
-                <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
+                <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
 
                 @Html.TextBox("searching")
             </th>
 
             <th>
-                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Active"]</a>
+                <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Activesort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Active"]</a>
                 <dd class="col-sm-2">
                     @Html.CheckBox("Active")
                 </dd>
             </th>
             <th>
                 <dt>
-                    <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.DateSortParm, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Gender"]</a>
+                    <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Gendersort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Active = Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Gender"]</a>
                 </dt>
                 <dd></dd>
             </th>
