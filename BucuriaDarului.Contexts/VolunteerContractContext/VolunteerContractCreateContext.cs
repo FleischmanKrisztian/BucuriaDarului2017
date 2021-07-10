@@ -15,33 +15,35 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
             this.dataGateway = dataGateway;
         }
 
-        public VolunteerContractCreateResponse Execute(VolunteerContractCreateRequest request)
+        public VolunteerContractCreateResponse Execute(VolunteerContract contract, string volunteerId)
         {
-            var volunteer = dataGateway.GetVolunteer(request.VolunteerId);
-            request = ChangeNullValues(request);
-            var contract = CreateContract(request.Contract, volunteer);
-            dataGateway.Insert(contract);
+            var volunteer = dataGateway.GetVolunteer(volunteerId);
+            contract = ChangeNullValues(contract);
+            var contractToCreate = CreateContract(contract, volunteer);
+            if (response.IsValid)
+                dataGateway.Insert(contractToCreate);
             return response;
         }
-        private static VolunteerContractCreateRequest ChangeNullValues(VolunteerContractCreateRequest request)
+
+        private static VolunteerContract ChangeNullValues(VolunteerContract contract)
         {
-            foreach (var property in request.Contract.GetType().GetProperties())
-        {
-            var propertyType = property.PropertyType;
-            if (propertyType != typeof(DateTime))
+            foreach (var property in contract.GetType().GetProperties())
             {
-                var value = property.GetValue(request.Contract, null);
-                if (propertyType == typeof(string) && value == null)
+                var propertyType = property.PropertyType;
+                if (propertyType != typeof(DateTime))
                 {
-                    property.SetValue(request.Contract, string.Empty);
+                    var value = property.GetValue(contract, null);
+                    if (propertyType == typeof(string) && value == null)
+                    {
+                        property.SetValue(contract, string.Empty);
+                    }
                 }
             }
+
+            return contract;
         }
 
-            return request;
-        }
-
-    private VolunteerContract CreateContract(VolunteerContract contract, Volunteer volunteer)
+        private VolunteerContract CreateContract(VolunteerContract contract, Volunteer volunteer)
         {
             contract.Id = Guid.NewGuid().ToString();
             contract.ExpirationDate = contract.ExpirationDate.AddDays(1);
@@ -51,7 +53,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
             else
             {
                 response.IsValid = false;
-                response.Message.Add( "Missig birthday information for this volunteer!Please fill in all the data necessary for contract creation.");
+                response.Message.Add("Missig birthday information for this volunteer!Please fill in all the data necessary for contract creation.");
             }
             contract.Fullname = volunteer.Fullname;
             if (volunteer.CNP != null)
@@ -92,15 +94,15 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
         }
     }
 
-    public class VolunteerContractCreateRequest
-    {
-        public string VolunteerId { get; set; }
-        public VolunteerContract Contract { get; set; }
+    //public class VolunteerContractCreateRequest
+    //{
+    //    public string VolunteerId { get; set; }
+    //    public VolunteerContract Contract { get; set; }
 
-        public VolunteerContractCreateRequest(string volunteerId, VolunteerContract contract)
-        {
-            VolunteerId = volunteerId;
-            Contract = contract;
-        }
-    }
+    //    public VolunteerContractCreateRequest(string volunteerId, VolunteerContract contract)
+    //    {
+    //        VolunteerId = volunteerId;
+    //        Contract = contract;
+    //    }
+    //}
 }

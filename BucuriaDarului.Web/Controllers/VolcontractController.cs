@@ -15,44 +15,31 @@ namespace Finalaplication.Controllers
 {
     public class VolcontractController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.DATABASE_NAME_LOCAL);
-
-        private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-
+        
         [HttpGet]
-        public IActionResult Index(string idofvol)
+        public IActionResult Index(string idOfVolunteer)
         {
-            try
-            {
-                int nrofdocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
-                List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
-                Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
-                volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
-                ViewBag.nameofvol = vol.Fullname;
-                ViewBag.idofvol = idofvol;
-                return View(volcontracts);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+
+            //List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
+            //    Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
+            //    volcontracts = volcontracts.Where(z => z.OwnerID.ToString() == idofvol).ToList();
+            //    ViewBag.nameofvol = vol.Fullname;
+            //    ViewBag.idofvol = idofvol;
+          
+            var contractsMainDisplayIndexContext = new VolunteerContractIndexDisplayContext(new VolunteerContractIndexDisplayGateway());
+            var model = contractsMainDisplayIndexContext.Execute(new VolunteerContractsMainDisplayIndexRequest(idOfVolunteer, nrOfDocs));
+            return View(model);
+            
+            
         }
 
         public ActionResult ContractExp()
         {
-            try
-            {
-                List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
-                volcontracts = VolcontractFunctions.GetExpiringContracts(volcontracts);
-                return View(volcontracts);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var contractExpirationContext = new VolunteerContractsExpirationContext(new VolunteerContractExpirationGateway());
+            var contracts = contractExpirationContext.Execute();
+            return View(contracts);
+           
         }
 
         [HttpGet]
@@ -64,32 +51,24 @@ namespace Finalaplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(VolunteerContractCreateRequest request)
+        public ActionResult Create(VolunteerContract volunteerContract, string idOfVolunteer)
         {
             var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
-            var contractCreateResponse = contractCreateContext.Execute(request);
+            var contractCreateResponse = contractCreateContext.Execute(volunteerContract,  idOfVolunteer);
 
             if (!contractCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { volunteerId = request.VolunteerId, message = contractCreateResponse.Message });
+                return RedirectToAction("Create", new { volunteerId = idOfVolunteer, message = contractCreateResponse.Message });
             }
-            return RedirectToAction("Index", new { volunteerId = request.VolunteerId });
+            return RedirectToAction("Index", new { volunteerId = idOfVolunteer });
 
-            
         }
 
         [HttpGet]
         public ActionResult Print(string id)
         {
-            try
-            {
-                var contract = volContractManager.GetVolunteerContract(id);
-                return View(contract);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var model = SingleVolunteerContractReturnerGateway.GetVolunteerContract(id);
+                return View(model);
         }
 
         [HttpGet]
@@ -103,7 +82,7 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Delete(string id, string idOfVol)
         {
-                volContractManager.DeleteAVolContract(id);
+                VolunteerContractDeleteGateway.Delete(id);
                 return RedirectToAction("Index", new { idOfVol });
             
         }

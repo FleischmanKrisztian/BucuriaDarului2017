@@ -1,9 +1,9 @@
-﻿@model Finalaplication.Models.Volcontract
+﻿@model BucuriaDarului.Core.VolunteerContract
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Create";
-    string idofvol = ViewBag.idofvol;
+    string idOfVolunteer = ViewBag.idOfVol;
 }
 <h1>@Localizer["Create"] @Localizer["Volcontract"]</h1>
 <hr />
@@ -51,8 +51,14 @@
         }
     </style>
 </head>
+
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
 <form asp-action="Create">
-    <input type="hidden" name="idofvol" value="@idofvol" />
+    <input type="hidden" name="idofvol" value="@idOfVolunteer" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=" emp-profile">
         <div class="row">
@@ -90,8 +96,8 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
-                    <a href=@Url.Action( "Index" ,new { idofvol}) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                    <input type="submit" value= @Localizer["Create"]  class="btn btn-primary" />|
+                    <a href=@Url.Action( "Index" ,new { idOfVolunteer}) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
                 </div>
             </div>
         </div>

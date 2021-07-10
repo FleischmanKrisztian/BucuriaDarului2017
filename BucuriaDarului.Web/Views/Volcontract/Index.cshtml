@@ -1,16 +1,15 @@
-﻿@model IEnumerable<Finalaplication.Models.Volcontract>
+﻿@model BucuriaDarului.Contexts.VolunteerContractContext.VolunteerContractsMainDisplayIndexResponse
 
 @{
     ViewData["Title"] = "Contracts";
-    string idulvolului = ViewBag.idofvol;
-    string nameofvol = ViewBag.nameofvol;
+    
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h2 style="color:black">@Localizer["Contractsof"] @nameofvol</h2>
+<h2 style="color:black">@Localizer["Contractsof"] @Model.NameOfVolunteer></h2>
 
 <p>
-    <a href=@Url.Action( "Create", new { id = idulvolului })>@Localizer["CreateNew"]</a>
+    <a href=@Url.Action( "Create", new { id = Model.VolunteerId })>@Localizer["CreateNew"]</a>
 </p>
 <table class="table">
     <thead>
@@ -28,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Contracts)
         {
             <tr>
                 <td>

@@ -76,7 +76,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Contracts(string id)
         {
-            return RedirectToAction("Index", "Volcontract", new { idofvol = id });
+            return RedirectToAction("Index", "Volcontract", new { idOfVolunteer = id });
         }
 
         public ActionResult Details(string id)
