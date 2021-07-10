@@ -4,9 +4,12 @@ using Finalaplication.LocalDatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using BucuriaDarului.Gateway.VolunteerGateways;
 using System.Collections.Generic;
 using System.Linq;
 using BucuriaDarului.Core;
+using BucuriaDarului.Gateway.VolContractGateways;
+using BucuriaDarului.Contexts.VolunteerContractContext;
 
 namespace Finalaplication.Controllers
 {
@@ -53,47 +56,26 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(string id)
+        public ActionResult Create(string volunteerId,string message)
         {
-            try
-            {
-                ViewBag.idofvol = id;
+            ViewBag.message = message;
+            ViewBag.idOfVol = volunteerId;
                 return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
         }
 
         [HttpPost]
-        public ActionResult Create(Volcontract volcontract, string idofvol)
+        public ActionResult Create(VolunteerContractCreateRequest request)
         {
-            try
+            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
+            var contractCreateResponse = contractCreateContext.Execute(request);
+
+            if (!contractCreateResponse.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    Volunteer vol = volunteerManager.GetOneVolunteer(idofvol);
-                    volcontract.Id = Guid.NewGuid().ToString();
-                    volcontract.ExpirationDate = volcontract.ExpirationDate.AddDays(1);
-                    volcontract.RegistrationDate = volcontract.RegistrationDate.AddDays(1);
-                    volcontract.Birthdate = vol.Birthdate;
-                    volcontract.Fullname = vol.Fullname;
-                    volcontract.CNP = vol.CNP;
-                    volcontract.CI = vol.CI;
-                    volcontract.Nrtel = vol.ContactInformation.PhoneNumber;
-                    volcontract.Hourcount = vol.HourCount;
-                    volcontract.Address = vol.Address;
-                    volcontract.OwnerID = idofvol;
-                    volContractManager.AddVolunteerContractToDB(volcontract);
-                    return RedirectToAction("Index", new { idofvol });
-                }
+                return RedirectToAction("Create", new { volunteerId = request.VolunteerId, message = contractCreateResponse.Message });
             }
-            catch
-            {
-                ModelState.AddModelError("", "Unable to save changes! ");
-            }
-            return RedirectToAction("Create", new { idofvol });
+            return RedirectToAction("Index", new { volunteerId = request.VolunteerId });
+
+            
         }
 
         [HttpGet]
@@ -113,29 +95,17 @@ namespace Finalaplication.Controllers
         [HttpGet]
         public ActionResult Delete(string id)
         {
-            try
-            {
-                var contract = volContractManager.GetVolunteerContract(id);
-                return View(contract);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+                var model= SingleVolunteerContractReturnerGateway.GetVolunteerContract(id);
+                return View(model);
+            
         }
 
         [HttpPost]
-        public ActionResult Delete(string id, string idofvol)
+        public ActionResult Delete(string id, string idOfVol)
         {
-            try
-            {
                 volContractManager.DeleteAVolContract(id);
-                return RedirectToAction("Index", new { idofvol });
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+                return RedirectToAction("Index", new { idOfVol });
+            
         }
     }
 }

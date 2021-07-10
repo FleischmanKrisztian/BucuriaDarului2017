@@ -2,7 +2,7 @@
 
 namespace BucuriaDarului.Core
 {
-    internal class VolunteerContract
+    public class VolunteerContract
     {
         public string Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace BucuriaDarului.Core
 
         public string Address { get; set; }
 
-        public int Hourcount { get; set; }
+        public int HourCount { get; set; }
 
         public string PhoneNumber { get; set; }
 
