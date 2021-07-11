@@ -119,8 +119,8 @@ namespace wpfapp
                         var result = httpClient.GetStringAsync(url).Result.Normalize();
                         result = result.Replace("[", "");
                         result = result.Replace("]", "");
-                        volcontract volc = new volcontract();
-                        volc = JsonConvert.DeserializeObject<volcontract>(result);
+                        VolunteerContract volc = new VolunteerContract();
+                        volc = JsonConvert.DeserializeObject<VolunteerContract>(result);
                         if (volc.Address != null)
                             doc.ReplaceText("<Address>", volc.Address);
                         doc.ReplaceText("<nrreg>", volc.NumberOfRegistration);
@@ -136,8 +136,8 @@ namespace wpfapp
                             doc.ReplaceText("<eliberat>", volc.CIEliberat.ToShortDateString());
                         if (volc.CIeliberator != null)
                             doc.ReplaceText("<eliberator>", volc.CIeliberator);
-                        if (volc.Nrtel != null)
-                            doc.ReplaceText("<tel>", volc.Nrtel);
+                        if (volc.PhoneNumber != null)
+                            doc.ReplaceText("<tel>", volc.PhoneNumber);
                         doc.ReplaceText("<startdate>", volc.RegistrationDate.ToShortDateString());
                         doc.ReplaceText("<finishdate>", volc.ExpirationDate.ToShortDateString());
                         doc.ReplaceText("<hourcount>", volc.HourCount.ToString());

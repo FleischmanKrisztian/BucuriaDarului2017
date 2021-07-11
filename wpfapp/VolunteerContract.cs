@@ -2,7 +2,7 @@
 
 namespace wpfapp
 {
-    internal class volcontract
+    internal class VolunteerContract
     {
         public string Fullname { get; set; }
 
@@ -10,7 +10,7 @@ namespace wpfapp
 
         public string Address { get; set; }
 
-        public string Nrtel { get; set; }
+        public string PhoneNumber { get; set; }
 
         public DateTime Birthdate { get; set; }
 

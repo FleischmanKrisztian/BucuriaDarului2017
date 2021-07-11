@@ -130,7 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="volcontract.cs" />
+    <Compile Include="VolunteerContract.cs" />
     <EmbeddedResource Include="AdditionalInfo.resx">
       <DependentUpon>AdditionalInfo.cs</DependentUpon>
     </EmbeddedResource>

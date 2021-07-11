@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BucuriaDarului.Core\BucuriaDarului.Core.csproj" />
+    <ProjectReference Include="..\BucuriaDarului.Gateway\BucuriaDarului.Gateway.csproj" />
   </ItemGroup>
 
   <ItemGroup>
