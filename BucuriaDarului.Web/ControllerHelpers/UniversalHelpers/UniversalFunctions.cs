@@ -100,11 +100,11 @@ namespace Finalaplication.ControllerHelpers.UniversalHelpers
             return sponsorContractsCounter;
         }
 
-        internal static dynamic GetNumberOfExpiringVolContracts(List<Volcontract> volcontracts)
+        internal static dynamic GetNumberOfExpiringVolContracts(List<VolunteerContract> volunteerContracts)
         {
             int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
             int volunteerContractsCounter = 0;
-            foreach (var item in volcontracts)
+            foreach (var item in volunteerContracts)
             {
                 int daytocompare = UniversalFunctions.GetDayOfYear(item.ExpirationDate);
                 if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))

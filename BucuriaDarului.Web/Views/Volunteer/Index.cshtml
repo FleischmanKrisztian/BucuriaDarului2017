@@ -292,7 +292,7 @@
                         <a href=@Url.Action("Edit", new { id = item.Id })> <img src="~/Resources/edit.jpg" width="40" height="40" title=" @Localizer["Edit"]"> </a> |
                         <a href=@Url.Action("Details", new { id = item.Id })> <img src="~/Resources/detali.jpg" width="40" height="40" title="@Localizer["Details"]"> </a> |
                         <a href=@Url.Action("Delete", new { id = item.Id })> <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]"> </a>
-                        <a href=@Url.Action("Contracts", new { idOfVolunteer = item.Id })> <img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"> </a>
+                        <a href=@Url.Action("Contracts", new { id = item.Id})> <img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"> </a>
                     </td>
                 </tr>
             }

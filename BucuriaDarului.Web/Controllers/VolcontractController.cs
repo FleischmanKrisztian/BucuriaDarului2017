@@ -43,10 +43,10 @@ namespace Finalaplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(string volunteerId,string message)
+        public ActionResult Create(string idOfVolunteer, string message)
         {
             ViewBag.message = message;
-            ViewBag.idOfVol = volunteerId;
+            ViewBag.idOfVol = idOfVolunteer;
                 return View();
         }
 
@@ -58,9 +58,9 @@ namespace Finalaplication.Controllers
 
             if (!contractCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { volunteerId = idOfVolunteer, message = contractCreateResponse.Message });
+                return RedirectToAction("Create", new { idOfVolunteer = idOfVolunteer, message = contractCreateResponse.Message });
             }
-            return RedirectToAction("Index", new { volunteerId = idOfVolunteer });
+            return RedirectToAction("Index", new { idOfVolunteer = idOfVolunteer });
 
         }
 
@@ -83,7 +83,7 @@ namespace Finalaplication.Controllers
         public ActionResult Delete(string id, string idOfVol)
         {
                 VolunteerContractDeleteGateway.Delete(id);
-                return RedirectToAction("Index", new { idOfVol });
+                return RedirectToAction("Index", new { idOfVolunteer= idOfVol });
             
         }
     }

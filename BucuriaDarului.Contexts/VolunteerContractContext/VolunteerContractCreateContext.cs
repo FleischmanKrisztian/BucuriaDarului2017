@@ -45,6 +45,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
 
         private VolunteerContract CreateContract(VolunteerContract contract, Volunteer volunteer)
         {
+
             contract.Id = Guid.NewGuid().ToString();
             contract.ExpirationDate = contract.ExpirationDate.AddDays(1);
             contract.RegistrationDate = contract.RegistrationDate.AddDays(1);
@@ -53,22 +54,22 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
             else
             {
                 response.IsValid = false;
-                response.Message.Add("Missig birthday information for this volunteer!Please fill in all the data necessary for contract creation.");
+                response.Message+= "Missig birthday information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
             contract.Fullname = volunteer.Fullname;
-            if (volunteer.CNP != null)
+            if (volunteer.CNP != "")
                 contract.CNP = volunteer.CNP;
             else
             {
                 response.IsValid = false;
-                response.Message.Add("Missig CNP information for this volunteer!Please fill in all the data necessary for contract creation.");
+                response.Message += "Missig CNP information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
             if (volunteer.CI != null)
                 contract.CI = volunteer.CI;
             else
             {
                 response.IsValid = false;
-                response.Message.Add("Missig CI information for this volunteer!Please fill in all the data necessary for contract creation.");
+                response.Message += "Missig CI information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
             contract.PhoneNumber = volunteer.ContactInformation.PhoneNumber;
             contract.HourCount = volunteer.HourCount;
@@ -81,28 +82,16 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
 
     public class VolunteerContractCreateResponse
     {
-        public List<string> Message { get; set; }
+        public string Message { get; set; }
 
         public bool IsValid { get; set; }
 
         public VolunteerContractCreateResponse(string message, bool isValid)
         {
-            var Message = new List<string>();
-            if (message != "")
-                Message.Add(message);
+            Message = message;
             IsValid = isValid;
         }
     }
 
-    //public class VolunteerContractCreateRequest
-    //{
-    //    public string VolunteerId { get; set; }
-    //    public VolunteerContract Contract { get; set; }
-
-    //    public VolunteerContractCreateRequest(string volunteerId, VolunteerContract contract)
-    //    {
-    //        VolunteerId = volunteerId;
-    //        Contract = contract;
-    //    }
-    //}
+    
 }

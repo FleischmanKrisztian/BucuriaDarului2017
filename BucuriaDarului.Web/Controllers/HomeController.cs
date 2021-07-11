@@ -1,4 +1,5 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Gateway.VolContractGateways;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Finalaplication.DatabaseManager;
@@ -20,14 +21,12 @@ namespace Finalaplication.Controllers
         private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private VolunteerManager volunteerManager = new VolunteerManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
         private SettingsManager settingsManager = new SettingsManager();
-        private VolContractManager volContractManager = new VolContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
+       
         private BeneficiaryContractManager beneficiaryContractManager = new BeneficiaryContractManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public IActionResult Index()
         {
-            try
-            {
-                List<Volcontract> volcontracts = volContractManager.GetListOfVolunteersContracts();
+                List<VolunteerContract> volunteerContracts = ListVolunteerContractGateway.GetListVolunteerContracts();
                 List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
@@ -36,16 +35,12 @@ namespace Finalaplication.Controllers
                 TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = appsettings.Quantity;
 
                 ViewBag.nrofbds = UniversalFunctions.GetNumberOfVolunteersWithBirthdays(volunteers);
-                ViewBag.nrofvc = UniversalFunctions.GetNumberOfExpiringVolContracts(volcontracts);
+                ViewBag.nrofvc = UniversalFunctions.GetNumberOfExpiringVolContracts(volunteerContracts);
                 ViewBag.nrofsc = UniversalFunctions.GetNumberOfExpiringSponsorContracts(sponsors);
                 ViewBag.nrofbc = UniversalFunctions.GetNumberOfExpiringBeneficiaryContracts(beneficiarycontracts);
 
                 return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+           
         }
 
         public IActionResult Localserver()
@@ -65,14 +60,9 @@ namespace Finalaplication.Controllers
 
         public IActionResult Contact()
         {
-            try
-            {
+           
                 return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            
         }
 
         public ActionResult ImportUpdate(string docsimported)
@@ -83,14 +73,9 @@ namespace Finalaplication.Controllers
 
         public IActionResult About()
         {
-            try
-            {
+           
                 return View();
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            
         }
     }
 }

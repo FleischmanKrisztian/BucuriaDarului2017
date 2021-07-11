@@ -11,9 +11,8 @@ namespace BucuriaDarului.Gateway.VolContractGateways
 
         public List<VolunteerContract> GetListVolunteerContracts()
         {
-            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
-            List<VolunteerContract> contracts = volunteerContractCollection.AsQueryable().ToList();
+
+            List<VolunteerContract> contracts = ListVolunteerContractGateway.GetListVolunteerContracts();
             return contracts;
         }
     }

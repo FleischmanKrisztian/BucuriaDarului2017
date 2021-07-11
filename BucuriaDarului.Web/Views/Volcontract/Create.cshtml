@@ -58,7 +58,7 @@
     </h3>
 </div>
 <form asp-action="Create">
-    <input type="hidden" name="idofvol" value="@idOfVolunteer" />
+    <input type="hidden" name="idOfVolunteer" value="@idOfVolunteer" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=" emp-profile">
         <div class="row">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="col-md-3">
                     <input type="submit" value= @Localizer["Create"]  class="btn btn-primary" />|
-                    <a href=@Url.Action( "Index" ,new { idOfVolunteer}) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                    <a href=@Url.Action( "Index" ,new { idOfVolunteer=idOfVolunteer}) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
                 </div>
             </div>
         </div>
