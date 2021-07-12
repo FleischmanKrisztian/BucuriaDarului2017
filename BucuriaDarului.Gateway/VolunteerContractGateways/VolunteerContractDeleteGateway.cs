@@ -1,18 +1,29 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
-    public class VolunteerContractDeleteGateway
+    public class VolunteerContractDeleteGateway: IVolunteerContractDeleteGateway
     {
        
-        public static void Delete(string id)
+        public void Delete(string id)
         {
             var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
             var filter = Builders<VolunteerContract>.Filter.Eq("Id", id);
             volunteerContractCollection.DeleteOne(filter);
+        }
+
+        public  List<VolunteerContract> GetListVolunteerContracts()
+        {
+            var dbContext = new MongoDBGateway();
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
+            List<VolunteerContract> contracts = volunteerContractCollection.AsQueryable().ToList();
+            return contracts;
         }
     }
 }

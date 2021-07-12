@@ -52,17 +52,21 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id,string message)
         {
+            ViewBag.message = message;
             var model = SingleVolunteerContractReturnerGateway.GetVolunteerContract(id);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Delete(string id, string idOfVolunteer)
+        public ActionResult Delete(VolunteerContractDeleteRequest request)
         {
-            VolunteerContractDeleteGateway.Delete(id);
-            return RedirectToAction("Index", new { idOfVolunteer = idOfVolunteer });
+            var volunteerContractDeleteContext = new VolunteerContractDeleteContext(new VolunteerContractDeleteGateway());
+            var response = volunteerContractDeleteContext.Execute(request);
+            if (!response.IsValid)
+                return RedirectToAction("Delete", new { id = request.ContractId, message="Error!This document couldn't be deleted!" });
+            return RedirectToAction("Index", new { idOfVolunteer = response.VolunteerId });
         }
     }
 }
