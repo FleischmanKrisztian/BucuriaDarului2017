@@ -1,10 +1,9 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.VolunteerGateways;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerGateways;
 
-namespace BucuriaDarului.Contexts.VolunteerContractContext
+namespace BucuriaDarului.Contexts.VolunteerContractContexts
 {
     public class VolunteerContractsExpirationContext
     {

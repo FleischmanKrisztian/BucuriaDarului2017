@@ -1,7 +1,7 @@
-﻿using BucuriaDarului.Contexts.VolunteerContractContext;
-using BucuriaDarului.Contexts.VolunteerContractContexts;
+﻿using BucuriaDarului.Contexts.VolunteerContractContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolContractGateways;
+using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,16 +34,16 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(VolunteerContractCreateRequest request)
+        public ActionResult Create(VolunteerContract volunteerContract, string idOfVolunteer)
         {
             var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
-            var contractCreateResponse = contractCreateContext.Execute(request);
+            //var contractCreateResponse = contractCreateContext.Execute(volunteerContract, idOfVolunteer);
 
-            if (!contractCreateResponse.IsValid)
-            {
-                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerID, message = contractCreateResponse.Message });
-            }
-            return RedirectToAction("Index", new { idOfVolunteer = request.OwnerID });
+            //if (!contractCreateResponse.IsValid)
+            //{
+            //    return RedirectToAction("Create", new { idOfVolunteer = idOfVolunteer, message = contractCreateResponse.Message });
+            //}
+            return RedirectToAction("Index", new { idOfVolunteer = idOfVolunteer });
         }
 
         [HttpGet]

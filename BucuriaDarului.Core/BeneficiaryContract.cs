@@ -4,9 +4,8 @@ using System.Text;
 
 namespace BucuriaDarului.Core
 {
-    class BeneficiaryContract
+    public class BeneficiaryContract
     {
-
         public string Id { get; set; }
 
         public string OwnerID { get; set; }

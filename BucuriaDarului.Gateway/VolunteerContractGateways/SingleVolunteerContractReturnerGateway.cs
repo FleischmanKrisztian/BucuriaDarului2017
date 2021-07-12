@@ -1,7 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using MongoDB.Driver;
 
-namespace BucuriaDarului.Gateway.VolContractGateways
+namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class SingleVolunteerContractReturnerGateway
     {

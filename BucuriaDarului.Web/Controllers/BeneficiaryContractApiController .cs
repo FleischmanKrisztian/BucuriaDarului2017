@@ -3,6 +3,7 @@
 
 //namespace BucuriaDarului.Web.Controllers
 //{
+//    // WHY DOES THIS BREAK THE CODE ?
 //    [Route("api/[controller]")]
 //    [ApiController]
 //    public class BeneficiaryContractApiController : ControllerBase

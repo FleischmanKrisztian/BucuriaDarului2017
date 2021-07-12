@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BucuriaDarului.Web.Controllers
 {
-    public class BeneficiarycontractController : Controller
+    public class BeneficiaryContractController : Controller
     {
         private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Common.Constants.SERVER_NAME_LOCAL);
         private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Common.Constants.SERVER_PORT_LOCAL));

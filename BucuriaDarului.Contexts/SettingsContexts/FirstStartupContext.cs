@@ -1,5 +1,4 @@
-﻿using BucuriaDarului.Core.Gateways.SettingsGateways;
-using BucuriaDarului.Gateway.SettingsGateways;
+﻿using BucuriaDarului.Gateway.SettingsGateways;
 
 namespace BucuriaDarului.Contexts.SettingsContexts
 {
