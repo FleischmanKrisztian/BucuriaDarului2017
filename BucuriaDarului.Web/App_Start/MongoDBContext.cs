@@ -1,7 +1,7 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
+using MongoDB.Driver;
 
-namespace Finalaplication.App_Start
+namespace BucuriaDarului.Web
 {
     public class MongoDBContext
     {

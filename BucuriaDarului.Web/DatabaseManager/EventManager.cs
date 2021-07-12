@@ -1,9 +1,8 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Models;
+﻿using System.Collections.Generic;
+using BucuriaDarului.Web.Models;
 using MongoDB.Driver;
-using System.Collections.Generic;
 
-namespace Finalaplication.LocalDatabaseManager
+namespace BucuriaDarului.Web.DatabaseManager
 {
     public class EventManager
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Finalaplication.Models
+namespace BucuriaDarului.Web.Models
 {
     public class Event
     {

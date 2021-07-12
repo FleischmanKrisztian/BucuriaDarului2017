@@ -1,9 +1,8 @@
-﻿using BucuriaDarului.Core;
+﻿using System;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
-using System;
-using System.Collections.Generic;
 
-namespace BucuriaDarului.Contexts.VolunteerContractContext
+namespace BucuriaDarului.Contexts.VolunteerContractContexts
 {
     public class VolunteerContractCreateContext
     {
@@ -56,7 +55,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
             else
             {
                 response.IsValid = false;
-                response.Message+= "Missig birthday information for this volunteer!Please fill in all the data necessary for contract creation.";
+                response.Message+= "Missing birthday information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
             contract.Fullname = volunteer.Fullname;
             if (volunteer.CNP != "")
@@ -64,14 +63,14 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
             else
             {
                 response.IsValid = false;
-                response.Message += "Missig CNP information for this volunteer!Please fill in all the data necessary for contract creation.";
+                response.Message += "Missing CNP information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
             if (volunteer.CI != null)
                 contract.CI = volunteer.CI;
             else
             {
                 response.IsValid = false;
-                response.Message += "Missig CI information for this volunteer!Please fill in all the data necessary for contract creation.";
+                response.Message += "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
             contract.PhoneNumber = volunteer.ContactInformation.PhoneNumber;
             contract.HourCount = volunteer.HourCount;

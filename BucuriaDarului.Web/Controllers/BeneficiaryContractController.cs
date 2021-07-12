@@ -1,14 +1,14 @@
-﻿using Finalaplication.ControllerHelpers.BeneficiaryContractHelpers;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.LocalDatabaseManager;
-using Finalaplication.Models;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using BucuriaDarului.Core;
+using BucuriaDarului.Web.ControllerHelpers.BeneficiaryContractHelpers;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using BucuriaDarului.Web.DatabaseManager;
+using BucuriaDarului.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class BeneficiarycontractController : Controller
     {

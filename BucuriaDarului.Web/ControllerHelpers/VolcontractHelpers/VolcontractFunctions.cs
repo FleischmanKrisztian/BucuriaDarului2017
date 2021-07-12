@@ -1,9 +1,9 @@
-﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using BucuriaDarului.Web.Models;
 
-namespace Finalaplication.ControllerHelpers.VolcontractHelpers
+namespace BucuriaDarului.Web.ControllerHelpers.VolcontractHelpers
 {
     public class VolcontractFunctions
     {

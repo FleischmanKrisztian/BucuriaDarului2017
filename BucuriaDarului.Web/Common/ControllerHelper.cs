@@ -1,6 +1,4 @@
 ﻿using BucuriaDarului.Web.Controllers;
-using Finalaplication.Common;
-using Finalaplication.Controllers;
 using Microsoft.Extensions.Localization;
 using System.Linq;
 

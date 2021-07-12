@@ -1,9 +1,7 @@
-﻿using Finalaplication.App_Start;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using Newtonsoft.Json;
 
-namespace Finalaplication.LocalDatabaseManager
+namespace BucuriaDarului.Web.DatabaseManager
 {
     public class AuxiliaryDBManager
     {

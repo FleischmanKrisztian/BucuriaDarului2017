@@ -1,4 +1,4 @@
-﻿namespace VolCommon
+﻿namespace BucuriaDarului.Web.Models
 {
     public class ContactInformation
     {

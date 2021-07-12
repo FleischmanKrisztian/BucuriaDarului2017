@@ -1,11 +1,10 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Models;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Web.Models;
+using MongoDB.Driver;
 
-namespace Finalaplication.LocalDatabaseManager
+namespace BucuriaDarului.Web.DatabaseManager
 {
     public class BeneficiaryContractManager
     {

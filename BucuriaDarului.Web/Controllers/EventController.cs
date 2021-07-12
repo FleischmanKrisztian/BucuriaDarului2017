@@ -1,11 +1,11 @@
 using BucuriaDarului.Contexts.EventContexts;
 using BucuriaDarului.Gateway.EventGateways;
-using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 
 namespace BucuriaDarului.Web.Controllers
 {

@@ -1,13 +1,13 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
 using BucuriaDarului.Gateway;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
-using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.IO;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 
 namespace BucuriaDarului.Web.Controllers
 {

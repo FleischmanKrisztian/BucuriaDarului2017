@@ -1,10 +1,8 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Models;
-using MongoDB.Driver;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BucuriaDarului.Core;
+using MongoDB.Driver;
 
-namespace Finalaplication.LocalDatabaseManager
+namespace BucuriaDarului.Web.DatabaseManager
 {
     public class VolunteerManager
     {

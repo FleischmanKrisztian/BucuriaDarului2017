@@ -1,4 +1,4 @@
-﻿namespace Finalaplication.Common
+﻿namespace BucuriaDarului.Web.Common
 {
     public class Constants
     {
