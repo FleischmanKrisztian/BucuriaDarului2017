@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Elm.Core.Parsers
+namespace BucuriaDarului.Web.Common
 {
     public class CSVImportParser
     {

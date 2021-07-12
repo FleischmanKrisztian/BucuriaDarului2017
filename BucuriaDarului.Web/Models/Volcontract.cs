@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using BucuriaDarului.Core;
 
-namespace Finalaplication.Models
+namespace BucuriaDarului.Web.Models
 {
     public class Volcontract
     {

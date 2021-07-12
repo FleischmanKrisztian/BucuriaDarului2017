@@ -1,17 +1,16 @@
-﻿using BucuriaDarului.Core;
+﻿using System;
+using System.Collections.Generic;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.SettingsGateways;
 using BucuriaDarului.Gateway.VolContractGateways;
-using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.DatabaseManager;
-using Finalaplication.LocalDatabaseManager;
-using Finalaplication.Models;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using BucuriaDarului.Web.DatabaseManager;
+using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using Sponsor = Finalaplication.Models.Sponsor;
+using Sponsor = BucuriaDarului.Web.Models.Sponsor;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class HomeController : Controller
     {

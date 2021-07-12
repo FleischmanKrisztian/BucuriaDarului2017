@@ -1,14 +1,14 @@
-﻿using Finalaplication.Common;
-using Finalaplication.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using BucuriaDarului.Core;
-using Sponsor = Finalaplication.Models.Sponsor;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Sponsor = BucuriaDarului.Web.Models.Sponsor;
 
-namespace Finalaplication.ControllerHelpers.UniversalHelpers
+namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
 {
     public class UniversalFunctions
     {

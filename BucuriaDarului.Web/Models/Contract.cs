@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace VolCommon
+namespace BucuriaDarului.Web.Models
 {
     public class Contract
     {

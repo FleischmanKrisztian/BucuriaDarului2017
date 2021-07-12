@@ -1,4 +1,4 @@
-﻿namespace Finalaplication.Models
+﻿namespace BucuriaDarului.Web.Models
 {
     public class Settings
     {

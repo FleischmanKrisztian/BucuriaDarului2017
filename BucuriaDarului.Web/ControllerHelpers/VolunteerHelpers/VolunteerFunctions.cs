@@ -1,10 +1,10 @@
-﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using BucuriaDarului.Core;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 
-namespace Finalaplication.ControllerHelpers.VolunteerHelpers
+namespace BucuriaDarului.Web.ControllerHelpers.VolunteerHelpers
 {
     public class VolunteerFunctions
     {

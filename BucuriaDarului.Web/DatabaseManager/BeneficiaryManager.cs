@@ -1,10 +1,9 @@
-﻿using Finalaplication.App_Start;
-using MongoDB.Driver;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BucuriaDarului.Core;
+using MongoDB.Driver;
 
-namespace Finalaplication.LocalDatabaseManager
+namespace BucuriaDarului.Web.DatabaseManager
 {
     public class BeneficiaryManager
     {

@@ -1,9 +1,9 @@
-﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using BucuriaDarului.Web.Models;
 
-namespace Finalaplication.ControllerHelpers.BeneficiaryContractHelpers
+namespace BucuriaDarului.Web.ControllerHelpers.BeneficiaryContractHelpers
 {
     public class BeneficiarycontractFunctions
     {

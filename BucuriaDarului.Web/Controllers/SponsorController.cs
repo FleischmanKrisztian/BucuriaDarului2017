@@ -6,12 +6,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BucuriaDarului.Web.Common;
-using Elm.Core.Parsers;
-using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.SponsorHelpers;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.LocalDatabaseManager;
-using Finalaplication.Models;
+using BucuriaDarului.Web.ControllerHelpers.SponsorHelpers;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using BucuriaDarului.Web.DatabaseManager;
+using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -21,9 +19,9 @@ namespace BucuriaDarului.Web.Controllers
 {
     public class SponsorController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Finalaplication.Common.Constants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Finalaplication.Common.Constants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Finalaplication.Common.Constants.DATABASE_NAME_LOCAL);
+        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Constants.SERVER_NAME_LOCAL);
+        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Constants.SERVER_PORT_LOCAL));
+        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Constants.DATABASE_NAME_LOCAL);
 
         private readonly IStringLocalizer<SponsorController> _localizer;
 

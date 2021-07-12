@@ -1,9 +1,8 @@
-﻿using Finalaplication.App_Start;
-using Finalaplication.Models;
+﻿using System;
+using BucuriaDarului.Web.Models;
 using MongoDB.Driver;
-using System;
 
-namespace Finalaplication.DatabaseManager
+namespace BucuriaDarului.Web.DatabaseManager
 {
     public class SettingsManager
     {

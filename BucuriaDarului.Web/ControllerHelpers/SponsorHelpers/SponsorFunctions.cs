@@ -1,11 +1,10 @@
-﻿using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VolCommon;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using BucuriaDarului.Web.Models;
 
-namespace Finalaplication.ControllerHelpers.SponsorHelpers
+namespace BucuriaDarului.Web.ControllerHelpers.SponsorHelpers
 {
     public class SponsorFunctions
     {

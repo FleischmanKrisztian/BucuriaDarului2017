@@ -1,10 +1,6 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using Finalaplication.Common;
-using Finalaplication.ControllerHelpers.UniversalHelpers;
-using Finalaplication.ControllerHelpers.VolunteerHelpers;
-using Finalaplication.LocalDatabaseManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -12,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -76,7 +74,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Contracts(string id)
         {
-            return RedirectToAction("Index", "Volcontract", new { idOfVolunteer = id });
+            return RedirectToAction("Index", "VolunteerContract", new { idOfVolunteer = id });
         }
 
         public ActionResult Details(string id)

@@ -1,13 +1,12 @@
-﻿using BucuriaDarului.Web.Common;
-using Finalaplication.Common;
-using Finalaplication.LocalDatabaseManager;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
 using BucuriaDarului.Core;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.DatabaseManager;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

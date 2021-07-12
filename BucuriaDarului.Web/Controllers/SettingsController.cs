@@ -1,14 +1,14 @@
-﻿using BucuriaDarului.Contexts.SettingsContexts;
+﻿using System;
+using BucuriaDarului.Contexts.SettingsContexts;
 using BucuriaDarului.Gateway.SettingsGateways;
-using Finalaplication.Common;
-using Finalaplication.DatabaseManager;
-using Finalaplication.Models;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.DatabaseManager;
+using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class SettingsController : Controller
     {
