@@ -14,20 +14,6 @@ namespace BucuriaDarului.Web.DatabaseManager
             dbContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
-        internal void AddVolunteerToDB(Volunteer volunteer)
-        {
-            IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            modifiedDocumentManager.AddIDtoString(volunteer.Id);
-            volunteercollection.InsertOne(volunteer);
-        }
-
-        internal Volunteer GetOneVolunteer(string id)
-        {
-            IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("Id", id);
-            Volunteer volunteer = volunteercollection.Find(filter).FirstOrDefault();
-            return volunteer;
-        }
 
         internal List<Volunteer> GetListOfVolunteers()
         {
@@ -36,20 +22,6 @@ namespace BucuriaDarului.Web.DatabaseManager
             return volunteers;
         }
 
-        internal void UpdateAVolunteer(Volunteer volunteertopdate, string id)
-        {
-            IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            var filter = Builders<Volunteer>.Filter.Eq("Id", id);
-            volunteertopdate.Id = id;
-            modifiedDocumentManager.AddIDtoString(volunteertopdate.Id);
-            volunteercollection.FindOneAndReplace(filter, volunteertopdate);
-        }
-
-        internal void DeleteAVolunteer(string id)
-        {
-            IMongoCollection<Volunteer> volunteercollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            modifiedDocumentManager.AddIDtoDeletionString(id);
-            volunteercollection.DeleteOne(Builders<Volunteer>.Filter.Eq("Id", id));
-        }
+        
     }
 }
