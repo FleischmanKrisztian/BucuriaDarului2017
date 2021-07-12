@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="form-actions no-color col-md-3">
-                <input type="hidden" name="idofvol" value="@Model.OwnerID" />
+                <input type="hidden" name="idOfVolunteer" value="@Model.OwnerID" />
                 <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
                 <a href=@Url.Action( "Index", new { idOfVolunteer = Model.OwnerID }) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
             </div>

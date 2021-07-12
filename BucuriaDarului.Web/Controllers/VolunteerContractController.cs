@@ -1,5 +1,4 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContractContexts;
-using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
@@ -33,16 +32,16 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(VolunteerContract volunteerContract, string idOfVolunteer)
+        public ActionResult Create(VolunteerContractCreateRequest request)
         {
             var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
-            //var contractCreateResponse = contractCreateContext.Execute(volunteerContract, idOfVolunteer);
+            var contractCreateResponse = contractCreateContext.Execute(request);
 
-            //if (!contractCreateResponse.IsValid)
-            //{
-            //    return RedirectToAction("Create", new { idOfVolunteer = idOfVolunteer, message = contractCreateResponse.Message });
-            //}
-            return RedirectToAction("Index", new { idOfVolunteer = idOfVolunteer });
+            if (!contractCreateResponse.IsValid)
+            {
+                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerID, message = contractCreateResponse.Message });
+            }
+            return RedirectToAction("Index", new { idOfVolunteer = request.OwnerID });
         }
 
         [HttpGet]
@@ -60,10 +59,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(string id, string idOfVol)
+        public ActionResult Delete(string id, string idOfVolunteer)
         {
             VolunteerContractDeleteGateway.Delete(id);
-            return RedirectToAction("Index", new { idOfVolunteer = idOfVol });
+            return RedirectToAction("Index", new { idOfVolunteer = idOfVolunteer });
         }
     }
 }
