@@ -15,12 +15,7 @@ namespace BucuriaDarului.Web.DatabaseManager
             dbContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
-        internal void AddBeneficiaryToDB(Beneficiary beneficiary)
-        {
-            IMongoCollection<Beneficiary> beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            modifiedDocumentManager.AddIDtoString(beneficiary.Id);
-            beneficiarycollection.InsertOne(beneficiary);
-        }
+       
 
         internal Beneficiary GetOneBeneficiary(string id)
         {
@@ -37,20 +32,6 @@ namespace BucuriaDarului.Web.DatabaseManager
             return beneficiaries;
         }
 
-        internal void UpdateABeneficiary(Beneficiary beneficiarytopdate, string id)
-        {
-            IMongoCollection<Beneficiary> Beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            var filter = Builders<Beneficiary>.Filter.Eq("Id", id);
-            beneficiarytopdate.Id = id;
-            modifiedDocumentManager.AddIDtoString(id);
-            Beneficiarycollection.FindOneAndReplace(filter, beneficiarytopdate);
-        }
-
-        internal void DeleteBeneficiary(string id)
-        {
-            modifiedDocumentManager.AddIDtoDeletionString(id);
-            IMongoCollection<Beneficiary> beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
-            beneficiarycollection.DeleteOne(Builders<Beneficiary>.Filter.Eq("Id", id));
-        }
+       
     }
 }
