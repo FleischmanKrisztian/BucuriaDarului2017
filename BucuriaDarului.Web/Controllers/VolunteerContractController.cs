@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BucuriaDarului.Web.Controllers
 {
-    public class VolcontractController : Controller
+    public class VolunteerContractController : Controller
     {
         [HttpGet]
         public IActionResult Index(string idOfVolunteer)
