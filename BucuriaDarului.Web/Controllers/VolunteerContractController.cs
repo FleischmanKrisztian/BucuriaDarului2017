@@ -33,16 +33,16 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(VolunteerContract volunteerContract, string idOfVolunteer)
+        public ActionResult Create(VolunteerContractCreateRequest request)
         {
             var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
-            var contractCreateResponse = contractCreateContext.Execute(volunteerContract, idOfVolunteer);
+            var contractCreateResponse = contractCreateContext.Execute(request);
 
             if (!contractCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { idOfVolunteer = idOfVolunteer, message = contractCreateResponse.Message });
+                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerID, message = contractCreateResponse.Message });
             }
-            return RedirectToAction("Index", new { idOfVolunteer = idOfVolunteer });
+            return RedirectToAction("Index", new { idOfVolunteer = request.OwnerID });
         }
 
         [HttpGet]

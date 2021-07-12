@@ -15,37 +15,39 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
             this.dataGateway = dataGateway;
         }
 
-        public VolunteerContractCreateResponse Execute(VolunteerContract contract, string volunteerId)
+        public VolunteerContractCreateResponse Execute(VolunteerContractCreateRequest request)
         {
-            var volunteer = dataGateway.GetVolunteer(volunteerId);
-            contract = ChangeNullValues(contract);
-            var contractToCreate = CreateContract(contract, volunteer);
+          
+            var contractToCreate = CreateContract(request);
             if (response.IsValid)
                 dataGateway.Insert(contractToCreate);
             return response;
         }
 
-        private static VolunteerContract ChangeNullValues(VolunteerContract contract)
+        private static VolunteerContractCreateRequest ChangeNullValues(VolunteerContractCreateRequest request)
         {
-            foreach (var property in contract.GetType().GetProperties())
+            foreach (var property in request.GetType().GetProperties())
             {
                 var propertyType = property.PropertyType;
                 if (propertyType != typeof(DateTime))
                 {
-                    var value = property.GetValue(contract, null);
+                    var value = property.GetValue(request, null);
                     if (propertyType == typeof(string) && value == null)
                     {
-                        property.SetValue(contract, string.Empty);
+                        property.SetValue(request, string.Empty);
                     }
                 }
             }
 
-            return contract;
+            return request;
         }
 
-        private VolunteerContract CreateContract(VolunteerContract contract, Volunteer volunteer)
+        private VolunteerContract CreateContract(VolunteerContractCreateRequest request)
         {
-
+            request = ChangeNullValues(request);
+            var contract = new VolunteerContract();
+            var volunteer = dataGateway.GetVolunteer(request.OwnerID);
+            contract.NumberOfRegistration = request.NumberOfRegistration;
             contract.Id = Guid.NewGuid().ToString();
             contract.ExpirationDate = contract.ExpirationDate.AddDays(1);
             contract.RegistrationDate = contract.RegistrationDate.AddDays(1);
@@ -93,5 +95,30 @@ namespace BucuriaDarului.Contexts.VolunteerContractContext
         }
     }
 
-    
+    public class VolunteerContractCreateRequest
+    {
+        public string OwnerID { get; set; }
+
+        public string Fullname { get; set; }
+
+        public string CNP { get; set; }
+
+        public string Address { get; set; }
+
+        public int HourCount { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public CI CI { get; set; }
+
+        public DateTime Birthdate { get; set; }
+
+        public string NumberOfRegistration { get; set; }
+
+        public DateTime RegistrationDate { get; set; }
+
+        public DateTime ExpirationDate { get; set; }
+    }
+
+
 }
