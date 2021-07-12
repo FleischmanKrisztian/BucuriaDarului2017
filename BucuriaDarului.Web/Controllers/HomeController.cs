@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.SettingsGateways;
+using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using BucuriaDarului.Web.DatabaseManager;
 using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Sponsor = BucuriaDarului.Web.Models.Sponsor;
+using Sponsor = BucuriaDarului.Core.Sponsor;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -29,8 +30,8 @@ namespace BucuriaDarului.Web.Controllers
                 List<VolunteerContract> volunteerContracts = ListVolunteerContractGateway.GetListVolunteerContracts();
                 List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
-                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-                BucuriaDarului.Core.Settings appsettings = SingleSettingReturnerGateway.GetSettingItem();
+                List<Sponsor> sponsors = ListSponsorsGateway.GetListOfSponsors();
+            BucuriaDarului.Core.Settings appsettings = SingleSettingReturnerGateway.GetSettingItem();
                 TempData[Constants.CONNECTION_LANGUAGE] = appsettings.Lang;
                 TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = appsettings.Quantity;
 
