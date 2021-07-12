@@ -15,8 +15,6 @@ namespace BucuriaDarului.Web.DatabaseManager
             dbContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
-       
-
         internal Beneficiary GetOneBeneficiary(string id)
         {
             IMongoCollection<Beneficiary> beneficiarycollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
