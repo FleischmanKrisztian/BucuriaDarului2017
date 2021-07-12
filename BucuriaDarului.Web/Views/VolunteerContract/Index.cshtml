@@ -40,7 +40,7 @@
                     @Html.DisplayFor(modelItem => item.ExpirationDate)
                 </td>
                 <td>
-                    <a href=@Url.Action( "DeleteDisplay", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
+                    <a href=@Url.Action( "Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
                     <a href=@Url.Action( "Print", new { id = item.Id })><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Print"]></a>
                 </td>
             </tr>
