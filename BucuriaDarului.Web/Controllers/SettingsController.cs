@@ -1,4 +1,6 @@
-﻿using Finalaplication.Common;
+﻿using BucuriaDarului.Contexts.SettingsContexts;
+using BucuriaDarului.Gateway.SettingsGateways;
+using Finalaplication.Common;
 using Finalaplication.DatabaseManager;
 using Finalaplication.Models;
 using Microsoft.AspNetCore.Http;
@@ -20,24 +22,27 @@ namespace Finalaplication.Controllers
         [HttpPost]
         public ActionResult Settings(string lang, int quantity)
         {
-            Settings set = settingsManager.GetSettingsItem();
-            set.Quantity = quantity;
-            set.Lang = lang;
-            ViewBag.Lang = lang;
-            settingsManager.UpdateSettings(set);
-            TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = set.Quantity;
-            TempData[Constants.CONNECTION_LANGUAGE] = set.Lang;
-            Response.Cookies.Append(
-            CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
-            new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddYears(1),
-                IsEssential = true,
-                SameSite = SameSiteMode.Lax
-            }
-      );
+            var settingContext = new SettingsUpdateContext(new SettingsUpdateGateway());
+            settingContext.Execute(lang, quantity);
+
+            TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = quantity;
+            TempData[Constants.CONNECTION_LANGUAGE] = lang;
+            SetCookie(lang);
             return RedirectToAction("Index", "Home");
+        }
+
+        public void SetCookie(string language)
+        {
+            Response.Cookies.Append(
+             CookieRequestCultureProvider.DefaultCookieName,
+             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language)),
+             new CookieOptions
+             {
+                 Expires = DateTimeOffset.UtcNow.AddYears(1),
+                 IsEssential = true,
+                 SameSite = SameSiteMode.Lax
+             }
+       );
         }
 
         public ActionResult Firststartup()

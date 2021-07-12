@@ -1,4 +1,5 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Gateway.SettingsGateways;
 using BucuriaDarului.Gateway.VolContractGateways;
 using Finalaplication.Common;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
@@ -30,7 +31,7 @@ namespace Finalaplication.Controllers
                 List<Beneficiarycontract> beneficiarycontracts = beneficiaryContractManager.GetListOfBeneficiariesContracts();
                 List<Volunteer> volunteers = volunteerManager.GetListOfVolunteers();
                 List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-                Settings appsettings = settingsManager.GetSettingsItem();
+                BucuriaDarului.Core.Settings appsettings = SingleSettingReturnerGateway.GetSettingItem();
                 TempData[Constants.CONNECTION_LANGUAGE] = appsettings.Lang;
                 TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = appsettings.Quantity;
 

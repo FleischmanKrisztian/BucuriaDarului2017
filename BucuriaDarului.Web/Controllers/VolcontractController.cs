@@ -4,7 +4,7 @@ using BucuriaDarului.Gateway.VolContractGateways;
 using Finalaplication.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Finalaplication.Controllers
+namespace BucuriaDarului.Web.Controllers
 {
     public class VolcontractController : Controller
     {
