@@ -10,10 +10,7 @@ namespace BucuriaDarului.Gateway.SettingsGateways
 
         public Settings GetSettingItem()
         {
-            var settingCollection = dbContext.Database.GetCollection<Settings>("Settings");
-            var setting = settingCollection.AsQueryable<Settings>().SingleOrDefault();
-
-            return setting;
+            return SingleSettingReturnerGateway.GetSettingItem();
         }
 
         public void UpdateSettings(Settings settings)

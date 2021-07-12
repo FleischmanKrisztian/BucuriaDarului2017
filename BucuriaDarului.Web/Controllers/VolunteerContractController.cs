@@ -52,7 +52,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(string id,string message)
+        public ActionResult DeleteDisplay(string id,string message)
         {
             ViewBag.message = message;
             var model = SingleVolunteerContractReturnerGateway.GetVolunteerContract(id);
