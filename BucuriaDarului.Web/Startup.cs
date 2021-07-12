@@ -79,7 +79,7 @@ namespace BucuriaDarului.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Settings}/{action=Firststartup}/{id?}");
+                    template: "{controller=Settings}/{action=FirstStartup}");
             });
         }
     }

@@ -1,19 +1,15 @@
-﻿using System;
-using BucuriaDarului.Contexts.SettingsContexts;
+﻿using BucuriaDarului.Contexts.SettingsContexts;
 using BucuriaDarului.Gateway.SettingsGateways;
 using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.DatabaseManager;
-using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace BucuriaDarului.Web.Controllers
 {
     public class SettingsController : Controller
     {
-        private SettingsManager settingsManager = new SettingsManager();
-
         public IActionResult Settings()
         {
             return View();
@@ -45,35 +41,13 @@ namespace BucuriaDarului.Web.Controllers
        );
         }
 
-        public ActionResult Firststartup()
+        public ActionResult FirstStartup()
         {
-            try
-            {
-                Settings settings = settingsManager.GetSettingsItem();
-                if (settings != null)
-                {
-                    TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;
-                    TempData[Constants.CONNECTION_LANGUAGE] = settings.Lang;
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    settings = new Settings
-                    {
-                        Lang = "en",
-                        Quantity = 15
-                    };
-                    settingsManager.AddSettingsToDB(settings);
-                    TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = settings.Quantity;
-                    TempData[Constants.CONNECTION_LANGUAGE] = settings.Lang;
-
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var firstStartupContext = new FirstStartupContext();
+            var response = firstStartupContext.Execute();
+            TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = response.NumberOfItemsPerPage;
+            TempData[Constants.CONNECTION_LANGUAGE] = response.Language;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

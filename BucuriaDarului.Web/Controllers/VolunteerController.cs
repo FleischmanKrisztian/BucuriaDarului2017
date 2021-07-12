@@ -110,7 +110,7 @@ namespace BucuriaDarului.Web.Controllers
 
             ModelState.Remove("Birthdate");
             ModelState.Remove("HourCount");
-            ModelState.Remove("CIEliberat");
+            ModelState.Remove("ExpirationDate");
 
             if (!volunteerCreateResponse.IsValid)
             {
@@ -143,7 +143,7 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerEditResponse = volunteerEditContext.Execute(request, fileBytes);
             ModelState.Remove("Birthdate");
             ModelState.Remove("HourCount");
-            ModelState.Remove("CIEliberat");
+            ModelState.Remove("ExpirationDate");
             if (!volunteerEditResponse.IsValid)
             {
                 return RedirectToAction("Edit", new { id = request.Id, message = volunteerEditResponse.Message });

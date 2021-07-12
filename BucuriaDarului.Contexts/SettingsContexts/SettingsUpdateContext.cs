@@ -15,10 +15,10 @@ namespace BucuriaDarului.Contexts.SettingsContexts
 
         public void Execute(string lang, int quantity)
         {
-            Settings settting = dataGateway.GetSettingItem();
-            settting.Quantity = quantity;
-            settting.Lang = lang;
-            dataGateway.UpdateSettings(settting);
+            var settings = dataGateway.GetSettingItem();
+            settings.Quantity = quantity;
+            settings.Lang = lang;
+            dataGateway.UpdateSettings(settings);
         }
     }
 }

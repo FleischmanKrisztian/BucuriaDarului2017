@@ -10,17 +10,17 @@ namespace BucuriaDarului.Gateway.SettingsGateways
 
         public Settings GetSettingItem()
         {
-            IMongoCollection<Settings> settingcollection = dbContext.Database.GetCollection<Settings>("Settings");
-            Settings setting = settingcollection.AsQueryable<Settings>().SingleOrDefault();
+            var settingCollection = dbContext.Database.GetCollection<Settings>("Settings");
+            var setting = settingCollection.AsQueryable<Settings>().SingleOrDefault();
 
             return setting;
         }
 
         public void UpdateSettings(Settings settings)
         {
-            IMongoCollection<Settings> settingcollection = dbContext.Database.GetCollection<Settings>("Settings");
+            var settingCollection = dbContext.Database.GetCollection<Settings>("Settings");
             var filter = Builders<Settings>.Filter.Eq("Id", settings.Id);
-            settingcollection.FindOneAndReplace(filter, settings);
+            settingCollection.FindOneAndReplace(filter, settings);
         }
     }
 }
