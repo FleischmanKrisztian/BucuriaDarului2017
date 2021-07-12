@@ -223,20 +223,5 @@ namespace BucuriaDarului.Web.ControllerHelpers.SponsorHelpers
 
             return sponsors;
         }
-
-        internal static List<Sponsor> GetExpiringContracts(List<Sponsor> sponsors)
-        {
-            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
-            List<Sponsor> returnlistofspons = new List<Sponsor>();
-            foreach (var spons in sponsors)
-            {
-                int daytocompare = UniversalFunctions.GetDayOfYear(spons.Contract.ExpirationDate);
-                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
-                {
-                    returnlistofspons.Add(spons);
-                }
-            }
-            return returnlistofspons;
-        }
     }
 }
