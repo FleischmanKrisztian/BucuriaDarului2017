@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Web.Models;
+﻿using BucuriaDarului.Web.Models;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Web.DatabaseManager
 {
@@ -14,14 +14,11 @@ namespace BucuriaDarului.Web.DatabaseManager
             dbContext = new MongoDBContext(SERVER_NAME, SERVER_PORT, DATABASE_NAME);
         }
 
-
         internal List<Event> GetListOfEvents()
         {
             IMongoCollection<Event> eventCollection = dbContext.Database.GetCollection<Event>("Events");
             List<Event> events = eventCollection.AsQueryable().ToList();
             return events;
         }
-
-        
     }
 }
