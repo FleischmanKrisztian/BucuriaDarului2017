@@ -153,16 +153,9 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult ContractExp()
         {
-            try
-            {
-                List<Sponsor> sponsors = sponsorManager.GetListOfSponsors();
-                sponsors = SponsorFunctions.GetExpiringContracts(sponsors);
-                return View(sponsors);
-            }
-            catch
-            {
-                return RedirectToAction("Localserver", "Home");
-            }
+            var contractExpirationContext = new SponsorContractsExpirationContext(new SponsorContractExpirationGateway());
+            var contracts = contractExpirationContext.Execute();
+            return View(contracts);
         }
 
         public ActionResult Details(string id)

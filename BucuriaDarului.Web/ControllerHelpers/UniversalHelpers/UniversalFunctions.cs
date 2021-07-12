@@ -6,7 +6,7 @@ using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Sponsor = BucuriaDarului.Web.Models.Sponsor;
+using Sponsor = BucuriaDarului.Core.Sponsor;
 
 namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
 {
