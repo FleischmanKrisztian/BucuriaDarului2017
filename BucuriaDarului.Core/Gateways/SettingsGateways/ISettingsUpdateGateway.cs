@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BucuriaDarului.Core.Gateways.SettingsGateways
 {
-    public interface ISettingsGateway
+    public interface ISettingsUpdateGateway
     {
-        Settings GetSettings();
+        Settings GetSettingItem();
         void UpdateSettings(Settings settings);
     }
 }
