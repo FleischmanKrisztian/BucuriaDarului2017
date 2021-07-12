@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.SettingsGateways;
-using BucuriaDarului.Gateway.VolContractGateways;
+using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using BucuriaDarului.Web.DatabaseManager;

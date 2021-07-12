@@ -1,11 +1,8 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BucuriaDarului.Gateway.VolContractGateways
+namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class VolunteerContractCreateGateway : IVolunteerContractCreateGateway
     {

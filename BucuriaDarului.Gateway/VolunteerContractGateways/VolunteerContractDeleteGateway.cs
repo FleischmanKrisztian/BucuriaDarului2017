@@ -1,10 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BucuriaDarului.Gateway.VolContractGateways
+namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class VolunteerContractDeleteGateway
     {

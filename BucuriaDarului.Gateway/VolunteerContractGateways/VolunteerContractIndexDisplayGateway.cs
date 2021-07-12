@@ -1,13 +1,9 @@
-﻿using BucuriaDarului.Core;
+﻿using System.Collections.Generic;
+using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
-using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BucuriaDarului.Gateway.VolContractGateways
+namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class VolunteerContractIndexDisplayGateway : IVolunteerContractMainDisplayGateway
     {
