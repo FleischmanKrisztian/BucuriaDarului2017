@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <LinkValues>
-      <add key="Volunteerlink" value="https://localhost:44395/api/Values/" />
-      <add key="Beneficiarylink" value="https://localhost:44395/api/BeneficiaryValues/" />
+      <add key="Volunteerlink" value="https://localhost:44395/api/VolunteerContractApiController/" />
+      <add key="Beneficiarylink" value="https://localhost:44395/api/BeneficiaryContractApiController /" />
       <add key="Excelprinterlink" value="https://localhost:44395/api/Excelprinter/" />
       <add key="localhostport" value="https://localhost:44395/api/" />
   </LinkValues>
