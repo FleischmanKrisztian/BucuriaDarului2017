@@ -53,28 +53,23 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter()
+        public ActionResult CSVExporter(string message)
         {
-            string ids = HttpContext.Session.GetString(Constants.SESSION_KEY_SPONSOR);
-            HttpContext.Session.Remove(Constants.SESSION_KEY_SPONSOR);
-            string key = Constants.SECONDARY_SESSION_KEY_SPONSOR;
-            HttpContext.Session.SetString(key, ids);
+            ViewBag.message = message;
             return View();
         }
 
         [HttpPost]
-        public ActionResult CSVExporter(bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAddress)
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
-            string IDS = HttpContext.Session.GetString(Constants.SECONDARY_SESSION_KEY_SPONSOR);
-            HttpContext.Session.Remove(Constants.SECONDARY_SESSION_KEY_SPONSOR);
-            string ids_and_fields = SponsorFunctions.GetIdAndFieldString(IDS, All, NameOfSponsor, Date, MoneyAmount, WhatGoods, GoodsAmount, HasContract, ContractDetails, PhoneNumber, MailAddress);
-            string key1 = Constants.SPONSORSESSION;
-            string header = ControllerHelper.GetHeaderForExcelPrinterSponsor(_localizer);
-            string key2 = Constants.SPONSORHEADER;
-            ControllerHelper.CreateDictionaries(key1, key2, ids_and_fields, header);
-            string csvexporterlink = "csvexporterapp:" + key1 + ";" + key2;
-            return Redirect(csvexporterlink);
+            var sponsorExporterContext = new SponsorExporterContext(_localizer);
+            var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
+            DictionaryHelper.d = sponsorExportData.Dictionary;
+            if (sponsorExportData.IsValid)
+                return Redirect("csvexporterapp:sponsorSession;sponsorHeader");
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
+
         // TODO: what is the difference between searching(name) & ContactInfo? in the Sponsor class ContactInformation is a class with 2 strings as fields
         // TODO: ContactInfo is the phone or email????
         public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
