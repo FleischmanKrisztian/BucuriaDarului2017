@@ -129,7 +129,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 ContactInformation ci = new ContactInformation();
                 try
                 {
-                    newSponsor.Id = Guid.NewGuid().ToString();
+                    newSponsor.Id = Guid.NewGuid().ToString(); // TODO: check if the Id is already in the database
                     newSponsor.NameOfSponsor = line[0];
 
                     if (line[1] == null || line[1] == "" || line[1] == "0")
