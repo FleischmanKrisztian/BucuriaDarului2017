@@ -35,39 +35,21 @@ namespace BucuriaDarului.Web.Controllers
             _localizer = localizer;
         }
 
-        public ActionResult Import()
+        public ActionResult Import(string message)
         {
+            ViewBag.message = message;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile Files)
+        public ActionResult Import(IFormFile Files, string message)
         {
-            try
-            {
-                string path = " ";
-                if (UniversalFunctions.File_is_not_empty(Files))
-                {
-                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Files.FileName);
-                    UniversalFunctions.CreateFileStream(Files, path);
-                }
-                else
-                {
-                    return View();
-                }
-                List<string[]> Sponsors = CSVImportParser.GetListFromCSV(path);
-                for (int i = 0; i < Sponsors.Count; i++)
-                {
-                    Sponsor s = SponsorFunctions.GetSponsorFromString(Sponsors[i]);
-                    sponsorManager.AddSponsorToDB(s);
-                }
-                UniversalFunctions.RemoveTempFile(path);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("IncorrectFile", "Home");
-            }
+            var sponsorsImportContext = new SponsorsImportContext(new SponsorsImportDataGateway());
+            var response = sponsorsImportContext.Execute(Files.OpenReadStream());
+            if (response.IsValid)
+                return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
+            else
+                return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
         [HttpGet]
