@@ -10,7 +10,7 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
 
         public List<Volunteer> GetListOfVolunteers()
         {
-            return ListVolunteerGateway.GetListOfVolunteers();
+            return ListVolunteersGateway.GetListOfVolunteers();
         }
     }
 }

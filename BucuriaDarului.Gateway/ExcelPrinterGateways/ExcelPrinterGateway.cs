@@ -1,6 +1,9 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.ExcelPrinterGateways;
+using BucuriaDarului.Gateway.BeneficiaryGateways;
+using BucuriaDarului.Gateway.EventGateways;
 using BucuriaDarului.Gateway.SponsorGateways;
+using BucuriaDarului.Gateway.VolunteerGateways;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,12 +14,12 @@ namespace BucuriaDarului.Gateway.ExcelPrinterGateways
     {
         public List<Beneficiary> GetListOfBeneficiary()
         {
-            return;
+            return ListBeneficiariesGateway.GetListOfBeneficiaries();
         }
 
         public List<Event> GetListOfEvents()
         {
-           return;
+            return ListEventsGateway.GetListOfEvents();
         }
 
         public List<Sponsor> GetListOfSponsors()
@@ -26,7 +29,7 @@ namespace BucuriaDarului.Gateway.ExcelPrinterGateways
 
         public List<Volunteer> GetListOfVolunteerss()
         {
-            return;
+            return ListVolunteersGateway.GetListOfVolunteers();
         }
     }
 }

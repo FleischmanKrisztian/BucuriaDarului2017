@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BucuriaDarului.Gateway.VolunteerGateways
 {
-    public class ListVolunteerGateway
+    public class ListVolunteersGateway
     {
         public static List<Volunteer> GetListOfVolunteers()
         {
