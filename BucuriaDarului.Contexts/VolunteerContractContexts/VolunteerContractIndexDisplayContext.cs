@@ -16,8 +16,8 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
 
         public VolunteerContractsMainDisplayIndexResponse Execute(VolunteerContractsMainDisplayIndexRequest request)
         {
-            List<VolunteerContract> contracts = dataGateway.GetListVolunteerContracts();
-            Volunteer volunteer = dataGateway.GetVolunteer(request.VolunteerId);
+            var contracts = dataGateway.GetListVolunteerContracts();
+            var volunteer = dataGateway.GetVolunteer(request.VolunteerId);
             contracts = contracts.Where(z => z.OwnerID.ToString() == request.VolunteerId).ToList();
 
             return new VolunteerContractsMainDisplayIndexResponse(contracts, volunteer.Fullname, volunteer.Id);

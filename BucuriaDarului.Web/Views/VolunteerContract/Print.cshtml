@@ -91,6 +91,24 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
+                    <label>@Localizer["CiInfo"]:</label>
+                </div>
+                <div class="col-sm-6">
+                    @Html.DisplayName(Model.CI.Info)
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>@Localizer["CiExpirationDate"]:</label>
+                </div>
+                <div class="col-sm-6">
+                    @Html.DisplayName(Model.CI.ExpirationDate.ToString())
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
                     <label> @Localizer["NumberOfRegistration"]:</label>
                 </div>
                 <div class="col-sm-6">

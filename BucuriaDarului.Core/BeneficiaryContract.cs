@@ -12,7 +12,7 @@ namespace BucuriaDarului.Core
 
         public string Fullname { get; set; }
 
-        public string NumberOfPortion { get; set; }
+        public int NumberOfPortions { get; set; }
 
         public string CNP { get; set; }
 

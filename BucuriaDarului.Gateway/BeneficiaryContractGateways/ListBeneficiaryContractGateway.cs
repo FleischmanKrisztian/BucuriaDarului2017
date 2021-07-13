@@ -1,17 +1,18 @@
 ﻿using BucuriaDarului.Core;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.BeneficiaryContractGateways
 {
-    public class SingleBeneficiaryContractReturnerGateway
+    public class ListBeneficiaryContractGateway
     {
-        public static BeneficiaryContract GetBeneficiaryContract(string id)
+        public static List<BeneficiaryContract> GetListBeneficiaryContracts()
         {
             var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
-            var filter = Builders<BeneficiaryContract>.Filter.Eq("Id", id);
-            return beneficiaryContractCollection.Find(filter).FirstOrDefault();
+            List<BeneficiaryContract> contracts = beneficiaryContractCollection.AsQueryable().ToList();
+            return contracts;
         }
     }
 }

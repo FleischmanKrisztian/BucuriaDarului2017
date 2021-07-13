@@ -18,8 +18,8 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
             volunteerContractCollection.InsertOne(volunteerContract);
-            var modifiedIDGateway = new ModifiedIDGateway();
-            modifiedIDGateway.AddIDtoModifications(volunteerContract.Id);
+            var modifiedIdGateway = new ModifiedIDGateway();
+            modifiedIdGateway.AddIDtoModifications(volunteerContract.Id);
         }
     }
 }

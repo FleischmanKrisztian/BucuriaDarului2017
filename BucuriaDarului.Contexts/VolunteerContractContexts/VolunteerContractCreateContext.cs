@@ -46,17 +46,11 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             request = ChangeNullValues(request);
             var contract = new VolunteerContract();
             var volunteer = dataGateway.GetVolunteer(request.OwnerID);
-            contract.NumberOfRegistration = request.NumberOfRegistration;
             contract.Id = Guid.NewGuid().ToString();
-            contract.ExpirationDate = contract.ExpirationDate.AddDays(1);
-            contract.RegistrationDate = contract.RegistrationDate.AddDays(1);
-            if (volunteer.Birthdate != null)
-            { contract.Birthdate = volunteer.Birthdate; }
-            else
-            {
-                response.IsValid = false;
-                response.Message+= "Missing birthday information for this volunteer!Please fill in all the data necessary for contract creation.";
-            }
+            contract.NumberOfRegistration = request.NumberOfRegistration;
+            contract.ExpirationDate = request.ExpirationDate.AddHours(5);
+            contract.RegistrationDate = request.RegistrationDate.AddHours(5);
+            contract.Birthdate = volunteer.Birthdate; // The check should be whether or not the date is bigger than date.minValue
             contract.Fullname = volunteer.Fullname;
             if (volunteer.CNP != "")
                 contract.CNP = volunteer.CNP;
@@ -65,6 +59,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                 response.IsValid = false;
                 response.Message += "Missing CNP information for this volunteer!Please fill in all the data necessary for contract creation.";
             }
+            //CI will never be null 
             if (volunteer.CI != null)
                 contract.CI = volunteer.CI;
             else
@@ -98,26 +93,10 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
     {
         public string OwnerID { get; set; }
 
-        public string Fullname { get; set; }
-
-        public string CNP { get; set; }
-
-        public string Address { get; set; }
-
-        public int HourCount { get; set; }
-
-        public string PhoneNumber { get; set; }
-
-        public CI CI { get; set; }
-
-        public DateTime Birthdate { get; set; }
-
         public string NumberOfRegistration { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
     }
-
-
 }

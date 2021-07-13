@@ -1,9 +1,9 @@
-﻿@model BucuriaDarului.Web.Models.Beneficiarycontract
+﻿@model BucuriaDarului.Core.BeneficiaryContract
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Delete";
-    string idofbeneficiary = Model.OwnerID;
+    string idOfBeneficiary = Model.OwnerID;
 }
 <h3>
     @Localizer["beneficiarycontract"]
@@ -53,7 +53,7 @@
         }
     </style>
 </head>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Delete", "BeneficiaryContract", new { contractId = Model.Id, ownerId = idOfBeneficiary }))
 {
     @Html.AntiForgeryToken()
 
@@ -89,9 +89,8 @@
                 </div>
             </div>
             <div class="form-actions no-color col-md-3">
-                <input type="hidden" name="idofbeneficiary" value="@idofbeneficiary" />
                 <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
-                <a href=@Url.Action( "Index", new { idofbeneficiary = idofbeneficiary } ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                <a href=@Url.Action( "Index", new { idofbeneficiary = idOfBeneficiary } ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
             </div>
         </div>
     </div>

@@ -1,14 +1,14 @@
-﻿@model IEnumerable<BucuriaDarului.Web.Models.Beneficiarycontract>
+﻿@model BucuriaDarului.Contexts.BeneficiaryContractContexts.BeneficiaryContractsMainDisplayIndexResponse
 @{
     ViewData["Title"] = "Contracts";
-    string idulbeneficiarului = ViewBag.idofbeneficiary;
-    string nameofbeneficiary = ViewBag.nameofbeneficiary;
+    string idulbeneficiarului = ViewBag.IdOfBeneficiary;
+
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h2 style="color:black">@Localizer["Contractsof"] @nameofbeneficiary</h2>
+<h2 style="color:black">@Localizer["ContractsOf"] @Model.NameOfBeneficiary </h2>
 <p>
-    <a href=@Url.Action( "Create", new { id = idulbeneficiarului })>@Localizer["CreateNew"]</a>
+    <a href=@Url.Action( "Create", new { idOfBeneficiary = Model.BeneficiaryId })>@Localizer["CreateNew"]</a>
 </p>
 <table class="table">
     <thead>
@@ -26,7 +26,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Contracts)
         {
             <tr>
                 <td>
@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.ExpirationDate)
                 </td>
                 <td>
-                    <a href=@Url.Action("Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
+                    <a href=@Url.Action("DeleteDisplay", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
                     <a href=@Url.Action("Print", new { id = item.Id })><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Print"]></a>
                 </td>
             </tr>

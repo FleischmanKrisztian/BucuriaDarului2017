@@ -7,7 +7,6 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class VolunteerContractDeleteGateway: IVolunteerContractDeleteGateway
     {
-       
         public void Delete(string id)
         {
             var dbContext = new MongoDBGateway();

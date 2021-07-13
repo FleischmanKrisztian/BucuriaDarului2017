@@ -1,4 +1,4 @@
-﻿@model BucuriaDarului.Web.Models.Beneficiarycontract
+﻿@model BucuriaDarului.Core.BeneficiaryContract
 @{
     ViewData["Title"] = "Print";
 }
@@ -85,7 +85,7 @@
                     <label> @Localizer["NumberOfPortions"]:</label>
                 </div>
                 <div class="col-sm-6">
-                    @Html.DisplayName(Model.NumberOfPortion)
+                    @Html.DisplayName(Model.NumberOfPortions.ToString())
                     <hr />
                 </div>
             </div>

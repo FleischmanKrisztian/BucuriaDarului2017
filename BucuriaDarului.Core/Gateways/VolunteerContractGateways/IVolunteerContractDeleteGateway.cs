@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BucuriaDarului.Core.Gateways.VolunteerContractGateways
 {
-    public interface  IVolunteerContractDeleteGateway
+    public interface IVolunteerContractDeleteGateway
     {
         public void Delete(string id);
 

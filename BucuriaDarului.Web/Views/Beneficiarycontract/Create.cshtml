@@ -3,9 +3,9 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Create";
-    string idofbeneficiary = ViewBag.idofbeneficiary;
+    string idOfBeneficiary = ViewBag.idOfBeneficiary;
 }
-<h1>@Localizer["Create"] @Localizer["beneficiarycontract"]</h1>
+<h1>@Localizer["Create"] @Localizer["BeneficiaryContract"]</h1>
 <hr />
 <head>
     <style>
@@ -52,8 +52,8 @@
     </style>
 </head>
 <form asp-action="Create">
-    <input type="hidden" name="idofbeneficiary" value="@idofbeneficiary" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@idOfBeneficiary />
     <div class=" emp-profile">
         <div class="row">
             <div class="col-md-12">
@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-md-3">
                     <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
-                    <a href=@Url.Action( "Index" ,new { idofbeneficiary }) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                    <a href=@Url.Action( "Index" ,new { ViewBag.idOfBeneficiary }) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
                 </div>
             </div>
         </div>

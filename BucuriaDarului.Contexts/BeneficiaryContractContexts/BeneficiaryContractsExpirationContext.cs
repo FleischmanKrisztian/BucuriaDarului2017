@@ -1,39 +1,39 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
 using System;
 using System.Collections.Generic;
 
-namespace BucuriaDarului.Contexts.VolunteerContractContexts
+namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 {
-    public class VolunteerContractsExpirationContext
+    public class BeneficiaryContractsExpirationContext
     {
-        private readonly IListDisplayVolunteerContractsGateway dataGateway;
+        private readonly IListDisplayBeneficiaryContractsGateway dataGateway;
 
-        public VolunteerContractsExpirationContext(IListDisplayVolunteerContractsGateway dataGateway)
+        public BeneficiaryContractsExpirationContext(IListDisplayBeneficiaryContractsGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
 
-        public List<VolunteerContract> Execute()
+        public List<BeneficiaryContract> Execute()
         {
-            var contracts = dataGateway.GetListVolunteerContracts();
+            var contracts = dataGateway.GetListBeneficiaryContracts();
             contracts = GetExpiringContracts(contracts);
             return contracts;
         }
 
-        internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts)
+        internal static List<BeneficiaryContract> GetExpiringContracts(List<BeneficiaryContract> contracts)
         {
             var currentDay = GetDayOfYear(DateTime.Today);
-            var returnListOfVolunteerContracts = new List<VolunteerContract>();
+            var returnListOfBeneficiaryContracts = new List<BeneficiaryContract>();
             foreach (var contract in contracts)
             {
                 var dayToCompare = GetDayOfYear(contract.ExpirationDate);
                 if (IsAboutToExpire(currentDay, dayToCompare))
                 {
-                    returnListOfVolunteerContracts.Add(contract);
+                    returnListOfBeneficiaryContracts.Add(contract);
                 }
             }
-            return returnListOfVolunteerContracts;
+            return returnListOfBeneficiaryContracts;
         }
 
         public static bool IsAboutToExpire(int currentDay, int dayToCompare)

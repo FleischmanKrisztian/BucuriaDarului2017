@@ -1,4 +1,5 @@
-﻿using BucuriaDarului.Gateway.BeneficiaryContractGateways;
+﻿using BucuriaDarului.Contexts.BeneficiaryContractContexts;
+using BucuriaDarului.Gateway.BeneficiaryContractGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Create(string idOfBeneficiary, string message)
         {
             ViewBag.message = message;
-            ViewBag.idOfVol = idOfBeneficiary;
+            ViewBag.idOfBeneficiary = idOfBeneficiary;
             return View();
         }
 
@@ -51,7 +52,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(string id, string message)
+        public ActionResult DeleteDisplay(string id, string message)
         {
             ViewBag.message = message;
             var model = SingleBeneficiaryContractReturnerGateway.GetBeneficiaryContract(id);
@@ -59,14 +60,13 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(BeneficiaryContractDeleteRequest request)
+        public ActionResult Delete(string contractId, string ownerId)
         {
             var beneficiaryContractDeleteContext = new BeneficiaryContractDeleteContext(new BeneficiaryContractDeleteGateway());
-            var response = beneficiaryContractDeleteContext.Execute(request);
-            if (!response.IsValid)
-                return RedirectToAction("Delete", new { id = request.ContractId, message = "Error!This document couldn't be deleted!" });
-            return RedirectToAction("Index", new { idOfBeneficiary = response.BeneficiaryId });
+            var response = beneficiaryContractDeleteContext.Execute(contractId, ownerId);
+            if (response.Contains("Error"))
+                return RedirectToAction("DeleteDisplay", new { id = contractId, message = response });
+            return RedirectToAction("Index", new { idOfBeneficiary = ownerId});
         }
     }
-}
 }

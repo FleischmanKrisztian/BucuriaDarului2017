@@ -6,11 +6,9 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class VolunteerContractExpirationGateway : IListDisplayVolunteerContractsGateway
     {
-        private MongoDBGateway dbContext = new MongoDBGateway();
-
         public List<VolunteerContract> GetListVolunteerContracts()
         {
-            List<VolunteerContract> contracts = ListVolunteerContractGateway.GetListVolunteerContracts();
+            var contracts = ListVolunteerContractGateway.GetListVolunteerContracts();
             return contracts;
         }
     }
