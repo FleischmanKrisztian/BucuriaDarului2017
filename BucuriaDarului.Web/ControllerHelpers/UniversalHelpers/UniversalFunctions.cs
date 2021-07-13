@@ -85,21 +85,6 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
             return beneficiaryContractsCounter;
         }
 
-        internal static dynamic GetNumberOfExpiringSponsorContracts(List<Sponsor> sponsors)
-        {
-            int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);
-            int sponsorContractsCounter = 0;
-            foreach (var item in sponsors)
-            {
-                int daytocompare = UniversalFunctions.GetDayOfYear(item.Contract.ExpirationDate);
-                if (UniversalFunctions.IsAboutToExpire(currentday, daytocompare))
-                {
-                    sponsorContractsCounter++;
-                }
-            }
-            return sponsorContractsCounter;
-        }
-
         internal static dynamic GetNumberOfExpiringVolContracts(List<VolunteerContract> volunteerContracts)
         {
             int currentday = UniversalFunctions.GetDayOfYear(DateTime.Today);

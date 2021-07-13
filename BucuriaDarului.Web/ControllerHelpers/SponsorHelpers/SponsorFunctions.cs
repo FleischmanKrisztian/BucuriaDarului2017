@@ -56,33 +56,6 @@ namespace BucuriaDarului.Web.ControllerHelpers.SponsorHelpers
             return sponsornames;
         }
 
-        internal static string GetIdAndFieldString(string IDS, bool All, bool NameOfSponsor, bool Date, bool MoneyAmount, bool WhatGoods, bool GoodsAmount, bool HasContract, bool ContractDetails, bool PhoneNumber, bool MailAddress)
-        {
-            string ids_and_options = IDS + "(((";
-            if (All == true)
-                ids_and_options += "0";
-            if (NameOfSponsor == true)
-                ids_and_options += "1";
-            if (Date == true)
-                ids_and_options += "2";
-            if (HasContract == true)
-                ids_and_options += "3";
-            if (ContractDetails == true)
-                ids_and_options += "4";
-            if (PhoneNumber == true)
-                ids_and_options += "5";
-            if (MailAddress == true)
-                ids_and_options += "6";
-            if (MoneyAmount == true)
-                ids_and_options += "7";
-            if (WhatGoods == true)
-                ids_and_options += "8";
-            if (GoodsAmount == true)
-                ids_and_options += "9";
-
-            return ids_and_options;
-        }
-
         private static bool Dateinputreceived(DateTime date)
         {
             DateTime comparisondate = new DateTime(0003, 1, 1);
