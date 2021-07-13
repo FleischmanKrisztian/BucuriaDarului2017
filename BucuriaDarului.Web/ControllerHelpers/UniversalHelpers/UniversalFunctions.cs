@@ -6,14 +6,7 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
 {
     public class UniversalFunctions
     {
-        public static bool IsAboutToExpire(int currentday, int daytocompareto)
-        {
-            if (currentday <= daytocompareto && currentday + 10 > daytocompareto || currentday > 355 && daytocompareto < 9)
-            {
-                return true;
-            }
-            return false;
-        }
+       
 
         public static int GetNumberOfItemPerPageFromSettings(ITempDataDictionary tempDataDic)
         {
@@ -39,14 +32,6 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
             }
         }
 
-        internal static int GetDayOfYear(DateTime date)
-        {
-            string dateasstring = date.ToString("dd-MM-yyyy");
-            string[] dates = dateasstring.Split('-');
-            int Day = Convert.ToInt16(dates[0]);
-            int Month = Convert.ToInt16(dates[1]);
-            Day = (Month - 1) * 30 + Day;
-            return Day;
-        }
+       
     }
 }
