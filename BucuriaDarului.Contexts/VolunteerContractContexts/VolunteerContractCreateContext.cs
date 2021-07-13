@@ -48,8 +48,8 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var volunteer = dataGateway.GetVolunteer(request.OwnerID);
             contract.NumberOfRegistration = request.NumberOfRegistration;
             contract.Id = Guid.NewGuid().ToString();
-            contract.ExpirationDate = contract.ExpirationDate.AddDays(1);
-            contract.RegistrationDate = contract.RegistrationDate.AddDays(1);
+            contract.ExpirationDate = request.ExpirationDate.AddDays(1);
+            contract.RegistrationDate = request.RegistrationDate.AddDays(1);
             if (volunteer.Birthdate != null)
             { contract.Birthdate = volunteer.Birthdate; }
             else
