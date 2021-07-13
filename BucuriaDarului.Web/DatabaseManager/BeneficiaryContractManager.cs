@@ -18,7 +18,7 @@ namespace BucuriaDarului.Web.DatabaseManager
 
         internal void AddBeneficiaryContractToDB(Beneficiarycontract beneficiarycontract)
         {
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiaryContracts");
             modifiedDocumentManager.AddIDtoString(beneficiarycontract.Id);
             benecontractcollection.InsertOne(beneficiarycontract);
         }
@@ -27,22 +27,22 @@ namespace BucuriaDarului.Web.DatabaseManager
         internal static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable("volmongo_databasename");
         internal Beneficiarycontract GetBeneficiaryContract(string id)
         {
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiaryContracts");
             var filter = Builders<Beneficiarycontract>.Filter.Eq("Id", id);
             Beneficiarycontract returnBeneficiaryContract = benecontractcollection.Find(filter).FirstOrDefault();
             return returnBeneficiaryContract;
         }
 
-        internal List<Beneficiarycontract> GetListOfBeneficiariesContracts()
+        internal List<Beneficiarycontract> GetListOfBeneficiaryContracts()
         {
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiaryContracts");
             List<Beneficiarycontract> contracts = benecontractcollection.AsQueryable().ToList();
             return contracts;
         }
 
         internal void UpdateBeneficiaryContract(Beneficiarycontract contractupdate, string id)
         {
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiaryContracts");
             var filter = Builders<Beneficiarycontract>.Filter.Eq("Id", id);
             contractupdate.Id = id;
             modifiedDocumentManager.AddIDtoString(id);
@@ -52,13 +52,13 @@ namespace BucuriaDarului.Web.DatabaseManager
         internal void DeleteBeneficiaryContract(string id)
         {
             modifiedDocumentManager.AddIDtoDeletionString(id);
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiaryContracts");
             benecontractcollection.DeleteOne(Builders<Beneficiarycontract>.Filter.Eq("Id", id));
         }
 
         internal void DeleteAllContracts(string id)
         {
-            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiariesContracts");
+            IMongoCollection<Beneficiarycontract> benecontractcollection = dbContext.Database.GetCollection<Beneficiarycontract>("BeneficiaryContracts");
             var beneficiarycontractlist = benecontractcollection.Find(zz => zz.OwnerID == id).ToList();
             for (int i = 0; i < beneficiarycontractlist.Count(); i++)
             {

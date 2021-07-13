@@ -81,13 +81,13 @@
 //            List<Beneficiary> beneficiarieslocal = beneManager.GetListOfBeneficiaries();
 //            List<Sponsor> sponsorslocal = sponsorManager.GetListOfSponsors();
 //            List<Volcontract> volcontractslocal = volContractManager.GetListOfVolunteersContracts();
-//            List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiariesContracts();
+//            List<Beneficiarycontract> beneficiarycontractslocal = beneficiaryContractManager.GetListOfBeneficiaryContracts();
 //            List<Volunteer> volunteers = commonvolunteerManager.GetListOfVolunteers();
 //            List<Event> events = commonEventManager.GetListOfEvents();
 //            List<Beneficiary> beneficiaries = commonBeneficiaryManager.GetListOfBeneficiaries();
 //            List<Sponsor> sponsors = commonSponsorManager.GetListOfSponsors();
 //            List<Volcontract> volcontracts = commonVolContractManager.GetListOfVolunteersContracts();
-//            List<Beneficiarycontract> beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
+//            List<Beneficiarycontract> beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiaryContracts();
 
 //            List<ModifiedIDs> modifiedidlist = modifiedDocumentManager.GetListOfModifications();
 //            List<DeletedIDS> deletedlist = modifiedDocumentManager.GetListOfDeletions();
@@ -235,7 +235,7 @@
 //            beneficiaries = commonBeneficiaryManager.GetListOfBeneficiaries();
 //            sponsors = commonSponsorManager.GetListOfSponsors();
 //            volcontracts = commonVolContractManager.GetListOfVolunteersContracts();
-//            beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiariesContracts();
+//            beneficiarycontracts = commonBenefContractManager.GetListOfBeneficiaryContracts();
 
 //            string volstring = JsonConvert.SerializeObject(volunteers);
 //            string eventstring = JsonConvert.SerializeObject(events);

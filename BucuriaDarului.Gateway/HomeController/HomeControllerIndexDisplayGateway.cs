@@ -13,10 +13,10 @@ namespace BucuriaDarului.Gateway.HomeController
     {
         private MongoDBGateway dbContext = new MongoDBGateway();
 
-        public List<BeneficiaryContract> GetListOfBeneficiariesContracts()
+        public List<BeneficiaryContract> GetListOfBeneficiaryContracts()
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var benecontractcollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiariesContracts");
+            var benecontractcollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
             var contracts = benecontractcollection.AsQueryable().ToList();
             return contracts;
         }

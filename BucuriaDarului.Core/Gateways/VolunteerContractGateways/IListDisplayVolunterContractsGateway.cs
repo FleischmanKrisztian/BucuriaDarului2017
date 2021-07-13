@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace BucuriaDarului.Core.Gateways.VolunteerGateways
+namespace BucuriaDarului.Core.Gateways.VolunteerContractGateways
 {
-    public interface IListDisplayVolunterContractsGateway
+    public interface IListDisplayVolunteerContractsGateway
     {
         List<VolunteerContract> GetListVolunteerContracts();
-        
     }
 }

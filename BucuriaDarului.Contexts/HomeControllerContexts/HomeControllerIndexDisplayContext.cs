@@ -19,7 +19,7 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
         {
             var response = new Response();
             var volunteerContracts = dataGateway.GetListVolunteerContracts();
-            var beneficiarycontracts = dataGateway.GetListOfBeneficiariesContracts();
+            var beneficiarycontracts = dataGateway.GetListOfBeneficiaryContracts();
             var volunteers = dataGateway.GetListOfVolunteers();
             var sponsors = dataGateway.GetListOfSponsors();
             response.BirthdayOfVolunteersNumber = GetNumberOfVolunteersWithBirthdays(volunteers);

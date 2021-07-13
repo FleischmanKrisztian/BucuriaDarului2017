@@ -6,7 +6,7 @@ namespace BucuriaDarului.Core.Gateways.HomeControllerGateways
     {
         List<VolunteerContract> GetListVolunteerContracts();
 
-        List<BeneficiaryContract> GetListOfBeneficiariesContracts();
+        List<BeneficiaryContract> GetListOfBeneficiaryContracts();
 
         List<Volunteer> GetListOfVolunteers();
 
