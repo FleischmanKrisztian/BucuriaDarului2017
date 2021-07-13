@@ -8,68 +8,6 @@ namespace BucuriaDarului.Web.ControllerHelpers.SponsorHelpers
 {
     public class SponsorFunctions
     {
-        internal static Sponsor GetSponsorFromString(string[] sponsorstring)
-        {
-            Sponsor newsponsor = new Sponsor();
-            Sponsorship s = new Sponsorship();
-            Contract c = new Contract();
-            ContactInformation ci = new ContactInformation();
-
-            newsponsor.Id = Guid.NewGuid().ToString();
-            newsponsor.NameOfSponsor = sponsorstring[0];
-
-            try
-            {
-                s.Date = Convert.ToDateTime(sponsorstring[1]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                s.Date = DateTime.MinValue;
-            }
-
-            s.MoneyAmount = sponsorstring[2];
-            s.WhatGoods = sponsorstring[3];
-            s.GoodsAmount = sponsorstring[4];
-
-            newsponsor.Sponsorship = s;
-            if (sponsorstring[5] == "True" || sponsorstring[5] == "true")
-            {
-                c.HasContract = true;
-            }
-            else
-            {
-                c.HasContract = false;
-            }
-            c.HasContract = Convert.ToBoolean(sponsorstring[5]);
-            c.NumberOfRegistration = sponsorstring[6];
-
-            try
-            {
-                c.RegistrationDate = Convert.ToDateTime(sponsorstring[7]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                c.RegistrationDate = DateTime.MinValue;
-            }
-            try
-            {
-                c.ExpirationDate = Convert.ToDateTime(sponsorstring[8]);
-            }
-            catch
-            {
-                Console.WriteLine("Invalid Date, defaulting to min value!");
-                c.ExpirationDate = DateTime.MinValue;
-            }
-            newsponsor.Contract = c;
-
-            ci.PhoneNumber = sponsorstring[9];
-            ci.MailAddress = sponsorstring[10];
-            newsponsor.ContactInformation = ci;
-            return newsponsor;
-        }
-
         internal static string GetStringOfIds(List<Sponsor> sponsors)
         {
             string stringofids = "sponsorCSV";

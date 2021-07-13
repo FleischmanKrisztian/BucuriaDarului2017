@@ -517,6 +517,7 @@ msgid "ExpirationDateCI"
 msgstr "Expiration date of CI"
 
 msgid "ExportToCsv"
+msgid "UploadFromCsv""
 msgstr "Export To Excel"
 
 msgid "MessageFailedExport"

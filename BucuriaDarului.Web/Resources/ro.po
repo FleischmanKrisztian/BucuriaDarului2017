@@ -520,6 +520,9 @@ msgstr "Data expirării CI"
 msgid "ExportToCsv"
 msgstr "Exportă in Excel"
 
+msgid "UploadFromCsv"
+msgstr "Importă din Excel"
+
 msgid "MessageFailedExport"
 msgstr "Fisierul nu poate fi deschis.Este posibil să fie deschis."
 
