@@ -1,15 +1,15 @@
-﻿using System;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using System;
 using System.Collections.Generic;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.VolunteerGateways;
 
 namespace BucuriaDarului.Contexts.VolunteerContractContexts
 {
     public class VolunteerContractsExpirationContext
     {
-        private readonly IListDisplayVolunterContractsGateway dataGateway;
+        private readonly IListDisplayVolunteerContractsGateway dataGateway;
 
-        public VolunteerContractsExpirationContext(IListDisplayVolunterContractsGateway dataGateway)
+        public VolunteerContractsExpirationContext(IListDisplayVolunteerContractsGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
@@ -19,7 +19,6 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var contracts = dataGateway.GetListVolunteerContracts();
             contracts = GetExpiringContracts(contracts);
             return contracts;
-
         }
 
         internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts)

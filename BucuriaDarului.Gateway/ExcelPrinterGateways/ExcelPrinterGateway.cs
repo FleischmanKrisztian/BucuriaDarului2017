@@ -1,12 +1,9 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.ExcelPrinterGateways;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Gateway.EventGateways;
 using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Gateway.ExcelPrinterGateways
 {
@@ -24,7 +21,7 @@ namespace BucuriaDarului.Gateway.ExcelPrinterGateways
 
         public List<Sponsor> GetListOfSponsors()
         {
-           return ListSponsorsGateway.GetListOfSponsors();
+            return ListSponsorsGateway.GetListOfSponsors();
         }
 
         public List<Volunteer> GetListOfVolunteerss()
