@@ -19,6 +19,14 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
             volunteerCollection.DeleteOne(filter);
         }
 
+        public void DeleteVolunteerContracts(string id)
+        {
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
+            var filter = Builders<VolunteerContract>.Filter.Eq("OwnerID", id);
+            volunteerContractCollection.DeleteMany(filter);
+        }
+
         public Volunteer GetVolunteer(string id)
         {
             return SingleVolunteerReturnerGateway.ReturnVolunteer(id);

@@ -1,13 +1,12 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
-using BucuriaDarului.Gateway;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.IO;
-using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -147,7 +146,7 @@ namespace BucuriaDarului.Web.Controllers
 
             if (!beneficiaryEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new {id = request.Id, message = beneficiaryEditResponse.Message });
+                return RedirectToAction("Edit", new { id = request.Id, message = beneficiaryEditResponse.Message });
             }
             return RedirectToAction("Index");
         }
@@ -159,9 +158,8 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(bool Inactive,string id)
+        public ActionResult Delete(bool Inactive, string id)
         {
-
             var deleteBeneficiaryContext = new BeneficiaryDeleteContext(new BeneficiaryDeleteGateway());
             deleteBeneficiaryContext.Execute(Inactive, id);
             return RedirectToAction("Index");

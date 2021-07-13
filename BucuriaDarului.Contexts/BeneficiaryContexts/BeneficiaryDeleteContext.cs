@@ -1,12 +1,9 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContexts
 {
-   public  class BeneficiaryDeleteContext
+    public class BeneficiaryDeleteContext
     {
         private readonly IBeneficiaryDeleteGateway dataGateway;
 
@@ -14,25 +11,21 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         {
             this.dataGateway = dataGateway;
         }
+
         public void Execute(bool inactive, string id)
         {
-
-
             if (inactive == false)
             {
                 dataGateway.DeleteBeneficiary(id);
-                //beneficiarycontractManager.DeleteBeneficiaryContracts(id);
-
+                dataGateway.DeleteBeneficiaryContracts(id);
             }
             else
             {
                 Beneficiary beneficiary = dataGateway.GetBeneficiary(id);
-                beneficiary.Active= false;
+                beneficiary.Active = false;
                 var beneficiaryToUpdate = beneficiary;
                 dataGateway.UpdateBeneficiary(id, beneficiaryToUpdate);
-
             }
         }
-
     }
 }

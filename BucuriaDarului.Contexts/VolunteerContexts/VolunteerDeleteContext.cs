@@ -22,8 +22,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             if (inactive == false)
             {
                 dataGateway.Delete(id);
-                //volcontractManager.DeleteAVolunteersContracts(id);
-               
+                dataGateway.DeleteVolunteerContracts(id);
+
             }
             else
             {
