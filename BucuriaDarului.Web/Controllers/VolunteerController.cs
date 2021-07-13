@@ -67,7 +67,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Birthday()
         {
-            var volunteerContext = new VolunteerBirthdayDisplayContext(new ListVolunteersGateway());
+            var volunteerContext = new VolunteerBirthdayDisplayContext(new BithdayListVolunteersGateway());
             var volunteers = volunteerContext.Execute();
             return View(volunteers);
         }

@@ -1,6 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.HomeControllerGateways;
 using BucuriaDarului.Gateway.SettingsGateways;
+using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using MongoDB.Driver;
 using System;
@@ -23,20 +24,15 @@ namespace BucuriaDarului.Gateway.HomeController
 
         public List<Sponsor> GetListOfSponsors()
         {
-            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
-            // TODO: solve this exception
-            var sponsors = sponsorCollection.AsQueryable().ToList();
-            return sponsors;
+
+            return ListSponsorsGateway.GetListOfSponsors();
         }
 
         
         public List<Volunteer> GetListOfVolunteers()
         {
-            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
-            List<Volunteer> volunteers = volunteerCollection.AsQueryable().ToList();
-            return volunteers;
+
+            return ListVolunteersGateway.GetListOfVolunteers();
         }
 
         public List<VolunteerContract> GetListVolunteerContracts()

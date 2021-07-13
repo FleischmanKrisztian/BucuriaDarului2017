@@ -100,6 +100,7 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
             }
             return false;
         }
+
         public int GetDayOfYear(DateTime date)
         {
             string dateAsString = date.ToString("dd-MM-yyyy");

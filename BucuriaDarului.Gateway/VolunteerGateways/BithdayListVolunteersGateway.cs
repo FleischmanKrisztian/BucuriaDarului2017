@@ -4,10 +4,8 @@ using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.VolunteerGateways
 {
-    public class VolunteerMainDisplayIndexGateway : IVolunteerMainDisplayIndexGateway
+    public class BithdayListVolunteersGateway : IListDisplayVolunteersGateway
     {
-        private MongoDBGateway dbContext = new MongoDBGateway();
-
         public List<Volunteer> GetListOfVolunteers()
         {
             return ListVolunteersGateway.GetListOfVolunteers();

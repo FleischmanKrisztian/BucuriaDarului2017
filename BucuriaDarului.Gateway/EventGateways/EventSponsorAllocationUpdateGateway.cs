@@ -2,6 +2,7 @@
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
 using BucuriaDarului.Core.Gateways.EventGateways;
+using BucuriaDarului.Gateway.SponsorGateways;
 using MongoDB.Driver;
 
 namespace BucuriaDarului.Gateway.EventGateways
@@ -12,10 +13,8 @@ namespace BucuriaDarului.Gateway.EventGateways
 
         public List<Sponsor> GetListOfSponsors()
         {
-            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
-            var sponsors = sponsorCollection.AsQueryable().ToList();
-            return sponsors;
+
+            return ListSponsorsGateway.GetListOfSponsors();
         }
 
         public void UpdateEvent(string eventId, Event eventToUpdate)
