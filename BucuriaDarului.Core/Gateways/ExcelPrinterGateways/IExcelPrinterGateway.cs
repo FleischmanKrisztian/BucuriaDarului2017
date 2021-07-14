@@ -6,9 +6,9 @@ namespace BucuriaDarului.Core.Gateways.ExcelPrinterGateways
 {
     public interface IExcelPrinterGateway
     {
-        List<Beneficiary> GetListOfBeneficiary();
+        List<Beneficiary> GetListOfBeneficiaries();
         List<Event> GetListOfEvents();
-        List<Volunteer> GetListOfVolunteerss();
+        List<Volunteer> GetListOfVolunteers();
         List<Sponsor> GetListOfSponsors();
     }
 }

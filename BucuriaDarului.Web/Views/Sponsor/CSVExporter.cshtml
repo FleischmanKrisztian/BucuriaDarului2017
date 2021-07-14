@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BucuriaDarului.Web.Models.Sponsor>
+﻿@model BucuriaDarului.Contexts.SponsorContexts.ExportParameters
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Builder
@@ -47,48 +47,149 @@
         }
     </style>
 </head>
-<br />
-<br />
-<br />
-<br />
-<form method="post" action="/Sponsor/CSVExporter" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class=" .emp-profile">
-        <h1>CSV Saver</h1>
-        <hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container emp-profile">
+        <div>
+            <h3 style="color:red">
+                @ViewBag.message
+            </h3>
+        </div>
+        <h3>
+            @Localizer["Please choose what you want the Excel to contain"]:
+        </h3>
+        <br />
         <br />
         <div class="row">
-            <div class="col-md-9">
-                <h3>
-                    @Localizer["Please choose what you want the Excel to contain"]:
-                </h3>
-            </div>
-            <div class="dropdown col-md-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @Localizer["Select the properties"]:
-                </button>
-                <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("All", isChecked: true) @Localizer["Check this for all fields"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("NameOfSponsor", isChecked: false)  @Localizer["NameOfSponsor"] </a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("Date", isChecked: false) @Localizer["Date"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("MoneyAmount", isChecked: false)  @Localizer["Moneyamount"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("WhatGoods", isChecked: false) @Localizer["Whatgoods"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("GoodsAmount", isChecked: false)  @Localizer["Goodsamount"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("HasContract", isChecked: false) @Localizer["HasContract"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("ContractDetails", isChecked: false) @Localizer["ContractDetails"]</a>
-                    <a class="dropdown-item" href="#"> @Html.CheckBox("PhoneNumber", isChecked: false) @Localizer["PhoneNumber"]</a>
-                    <a class="dropdown-item" href="#">  @Html.CheckBox("MailAddress", isChecked: false) @Localizer["EmailAddress"]</a>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["Check this for all fields"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true })
+                        <hr />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-3">
-                <br />
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Export"]
-                </button>
-                | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label>@Localizer["NameOfSponsor"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.NameOfSponsor)
+                        <hr />
+                    </div>
+                </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["Date"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Date)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["MoneyAmount"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.MoneyAmount)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label>  @Localizer["WhatGoods"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.WhatGoods)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label>@Localizer["GoodsAmount"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.GoodsAmount)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["HasContract"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.HasContract)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["ContractDetails"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.ContractDetails)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["PhoneNumber"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.PhoneNumber)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["MailAddress"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.MailAddress)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        <div class="col-md-3">
+            <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
+            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     </div>
-</form>
+    </div>
+}
