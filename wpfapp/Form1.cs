@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Windows.Forms;
 using Xceed.Words.NET;
 
-namespace wpfapp
+namespace ContractPrinter
 {
     public partial class Form1 : Form
     {
@@ -54,7 +54,6 @@ namespace wpfapp
                     if (richTextBox1.Text.Contains("ContractBeneficiar") == true || richTextBox1.Text.Contains("Contract_cadru_asistati_Fundatie") == true || richTextBox1.Text.Contains("beneficiar") == true || richTextBox1.Text.Contains("Beneficiar") == true)
                     {
                         string[] args = Environment.GetCommandLineArgs();
-                        RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);
@@ -111,7 +110,6 @@ namespace wpfapp
                     else
                     {
                         string[] args = Environment.GetCommandLineArgs();
-                        RegisterMyProtocol(args[0]);
                         var doc = DocX.Load(richTextBox1.Text);
                         HttpClient httpClient = new HttpClient();
                         args[1] = args[1].Remove(0, 16);

@@ -1,4 +1,4 @@
-﻿namespace wpfapp
+﻿namespace ContractPrinter
 {
     partial class Form1
     {
@@ -45,7 +45,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
-            this.additionalInfo1 = new wpfapp.AdditionalInfo();
+            this.additionalInfo1 = new ContractPrinter.AdditionalInfo();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();

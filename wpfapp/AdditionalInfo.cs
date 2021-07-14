@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows;
 
-namespace wpfapp
+namespace ContractPrinter
 {
     public partial class AdditionalInfo : UserControl
     {
         private string myValue;
 
         public string MyVal
-            
+
         {
             get { return myValue; }
             set { myValue = value; }
@@ -25,12 +17,10 @@ namespace wpfapp
         public AdditionalInfo()
         {
             InitializeComponent();
-
         }
 
         private void AdditionalInfo_Load(object sender, EventArgs e)
         {
-            
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -53,8 +43,6 @@ namespace wpfapp
             else { value = ""; }
 
             MyVal = value;
-
-
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace wpfapp
+namespace ContractPrinter
 {
     internal static class Program
     {

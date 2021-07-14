@@ -1,4 +1,4 @@
-﻿namespace wpfapp
+﻿namespace ContractPrinter
 {
     partial class AdditionalInfo
     {
