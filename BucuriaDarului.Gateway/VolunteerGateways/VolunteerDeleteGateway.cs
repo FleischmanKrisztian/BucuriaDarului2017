@@ -12,7 +12,6 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
         public  void Delete(string id)
         {
-            
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("Id", id);

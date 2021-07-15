@@ -45,11 +45,11 @@ namespace BucuriaDarului.Web.DatabaseManager
             sponsorcollection.FindOneAndReplace(filter, sponsorupdate);
         }
 
-        internal void DeleteSponsor(string id)
-        {
-            modifiedDocumentManager.AddIDtoDeletionString(id);
-            IMongoCollection<Sponsor> Sponsorcollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
-            Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("Id", id));
-        }
+        //internal void DeleteSponsor(string id)
+        //{
+        //    modifiedDocumentManager.AddIDtoDeletionString(id);
+        //    IMongoCollection<Sponsor> Sponsorcollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
+        //    Sponsorcollection.DeleteOne(Builders<Sponsor>.Filter.Eq("Id", id));
+        //}
     }
 }

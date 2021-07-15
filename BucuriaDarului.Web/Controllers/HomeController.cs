@@ -45,9 +45,9 @@ namespace BucuriaDarului.Web.Controllers
             return View();
         }
 
-        public ActionResult ImportUpdate(string docsimported)
+        public ActionResult ImportUpdate(string docsImported)
         {
-            ViewBag.documentsimported = docsimported;
+            ViewBag.documentsimported = docsImported;
             return View();
         }
 

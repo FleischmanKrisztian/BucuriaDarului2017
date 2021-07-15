@@ -1,4 +1,4 @@
-﻿namespace BucuriaDarului.Web.Models
+﻿namespace BucuriaDarului.Core
 {
     public class DeletedIds
     {

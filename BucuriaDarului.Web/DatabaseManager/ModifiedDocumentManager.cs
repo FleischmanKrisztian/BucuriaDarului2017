@@ -23,16 +23,16 @@ namespace BucuriaDarului.Web.DatabaseManager
             modifiedIDS.InsertOne(modified);
         }
 
-        internal void AddIDtoDeletionString(string id)
-        {
-            IMongoCollection<DeletedIDS> deletedIDS = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
-            DeletedIDS deleted = new DeletedIDS
-            {
-                Id = Guid.NewGuid().ToString(),
-                DeletedId = id
-            };
-            deletedIDS.InsertOne(deleted);
-        }
+        //internal void AddIDtoDeletionString(string id)
+        //{
+        //    IMongoCollection<DeletedIDS> deletedIDS = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
+        //    DeletedIDS deleted = new DeletedIDS
+        //    {
+        //        Id = Guid.NewGuid().ToString(),
+        //        DeletedId = id
+        //    };
+        //    deletedIDS.InsertOne(deleted);
+        //}
 
         public List<ModifiedIDs> GetListOfModifications()
         {
@@ -41,12 +41,12 @@ namespace BucuriaDarului.Web.DatabaseManager
             return modifiedIDs;
         }
 
-        internal List<DeletedIDS> GetListOfDeletions()
-        {
-            IMongoCollection<DeletedIDS> deletedcollection = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
-            List<DeletedIDS> deletedIDs = deletedcollection.AsQueryable().ToList();
-            return deletedIDs;
-        }
+        //internal List<DeletedIDS> GetListOfDeletions()
+        //{
+        //    IMongoCollection<DeletedIDS> deletedcollection = dbContext.Database.GetCollection<DeletedIDS>("DeletedIDS");
+        //    List<DeletedIDS> deletedIDs = deletedcollection.AsQueryable().ToList();
+        //    return deletedIDs;
+        //}
 
         internal void DeleteAuxiliaryDatabases()
         {
