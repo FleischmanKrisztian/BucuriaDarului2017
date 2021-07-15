@@ -6,6 +6,10 @@ using Microsoft.Extensions.Localization;
 using System;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
+using System.Text;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -56,10 +60,27 @@ namespace BucuriaDarului.Web.Controllers
             var eventsExporterContext = new EventsExporterContext(_localizer);
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
             DictionaryHelper.d = eventsExportData.Dictionary;
-            if (eventsExportData.IsValid)
-                return Redirect("csvexporterapp:eventSession;eventHeader");
-            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+            if (eventsExportData.IsValid && eventsExportData.FileName != "")
+               return  DownloadCSV(eventsExportData.FileName, "eventSession","eventHeader");
+
+                //return Redirect("csvexporterapp:eventSession;eventHeader");
+           return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
+
+        public FileContentResult DownloadCSV(string fileName,string idsKey,string headerKey)
+        {
+            string ids = string.Empty;
+            string header = string.Empty;
+            DictionaryHelper.d.TryGetValue(idsKey, out ids);
+            DictionaryHelper.d.TryGetValue(headerKey, out header);
+
+            var context = new EventDownloadContext(new EventDownloadGateway());
+            var respons = context.Execute(ids, header);
+
+             return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
+            //return File(Encoding.ASCII.GetBytes(respons.ToString()), "text/csv", fileName);
+        }
+
 
         public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)
         {
