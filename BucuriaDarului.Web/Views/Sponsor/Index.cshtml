@@ -1,18 +1,9 @@
-﻿@model IEnumerable<BucuriaDarului.Web.Models.Sponsor>
+﻿@model BucuriaDarului.Contexts.SponsorContexts.SponsorsMainDisplayIndexResponse
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
-    ViewBag.Title = "Index";
-    int currentpage = ViewBag.Page;
-    string stringofids = ViewBag.stringofids;
-    string string1 = ViewBag.Filters1;
-    string string2 = ViewBag.Filters2;
-    string string3 = ViewBag.Filters3;
-    string string4 = ViewBag.Filters4;
-    string string5 = ViewBag.Filters5;
-    string string6 = ViewBag.Filters6;
-    string string7 = ViewBag.Filters7;
-    string string8 = ViewBag.Filters8;
+    ViewBag.Title = Localizer["Sponsors"];
+
 }
 <head>
     <style>
@@ -21,39 +12,40 @@
             display: inline-block;
             width: 800px;
         }
+
         .dropdown-menu {
             width: 500px !important;
         }
 
-            .pagination a {
-                color: black;
-                float: left;
-                padding: 8px 16px;
-                text-decoration: none;
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #ddd; /* Gray */
+            transition: background-color .3s;
+        }
+
+            .pagination a.active {
+                background-color: red;
+                color: red;
                 border-radius: 5px;
-                border: 1px solid #ddd; /* Gray */
-                transition: background-color .3s;
             }
 
-                .pagination a.active {
-                    background-color: red;
-                    color: red;
-                    border-radius: 5px;
-                }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
 
-                .pagination a:hover:not(.active) {
-                    background-color: #ddd;
-                }
+            .pagination a:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
 
-                .pagination a:first-child {
-                    border-top-left-radius: 5px;
-                    border-bottom-left-radius: 5px;
-                }
-
-                .pagination a:last-child {
-                    border-top-right-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                }
+            .pagination a:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
 
         .scrollable-menu {
             height: auto;
@@ -62,7 +54,7 @@
         }
     </style>
 </head>
-<h2>@Localizer["Sponsors"] <small> (@ViewBag.counter)</small></h2>
+<h2>@Localizer["Sponsors"] <small> (@Model.TotalSponsors)</small></h2>
 <hr />
 @if (ViewBag.wrongorder == true)
 {
@@ -79,55 +71,55 @@
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
             @{
-                int maxpage = (ViewBag.counter / ViewBag.nrofdocs) + 1;
-                if (ViewBag.counter % ViewBag.nrofdocs == 0 && ViewBag.counter != 0)
+                int maxpage = (Model.TotalSponsors / Model.PagingData.NrOfDocumentsPerPage) + 1;
+                if (Model.TotalSponsors % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalSponsors != 0)
                 {
                     maxpage--;
                 }
 
-                if(currentpage==1)
+                if(Model.PagingData.CurrentPage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching,  ContactInfo= ViewBag.Contact,  lowerdate= ViewBag.Lowerdate , upperdate= ViewBag.Upperdate, HasContract= ViewBag.HasContract ,   WhatGoods= ViewBag.WhatGoods,  GoodsAmount= ViewBag.GoodsAmount ,   MoneyAmount= ViewBag.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfSponsor,  ContactInfo= Model.FilterData.ContactInfo,  lowerdate= Model.FilterData.LowerDate , upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract ,   WhatGoods = Model.FilterData.WhatGoods,  GoodsAmount = Model.FilterData.GoodsAmount ,   MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract, WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                if(currentpage>=5)
+                if(Model.PagingData.CurrentPage >= 5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = currentpage-1, searching = ViewBag.searching, ContactInfo = ViewBag.Contact, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract , WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                if(currentpage>3)
+                if(Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink((currentpage-2).ToString(), "Index", new { page = currentpage-2, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract, WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                if(currentpage>2)
+                if(Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((currentpage-1).ToString(), "Index", new { page = currentpage-1, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract, WhatGoods = ViewBag.WhatGoods, GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                if(currentpage!=1 && currentpage!= maxpage)
+                if(Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink(currentpage.ToString(), "Index", new { page = currentpage, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract , WhatGoods = ViewBag.WhatGoods, GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                if(currentpage<maxpage-1)
+                if(Model.PagingData.CurrentPage < maxpage-1)
                 {
-                    @Html.ActionLink((currentpage+1).ToString(), "Index", new { page = currentpage+1, searching = ViewBag.searching, ContactInfo = ViewBag.Contact, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract, WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                if(currentpage<maxpage-2)
+                if(Model.PagingData.CurrentPage < maxpage-2)
                 {
-                    @Html.ActionLink((currentpage+2).ToString(), "Index", new { page = currentpage+2, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract , WhatGoods = ViewBag.WhatGoods, GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                if(currentpage<maxpage-3)
+                if(Model.PagingData.CurrentPage < maxpage-3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = currentpage+1, searching = ViewBag.searching, ContactInfo = ViewBag.Contact, lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract , WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
-                 if(maxpage!=1 && currentpage==maxpage)
+                if(maxpage!=1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract , WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = ViewBag.searching, ContactInfo = ViewBag.Contact , lowerdate = ViewBag.Lowerdate, upperdate = ViewBag.Upperdate, HasContract = ViewBag.HasContract, WhatGoods = ViewBag.WhatGoods , GoodsAmount = ViewBag.GoodsAmount, MoneyAmount = ViewBag.MoneyAmount })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
             }
             </pre>
@@ -137,48 +129,47 @@
 @using (Html.BeginForm("Index", "Sponsor", FormMethod.Get))
 {<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all sponsors"]</a>
 <br />
-@if (string1 != null)
+@if (Model.FilterData.NameOfSponsor != null)
 {
     <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["NameOfSponsor"]:@string1
+        @Localizer["NameOfSponsor"]:@Model.FilterData.NameOfSponsor
     </div>
 }
-@if (string2 != null)
+@if (Model.FilterData.ContactInfo != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["ContactInfo"]:@string2
-        :@string2
-    </div>
+    @Localizer["ContactInfo"]:@Model.FilterData.ContactInfo
+</div>
 }
-@if (string3 != null)
+@if (Model.FilterData.HasContract != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["HasContract"]
-    </div>
+    @Localizer["HasContract"]:@Model.FilterData.HasContract
+</div>
 }
-@if (string4 != null)
+@if (Model.FilterData.WhatGoods != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Whatgoods"]:@string4
-    </div>
+    @Localizer["Whatgoods"]:@Model.FilterData.WhatGoods
+</div>
 }
-@if (string5 != null)
+@if (Model.FilterData.MoneyAmount != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Moneyamount"]:@string5
-    </div>
+    @Localizer["Moneyamount"]:@Model.FilterData.MoneyAmount
+</div>
 }
-@if (string6 != null)
+@if (Model.FilterData.GoodsAmount != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Goodsamount"]:@string6
-    </div>
+    @Localizer["Goodsamount"]:@Model.FilterData.GoodsAmount
+</div>
 }
-@if (string7 != null)
+@if (Model.FilterData.LowerDate != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Inntinf"]:@string7
-    </div>
+    @Localizer["Inntinf"]:@Model.FilterData.LowerDate
+</div>
 }
 
-@if (string8 != null)
+@if (Model.FilterData.UpperDate != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["intsuo"]:@string8
-    </div>
+    @Localizer["intsuo"]:@Model.FilterData.UpperDate
+</div>
 }
 <table class="table" style="text-align:top">
     <tr>
@@ -236,7 +227,7 @@
         <th></th>
     </tr>
 
-    @if (Model.Count() == 0)
+    @if (Model.TotalSponsors == 0)
     {
         <tr>
             <td colspan="3 " style="color:red">
@@ -246,7 +237,7 @@
     }
     else
     {
-        @foreach (var item in Model)
+        @foreach (var item in Model.Sponsors)
         {
             <tr>
                 <td>
