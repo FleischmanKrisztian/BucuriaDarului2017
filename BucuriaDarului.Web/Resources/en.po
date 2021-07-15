@@ -633,3 +633,12 @@ msgstr "Open database manager application"
 
 msgid "MakeBeneficiaryInactive"
 msgstr "Make this beneficiary inactive"
+
+msgid "Download"
+msgstr "Descarcă"
+
+msgid "FileName"
+msgstr "File name"
+
+msgid "Please insert a file name"
+msgstr "Please insert a file name"

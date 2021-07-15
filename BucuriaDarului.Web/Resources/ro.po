@@ -634,3 +634,12 @@ msgstr "Deschide aplicație de gestionare bază de date"
 
 msgid "MakeBeneficiaryInactive"
 msgstr "Marchează ca inactiv"
+
+msgid "Download"
+msgstr "Descarcă"
+
+msgid "FileName"
+msgstr "Numele fișierului"
+
+msgid "Please insert a file name"
+msgstr "Introduceți un nume pentru fișier"
