@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,16 @@ namespace BucuriaDarului.Contexts.EventContexts
             var header = GetHeaderForExcelPrinterEvent();
             var response = new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
+            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            {
+                if (request.ExportParameters.FileName.Contains(".csv"))
+                    response.FileName = request.ExportParameters.FileName;
+                else
+                    response.FileName = request.ExportParameters.FileName + ".csv";
+            }
+            else
+                response.FileName = "EventReport" + DateTime.Now.ToString() + ".csv";
+
             return response;
         }
 
@@ -57,15 +68,16 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private string GetHeaderForExcelPrinterEvent()
         {
-            string[] header = new string[8];
-            header[0] = localizer["NameOfEvent"];
-            header[1] = localizer["PlaceOfEvent"];
-            header[2] = localizer["DateOfEvent"];
-            header[3] = localizer["TypeOfActivities"];
-            header[4] = localizer["TypeOfEvent"];
-            header[5] = localizer["Duration"];
-            header[6] = localizer["AllocatedVolunteers"];
-            header[7] = localizer["AllocatedSponsors"];
+            string[] header = new string[9];
+            header[0]= localizer["Id"];
+            header[1] = localizer["NameOfEvent"];
+            header[2] = localizer["PlaceOfEvent"];
+            header[3] = localizer["DateOfEvent"];
+            header[4] = localizer["TypeOfActivities"];
+            header[5] = localizer["TypeOfEvent"];
+            header[6] = localizer["Duration"];
+            header[7] = localizer["AllocatedVolunteers"];
+            header[8] = localizer["AllocatedSponsors"];
             string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)
             {
@@ -94,6 +106,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public Dictionary<string, string> Dictionary { get; set; }
 
         public bool IsValid { get; set; }
+        public string FileName { get; set; }
 
         public EventsExporterResponse(Dictionary<string, string> dictionary)
         {
@@ -124,5 +137,6 @@ namespace BucuriaDarului.Contexts.EventContexts
         public bool PlaceOfEvent { get; set; }
         public bool DateOfEvent { get; set; }
         public bool TypeOfActivities { get; set; }
+        public string FileName { get; set; }
     }
 }
