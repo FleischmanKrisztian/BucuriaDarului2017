@@ -406,7 +406,7 @@ namespace BucuriaDarului.Contexts.ExcelPrinterControllerContext
                         {
                             jsonString = jsonString + ",";
                         }
-                        jsonString = jsonString + "\"" + finalHeader[22] + "\":" + "\"" + beneficiary.PersonalInfo.Disability + "\"";
+                        jsonString = jsonString + "\"" + finalHeader[22] + "\":" + "\"" + beneficiary.PersonalInfo.HealthState + "\"";
                         first = false;
                     }
                     if (properties.Contains("N"))

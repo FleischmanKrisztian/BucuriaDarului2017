@@ -59,6 +59,24 @@
             </h3>
         </div>
         <h3>
+            @Localizer["Please insert a file name"]:
+        </h3>
+        <br />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["FileName"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.FileName)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>
             @Localizer["Please choose what you want the Excel to contain"]:
         </h3>
         <br />
@@ -462,33 +480,33 @@
                     </div>
                 </div>
             </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-4">
-                    <label> @Localizer["Gender"]:</label>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["Gender"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Gender)
+                        <hr />
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Gender)
-                    <hr />
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-4">
+                        <label> @Localizer["WeeklyPackage"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.WeeklyPackage)
+                        <hr />
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-4">
-                    <label> @Localizer["WeeklyPackage"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.WeeklyPackage)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        </div>
-        <div class="col-md-3">
-            <input type="submit" value=@Localizer["Create"] class="btn btn-primary" /> |
+            <input type="submit" value=@Localizer["Download"] class="btn btn-primary" /> |
             <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     </div>

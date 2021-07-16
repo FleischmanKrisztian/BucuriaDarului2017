@@ -62,9 +62,23 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryExporterContext = new BeneficiaryExporterContext(_localizer);
             var beneficiaryExportData = beneficiaryExporterContext.Execute(new BeneficiaryExporterRequest(csvExportProperties));
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
-            if (beneficiaryExportData.IsValid)
-                return Redirect("csvexporterapp:beneficiarySession;beneficiaryHeader");
+            if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
+                return DownloadCSV(beneficiaryExportData.FileName, "beneficiarySession", "beneficiaryHeader");
+                //return Redirect("csvexporterapp:beneficiarySession;beneficiaryHeader");
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+        }
+
+        public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
+        {
+            string ids = string.Empty;
+            string header = string.Empty;
+            DictionaryHelper.d.TryGetValue(idsKey, out ids);
+            DictionaryHelper.d.TryGetValue(headerKey, out header);
+
+            var context = new BeneficiaryDownloadContext(new BeneficiaryDownloadGateway());
+            var respons = context.Execute(ids, header);
+
+            return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
         }
 
         public ActionResult Details(string id)
