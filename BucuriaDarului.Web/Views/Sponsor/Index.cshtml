@@ -57,7 +57,7 @@
 <hr />
 @if (ViewBag.wrongorder == true)
 {
-    <h3 style="color:red">@Localizer["The date of active till cant be smaller that that of activesince!"]</h3>
+    <h3 style="color:red">@Localizer["The date of active till cant be smaller that that of active since!"]</h3>
 }
 @using (Html.BeginForm("Index", "Sponsor", FormMethod.Get))
 {
@@ -128,49 +128,49 @@
 @using (Html.BeginForm("Index", "Sponsor", FormMethod.Get))
 {<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all sponsors"]</a>
 <br />
-@if (Model.FilterData.NameOfSponsor != null)
+@if (Model.FilterData.NameOfSponsor != "")
 {
     <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
         @Localizer["NameOfSponsor"]:@Model.FilterData.NameOfSponsor
     </div>
 }
-@if (Model.FilterData.ContactInfo != null)
+@if (Model.FilterData.ContactInfo != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["ContactInfo"]:@Model.FilterData.ContactInfo
-</div>
+        @Localizer["ContactInfo"]:@Model.FilterData.ContactInfo
+    </div>
 }
-@if (Model.FilterData.HasContract != null)
+@if (Model.FilterData.HasContract != false)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["HasContract"]:@Model.FilterData.HasContract
-</div>
+        @Localizer["HasContract"]:@Model.FilterData.HasContract
+    </div>
 }
-@if (Model.FilterData.WhatGoods != null)
+@if (Model.FilterData.WhatGoods != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["WhatGoods"]:@Model.FilterData.WhatGoods
-</div>
+        @Localizer["WhatGoods"]:@Model.FilterData.WhatGoods
+    </div>
 }
-@if (Model.FilterData.MoneyAmount != null)
+@if (Model.FilterData.MoneyAmount != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["MoneyAmount"]:@Model.FilterData.MoneyAmount
-</div>
+        @Localizer["MoneyAmount"]:@Model.FilterData.MoneyAmount
+    </div>
 }
-@if (Model.FilterData.GoodsAmount != null)
+@if (Model.FilterData.GoodsAmount != "")
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["GoodsAmount"]:@Model.FilterData.GoodsAmount
-</div>
+        @Localizer["GoodsAmount"]:@Model.FilterData.GoodsAmount
+    </div>
 }
-@if (Model.FilterData.LowerDate != null)
+@if (Model.FilterData.LowerDate > DateTime.MinValue.AddYears(3))
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["LowerDate"]:@Model.FilterData.LowerDate
-</div>
+        @Localizer["LowerDate"]:@Model.FilterData.LowerDate
+    </div>
 }
 
-@if (Model.FilterData.UpperDate != null)
+@if (Model.FilterData.UpperDate > DateTime.MinValue.AddYears(3))
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["UpperDate"]:@Model.FilterData.UpperDate
-</div>
+        @Localizer["UpperDate"]:@Model.FilterData.UpperDate
+    </div>
 }
-<table class="table" style="text-align:top">
+<table class="table">
     <tr>
         <th>
             @Localizer["NameOfSponsor"]
@@ -208,7 +208,7 @@
                     <dd class="col-sm-2">
                         @Html.TextBox("WhatGoods")
                     </dd>
-                    <dt class="col-sm-7">@Localizer["GoodsAmount"]: </dt>
+                    <dt class="col-sm-6">@Localizer["GoodsAmount"]: </dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("GoodsAmounts")
                     </dd>
