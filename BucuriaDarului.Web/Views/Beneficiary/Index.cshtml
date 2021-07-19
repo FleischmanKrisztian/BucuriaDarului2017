@@ -169,7 +169,7 @@
 
     @if (Model.FilterData.HomeDelivery != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Homedelivery"]
+            @Localizer["HomeDelivery"]
         </div>
     }
 
@@ -214,7 +214,7 @@
 
     @if (Model.FilterData.SearchingPO != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Profesion&Occupation"]:@Model.FilterData.SearchingPO
+    @Localizer["Profession&Occupation"]:@Model.FilterData.SearchingPO
 </div>
     }
     @if (Model.FilterData.SearchingSeniority != null)
@@ -226,7 +226,7 @@
 
     @if (Model.FilterData.SearchingHealthState != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["HealthState&Disalility&ChronicCondition"]:@Model.FilterData.SearchingHealthState
+    @Localizer["HealthState&Disability&ChronicCondition"]:@Model.FilterData.SearchingHealthState
 </div>
     }
     @if (Model.FilterData.SearchingAddictions != null)
@@ -283,12 +283,12 @@
         </div>
     }@if (Model.FilterData.ActiveSince != null && Model.FilterData.ActiveSince.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-            @Localizer["Inntinf"]:@Model.FilterData.ActiveSince
+            @Localizer["LowerDate"]:@Model.FilterData.ActiveSince
         </div>
     }
     @if (Model.FilterData.ActiveTill != null&& Model.FilterData.ActiveTill.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["intsuo"]:@Model.FilterData.ActiveTill
+    @Localizer["UpperDate"]:@Model.FilterData.ActiveTill
 </div>
     }
     <table class="table">
@@ -381,11 +381,11 @@
                         <dd class="col-sm-2">
                             @Html.TextBox("searchingComments")
                         </dd>
-                        <dt class="col-sm-8">@Localizer["Inntinf"]: </dt>
+                        <dt class="col-sm-8">@Localizer["LowerDate"]: </dt>
                         <dd class="col-sm-2">
                             <input type="date" name="activesince">
                         </dd>
-                        <dt class="col-sm-8">@Localizer["intsuo"]: </dt>
+                        <dt class="col-sm-8">@Localizer["UpperDate"]: </dt>
                         <dd class="col-sm-2">
                             <input type="date" name="activetill">
                         </dd>

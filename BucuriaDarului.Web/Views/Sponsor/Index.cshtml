@@ -3,7 +3,6 @@
 @inject IViewLocalizer Localizer
 @{
     ViewBag.Title = Localizer["Sponsors"];
-
 }
 <head>
     <style>
@@ -64,7 +63,7 @@
 {
 
     <a href=@Url.Action( "Create")><img src="~/Resources/new_sponsor.png" width="40" height="40" title=@Localizer["CreateNew"]></a>
-    <a href=@Url.Action("CSVExporter")><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
+    <a href=@Url.Action("CSVExporter", new { stringOfIDs = Model.StringOfIDs })><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
     <a href=@Url.Action( "Import")><img src="~/Resources/import-csv.png" width="40" height="40" title=@Localizer["UploadFromCsv"]></a>
 
     <p>
@@ -79,47 +78,47 @@
 
                 if(Model.PagingData.CurrentPage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfSponsor,  ContactInfo= Model.FilterData.ContactInfo,  lowerdate= Model.FilterData.LowerDate , upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract ,   WhatGoods = Model.FilterData.WhatGoods,  GoodsAmount = Model.FilterData.GoodsAmount ,   MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, sponsorName = Model.FilterData.NameOfSponsor,  ContactInfo= Model.FilterData.ContactInfo,  lowerdate= Model.FilterData.LowerDate , upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract ,   WhatGoods = Model.FilterData.WhatGoods,  GoodsAmount = Model.FilterData.GoodsAmount ,   MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink("1", "Index", new { page = 1, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(Model.PagingData.CurrentPage >= 5)
                 {
-                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if(Model.PagingData.CurrentPage < maxpage-1)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(Model.PagingData.CurrentPage < maxpage-2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods, GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(Model.PagingData.CurrentPage < maxpage-3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
                 if(maxpage!=1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract , WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, sponsorName = Model.FilterData.NameOfSponsor, ContactInfo = Model.FilterData.ContactInfo , lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate, HasContract = Model.FilterData.HasContract, WhatGoods = Model.FilterData.WhatGoods , GoodsAmount = Model.FilterData.GoodsAmount, MoneyAmount = Model.FilterData.MoneyAmount })
                 }
             }
             </pre>
@@ -147,41 +146,41 @@
 }
 @if (Model.FilterData.WhatGoods != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Whatgoods"]:@Model.FilterData.WhatGoods
+    @Localizer["WhatGoods"]:@Model.FilterData.WhatGoods
 </div>
 }
 @if (Model.FilterData.MoneyAmount != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Moneyamount"]:@Model.FilterData.MoneyAmount
+    @Localizer["MoneyAmount"]:@Model.FilterData.MoneyAmount
 </div>
 }
 @if (Model.FilterData.GoodsAmount != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Goodsamount"]:@Model.FilterData.GoodsAmount
+    @Localizer["GoodsAmount"]:@Model.FilterData.GoodsAmount
 </div>
 }
 @if (Model.FilterData.LowerDate != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Inntinf"]:@Model.FilterData.LowerDate
+    @Localizer["LowerDate"]:@Model.FilterData.LowerDate
 </div>
 }
 
 @if (Model.FilterData.UpperDate != null)
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["intsuo"]:@Model.FilterData.UpperDate
+    @Localizer["UpperDate"]:@Model.FilterData.UpperDate
 </div>
 }
 <table class="table" style="text-align:top">
     <tr>
         <th>
             @Localizer["NameOfSponsor"]
-            @Html.TextBox("searching")
+            @Html.TextBox("sponsorName")
         </th>
         <th>
             @Localizer["PhoneNumber"]
         </th>
         <th>
-            @Localizer["Emailaddrss"]
+            @Localizer["EmailAddress"]
         </th>
         <th>
             <div class="dropdown">
@@ -193,11 +192,11 @@
                     <dd class="col-sm-2">
                         @Html.TextBox("ContactInfo")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Inntinf"]: </dt>
+                    <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
                     <dd class="col-sm-2">
                         <input type="date" name="lowerdate">
                     </dd>
-                    <dt class="col-sm-6">@Localizer["intsuo"]: </dt>
+                    <dt class="col-sm-6">@Localizer["UpperDate"]: </dt>
                     <dd class="col-sm-2">
                         <input type="date" name="upperdate">
                     </dd>
@@ -205,15 +204,15 @@
                     <dd class="col-sm-2">
                         @Html.CheckBox("HasContract")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Whatgoods"]:</dt>
+                    <dt class="col-sm-6">@Localizer["WhatGoods"]:</dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("WhatGoods")
                     </dd>
-                    <dt class="col-sm-7">@Localizer["Goodsamount"]: </dt>
+                    <dt class="col-sm-7">@Localizer["GoodsAmount"]: </dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("GoodsAmounts")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Moneyamount"]: </dt>
+                    <dt class="col-sm-6">@Localizer["MoneyAmount"]: </dt>
                     <dd class="col-sm-2">
                         @Html.TextBox("MoneyAmount")
                     </dd>

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Linq;
-using BucuriaDarului.Contexts.ExcelPrinterControllerContext;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Contexts.ExcelPrinterControllerContext;
 using BucuriaDarului.Gateway.ExcelPrinterGateways;
 using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.DatabaseManager;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -30,7 +25,6 @@ namespace BucuriaDarului.Web.Controllers
 
             DictionaryHelper.d.TryGetValue(key1, out ids_);
             DictionaryHelper.d.TryGetValue(key2, out header);
-
 
             var context = new ExcelPrinterContext(new ExcelPrinterGateway());
             var jsonstring = context.Execute(ids_, header);

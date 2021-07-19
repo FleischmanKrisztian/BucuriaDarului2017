@@ -1,34 +1,18 @@
-﻿using BucuriaDarului.Gateway.SponsorGateways;
-using BucuriaDarului.Contexts.SponsorContexts;
-// using BucuriaDarului.Core;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using BucuriaDarului.Contexts.SponsorContexts;
+using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.ControllerHelpers.SponsorHelpers;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
-using BucuriaDarului.Web.DatabaseManager;
-using BucuriaDarului.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
+
+using System;
 
 namespace BucuriaDarului.Web.Controllers
 {
     public class SponsorController : Controller
     {
-        private static string SERVER_NAME_LOCAL = Environment.GetEnvironmentVariable(Constants.SERVER_NAME_LOCAL);
-        private static int SERVER_PORT_LOCAL = int.Parse(Environment.GetEnvironmentVariable(Constants.SERVER_PORT_LOCAL));
-        private static string DATABASE_NAME_LOCAL = Environment.GetEnvironmentVariable(Constants.DATABASE_NAME_LOCAL);
-
         private readonly IStringLocalizer<SponsorController> _localizer;
-
-        private EventManager eventManager = new EventManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private ModifiedDocumentManager modifiedDocumentManager = new ModifiedDocumentManager();
-        private AuxiliaryDBManager auxiliaryDBManager = new AuxiliaryDBManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
-        private SponsorManager sponsorManager = new SponsorManager(SERVER_NAME_LOCAL, SERVER_PORT_LOCAL, DATABASE_NAME_LOCAL);
 
         public SponsorController(Microsoft.AspNetCore.Hosting.IWebHostEnvironment env, IStringLocalizer<SponsorController> localizer)
         {
@@ -42,7 +26,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile Files, string message)
+        public ActionResult Import(IFormFile Files)
         {
             var sponsorsImportContext = new SponsorsImportContext(new SponsorsImportDataGateway());
             var response = sponsorsImportContext.Execute(Files.OpenReadStream());
@@ -70,14 +54,11 @@ namespace BucuriaDarului.Web.Controllers
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 
-        // TODO: what is the difference between searching(name) & ContactInfo? in the Sponsor class ContactInformation is a class with 2 strings as fields
-        // TODO: ContactInfo is the phone or email????
-        public IActionResult Index(string searching, int page, string ContactInfo, DateTime lowerdate, DateTime upperdate, bool HasContract, string WhatGoods, string MoneyAmount, string GoodsAmounts)
-
+        public IActionResult Index(string sponsorName, int page, string contactInfo, DateTime lowerDate, DateTime upperDate, bool hasContract, string whatGoods, string moneyAmount, string goodsAmounts)
         {
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var sponsorsMainDisplayIndexContext = new SponsorsMainDisplayIndexContext(new SponsorMainDisplayIndexGateway());
-            var model = sponsorsMainDisplayIndexContext.Execute(new SponsorsMainDisplayIndexRequest(searching, page, nrOfDocs, ContactInfo, lowerdate, upperdate, HasContract, WhatGoods, MoneyAmount, GoodsAmounts));
+            var model = sponsorsMainDisplayIndexContext.Execute(new SponsorsMainDisplayIndexRequest(sponsorName, page, nrOfDocs, contactInfo, lowerDate, upperDate, hasContract, whatGoods, moneyAmount, goodsAmounts));
             return View(model);
         }
 
@@ -131,7 +112,7 @@ namespace BucuriaDarului.Web.Controllers
             ModelState.Remove("Contract.RegistrationDate");
             ModelState.Remove("Contract.ExpirationDate");
             ModelState.Remove("Sponsorship.Date");
-                
+
             if (!sponsorEditResponse.IsValid)
             {
                 return RedirectToAction("Edit", new { id = request.Id, message = sponsorEditResponse.Message });

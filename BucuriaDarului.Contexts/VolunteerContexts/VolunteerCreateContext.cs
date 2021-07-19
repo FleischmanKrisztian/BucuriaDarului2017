@@ -99,6 +99,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     }
                 }
             }
+
             foreach (var property in request.ContactInformation.GetType().GetProperties())
             {
                 var propertyType = property.PropertyType;

@@ -72,6 +72,43 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                     property.SetValue(request, string.Empty);
                 }
             }
+
+            foreach (var property in request.ContactInformation.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+                if (propertyType != typeof(DateTime))
+                {
+                    var value = property.GetValue(request.ContactInformation, null);
+                    if (propertyType == typeof(string) && value == null)
+                    {
+                        property.SetValue(request.ContactInformation, string.Empty);
+                    }
+                }
+            }
+            foreach (var property in request.Contract.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+                if (propertyType != typeof(DateTime))
+                {
+                    var value = property.GetValue(request.Contract, null);
+                    if (propertyType == typeof(string) && value == null)
+                    {
+                        property.SetValue(request.Contract, string.Empty);
+                    }
+                }
+            }
+            foreach (var property in request.Sponsorship.GetType().GetProperties())
+            {
+                var propertyType = property.PropertyType;
+                if (propertyType != typeof(DateTime))
+                {
+                    var value = property.GetValue(request.Sponsorship, null);
+                    if (propertyType == typeof(string) && value == null)
+                    {
+                        property.SetValue(request.Sponsorship, string.Empty);
+                    }
+                }
+            }
             return request;
         }
     }

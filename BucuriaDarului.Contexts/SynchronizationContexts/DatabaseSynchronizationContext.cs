@@ -27,6 +27,9 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
             SynchronizeVolunteerContracts(databaseLists.LocalVolunteerContracts, serializedStrings.VolunteerContractString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
             SynchronizeBeneficiaryContracts(databaseLists.LocalBeneficiaryContracts, serializedStrings.BeneficiaryContractString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
 
+            response.NumberOfDeletions = dataGateway.GetListOfDeletions().Count;
+            response.NumberOfModifications = dataGateway.GetListOfModifications().Count;
+
             dataGateway.DeleteAuxiliaryDatabases();
 
             SynchronizeLocalVolunteers(databaseLists.CommonVolunteers, databaseLists.LocalVolunteers, serializedStrings.VolunteerString, serializedStrings.LocalVolunteerString ,serializedStrings.ModifiedIdString);

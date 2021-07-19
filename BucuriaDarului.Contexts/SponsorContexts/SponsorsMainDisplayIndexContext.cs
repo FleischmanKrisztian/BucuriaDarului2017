@@ -19,9 +19,13 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public SponsorsMainDisplayIndexResponse Execute(SponsorsMainDisplayIndexRequest request)
         {
             var sponsors = dataGateway.GetListOfSponsors();
+
             sponsors = GetSponsorsAfterFilters(sponsors, request.FilterData);
+
             var sponsorsAfterFiltering = sponsors.Count();
+
             var stringOfIDs = GetStringOfIds(sponsors);
+
             sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData);
 
             return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, sponsorsAfterFiltering, stringOfIDs);
@@ -39,71 +43,22 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         private List<Sponsor> GetSponsorsAfterFilters(List<Sponsor> sponsors, FilterData filterData)
         {
-            if (filterData.NameOfSponsor != null)
-            {
-                sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(filterData.NameOfSponsor, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-            if (filterData.ContactInfo != null)
-            {
-                List<Sponsor> sp = sponsors;
-                foreach (var s in sp)
-                {
-                    if (s.ContactInformation.PhoneNumber == null || s.ContactInformation.PhoneNumber == "")
-                        s.ContactInformation.PhoneNumber = "-";
-                    if (s.ContactInformation.MailAddress == null || s.ContactInformation.MailAddress == "")
-                        s.ContactInformation.MailAddress = "-";
-                }
-
-                sponsors = sp.Where(x => x.ContactInformation.PhoneNumber.Contains(filterData.ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAddress.Contains(filterData.ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-
-            if (filterData.WhatGoods != null)
-            {
-                List<Sponsor> sp = sponsors;
-                foreach (var s in sp)
-                {
-                    if (s.Sponsorship.WhatGoods == null || s.Sponsorship.WhatGoods == "")
-                        s.Sponsorship.WhatGoods = "-";
-                }
-
-                sponsors = sp.Where(x => x.Sponsorship.WhatGoods.Contains(filterData.WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-            if (filterData.GoodsAmount != null)
-            {
-                List<Sponsor> sp = sponsors;
-                foreach (var s in sp)
-                {
-                    if (s.Sponsorship.GoodsAmount == null || s.Sponsorship.GoodsAmount == "")
-                        s.Sponsorship.GoodsAmount = "-";
-                }
-
-                sponsors = sp.Where(x => x.Sponsorship.GoodsAmount.Contains(filterData.GoodsAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
-            if (filterData.MoneyAmount != null)
-            {
-                List<Sponsor> sp = sponsors;
-                foreach (var s in sp)
-                {
-                    if (s.Sponsorship.MoneyAmount == null || s.Sponsorship.MoneyAmount == "")
-                        s.Sponsorship.MoneyAmount = "-";
-                }
-
-                sponsors = sp.Where(x => x.Sponsorship.MoneyAmount.Contains(filterData.MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
+            sponsors = sponsors.Where(x => x.NameOfSponsor.Contains(filterData.NameOfSponsor, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            sponsors = sponsors.Where(x => x.ContactInformation.PhoneNumber.Contains(filterData.ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.HasContract == true)
-            {
                 sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
-            }
+            sponsors = sponsors.Where(x => x.Sponsorship.WhatGoods.Contains(filterData.WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            sponsors = sponsors.Where(x => x.Sponsorship.MoneyAmount.Contains(filterData.MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            sponsors = sponsors.Where(x => x.Sponsorship.GoodsAmount.Contains(filterData.GoodsAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
             if (DateInputReceived(filterData.LowerDate))
             {
-                sponsors = sponsors.Where(x => x.Sponsorship.Date > filterData.LowerDate).ToList();
+                sponsors = sponsors.Where(x => x.Contract.RegistrationDate > filterData.LowerDate).ToList();
             }
             if (DateInputReceived(filterData.UpperDate))
             {
-                sponsors = sponsors.Where(x => x.Sponsorship.Date <= filterData.UpperDate).ToList();
+                sponsors = sponsors.Where(x => x.Contract.RegistrationDate <= filterData.UpperDate).ToList();
             }
-
             return sponsors;
         }
 
@@ -124,23 +79,22 @@ namespace BucuriaDarului.Contexts.SponsorContexts
     public class SponsorsMainDisplayIndexRequest
     {
         public FilterData FilterData { get; set; }
-        public Sort SortOrder { get; set; }
+
         public PagingData PagingData { get; set; }
 
-        public SponsorsMainDisplayIndexRequest(string searching, int page, int nrOfDocs, string ContactInfo, DateTime lowerDate, DateTime upperDate, bool hasContract, string WhatGoods, string MoneyAmount, string GoodsAmount)
+        public SponsorsMainDisplayIndexRequest(string sponsorName, int page, int nrOfDocs, string contactInfo, DateTime lowerDate, DateTime upperDate, bool hasContract, string whatGoods, string moneyAmount, string goodsAmount)
         {
             var filterData = new FilterData();
             var pagingData = new PagingData();
-            // TODO: still don't know wht this searching means
-            // filterData.ContactInfo = searching ?? null;
+
+            filterData.NameOfSponsor = sponsorName ?? "";
+            filterData.ContactInfo = contactInfo ?? "";
             filterData.LowerDate = lowerDate;
             filterData.UpperDate = upperDate;
             filterData.HasContract = hasContract;
-            filterData.WhatGoods = WhatGoods ?? null;
-            filterData.MoneyAmount = MoneyAmount ?? null;
-            filterData.GoodsAmount = GoodsAmount ?? null;
-            // TODO: do I also need sorting??
-            // filterData.SortOrder = new Sort(sortOrder);
+            filterData.WhatGoods = whatGoods ?? "";
+            filterData.MoneyAmount = moneyAmount ?? "";
+            filterData.GoodsAmount = goodsAmount ?? "";
 
             pagingData.CurrentPage = GetCurrentPage(page);
             pagingData.NrOfDocumentsPerPage = nrOfDocs;
@@ -161,6 +115,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         }
     }
 
+
     public class SponsorsMainDisplayIndexResponse
     {
         public List<Sponsor> Sponsors { get; set; }
@@ -178,7 +133,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             Sponsors = sponsors;
             FilterData = filterData;
             PagingData = pagingData;
-
             TotalSponsors = sponsorsAfterFiltering;
             StringOfIDs = stringOfIDs;
         }
@@ -203,17 +157,17 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public DateTime UpperDate { get; set; }
     }
 
-    public class Sort
-    {
-        public string SortOrder { get; set; }
-        public string NameSortParm { get; set; }
-        public string DateSortParm { get; set; }
+    //public class Sort
+    //{
+    //    public string SortOrder { get; set; }
+    //    public string NameSortParm { get; set; }
+    //    public string DateSortParm { get; set; }
 
-        public Sort(string sortOrder)
-        {
-            SortOrder = sortOrder;
-            NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-        }
-    }
+    //    public Sort(string sortOrder)
+    //    {
+    //        SortOrder = sortOrder;
+    //        NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+    //        DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+    //    }
+    //}
 }

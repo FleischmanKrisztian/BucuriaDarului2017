@@ -168,13 +168,13 @@
 }
 @if (Model.FilterData.LowerDate > DateTime.MinValue.AddYears(3))
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["Inntinf"]:@Model.FilterData.LowerDate
+        @Localizer["LowerDate"]:@Model.FilterData.LowerDate
     </div>
 }
 
 @if (Model.FilterData.UpperDate > DateTime.MinValue.AddYears(3))
 {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["intsuo"]:@Model.FilterData.UpperDate
+        @Localizer["UpperDate"]:@Model.FilterData.UpperDate
     </div>
 }
 <table class="table">
@@ -223,11 +223,11 @@
                     <dd class="col-sm-2">
                         @Html.TextBox("searchingSponsor")
                     </dd>
-                    <dt class="col-sm-6">@Localizer["Inntinf"]: </dt>
+                    <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
                     <dd class="col-sm-2">
                         <input type="date" name="lowerdate">
                     </dd>
-                    <dt class="col-sm-6">@Localizer["intsuo"]: </dt>
+                    <dt class="col-sm-6">@Localizer["UpperDate"]: </dt>
                     <dd class="col-sm-2">
                         <input type="date" name="upperdate">
                     </dd>

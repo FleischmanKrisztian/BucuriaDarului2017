@@ -1,15 +1,12 @@
 ﻿using BucuriaDarului.Contexts.HomeControllerContexts;
 using BucuriaDarului.Gateway.HomeController;
 using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.DatabaseManager;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace BucuriaDarului.Web.Controllers
 {
     public class HomeController : Controller
     {
-        
         public IActionResult Index()
         {
             var context = new HomeControllerIndexDisplayContext(new HomeControllerIndexDisplayGateway());

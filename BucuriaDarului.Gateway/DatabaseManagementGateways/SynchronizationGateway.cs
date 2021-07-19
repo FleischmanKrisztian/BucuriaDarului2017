@@ -37,7 +37,8 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
             if (localConnection)
                 dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             else
-                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON); var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var volunteers = volunteerCollection.AsQueryable().ToList();
             return volunteers;
         }
@@ -47,7 +48,8 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
             if (localConnection)
                 dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             else
-                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON); var beneficiaryCollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            var beneficiaryCollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var beneficiaries = beneficiaryCollection.AsQueryable().ToList();
             return beneficiaries;
         }
@@ -57,7 +59,8 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
             if (localConnection)
                 dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             else
-                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON); var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
             var contracts = beneficiaryContractCollection.AsQueryable().ToList();
             return contracts;
         }
@@ -67,7 +70,8 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
             if (localConnection)
                 dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             else
-                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON); var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
             var contracts = volunteerContractCollection.AsQueryable().ToList();
             return contracts;
         }
@@ -109,7 +113,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void DeleteAVolunteer(string id, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("Id", id);
             volunteerCollection.DeleteOne(filter);
@@ -117,14 +124,20 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void InsertVolunteer(Volunteer volunteer, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             volunteerCollection.InsertOne(volunteer);
         }
 
         public void UpdateVolunteer(Volunteer volunteer, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("Id", volunteer.Id);
             volunteerCollection.FindOneAndReplace(filter, volunteer);
@@ -140,7 +153,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void InsertEvent(Event @event, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var eventCollection = dbContext.Database.GetCollection<Event>("Events");
             eventCollection.InsertOne(@event);
         }
@@ -155,7 +171,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void UpdateEvent(Event @event, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var eventCollection = dbContext.Database.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("Id", @event.Id);
             eventCollection.FindOneAndReplace(filter, @event);
@@ -163,7 +182,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void DeleteAnEvent(string id, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var eventCollection = dbContext.Database.GetCollection<Event>("Events");
             var filter = Builders<Event>.Filter.Eq("Id", id);
             eventCollection.DeleteOne(filter);
@@ -171,7 +193,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void InsertBeneficiary(Beneficiary beneficiary, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var beneficiaryCollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             beneficiaryCollection.InsertOne(beneficiary);
         }
@@ -186,7 +211,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void UpdateBeneficiary(Beneficiary beneficiary, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var beneficiaryCollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("Id", beneficiary.Id);
             beneficiaryCollection.FindOneAndReplace(filter, beneficiary);
@@ -194,7 +222,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void DeleteABeneficiary(string id, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var beneficiaryCollection = dbContext.Database.GetCollection<Beneficiary>("Beneficiaries");
             var filter = Builders<Beneficiary>.Filter.Eq("Id", id);
             beneficiaryCollection.DeleteOne(filter);
@@ -202,7 +233,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void InsertSponsor(Sponsor sponsor, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
             sponsorCollection.InsertOne(sponsor);
         }
@@ -217,7 +251,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void UpdateSponsor(Sponsor sponsor, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("Id", sponsor.Id);
             sponsorCollection.FindOneAndReplace(filter, sponsor);
@@ -225,7 +262,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void DeleteASponsor(string id, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("Id", id);
             sponsorCollection.DeleteOne(filter);
@@ -233,7 +273,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void InsertBeneficiaryContract(BeneficiaryContract beneficiaryContract, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
             beneficiaryContractCollection.InsertOne(beneficiaryContract);
         }
@@ -248,7 +291,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void UpdateBeneficiaryContract(BeneficiaryContract beneficiaryContract, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
             var filter = Builders<BeneficiaryContract>.Filter.Eq("Id", beneficiaryContract.Id);
             beneficiaryContractCollection.FindOneAndReplace(filter, beneficiaryContract);
@@ -256,7 +302,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void DeleteABeneficiaryContract(string id, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
             var filter = Builders<BeneficiaryContract>.Filter.Eq("Id", id);
             beneficiaryContractCollection.DeleteOne(filter);
@@ -264,7 +313,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void InsertVolunteerContract(VolunteerContract volunteerContract, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerContracts");
             volunteerContractCollection.InsertOne(volunteerContract);
         }
@@ -279,7 +331,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void UpdateVolunteerContract(VolunteerContract volunteerContract, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerContracts");
             var filter = Builders<VolunteerContract>.Filter.Eq("Id", volunteerContract.Id);
             volunteerContractCollection.FindOneAndReplace(filter, volunteerContract);
@@ -287,7 +342,10 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
 
         public void DeleteAVolunteerContract(string id, bool localConnection)
         {
-            dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
+            if (localConnection)
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            else
+                dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
             var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerContracts");
             var filter = Builders<VolunteerContract>.Filter.Eq("Id", id);
             volunteerContractCollection.DeleteOne(filter);

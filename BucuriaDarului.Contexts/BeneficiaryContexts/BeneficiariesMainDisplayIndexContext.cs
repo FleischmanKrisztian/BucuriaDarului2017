@@ -38,7 +38,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private List<Beneficiary> GetBeneficiariesAfterFilters(List<Beneficiary> beneficiaries, FilterData filterData)
         {
-            //we have some errors here
+            // TODO : Apply the Correct Filters
             if (filterData.BeneficiaryName != null)
                 beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(filterData.BeneficiaryName, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingDriver != null)
@@ -52,21 +52,21 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             if (filterData.SearchingBirthPlace != null)
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingBirthPlace, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingStudies != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingStudies, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Studies.Contains(filterData.SearchingStudies, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingSeniority != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingSeniority, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.SeniorityInWorkField.Contains(filterData.SearchingSeniority, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingHealthState != null)
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HealthState.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.Disability.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.ChronicCondition.Contains(filterData.SearchingHealthState, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingAddictions != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingAddictions, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Addictions.Contains(filterData.SearchingAddictions, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingMarried != null)
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Married.Contains(filterData.SearchingMarried, StringComparison.InvariantCultureIgnoreCase) || x.PersonalInfo.SpouseName.Contains(filterData.SearchingMarried, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingIncome != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingIncome.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Income.Contains(filterData.SearchingIncome.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingHousingType != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.HousingType.Contains(filterData.SearchingHousingType, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingExpenses != null)
-                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.BirthPlace.Contains(filterData.SearchingExpenses.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
+                beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Expenses.Contains(filterData.SearchingExpenses.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingNumberOfPortions != 0)
             {
                 beneficiaries = beneficiaries.Where(x => x.NumberOfPortions.Equals(filterData.SearchingNumberOfPortions)).ToList();

@@ -1,15 +1,11 @@
 using BucuriaDarului.Contexts.EventContexts;
 using BucuriaDarului.Gateway.EventGateways;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
-using System.Text;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -61,13 +57,12 @@ namespace BucuriaDarului.Web.Controllers
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
             DictionaryHelper.d = eventsExportData.Dictionary;
             if (eventsExportData.IsValid && eventsExportData.FileName != "")
-               return  DownloadCSV(eventsExportData.FileName, "eventSession","eventHeader");
+                return DownloadCSV(eventsExportData.FileName, "eventSession", "eventHeader");
 
-                //return Redirect("csvexporterapp:eventSession;eventHeader");
-           return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 
-        public FileContentResult DownloadCSV(string fileName,string idsKey,string headerKey)
+        public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
         {
             string ids = string.Empty;
             string header = string.Empty;
@@ -77,10 +72,9 @@ namespace BucuriaDarului.Web.Controllers
             var context = new EventDownloadContext(new EventDownloadGateway());
             var respons = context.Execute(ids, header);
 
-             return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
             //return File(Encoding.ASCII.GetBytes(respons.ToString()), "text/csv", fileName);
         }
-
 
         public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)
         {
@@ -165,7 +159,7 @@ namespace BucuriaDarului.Web.Controllers
             ModelState.Remove("DateOfEvent");
             if (!eventEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new {id = request.Id, message = eventEditResponse.Message });
+                return RedirectToAction("Edit", new { id = request.Id, message = eventEditResponse.Message });
             }
             return RedirectToAction("Index");
         }
