@@ -14,4 +14,4 @@ namespace BucuriaDarului.Gateway.SponsorGateways
         }
     }
 }
-}
+
