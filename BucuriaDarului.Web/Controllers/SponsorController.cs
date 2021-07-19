@@ -49,10 +49,24 @@ namespace BucuriaDarului.Web.Controllers
             var sponsorExporterContext = new SponsorExporterContext(_localizer);
             var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
             DictionaryHelper.d = sponsorExportData.Dictionary;
-            if (sponsorExportData.IsValid)
-                return Redirect("csvexporterapp:sponsorSession;sponsorHeader");
+            if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
+                return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
+
+        public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
+        {
+            string ids = string.Empty;
+            string header = string.Empty;
+            DictionaryHelper.d.TryGetValue(idsKey, out ids);
+            DictionaryHelper.d.TryGetValue(headerKey, out header);
+
+            var context = new SponsorDownloadContext(new SponsorDownloadGateway());
+            var respons = context.Execute(ids, header);
+
+            return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
+        }
+
 
         public IActionResult Index(string sponsorName, int page, string contactInfo, DateTime lowerDate, DateTime upperDate, bool hasContract, string whatGoods, string moneyAmount, string goodsAmounts)
         {
