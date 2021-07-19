@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,15 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             var header = GetHeaderForExcelPrinterSponsor();
             var response = new SponsorExporterResponse(CreateDictionaries(Constants.SPONSORSESSION, Constants.SPONSORHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
+            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            {
+                if (request.ExportParameters.FileName.Contains(".csv"))
+                    response.FileName = request.ExportParameters.FileName;
+                else
+                    response.FileName = request.ExportParameters.FileName + ".csv";
+            }
+            else
+                response.FileName = "SponsorsReport" + DateTime.Now.ToString() + ".csv";
             return response;
         }
 
@@ -98,6 +108,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public Dictionary<string, string> Dictionary { get; set; }
 
         public bool IsValid { get; set; }
+        public string FileName { get; set; }
 
         public SponsorExporterResponse(Dictionary<string, string> dictionary)
         {
@@ -129,5 +140,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public bool ContractDetails { get; set; }
         public bool PhoneNumber { get; set; }
         public bool MailAddress { get; set; }
+        public string FileName { get; set; }
     }
 }
