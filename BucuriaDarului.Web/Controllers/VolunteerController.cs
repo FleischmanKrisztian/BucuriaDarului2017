@@ -1,22 +1,19 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContexts;
-using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerGateways;
+using BucuriaDarului.Web.Common;
+using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using BucuriaDarului.Web.Common;
-using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 
 namespace BucuriaDarului.Web.Controllers
 {
     public class VolunteerController : Controller
     {
         private readonly IStringLocalizer<VolunteerController> _localizer;
-       
+
         public VolunteerController(IStringLocalizer<VolunteerController> localizer)
         {
             _localizer = localizer;
@@ -158,10 +155,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(bool Inactive, string id)
+        public ActionResult Delete(bool inactive, string id)
         {
             var deleteVolunteerContext = new VolunteerDeleteContext(new VolunteerDeleteGateway());
-            deleteVolunteerContext.Execute(Inactive, id);
+            deleteVolunteerContext.Execute(inactive, id);
             return RedirectToAction("Index");
         }
     }

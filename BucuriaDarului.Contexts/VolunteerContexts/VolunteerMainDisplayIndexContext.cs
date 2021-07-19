@@ -19,7 +19,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             var volunteers = dataGateway.GetListOfVolunteers();
             volunteers = GetVolunteersAfterFilters(volunteers, request.FilterData);
-            var volunteersAfterFiltering = volunteers.Count();
+            var volunteersAfterFiltering = volunteers.Count;
             var stringOfIDs = GetStringOfIds(volunteers);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData);
 
@@ -32,9 +32,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             {
                 volunteers = volunteers.Where(x => x.Fullname.Contains(filterData.SearchedFullname, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
-            if (filterData.Active == true)
+            if (filterData.Active)
             {
-                volunteers = volunteers.Where(x => x.InActivity == true).ToList();
+                volunteers = volunteers.Where(x => x.InActivity).ToList();
             }
             if (filterData.SearchedWorkplace != null)
             {
@@ -76,13 +76,13 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 { volunteers = volunteers.Where(x => x.Gender.Equals(Gender.Female)).ToList(); }
             }
 
-            if (filterData.HasDrivingLicence)
+            if (filterData.HasDrivingLicense)
             {
-                volunteers = volunteers.Where(x => x.AdditionalInfo.HasDrivingLicense == true).ToList();
+                volunteers = volunteers.Where(x => x.AdditionalInfo.HasDrivingLicense).ToList();
             }
             if (filterData.HasCar)
             {
-                volunteers = volunteers.Where(x => x.AdditionalInfo.HasCar == true).ToList();
+                volunteers = volunteers.Where(x => x.AdditionalInfo.HasCar).ToList();
             }
 
             switch (filterData.SortOrder.SortOrder)
@@ -157,25 +157,24 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class VolunteerMainDisplayIndexRequest
     {
         public FilterData FilterData { get; set; }
-        public Sort SortOrder { get; set; }
         public PagingData PagingData { get; set; }
 
-        public VolunteerMainDisplayIndexRequest(int nrOfDocs, int page, string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicence, DateTime lowerDate, DateTime upperDate, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
+        public VolunteerMainDisplayIndexRequest(int nrOfDocs, int page, string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicense, DateTime lowerDate, DateTime upperDate, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
         {
             var filterData = new FilterData();
             var pagingData = new PagingData();
-            filterData.SearchedFullname = searchedFullname ?? null;
-            filterData.SearchedContact = searchedContact ?? null;
+            filterData.SearchedFullname = searchedFullname;
+            filterData.SearchedContact = searchedContact;
             filterData.Active = active;
             filterData.HasCar = hasCar;
-            filterData.HasDrivingLicence = hasDrivingLicence;
+            filterData.HasDrivingLicense = hasDrivingLicense;
             filterData.LowerDate = lowerDate;
             filterData.UpperDate = upperDate;
             filterData.Gender = gender;
-            filterData.SearchedAddress = searchedAddress ?? null;
-            filterData.SearchedWorkplace = searchedWorkplace ?? null;
-            filterData.SearchedOccupation = searchedOccupation ?? null;
-            filterData.SearchedRemarks = searchedRemarks ?? null;
+            filterData.SearchedAddress = searchedAddress;
+            filterData.SearchedWorkplace = searchedWorkplace;
+            filterData.SearchedOccupation = searchedOccupation;
+            filterData.SearchedRemarks = searchedRemarks;
             if (searchedHourCount != 0)
                 filterData.SearchedHourCount = searchedHourCount;
             filterData.Gender = gender;
@@ -235,7 +234,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public string SearchedContact { get; set; }
         public bool Active { get; set; }
         public bool HasCar { get; set; }
-        public bool HasDrivingLicence { get; set; }
+        public bool HasDrivingLicense { get; set; }
         public DateTime LowerDate { get; set; }
         public DateTime UpperDate { get; set; }
         public string Gender { get; set; }
@@ -250,21 +249,21 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class Sort
     {
         public string SortOrder { get; set; }
-        public string DateSortParm { get; set; }
+        public string DateSortParam { get; set; }
         public string FullnameSort { get; set; }
-        public string Gendersort { get; set; }
+        public string GenderSort { get; set; }
         public string HourCountSort { get; set; }
-        public string Activesort { get; set; }
+        public string ActiveSort { get; set; }
 
         public Sort(string sortOrder)
         {
             SortOrder = sortOrder;
 
-            DateSortParm = sortOrder == "Date" ? "Date_desc" : "Date";
+            DateSortParam = sortOrder == "Date" ? "Date_desc" : "Date";
             FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
             HourCountSort = sortOrder == "HourCount" ? "HourCount_desc" : "HourCount";
-            Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
-            Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
+            GenderSort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
+            ActiveSort = sortOrder == "Active" ? "Active_desc" : "Active";
         }
     }
 }

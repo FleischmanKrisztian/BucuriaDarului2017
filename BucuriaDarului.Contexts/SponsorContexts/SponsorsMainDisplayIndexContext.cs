@@ -115,7 +115,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         }
     }
 
-
     public class SponsorsMainDisplayIndexResponse
     {
         public List<Sponsor> Sponsors { get; set; }
@@ -157,17 +156,4 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public DateTime UpperDate { get; set; }
     }
 
-    //public class Sort
-    //{
-    //    public string SortOrder { get; set; }
-    //    public string NameSortParm { get; set; }
-    //    public string DateSortParm { get; set; }
-
-    //    public Sort(string sortOrder)
-    //    {
-    //        SortOrder = sortOrder;
-    //        NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-    //        DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-    //    }
-    //}
 }
