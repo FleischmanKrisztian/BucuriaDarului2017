@@ -76,7 +76,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public  string  Messages { get; set; }
         public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrOfDocs, string searching, string messages)
         {
-            this.EventId = id;
+            EventId = id;
             var pagingData = new VolunteerAllocationPagingData();
             var filterData = new VolunteerAllocationFilterData();
 
