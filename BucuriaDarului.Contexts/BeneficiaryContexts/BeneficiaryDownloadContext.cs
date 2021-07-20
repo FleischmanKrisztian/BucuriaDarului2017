@@ -52,47 +52,47 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return ids;
         }
 
-        public string[] BeneficiaryToArray(Beneficiary b)
+        public string[] BeneficiaryToArray(Beneficiary beneficiary)
         {
             string[] result = new string[39];
-            result[0] = b.Id;
-            result[1] = b.Fullname;
-            result[2] = b.Active.ToString();
-            result[3] = b.WeeklyPackage.ToString();
-            result[4] = b.Canteen.ToString();
-            result[5] = b.HomeDelivery.ToString();
-            result[6] = b.HomeDeliveryDriver;
-            result[7] = b.HasGDPRAgreement.ToString();
-            result[8] = b.Address; result[9] = b.CNP;
-            result[10] = b.CI.HasId.ToString();
-            result[11] = b.CI.Info;
-            result[12] = b.CI.ExpirationDate.ToLongDateString();
-            result[13] = b.Marca.MarcaName;
-            result[14] = b.Marca.IdApplication;
-            result[15] = b.Marca.IdInvestigation;
-            result[16] = b.Marca.IdContract;
-            result[17] = b.NumberOfPortions.ToString();
-            result[18] = b.LastTimeActive.ToLongDateString();
-            result[19] = b.Comments;
-            result[20] = b.PersonalInfo.BirthPlace;
-            result[21] = b.PersonalInfo.PhoneNumber;
-            result[22] = b.PersonalInfo.Studies;
-            result[24] = b.PersonalInfo.Profession;
-            result[24] = b.PersonalInfo.Occupation;
-            result[25] = b.PersonalInfo.SeniorityInWorkField;
-            result[26] = b.PersonalInfo.HealthState;
-            result[27] = b.PersonalInfo.Disability;
-            result[28] = b.PersonalInfo.ChronicCondition;
-            result[29] = b.PersonalInfo.Addictions;
-            result[30] = b.PersonalInfo.HealthInsurance.ToString();
-            result[31] = b.PersonalInfo.HealthCard.ToString();
-            result[32] = b.PersonalInfo.Married;
-            result[33] = b.PersonalInfo.SpouseName;
-            result[34] = b.PersonalInfo.HasHome.ToString();
-            result[35] = b.PersonalInfo.HousingType;
-            result[36] = b.PersonalInfo.Income;
-            result[37] = b.PersonalInfo.Expenses;
-            result[38] = b.PersonalInfo.Gender.ToString();
+            result[0] = beneficiary.Id;
+            result[1] = beneficiary.Fullname;
+            result[2] = beneficiary.Active.ToString();
+            result[3] = beneficiary.WeeklyPackage.ToString();
+            result[4] = beneficiary.Canteen.ToString();
+            result[5] = beneficiary.HomeDelivery.ToString();
+            result[6] = beneficiary.HomeDeliveryDriver;
+            result[7] = beneficiary.HasGDPRAgreement.ToString();
+            result[8] = beneficiary.Address; result[9] = beneficiary.CNP;
+            result[10] = beneficiary.CI.HasId.ToString();
+            result[11] = beneficiary.CI.Info;
+            result[12] = beneficiary.CI.ExpirationDate.ToLongDateString();
+            result[13] = beneficiary.Marca.MarcaName;
+            result[14] = beneficiary.Marca.IdApplication;
+            result[15] = beneficiary.Marca.IdInvestigation;
+            result[16] = beneficiary.Marca.IdContract;
+            result[17] = beneficiary.NumberOfPortions.ToString();
+            result[18] = beneficiary.LastTimeActive.ToLongDateString();
+            result[19] = beneficiary.Comments;
+            result[20] = beneficiary.PersonalInfo.BirthPlace;
+            result[21] = beneficiary.PersonalInfo.PhoneNumber;
+            result[22] = beneficiary.PersonalInfo.Studies;
+            result[24] = beneficiary.PersonalInfo.Profession;
+            result[24] = beneficiary.PersonalInfo.Occupation;
+            result[25] = beneficiary.PersonalInfo.SeniorityInWorkField;
+            result[26] = beneficiary.PersonalInfo.HealthState;
+            result[27] = beneficiary.PersonalInfo.Disability;
+            result[28] = beneficiary.PersonalInfo.ChronicCondition;
+            result[29] = beneficiary.PersonalInfo.Addictions;
+            result[30] = beneficiary.PersonalInfo.HealthInsurance.ToString();
+            result[31] = beneficiary.PersonalInfo.HealthCard.ToString();
+            result[32] = beneficiary.PersonalInfo.Married;
+            result[33] = beneficiary.PersonalInfo.SpouseName;
+            result[34] = beneficiary.PersonalInfo.HasHome.ToString();
+            result[35] = beneficiary.PersonalInfo.HousingType;
+            result[36] = beneficiary.PersonalInfo.Income;
+            result[37] = beneficiary.PersonalInfo.Expenses;
+            result[38] = beneficiary.PersonalInfo.Gender.ToString();
 
             return result;
         }
@@ -101,11 +101,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         {
             var listOfBeneficiaries = dataGateway.GetListOfBeneficiaries();
             var finalListOfBeneficiaries = new List<Beneficiary>();
-            foreach (var b in listOfBeneficiaries)
+            foreach (var beneficiary in listOfBeneficiaries)
             {
-                if (ids.Contains(b.Id))
+                if (ids.Contains(beneficiary.Id))
                 {
-                    finalListOfBeneficiaries.Add(b);
+                    finalListOfBeneficiaries.Add(beneficiary);
                 }
             }
 
@@ -282,11 +282,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             var usedHeader = GetUsedHeader(properties, header);
             var listOfBeneficiary = dataGateway.GetListOfBeneficiaries();
             var idListForPrinting = new List<Beneficiary>();
-            foreach (var b in listOfBeneficiary)
+            foreach (var beneficiary in listOfBeneficiary)
             {
-                if (ids.Contains(b.Id))
+                if (ids.Contains(beneficiary.Id))
                 {
-                    idListForPrinting.Add(b);
+                    idListForPrinting.Add(beneficiary);
                 }
             }
 
@@ -299,7 +299,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             sb.Append("\r\n");
             foreach (var item in idListForPrinting)
             {
-                string[] arrBeneficiary = BeneficiaryToArray(item);
 
                 if (properties.Contains("1"))
                 {
