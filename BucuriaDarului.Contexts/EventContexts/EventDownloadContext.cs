@@ -53,9 +53,9 @@ namespace BucuriaDarului.Contexts.EventContexts
             return ids;
         }
 
-        public string[] EventToArray(Event e)
+        public string[] EventToArray(Event @event)
         {
-            string[] result = new string[] { e.Id, e.NameOfEvent, e.PlaceOfEvent, e.DateOfEvent.ToString(), e.TypeOfActivities, e.TypeOfEvent, e.Duration, e.AllocatedVolunteers, e.AllocatedSponsors };
+            string[] result = new string[] { @event.Id, @event.NameOfEvent, @event.PlaceOfEvent, @event.DateOfEvent.ToString(), @event.TypeOfActivities, @event.TypeOfEvent, @event.Duration, @event.AllocatedVolunteers, @event.AllocatedSponsors };
             return result;
         }
 
@@ -63,11 +63,11 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             var listOfEvents = dataGateway.GetListOfEvents();
             var finalListOEvents = new List<Event>();
-            foreach (var e in listOfEvents)
+            foreach (var @event in listOfEvents)
             {
-                if (ids.Contains(e.Id))
+                if (ids.Contains(@event.Id))
                 {
-                    finalListOEvents.Add(e);
+                    finalListOEvents.Add(@event);
                 }
             }
 
@@ -131,11 +131,11 @@ namespace BucuriaDarului.Contexts.EventContexts
             var usedHeader = GetUsedHeader(properties, header);
             var listOfEvents = dataGateway.GetListOfEvents();
             var idListForPrinting = new List<Event>();
-            foreach (var e in listOfEvents)
+            foreach (var @event in listOfEvents)
             {
-                if (ids.Contains(e.Id))
+                if (ids.Contains(@event.Id))
                 {
-                    idListForPrinting.Add(e);
+                    idListForPrinting.Add(@event);
                 }
             }
 
