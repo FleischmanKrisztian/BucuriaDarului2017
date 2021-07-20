@@ -43,24 +43,24 @@ namespace BucuriaDarului.Web.Controllers
             return View(model);
         }
 
-        //[HttpGet]
-        //public ActionResult CsvExporter(string message)
-        //{
-        //    ViewBag.message = message;
-        //    return View();
-        //}
+        [HttpGet]
+        public ActionResult CsvExporter(string message)
+        {
+            ViewBag.message = message;
+            return View();
+        }
 
-        //[HttpPost]
-        //public ActionResult CsvExporter(ExportParameters csvExportProperties)
-        //{
-        //    var eventsExporterContext = new EventsExporterContext(_localizer);
-        //    var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
-        //    DictionaryHelper.d = eventsExportData.Dictionary;
-        //    if (eventsExportData.IsValid && eventsExportData.FileName != "")
-        //        return DownloadCSV(eventsExportData.FileName, "eventSession", "eventHeader");
+        [HttpPost]
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
+        {
+            var eventsExporterContext = new EventsExporterContext(_localizer);
+            var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
+            DictionaryHelper.d = eventsExportData.Dictionary;
+            if (eventsExportData.IsValid && eventsExportData.FileName != "")
+                return DownloadCSV(eventsExportData.FileName, "eventSession", "eventHeader");
 
-        //    return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
-        //}
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+        }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
         {
