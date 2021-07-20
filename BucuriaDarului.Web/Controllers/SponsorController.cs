@@ -37,23 +37,23 @@ namespace BucuriaDarului.Web.Controllers
                 return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
-        //[HttpGet]
-        //public ActionResult CSVExporter(string message)
-        //{
-        //    ViewBag.message = message;
-        //    return View();
-        //}
+        [HttpGet]
+        public ActionResult CSVExporter(string message)
+        {
+            ViewBag.message = message;
+            return View();
+        }
 
-        //[HttpPost]
-        //public ActionResult CsvExporter(ExportParameters csvExportProperties)
-        //{
-        //    var sponsorExporterContext = new SponsorExporterContext(_localizer);
-        //    var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
-        //    DictionaryHelper.d = sponsorExportData.Dictionary;
-        //    if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
-        //        return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
-        //    return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
-        //}
+        [HttpPost]
+        public ActionResult CsvExporter(ExportParameters csvExportProperties)
+        {
+            var sponsorExporterContext = new SponsorExporterContext(_localizer);
+            var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
+            DictionaryHelper.d = sponsorExportData.Dictionary;
+            if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
+                return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
+            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+        }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
         {
