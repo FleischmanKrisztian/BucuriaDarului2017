@@ -83,12 +83,19 @@
                 <span>
                     @using (Html.BeginForm(FormMethod.Post))
                     {
-                        <div class="form-group">
-                            @Localizer["MakeItInactive"]
-                            @Html.CheckBox("inactive", checked(true))
-                            <br>
-                            <input type="submit" class="btn btn-primary" value=@Localizer["Apply"] />
-                        </div>
+                        @if (Model.InActivity)
+                        {
+                            <input type="hidden" name="inactive" value=true>
+                            <input type="submit" class="btn btn-primary" style="border-color: darkblue; background-color: dodgerblue" value=@Localizer["Inactivate"] />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" disabled="disabled" style="border-color: darkblue; background-color: dodgerblue" value=@Localizer["Inactivate"] />
+                        }
+                    }
+                    @using (Html.BeginForm(FormMethod.Post, new { style = "width: 100px" }))
+                    {
+                        <input type="submit" class="btn btn-primary"  style="border-color: darkred; background-color: red" value=@Localizer["Delete"] />
                     }
                 </span>
                 <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>

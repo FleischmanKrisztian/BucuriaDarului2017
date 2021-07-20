@@ -1,4 +1,5 @@
 ﻿using BucuriaDarului.Contexts.SponsorContexts;
+using BucuriaDarului.Core.Gateways.SponsorGateways;
 using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
@@ -36,35 +37,32 @@ namespace BucuriaDarului.Web.Controllers
                 return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
-        [HttpGet]
-        public ActionResult CSVExporter(string message)
-        {
-            ViewBag.message = message;
-            return View();
-        }
+        //[HttpGet]
+        //public ActionResult CSVExporter(string message)
+        //{
+        //    ViewBag.message = message;
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult CsvExporter(ExportParameters csvExportProperties)
-        {
-            var sponsorExporterContext = new SponsorExporterContext(_localizer);
-            var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
-            DictionaryHelper.d = sponsorExportData.Dictionary;
-            if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
-                return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
-            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
-        }
+        //[HttpPost]
+        //public ActionResult CsvExporter(ExportParameters csvExportProperties)
+        //{
+        //    var sponsorExporterContext = new SponsorExporterContext(_localizer);
+        //    var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
+        //    DictionaryHelper.d = sponsorExportData.Dictionary;
+        //    if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
+        //        return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
+        //    return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+        //}
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
         {
-            string ids = string.Empty;
-            string header = string.Empty;
-            DictionaryHelper.d.TryGetValue(idsKey, out ids);
-            DictionaryHelper.d.TryGetValue(headerKey, out header);
-
+            DictionaryHelper.d.TryGetValue(idsKey, out var ids);
+            DictionaryHelper.d.TryGetValue(headerKey, out var header);
             var context = new SponsorDownloadContext(new SponsorDownloadGateway());
-            var respons = context.Execute(ids, header);
+            var response = context.Execute(ids, header);
 
-            return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "text/csv", fileName);
         }
 
 

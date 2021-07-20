@@ -18,7 +18,10 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public SponsorsMainDisplayIndexResponse Execute(SponsorsMainDisplayIndexRequest request)
         {
+            var emptyDatabase = false;
             var sponsors = dataGateway.GetListOfSponsors();
+            if (sponsors.Count == 0)
+                emptyDatabase = true;
 
             sponsors = GetSponsorsAfterFilters(sponsors, request.FilterData);
 
@@ -28,7 +31,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData);
 
-            return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, sponsorsAfterFiltering, stringOfIDs);
+            return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, emptyDatabase, sponsorsAfterFiltering, stringOfIDs);
         }
 
         private string GetStringOfIds(List<Sponsor> sponsors)
@@ -123,16 +126,19 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public PagingData PagingData { get; set; }
 
+        public bool EmptyDatabase { get; set; }
+
         public int TotalSponsors { get; set; }
 
         public string StringOfIDs { get; set; }
 
-        public SponsorsMainDisplayIndexResponse(List<Sponsor> sponsors, FilterData filterData, PagingData pagingData, int sponsorsAfterFiltering, string stringOfIDs)
+        public SponsorsMainDisplayIndexResponse(List<Sponsor> sponsors, FilterData filterData, PagingData pagingData, bool emptyDatabase, int sponsorsAfterFiltering, string stringOfIDs)
         {
             Sponsors = sponsors;
             FilterData = filterData;
             PagingData = pagingData;
             TotalSponsors = sponsorsAfterFiltering;
+            EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
         }
     }

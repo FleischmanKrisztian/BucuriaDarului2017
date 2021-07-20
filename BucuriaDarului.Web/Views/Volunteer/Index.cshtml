@@ -41,47 +41,47 @@
 
                 if (Model.PagingData.CurrentPage == 1)
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else
                 {
-                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
            }
            if (Model.PagingData.CurrentPage >= 5)
            {
-                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (Model.PagingData.CurrentPage > 3)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 2, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (Model.PagingData.CurrentPage > 2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
                 {
-                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 if (Model.PagingData.CurrentPage < maxpage - 1)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (Model.PagingData.CurrentPage < maxpage - 2)
                 {
-                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "Index", new { page = Model.PagingData.CurrentPage + 2, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (Model.PagingData.CurrentPage < maxpage - 3)
                 {
-                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage + 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (maxpage != 1 && Model.PagingData.CurrentPage == maxpage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
                 else if (maxpage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicence = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
+                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
             }
        </pre>
@@ -157,16 +157,6 @@
             @Localizer["BornBefore"] : @Model.FilterData.UpperDate
         </div>
     }
-    @*@if (Model.FilterData.ActiveSince  != null)
-        {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-                @Localizer["activesince"] : @string15
-            </div>
-        }
-        @if (Model.FilterData.UpperDate.ActiveTill != null)
-        {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-                @Localizer["activetill"] : @string16
-            </div>
-        }*@
 
     <table class="table">
         <tr>
@@ -202,9 +192,9 @@
                         <dd class="col-sm-2">
                             @Html.CheckBox("hasCar")
                         </dd>
-                        <dt class="col-sm-6">@Localizer["Hasdrivinglicense"] </dt>
+                        <dt class="col-sm-6">@Localizer["HasDrivingLicense"] </dt>
                         <dd class="col-sm-2">
-                            @Html.CheckBox("hasDrivingLicence")
+                            @Html.CheckBox("hasDrivingLicense")
                         </dd>
                         <dt class="col-sm-6">@Localizer["BornAfter"] :</dt>
                         <dd class="col-sm-2">
@@ -214,14 +204,6 @@
                         <dd class="col-sm-3">
                             <input type="date" name="upperdate">
                         </dd>
-                        @*<dt class="col-sm-7">@Localizer["activesince"] :</dt>
-                        <dd class="col-sm-1">
-                            <input type="date" name="activesince">
-                        </dd>
-                        <dt class="col-sm-6">@Localizer["activetill"] :</dt>
-                        <dd class="col-sm-3">
-                            <input type="date" name="activetill">
-                        </dd>*@
                         <dt class="col-sm-6">@Localizer["gender"] :</dt>
                         <dd class="col-sm-6">
                             <input type="radio" name="gender" value="All" checked="checked" />@Localizer["All"]
@@ -256,11 +238,19 @@
             </th>
             <th> </th>
         </tr>
-        @if (Model.TotalVolunteers == 0)
+        @if (Model.EmptyDatabase)
         {
             <tr>
                 <td colspan="3 " style="color:red">
-                    @Localizer["Error"]
+                    @Localizer["EmptyDatabase"]
+                </td>
+            </tr>
+        }
+        else if (Model.TotalVolunteers == 0)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["NoDocumentsMatchingCriteria"]
                 </td>
             </tr>
         }

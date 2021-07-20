@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 
 namespace BucuriaDarului.Core
 {
@@ -8,8 +7,8 @@ namespace BucuriaDarului.Core
         Male, Female
     }
 
-    public class Volunteer {
-      
+    public class Volunteer
+    {
         public string Id { get; set; }
 
         public string Fullname { get; set; }
@@ -40,5 +39,4 @@ namespace BucuriaDarului.Core
 
         public byte[] Image { get; set; }
     }
-
 }

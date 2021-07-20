@@ -455,14 +455,22 @@
             <th></th>
         </tr>
 
-        @if (Model.TotalBeneficiaries == 0)
-        {
-            <tr>
-                <td colspan="3 " style="color:red">
-                    @Localizer["IndexMessageBeneficiary"]
-                </td>
-            </tr>
-        }
+    @if (Model.EmptyDatabase)
+    {
+        <tr>
+            <td colspan="3 " style="color:red">
+                @Localizer["EmptyDatabase"]
+            </td>
+        </tr>
+    }
+    else if (Model.TotalBeneficiaries == 0)
+    {
+        <tr>
+            <td colspan="3 " style="color:red">
+                @Localizer["NoDocumentsMatchingCriteria"]
+            </td>
+        </tr>
+    }
         else
         {
             @foreach (var item in Model.Beneficiaries)

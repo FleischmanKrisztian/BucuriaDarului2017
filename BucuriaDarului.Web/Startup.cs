@@ -37,10 +37,10 @@ namespace BucuriaDarului.Web
        {
            var supportedCultures = new List<CultureInfo>
            {
-                new CultureInfo("en"),
                 new CultureInfo("ro"),
+                new CultureInfo("en"),
            };
-           opts.DefaultRequestCulture = new RequestCulture("en");
+           opts.DefaultRequestCulture = new RequestCulture("ro");
            // Formatting numbers, dates, etc.
            opts.SupportedCultures = supportedCultures;
            // UI strings that we have localized.

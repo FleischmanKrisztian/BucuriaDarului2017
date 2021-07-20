@@ -17,13 +17,16 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public VolunteerMainDisplayIndexResponse Execute(VolunteerMainDisplayIndexRequest request)
         {
+            var emptyDatabase = false;
             var volunteers = dataGateway.GetListOfVolunteers();
+            if (volunteers.Count == 0)
+                emptyDatabase = true;
             volunteers = GetVolunteersAfterFilters(volunteers, request.FilterData);
             var volunteersAfterFiltering = volunteers.Count;
             var stringOfIDs = GetStringOfIds(volunteers);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData);
 
-            return new VolunteerMainDisplayIndexResponse(volunteers, request.FilterData, request.PagingData, volunteersAfterFiltering, stringOfIDs);
+            return new VolunteerMainDisplayIndexResponse(volunteers, request.FilterData, request.PagingData, emptyDatabase, volunteersAfterFiltering, stringOfIDs);
         }
 
         public List<Volunteer> GetVolunteersAfterFilters(List<Volunteer> volunteers, FilterData filterData)
@@ -208,15 +211,17 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public int TotalVolunteers { get; set; }
 
+        public bool EmptyDatabase { get; set; }
+
         public string StringOfIDs { get; set; }
 
-        public VolunteerMainDisplayIndexResponse(List<Volunteer> volunteers, FilterData filterData, PagingData pagingData, int volunteersAfterFiltering, string stringOfIDs)
+        public VolunteerMainDisplayIndexResponse(List<Volunteer> volunteers, FilterData filterData, PagingData pagingData, bool emptyDatabase, int volunteersAfterFiltering, string stringOfIDs)
         {
             Volunteers = volunteers;
             FilterData = filterData;
             PagingData = pagingData;
-
             TotalVolunteers = volunteersAfterFiltering;
+            EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
         }
     }

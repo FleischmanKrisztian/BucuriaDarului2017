@@ -17,13 +17,16 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public BeneficiariesMainDisplayIndexResponse Execute(BeneficiariesMainDisplayIndexRequest request)
         {
+            var emptyDatabase = false;
             var beneficiaries = dataGateway.GetListOfBeneficiaries();
+            if (beneficiaries.Count == 0)
+                emptyDatabase = true;
             beneficiaries = GetBeneficiariesAfterFilters(beneficiaries, request.FilterData);
             var beneficiariesAfterFiltering = beneficiaries.Count();
             var stringOfIDs = GetStringOfIds(beneficiaries);
             beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
 
-            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, beneficiariesAfterFiltering, stringOfIDs);
+            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs);
         }
 
         private string GetStringOfIds(List<Beneficiary> beneficiaries)
@@ -264,17 +267,19 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public PagingData PagingData { get; set; }
 
+        public bool EmptyDatabase { get; set; }
+
         public int TotalBeneficiaries { get; set; }
 
         public string StringOfIDs { get; set; }
 
-        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, int beneficiariesAfterFiltering, string stringOfIDs)
+        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs)
         {
             Beneficiaries = beneficiaries;
             FilterData = filterData;
             PagingData = pagingData;
-
             TotalBeneficiaries = beneficiariesAfterFiltering;
+            EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
         }
     }

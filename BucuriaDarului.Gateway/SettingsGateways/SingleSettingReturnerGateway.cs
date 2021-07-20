@@ -18,7 +18,7 @@ namespace BucuriaDarului.Gateway.SettingsGateways
                 var newSetting = new Settings
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Lang = "en",
+                    Lang = "ro",
                     Quantity = 15
                 };
                 settingCollection.InsertOne(newSetting);

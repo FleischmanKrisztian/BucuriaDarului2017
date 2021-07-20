@@ -64,7 +64,6 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
             if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
                 return DownloadCSV(beneficiaryExportData.FileName, "beneficiarySession", "beneficiaryHeader");
-                //return Redirect("csvexporterapp:beneficiarySession;beneficiaryHeader");
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 
@@ -172,10 +171,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(bool Inactive, string id)
+        public ActionResult Delete(bool inactive, string id)
         {
             var deleteBeneficiaryContext = new BeneficiaryDeleteContext(new BeneficiaryDeleteGateway());
-            deleteBeneficiaryContext.Execute(Inactive, id);
+            deleteBeneficiaryContext.Execute(inactive, id);
             return RedirectToAction("Index");
         }
     }

@@ -64,16 +64,13 @@ namespace BucuriaDarului.Web.Controllers
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
         {
-            string ids = string.Empty;
-            string header = string.Empty;
-            DictionaryHelper.d.TryGetValue(idsKey, out ids);
-            DictionaryHelper.d.TryGetValue(headerKey, out header);
+            DictionaryHelper.d.TryGetValue(idsKey, out var ids);
+            DictionaryHelper.d.TryGetValue(headerKey, out var header);
 
             var context = new EventDownloadContext(new EventDownloadGateway());
-            var respons = context.Execute(ids, header);
+            var response = context.Execute(ids, header);
 
-            return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
-            //return File(Encoding.ASCII.GetBytes(respons.ToString()), "text/csv", fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "text/csv", fileName);
         }
 
         public ActionResult VolunteerAllocationDisplay(string id, string messages, int page, string searching)

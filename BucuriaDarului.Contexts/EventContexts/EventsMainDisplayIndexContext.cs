@@ -18,7 +18,10 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventsMainDisplayIndexResponse Execute(EventsMainDisplayIndexRequest request)
         {
+            var emptyDatabase = false;
             var events = dataGateway.GetListOfEvents();
+            if (events.Count == 0)
+                emptyDatabase = true;
 
             events = GetEventsAfterFilters(events, request.FilterData);
 
@@ -28,7 +31,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             events = GetEventsAfterPaging(events, request.PagingData);
 
-            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, eventsAfterFiltering, stringOfIDs);
+            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs);
         }
 
         private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
@@ -122,16 +125,19 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public PagingData PagingData { get; set; }
 
+        public bool EmptyDatabase { get; set; }
+
         public int TotalEvents { get; set; }
 
         public string StringOfIDs { get; set; }
 
-        public EventsMainDisplayIndexResponse(List<Event> events, FilterData filterData, PagingData pagingData, int eventsAfterFiltering, string stringOfIDs)
+        public EventsMainDisplayIndexResponse(List<Event> events, FilterData filterData, PagingData pagingData, bool emptyDatabase, int eventsAfterFiltering, string stringOfIDs)
         {
             Events = events;
             FilterData = filterData;
             PagingData = pagingData;
             TotalEvents = eventsAfterFiltering;
+            EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
         }
     }

@@ -242,11 +242,19 @@
         <th></th>
     </tr>
 
-    @if (Model.Events.Count() == 0)
+    @if (Model.EmptyDatabase)
     {
         <tr>
             <td colspan="3 " style="color:red">
-                @Localizer["IndexMessage"]
+                @Localizer["EmptyDatabase"]
+            </td>
+        </tr>
+    }
+    else if (Model.TotalEvents == 0)
+    {
+        <tr>
+            <td colspan="3 " style="color:red">
+                @Localizer["NoDocumentsMatchingCriteria"]
             </td>
         </tr>
     }
