@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,15 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var header = GetHeaderForExcelPrinterVolunteer();
             var response = new VolunteerExporterResponse(CreateDictionaries(Constants.VOLUNTEERSESSION, Constants.VOLUNTEERHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
+            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            {
+                if (request.ExportParameters.FileName.Contains(".csv"))
+                    response.FileName = request.ExportParameters.FileName;
+                else
+                    response.FileName = request.ExportParameters.FileName + ".csv";
+            }
+            else
+                response.FileName = "VolunteersReport" + DateTime.Now.ToString() + ".csv";
             return response;
         }
 
@@ -75,24 +85,26 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         private string GetHeaderForExcelPrinterVolunteer()
         {
-            var header = new string[18];
-            header[0] = localizer["Fullname"];
-            header[1] = localizer["Birthdate"];
-            header[2] = localizer["Address"];
-            header[3] = localizer["Gender"];
-            header[4] = localizer["DesiredWorkplace"];
-            header[5] = localizer["CNP"];
-            header[6] = localizer["FieldOfActivity"];
-            header[7] = localizer["Occupation"];
-            header[8] = localizer["HasId"];
-            header[9] = localizer["IdInfo"];
-            header[10] = localizer["IdExpirationDate"];
-            header[11] = localizer["Active"];
-            header[12] = localizer["HourCount"];
-            header[13] = localizer["PhoneNumber"];
-            header[14] = localizer["EmailAddress"];
-            header[15] = localizer["DriversLicense"];
-            header[16] = localizer["HasCar"];
+            var header = new string[19];
+            header[0] = localizer["Ids"];
+            header[1] = localizer["Fullname"];
+            header[2] = localizer["Birthdate"];
+            header[3] = localizer["Address"];
+            header[4] = localizer["Gender"];
+            header[5] = localizer["DesiredWorkplace"];
+            header[6] = localizer["CNP"];
+            header[7] = localizer["FieldOfActivity"];
+            header[8] = localizer["Occupation"];
+            header[9] = localizer["HasId"];
+            header[10] = localizer["IdInfo"];
+            header[11] = localizer["IdExpirationDate"];
+            header[12] = localizer["Active"];
+            header[13] = localizer["HourCount"];
+            header[14] = localizer["PhoneNumber"];
+            header[15] = localizer["EmailAddress"];
+            header[16] = localizer["DriversLicense"];
+            header[17] = localizer["HasCar"];
+            header[18] = localizer["Remark"];
 
             var result = string.Empty;
             for (var i = 0; i < header.Count(); i++)
@@ -122,6 +134,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public Dictionary<string, string> Dictionary { get; set; }
 
         public bool IsValid { get; set; }
+        public string FileName { get; set; }
 
         public VolunteerExporterResponse(Dictionary<string, string> dictionary)
         {
@@ -161,5 +174,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public bool EmailAddress { get; set; }
         public bool DriversLicense { get; set; }
         public bool HasCar { get; set; }
+        public string FileName { get; set; }
     }
 }
