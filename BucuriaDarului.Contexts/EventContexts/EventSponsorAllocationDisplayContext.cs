@@ -20,13 +20,11 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             var @event = dataGateway.ReturnEvent(request.EventId);
             var sponsors = dataGateway.GetListOfSponsors();
-            int totalSponsors = sponsors.Count();
-            var sponsorsIdString = GetStringOfIds(sponsors);
             sponsors = GetSponsorsAfterSearching(sponsors, request.FilterData.NameOfSponsor);
-            List<Event> events = dataGateway.GetListOfEvents();
-            
+            var totalSponsors = sponsors.Count();
+            sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);        
 
-            return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, sponsorsIdString, request.PagingData, request.FilterData, request.Messages);
+            return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, request.PagingData, request.FilterData, request.Messages);
         }
 
 
@@ -93,19 +91,17 @@ namespace BucuriaDarului.Contexts.EventContexts
         public Event Event { get; set; }
         public List<Sponsor> Sponsors { get; set; }
         public int TotalSponsors { get; set; }
-        public string AllocatedSponsorsIdString { get; set; }
 
         public SponsorAllocationPagingData PagingData { get; set; }
         public SponsorAllocationFilterData FilterData { get; set; }
         public string Messages { get; set; }
 
 
-        public EventsSponsorAllocationDisplayResponse(Event @event, List<Sponsor> sponsors, int totalSponsors, string allocatedSponsorsIdString, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
+        public EventsSponsorAllocationDisplayResponse(Event @event, List<Sponsor> sponsors, int totalSponsors, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
         {
             Event = @event;
             Sponsors = sponsors;
             TotalSponsors = totalSponsors;
-            AllocatedSponsorsIdString = allocatedSponsorsIdString;
             PagingData = pagingData;
             FilterData = filterData;
             Messages = messages;

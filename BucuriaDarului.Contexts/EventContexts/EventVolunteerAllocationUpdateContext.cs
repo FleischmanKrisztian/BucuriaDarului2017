@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -17,47 +17,63 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventsVolunteerAllocationResponse Execute(EventsVolunteerAllocationRequest request)
         {
-            var result = new EventsVolunteerAllocationResponse();
-
+            var response = new EventsVolunteerAllocationResponse();
             var @event = dataGateway.ReturnEvent(request.EventId);
-
             var volunteers = dataGateway.GetListOfVolunteers();
-            volunteers = GetVolunteersByIds(volunteers, request.VolunteerIds);
-            var nameOfVolunteers = GetVolunteerNames(volunteers);
-            var volunteerForAllocation = GetVolunteerNames(volunteers);
-            @event.AllocatedVolunteers = volunteerForAllocation;
-            @event.NumberAllocatedVolunteers = VolunteersAllocatedCounter(nameOfVolunteers);
+            var volunteersToAdd = GetVolunteersByIds(volunteers, request.CheckedIds);
+            var volunteersToRemove = GetVolunteersByIds(volunteers, request.AllIds);
+            var volunteersForAllocation = @event.AllocatedVolunteers;
+            volunteersForAllocation = RemoveUncheckedVolunteers(volunteersForAllocation, volunteersToRemove);
+            volunteersForAllocation = CheckForDuplicate(volunteersForAllocation, GetVolunteerNames(volunteersToAdd));
+            @event.AllocatedVolunteers = volunteersForAllocation;
             dataGateway.UpdateEvent(request.EventId, @event);
 
-            if (@event.AllocatedVolunteers != volunteerForAllocation)
-            {
-                result.IsValid = false;
-            }
+            return response;
+        }
 
-            return result;
+        private string RemoveUncheckedVolunteers(string allVolulunteers, List<Volunteer> volunteersToRemove)
+        {
+            foreach (var vol in volunteersToRemove)
+            {
+                allVolulunteers = allVolulunteers.Replace(", " + vol.Fullname, "");
+                allVolulunteers = allVolulunteers.Replace(vol.Fullname, "");
+            }
+            return allVolulunteers;
+        }
+
+        private string CheckForDuplicate(string previouslyAllocatedVolunteers, List<string> names)
+        {
+            var AllVolunteers = previouslyAllocatedVolunteers;
+            foreach( var name in names)
+            {
+                if(!previouslyAllocatedVolunteers.Contains(name))
+                {
+                    AllVolunteers += ", " + name;
+                }
+            }
+            return AllVolunteers;
         }
 
         private int VolunteersAllocatedCounter(string allocatedVolunteers)
         {
             if (allocatedVolunteers != null)
             {
-                var split = allocatedVolunteers.Split(" / ");
-                return split.Count() - 1;
+                var split = allocatedVolunteers.Split(", ");
+                return split.Count();
             }
             return 0;
         }
 
-        private string GetVolunteerNames(List<Volunteer> volunteers)
+        private List<string> GetVolunteerNames(List<Volunteer> volunteers)
         {
-            var result = "";
+            var listOfNames = new List<string>();
             foreach (var volunteer in volunteers)
             {
-                result = result + volunteer.Fullname + " / ";
+                listOfNames.Add(volunteer.Fullname);
             }
-            return result;
+            return listOfNames;
         }
 
-        // Can Probably simplify here
         private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] ids)
         {
             var volunteerList = new List<Volunteer>();
@@ -73,19 +89,22 @@ namespace BucuriaDarului.Contexts.EventContexts
     public class EventsVolunteerAllocationRequest
     {
         public string EventId { get; set; }
-        public string[] VolunteerIds { get; set; }
 
-        public EventsVolunteerAllocationRequest(string[] volunteerIds, string eventId)
+        public string[] CheckedIds { get; set; }
+
+        public string[] AllIds { get; set; }
+
+        public EventsVolunteerAllocationRequest(string[] checkedIds, string[] allIds, string eventId)
         {
-            this.EventId = eventId;
-            this.VolunteerIds = volunteerIds;
+            EventId = eventId;
+            AllIds = allIds;
+            CheckedIds = checkedIds;
         }
     }
 
     public class EventsVolunteerAllocationResponse
     {
         public bool IsValid { get; set; }
-       
 
         public EventsVolunteerAllocationResponse()
         {

@@ -1,8 +1,7 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using System.Collections.Generic;
 using System.Linq;
-using BucuriaDarului.Core.Gateways.EventGateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -17,34 +16,56 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventSponsorAllocationResponse Execute(EventsSponsorAllocationRequest request)
         {
-            EventSponsorAllocationResponse response = new EventSponsorAllocationResponse();
-            Event @event= dataGateway.ReturnEvent(request.EventId);
-            List<Sponsor> sponsors = dataGateway.GetListOfSponsors();
-
-            sponsors = GetSponsorsByIds(sponsors, request.SponsorIds);
-            var allocatedSponsors = GetSponsorNames(sponsors);
-            @event.AllocatedSponsors = allocatedSponsors;
+            var response = new EventSponsorAllocationResponse();
+            var @event = dataGateway.ReturnEvent(request.EventId);
+            var sponsors = dataGateway.GetListOfSponsors();
+            var sponsorsToAdd = GetSponsorsByIds(sponsors, request.CheckedIds);
+            var sponsorsToRemove = GetSponsorsByIds(sponsors, request.AllIds);
+            var sponsorsForAllocation = @event.AllocatedSponsors;
+            sponsorsForAllocation = RemoveUncheckedSponsors(sponsorsForAllocation, sponsorsToRemove);
+            sponsorsForAllocation = CheckForDuplicate(sponsorsForAllocation, GetSponsorNames(sponsorsToAdd));
+            @event.AllocatedSponsors = sponsorsForAllocation;
             dataGateway.UpdateEvent(request.EventId, @event);
 
-            if (@event.AllocatedSponsors != allocatedSponsors)
-            {
-                response.IsValid = false;
-                
-            }
             return response;
         }
 
-        private string GetSponsorNames(List<Sponsor> sponsors)
+        private string RemoveUncheckedSponsors(string allSponsors, List<Sponsor> sponsorsToRemove)
         {
-            var sponsorNames = "";
-            foreach (var sponsor in sponsors)
+            foreach (var spons in sponsorsToRemove)
             {
-                sponsorNames = sponsorNames + sponsor.NameOfSponsor + " / ";
+                allSponsors = allSponsors.Replace(", " + spons.NameOfSponsor, "");
+                allSponsors = allSponsors.Replace(spons.NameOfSponsor, "");
             }
-            return sponsorNames;
+            return allSponsors;
         }
 
-        // Can probably only return the names of sponsors in this method
+        private string CheckForDuplicate(string previouslyAllocatedSponsors, List<string> names)
+        {
+            var AllSponsors = previouslyAllocatedSponsors;
+            foreach (var name in names)
+            {
+                if (!previouslyAllocatedSponsors.Contains(name))
+                {
+                    if (AllSponsors != "")
+                        AllSponsors += ", " + name;
+                    else
+                        AllSponsors = name;
+                }
+            }
+            return AllSponsors;
+        }
+
+        private List<string> GetSponsorNames(List<Sponsor> sponsors)
+        {
+            var listOfNames = new List<string>();
+            foreach (var sponsor in sponsors)
+            {
+                listOfNames.Add(sponsor.NameOfSponsor);
+            }
+            return listOfNames;
+        }
+
         private List<Sponsor> GetSponsorsByIds(List<Sponsor> sponsors, string[] sponsorIds)
 
         {
@@ -61,19 +82,22 @@ namespace BucuriaDarului.Contexts.EventContexts
     public class EventsSponsorAllocationRequest
     {
         public string EventId { get; set; }
-        public string[] SponsorIds { get; set; }
 
-        public EventsSponsorAllocationRequest(string[] sponsorIds, string eventId)
+        public string[] CheckedIds { get; set; }
+
+        public string[] AllIds { get; set; }
+
+        public EventsSponsorAllocationRequest(string[] checkedIds, string[] allIds, string eventId)
         {
-            this.EventId = eventId;
-            this.SponsorIds = sponsorIds;
+            EventId = eventId;
+            AllIds = allIds;
+            CheckedIds = checkedIds;
         }
     }
 
     public class EventSponsorAllocationResponse
     {
         public bool IsValid { get; set; }
-        
 
         public EventSponsorAllocationResponse()
         {

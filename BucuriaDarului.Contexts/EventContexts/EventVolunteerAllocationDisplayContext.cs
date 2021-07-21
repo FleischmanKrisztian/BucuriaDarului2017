@@ -1,9 +1,8 @@
-﻿using System;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.EventGateways;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
-using BucuriaDarului.Core.Gateways.EventGateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -20,16 +19,13 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             var @event = dataGateway.ReturnEvent(request.EventId);
             var volunteers = dataGateway.GetListOfVolunteers();
+            volunteers = GetVolunteersAfterSearching(volunteers, request.FilterData.NameOfVolunteer);
             var totalVolunteers = volunteers.Count();
-            var volunteersIdString = GetStringOfIds(volunteers);
             volunteers = GetVolunteerAfterSorting(volunteers, request.FilterData.VolunteerActivity);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
-            volunteers = GetVolunteersAfterSearching(volunteers, request.FilterData.NameOfVolunteer);
 
-
-            return new EventsVolunteerAllocationDisplayResponse(@event, volunteers, totalVolunteers, volunteersIdString, request.PagingData, request.FilterData, request.Messages);
+            return new EventsVolunteerAllocationDisplayResponse(@event, volunteers, totalVolunteers, request.PagingData, request.FilterData, request.Messages);
         }
- 
 
         private List<Volunteer> GetVolunteersAfterPaging(List<Volunteer> volunteers, int page, int nrOfDocs)
         {
@@ -59,12 +55,15 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private string GetStringOfIds(List<Volunteer> volunteers)
         {
-            var getStringOfIds = "volunteerCSV";
+            var Ids = "";
             foreach (var vol in volunteers)
             {
-                getStringOfIds = getStringOfIds + "," + vol.Id;
+                if (Ids == "")
+                    Ids = vol.Id;
+                else
+                    Ids = Ids + "," + vol.Id;
             }
-            return getStringOfIds;
+            return Ids;
         }
     }
 
@@ -73,7 +72,8 @@ namespace BucuriaDarului.Contexts.EventContexts
         public string EventId { get; set; }
         public VolunteerAllocationPagingData PagingData { get; set; }
         public VolunteerAllocationFilterData FilterData { get; set; }
-        public  string  Messages { get; set; }
+        public string Messages { get; set; }
+
         public EventsVolunteerAllocationDisplayRequest(string id, int page, int nrOfDocs, string searching, string messages)
         {
             EventId = id;
@@ -109,23 +109,20 @@ namespace BucuriaDarului.Contexts.EventContexts
         public Event Event { get; set; }
         public List<Volunteer> Volunteers { get; set; }
         public int TotalVolunteers { get; set; }
-        public string AllocatedVolunteersIdString { get; set; }
-
+        public string CurrentlyAllocatedVolunteers { get; set; }
         public VolunteerAllocationPagingData PagingData { get; set; }
         public VolunteerAllocationFilterData FilterData { get; set; }
 
-        public  string Messages { get; set; }
+        public string Messages { get; set; }
 
-        public EventsVolunteerAllocationDisplayResponse(Event @event, List<Volunteer> volunteers, int totalVolunteers, string allocateVolunteersIdString, VolunteerAllocationPagingData pagingData, VolunteerAllocationFilterData filterData, string messages)
+        public EventsVolunteerAllocationDisplayResponse(Event @event, List<Volunteer> volunteers, int totalVolunteers, VolunteerAllocationPagingData pagingData, VolunteerAllocationFilterData filterData, string messages)
         {
             Event = @event;
             Volunteers = volunteers;
             TotalVolunteers = totalVolunteers;
-            AllocatedVolunteersIdString = allocateVolunteersIdString;
             PagingData = pagingData;
             FilterData = filterData;
             Messages = messages;
-            
         }
     }
 

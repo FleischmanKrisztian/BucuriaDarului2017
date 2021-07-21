@@ -29,10 +29,9 @@
         <br>
     </div>
     <p>
-
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
-       @{
+            @{
                 int maxpage = (Model.TotalVolunteers/ Model.PagingData.NrOfDocumentsPerPage) + 1;
                 if (Model.TotalVolunteers % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalVolunteers != 0)
                 {
@@ -46,9 +45,9 @@
                 else
                 {
                     @Html.ActionLink("1", "Index", new { page = 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
-           }
-           if (Model.PagingData.CurrentPage >= 5)
-           {
+                }
+                if (Model.PagingData.CurrentPage >= 5)
+                {
                     @Html.ActionLink("<<", "Index", new { page = Model.PagingData.CurrentPage - 1, searchedFullname = Model.FilterData.SearchedFullname, sortOrder = Model.FilterData.SortOrder, active = Model.FilterData.Active, hasCar = Model.FilterData.HasCar, HasDriverLicense = Model.FilterData.HasDrivingLicense, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate, gender = Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace = Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })
                 }
                 if (Model.PagingData.CurrentPage > 3)

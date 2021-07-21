@@ -83,10 +83,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult VolunteerAllocation(string[] volunteerIds, string evId)
+        public ActionResult VolunteerAllocation(string[] CheckedIds, string[] AllIds, string evId)
         {
             var allocatedVolunteerUpdateContext = new EventVolunteerAllocationUpdateContext(new EventVolunteerAllocationUpdateGateway());
-            var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(volunteerIds, evId));
+            var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(CheckedIds, AllIds, evId));
 
             if (response.IsValid)
                 return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
@@ -104,10 +104,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SponsorAllocation(string[] sponsorIds, string evId)
+        public ActionResult SponsorAllocation(string[] CheckedIds, string[] AllIds, string evId)
         {
             var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
-            var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(sponsorIds, evId));
+            var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(CheckedIds, AllIds, evId));
             if (response.IsValid)
                 return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
             else
