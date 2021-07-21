@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Create";
     string idOfVolunteer = ViewBag.idOfVol;
-
 }
 
 <h1>@Localizer["Create"] @Localizer["Volcontract"]</h1>
@@ -59,6 +58,7 @@
         @ViewBag.message
     </h3>
 </div>
+
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@idOfVolunteer />

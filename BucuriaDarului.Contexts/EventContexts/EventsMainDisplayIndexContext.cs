@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways;
@@ -163,8 +164,12 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string AllocatedSponsors { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LowerDate { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime UpperDate { get; set; }
     }
 }

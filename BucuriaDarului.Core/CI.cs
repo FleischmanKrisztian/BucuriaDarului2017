@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BucuriaDarului.Core
 {
@@ -8,6 +9,8 @@ namespace BucuriaDarului.Core
 
         public string Info { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
     }
 }

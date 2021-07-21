@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.SponsorGateways;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace BucuriaDarului.Contexts.SponsorContexts
 {
@@ -158,8 +158,13 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public string MoneyAmount { get; set; }
         public string GoodsAmount { get; set; }
         public bool HasContract { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LowerDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime UpperDate { get; set; }
     }
-
 }

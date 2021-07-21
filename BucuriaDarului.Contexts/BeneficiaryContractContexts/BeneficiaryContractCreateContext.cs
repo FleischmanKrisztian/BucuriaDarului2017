@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
 
@@ -48,9 +49,31 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             var beneficiary = dataGateway.GetBeneficiary(request.OwnerID);
             contract.Id = Guid.NewGuid().ToString();
             contract.OwnerID = request.OwnerID;
+            if(request.NumberOfRegistration == "")
+            {
+                response.IsValid = false;
+                response.Message += "Please enter number of registration! ";
+            }
+            else
+            
             contract.NumberOfRegistration = request.NumberOfRegistration;
-            contract.ExpirationDate = request.ExpirationDate.AddDays(1);
-            contract.RegistrationDate = request.RegistrationDate.AddDays(1);
+            
+            if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
+            {
+                response.IsValid = false;
+                response.Message += "Please enter a valid Expiration Date! ";
+            }
+            else
+                contract.ExpirationDate = request.ExpirationDate.AddDays(1);
+
+            if (request.RegistrationDate < DateTime.MinValue.AddYears(3))
+            {
+                response.IsValid = false;
+                response.Message += "Please enter a valid Registration Date! ";
+            }
+            else
+                contract.RegistrationDate = request.RegistrationDate.AddDays(1);
+                    
             contract.Fullname = beneficiary.Fullname;
             contract.NumberOfPortions = beneficiary.NumberOfPortions;
             if (beneficiary.CNP != "")
@@ -58,7 +81,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             else
             {
                 response.IsValid = false;
-                response.Message += "Missing CNP information for this beneficiary!Please fill in all the data necessary for contract creation.";
+                response.Message += "Missing CNP information for this beneficiary! Please fill in all the data necessary for contract creation.";
             }
 
             // Validation Must be added here if We choose to.
@@ -92,8 +115,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
         public string NumberOfRegistration { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime RegistrationDate { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
     }
 }

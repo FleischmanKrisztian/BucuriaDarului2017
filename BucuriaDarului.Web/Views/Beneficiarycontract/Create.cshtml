@@ -1,10 +1,11 @@
-﻿@model BucuriaDarului.Web.Models.Beneficiarycontract
+﻿@model BucuriaDarului.Contexts.BeneficiaryContractContexts.BeneficiaryContractCreateRequest
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Create";
     string idOfBeneficiary = ViewBag.idOfBeneficiary;
 }
+
 <h1>@Localizer["Create"] @Localizer["BeneficiaryContract"]</h1>
 <hr />
 <head>
@@ -51,6 +52,13 @@
         }
     </style>
 </head>
+
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
+
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@idOfBeneficiary />

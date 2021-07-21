@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 
@@ -47,17 +48,35 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var contract = new VolunteerContract();
             var volunteer = dataGateway.GetVolunteer(request.OwnerID);
             contract.Id = Guid.NewGuid().ToString();
-            contract.NumberOfRegistration = request.NumberOfRegistration;
-            contract.ExpirationDate = request.ExpirationDate.AddHours(5);
-            contract.RegistrationDate = request.RegistrationDate.AddHours(5);
-            contract.Birthdate = volunteer.Birthdate; // The check should be whether or not the date is bigger than date.minValue
+            if (request.NumberOfRegistration == "")
+            {
+                response.IsValid = false;
+                response.Message += "Please enter number of registration!";
+            }
+            else
+                contract.NumberOfRegistration = request.NumberOfRegistration;
+            if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
+            {
+                response.IsValid = false;
+                response.Message += "Please enter a valid Expiration Date! ";
+            }
+            else
+                contract.ExpirationDate = request.ExpirationDate.AddDays(1);
+            if (request.RegistrationDate < DateTime.MinValue.AddYears(3))
+            {
+                response.IsValid = false;
+                response.Message += "Please enter a valid Registration Date! ";
+            }
+            else
+                contract.RegistrationDate = request.RegistrationDate.AddDays(1);
+            contract.Birthdate = volunteer.Birthdate;
             contract.Fullname = volunteer.Fullname;
             if (volunteer.CNP != "")
                 contract.CNP = volunteer.CNP;
             else
             {
                 response.IsValid = false;
-                response.Message += "Missing CNP information for this volunteer!Please fill in all the data necessary for contract creation.";
+                response.Message += "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation.";
             }
             //CI will never be null 
             if (volunteer.CI != null)
@@ -95,8 +114,12 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
 
         public string NumberOfRegistration { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime RegistrationDate { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
@@ -240,8 +241,15 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public bool Active { get; set; }
         public bool HasCar { get; set; }
         public bool HasDrivingLicense { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LowerDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime UpperDate { get; set; }
+
         public string Gender { get; set; }
         public string SearchedAddress { get; set; }
         public string SearchedWorkplace { get; set; }

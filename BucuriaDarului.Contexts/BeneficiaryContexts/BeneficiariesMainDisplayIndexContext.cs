@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContexts
@@ -236,7 +237,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             filterData.SearchingHasHome = searchingHasHome;
             filterData.SearchingHousingType = searchingHousingType ?? null;
             filterData.SearchingIncome = searchingIncome ?? null;
-            filterData.SearchingExpenses = searchingExpenses ??null;
+            filterData.SearchingExpenses = searchingExpenses ?? null;
             filterData.Gender = gender;
             filterData.SortOrder = new Sort(sortOrder);
 
@@ -299,10 +300,23 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public string SearchingBirthPlace { get; set; }
         public bool HasContract { get; set; }
         public bool Homeless { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LowerDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime UpperDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ActiveSince { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ActiveTill { get; set; }
+
         public bool WeeklyPackage { get; set; }
         public bool Canteen { get; set; }
         public bool HomeDelivery { get; set; }
@@ -345,7 +359,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
             Gendersort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
             Activesort = sortOrder == "Active" ? "Active_desc" : "Active";
-
         }
     }
 }

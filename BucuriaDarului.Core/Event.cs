@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BucuriaDarului.Core
 {
@@ -10,6 +11,8 @@ namespace BucuriaDarului.Core
 
         public string PlaceOfEvent { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateOfEvent { get; set; }
 
         public int NumberOfVolunteersNeeded { get; set; }
