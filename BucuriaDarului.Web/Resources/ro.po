@@ -562,7 +562,7 @@ msgid "nospecialchar"
 msgstr "Câmpurile nu pot conține caracterul ';'"
 
 msgid "Filters"
-msgstr "Sortează după"
+msgstr "Filtre"
 
 msgid "The date of active till cant be smaller that that of activesince!"
 msgstr "Data finală a activității nu poate fi mai mică decat data de început!"

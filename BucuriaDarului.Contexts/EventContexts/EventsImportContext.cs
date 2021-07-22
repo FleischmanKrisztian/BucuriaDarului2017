@@ -103,8 +103,10 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns[1].Contains("Event", StringComparison.InvariantCultureIgnoreCase) || headerColumns[1].Contains("Eveniment", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("NameOfEvent", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("PlaceOfEvent", StringComparison.InvariantCultureIgnoreCase);
+            return correct;
         }
+
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
         {
@@ -126,53 +128,16 @@ namespace BucuriaDarului.Contexts.EventContexts
                 var ev = new Event();
                 try
                 {
+                    //TODO : Once The CSV Exporter will be consistent across the two languages and will have all its fields we have to make the import here:
                     ev.Id = line[0];
                     ev.NameOfEvent = line[1];
                     ev.PlaceOfEvent = line[2];
-
-                    if (line[3] == null || line[3] == "" || line[3] == "0")
-                    {
-                        ev.DateOfEvent = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime data;
-                        if (line[3].Contains("/") == true)
-                        {
-                            var date = line[3].Split(" ");
-                            var finalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(finalDate[2] + "-" + finalDate[0] + "-" + finalDate[1]);
-                        }
-                        else
-                        {
-                            var anotherDate = line[3].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                        }
-                        ev.DateOfEvent = data.AddDays(1);
-                    }
-
-                    if (line[4] == "" || line[4] == null)
-                    {
-                        ev.NumberOfVolunteersNeeded = 0;
-                    }
-                    else
-                    {
-                        var converted = false;
-                        converted = Int32.TryParse(line[4], out var number);
-                        if (converted)
-                        {
-                            ev.NumberOfVolunteersNeeded = number;
-                        }
-                        else
-                        {
-                            ev.NumberOfVolunteersNeeded = 0;
-                        }
-                    }
-                    ev.TypeOfActivities = line[5];
-                    ev.TypeOfEvent = line[6];
-                    ev.Duration = line[7];
+                    ev.DateOfEvent = Convert.ToDateTime(line[3]);
+                    ev.TypeOfActivities = line[4];
+                    ev.TypeOfEvent = line[5];
+                    ev.Duration = line[6];
                     ev.AllocatedVolunteers = line[8];
-                    ev.AllocatedSponsors = line[10];
+                    ev.AllocatedSponsors = line[9];
                 }
                 catch
                 {

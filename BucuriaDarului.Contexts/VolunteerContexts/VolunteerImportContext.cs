@@ -103,7 +103,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Birthdate", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Birthdate", StringComparison.InvariantCultureIgnoreCase);
+            if (correct)
+                return correct;
+            correct = headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("data", StringComparison.InvariantCultureIgnoreCase);
+            return correct;
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -130,7 +134,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Fullname = line[1];
                     volunteer.Birthdate = Convert.ToDateTime(line[2]);
                     volunteer.Address = line[3];
-                    volunteer.Gender = Convert.ToInt16(line[4]) == 0 ? Gender.Male : Gender.Female;
+                    //add for romanian
+                    if (line[4] == "Male")
+                        volunteer.Gender = Gender.Male;
+                    else
+                        volunteer.Gender = Gender.Female;
                     volunteer.DesiredWorkplace = line[5];
                     volunteer.CNP = line[6];
                     volunteer.FieldOfActivity = line[7];
@@ -162,7 +170,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     };
 
                     volunteer.AdditionalInfo = additionalInformation;
-                    //volunteer.Image = line[19];
                 }
                 catch
                 {
