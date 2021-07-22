@@ -213,7 +213,8 @@
             }
         }
     </table>
-    <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> | <a href=@Url.Action( "Index" ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+    <input type="submit" name="submit" class="btn btn-primary" value=@Localizer["Allocate"] /> |
+    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
     <br />
 </form>
 <br />

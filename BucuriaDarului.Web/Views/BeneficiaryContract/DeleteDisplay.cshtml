@@ -90,7 +90,7 @@
             </div>
             <div class="form-actions no-color col-md-3">
                 <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
-                <a href=@Url.Action( "Index", new { idofbeneficiary = idOfBeneficiary } ) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
             </div>
         </div>
     </div>

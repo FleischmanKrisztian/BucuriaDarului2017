@@ -9,7 +9,7 @@
 <h2 style="color:black">@Localizer["ContractsOf"] @Model.NameOfVolunteer </h2>
 
 <p>
-    <a href=@Url.Action("Index","Volunteer") class="btn btn-primary">@Localizer["BackToList"]</a>
+    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
     <a href=@Url.Action("Create", new {idOfVolunteer = Model.VolunteerId}) class="btn btn-primary"style="background-color: green; border-color: darkgreen" >@Localizer["CreateNew"]</a>
 </p>
 <table class="table">

@@ -206,7 +206,7 @@
         </div>
         <div class="col-md-3">
             <input type="submit" value=@Localizer["Download"] class="btn btn-primary" /> |
-            <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+            <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
         </div>
     </div>
 </div>

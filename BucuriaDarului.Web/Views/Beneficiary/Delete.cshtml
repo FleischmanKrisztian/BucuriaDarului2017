@@ -249,7 +249,7 @@
                         <input type="submit" class="btn btn-primary" style="border-color: darkred; background-color: red" value=@Localizer["Delete"] />
                     }
                 </span>
-                <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
+                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
             </div>
         </div>
     </div>

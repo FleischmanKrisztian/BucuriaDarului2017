@@ -99,7 +99,7 @@
                 </div>
                 <div class="col-md-3">
                     <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
-                    <a href=@Url.Action( "Index" ,new { ViewBag.idOfBeneficiary }) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+                    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
                 </div>
             </div>
         </div>

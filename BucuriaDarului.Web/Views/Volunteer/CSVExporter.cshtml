@@ -52,258 +52,258 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="container emp-profile">
-    <div>
-        <h3 style="color:red">
-            @ViewBag.message
+    <div class="container emp-profile">
+        <div>
+            <h3 style="color:red">
+                @ViewBag.message
+            </h3>
+        </div>
+        <h3>
+            @Localizer["Please insert a file name"]:
         </h3>
-    </div>
-    <h3>
-        @Localizer["Please insert a file name"]:
-    </h3>
-    <br />
-    <div class="row">
-        <div class="col-md-9">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["FileName"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.EditorFor(model => model.FileName)
-                    <hr />
+        <br />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["FileName"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.FileName)
+                        <hr />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <h3>
-        @Localizer["Please choose what you want the Excel to contain"]:
-    </h3>
-    <br />
-    <br />
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6" style="color:red">
-                    <label> @Localizer["Check this for all fields"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true })
-                    <hr />
+        <h3>
+            @Localizer["Please choose what you want the Excel to contain"]:
+        </h3>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6" style="color:red">
+                        <label> @Localizer["Check this for all fields"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true })
+                        <hr />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label>@Localizer["Fullname"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Fullname)
-                    <hr />
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label>@Localizer["Fullname"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Fullname)
+                        <hr />
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["Birthdate"]:</label>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["Birthdate"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Birthdate)
+                        <hr />
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Birthdate)
-                    <hr />
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["Address"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Address)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label>  @Localizer["Gender"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Gender)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label>@Localizer["DesiredWorkplace"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.DesiredWorkplace)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["CNP"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.CNP)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["FieldOfActivity"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.FieldOfActivity)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["Occupation"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Occupation)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["HasId"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.HasId)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["IdInfo"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.IdInfo)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["IdExpirationDate"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.IdExpirationDate)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["Active"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Active)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["HourCount"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.HourCount)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["PhoneNumber"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.PhoneNumber)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["EmailAddress"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.EmailAddress)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["DriversLicense"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.DriversLicense)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["HasCar"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.HasCar)
+                        <hr />
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["Address"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Address)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label>  @Localizer["Gender"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Gender)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label>@Localizer["DesiredWorkplace"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.DesiredWorkplace)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["CNP"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.CNP)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["FieldOfActivity"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.FieldOfActivity)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["Occupation"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Occupation)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["HasId"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.HasId)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["IdInfo"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.IdInfo)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["IdExpirationDate"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.IdExpirationDate)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["Active"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Active)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["HourCount"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.HourCount)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["PhoneNumber"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.PhoneNumber)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["EmailAddress"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.EmailAddress)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["DriversLicense"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.DriversLicense)
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["HasCar"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.HasCar)
-                    <hr />
-                </div>
-            </div>
+            <input type="submit" value=@Localizer["Download"] class="btn btn-primary" /> |
+            <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
         </div>
     </div>
-    <div class="col-md-6">
-        <input type="submit" value=@Localizer["Download"] class="btn btn-primary" /> |
-        <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["BackToList"]</a>
-    </div>
-</div>
 }

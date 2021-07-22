@@ -134,7 +134,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Fullname = line[1];
                     volunteer.Birthdate = Convert.ToDateTime(line[2]);
                     volunteer.Address = line[3];
-                    //add for romanian
                     if (line[4] == "Male")
                         volunteer.Gender = Gender.Male;
                     else

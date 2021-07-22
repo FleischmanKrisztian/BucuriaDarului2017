@@ -137,7 +137,7 @@
         </div>
         <div class="col-md-3">
             <a href="ContractPrinter:@Model.Id"><img src="~/Resources/print.jpg" title=@Localizer["Print"]></a>|
-            <a href=@Url.Action( "Index" ,new { idOfVolunteer = Model.OwnerID  }) class="profile-edit-btn" name="btnAddMore">@Localizer["BackToList"]</a>
+            <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
         </div>
     </div>
 </div>
