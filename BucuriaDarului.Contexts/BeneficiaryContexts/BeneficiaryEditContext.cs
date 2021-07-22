@@ -26,6 +26,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             }
 
             var beneficiary = ValidateRequest(noNullRequest, image);
+            var beforeEditingBeneficiary = dataGateway.ReturnBeneficiary(beneficiary.Id);
+            if (beneficiary.Image == null)
+                beneficiary.Image = beforeEditingBeneficiary.Image;
 
             if (response.IsValid)
             {
@@ -33,7 +36,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
                 if (!modifiedListString.Contains(beneficiary.Id))
                 {
-                    var beforeEditingBeneficiary = dataGateway.ReturnBeneficiary(beneficiary.Id);
                     var beforeEditingBeneficiaryString = JsonConvert.SerializeObject(beforeEditingBeneficiary);
                     dataGateway.AddBeneficiaryToModifiedList(beforeEditingBeneficiaryString);
                 }

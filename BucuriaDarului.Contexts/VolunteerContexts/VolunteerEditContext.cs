@@ -26,6 +26,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
 
             var volunteer = ValidateRequest(noNullRequest, image);
+            var beforeEditingVolunteer = dataGateway.ReturnVolunteer(volunteer.Id);
+            if (volunteer.Image == null)
+                volunteer.Image = beforeEditingVolunteer.Image;
 
             if (response.IsValid)
             {
@@ -33,7 +36,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
                 if (!modifiedListString.Contains(volunteer.Id))
                 {
-                    var beforeEditingVolunteer = dataGateway.ReturnVolunteer(volunteer.Id);
                     var beforeEditingVolunteerString = JsonConvert.SerializeObject(beforeEditingVolunteer);
                     dataGateway.AddVolunteerToModifiedList(beforeEditingVolunteerString);
                 }
@@ -53,6 +55,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
 
             request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);
+
             var validatedVolunteer = new Volunteer
             {
                 Id = request.Id,
@@ -69,14 +72,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 HourCount = request.HourCount,
                 ContactInformation = request.ContactInformation,
                 AdditionalInfo = request.AdditionalInfo
-
             };
 
             if (image.Length > 2)
             {
                 validatedVolunteer.Image = image;
             }
-
 
             return validatedVolunteer;
         }
@@ -145,7 +146,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     {
         public Volunteer Volunteer { get; set; }
         public string Message { get; set; }
-
         public bool IsValid { get; set; }
 
         public VolunteerEditResponse(string message, bool isValid)
@@ -186,6 +186,5 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public AdditionalInfo AdditionalInfo { get; set; }
 
         public byte[] Image { get; set; }
-
     }
 }
