@@ -32,9 +32,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             {
                 var result = ExtractImportRawData(dataToImport);
                 var stringArray = result[0];
-                if (stringArray[0].Contains("File must be of type"))
+                if (stringArray[0].Contains("The File Does"))
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", stringArray[0]));
                     response.IsValid = false;
                 }
                 else
@@ -73,7 +73,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     {
                         var returnList = new List<string[]>();
                         var strArray = new string[1];
-                        strArray[0] = "File must be of type Volunteer!";
+                        strArray[0] = "The File Does Not have the correct header!";
                         returnList.Add(strArray);
 
                         return returnList;
@@ -172,7 +172,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
                 catch
                 {
-                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Volunteer type!")));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
                     response.IsValid = false;
                 }
                 volunteers.Add(volunteer);
