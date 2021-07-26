@@ -119,7 +119,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private string GetHeaderForExcelPrinterBeneficiary()
         {
-            var header = new string[39];
+            var header = new string[40];
             header[0] = localizer["Id"];
             header[1] = localizer["Fullname"];
             header[2] = localizer["Active"];
@@ -140,25 +140,26 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             header[17] = localizer["NumberOfPortions"];
             header[18] = localizer["LastTimeActive"];
             header[19] = localizer["Comments"];
-            header[20] = localizer["Birthplace"];
+            header[20] = localizer["Birthdate"];
             header[21] = localizer["PhoneNumber"];
-            header[22] = localizer["Studies"];
-            header[23] = localizer["Profession"];
-            header[24] = localizer["Occupation"];
-            header[25] = localizer["SeniorityInWorkField"];
-            header[26] = localizer["HealthState"];
-            header[27] = localizer["Disability"];
-            header[28] = localizer["ChronicCondition"];
-            header[29] = localizer["Addictions"];
-            header[30] = localizer["HasHealthInsurance"];
-            header[31] = localizer["HasHealthCard"];
-            header[32] = localizer["Married"];
-            header[33] = localizer["SpouseName"];
-            header[34] = localizer["HasHome"];
-            header[35] = localizer["HousingType"];
-            header[36] = localizer["Income"];
-            header[37] = localizer["Expenses"];
-            header[38] = localizer["Gender"];
+            header[22] = localizer["Birthplace"];
+            header[23] = localizer["Studies"];
+            header[24] = localizer["Profession"];
+            header[25] = localizer["Occupation"];
+            header[26] = localizer["SeniorityInWorkField"];
+            header[27] = localizer["HealthState"];
+            header[28] = localizer["Disability"];
+            header[29] = localizer["ChronicCondition"];
+            header[30] = localizer["Addictions"];
+            header[31] = localizer["HasHealthInsurance"];
+            header[32] = localizer["HasHealthCard"];
+            header[33] = localizer["Married"];
+            header[34] = localizer["SpouseName"];
+            header[35] = localizer["HasHome"];
+            header[36] = localizer["HousingType"];
+            header[37] = localizer["Income"];
+            header[38] = localizer["Expenses"];
+            header[39] = localizer["Gender"];
 
             var result = string.Empty;
             for (var i = 0; i < header.Count(); i++)
