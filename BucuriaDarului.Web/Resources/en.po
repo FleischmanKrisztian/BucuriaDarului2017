@@ -651,3 +651,9 @@ msgstr "No documents found matching criteria!"
 
 msgid "ContractNumberOfRegistration"
 msgstr "Contract number of registration"
+
+msgid "LowerDate"
+msgstr "Lower date"
+
+msgid "UpperDate"
+msgstr "Upper date"
