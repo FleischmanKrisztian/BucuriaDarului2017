@@ -102,7 +102,11 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns[1].Contains("Sponsor", StringComparison.InvariantCultureIgnoreCase) || headerColumns[1].Contains("Sponsor", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Name of sponsor", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Date", StringComparison.InvariantCultureIgnoreCase);
+            if (correct)
+                return correct;
+            correct = headerColumns[1].Contains("Numele sponsorului", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Data", StringComparison.InvariantCultureIgnoreCase);
+            return correct;
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -123,99 +127,37 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             foreach (var line in lines)
             {
                 var newSponsor = new Sponsor();
-                Sponsorship s = new Sponsorship();
-                Contract c = new Contract();
-                ContactInformation ci = new ContactInformation();
+                var sponsorship = new Sponsorship();
+                var contract = new Contract();
+                var contactInformation = new ContactInformation();
                 try
                 {
-                    newSponsor.Id = Guid.NewGuid().ToString(); // TODO: check if the Id is already in the database
-                    newSponsor.NameOfSponsor = line[0];
+                    newSponsor.Id = line[0];
+                    newSponsor.NameOfSponsor = line[1];
 
-                    if (line[1] == null || line[1] == "" || line[1] == "0")
-                    {
-                        s.Date = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime data;
-                        if (line[1].Contains("/") == true)
-                        {
-                            var date = line[1].Split(" ");
-                            var finalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(finalDate[2] + "-" + finalDate[0] + "-" + finalDate[1]);
-                        }
-                        else
-                        {
-                            var anotherDate = line[1].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                        }
-                    }
-                    s.MoneyAmount = line[2];
-                    s.WhatGoods = line[3];
-                    s.GoodsAmount = line[4];
+                    sponsorship.Date = Convert.ToDateTime(line[2]);
+                    sponsorship.MoneyAmount = line[3];
+                    sponsorship.WhatGoods = line[4];
+                    sponsorship.GoodsAmount = line[5];
 
-                    newSponsor.Sponsorship = s;
-                    if (line[5] == "True" || line[5] == "true")
-                    {
-                        c.HasContract = true;
-                    }
-                    else
-                    {
-                        c.HasContract = false;
-                    }
-                    c.HasContract = Convert.ToBoolean(line[5]);
-                    c.NumberOfRegistration = line[6];
+                    contract.HasContract = Convert.ToBoolean(line[6]);
+                    contract.NumberOfRegistration = line[7];
+                    contract.RegistrationDate = Convert.ToDateTime(line[8]);
+                    contract.ExpirationDate = Convert.ToDateTime(line[9]);
 
-                    if (line[7] == null || line[7] == "" || line[7] == "0")
-                    {
-                        c.RegistrationDate = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime data;
-                        if (line[7].Contains("/") == true)
-                        {
-                            var date = line[7].Split(" ");
-                            var finalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(finalDate[2] + "-" + finalDate[0] + "-" + finalDate[1]);
-                        }
-                        else
-                        {
-                            var anotherDate = line[7].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                        }
-                    }
+                    contactInformation.PhoneNumber = line[10];
+                    contactInformation.MailAddress = line[11];
 
-                    if (line[8] == null || line[8] == "" || line[8] == "0")
-                    {
-                        c.ExpirationDate = DateTime.MinValue;
-                    }
-                    else
-                    {
-                        DateTime data;
-                        if (line[8].Contains("/") == true)
-                        {
-                            var date = line[8].Split(" ");
-                            var finalDate = date[0].Split("/");
-                            data = Convert.ToDateTime(finalDate[2] + "-" + finalDate[0] + "-" + finalDate[1]);
-                        }
-                        else
-                        {
-                            var anotherDate = line[8].Split('.');
-                            data = Convert.ToDateTime(anotherDate[2] + "-" + anotherDate[1] + "-" + anotherDate[0]);
-                        }
-                    }
-                    newSponsor.Contract = c;
-
-                    ci.PhoneNumber = line[9];
-                    ci.MailAddress = line[10];
-                    newSponsor.ContactInformation = ci;
+                    newSponsor.Sponsorship = sponsorship;
+                    newSponsor.ContactInformation = contactInformation;
+                    newSponsor.Contract = contract;
                 }
                 catch
                 {
                     response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Event type!")));
                     response.IsValid = false;
                 }
+
                 sponsors.Add(newSponsor);
             }
             return sponsors;

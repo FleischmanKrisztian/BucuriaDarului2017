@@ -102,7 +102,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            return headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Active", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Name of event", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Place of event", StringComparison.InvariantCultureIgnoreCase);
+            if (correct)
+                return correct;
+            correct = headerColumns[1].Contains("Numele evenimentului", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Locul evenimentului", StringComparison.InvariantCultureIgnoreCase);
+            return correct;
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
