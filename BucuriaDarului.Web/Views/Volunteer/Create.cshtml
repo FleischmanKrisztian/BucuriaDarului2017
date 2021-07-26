@@ -47,7 +47,7 @@
             font-weight: 600;
             font-size: 15px;
         }
-        }
+        
     </style>
 </head>
 <div>
@@ -109,7 +109,7 @@
                         @Localizer["Birthdate"]:
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
+                        <input class="form-control" type="date" name="Birthdate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger"})
                         <hr />
                     </div>
@@ -140,7 +140,6 @@
                     </div>
                     <div style=" padding-left:20px; padding-bottom:2px !important">
                         @Html.EditorFor(model => model.CI.HasId)
-
                         @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -160,7 +159,7 @@
                         @Localizer["IdExpirationDate"]:
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.CI.ExpirationDate, new { htmlAttributes = new { @class = "form-control" } })
+                        <input class="form-control" type="date" name="ExpirationDate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -187,9 +186,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        @Localizer["Hascar"]
+                        @Localizer["HasCar"]
                     </div>
-                    <div class="col-md-6  checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.AdditionalInfo.HasCar)
                         </div>
@@ -199,7 +198,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        @Localizer["Hasdrivinglicense"]
+                        @Localizer["HasDrivingLicense"]
                     </div>
                     <div class="col-md-6 checkbox">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
@@ -263,7 +262,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        @Localizer["Hourcount"]:
+                        @Localizer["HourCount"]:
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })

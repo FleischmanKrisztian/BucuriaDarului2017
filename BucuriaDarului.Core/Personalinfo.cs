@@ -5,8 +5,6 @@ namespace BucuriaDarului.Core
 {
     public class PersonalInfo
     {
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
 
         public string PhoneNumber { get; set; }

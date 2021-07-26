@@ -46,7 +46,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         {
             request = ChangeNullValues(request);
             var contract = new VolunteerContract();
-            var volunteer = dataGateway.GetVolunteer(request.OwnerID);
+            var volunteer = dataGateway.GetVolunteer(request.OwnerId);
             contract.Id = Guid.NewGuid().ToString();
             if (request.NumberOfRegistration == "")
             {
@@ -110,16 +110,12 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
 
     public class VolunteerContractCreateRequest
     {
-        public string OwnerID { get; set; }
+        public string OwnerId { get; set; }
 
         public string NumberOfRegistration { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime RegistrationDate { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ExpirationDate { get; set; }
     }
 }

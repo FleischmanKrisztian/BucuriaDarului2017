@@ -164,12 +164,8 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string AllocatedSponsors { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LowerDate { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime UpperDate { get; set; }
     }
 }

@@ -14,8 +14,6 @@ namespace BucuriaDarului.Core
 
         public string Fullname { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthdate { get; set; }
 
         public string Address { get; set; }

@@ -39,9 +39,9 @@ namespace BucuriaDarului.Web.Controllers
 
             if (!contractCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerID, message = contractCreateResponse.Message });
+                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerId, message = contractCreateResponse.Message });
             }
-            return RedirectToAction("Index", new { idOfVolunteer = request.OwnerID });
+            return RedirectToAction("Index", new { idOfVolunteer = request.OwnerId });
         }
 
         [HttpGet]

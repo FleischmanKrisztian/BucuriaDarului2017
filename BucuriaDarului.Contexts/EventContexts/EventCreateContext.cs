@@ -102,8 +102,6 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string PlaceOfEvent { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateOfEvent { get; set; }
 
         public int NumberOfVolunteersNeeded { get; set; }

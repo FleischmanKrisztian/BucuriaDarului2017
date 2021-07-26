@@ -158,13 +158,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public string MoneyAmount { get; set; }
         public string GoodsAmount { get; set; }
         public bool HasContract { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LowerDate { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime UpperDate { get; set; }
     }
 }

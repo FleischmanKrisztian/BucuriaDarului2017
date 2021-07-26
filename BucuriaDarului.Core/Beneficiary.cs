@@ -31,8 +31,6 @@ namespace BucuriaDarului.Core
 
         public int NumberOfPortions { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LastTimeActive { get; set; }
 
         public string Comments { get; set; }

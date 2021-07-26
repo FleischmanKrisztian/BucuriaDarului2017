@@ -31,27 +31,27 @@ namespace BucuriaDarului.Contexts.EventContexts
             return response;
         }
 
-        private string RemoveUncheckedVolunteers(string allVolulunteers, List<Volunteer> volunteersToRemove)
+        private string RemoveUncheckedVolunteers(string allVolunteers, List<Volunteer> volunteersToRemove)
         {
             foreach (var vol in volunteersToRemove)
             {
-                allVolulunteers = allVolulunteers.Replace(", " + vol.Fullname, "");
-                allVolulunteers = allVolulunteers.Replace(vol.Fullname, "");
+                allVolunteers = allVolunteers.Replace(", " + vol.Fullname, "");
+                allVolunteers = allVolunteers.Replace(vol.Fullname, "");
             }
-            return allVolulunteers;
+            return allVolunteers;
         }
 
         private string CheckForDuplicate(string previouslyAllocatedVolunteers, List<string> names)
         {
-            var AllVolunteers = previouslyAllocatedVolunteers;
+            var allVolunteers = previouslyAllocatedVolunteers;
             foreach( var name in names)
             {
                 if(!previouslyAllocatedVolunteers.Contains(name))
                 {
-                    AllVolunteers += ", " + name;
+                    allVolunteers += ", " + name;
                 }
             }
-            return AllVolunteers;
+            return allVolunteers;
         }
 
         private int VolunteersAllocatedCounter(string allocatedVolunteers)

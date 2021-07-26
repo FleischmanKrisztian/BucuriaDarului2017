@@ -224,7 +224,7 @@
                     </h6>
                     <p class="proile-rating">@Localizer["Active"]: <span> @Html.DisplayFor(model => model.InActivity)</span></p>
                     <div class="tab">
-                        <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Generalinformation')"><img src="~/Resources/general_info.png" width="30" height="30" title=@Localizer["Generalinformation"]></button>
+                        <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'GeneralInformation')"><img src="~/Resources/general_info.png" width="30" height="30" title=@Localizer["GeneralInformation"]></button>
                         <button class="tablinks" onclick="openTab(event, 'IDInformation')"><img src="~/Resources/id_info.png" width="30" height="30" title=@Localizer["IDInformation"]></button>
                         <button class="tablinks" onclick="openTab(event, 'Volunteering')"><img src="~/Resources/volunteering.png" width="30" height="30" title=@Localizer["AdditionalInformation"]></button>
                     </div>
@@ -247,7 +247,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div id="Generalinformation" class="tabcontent">
+                <div id="GeneralInformation" class="tabcontent">
                     <div class="row">
                         <div class=" col-md-6">  <label> @Localizer["Address"]:</label></div>
                         <div class="col-md-6"> @Html.DisplayFor(model => model.Address)</div>
@@ -283,11 +283,11 @@
                         <div class="col-md-6">@Html.DisplayFor(model => model.AdditionalInfo.Remark)</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6"><label>@Localizer["Hasdrivinglicense"]:</label></div>
+                        <div class="col-md-6"><label>@Localizer["HasDrivingLicense"]:</label></div>
                         <div class="col-md-6">@Html.DisplayFor(model => model.AdditionalInfo.HasDrivingLicense)</div>
                     </div>
                     <div class="row">
-                        <div class=" col-md-6"><label>@Localizer["Hascar"]:</label></div>
+                        <div class=" col-md-6"><label>@Localizer["HasCar"]:</label></div>
                         <div classs="col-md-6" style="padding-left:2%;">@Html.DisplayFor(model => model.AdditionalInfo.HasCar)</div>
                     </div>
                     <div class="row">
