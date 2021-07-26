@@ -652,3 +652,9 @@ msgstr "Nu a fost găsit nici un document care să fie corespunzător criteriulu
 
 msgid "ContractNumberOfRegistration"
 msgstr "Numărul de înregistrare al contractului"
+
+msgid "LowerDate"
+msgstr "Dată inferioară"
+
+msgid "UpperDate"
+msgstr "Dată superioară"
