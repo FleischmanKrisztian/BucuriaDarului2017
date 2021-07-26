@@ -146,18 +146,18 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        @Localizer["HasId"]:
+                        @Localizer["HasId"]
                     </div>
-                    <div style=" padding-left:20px; padding-bottom:2px !important">
-                        @Html.EditorFor(model => model.CI.HasId)
+                    <div class="col-md-6">
 
+                        @Html.EditorFor(model => model.CI.HasId)
                         @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        @Localizer["IdInfo"]:
+                        @Localizer["IdInformation"]:
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @class = "form-control" } })
@@ -199,22 +199,21 @@
                     <div class="col-md-6">
                         @Localizer["HasCar"]
                     </div>
-                    <div class="col-md-6  checkbox">
-                        <div style=" padding-left:20px; padding-bottom:2px !important">
-                            @Html.EditorFor(model => model.AdditionalInfo.HasCar)
-                        </div>
+                    <div class="col-md-6">
+
+                        @Html.EditorFor(model => model.AdditionalInfo.HasCar)
                         @Html.ValidationMessageFor(model => model.AdditionalInfo.HasCar, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         @Localizer["HasDrivingLicense"]
                     </div>
                     <div class="col-md-6">
-                        <div style=" padding-left:20px; padding-bottom:2px !important">
-                            @Html.EditorFor(model => model.AdditionalInfo.HasDrivingLicense)
-                        </div>
+
+                        @Html.EditorFor(model => model.AdditionalInfo.HasDrivingLicense)
                         @Html.ValidationMessageFor(model => model.AdditionalInfo.HasDrivingLicense, "", new { @class = "text-danger" })
                         <hr />
                     </div>
