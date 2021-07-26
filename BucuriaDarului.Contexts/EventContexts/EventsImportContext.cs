@@ -136,8 +136,10 @@ namespace BucuriaDarului.Contexts.EventContexts
                     ev.TypeOfActivities = line[4];
                     ev.TypeOfEvent = line[5];
                     ev.Duration = line[6];
+                    ev.NumberOfVolunteersNeeded= Convert.ToInt32(line[7]);
                     ev.AllocatedVolunteers = line[8];
-                    ev.AllocatedSponsors = line[9];
+                    ev.NumberAllocatedVolunteers = Convert.ToInt32(line[9]);
+                    ev.AllocatedSponsors = line[10];
                 }
                 catch
                 {
