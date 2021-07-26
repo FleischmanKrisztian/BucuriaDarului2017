@@ -68,7 +68,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private string GetHeaderForExcelPrinterEvent()
         {
-            string[] header = new string[9];
+            string[] header = new string[11];
             header[0]= localizer["Id"];
             header[1] = localizer["NameOfEvent"];
             header[2] = localizer["PlaceOfEvent"];
@@ -76,8 +76,10 @@ namespace BucuriaDarului.Contexts.EventContexts
             header[4] = localizer["TypeOfActivities"];
             header[5] = localizer["TypeOfEvent"];
             header[6] = localizer["Duration"];
-            header[7] = localizer["AllocatedVolunteers"];
-            header[8] = localizer["AllocatedSponsors"];
+            header[7] = localizer["NumberOfVolunteersNeeded"];
+            header[8]= localizer["AllocatedVolunteers"];
+            header[9] = localizer["NumberAllocatedVolunteers"];
+            header[10] = localizer["AllocatedSponsors"];
             string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)
             {
