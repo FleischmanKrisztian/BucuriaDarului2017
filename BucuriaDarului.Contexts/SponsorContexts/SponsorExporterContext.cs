@@ -70,7 +70,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         private string GetHeaderForExcelPrinterSponsor()
         {
-            var header = new string[10];
+            var header = new string[12];
             header[0] = localizer["Ids"];
             header[1] = localizer["NameOfSponsor"];
             header[2] = localizer["Date"];
@@ -78,9 +78,11 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             header[4] = localizer["WhatGoods"];
             header[5] = localizer["GoodsAmount"];
             header[6] = localizer["HasContract"];
-            header[7] = localizer["ContractDetails"];
-            header[8] = localizer["PhoneNumber"];
-            header[9] = localizer["EmailAddress"];
+            header[7] = localizer["ContractNumberOfRegistration"];
+            header[8] = localizer["RegistrationDate"];
+            header[9] = localizer["ExpirationDate"];
+            header[10] = localizer["PhoneNumber"];
+            header[11] = localizer["EmailAddress"];
             string result = string.Empty;
             for (int i = 0; i < header.Count(); i++)
             {
