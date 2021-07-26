@@ -55,7 +55,7 @@
     </style>
 </head>
 <h2>
-    @Localizer["SponsorAllocationto"]: @Model.Event.NameOfEvent
+    @Localizer["SponsorAllocationTo"]: @Model.Event.NameOfEvent
 </h2>
 @using (Html.BeginForm("SponsorAllocationDisplay", "Event", FormMethod.Get))
 {
@@ -66,10 +66,10 @@
         <div class="pagination">
             <pre style="white-space:pre-wrap;">
             @{
-                int maxpage = (Model.TotalSponsors / Model.PagingData.NrOfDocumentsPerPage) + 1;
+                var maxPage = (Model.TotalSponsors / Model.PagingData.NrOfDocumentsPerPage) + 1;
                 if (Model.TotalSponsors % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalSponsors != 0)
                 {
-                    maxpage--;
+                    maxPage--;
                 }
 
                 if(Model.PagingData.CurrentPage==1)
@@ -92,29 +92,29 @@
                 {
                     @Html.ActionLink((Model.PagingData.CurrentPage - 1).ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = Model.PagingData.CurrentPage - 1, searching = Model.FilterData.NameOfSponsor })
                 }
-                if(Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxpage)
+                if(Model.PagingData.CurrentPage != 1 && Model.PagingData.CurrentPage != maxPage)
                 {
                     @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                if(Model.PagingData.CurrentPage < maxpage-1)
+                if(Model.PagingData.CurrentPage < maxPage-1)
                 {
                     @Html.ActionLink((Model.PagingData.CurrentPage + 1).ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor })
                 }
-                if(Model.PagingData.CurrentPage < maxpage-2)
+                if(Model.PagingData.CurrentPage < maxPage-2)
                 {
                     @Html.ActionLink((Model.PagingData.CurrentPage + 2).ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = Model.PagingData.CurrentPage + 2, searching = Model.FilterData.NameOfSponsor })
                 }
-                if(Model.PagingData.CurrentPage < maxpage-3)
+                if(Model.PagingData.CurrentPage < maxPage-3)
                 {
                     @Html.ActionLink(">>", "SponsorAllocationDisplay", new { id = Model.Event.Id, page = Model.PagingData.CurrentPage + 1, searching = Model.FilterData.NameOfSponsor })
                 }
-                if(maxpage!=1 && Model.PagingData.CurrentPage == maxpage)
+                if(maxPage!=1 && Model.PagingData.CurrentPage == maxPage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = maxpage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxPage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = maxPage, searching = Model.FilterData.NameOfSponsor }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                else if (maxpage != 1)
+                else if (maxPage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = maxpage, searching = Model.FilterData.NameOfSponsor })
+                    @Html.ActionLink(maxPage.ToString(), "SponsorAllocationDisplay", new { id = Model.Event.Id, page = maxPage, searching = Model.FilterData.NameOfSponsor })
                 }
             }
             </pre>
@@ -144,7 +144,7 @@
                 @Localizer["PhoneNumber"]:
             </th>
             <th>
-                @Localizer["Allocationstatus"]:
+                @Localizer["AllocationStatus"]:
             </th>
             <th></th>
         </tr>

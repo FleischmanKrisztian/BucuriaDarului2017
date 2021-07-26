@@ -4,7 +4,7 @@
     ViewData["Title"] = "ImportUpdate";
     var number = TempData.Peek("numberOfFiles");
     string duplicates = ViewBag.duplicates;
-    string docsimported = ViewBag.documentsimported;
+    string docsImported = ViewBag.documentsimported;
 }
 <head>
     <style>
@@ -26,13 +26,13 @@
     <h1>Import Update</h1>
     <hr />
     <br />
-    @if (Convert.ToInt64(docsimported) > 1)
+    @if (Convert.ToInt64(docsImported) > 1)
     {
-        <h3>You have succesfully imported @docsimported  documents.</h3>
+        <h3>You have successfully imported @docsImported  documents.</h3>
     }
-    else if (Convert.ToInt64(docsimported) == 1)
+    else if (Convert.ToInt64(docsImported) == 1)
     {
-        <h3>You have succesfully imported @docsimported  document.</h3>
+        <h3>You have successfully imported @docsImported  document.</h3>
     }
     else
     {
@@ -40,10 +40,10 @@
     }
     @{
         string phrase = duplicates;
-        if (phrase != "" && phrase != null)
+        if (!string.IsNullOrEmpty(phrase))
         {
             string[] words = phrase.Split(',');
-            if (words.Count() > 0)
+            if (words.Any())
             {
                 <h2>The following documents have been skipped:</h2>
                 foreach (var a in words)

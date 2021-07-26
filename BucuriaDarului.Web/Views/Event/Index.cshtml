@@ -21,33 +21,34 @@
                 border: 1px solid #ddd;
                 transition: background-color .3s;
             }
+
         .dropdown-menu {
             width: 500px !important;
         }
 
-                .pagination a.active {
-                    background-color: red;
-                    color: red;
-                    border-radius: 5px;
-                }
+        .pagination a.active {
+            background-color: red;
+            color: red;
+            border-radius: 5px;
+        }
 
-                .pagination a:hover:not(.active) {
-                    background-color: #ddd;
-                }
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
 
-                .pagination a:current {
-                    background-color: red;
-                }
+        .pagination a:current {
+            background-color: red;
+        }
 
-                .pagination a:first-child {
-                    border-top-left-radius: 5px;
-                    border-bottom-left-radius: 5px;
-                }
+        .pagination a:first-child {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
 
-                .pagination a:last-child {
-                    border-top-right-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                }
+        .pagination a:last-child {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
 
         .scrollable-menu {
             height: auto;
@@ -117,7 +118,7 @@
                 {
                     @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
-                 if(maxpage!=1 && Model.PagingData.CurrentPage==maxpage)
+                if(maxpage!=1 && Model.PagingData.CurrentPage==maxpage)
                 {
                     @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
