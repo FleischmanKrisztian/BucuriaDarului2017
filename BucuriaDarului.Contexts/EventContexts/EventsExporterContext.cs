@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             var header = GetHeaderForExcelPrinterEvent();
             var response = new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
-            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {
                 if (request.ExportParameters.FileName.Contains(".csv"))
                     response.FileName = request.ExportParameters.FileName;
@@ -44,7 +44,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private string GetIdAndFieldString(ExportParameters csv)
         {
-            string idsAndOptions = csv.StringOfIDs + "(((";
+            var idsAndOptions = csv.StringOfIDs + "(((";
             if (csv.All)
                 idsAndOptions += "0";
             if (csv.NameOfEvent)
@@ -68,7 +68,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private string GetHeaderForExcelPrinterEvent()
         {
-            string[] header = new string[11];
+            var header = new string[11];
             header[0]= localizer["Id"];
             header[1] = localizer["NameOfEvent"];
             header[2] = localizer["PlaceOfEvent"];
@@ -77,11 +77,11 @@ namespace BucuriaDarului.Contexts.EventContexts
             header[5] = localizer["TypeOfEvent"];
             header[6] = localizer["Duration"];
             header[7] = localizer["NumberOfVolunteersNeeded"];
-            header[8]= localizer["AllocatedVolunteers"];
+            header[8] = localizer["AllocatedVolunteers"];
             header[9] = localizer["NumberAllocatedVolunteers"];
             header[10] = localizer["AllocatedSponsors"];
-            string result = string.Empty;
-            for (int i = 0; i < header.Count(); i++)
+            var result = string.Empty;
+            for (var i = 0; i < header.Count(); i++)
             {
                 if (i == 0)
                 { result = header[i]; }

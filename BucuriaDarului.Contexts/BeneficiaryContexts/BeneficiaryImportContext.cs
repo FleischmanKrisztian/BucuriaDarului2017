@@ -31,15 +31,14 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                var stringArray = result[0];
-                if (stringArray[0].Contains("File must be of type"))
+                if (result[0].Contains("File must be of beneficiary type"))
                 {
                     response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Beneficiary!"));
                     response.IsValid = false;
                 }
-                else
+                var beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
+                if(response.IsValid)
                 {
-                    var beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
                     dataGateway.Insert(beneficiariesFromCsv);
                 }
             }

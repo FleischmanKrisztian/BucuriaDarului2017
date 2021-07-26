@@ -34,7 +34,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             foreach (var spons in sponsorsToRemove)
             {
-                allSponsors = allSponsors.Replace(", " + spons.NameOfSponsor, "");
+                allSponsors = allSponsors.Replace(" + " + spons.NameOfSponsor, "");
                 allSponsors = allSponsors.Replace(spons.NameOfSponsor, "");
             }
             return allSponsors;
@@ -47,10 +47,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             {
                 if (!previouslyAllocatedSponsors.Contains(name))
                 {
-                    if (AllSponsors != "")
-                        AllSponsors += ", " + name;
-                    else
-                        AllSponsors = name;
+                    AllSponsors += " + " + name;
                 }
             }
             return AllSponsors;

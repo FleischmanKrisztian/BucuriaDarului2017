@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerGateways;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.VolunteerGateways;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
 {
@@ -31,15 +31,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                var stringArray = result[0];
-                if (stringArray[0].Contains("The File Does"))
+                if (result[0].Contains("The File Does"))
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", stringArray[0]));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
                     response.IsValid = false;
                 }
-                else
+                var volunteersFromCsv = GetVolunteerFromCsv(result, response);
+                if (response.IsValid)
                 {
-                    var volunteersFromCsv = GetVolunteerFromCsv(result, response);
                     dataGateway.Insert(volunteersFromCsv);
                 }
             }

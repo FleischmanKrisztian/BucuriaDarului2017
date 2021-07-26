@@ -33,13 +33,12 @@ namespace BucuriaDarului.Contexts.EventContexts
                 var result = ExtractImportRawData(dataToImport);
                 if (result[0].Contains("File must be of type Event!"))
                 {
-                    response.Message.Add(
-                        new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
                     response.IsValid = false;
                 }
-                else
+                var eventsFromCsv = GetEventsFromCsv(result, response);
+                if (response.IsValid)
                 {
-                    var eventsFromCsv = GetEventsFromCsv(result, response);
                     dataGateway.Insert(eventsFromCsv);
                 }
             }
@@ -103,7 +102,10 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            var correct = headerColumns[1].Contains("NameOfEvent", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("PlaceOfEvent", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Name of event", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Place of event", StringComparison.InvariantCultureIgnoreCase);
+            if (correct)
+                return correct;
+            correct = headerColumns[1].Contains("Numele evenimentului", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Locul evenimentului", StringComparison.InvariantCultureIgnoreCase);
             return correct;
         }
 
@@ -128,7 +130,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 var ev = new Event();
                 try
                 {
-                    //TODO : Once The CSV Exporter will be consistent across the two languages and will have all its fields we have to make the import here:
+                    //TODO : The Date Crashes From the Romanian Import
                     ev.Id = line[0];
                     ev.NameOfEvent = line[1];
                     ev.PlaceOfEvent = line[2];
@@ -143,8 +145,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                 }
                 catch
                 {
-                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Event type!")));
+                    response.Message.Add((new KeyValuePair<string, string>("Error", "There was an Error importing Events!")));
                     response.IsValid = false;
+                    break;
                 }
                 events.Add(ev);
             }

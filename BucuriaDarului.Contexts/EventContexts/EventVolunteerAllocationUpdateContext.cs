@@ -26,6 +26,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             volunteersForAllocation = RemoveUncheckedVolunteers(volunteersForAllocation, volunteersToRemove);
             volunteersForAllocation = CheckForDuplicate(volunteersForAllocation, GetVolunteerNames(volunteersToAdd));
             @event.AllocatedVolunteers = volunteersForAllocation;
+            @event.NumberAllocatedVolunteers = VolunteersAllocatedCounter(volunteersForAllocation);
             dataGateway.UpdateEvent(request.EventId, @event);
 
             return response;
@@ -35,7 +36,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             foreach (var vol in volunteersToRemove)
             {
-                allVolunteers = allVolunteers.Replace(", " + vol.Fullname, "");
+                allVolunteers = allVolunteers.Replace(" + " + vol.Fullname, "");
                 allVolunteers = allVolunteers.Replace(vol.Fullname, "");
             }
             return allVolunteers;
@@ -48,7 +49,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             {
                 if(!previouslyAllocatedVolunteers.Contains(name))
                 {
-                    allVolunteers += ", " + name;
+                    allVolunteers += " + " + name;
                 }
             }
             return allVolunteers;
@@ -58,8 +59,8 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             if (allocatedVolunteers != null)
             {
-                var split = allocatedVolunteers.Split(", ");
-                return split.Count();
+                var split = allocatedVolunteers.Split(" + ");
+                return split.Count()-1;
             }
             return 0;
         }

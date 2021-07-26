@@ -33,13 +33,12 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 var result = ExtractImportRawData(dataToImport);
                 if (result[0].Contains("File must be of type Sponsor!"))
                 {
-                    response.Message.Add(
-                        new KeyValuePair<string, string>("IncorrectFile", "File must be of type Sponsor!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Sponsor!"));
                     response.IsValid = false;
                 }
-                else
+                var sponsorsFromCsv = GetSponsorsFromCsv(result, response);
+                if (response.IsValid)
                 {
-                    var sponsorsFromCsv = GetSponsorsFromCsv(result, response);
                     dataGateway.Insert(sponsorsFromCsv);
                 }
             }
@@ -166,7 +165,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                     }
                     c.HasContract = Convert.ToBoolean(line[5]);
                     c.NumberOfRegistration = line[6];
-                    
+
                     if (line[7] == null || line[7] == "" || line[7] == "0")
                     {
                         c.RegistrationDate = DateTime.MinValue;
