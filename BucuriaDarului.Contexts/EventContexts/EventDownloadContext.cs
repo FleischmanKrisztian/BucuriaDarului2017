@@ -55,7 +55,8 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string[] EventToArray(Event @event)
         {
-            string[] result = new string[] { @event.Id, @event.NameOfEvent, @event.PlaceOfEvent, @event.DateOfEvent.ToString(), @event.TypeOfActivities, @event.TypeOfEvent, @event.Duration, @event.AllocatedVolunteers, @event.AllocatedSponsors };
+            string[] result = new string[] { @event.Id, @event.NameOfEvent, @event.PlaceOfEvent, @event.DateOfEvent.ToString(), @event.TypeOfActivities, @event.TypeOfEvent,
+                  @event.Duration ,@event.NumberOfVolunteersNeeded.ToString() , @event.AllocatedVolunteers ,@event.NumberAllocatedVolunteers.ToString(), @event.AllocatedSponsors };
             return result;
         }
 
@@ -122,7 +123,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             if (properties.Contains("8"))
                 headerList.Add(header[8]);
 
-            var returnedHeader=headerList.ToArray();
+            var returnedHeader = headerList.ToArray();
             return returnedHeader;
         }
 
@@ -144,12 +145,12 @@ namespace BucuriaDarului.Contexts.EventContexts
             {
                 sb.Append("\"" + data + "\"" + ",");
             }
-            
+
             sb.Append("\r\n");
             foreach (var item in idListForPrinting)
             {
                 string[] arrEvent = EventToArray(item);
-             
+
                 if (properties.Contains("1"))
 
                     sb.Append("\"" + arrEvent[1] + "\"" + ",");
