@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class=" col-md-6"><label>@Localizer["RegistrationDate"]: </label></div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Contract.RegistrationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        <input class="form-control" type="date" name="Contract.RegistrationDate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -113,7 +113,7 @@
                 <div class="row">
                     <div class=" col-md-6"><label> @Localizer["ExpirationDate"]: </label></div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Contract.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        <input class="form-control" type="date" name="Contract.ExpirationDate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -121,7 +121,7 @@
                 <div class="row">
                     <div class=" col-md-6"> <label> @Localizer["Date"]:</label></div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Sponsorship.Date, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        <input class="form-control" type="date" name="Sponsorship.Date" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
                         <hr />
                     </div>

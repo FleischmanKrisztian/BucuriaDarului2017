@@ -50,6 +50,9 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 Contract = request.Contract,
                 ContactInformation = request.ContactInformation
             };
+            validatedSponsor.Contract.RegistrationDate = validatedSponsor.Contract.RegistrationDate.AddHours(5);
+            validatedSponsor.Contract.ExpirationDate = validatedSponsor.Contract.ExpirationDate.AddHours(5);
+            validatedSponsor.Sponsorship.Date = validatedSponsor.Sponsorship.Date.AddHours(5);
 
             return validatedSponsor;
         }

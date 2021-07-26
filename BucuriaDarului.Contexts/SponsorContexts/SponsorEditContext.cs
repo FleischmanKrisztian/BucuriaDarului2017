@@ -49,7 +49,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 response.Message += "The Sponsor must have a name! ";
                 response.IsValid = false;
             }
-            // this is done in order to have correct time in the database 
             request.Contract.RegistrationDate = request.Contract.RegistrationDate.AddHours(5);
             request.Contract.ExpirationDate = request.Contract.ExpirationDate.AddHours(5);
             request.Sponsorship.Date = request.Sponsorship.Date.AddHours(5);
@@ -58,7 +57,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 Id = request.Id,
                 NameOfSponsor = request.NameOfSponsor,
                 Sponsorship = request.Sponsorship,
-
                 Contract = request.Contract,
                 ContactInformation = request.ContactInformation
         };
