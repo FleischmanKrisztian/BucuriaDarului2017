@@ -109,12 +109,14 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             if (properties.Contains("4"))
                 headerList.Add(header[7]);
+            headerList.Add(header[8]);
+            headerList.Add(header[9]);
 
             if (properties.Contains("5"))
-                headerList.Add(header[8]);
+                headerList.Add(header[10]);
 
             if (properties.Contains("6"))
-                headerList.Add(header[9]);
+                headerList.Add(header[11]);
 
             if (properties.Contains("7"))
                 headerList.Add(header[3]);
@@ -165,12 +167,14 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
                 if (properties.Contains("4"))
                     sb.Append("\"" + arrSponsor[7] + "\"" + ",");
+                sb.Append("\"" + arrSponsor[8] + "\"" + ",");
+                sb.Append("\"" + arrSponsor[9] + "\"" + ",");
 
                 if (properties.Contains("5"))
-                    sb.Append("\"" + arrSponsor[8] + "\"" + ",");
+                    sb.Append("\"" + arrSponsor[10] + "\"" + ",");
 
                 if (properties.Contains("6"))
-                    sb.Append("\"" + arrSponsor[9] + "\"" + ",");
+                    sb.Append("\"" + arrSponsor[11] + "\"" + ",");
 
                 if (properties.Contains("7"))
                     sb.Append("\"" + arrSponsor[3] + "\"" + ",");
