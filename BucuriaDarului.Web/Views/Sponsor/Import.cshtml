@@ -38,10 +38,15 @@
                 </div>
             </div>
             <hr />
-            <div style="padding-top:2%;">
-                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+            <div class="col-md-9" style="padding-top: 2%;">
                 <button class="buttonx" type="submit">@Localizer["Upload"]</button>
             </div>
+
+            <div class="col-md-3" style="padding-top:2%;">
+                <br />
+                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+            </div>
+            <br />
             <div style="margin-top:15px">
                 <output name="result"></output>
             </div>
