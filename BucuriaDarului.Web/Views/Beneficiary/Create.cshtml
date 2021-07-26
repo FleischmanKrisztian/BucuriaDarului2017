@@ -126,7 +126,7 @@
                         <label> @Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
+                        <input class="form-control" type="date" name="PersonalInfo.Birthdate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -222,7 +222,7 @@
                         <label>@Localizer["LastTimeActive"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.LastTimeActive, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        <input class="form-control" type="date" name="LastTimeActive" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.LastTimeActive, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -330,7 +330,7 @@
                         <label>@Localizer["ExpirationDateCI"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.CI.ExpirationDate, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        <input class="form-control" type="date" name="CI.ExpirationDate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -476,7 +476,7 @@
                 </div>
                 <br />
                 <h4>
-                    @Localizer["Studiesandjobrelatedinformation"]:
+                    @Localizer["StudiesAndJobRelatedInformation"]:
                 </h4>
                 <div class="row">
                     <div class="col-md-6">

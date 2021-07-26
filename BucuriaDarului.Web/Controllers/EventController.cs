@@ -25,10 +25,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile Files)
+        public ActionResult Import(IFormFile files)
         {
             var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
-            var response = eventsImportContext.Execute(Files.OpenReadStream());
+            var response = eventsImportContext.Execute(files.OpenReadStream());
             if (response.IsValid)
                 return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
             else
