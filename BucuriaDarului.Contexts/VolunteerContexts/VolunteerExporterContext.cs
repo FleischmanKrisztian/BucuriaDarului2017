@@ -91,18 +91,18 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             header[2] = localizer["Birthdate"];
             header[3] = localizer["Address"];
             header[4] = localizer["Gender"];
-            header[5] = localizer["DesiredWorkplace"];
+            header[5] = localizer["DesiredArea"];
             header[6] = localizer["CNP"];
             header[7] = localizer["FieldOfActivity"];
             header[8] = localizer["Occupation"];
             header[9] = localizer["HasId"];
-            header[10] = localizer["IdInfo"];
+            header[10] = localizer["IdInformation"];
             header[11] = localizer["IdExpirationDate"];
             header[12] = localizer["Active"];
             header[13] = localizer["HourCount"];
             header[14] = localizer["PhoneNumber"];
             header[15] = localizer["EmailAddress"];
-            header[16] = localizer["DriversLicense"];
+            header[16] = localizer["HasDrivingLicense"];
             header[17] = localizer["HasCar"];
             header[18] = localizer["Remark"];
 
