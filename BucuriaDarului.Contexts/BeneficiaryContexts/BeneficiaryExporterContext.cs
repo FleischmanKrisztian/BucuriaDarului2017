@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             var header = GetHeaderForExcelPrinterBeneficiary();
             var response = new BeneficiaryExporterResponse(CreateDictionaries(Constants.BENEFICIARYSESSION, Constants.BENEFICIARYHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
-            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {
                 if (request.ExportParameters.FileName.Contains(".csv"))
                     response.FileName = request.ExportParameters.FileName;
@@ -226,6 +226,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public bool IdApplication { get; set; }
         public bool NumberOfPortions { get; set; }
         public bool LastTimeActive { get; set; }
+        public bool Birthdate { get; set; }
         public bool PhoneNumber { get; set; }
         public bool BirthPlace { get; set; }
         public bool Studies { get; set; }

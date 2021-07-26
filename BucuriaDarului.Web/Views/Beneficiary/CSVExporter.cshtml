@@ -252,18 +252,30 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="row">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-6">
-                        <label> @Localizer["LastTimeActive"]:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.CheckBoxFor(model => model.LastTimeActive)
-                        <hr />
-                    </div>
+        <div class="col-md-6">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["LastTimeActive"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.CheckBoxFor(model => model.LastTimeActive)
+                    <hr />
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["Birthdate"]:</label>
+                </div>
+                <div class="col-md-2">
+                    @Html.CheckBoxFor(model => model.Birthdate)
+                    <hr />
+                </div>
+            </div>
+        </div>
             <div class="col-md-6">
                 <div class="row">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })

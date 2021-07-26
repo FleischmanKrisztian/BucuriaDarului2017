@@ -24,7 +24,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             var ids = GetIds(dataString);
 
             if (properties.Contains("0"))
-                jsonString = GetBneficiariesCsv(ids, finalHeader);
+                jsonString = GetBeneficiariesCsv(ids, finalHeader);
             else
                 jsonString = GetBeneficiaries(properties, ids, finalHeader);
 
@@ -97,7 +97,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return result;
         }
 
-        public string GetBneficiariesCsv(string[] ids, string[] finalHeader)
+        public string GetBeneficiariesCsv(string[] ids, string[] finalHeader)
         {
             var listOfBeneficiaries = dataGateway.GetListOfBeneficiaries();
             var finalListOfBeneficiaries = new List<Beneficiary>();
@@ -118,8 +118,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
             foreach (var item in finalListOfBeneficiaries)
             {
-                string[] arrbeneficiary = BeneficiaryToArray(item);
-                foreach (var data in arrbeneficiary)
+                var beneficiaryArray = BeneficiaryToArray(item);
+                foreach (var data in beneficiaryArray)
                 {
                     if (data == "-")
                         sb.Append("\"" + "" + "\"" + ",");
@@ -219,7 +219,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             {
                 headerList.Add(header[25]);
             }
-
             if (properties.Contains("L"))
             {
                 headerList.Add(header[26]);
