@@ -154,7 +154,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 }
                 catch
                 {
-                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "File must be of Event type!")));
+                    response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file.")));
                     response.IsValid = false;
                 }
 

@@ -95,7 +95,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             var line = reader.ReadLine();
             var splits = new Regex("((?<=\")[^\"]*(?=\"(" + csvSeparator + "|$)+)|(?<=" + csvSeparator + "|^)[^" + csvSeparator + "\"]*(?=" + csvSeparator + "|$))").Matches(line);
-
             var row = splits.Cast<Match>().Select(match => match.Value).ToArray();
             return row;
         }
@@ -133,10 +132,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Fullname = line[1];
                     volunteer.Birthdate = Convert.ToDateTime(line[2]);
                     volunteer.Address = line[3];
-                    if (line[4] == "Male")
-                        volunteer.Gender = Gender.Male;
-                    else
-                        volunteer.Gender = Gender.Female;
+                    volunteer.Gender = line[4] == "Male" ? Gender.Male : Gender.Female;
                     volunteer.DesiredWorkplace = line[5];
                     volunteer.CNP = line[6];
                     volunteer.FieldOfActivity = line[7];

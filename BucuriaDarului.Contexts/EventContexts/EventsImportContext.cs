@@ -145,7 +145,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 }
                 catch
                 {
-                    response.Message.Add((new KeyValuePair<string, string>("Error", "There was an Error importing Events!")));
+                    response.Message.Add((new KeyValuePair<string, string>("Error", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file.")));
                     response.IsValid = false;
                     break;
                 }

@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var header = GetHeaderForExcelPrinterVolunteer();
             var response = new VolunteerExporterResponse(CreateDictionaries(Constants.VOLUNTEERSESSION, Constants.VOLUNTEERHEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
-            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {
                 if (request.ExportParameters.FileName.Contains(".csv"))
                     response.FileName = request.ExportParameters.FileName;
