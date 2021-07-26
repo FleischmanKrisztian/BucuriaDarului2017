@@ -131,8 +131,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             header[8] = localizer["AddressInformation"];
             header[9] = localizer["CNP"];
             header[10] = localizer["HasId"];
-            header[11] = localizer["CIInfo"];
-            header[12] = localizer["CI_ExpirationDate"];
+            header[11] = localizer["CiInfo"];
+            header[12] = localizer["CiExpirationDate"];
             header[13] = localizer["MarcaName"];
             header[14] = localizer["IdApplication"];
             header[15] = localizer["IdInvestigation"];
