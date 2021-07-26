@@ -37,7 +37,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     response.IsValid = false;
                 }
                 var beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
-                if(response.IsValid)
+                if (response.IsValid)
                 {
                     dataGateway.Insert(beneficiariesFromCsv);
                 }
@@ -102,10 +102,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private static bool IsTheCorrectHeader(string[] headerColumns)
         {
-            var correct = headerColumns[1].Contains("Name of event", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Place of event", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Active", StringComparison.InvariantCultureIgnoreCase);
             if (correct)
                 return correct;
-            correct = headerColumns[1].Contains("Numele evenimentului", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Locul evenimentului", StringComparison.InvariantCultureIgnoreCase);
+            correct = headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Activ", StringComparison.InvariantCultureIgnoreCase);
             return correct;
         }
 
@@ -183,11 +183,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                         HasHome = Convert.ToBoolean(line[35]),
                         HousingType = line[36],
                         Income = line[37],
-                        Expenses = line[38]
+                        Expenses = line[38],
+                        Gender = Convert.ToInt16(line[39]) == 0 ? Gender.Male : Gender.Female
                     };
-
-                    var gender = Convert.ToInt16(line[39]) == 0 ? Gender.Male : Gender.Female;
-                    personalInfo.Gender = gender;
 
                     beneficiary.PersonalInfo = personalInfo;
                 }
