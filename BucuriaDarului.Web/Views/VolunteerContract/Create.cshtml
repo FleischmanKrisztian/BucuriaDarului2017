@@ -6,7 +6,7 @@
     string idOfVolunteer = ViewBag.idOfVol;
 }
 
-<h1>@Localizer["Create"] @Localizer["Volcontract"]</h1>
+<h1>@Localizer["Create"] @Localizer["VolContract"]: @ViewBag.NameOfVolunteer</h1>
 <hr />
 <head>
     <style>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="col-md-3">
                     <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
-                    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+                    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.back();">@Localizer["BackToList"]</button>
                 </div>
             </div>
         </div>

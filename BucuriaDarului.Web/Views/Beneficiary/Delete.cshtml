@@ -189,7 +189,7 @@
                         <label> @Localizer["LastTimeActive"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.DisplayFor(model => model.LastTimeActive)
+                        @Model.LastTimeActive.ToShortDateString()
                         <hr />
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label> @Localizer["IDcontract"]:</label>
+                        <label> @Localizer["IdContract"]:</label>
                     </div>
                     <div class="col-md-6">
                         @Html.DisplayFor(model => model.Marca.IdContract)

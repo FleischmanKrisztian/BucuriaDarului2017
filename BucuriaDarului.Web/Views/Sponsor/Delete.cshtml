@@ -70,40 +70,6 @@
                     <div class=" col-md-6"><label>@Localizer["EmailAddress"]: </label></div>
                     <div class="col-md-6">   @Html.DisplayFor(model => model.ContactInformation.MailAddress)<hr /></div>
                 </div>
-                <div class="row">
-                    <div class=" col-md-6"> <label> @Localizer["HasContract"]: </label></div>
-                    <div class="col-md-6"> @Html.DisplayFor(model => model.Contract.HasContract)<hr /></div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6">
-                        <label>  @Localizer["NumberOfRegistration"]:</label>
-                    </div>
-                    <div class="col-md-6"> @Html.DisplayFor(model => model.Contract.NumberOfRegistration)<hr /></div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6"><label>@Localizer["RegistrationDate"]: </label></div>
-                    <div class="col-md-6"> @Html.DisplayFor(model => model.Contract.RegistrationDate)<hr /></div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6"><label> @Localizer["ExpirationDate"]: </label></div>
-                    <div class="col-md-6">  @Html.DisplayFor(model => model.Contract.ExpirationDate)<hr /></div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6"><label> @Localizer["Date"]:</label></div>
-                    <div class="col-md-6">  @Html.DisplayFor(model => model.Sponsorship.Date)<hr /></div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6"> <label> @Localizer["MoneyAmount"]: </label></div>
-                    <div class="col-md-6">  @Html.DisplayFor(model => model.Sponsorship.MoneyAmount)<hr /> </div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6"><label>@Localizer["WhatGoods"]: </label></div>
-                    <div class="col-md-6"> @Html.DisplayFor(model => model.Sponsorship.WhatGoods)<hr /></div>
-                </div>
-                <div class="row">
-                    <div class=" col-md-6"> <label>@Localizer["GoodsAmount"]: </label></div>
-                    <div class="col-md-6">  @Html.DisplayFor(model => model.Sponsorship.GoodsAmount)<hr /></div>
-                </div>
             </div>
             <div class="col-md-3">
                 <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |

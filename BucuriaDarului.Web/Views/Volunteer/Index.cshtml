@@ -262,7 +262,7 @@
                         @Html.DisplayFor(modelItem => item.Fullname)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Birthdate)
+                        @item.Birthdate.ToShortDateString()
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.InActivity)

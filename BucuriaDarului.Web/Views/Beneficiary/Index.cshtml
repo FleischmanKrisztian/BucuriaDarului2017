@@ -492,7 +492,7 @@
                         @Html.DisplayFor(modelItem => item.Canteen)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PersonalInfo.Birthdate)
+                        @item.PersonalInfo.Birthdate.ToShortDateString()
                     </td>
 
                     <td>

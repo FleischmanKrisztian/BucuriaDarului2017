@@ -277,7 +277,7 @@
                             <label> @Localizer["Birthdate"]</label>
                         </div>
                         <div class="col-md-6">
-                            <p> @Html.DisplayFor(model => model.PersonalInfo.Birthdate)</p>
+                            <p> @Model.PersonalInfo.Birthdate.ToShortDateString()</p>
                         </div>
                     </div>
                     <div class="row">
@@ -415,7 +415,7 @@
                             <label>@Localizer["ExpirationDateCI"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.CI.ExpirationDate)</p>
+                            <p>@Model.CI.ExpirationDate.ToShortDateString()</p>
                         </div>
                     </div>
                 </div>

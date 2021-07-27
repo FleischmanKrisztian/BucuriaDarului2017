@@ -33,10 +33,10 @@
                     @Html.DisplayFor(modelItem => item.NumberOfRegistration)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    @item.RegistrationDate.ToShortDateString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ExpirationDate)
+                    @item.ExpirationDate.ToShortDateString()
                 </td>
                 <td>
                     <a href=@Url.Action("DeleteDisplay", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>

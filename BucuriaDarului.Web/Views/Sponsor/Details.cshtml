@@ -79,15 +79,15 @@
             </div>
             <div class="row">
                 <div class=" col-md-6"><label>@Localizer["RegistrationDate"]: </label></div>
-                <div class="col-md-6"> @Html.DisplayFor(model => model.Contract.RegistrationDate)<hr /></div>
+                <div class="col-md-6">  @Model.Contract.ExpirationDate.ToShortDateString()<hr /></div>
             </div>
             <div class="row">
                 <div class=" col-md-6"><label> @Localizer["ExpirationDate"]: </label></div>
-                <div class="col-md-6">  @Html.DisplayFor(model => model.Contract.ExpirationDate)<hr /></div>
+                <div class="col-md-6">  @Model.Contract.ExpirationDate.ToShortDateString()<hr /></div>
             </div>
             <div class="row">
                 <div class=" col-md-6"><label> @Localizer["Date"]:</label></div>
-                <div class="col-md-6">  @Html.DisplayFor(model => model.Sponsorship.Date)<hr /></div>
+                <div class="col-md-6">  @Model.Sponsorship.Date.ToShortDateString()<hr /></div>
             </div>
             <div class="row">
                 <div class=" col-md-6"> <label> @Localizer["MoneyAmount"]: </label></div>

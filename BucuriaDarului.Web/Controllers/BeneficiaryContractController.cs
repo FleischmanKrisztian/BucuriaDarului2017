@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContractContexts;
 using BucuriaDarului.Gateway.BeneficiaryContractGateways;
+using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,8 +27,18 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult Create(string idOfBeneficiary, string message)
         {
-            ViewBag.message = message;
-            ViewBag.idOfBeneficiary = idOfBeneficiary;
+            var beneficiary = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(idOfBeneficiary);
+            ViewBag.NameOfBeneficiary = beneficiary.Fullname;
+            if (string.IsNullOrEmpty(beneficiary.CNP))
+            {
+                ViewBag.message = "Missing CNP information for this beneficiary! Please fill in all the data necessary for contract creation.";
+                ViewBag.idOfBeneficiary = idOfBeneficiary;
+            }
+            else
+            {
+                ViewBag.message = message;
+                ViewBag.idOfBeneficiary = idOfBeneficiary;
+            }
             return View();
         }
 

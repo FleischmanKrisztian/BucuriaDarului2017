@@ -270,7 +270,7 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateOfEvent)
+                    @item.DateOfEvent.ToShortDateString()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NumberOfVolunteersNeeded)

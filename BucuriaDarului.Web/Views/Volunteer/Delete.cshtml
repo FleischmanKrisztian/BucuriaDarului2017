@@ -55,7 +55,7 @@
                         <label>@Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.DisplayFor(model => model.Birthdate)
+                        @Model.Birthdate.ToShortDateString()
                         <hr />
                     </div>
                 </div>

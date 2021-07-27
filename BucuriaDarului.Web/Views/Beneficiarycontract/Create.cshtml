@@ -3,10 +3,9 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Create";
-    string idOfBeneficiary = ViewBag.idOfBeneficiary;
 }
 
-<h1>@Localizer["Create"] @Localizer["BeneficiaryContract"]</h1>
+<h1>@Localizer["Create"] @Localizer["BeneficiaryContract"]: @ViewBag.NameOfBeneficiary</h1>
 <hr />
 <head>
     <style>
@@ -61,7 +60,7 @@
 
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@idOfBeneficiary />
+    <input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@ViewBag.idOfBeneficiary />
     <div class=" emp-profile">
         <div class="row">
             <div class="col-md-12">

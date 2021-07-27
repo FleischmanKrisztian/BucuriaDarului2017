@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6"><label>@Localizer["DateOfEvent"]:</label></div>
-                <div class="col-md-6">@Html.DisplayFor(model => model.DateOfEvent)<hr /></div>
+                <div class="col-md-6">@Model.DateOfEvent.ToShortDateString()<hr /></div>
             </div>
             <div class="row">
                 <div class="col-md-6"><label>@Localizer["NumberOfVolunteersNeeded"]:</label></div>

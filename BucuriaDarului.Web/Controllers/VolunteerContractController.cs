@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContractContexts;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
+using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,8 +27,18 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult Create(string idOfVolunteer, string message)
         {
-            ViewBag.message = message;
-            ViewBag.idOfVol = idOfVolunteer;
+            var volunteer = SingleVolunteerReturnerGateway.ReturnVolunteer(idOfVolunteer);
+            ViewBag.NameOfVolunteer = volunteer.Fullname;
+            if (string.IsNullOrEmpty(volunteer.CNP))
+            {
+                ViewBag.message = "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation.";
+                ViewBag.idOfVol = idOfVolunteer;
+            }
+            else
+            {
+                ViewBag.message = message;
+                ViewBag.idOfVol = idOfVolunteer;
+            }
             return View();
         }
 
@@ -52,7 +63,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(string id,string message)
+        public ActionResult Delete(string id, string message)
         {
             ViewBag.message = message;
             var model = SingleVolunteerContractReturnerGateway.GetVolunteerContract(id);
@@ -65,7 +76,7 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerContractDeleteContext = new VolunteerContractDeleteContext(new VolunteerContractDeleteGateway());
             var response = volunteerContractDeleteContext.Execute(request);
             if (!response.IsValid)
-                return RedirectToAction("Delete", new { id = request.ContractId, message="Error!This document couldn't be deleted!" });
+                return RedirectToAction("Delete", new { id = request.ContractId, message = "Error!This document couldn't be deleted!" });
             return RedirectToAction("Index", new { idOfVolunteer = response.VolunteerId });
         }
     }
