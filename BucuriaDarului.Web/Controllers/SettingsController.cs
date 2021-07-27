@@ -12,7 +12,7 @@ namespace BucuriaDarului.Web.Controllers
     {
         public IActionResult Settings()
         {
-            return View();
+            return View(SingleSettingReturnerGateway.GetSettingItem());
         }
 
         [HttpPost]

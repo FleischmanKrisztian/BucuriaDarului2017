@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BucuriaDarului.Core.Settings
+@{
     ViewData["Title"] = "Settings";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -73,12 +74,19 @@
             <div class="vl  col-md-1"> </div>
             <div class="col-md-6 profile-work">
                 <div class="row profile-work-special">
-
-                    <div class="col-md-4"><input type="radio" name="lang" value="ro" checked>@Localizer["Romanian"]</div>
-                    <div class="col-md-4"> <input type="radio" name="lang" value="en">@Localizer["English"]</div>
+                    @if (Model.Lang == "en")
+                    {
+                        <div class="col-md-4"><input type="radio" name="lang" value="ro">@Localizer["Romanian"]</div>
+                        <div class="col-md-4"> <input type="radio" name="lang" value="en" checked>@Localizer["English"]</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4"><input type="radio" name="lang" value="ro" checked>@Localizer["Romanian"]</div>
+                        <div class="col-md-4"> <input type="radio" name="lang" value="en">@Localizer["English"]</div>
+                    }
                 </div>
                 <p>
-                    <div class="col-md-3 for-documents-numbers ">   <input type="number" name="quantity" class="rounded" value="15" min="1" max="100"> </div>
+                    <div class="col-md-3 for-documents-numbers ">   <input type="number" name="quantity" class="rounded" value="@Model.Quantity" min="1" max="100"> </div>
                 </p>
             </div>
         </div>
