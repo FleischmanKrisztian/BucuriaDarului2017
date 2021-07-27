@@ -13,6 +13,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class VolunteerImportContext
     {
         private readonly IVolunteerImportGateway dataGateway;
+        private static int _fileType = 0;
 
         public VolunteerImportContext(IVolunteerImportGateway dataGateway)
         {
@@ -33,10 +34,16 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 var result = ExtractImportRawData(dataToImport);
                 if (result[0].Contains("The File Does"))
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
+                    response.Message.Add(
+                        new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
                     response.IsValid = false;
                 }
-                var volunteersFromCsv = GetVolunteerFromCsv(result, response);
+
+                var volunteersFromCsv = new List<Volunteer>();
+                if (_fileType == 1)
+                    volunteersFromCsv = GetVolunteerFromCsv(result, response);
+                else
+                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response);
                 if (response.IsValid)
                 {
                     dataGateway.Insert(volunteersFromCsv);
@@ -67,8 +74,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     csvSeparator = CsvUtils.DetectSeparator(headerLine);
 
                     var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
+                    _fileType = IsTheCorrectHeader(headerColumns) + IsTheCorrectHeaderForTheirCsv(headerColumns);
 
-                    if (!IsTheCorrectHeader(headerColumns))
+                    if (_fileType == 0)
                     {
                         var returnList = new List<string[]>();
                         var strArray = new string[1];
@@ -81,7 +89,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 else
                 {
                     var row = GetCsvRow(reader, csvSeparator);
-
                     result.Add(row);
                 }
 
@@ -94,18 +101,36 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private static string[] GetCsvRow(StreamReader reader, string csvSeparator)
         {
             var line = reader.ReadLine();
-            var splits = new Regex("((?<=\")[^\"]*(?=\"(" + csvSeparator + "|$)+)|(?<=" + csvSeparator + "|^)[^" + csvSeparator + "\"]*(?=" + csvSeparator + "|$))").Matches(line);
+            var splits = new Regex("((?<=\")[^\"]*(?=\"(" + csvSeparator + "|$)+)|(?<=" + csvSeparator + "|^)[^" +
+                                   csvSeparator + "\"]*(?=" + csvSeparator + "|$))").Matches(line);
             var row = splits.Cast<Match>().Select(match => match.Value).ToArray();
             return row;
         }
 
-        private static bool IsTheCorrectHeader(string[] headerColumns)
+        private static int IsTheCorrectHeader(string[] headerColumns)
         {
-            var correct = headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Birthdate", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) &&
+                          headerColumns[2].Contains("Birthdate", StringComparison.InvariantCultureIgnoreCase);
             if (correct)
-                return correct;
-            correct = headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("data", StringComparison.InvariantCultureIgnoreCase);
-            return correct;
+                return 1;
+
+            correct = headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) &&
+                      headerColumns[2].Contains("data", StringComparison.InvariantCultureIgnoreCase);
+            if (correct)
+                return 1;
+
+            return 0;
+        }
+
+        private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
+        {
+            var differentCSV =
+                headerColumns[0].Contains("nume si prenume", StringComparison.InvariantCultureIgnoreCase) &&
+                headerColumns[1].Contains("CNP", StringComparison.InvariantCultureIgnoreCase);
+            if (differentCSV)
+                return 2;
+
+            return 0;
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -167,44 +192,104 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
                 catch
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",
+                        "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
                     response.IsValid = false;
                 }
+
                 volunteers.Add(volunteer);
             }
 
             return volunteers;
         }
-    }
 
-    public class VolunteerImportResponse
-    {
-        public bool IsValid { get; set; }
-
-        public List<KeyValuePair<string, string>> Message { get; set; }
-
-        public VolunteerImportResponse()
+        private List<Volunteer> GetVolunteerFromBucuriaDaruluiCSV(List<string[]> lines,
+            VolunteerImportResponse response)
         {
-            IsValid = true;
-            Message = new List<KeyValuePair<string, string>>();
-        }
-    }
+            var volunteers = new List<Volunteer>();
 
-    public static class CsvUtils
-    {
-        private static readonly string CsvSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-
-        private static readonly string[] SeparatorChars = { ";", "|", "\t", "," };
-
-        public static string DetectSeparator(string line)
-        {
-            foreach (var separatorChar in SeparatorChars)
+            foreach (var line in lines)
             {
-                if (line.Contains(separatorChar, StringComparison.InvariantCulture))
-                    return separatorChar;
+                var volunteer = new Volunteer();
+                try
+                {
+                    var additionalInformation = new AdditionalInfo
+                    {
+                        HasCar = false,
+                        HasDrivingLicense = false,
+                        Remark = ""
+                    };
+
+                    var contactInformation = new ContactInformation
+                    {
+                        PhoneNumber = line[4],
+                        MailAddress = ""
+                    };
+
+                    var ci = new CI
+                    {
+                        HasId = true,
+                        Info = line[3],
+                        ExpirationDate = DateTime.Today
+                    };
+
+                    volunteer.Id = Guid.NewGuid().ToString();
+
+                    volunteer.Fullname = line[0];
+                    volunteer.CNP = line[1];
+                    volunteer.Address = line[2];
+                    volunteer.Occupation = line[8];
+                    volunteer.DesiredWorkplace = line[9];
+                    volunteer.Birthdate = DateTime.Today;
+                    volunteer.FieldOfActivity = "";
+                    volunteer.Gender = Gender.Female;
+                    volunteer.HourCount = 0;
+                    volunteer.InActivity = false;
+                    volunteer.CI = ci;
+                    volunteer.ContactInformation = contactInformation;
+                    volunteer.AdditionalInfo = additionalInformation;
+                }
+                catch
+                {
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
+                    response.IsValid = false;
+                }
+
+                volunteers.Add(volunteer);
             }
 
-            return CsvUtils.CsvSeparator;
+            return volunteers;
+        }
+
+        public class VolunteerImportResponse
+        {
+            public bool IsValid { get; set; }
+
+            public List<KeyValuePair<string, string>> Message { get; set; }
+
+            public VolunteerImportResponse()
+            {
+                IsValid = true;
+                Message = new List<KeyValuePair<string, string>>();
+            }
+        }
+
+        public static class CsvUtils
+        {
+            private static readonly string CsvSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+
+            private static readonly string[] SeparatorChars = { ";", "|", "\t", "," };
+
+            public static string DetectSeparator(string line)
+            {
+                foreach (var separatorChar in SeparatorChars)
+                {
+                    if (line.Contains(separatorChar, StringComparison.InvariantCulture))
+                        return separatorChar;
+                }
+
+                return CsvUtils.CsvSeparator;
+            }
         }
     }
 }
