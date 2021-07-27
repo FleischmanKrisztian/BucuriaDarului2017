@@ -54,7 +54,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public string[] BeneficiaryToArray(Beneficiary beneficiary)
         {
-            string[] result = new string[39];
+            string[] result = new string[40];
             result[0] = beneficiary.Id;
             result[1] = beneficiary.Fullname;
             result[2] = beneficiary.Active.ToString();
@@ -63,36 +63,38 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             result[5] = beneficiary.HomeDelivery.ToString();
             result[6] = beneficiary.HomeDeliveryDriver;
             result[7] = beneficiary.HasGDPRAgreement.ToString();
-            result[8] = beneficiary.Address; result[9] = beneficiary.CNP;
+            result[8] = beneficiary.Address;
+            result[9] = beneficiary.CNP;
             result[10] = beneficiary.CI.HasId.ToString();
             result[11] = beneficiary.CI.Info;
-            result[12] = beneficiary.CI.ExpirationDate.ToLongDateString();
+            result[12] = DateTime.Parse(beneficiary.CI.ExpirationDate.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString();
             result[13] = beneficiary.Marca.MarcaName;
             result[14] = beneficiary.Marca.IdApplication;
             result[15] = beneficiary.Marca.IdInvestigation;
             result[16] = beneficiary.Marca.IdContract;
             result[17] = beneficiary.NumberOfPortions.ToString();
-            result[18] = beneficiary.LastTimeActive.ToLongDateString();
+            result[18] = DateTime.Parse(beneficiary.LastTimeActive.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString();
             result[19] = beneficiary.Comments;
-            result[20] = beneficiary.PersonalInfo.BirthPlace;
+            result[20] = DateTime.Parse(beneficiary.PersonalInfo.Birthdate.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString();
             result[21] = beneficiary.PersonalInfo.PhoneNumber;
-            result[22] = beneficiary.PersonalInfo.Studies;
+            result[22] = beneficiary.PersonalInfo.BirthPlace;
+            result[23] = beneficiary.PersonalInfo.Studies;
             result[24] = beneficiary.PersonalInfo.Profession;
-            result[24] = beneficiary.PersonalInfo.Occupation;
-            result[25] = beneficiary.PersonalInfo.SeniorityInWorkField;
-            result[26] = beneficiary.PersonalInfo.HealthState;
-            result[27] = beneficiary.PersonalInfo.Disability;
-            result[28] = beneficiary.PersonalInfo.ChronicCondition;
-            result[29] = beneficiary.PersonalInfo.Addictions;
-            result[30] = beneficiary.PersonalInfo.HealthInsurance.ToString();
-            result[31] = beneficiary.PersonalInfo.HealthCard.ToString();
-            result[32] = beneficiary.PersonalInfo.Married;
-            result[33] = beneficiary.PersonalInfo.SpouseName;
-            result[34] = beneficiary.PersonalInfo.HasHome.ToString();
-            result[35] = beneficiary.PersonalInfo.HousingType;
-            result[36] = beneficiary.PersonalInfo.Income;
-            result[37] = beneficiary.PersonalInfo.Expenses;
-            result[38] = beneficiary.PersonalInfo.Gender.ToString();
+            result[25] = beneficiary.PersonalInfo.Occupation;
+            result[26] = beneficiary.PersonalInfo.SeniorityInWorkField;
+            result[27] = beneficiary.PersonalInfo.HealthState;
+            result[28] = beneficiary.PersonalInfo.Disability;
+            result[29] = beneficiary.PersonalInfo.ChronicCondition;
+            result[30] = beneficiary.PersonalInfo.Addictions;
+            result[31] = beneficiary.PersonalInfo.HealthInsurance.ToString();
+            result[32] = beneficiary.PersonalInfo.HealthCard.ToString();
+            result[33] = beneficiary.PersonalInfo.Married;
+            result[34] = beneficiary.PersonalInfo.SpouseName;
+            result[35] = beneficiary.PersonalInfo.HasHome.ToString();
+            result[36] = beneficiary.PersonalInfo.HousingType;
+            result[37] = beneficiary.PersonalInfo.Income;
+            result[38] = beneficiary.PersonalInfo.Expenses;
+            result[39] = beneficiary.PersonalInfo.Gender.ToString();
 
             return result;
         }
@@ -195,82 +197,87 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             {
                 headerList.Add(header[18]);
             }
+            if (properties.Contains("Y"))
+            {
+                headerList.Add(header[20]);
+            }
             if (properties.Contains("F"))
             {
                 headerList.Add(header[21]);
             }
             if (properties.Contains("G"))
             {
-                headerList.Add(header[20]);
+                headerList.Add(header[22]);
             }
             if (properties.Contains("H"))
             {
-                headerList.Add(header[22]);
+                headerList.Add(header[23]);
             }
             if (properties.Contains("I"))
             {
-                headerList.Add(header[23]);
+                headerList.Add(header[24]);
             }
             if (properties.Contains("J"))
             {
-                headerList.Add(header[24]);
+                headerList.Add(header[25]);
             }
             if (properties.Contains("K"))
             {
-                headerList.Add(header[25]);
+                headerList.Add(header[26]);
             }
             if (properties.Contains("L"))
             {
-                headerList.Add(header[26]);
+                headerList.Add(header[27]);
             }
             if (properties.Contains("M"))
             {
-                headerList.Add(header[27]);
+                headerList.Add(header[28]);
             }
             if (properties.Contains("N"))
             {
-                headerList.Add(header[28]);
+                headerList.Add(header[29]);
             }
             if (properties.Contains("O"))
             {
-                headerList.Add(header[29]);
+                headerList.Add(header[30]);
             }
             if (properties.Contains("Z"))
             {
-                headerList.Add(header[30]);
+                headerList.Add(header[31]);
             }
             if (properties.Contains("P"))
             {
-                headerList.Add(header[31]);
+                headerList.Add(header[32]);
             }
             if (properties.Contains("Q"))
             {
-                headerList.Add(header[32]);
+                headerList.Add(header[33]);
             }
             if (properties.Contains("R"))
             {
-                headerList.Add(header[33]);
+                headerList.Add(header[34]);
             }
             if (properties.Contains("S"))
             {
-                headerList.Add(header[34]);
+                headerList.Add(header[35]);
             }
             if (properties.Contains("T"))
             {
-                headerList.Add(header[35]);
+                headerList.Add(header[36]);
             }
             if (properties.Contains("U"))
             {
-                headerList.Add(header[36]);
+                headerList.Add(header[37]);
             }
             if (properties.Contains("V"))
             {
-                headerList.Add(header[37]);
+                headerList.Add(header[38]);
             }
             if (properties.Contains("W"))
             {
-                headerList.Add(header[38]);
+                headerList.Add(header[39]);
             }
+            
 
             var returnedHeader = headerList.ToArray();
             return returnedHeader;
@@ -298,7 +305,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             sb.Append("\r\n");
             foreach (var item in idListForPrinting)
             {
-
                 if (properties.Contains("1"))
                 {
                     sb.Append("\"" + item.Fullname + "\"" + ",");
@@ -358,7 +364,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 }
                 if (properties.Contains("E"))
                 {
-                    sb.Append("\"" + item.LastTimeActive.ToLongDateString() + "\"" + ",");
+                    sb.Append("\"" + DateTime.Parse(item.LastTimeActive.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString() + "\"" + ",");
+                }
+                if (properties.Contains("Y"))
+                {
+                    sb.Append("\"" + DateTime.Parse(item.PersonalInfo.Birthdate.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString() + "\"" + ",");
                 }
                 if (properties.Contains("F"))
                 {
