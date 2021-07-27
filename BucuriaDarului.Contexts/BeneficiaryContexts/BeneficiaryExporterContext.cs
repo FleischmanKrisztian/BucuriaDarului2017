@@ -114,6 +114,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 idsAndOptions += "W";
             if (csv.WeeklyPackage)
                 idsAndOptions += "X";
+            if (csv.Birthdate)
+                idsAndOptions += "Y";
             return idsAndOptions;
         }
 
