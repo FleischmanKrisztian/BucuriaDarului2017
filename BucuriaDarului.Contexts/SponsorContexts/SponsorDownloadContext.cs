@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.SponsorGateways;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -54,13 +55,21 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public string[] SponsorToArray(Sponsor sponsor)
         {
-            string[] result = new string[] { sponsor.Id, sponsor.NameOfSponsor ,
-                sponsor.Sponsorship.Date.ToLongDateString(),sponsor.Sponsorship.MoneyAmount,
-                sponsor.Sponsorship.WhatGoods,sponsor.Sponsorship.GoodsAmount,
-                sponsor.Contract.HasContract.ToString(),sponsor.Contract.NumberOfRegistration,
-                sponsor.Contract.RegistrationDate.ToLongTimeString(),
-                sponsor.Contract.ExpirationDate.ToLongTimeString(),sponsor.ContactInformation.PhoneNumber,
-                sponsor.ContactInformation.MailAddress};
+            var result = new []
+            {
+                sponsor.Id,
+                sponsor.NameOfSponsor,
+                DateTime.Parse(sponsor.Sponsorship.Date.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                sponsor.Sponsorship.MoneyAmount,
+                sponsor.Sponsorship.WhatGoods,
+                sponsor.Sponsorship.GoodsAmount,
+                sponsor.Contract.HasContract.ToString(),
+                sponsor.Contract.NumberOfRegistration,
+                DateTime.Parse(sponsor.Contract.RegistrationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                DateTime.Parse(sponsor.Contract.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                sponsor.ContactInformation.PhoneNumber,
+                sponsor.ContactInformation.MailAddress
+            };
             return result;
         }
 

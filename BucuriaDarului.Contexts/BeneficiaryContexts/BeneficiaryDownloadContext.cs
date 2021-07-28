@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -67,15 +68,15 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             result[9] = beneficiary.CNP;
             result[10] = beneficiary.CI.HasId.ToString();
             result[11] = beneficiary.CI.Info;
-            result[12] = DateTime.Parse(beneficiary.CI.ExpirationDate.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString();
+            result[12] = DateTime.Parse(beneficiary.CI.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
             result[13] = beneficiary.Marca.MarcaName;
             result[14] = beneficiary.Marca.IdApplication;
             result[15] = beneficiary.Marca.IdInvestigation;
             result[16] = beneficiary.Marca.IdContract;
             result[17] = beneficiary.NumberOfPortions.ToString();
-            result[18] = DateTime.Parse(beneficiary.LastTimeActive.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString();
+            result[18] = DateTime.Parse(beneficiary.LastTimeActive.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
             result[19] = beneficiary.Comments;
-            result[20] = DateTime.Parse(beneficiary.PersonalInfo.Birthdate.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString();
+            result[20] = DateTime.Parse(beneficiary.PersonalInfo.Birthdate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
             result[21] = beneficiary.PersonalInfo.PhoneNumber;
             result[22] = beneficiary.PersonalInfo.BirthPlace;
             result[23] = beneficiary.PersonalInfo.Studies;

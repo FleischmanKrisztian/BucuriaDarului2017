@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.EventGateways;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -56,8 +57,20 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string[] EventToArray(Event @event)
         {
-            string[] result = new string[] { @event.Id, @event.NameOfEvent, @event.PlaceOfEvent, DateTime.Parse(@event.DateOfEvent.ToString(), System.Globalization.CultureInfo.InvariantCulture).ToString(), @event.TypeOfActivities, @event.TypeOfEvent,
-                  @event.Duration ,@event.NumberOfVolunteersNeeded.ToString() , @event.AllocatedVolunteers ,@event.NumberAllocatedVolunteers.ToString(), @event.AllocatedSponsors };
+            var result = new []
+            {
+                @event.Id,
+                @event.NameOfEvent,
+                @event.PlaceOfEvent,
+                DateTime.Parse(@event.DateOfEvent.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                @event.TypeOfActivities,
+                @event.TypeOfEvent,
+                @event.Duration,
+                @event.NumberOfVolunteersNeeded.ToString(), 
+                @event.AllocatedVolunteers, 
+                @event.NumberAllocatedVolunteers.ToString(), 
+                @event.AllocatedSponsors
+            };
             return result;
         }
 

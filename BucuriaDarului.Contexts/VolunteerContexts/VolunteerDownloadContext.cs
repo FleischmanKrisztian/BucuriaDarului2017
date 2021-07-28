@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -54,10 +55,10 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public string[] VolunteerToArray(Volunteer volunteer)
         {
-            string[] result = new string[39];
+            var result = new string[19];
             result[0] = volunteer.Id;
             result[1] = volunteer.Fullname;
-            result[2] = volunteer.Birthdate.ToLongDateString();
+            result[2] = DateTime.Parse(volunteer.Birthdate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
             result[3] = volunteer.Address;
             result[4] = volunteer.Gender.ToString();
             result[5] = volunteer.DesiredWorkplace;
@@ -66,10 +67,10 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             result[8] = volunteer.Occupation;
             result[9] = volunteer.CI.HasId.ToString();
             result[10] = volunteer.CI.Info;
-            result[11] = volunteer.CI.ExpirationDate.ToLongDateString();
+            result[11] = DateTime.Parse(volunteer.CI.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
             result[12] = volunteer.InActivity.ToString();
             result[13] = volunteer.HourCount.ToString();
-            result[14] = volunteer.ContactInformation.PhoneNumber.ToString();
+            result[14] = volunteer.ContactInformation.PhoneNumber;
             result[15] = volunteer.ContactInformation.MailAddress;
             result[16] = volunteer.AdditionalInfo.HasDrivingLicense.ToString();
             result[17] = volunteer.AdditionalInfo.HasCar.ToString();

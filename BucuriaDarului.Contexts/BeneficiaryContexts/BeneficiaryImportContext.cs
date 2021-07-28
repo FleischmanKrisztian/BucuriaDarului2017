@@ -163,29 +163,28 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     beneficiary.LastTimeActive = Convert.ToDateTime(line[18]);
                     beneficiary.Comments = line[19];
 
-                    var personalInfo = new PersonalInfo
-                    {
-                        Birthdate = Convert.ToDateTime(line[20]),
-                        PhoneNumber = line[21],
-                        BirthPlace = line[22],
-                        Studies = line[23],
-                        Profession = line[24],
-                        Occupation = line[25],
-                        SeniorityInWorkField = line[26],
-                        HealthState = line[27],
-                        Disability = line[28],
-                        ChronicCondition = line[29],
-                        Addictions = line[30],
-                        HealthInsurance = Convert.ToBoolean(line[31]),
-                        HealthCard = Convert.ToBoolean(line[32]),
-                        Married = line[33],
-                        SpouseName = line[34],
-                        HasHome = Convert.ToBoolean(line[35]),
-                        HousingType = line[36],
-                        Income = line[37],
-                        Expenses = line[38],
-                        Gender = Convert.ToInt16(line[39]) == 0 ? Gender.Male : Gender.Female
-                    };
+                    var personalInfo = new PersonalInfo();
+
+                    personalInfo.Birthdate = Convert.ToDateTime(line[20]);
+                    personalInfo.PhoneNumber = line[21];
+                    personalInfo.BirthPlace = line[22];
+                    personalInfo.Studies = line[23];
+                    personalInfo.Profession = line[24];
+                    personalInfo.Occupation = line[25];
+                    personalInfo.SeniorityInWorkField = line[26];
+                    personalInfo.HealthState = line[27];
+                    personalInfo.Disability = line[28];
+                    personalInfo.ChronicCondition = line[29];
+                    personalInfo.Addictions = line[30];
+                    personalInfo.HealthInsurance = Convert.ToBoolean(line[31]);
+                    personalInfo.HealthCard = Convert.ToBoolean(line[32]);
+                    personalInfo.Married = line[33];
+                    personalInfo.SpouseName = line[34];
+                    personalInfo.HasHome = Convert.ToBoolean(line[35]);
+                    personalInfo.HousingType = line[36];
+                    personalInfo.Income = line[37];
+                    personalInfo.Expenses = line[38];
+                    personalInfo.Gender = line[39] == "Male" ? Gender.Male : Gender.Female;
 
                     beneficiary.PersonalInfo = personalInfo;
                 }
