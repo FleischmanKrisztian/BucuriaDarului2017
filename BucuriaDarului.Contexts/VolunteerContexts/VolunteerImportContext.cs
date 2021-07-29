@@ -32,15 +32,13 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                if (result[0].Contains("The File Does"))
+                List<Volunteer> volunteersFromCsv = new List<Volunteer>();
+                if (_fileType == 0)
                 {
-                    response.Message.Add(
-                        new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
                     response.IsValid = false;
                 }
-
-                var volunteersFromCsv = new List<Volunteer>();
-                if (_fileType == 1)
+                else if (_fileType == 1)
                     volunteersFromCsv = GetVolunteerFromCsv(result, response);
                 else
                     volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response);

@@ -13,6 +13,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     public class BeneficiaryImportContext
     {
         private readonly IBeneficiaryImportGateway dataGateway;
+        private static int _fileType = 0;
 
         public BeneficiaryImportContext(IBeneficiaryImportGateway dataGateway)
         {
@@ -31,12 +32,16 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                if (result[0].Contains("File must be of beneficiary type"))
+                List<Beneficiary> beneficiariesFromCsv = new List<Beneficiary>();
+                if (_fileType == 0)
                 {
                     response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Beneficiary!"));
                     response.IsValid = false;
                 }
-                var beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
+                else if (_fileType == 1)
+                    beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response);
+                else
+                    beneficiariesFromCsv = GetBeneficiaryFromBucuriaDaruluiCSV(result, response);
                 if (response.IsValid)
                 {
                     dataGateway.Insert(beneficiariesFromCsv);
@@ -68,11 +73,13 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
                     var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
 
-                    if (!IsTheCorrectHeader(headerColumns))
+                    _fileType = IsTheCorrectHeader(headerColumns) + IsTheCorrectHeaderForTheirCsv(headerColumns);
+
+                    if (_fileType == 0)
                     {
                         var returnList = new List<string[]>();
                         var strArray = new string[1];
-                        strArray[0] = "File must be of type Beneficiary!";
+                        strArray[0] = "The File Does Not have the correct header!";
                         returnList.Add(strArray);
 
                         return returnList;
@@ -81,7 +88,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 else
                 {
                     var row = GetCsvRow(reader, csvSeparator);
-
                     result.Add(row);
                 }
 
@@ -100,13 +106,30 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return row;
         }
 
-        private static bool IsTheCorrectHeader(string[] headerColumns)
+        private static int IsTheCorrectHeader(string[] headerColumns)
         {
-            var correct = headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Active", StringComparison.InvariantCultureIgnoreCase);
+            var correct = headerColumns[1].Contains("Fullname", StringComparison.InvariantCultureIgnoreCase) &&
+                          headerColumns[2].Contains("Active", StringComparison.InvariantCultureIgnoreCase);
             if (correct)
-                return correct;
-            correct = headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) && headerColumns[2].Contains("Activ", StringComparison.InvariantCultureIgnoreCase);
-            return correct;
+                return 1;
+
+            correct = headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) &&
+                      headerColumns[2].Contains("Activ", StringComparison.InvariantCultureIgnoreCase);
+            if (correct)
+                return 1;
+
+            return 0;
+        }
+
+        private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
+        {
+            var differentCSV =
+                headerColumns[0].Contains("Nr. Crt", StringComparison.InvariantCultureIgnoreCase) &&
+                headerColumns[1].Contains("prenume", StringComparison.InvariantCultureIgnoreCase);
+            if (differentCSV)
+                return 2;
+
+            return 0;
         }
 
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
@@ -193,6 +216,116 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     response.Message.Add((new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file.")));
                     response.IsValid = false;
                 }
+                beneficiaries.Add(beneficiary);
+            }
+
+            return beneficiaries;
+        }
+
+        private List<Beneficiary> GetBeneficiaryFromBucuriaDaruluiCSV(List<string[]> lines, BeneficiaryImportResponse response)
+        {
+            var beneficiaries = new List<Beneficiary>();
+            var culture = CultureInfo.CreateSpecificCulture("ro-RO");
+            var styles = DateTimeStyles.None;
+
+            foreach (var line in lines)
+            {
+                var beneficiary = new Beneficiary();
+                try
+                {
+                    beneficiary.Id = Guid.NewGuid().ToString();
+                    beneficiary.Fullname = line[1];
+                    beneficiary.Comments = "Cap Familie: " + line[2];
+                    if (line[3].ToLower() == "activ")
+                        beneficiary.Active = true;
+                    else
+                        beneficiary.Active = false;
+                    if (line[4].ToUpper() == "NU")
+                        beneficiary.Canteen = true;
+                    else
+                        beneficiary.Canteen = false;
+                    if (line[5].ToUpper() == "NU")
+                        beneficiary.WeeklyPackage = false;
+                    else
+                        beneficiary.Canteen = true;
+                    beneficiary.Comments = beneficiary.Comments + " Sala de mese: " + line[6];
+                    beneficiary.HomeDeliveryDriver = line[7];
+                    beneficiary.Address = line[8];
+                    beneficiary.CNP = line[9];
+
+                    var ci = new CI();
+                    ci.Info = line[10];
+
+                    if (DateTime.TryParse(line[11], culture, styles, out var dateResult))
+                        ci.ExpirationDate = dateResult;
+                    else
+                        ci.ExpirationDate = DateTime.Today;
+                    ci.HasId = true;
+                    beneficiary.CI = ci;
+
+                    var marca = new Marca();
+                    marca.MarcaName = line[12];
+                    marca.IdApplication = line[13];
+                    marca.IdInvestigation = line[14];
+                    marca.IdContract = line[15];
+                    beneficiary.Marca = marca;
+
+                    if (Int16.TryParse(line[16], out var result))                   
+                        beneficiary.NumberOfPortions = result;
+                    else
+                        beneficiary.NumberOfPortions = 0;
+
+                    var personalInfo = new PersonalInfo();
+
+                    personalInfo.PhoneNumber = line[18];
+                    personalInfo.BirthPlace = line[19];
+                    personalInfo.Studies = line[20];
+                    personalInfo.Profession = line[21];
+                    personalInfo.Occupation = line[22];
+                    personalInfo.SeniorityInWorkField = line[23];
+                    personalInfo.HealthState = line[24];
+                    personalInfo.Disability = line[25];
+                    personalInfo.ChronicCondition = line[26];
+                    personalInfo.Addictions = line[27];
+                    if (line[28].ToUpper() == "NU")
+                        personalInfo.HealthInsurance = false;
+                    else
+                        personalInfo.HealthInsurance = true;
+                    if (line[29].ToUpper() == "NU")
+                        personalInfo.HealthCard = false;
+                    else
+                        personalInfo.HealthCard = true;
+                    personalInfo.Married = line[30];
+                    personalInfo.SpouseName = line[31];
+
+                    personalInfo.HousingType = line[32];
+                    if (line[33].ToUpper() == "NU")
+                        personalInfo.HasHome = true;
+                    else
+                        personalInfo.HasHome = false;
+                    personalInfo.Income = line[34];
+                    personalInfo.Expenses = line[35];
+
+
+                    if (DateTime.TryParse(line[38] + "." + line[37] + "." + line[36], culture, styles, out var dateResult2))
+                        personalInfo.Birthdate = dateResult2;
+                    else
+                        personalInfo.Birthdate = DateTime.Today;
+
+                    beneficiary.Comments = beneficiary.Comments + " Varsta: " + line[39];
+                    personalInfo.Gender = line[41] == "M" ? Gender.Male : Gender.Female;
+                    beneficiary.Comments = beneficiary.Comments + " Observatii: " + line[42];
+
+                    beneficiary.PersonalInfo = personalInfo;
+
+                }
+                catch
+                {
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
+                    response.IsValid = false;
+                    break;
+                }
+
                 beneficiaries.Add(beneficiary);
             }
 

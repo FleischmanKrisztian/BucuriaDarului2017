@@ -5,17 +5,13 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BucuriaDarului.Web", "BucuriaDarului.Web\BucuriaDarului.Web.csproj", "{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSVExporter", "CSVExporter\CSVExporter.csproj", "{E4BFD6B6-1086-4546-A5F0-5C6BD8FF61AC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractPrinter", "wpfapp\ContractPrinter.csproj", "{92A4EB40-99C9-48C0-85F2-8C327CD04319}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupDatabaseApp", "DatabaseApp\BackupDatabaseApp.csproj", "{C31EA082-894B-451C-AC6E-C34C6D91FC6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BucuriaDarului.Contexts", "BucuriaDarului.Contexts\BucuriaDarului.Contexts.csproj", "{6FD358C1-0799-4A6F-B283-A6B237F3B6A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BucuriaDarului.Contexts", "BucuriaDarului.Contexts\BucuriaDarului.Contexts.csproj", "{6FD358C1-0799-4A6F-B283-A6B237F3B6A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BucuriaDarului.Core", "BucuriaDarului.Core\BucuriaDarului.Core.csproj", "{242F16C9-9FF0-4E2F-AD37-C507574B5794}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BucuriaDarului.Core", "BucuriaDarului.Core\BucuriaDarului.Core.csproj", "{242F16C9-9FF0-4E2F-AD37-C507574B5794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BucuriaDarului.Gateway", "BucuriaDarului.Gateway\BucuriaDarului.Gateway.csproj", "{379B0406-6A68-4625-A894-E4B40E5CDD74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BucuriaDarului.Gateway", "BucuriaDarului.Gateway\BucuriaDarului.Gateway.csproj", "{379B0406-6A68-4625-A894-E4B40E5CDD74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,14 +23,6 @@ Global
 		{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5CCFDFC-F3A4-4730-BBB3-3CA9B0896679}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4BFD6B6-1086-4546-A5F0-5C6BD8FF61AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4BFD6B6-1086-4546-A5F0-5C6BD8FF61AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4BFD6B6-1086-4546-A5F0-5C6BD8FF61AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4BFD6B6-1086-4546-A5F0-5C6BD8FF61AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92A4EB40-99C9-48C0-85F2-8C327CD04319}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C31EA082-894B-451C-AC6E-C34C6D91FC6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C31EA082-894B-451C-AC6E-C34C6D91FC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C31EA082-894B-451C-AC6E-C34C6D91FC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
