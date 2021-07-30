@@ -8,7 +8,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
     public class DatabaseSynchronizationContext
     {
         private readonly ISynchronizationGateway dataGateway;
-        public SynchronizationResponse response;
+        private SynchronizationResponse response = new SynchronizationResponse();
 
         public DatabaseSynchronizationContext(ISynchronizationGateway dataGateway)
         {
@@ -20,19 +20,22 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
             var databaseLists = GetDatabaseLists();
             var serializedStrings = GetSerializedStrings(databaseLists);
 
-            SynchronizeVolunteers(databaseLists.LocalVolunteers, serializedStrings.VolunteerString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
-            SynchronizeEvents(databaseLists.LocalEvents, serializedStrings.EventString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
-            SynchronizeSponsors(databaseLists.LocalSponsors, serializedStrings.SponsorString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
-            SynchronizeBeneficiaries(databaseLists.LocalBeneficiaries, serializedStrings.BeneficiaryString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
-            SynchronizeVolunteerContracts(databaseLists.LocalVolunteerContracts, serializedStrings.VolunteerContractString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
-            SynchronizeBeneficiaryContracts(databaseLists.LocalBeneficiaryContracts, serializedStrings.BeneficiaryContractString, serializedStrings.ModifiedIdString, serializedStrings.DeletedIdString);
+            SynchronizeVolunteers(databaseLists.LocalVolunteers, serializedStrings.VolunteerString, serializedStrings.ModifiedIdString, databaseLists.DeletedIds);
+            SynchronizeEvents(databaseLists.LocalEvents, serializedStrings.EventString, serializedStrings.ModifiedIdString, databaseLists.DeletedIds);
+            SynchronizeSponsors(databaseLists.LocalSponsors, serializedStrings.SponsorString, serializedStrings.ModifiedIdString, databaseLists.DeletedIds);
+            SynchronizeBeneficiaries(databaseLists.LocalBeneficiaries, serializedStrings.BeneficiaryString, serializedStrings.ModifiedIdString, databaseLists.DeletedIds);
+            SynchronizeVolunteerContracts(databaseLists.LocalVolunteerContracts, serializedStrings.VolunteerContractString, serializedStrings.ModifiedIdString, databaseLists.DeletedIds);
+            SynchronizeBeneficiaryContracts(databaseLists.LocalBeneficiaryContracts, serializedStrings.BeneficiaryContractString, serializedStrings.ModifiedIdString, databaseLists.DeletedIds);
 
             response.NumberOfDeletions = dataGateway.GetListOfDeletions().Count;
             response.NumberOfModifications = dataGateway.GetListOfModifications().Count;
 
             dataGateway.DeleteAuxiliaryDatabases();
 
-            SynchronizeLocalVolunteers(databaseLists.CommonVolunteers, databaseLists.LocalVolunteers, serializedStrings.VolunteerString, serializedStrings.LocalVolunteerString ,serializedStrings.ModifiedIdString);
+            databaseLists = GetDatabaseLists();
+            serializedStrings = GetSerializedStrings(databaseLists);
+
+            SynchronizeLocalVolunteers(databaseLists.CommonVolunteers, databaseLists.LocalVolunteers, serializedStrings.VolunteerString, serializedStrings.LocalVolunteerString, serializedStrings.ModifiedIdString);
             SynchronizeLocalEvents(databaseLists.CommonEvents, databaseLists.LocalEvents, serializedStrings.EventString, serializedStrings.LocalEventString, serializedStrings.ModifiedIdString);
             SynchronizeLocalSponsors(databaseLists.CommonSponsors, databaseLists.LocalSponsors, serializedStrings.SponsorString, serializedStrings.LocalSponsorString, serializedStrings.ModifiedIdString);
             SynchronizeLocalBeneficiaries(databaseLists.CommonBeneficiaries, databaseLists.LocalBeneficiaries, serializedStrings.BeneficiaryString, serializedStrings.LocalBeneficiaryString, serializedStrings.ModifiedIdString);
@@ -73,10 +76,10 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateEvent(commonEvent, localConnection);
             }
 
-            foreach (var localVolunteer in localEvents)
+            foreach (var localEvent in localEvents)
             {
-                if (!commonEventString.Contains(localVolunteer.Id))
-                    dataGateway.DeleteAVolunteer(localVolunteer.Id, localConnection);
+                if (!commonEventString.Contains(localEvent.Id))
+                    dataGateway.DeleteAnEvent(localEvent.Id, localConnection);
             }
         }
 
@@ -91,10 +94,10 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateSponsor(commonSponsor, localConnection);
             }
 
-            foreach (var localVolunteer in localSponsors)
+            foreach (var localSponsor in localSponsors)
             {
-                if (!commonSponsorString.Contains(localVolunteer.Id))
-                    dataGateway.DeleteAVolunteer(localVolunteer.Id, localConnection);
+                if (!commonSponsorString.Contains(localSponsor.Id))
+                    dataGateway.DeleteASponsor(localSponsor.Id, localConnection);
             }
         }
 
@@ -109,10 +112,10 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateBeneficiary(commonBeneficiary, localConnection);
             }
 
-            foreach (var localVolunteer in localBeneficiaries)
+            foreach (var localBeneficiary in localBeneficiaries)
             {
-                if (!commonBeneficiaryString.Contains(localVolunteer.Id))
-                    dataGateway.DeleteAVolunteer(localVolunteer.Id, localConnection);
+                if (!commonBeneficiaryString.Contains(localBeneficiary.Id))
+                    dataGateway.DeleteABeneficiary(localBeneficiary.Id, localConnection);
             }
         }
 
@@ -127,10 +130,10 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateVolunteerContract(commonVolunteerContract, localConnection);
             }
 
-            foreach (var localVolunteer in localVolunteerContracts)
+            foreach (var localVolunteerContract in localVolunteerContracts)
             {
-                if (!commonVolunteerContractString.Contains(localVolunteer.Id))
-                    dataGateway.DeleteAVolunteer(localVolunteer.Id, localConnection);
+                if (!commonVolunteerContractString.Contains(localVolunteerContract.Id))
+                    dataGateway.DeleteAVolunteerContract(localVolunteerContract.Id, localConnection);
             }
         }
 
@@ -145,10 +148,10 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateBeneficiaryContract(commonBeneficiaryContract, localConnection);
             }
 
-            foreach (var localVolunteer in localBeneficiaryContracts)
+            foreach (var localBeneficiaryContract in localBeneficiaryContracts)
             {
-                if (!commonBeneficiaryContractString.Contains(localVolunteer.Id))
-                    dataGateway.DeleteAVolunteer(localVolunteer.Id, localConnection);
+                if (!commonBeneficiaryContractString.Contains(localBeneficiaryContract.Id))
+                    dataGateway.DeleteABeneficiaryContract(localBeneficiaryContract.Id, localConnection);
             }
         }
 
@@ -171,12 +174,11 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 LocalBeneficiaryContractString = JsonConvert.SerializeObject(databaseLists.LocalBeneficiaryContracts),
 
                 ModifiedIdString = JsonConvert.SerializeObject(databaseLists.ModifiedIds),
-                DeletedIdString = JsonConvert.SerializeObject(databaseLists.DeletedIds)
             };
             return serializedStrings;
         }
 
-        private void SynchronizeVolunteers(List<Volunteer> localVolunteers, string volunteerString, string modifiedIds, string deletedIds)
+        private void SynchronizeVolunteers(List<Volunteer> localVolunteers, string volunteerString, string modifiedIds, List<DeletedIds> deletedIds)
         {
             const bool commonConnection = false;
             foreach (var volunteer in localVolunteers)
@@ -188,6 +190,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 else if (modifiedIds.Contains(volunteer.Id))
                 {
                     var auxiliaryDocument = dataGateway.GetAuxiliaryDocument(volunteer.Id);
+                    auxiliaryDocument = RemoveInitialID(auxiliaryDocument);
                     var currentDocument = JsonConvert.SerializeObject(dataGateway.GetOneVolunteer(volunteer.Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -200,17 +203,13 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateVolunteer(volunteer, commonConnection);
                 }
             }
-
-            foreach (var volunteer in localVolunteers)
+            foreach (var deletedId in deletedIds)
             {
-                // if the document has been deleted it will get deleted from the common db aswell.
-                // the document will not be re-added unless someone has modified the document with this ID.
-                if (deletedIds.Contains(volunteer.Id))
-                    dataGateway.DeleteAVolunteer(volunteer.Id, commonConnection);
+                dataGateway.DeleteAVolunteer(deletedId.DeletedId, commonConnection);
             }
         }
 
-        private void SynchronizeEvents(List<Event> localEvents, string eventString, string modifiedIds, string deletedIds)
+        private void SynchronizeEvents(List<Event> localEvents, string eventString, string modifiedIds, List<DeletedIds> deletedIds)
         {
             const bool commonConnection = false;
             foreach (var @event in localEvents)
@@ -220,6 +219,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 else if (modifiedIds.Contains(@event.Id))
                 {
                     var auxiliaryDocument = dataGateway.GetAuxiliaryDocument(@event.Id);
+                    auxiliaryDocument = RemoveInitialID(auxiliaryDocument);
                     var currentDocument = JsonConvert.SerializeObject(dataGateway.GetOneEvent(@event.Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -230,15 +230,13 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateEvent(@event, commonConnection);
                 }
             }
-
-            foreach (var @event in localEvents)
+            foreach (var deletedId in deletedIds)
             {
-                if (deletedIds.Contains(@event.Id))
-                    dataGateway.DeleteAnEvent(@event.Id, commonConnection);
+                dataGateway.DeleteAnEvent(deletedId.DeletedId, commonConnection);
             }
         }
 
-        private void SynchronizeBeneficiaries(List<Beneficiary> localBeneficiaries, string beneficiaryString, string modifiedIds, string deletedIds)
+        private void SynchronizeBeneficiaries(List<Beneficiary> localBeneficiaries, string beneficiaryString, string modifiedIds, List<DeletedIds> deletedIds)
         {
             const bool commonConnection = false;
             foreach (var beneficiary in localBeneficiaries)
@@ -248,6 +246,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 else if (modifiedIds.Contains(beneficiary.Id))
                 {
                     var auxiliaryDocument = dataGateway.GetAuxiliaryDocument(beneficiary.Id);
+                    auxiliaryDocument = RemoveInitialID(auxiliaryDocument);
                     var currentDocument = JsonConvert.SerializeObject(dataGateway.GetOneBeneficiary(beneficiary.Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -258,15 +257,13 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateBeneficiary(beneficiary, commonConnection);
                 }
             }
-
-            foreach (var beneficiary in localBeneficiaries)
+            foreach (var deletedId in deletedIds)
             {
-                if (deletedIds.Contains(beneficiary.Id))
-                    dataGateway.DeleteABeneficiary(beneficiary.Id, commonConnection);
+                dataGateway.DeleteABeneficiary(deletedId.DeletedId, commonConnection);
             }
         }
 
-        private void SynchronizeSponsors(List<Sponsor> localSponsors, string sponsorString, string modifiedIds, string deletedIds)
+        private void SynchronizeSponsors(List<Sponsor> localSponsors, string sponsorString, string modifiedIds, List<DeletedIds> deletedIds)
         {
             const bool commonConnection = false;
             foreach (var sponsor in localSponsors)
@@ -276,6 +273,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 else if (modifiedIds.Contains(sponsor.Id))
                 {
                     var auxiliaryDocument = dataGateway.GetAuxiliaryDocument(sponsor.Id);
+                    auxiliaryDocument = RemoveInitialID(auxiliaryDocument);
                     var currentDocument = JsonConvert.SerializeObject(dataGateway.GetOneSponsor(sponsor.Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -286,15 +284,13 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateSponsor(sponsor, commonConnection);
                 }
             }
-
-            foreach (var sponsor in localSponsors)
+            foreach (var deletedId in deletedIds)
             {
-                if (deletedIds.Contains(sponsor.Id))
-                    dataGateway.DeleteASponsor(sponsor.Id, commonConnection);
+                dataGateway.DeleteASponsor(deletedId.DeletedId, commonConnection);
             }
         }
 
-        private void SynchronizeBeneficiaryContracts(List<BeneficiaryContract> localBeneficiaryContracts, string beneficiaryContractString, string modifiedIds, string deletedIds)
+        private void SynchronizeBeneficiaryContracts(List<BeneficiaryContract> localBeneficiaryContracts, string beneficiaryContractString, string modifiedIds, List<DeletedIds> deletedIds)
         {
             const bool commonConnection = false;
             foreach (var beneficiaryContract in localBeneficiaryContracts)
@@ -304,6 +300,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 else if (modifiedIds.Contains(beneficiaryContract.Id))
                 {
                     var auxiliaryDocument = dataGateway.GetAuxiliaryDocument(beneficiaryContract.Id);
+                    auxiliaryDocument = RemoveInitialID(auxiliaryDocument);
                     var currentDocument = JsonConvert.SerializeObject(dataGateway.GetOneBeneficiaryContract(beneficiaryContract.Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -314,15 +311,13 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateBeneficiaryContract(beneficiaryContract, commonConnection);
                 }
             }
-
-            foreach (var beneficiaryContract in localBeneficiaryContracts)
+            foreach (var deletedId in deletedIds)
             {
-                if (deletedIds.Contains(beneficiaryContract.Id))
-                    dataGateway.DeleteABeneficiaryContract(beneficiaryContract.Id, commonConnection);
+                dataGateway.DeleteABeneficiaryContract(deletedId.DeletedId, commonConnection);
             }
         }
 
-        private void SynchronizeVolunteerContracts(List<VolunteerContract> localVolunteerContracts, string volunteerContractString, string modifiedIds, string deletedIds)
+        private void SynchronizeVolunteerContracts(List<VolunteerContract> localVolunteerContracts, string volunteerContractString, string modifiedIds, List<DeletedIds> deletedIds)
         {
             const bool commonConnection = false;
             foreach (var volunteerContract in localVolunteerContracts)
@@ -332,6 +327,7 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                 else if (modifiedIds.Contains(volunteerContract.Id))
                 {
                     var auxiliaryDocument = dataGateway.GetAuxiliaryDocument(volunteerContract.Id);
+                    auxiliaryDocument = RemoveInitialID(auxiliaryDocument);
                     var currentDocument = JsonConvert.SerializeObject(dataGateway.GetOneVolunteerContract(volunteerContract.Id));
                     auxiliaryDocument = auxiliaryDocument.Replace(" ", "");
                     currentDocument = currentDocument.Replace(" ", "");
@@ -342,12 +338,15 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
                     dataGateway.UpdateVolunteerContract(volunteerContract, commonConnection);
                 }
             }
-
-            foreach (var volunteerContract in localVolunteerContracts)
+            foreach (var deletedId in deletedIds)
             {
-                if (deletedIds.Contains(volunteerContract.Id))
-                    dataGateway.DeleteAVolunteerContract(volunteerContract.Id, commonConnection);
+                dataGateway.DeleteAVolunteerContract(deletedId.DeletedId, commonConnection);
             }
+        }
+
+        private string RemoveInitialID(string auxiliaryDocument)
+        {
+            return auxiliaryDocument.Remove(1, 46);
         }
 
         private DatabaseLists GetDatabaseLists()
@@ -415,7 +414,6 @@ namespace BucuriaDarului.Contexts.SynchronizationContexts
             public string LocalVolunteerContractString { get; set; }
             public string LocalBeneficiaryContractString { get; set; }
             public string ModifiedIdString { get; set; }
-            public string DeletedIdString { get; set; }
         }
     }
 }

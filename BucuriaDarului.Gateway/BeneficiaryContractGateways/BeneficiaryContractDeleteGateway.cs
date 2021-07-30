@@ -13,6 +13,8 @@ namespace BucuriaDarului.Gateway.BeneficiaryContractGateways
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
             var filter = Builders<BeneficiaryContract>.Filter.Eq("Id", id);
+            var deletedIdGateway = new DeletedIDGateway();
+            deletedIdGateway.AddIDtoDeletions(id);
             beneficiaryContractCollection.DeleteOne(filter);
         }
 

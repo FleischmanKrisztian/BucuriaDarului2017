@@ -97,6 +97,7 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             dbContext.Database.DropCollection("DeletedIDS");
             dbContext.Database.DropCollection("ModifiedIDS");
+            dbContext.Database.DropCollection("Auxiliary");
         }
 
         //Maybe The Following Methods Have to be Moved Elsewhere
@@ -107,7 +108,7 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
             var auxiliaryCollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
             var filter = Builders<BsonDocument>.Filter.Eq("Id", id);
             var bsonDocument = auxiliaryCollection.Find(filter).FirstOrDefault();
-            var documentString = bsonDocument.ToString();
+            var documentString = bsonDocument.ToJson();
             return documentString;
         }
 
