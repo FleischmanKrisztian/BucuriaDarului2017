@@ -23,7 +23,8 @@ namespace BackupDatabaseApp
                 if (sw.BaseStream.CanWrite)
                 {
                     sw.WriteLine("cd " + pathtomongodump);
-                    sw.WriteLine("mongodump --host 192.168.0.143 --port 32770 -d BucuriaDaruluiCommon --out " + filename);
+                    var dumpCommand = "mongodump --host " + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_NAME_COMMON) + " --port " + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_PORT_COMMON) + " -d " + Environment.GetEnvironmentVariable(Common.MongoConstants.DATABASE_NAME_COMMON) + " --out " + filename;
+                    sw.WriteLine(dumpCommand);
                 }
             }
         }
@@ -40,7 +41,7 @@ namespace BackupDatabaseApp
             p.Start();
 
             string pathcommand = "cd " + Environment.GetEnvironmentVariable(Common.MongoConstants.MONGO_PATH);
-            string restorecommand = "mongorestore --host 192.168.0.143 --port 32770 --drop -d BucuriaDaruluiCommon " + filename;
+            string restorecommand = "mongorestore --host " + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_NAME_COMMON) + " --port " + Environment.GetEnvironmentVariable(Common.MongoConstants.SERVER_PORT_COMMON) + " -d " + Environment.GetEnvironmentVariable(Common.MongoConstants.DATABASE_NAME_COMMON) + " " + filename;
 
             using (StreamWriter sw = p.StandardInput)
             {
