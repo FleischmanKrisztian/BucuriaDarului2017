@@ -672,3 +672,6 @@ msgstr "Marca"
 
 msgid "Marca_IdContract"
 msgstr "Id-ul contractului"
+
+msgid "ChooseContractTemplate"
+msgstr "Alege fișierul șablon al contractului"
