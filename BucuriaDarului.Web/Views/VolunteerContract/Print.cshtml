@@ -1,9 +1,10 @@
 ﻿@model BucuriaDarului.Core.VolunteerContract
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Print";
 }
-@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
+
 <h1>@Localizer["Print"]</h1>
 <hr />
 <head>
@@ -50,94 +51,133 @@
         }
     </style>
 </head>
+<h3 style="color:red">
+    @ViewBag.message
+</h3>
 <div class="emp-profile">
-    <div class="row">
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-sm-6">
-                    <label> @Localizer["Fullname"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Html.DisplayName(Model.Fullname)
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["CNP"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Html.DisplayName(Model.CNP)
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["Address"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Html.DisplayName(Model.Address)
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["Birthdate"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Html.DisplayName(Model.Birthdate.ToShortDateString())
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["CiInfo"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Html.DisplayName(Model.CI.Info)
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["CiExpirationDate"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Model.CI.ExpirationDate.ToShortDateString()
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label> @Localizer["NumberOfRegistration"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Html.DisplayFor(model => model.NumberOfRegistration)
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["RegistrationDate"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Model.RegistrationDate.ToShortDateString()
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>@Localizer["ExpirationDate"]:</label>
-                </div>
-                <div class="col-sm-6">
-                    @Model.ExpirationDate.ToShortDateString()
-                    <hr />
+    <form action="./Print"
+          enctype="multipart/form-data"
+          method="post">
+        @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4><label for="files">@Localizer["ChooseContractTemplate"]:</label></h4>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="file" id="myFile" name="Files">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <a href="ContractPrinter:@Model.Id"><img src="~/Resources/print.jpg" title=@Localizer["Print"]></a>|
-            <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+        <br />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["FileName"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBox("fileName")
+                        <hr />
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["Fullname"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.Fullname)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["CNP"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.CNP)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["Address"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.Address)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["Birthdate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.Birthdate.ToShortDateString())
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["CiInfo"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.CI.Info)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["CiExpirationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.CI.ExpirationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["NumberOfRegistration"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.NumberOfRegistration)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["RegistrationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.RegistrationDate.ToShortDateString()
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["ExpirationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.ExpirationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                @*<a href="ContractPrinter:@Model.Id"><img src="~/Resources/print.jpg" title=@Localizer["Print"]></a>|*@
+                <div class="col-md-9" style="padding-top: 2%;">
+                    <button class="buttonx" type="submit">@Localizer["Upload"]</button>
+                </div>
+                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+            </div>
+        </div>
+    </form>
 </div>
