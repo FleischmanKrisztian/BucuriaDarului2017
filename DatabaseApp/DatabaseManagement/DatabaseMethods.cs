@@ -13,6 +13,7 @@ namespace BackupDatabaseApp
             info.FileName = "cmd.exe";
             info.RedirectStandardInput = true;
             info.UseShellExecute = false;
+            info.Verb = "runas";
 
             p.StartInfo = info;
             p.Start();
@@ -36,6 +37,7 @@ namespace BackupDatabaseApp
             info.FileName = "cmd.exe";
             info.RedirectStandardInput = true;
             info.UseShellExecute = false;
+            info.Verb = "runas";
 
             p.StartInfo = info;
             p.Start();
@@ -60,6 +62,7 @@ namespace BackupDatabaseApp
             info.FileName = "cmd.exe";
             info.RedirectStandardInput = true;
             info.UseShellExecute = false;
+            info.Verb = "runas";
 
             p.StartInfo = info;
             p.Start();
