@@ -4,7 +4,9 @@ using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Novacode;
 using System.Text;
+
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -71,20 +73,19 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
             var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
-            var response=printContext.Execute(Files.OpenReadStream(), id,fileName);
-            if (response.IsValid == true)
-                return DownloadCSV(response.FileContent, response.FileName);
+            var response = printContext.Execute(Files.OpenReadStream(), id, fileName) ;
+            if (response.IsValid)
+                return GetPhysicalFileResult(response.DownloadPath);
             else
                 return RedirectToAction("Print", new { id = id, message = response.Message });
            
         }
-
-        public FileContentResult DownloadCSV(string content,string fileName)
+        public PhysicalFileResult GetPhysicalFileResult(string path)
         {
-
-            return File(Encoding.ASCII.GetBytes(content), "application/docx", fileName);
-            //return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "text/csv", fileName);
+            
+            return new PhysicalFileResult(path, "application/doc");
         }
+
 
 
         [HttpGet]
