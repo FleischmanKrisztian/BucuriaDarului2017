@@ -1,4 +1,5 @@
-﻿using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using DocumentFormat.OpenXml.Packaging;
 using Novacode;
 using System;
@@ -20,39 +21,14 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         public Response Execute(Stream data, string idContract, string fileName)
         {
             
-            var doc = Novacode.DocX.Load(data);
+            var document = Novacode.DocX.Load(data);
             var response = new Response();
             var contract = dataGateway.GetVolunteerContract(idContract);
 
-            if (fileName != null && fileName != "")
-            {
-                if (fileName.Contains(".docx"))
-                    response.FileName = fileName;
-                else
-                    response.FileName = fileName + ".docx";
-            }
-            else
-            {
-                if (contract.Fullname.Contains(" "))
-                    response.FileName = "Contract" + "-" + contract.Fullname.Replace(' ', '_') + ".docx";
-            }
+            response.FileName = GetFileName(fileName, contract.Fullname);
 
-            if (contract.Address != null)
-                doc.ReplaceText("<Address>", contract.Address);
-            doc.ReplaceText("<nrreg>", contract.NumberOfRegistration);
-            doc.ReplaceText("<todaydate>", contract.RegistrationDate.ToShortDateString());
-            doc.ReplaceText("<Fullname>", contract.Fullname);
-            if (contract.CNP != null)
-                doc.ReplaceText("<CNP>", contract.CNP);
-            if (contract.CI.Info != null)
-                doc.ReplaceText("<CiInfo>", contract.CI.Info);
-            if (contract.PhoneNumber != null)
-                doc.ReplaceText("<tel>", contract.PhoneNumber);
-            doc.ReplaceText("<startdate>", contract.RegistrationDate.ToShortDateString());
-            doc.ReplaceText("<finishdate>", contract.ExpirationDate.ToShortDateString());
-            doc.ReplaceText("<hourcount>", contract.HourCount.ToString());
-
-            doc.SaveAs(response.FileName);
+            document = FillInDocument(document, contract);
+            document.SaveAs(response.FileName);
 
            response.DownloadPath= Path.GetFullPath(response.FileName);
 
@@ -60,7 +36,42 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             return response;
         }
 
-      
+        public DocX FillInDocument(DocX document, VolunteerContract contract)
+        {
+            if (contract.Address != null)
+                document.ReplaceText("<Address>", contract.Address);
+            document.ReplaceText("<nrreg>", contract.NumberOfRegistration);
+            document.ReplaceText("<todaydate>", contract.RegistrationDate.ToShortDateString());
+            document.ReplaceText("<Fullname>", contract.Fullname);
+            if (contract.CNP != null)
+                document.ReplaceText("<CNP>", contract.CNP);
+            if (contract.CI.Info != null)
+                document.ReplaceText("<CiInfo>", contract.CI.Info);
+            if (contract.PhoneNumber != null)
+                document.ReplaceText("<tel>", contract.PhoneNumber);
+            document.ReplaceText("<startdate>", contract.RegistrationDate.ToShortDateString());
+            document.ReplaceText("<finishdate>", contract.ExpirationDate.ToShortDateString());
+            document.ReplaceText("<hourcount>", contract.HourCount.ToString());
+            return document;
+        }
+        public string GetFileName(string fileName,string Fullname)
+        {
+            string resultName = string.Empty;
+            if (fileName != null && fileName != "")
+            {
+                if (fileName.Contains(".docx"))
+                    resultName = fileName;
+                else
+                    resultName = fileName + ".docx";
+            }
+            else
+            {
+                if (Fullname.Contains(" "))
+                    resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
+            }
+
+            return resultName;
+        }
  
         
     }
