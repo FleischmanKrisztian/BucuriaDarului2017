@@ -1,4 +1,7 @@
 ﻿using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using DocumentFormat.OpenXml.Packaging;
+using Novacode;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,8 +17,10 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream dataToImport, string idContract, string fileName)
+        public Response Execute(Stream data, string idContract, string fileName)
         {
+            
+            var doc = Novacode.DocX.Load(data);
             var response = new Response();
             var contract = dataGateway.GetVolunteerContract(idContract);
 
@@ -27,47 +32,42 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                     response.FileName = fileName + ".docx";
             }
             else
-                response.FileName = "Contract" + "-" + contract.Fullname.ToString() + ".docx";
-           
-           var fileContent = ReadFile(dataToImport);
+            {
+                if (contract.Fullname.Contains(" "))
+                    response.FileName = "Contract" + "-" + contract.Fullname.Replace(' ', '_') + ".docx";
+            }
 
-            if (response.IsValid)
-                response.FileContent = GetFinalFile(fileContent);
-            else
-                response.Message = "An eror has occured!Please check if the template is valid and approriate for this type of contract.";
+            if (contract.Address != null)
+                doc.ReplaceText("<Address>", contract.Address);
+            doc.ReplaceText("<nrreg>", contract.NumberOfRegistration);
+            doc.ReplaceText("<todaydate>", contract.RegistrationDate.ToShortDateString());
+            doc.ReplaceText("<Fullname>", contract.Fullname);
+            if (contract.CNP != null)
+                doc.ReplaceText("<CNP>", contract.CNP);
+            if (contract.CI.Info != null)
+                doc.ReplaceText("<CiInfo>", contract.CI.Info);
+            if (contract.PhoneNumber != null)
+                doc.ReplaceText("<tel>", contract.PhoneNumber);
+            doc.ReplaceText("<startdate>", contract.RegistrationDate.ToShortDateString());
+            doc.ReplaceText("<finishdate>", contract.ExpirationDate.ToShortDateString());
+            doc.ReplaceText("<hourcount>", contract.HourCount.ToString());
+
+            doc.SaveAs(response.FileName);
+
+           response.DownloadPath= Path.GetFullPath(response.FileName);
 
 
             return response;
         }
 
-        public string GetFinalFile(List<string> originalFile)
-        {
-            string file = string.Empty;
-
-            foreach (var line in originalFile)
-            {
-                file += line;
-            }
-
-            return file;
-        }
-
-        public List<string> ReadFile(Stream data)
-        {
-            var result = new List<string>();
-            var reader = new StreamReader(data, Encoding.UTF8);
-            while (reader.Peek() >= 0)
-            {
-                result.Add(reader.ReadLine());
-            }
-
-            return result;
-        }
+      
+ 
+        
     }
 
     public class Response
     {
-        public string FileContent { get; set; }
+        public string  DownloadPath { get; set; }
         public bool IsValid { get; set; }
         public string FileName { get; set; }
 
