@@ -51,7 +51,25 @@
     </style>
 </head>
 <div class="emp-profile">
-    <div class="row">
+    <form action="./Print"
+          enctype="multipart/form-data"
+          method="post">
+        @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4><label for="files">@Localizer["ChooseContractTemplate"]:</label></h4>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="file" id="myFile" name="Files">
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+        <br />
         <div class="col-md-9">
             <div class="row">
                 <div class="col-sm-6">
@@ -145,8 +163,8 @@
             </div>
         </div>
         <div class="col-md-3">
-            <a href="ContractPrinter:@Model.Id"><img src="~/Resources/print.jpg" title=@Localizer["Print"]></a>|
+            <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
             <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
         </div>
-    </div>
+    </form>
 </div>
