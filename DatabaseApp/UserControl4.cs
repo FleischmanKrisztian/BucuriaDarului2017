@@ -23,7 +23,7 @@ namespace BackupDatabaseApp
             }
             catch
             {
-                MessageBox.Show("This action  failed! Please inseret a valid database name.");
+                MessageBox.Show("This action  failed! Please insert a valid database name.");
             }
         }
     }

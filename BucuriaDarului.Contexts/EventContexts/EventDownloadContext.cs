@@ -109,7 +109,6 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             List<string> headerList = new List<string>();
             if (properties.Contains("1"))
-
                 headerList.Add(header[1]);
 
             if (properties.Contains("2"))
@@ -127,11 +126,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                 headerList.Add(header[5]);
 
             if (properties.Contains("6"))
-
                 headerList.Add(header[6]);
 
             if (properties.Contains("7"))
-
                 headerList.Add(header[7]);
 
             if (properties.Contains("8"))

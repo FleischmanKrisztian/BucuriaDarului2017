@@ -672,3 +672,6 @@ msgstr "Marca id contract"
 
 msgid "CiExpirationDate"
 msgstr "ID expiration date"
+
+msgid "ChooseContractTemplate"
+msgstr "Choose a contract template"

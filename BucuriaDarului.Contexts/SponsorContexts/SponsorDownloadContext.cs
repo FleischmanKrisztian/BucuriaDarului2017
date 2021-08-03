@@ -55,7 +55,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public string[] SponsorToArray(Sponsor sponsor)
         {
-            var result = new []
+            var result = new[]
             {
                 sponsor.Id,
                 sponsor.NameOfSponsor,
@@ -117,9 +117,11 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 headerList.Add(header[6]);
 
             if (properties.Contains("4"))
+            {
                 headerList.Add(header[7]);
-            headerList.Add(header[8]);
-            headerList.Add(header[9]);
+                headerList.Add(header[8]);
+                headerList.Add(header[9]);
+            }
 
             if (properties.Contains("5"))
                 headerList.Add(header[10]);
