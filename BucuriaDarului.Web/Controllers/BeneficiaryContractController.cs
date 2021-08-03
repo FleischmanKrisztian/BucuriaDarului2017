@@ -2,6 +2,7 @@
 using BucuriaDarului.Gateway.BeneficiaryContractGateways;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BucuriaDarului.Web.Controllers
@@ -14,6 +15,7 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var contractsMainDisplayIndexContext = new BeneficiaryContractIndexDisplayContext(new BeneficiaryContractIndexDisplayGateway());
             var model = contractsMainDisplayIndexContext.Execute(new BeneficiaryContractsMainDisplayIndexRequest(idOfBeneficiary, nrOfDocs));
+            model.Query = HttpContext.Session.GetString("queryString");
             return View(model);
         }
 

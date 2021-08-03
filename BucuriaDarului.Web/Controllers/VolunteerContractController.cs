@@ -16,6 +16,7 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var contractsMainDisplayIndexContext = new VolunteerContractIndexDisplayContext(new VolunteerContractIndexDisplayGateway());
             var model = contractsMainDisplayIndexContext.Execute(new VolunteerContractsMainDisplayIndexRequest(idOfVolunteer, nrOfDocs));
+            model.Query = HttpContext.Session.GetString("queryString");
             return View(model);
         }
 

@@ -42,6 +42,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
         public List<BeneficiaryContract> Contracts { get; set; }
         public string NameOfBeneficiary { get; set; }
         public string BeneficiaryId { get; set; }
+        public string Query { get; set; }
 
         public BeneficiaryContractsMainDisplayIndexResponse(List<BeneficiaryContract> contracts, string nameOfBeneficiary, string beneficiaryId)
         {

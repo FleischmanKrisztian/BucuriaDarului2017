@@ -91,7 +91,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public Event Event { get; set; }
         public List<Sponsor> Sponsors { get; set; }
         public int TotalSponsors { get; set; }
-
+        public string Query { get; set; }
         public SponsorAllocationPagingData PagingData { get; set; }
         public SponsorAllocationFilterData FilterData { get; set; }
         public string Messages { get; set; }

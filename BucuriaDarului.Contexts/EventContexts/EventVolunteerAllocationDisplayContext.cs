@@ -110,6 +110,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public List<Volunteer> Volunteers { get; set; }
         public int TotalVolunteers { get; set; }
         public string CurrentlyAllocatedVolunteers { get; set; }
+        public string Query { get; set; }
         public VolunteerAllocationPagingData PagingData { get; set; }
         public VolunteerAllocationFilterData FilterData { get; set; }
 

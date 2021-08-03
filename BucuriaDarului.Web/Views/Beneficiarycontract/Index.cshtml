@@ -7,7 +7,7 @@
 @inject IViewLocalizer Localizer
 <h2 style="color:black">@Localizer["ContractsOf"] @Model.NameOfBeneficiary </h2>
 <p>
-    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+    <a href="../Beneficiary/Index/@Model.Query" class="btn btn-primary">@Localizer["BackToList"]</a>
     <a href=@Url.Action("Create", new {idOfBeneficiary = Model.BeneficiaryId}) class="btn btn-primary" style="background-color: green; border-color: darkgreen">@Localizer["CreateNew"]</a>
 </p>
 <table class="table">

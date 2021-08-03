@@ -38,6 +38,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Index(string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicense, DateTime lowerDate, DateTime upperDate, int page, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
         {
+            HttpContext.Session.SetString("queryString", Request.QueryString.ToString());
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var volunteerMainDisplayIndexContext = new VolunteerMainDisplayIndexContext(new VolunteerMainDisplayIndexGateway());
             var model = volunteerMainDisplayIndexContext.Execute(new VolunteerMainDisplayIndexRequest(nrOfDocs, page, searchedFullname, searchedContact, sortOrder, active, hasCar, hasDrivingLicense, lowerDate, upperDate, gender, searchedAddress, searchedWorkplace, searchedOccupation, searchedRemarks, searchedHourCount));

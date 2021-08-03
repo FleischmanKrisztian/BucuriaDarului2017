@@ -41,7 +41,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
     {
         public List<VolunteerContract> Contracts { get; set; }
         public string NameOfVolunteer { get; set; }
-
+        public string Query { get; set; }
         public string VolunteerId { get; set; }
 
         public VolunteerContractsMainDisplayIndexResponse(List<VolunteerContract> contracts, string nameOfVolunteer, string volunteerId)

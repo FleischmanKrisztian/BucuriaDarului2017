@@ -9,8 +9,8 @@
 <h2 style="color:black">@Localizer["ContractsOf"] @Model.NameOfVolunteer </h2>
 
 <p>
-    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.back();">@Localizer["BackToList"]</button>
-    <a href=@Url.Action("Create", new {idOfVolunteer = Model.VolunteerId}) class="btn btn-primary"style="background-color: green; border-color: darkgreen" >@Localizer["CreateNew"]</a>
+    <a href="../Volunteer/Index/@Model.Query" class="btn btn-primary">@Localizer["BackToList"]</a>
+    <a href=@Url.Action("Create", new {idOfVolunteer = Model.VolunteerId}) class="btn btn-primary" style="background-color: green; border-color: darkgreen">@Localizer["CreateNew"]</a>
 </p>
 <table class="table">
     <thead>

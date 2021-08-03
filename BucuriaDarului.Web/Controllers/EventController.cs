@@ -38,6 +38,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Index(string searching, int page, string searchingPlace, string searchingActivity, string searchingType, string searchingVolunteers, string searchingSponsor, DateTime lowerDate, DateTime upperDate)
         {
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
+            HttpContext.Session.SetString("queryString", Request.QueryString.ToString());
             var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
             var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerDate, upperDate));
             return View(model);
@@ -78,6 +79,7 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var allocatedVolunteerContext = new EventVolunteerAllocationDisplayContext(new EventVolunteerAllocationDataGateway());
             var model = allocatedVolunteerContext.Execute(new EventsVolunteerAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
+            model.Query = HttpContext.Session.GetString("queryString");
 
             return View(model);
         }
@@ -99,6 +101,7 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var allocatedSponsorContext = new EventSponsorAllocationDisplayContext(new EventsSponsorAllocationDataGateway());
             var model = allocatedSponsorContext.Execute(new EventsSponsorsAllocationDisplayRequest(id, page, nrOfDocs, searching, messages));
+            model.Query = HttpContext.Session.GetString("queryString");
 
             return View(model);
         }
