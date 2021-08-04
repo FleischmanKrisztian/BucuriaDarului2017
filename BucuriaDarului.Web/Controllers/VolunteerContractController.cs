@@ -4,9 +4,6 @@ using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Novacode;
-using System.Text;
-
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -61,7 +58,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Print(string id,string message)
+        public ActionResult Print(string id, string message)
         {
             ViewBag.message = message;
             var model = SingleVolunteerContractReturnerGateway.GetVolunteerContract(id);
@@ -73,20 +70,19 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
             var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
-            var response = printContext.Execute(Files.OpenReadStream(), id, fileName) ;
+            var response = printContext.Execute(Files.OpenReadStream(), id, fileName);
             if (response.IsValid)
-                return GetPhysicalFileResult(response.DownloadPath);
-            else
-                return RedirectToAction("Print", new { id = id, message = response.Message });
-           
+            {
+                GetPhysicalFileResult(response.DownloadPath);
+                System.IO.Directory.Delete(response.DownloadPath);
+            }
+            return RedirectToAction("Print", new { id = id, message = response.Message });
         }
+
         public PhysicalFileResult GetPhysicalFileResult(string path)
         {
-            
             return new PhysicalFileResult(path, "application/doc");
         }
-
-
 
         [HttpGet]
         public ActionResult Delete(string id, string message)
