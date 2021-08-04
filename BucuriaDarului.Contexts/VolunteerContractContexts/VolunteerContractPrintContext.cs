@@ -21,19 +21,32 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         public Response Execute(Stream data, string idContract, string fileName)
         {
             
-            var document = Novacode.DocX.Load(data);
+            
             var response = new Response();
-            var contract = dataGateway.GetVolunteerContract(idContract);
+            if (FileIsNotEmpty(data))
+            {
+                response.Message = "File Cannot be Empty!";
+                response.IsValid = false;
+            }
+            if (response.IsValid)
+            {
+                var document = Novacode.DocX.Load(data);
 
-            response.FileName = GetFileName(fileName, contract.Fullname);
+                var contract = dataGateway.GetVolunteerContract(idContract);
 
-            document = FillInDocument(document, contract);
-            document.SaveAs(response.FileName);
+                response.FileName = GetFileName(fileName, contract.Fullname);
 
-           response.DownloadPath= Path.GetFullPath(response.FileName);
+                document = FillInDocument(document, contract);
+                document.SaveAs(response.FileName);
 
+                response.DownloadPath = Path.GetFullPath(response.FileName);
 
+            }
             return response;
+        }
+        private bool FileIsNotEmpty(Stream dataToImport)
+        {
+            return dataToImport.Length <= 0;
         }
 
         public DocX FillInDocument(DocX document, VolunteerContract contract)
