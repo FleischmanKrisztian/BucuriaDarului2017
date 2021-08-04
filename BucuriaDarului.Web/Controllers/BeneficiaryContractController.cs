@@ -64,6 +64,22 @@ namespace BucuriaDarului.Web.Controllers
             return View(model);
         }
 
+        public ActionResult Print(IFormFile Files, string fileName, string id,string optionValue,string otherOptionValue)
+        {
+            var printContext = new BeneficiaryContractPrintContext(new BeneficiaryContractPrintGateway());
+            var response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
+            if (response.IsValid)
+                return GetPhysicalFileResult(response.DownloadPath);
+            else
+                return RedirectToAction("Print", new { id = id, message = response.Message });
+
+        }
+        public PhysicalFileResult GetPhysicalFileResult(string path)
+        {
+
+            return new PhysicalFileResult(path, "application/doc");
+        }
+
         [HttpGet]
         public ActionResult DeleteDisplay(string id, string message)
         {

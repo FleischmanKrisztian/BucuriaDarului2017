@@ -1,4 +1,8 @@
-﻿using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using DocumentFormat.OpenXml.Packaging;
+using Novacode;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,60 +18,80 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream dataToImport, string idContract, string fileName)
+        public Response Execute(Stream data, string idContract, string fileName)
         {
+            
+            
             var response = new Response();
-            var contract = dataGateway.GetVolunteerContract(idContract);
+            if (FileIsNotEmpty(data))
+            {
+                response.Message = "File Cannot be Empty!";
+                response.IsValid = false;
+            }
+            if (response.IsValid)
+            {
+                var document = Novacode.DocX.Load(data);
 
+                var contract = dataGateway.GetVolunteerContract(idContract);
+
+                response.FileName = GetFileName(fileName, contract.Fullname);
+
+                document = FillInDocument(document, contract);
+                document.SaveAs(response.FileName);
+
+                response.DownloadPath = Path.GetFullPath(response.FileName);
+
+            }
+            return response;
+        }
+        private bool FileIsNotEmpty(Stream dataToImport)
+        {
+            return dataToImport.Length <= 0;
+        }
+
+        public DocX FillInDocument(DocX document, VolunteerContract contract)
+        {
+            if (contract.Address != null)
+                document.ReplaceText("<Address>", contract.Address);
+            document.ReplaceText("<nrreg>", contract.NumberOfRegistration);
+            document.ReplaceText("<todaydate>", contract.RegistrationDate.ToShortDateString());
+            document.ReplaceText("<Fullname>", contract.Fullname);
+            if (contract.CNP != null)
+                document.ReplaceText("<CNP>", contract.CNP);
+            if (contract.CI.Info != null)
+                document.ReplaceText("<CiInfo>", contract.CI.Info);
+            if (contract.PhoneNumber != null)
+                document.ReplaceText("<tel>", contract.PhoneNumber);
+            document.ReplaceText("<startdate>", contract.RegistrationDate.ToShortDateString());
+            document.ReplaceText("<finishdate>", contract.ExpirationDate.ToShortDateString());
+            document.ReplaceText("<hourcount>", contract.HourCount.ToString());
+            return document;
+        }
+        public string GetFileName(string fileName,string Fullname)
+        {
+            string resultName = string.Empty;
             if (fileName != null && fileName != "")
             {
                 if (fileName.Contains(".docx"))
-                    response.FileName = fileName;
+                    resultName = fileName;
                 else
-                    response.FileName = fileName + ".docx";
+                    resultName = fileName + ".docx";
             }
             else
-                response.FileName = "Contract" + "-" + contract.Fullname.ToString() + ".docx";
-           
-           var fileContent = ReadFile(dataToImport);
-
-            if (response.IsValid)
-                response.FileContent = GetFinalFile(fileContent);
-            else
-                response.Message = "An eror has occured!Please check if the template is valid and approriate for this type of contract.";
-
-
-            return response;
-        }
-
-        public string GetFinalFile(List<string> originalFile)
-        {
-            string file = string.Empty;
-
-            foreach (var line in originalFile)
             {
-                file += line;
+                if (Fullname.Contains(" "))
+                    resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
             }
 
-            return file;
+            return resultName;
         }
-
-        public List<string> ReadFile(Stream data)
-        {
-            var result = new List<string>();
-            var reader = new StreamReader(data, Encoding.UTF8);
-            while (reader.Peek() >= 0)
-            {
-                result.Add(reader.ReadLine());
-            }
-
-            return result;
-        }
+ 
+        
     }
 
     public class Response
     {
-        public string FileContent { get; set; }
+        public string  DownloadPath { get; set; }
         public bool IsValid { get; set; }
         public string FileName { get; set; }
 

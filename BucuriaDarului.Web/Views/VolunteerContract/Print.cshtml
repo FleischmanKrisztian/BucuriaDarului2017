@@ -70,10 +70,11 @@
                         <input type="file" id="myFile" name="Files">
                     </div>
                 </div>
+                <hr />
             </div>
         </div>
         <br />
-        <div class="row">
+        @*<div class="row">
             <div class="col-md-9">
                 <div class="row">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -82,11 +83,12 @@
                     </div>
                     <div class="col-md-2">
                         @Html.TextBox("fileName")
-                        <hr />
+
                     </div>
                 </div>
+                <hr />
             </div>
-        </div>
+        </div>*@
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
@@ -172,10 +174,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                @*<a href="ContractPrinter:@Model.Id"><img src="~/Resources/print.jpg" title=@Localizer["Print"]></a>|*@
-                <div class="col-md-9" style="padding-top: 2%;">
-                    <button class="buttonx" type="submit">@Localizer["Upload"]</button>
-                </div>
+                <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
                 <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
             </div>
         </div>

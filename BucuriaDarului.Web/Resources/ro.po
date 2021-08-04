@@ -673,3 +673,9 @@ msgstr "Id-ul contractului"
 
 msgid "ChooseContractTemplate"
 msgstr "Alege fișierul șablon al contractului"
+
+msgid "ChooseAnOptionForContract"
+msgstr "Obiectul prezentului contract il constituie acordarea"
+
+msgid "OtherOption"
+msgstr "Altă variantă"

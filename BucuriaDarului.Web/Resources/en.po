@@ -816,3 +816,9 @@ msgstr "Marca id contract"
 
 msgid "ChooseContractTemplate"
 msgstr "Choose a contract template"
+
+msgid "ChooseAnOptionForContract"
+msgstr "Choose an option for the main gol of this contrct"
+
+msgid "OtherOption"
+msgstr "Other option"
