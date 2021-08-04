@@ -16,22 +16,51 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream data, string idContract, string fileName,string optionValue)
+        public Response Execute(Stream data, string idContract,string optionValue,string  otherOptionValue)
         {
-
-            var document = Novacode.DocX.Load(data);
             var response = new Response();
-            var contract = dataGateway.GetBeneficiaryContract(idContract);
+            if (FileIsNotEmpty(data))
+            {
+                response.Message="File Cannot be Empty!";
+                response.IsValid = false;
+            }
+            if (response.IsValid)
+            {
+                var document = Novacode.DocX.Load(data);
 
-            response.FileName = GetFileName(fileName, contract.Fullname);
+                var contract = dataGateway.GetBeneficiaryContract(idContract);
 
-            document = FillInDocument(document, contract, optionValue);
-            document.SaveAs(response.FileName);
+                response.FileName = GetFileName(contract.Fullname);
+                var option = GetOptionValue(optionValue, otherOptionValue);
+                document = FillInDocument(document, contract, option);
+                document.SaveAs(response.FileName);
 
-            response.DownloadPath = Path.GetFullPath(response.FileName);
-
+                response.DownloadPath = Path.GetFullPath(response.FileName);
+            }
 
             return response;
+        }
+        private bool FileIsNotEmpty(Stream dataToImport)
+        {
+            return dataToImport.Length <= 0;
+        }
+
+        public string GetOptionValue(string optionValue, string otherOptionValue)
+        {
+            string option = string.Empty;
+            if (optionValue == "first")
+                option = "Zilnic, in zilele lucratoare, a unei mese calde / persoana / zi lucratoare, respectiv pranzul, acordata la sediul cantinei.";
+            if (optionValue == "second")
+                option = "Zilnic, in zilele lucratoare, a unei mese calde/persoana/zi lucratoare, repsectiv pranzul, acordata la domiciliul beneficiarului.";
+            if (optionValue == "third")
+                option = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la domiciliul beneficiarului.";
+            if (optionValue == "fourth")
+                option = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei.";
+            if (otherOptionValue != null || otherOptionValue != "")
+                option = otherOptionValue;
+
+                return option;
+        
         }
 
         public Novacode.DocX FillInDocument(Novacode.DocX document, BeneficiaryContract contract,string optionValue)
@@ -58,21 +87,21 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
             return document;
         }
-        public string GetFileName(string fileName, string Fullname)
+        public string GetFileName( string Fullname)
         {
             string resultName = string.Empty;
-            if (fileName != null && fileName != "")
-            {
-                if (fileName.Contains(".docx"))
-                    resultName = fileName;
-                else
-                    resultName = fileName + ".docx";
-            }
-            else
-            {
+            //if (fileName != null && fileName != "")
+            //{
+            //    if (fileName.Contains(".docx"))
+            //        resultName = fileName;
+            //    else
+            //        resultName = fileName + ".docx";
+            //}
+            //else
+            //{
                 if (Fullname.Contains(" "))
                     resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
-            }
+            
 
             return resultName;
         }
