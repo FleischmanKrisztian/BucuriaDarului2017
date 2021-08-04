@@ -16,7 +16,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream data, string idContract, string fileName)
+        public Response Execute(Stream data, string idContract, string fileName,string optionValue)
         {
 
             var document = Novacode.DocX.Load(data);
@@ -25,7 +25,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
             response.FileName = GetFileName(fileName, contract.Fullname);
 
-            document = FillInDocument(document, contract);
+            document = FillInDocument(document, contract, optionValue);
             document.SaveAs(response.FileName);
 
             response.DownloadPath = Path.GetFullPath(response.FileName);
@@ -34,14 +34,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             return response;
         }
 
-        public Novacode.DocX FillInDocument(Novacode.DocX document, BeneficiaryContract contract)
+        public Novacode.DocX FillInDocument(Novacode.DocX document, BeneficiaryContract contract,string optionValue)
         {
-            try
-            {
-                string phrase = contract.Address;
-                string[] words = phrase.Split(',');
-            }
-            catch { }
             document.ReplaceText("<nrreg>", contract.NumberOfRegistration);
             document.ReplaceText("<todaydate>", contract.RegistrationDate.ToShortDateString());
             document.ReplaceText("<Fullname>", contract.Fullname);
@@ -57,9 +51,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
                 document.ReplaceText("<IdAplication>", contract.IdApplication);
             if (contract.IdInvestigation != null)
                 document.ReplaceText("<IdInvestigation>", contract.IdInvestigation);
-
-            //contract.myOption = value;
-            //document.ReplaceText("<option>", contract.myOption);
+            document.ReplaceText("<option>", optionValue);
             document.ReplaceText("<NumberOfPortions>", contract.NumberOfPortions.ToString());
             document.ReplaceText("<RegistrationDate> ", contract.RegistrationDate.ToShortDateString());
             document.ReplaceText("<ExpirationDate>", contract.ExpirationDate.ToShortDateString());
