@@ -1,20 +1,24 @@
-﻿msgid "Show all volunteers"
+﻿msgid "ShowAllVolunteers"
 msgstr "Show all volunteers"
-msgid "Show all beneficiaries"
+
+msgid "ShowAllBeneficiaries"
 msgstr "Show all beneficiaries"
 
-msgid "Show all events"
+msgid "ShowAllEvents"
 msgstr "Show all events"
-msgid "Contractsofb"
+
+msgid "ContractsOf"
 msgstr "Contracts of"
 
-msgid "Show all sponsors"
+msgid "ShowAllSponsors"
 msgstr "Show all sponsors"
 
 msgid "Volunteering"
 msgstr "Volunteering"
+
 msgid "Privacy"
 msgstr "Privacy"
+
 msgid "Active"
 msgstr "Active"
 
@@ -48,19 +52,19 @@ msgstr "Canteen"
 msgid "ChronicCondition"	
 msgstr "Chronic condition"
 
-msgid "CIEliberat"	
+msgid "IdIssueDate"	
 msgstr "Issue date"
 
-msgid "CIeliberator"	
+msgid "IdIssuer"	
 msgstr "Issued by"
 
-msgid "CIexpirationdate"
-msgstr "CI expiration date"
+msgid "IdExpirationDate"
+msgstr "ID expiration date"
 
-msgid "CINr"	
+msgid "IdNr"	
 msgstr "Identity card number"
 
-msgid "CISeria"
+msgid "IdSeries"
 msgstr "Series"
 
 msgid "City"	
@@ -78,432 +82,577 @@ msgstr "Contract Expiraton"
 msgid "Contractinformation"
 msgstr "Contract information"
 
-msgid "Country"	
-msgstr "District"
 msgid "Create"
 msgstr "Create"
+
 msgid "CreateNew"	
 msgstr "Create New"
+
 msgid "Delete"	
 msgstr "Delete"
+
 msgid "DeleteMessage"
 msgstr "Are you sure you want to delete this?"
+
 msgid "Details"	
 msgstr "Details"
+
 msgid "Disability"
 msgstr "Disability"
-msgid "District"	
-msgstr "Number"
+
 msgid "Edit"	
 msgstr "Edit"
+
 msgid "Expenses"	
 msgstr "Expenses"
-msgid "Expirationdate"
+
+msgid "ExpirationDate"
 msgstr "Expiration date"
+
 msgid "Female"	
 msgstr "Female"
+
 msgid "Fullname"	
 msgstr "Fullname"
+
 msgid "Gender"
 msgstr "Gender"
-msgid "Generalinformation"	
+
+msgid "GeneralInformation"	
 msgstr "General information"
+
 msgid "HasContract"
 msgstr "Has Contract"
+
 msgid "HasGDPRAgreement"
 msgstr "Has GDPR agreement"
+
 msgid "HasHealthCard"
 msgstr "Has health card"
+
 msgid "HasHealthInsurance"
 msgstr "Has health insurance"
+
 msgid "HasHome"	
 msgstr "Has home"
+
 msgid "HasId"	
 msgstr "Has ID"
-msgid "Healthdetails"	
+
+msgid "HealthDetails"	
 msgstr "Health details"
 msgid "HealthState"	
 msgstr "Health state"
+
 msgid "HomeDeliveryDriver"
 msgstr "Home delivery driver"
+
 msgid "Homeless"	
 msgstr "Homeless"
-msgid "Housinginformation"
+
+msgid "HousingInformation"
 msgstr "Housing information"
+
 msgid "HousingType"
 msgstr "Housing type"
+
 msgid "IdApplication"	
 msgstr "ID application"
-msgid "IDcontract"
+
+msgid "IdContract"
 msgstr "ID contract"
+
 msgid "IdInformation"
 msgstr "ID Information"
+
 msgid "IdInvestigation"	
 msgstr "ID investigation"
+
 msgid "Income"
 msgstr "Income"
+
 msgid "IndexMessageBeneficiary"	
 msgstr "There is no Beneficiary with such name!"
+
 msgid "LastTimeActive"
 msgstr "Last time active"
-msgid "Makethisbeneficiaryinactive"	
+
+msgid "MakeThisBeneficiaryInactive"	
 msgstr "Make this beneficiary inactive"
+
 msgid "Male"
 msgstr "Male"
-msgid "Marcadetails"	
+
+msgid "MarcaDetails"	
 msgstr "Marca details"
+
 msgid "Married"	
 msgstr "Married"
+
 msgid "Name"
 msgstr "Name"
+
 msgid "Number"	
 msgstr "Number"
+
 msgid "NumberOfPortions"
 msgstr "Number of portions"
-msgid "Numberofregistration"
+
+msgid "NumberOfRegistration"
 msgstr "Number of registration"
+
 msgid "Occupation"	
 msgstr "Occupation"
+
 msgid "PersonalInformation"
 msgstr "Personal information"
+
 msgid "PhoneNumber"	
 msgstr "Phone number"
+
 msgid "Profession"
 msgstr "Profession"
-msgid "Registrationdate"	
+
+msgid "RegistrationDate"	
 msgstr "Registration date"
+
 msgid "Save"	
 msgstr "Save"
+
 msgid "Search"	
 msgstr "Search"
+
 msgid "SeniorityInWorkField"
-msgstr "Seniority in workfield"
+msgstr "Seniority in work field"
+
 msgid "SpouseName"
 msgstr "Spouse name"
+
 msgid "Street"
 msgstr "Street"
+
 msgid "Studies"
 msgstr "Studies"
+
 msgid "StudiesAndJobRelatedInformation"	
 msgstr "Studies and job related information"
+
 msgid "WeeklyPackage"	
 msgstr "Weekly package"
-msgid "(internet access necessary)"
-msgstr "(internet access necessary)"
-msgid "Backupdata"	
+
+msgid "BackupData"	
 msgstr "Backup data"
-msgid "Beneficiaries : Contract Alert"
-msgstr "Beneficiaries : Contract Alert"
-msgid "Export beneficiaries to Excel"
+
+msgid "BeneficiariesContractAlert"
+msgstr "Beneficiaries: Contract Alert"
+
+msgid "ExportBeneficiariesToExcel"
 msgstr "Export beneficiaries to Excel"
-msgid "Export events to Excel"	
-msgstr "Export events to Excel"
-msgid "Export sponsors to Excel"	
+
+msgid "ExportEventsToExcel"	
+msgstr "ExportEventsToExcel"
+
+msgid "ExportSponsorsToExcel"	
 msgstr "Export sponsors to Excel"
-msgid "Export volunteers to Excel"	
+
+msgid "ExportVolunteersToExcel"	
 msgstr "Export volunteers to Excel"
-msgid "Sponsors : Contract Alert"
-msgstr "Sponsors : Contract Alert"
+
+msgid "SponsorsContractAlert"
+msgstr "Sponsors: Contract Alert"
+
 msgid "Title"
 msgstr "Bucuria Darului"
-msgid "Volunteer-Event App"	
-msgstr "Volunteer-Event App"
-msgid "Volunteers : Birthday Alert"	
-msgstr "Volunteers : Birthday Alert"
-msgid "Volunteers : Contract Alert"	
-msgstr "Volunteers : Contract Alert"
+
+msgid "VolunteersBirthdayAlert"	
+msgstr "Volunteers: Birthday Alert"
+
+msgid "VolunteersContractAlert"	
+msgstr "Volunteers: Contract Alert"
+
 msgid "You are currently"
 msgstr "You are currently"	
+
 msgid "MessageLocalServer"	
 msgstr "The local server must be up and running!"
-msgid "Message2"
-msgstr "Try typing mongod in command line and rerun the application."
+
 msgid "message"	
 msgstr "Use this page to detail your site's privacy policy." 
+
 msgid "Apply"
 msgstr "Apply"
+
 msgid "English"	
 msgstr "English"
+
 msgid "Environment"
 msgstr "Environment"
+
 msgid "Language"	
 msgstr "Language"
-msgid "message"	
+
+msgid "NumberOfDocumentsPerPage"	
 msgstr "Number of documents per page"
+
 msgid "Romanian"	
 msgstr "Romanian"
-msgid "Backupdata"
+
+msgid "BackupData"
 msgstr "Backup data"
-msgid "internetaccessnecessary"
-msgstr "internet access necessary"
-msgid "Localserverpriority"	
-msgstr "Local server priority"
-msgid "Mergedata"
-msgstr "Merge data"
-msgid "Remoteserverpriority"
-msgstr "Remote server priority"
-msgid "Restorefrompreviousbackup"
-msgstr "Restore from previous backup"
-msgid "Servermanagement"	
+
+msgid "ServerManagement"	
 msgstr "Server management"
+
 msgid "Phone"	
 msgstr "Phone"
+
 msgid "MessageAbout"
 msgstr "This application was made during a SIEMENS internship by Corina Grămadă and Fleischman Krisztian as charity for a non-profit organisation."
+
 msgid "About"
 msgstr "About"
+
 msgid "Beneficiaries"	
 msgstr "Beneficiaries"
+
 msgid "Contact"
 msgstr "Contact"
+
 msgid "Events"	
 msgstr "Events"
+
 msgid "Home"	
 msgstr "Home"
+
 msgid "More"
 msgstr "More"
+
 msgid "Settings"
 msgstr "Settings"
+
 msgid "Sponsor"
 msgstr "Sponsor"
+
 msgid "Volunteers"
 msgstr "Volunteers"
-msgid "ConcurrencyWarning"
-msgstr "Concurrency warning"
-msgid "Error"	
-msgstr "Someone else has already modified this document while you were editing"
+
 msgid "Active"	
 msgstr "Active"
-msgid "BirthDate"	
-msgstr "BirthDate"
+
+msgid "Birthdate"	
+msgstr "Birthdate"
+
 msgid "BornAfter"
 msgstr "Born After"
+
 msgid "BornBefore"	
 msgstr "Born Before"
+
 msgid "Contracts"
 msgstr "Contracts"
+
 msgid "CreateNew"	
 msgstr "Create New"
+
 msgid "Delete"
 msgstr "Delete"
+
 msgid "Details"	
 msgstr "Details"
+
 msgid "Edit"
 msgstr "Edit"
-msgid "Error"	
+
+msgid "NoVolunteerWithSuchName"	
 msgstr "There is no Volunteer with such name!"
+
 msgid "Fullname"	
 msgstr "Fullname"
+
 msgid "Gender"
 msgstr "Gender"
+
 msgid "HasCar"
 msgstr "Has Car"
+
 msgid "HourCount"
 msgstr "Working hours"
+
 msgid "Name"	
 msgstr "Name"
-msgid "Phonenumber"	
+
+msgid "PhoneNumber"	
 msgstr "Phone number"
+
 msgid "Search"	
 msgstr "Search"
+
 msgid "Volunteers"	
 msgstr "Volunteers"
 
 msgid "Address"
 msgstr "Address"
+
 msgid "ContractExpirations"
 msgstr "Contract Expirations"
-msgid "Contractsof"	
+
+msgid "ContractsOf"	
 msgstr "Contracts of"
+
 msgid "Create"
 msgstr "Create"
+
 msgid "CreateNew"	
 msgstr "Create New"
+
 msgid "ExpirationDate"
 msgstr "Expiration Date"
+
 msgid "Fullname"	
 msgstr "Fullname"
-msgid "Message"
+
+msgid "AreYouSureYouWantToDelete"
 msgstr "Are you sure you want to delete this?"
+
 msgid "NumberOfRegistration"
 msgstr "Number Of Registration"
+
 msgid "OwnerID"	
 msgstr "OwnerID"
+
 msgid "Print"
 msgstr "Print"
+
 msgid "RegistrationDate"	
 msgstr "Registration Date"
+
 msgid "Volcontract"
 msgstr "Volunteer's contract"
 
-
 msgid "Avatar"
 msgstr "Avatar"
-msgid "BackToList"
-msgstr "Back To List"
-msgid "Birthdate"
-msgstr "Birthdate"
-msgid "CIELIBERAT"
-msgstr "Date of making"
-msgid "CIELIBERATOR"	
-msgstr "Issued by"
-msgid "CINR"	
+
+msgid "IdNumber"	
 msgstr "Id number"
-msgid "CISERIE"	
+
+msgid "IdSeries"	
 msgstr "Id series"
-msgid "City"	
-msgstr "City"
-msgid "Country"	
-msgstr "District"
-msgid "Desiredarea"
+
+msgid "DesiredArea"
 msgstr "Desired area"
-msgid "District"	
-msgstr "District"
+
+
 msgid "EmailAddress"
 msgstr "Email address"
+
 msgid "Female"	
 msgstr "Female"
+
 msgid "FieldOfActivity"
 msgstr "Field of activity"
+
 msgid "Fullname"	
 msgstr "Fullname"
+
 msgid "Gender"	
 msgstr "Gender"
-msgid "Hascar"	
+
+msgid "HasCar"	
 msgstr "Has car"
+
 msgid "HasDrivingLicense"
 msgstr "Has driving license"
+
 msgid "Hourcount"
 msgstr "Working hours"
+
 msgid "Male"
 msgstr "Male"
+
 msgid "Number"
 msgstr "Number"
+
 msgid "Occupation"	
 msgstr "Occupation"
+
 msgid "Phonenumber"	
 msgstr "Phone number"
+
 msgid "Remarks"	
 msgstr "Remarks"
+
 msgid "Street"	
 msgstr "Street"
+
 msgid "Uploadimage"
 msgstr "Upload image"
+
 msgid "Volunteer"	
 msgstr "Volunteer"
-msgid "beneficiarycontract"	
+
+msgid "BeneficiaryContract"	
 msgstr "Beneficiary contract"
+
 msgid "Birthdays"	
 msgstr "Birthdays"
+
 msgid "Allocate"	
 msgstr "Allocate"
+
 msgid "Allocatedsponsors"
 msgstr "Allocated sponsors"
+
 msgid "Allocatedvolunteers"	
 msgstr "Allocated volunteers"
+
 msgid "AllocateSponsors"	
 msgstr "Allocate Sponsors"
+
 msgid "AllocateVolunteers"	
 msgstr "Allocate Volunteers"
-msgid "Allocationstatus"	
+
+msgid "AllocationStatus"	
 msgstr "Allocation status"
+
 msgid "CurrentlyAllocated"	
 msgstr "Currently allocated"
+
 msgid "DateOfEvent"	
 msgstr "Date of event"
+
 msgid "DeleteMessage"
 msgstr "Are you sure you want to delete this?"
+
 msgid "DesiredArea"	
 msgstr "Desired area"
+
 msgid "Duration"
 msgstr "Duration"
-msgid "IndexMessage"
+
+msgid "ThereIsNoEventWithSuch"
 msgstr "There is no event with such name!"
+
 msgid "Event"
 msgstr "Event"
+
 msgid "Fullname"	
 msgstr "Fullname"
-msgid "Hourcount"	
-msgstr "Hourcount"
-msgid "IndexMessage"	
+
+msgid "HourCount"	
+msgstr "Hour count"
+
 msgid "NameOfEvent"
 msgstr "Name of event"
+
 msgid "NumberOfVolunteersNeeded"
 msgstr "Number of volunteers needed"
+
 msgid "PhoneNumber"
 msgstr "Phone number"
+
 msgid "PlaceOfEvent"
 msgstr "Place of event"
-msgid "Message"
+
+msgid "ThereIsNoSponsorWithSuch"
 msgstr "There is no Sponsor with such name!"
-msgid "SponsorAllocationto"	
+
+msgid "SponsorAllocationTo"	
 msgstr "Sponsor Allocation to"
+
 msgid "TypeOfActivities"
 msgstr "Type of activities"
+
 msgid "TypeOfEvent"
 msgstr "Type of event"
-msgid "VolunteerAllocationto"	
-msgstr "VolunteerAllocation to"
+
+msgid "VolunteerAllocationTo"	
+msgstr "Volunteer Allocation to"
+
 msgid "DeleteMessage"	
 msgstr "Are you sure you want to delete this?"
+
 msgid "ContractExpiration"	
 msgstr "Contract Expiration"
+
 msgid "Date"
 msgstr "Date"
-msgid "Emailaddrss"	
+
+msgid "EmailAddress"	
 msgstr "Email address"
-msgid "Expirationdate"	
+
+msgid "ExpirationDate"	
 msgstr "Expiration date"
-msgid "Goodsamount"	
+
+msgid "GoodsAmount"	
 msgstr "Goods amount"
-msgid "Has contract?"
+
+msgid "Has contract"
 msgstr "Has contract?"
+
 msgid "HasContract"
 msgstr "Has Contract"
-msgid "Message"	
+
+msgid "ThereIsNoSponsorWithSuch"	
 msgstr "There is no Sponsor with such name!"
-msgid "Message1"	
+
+msgid "AreYouSureYouWantToDelete"	
 msgstr "Are you sure you want to delete this?"
+
 msgid "MoneyAmount"
 msgstr "Money amount"
+
 msgid "NameOfSponsor"
 msgstr "Name of sponsor"
+
 msgid "Numberofregistration"
 msgstr "Number of registration"
+
 msgid "Phonenumber"
 msgstr "Phone number"
-msgid "Registrationdate"
+
+msgid "RegistrationDate"
 msgstr "Registration date"
+
 msgid "Sponsor"
 msgstr "Sponsor"
+
 msgid "WhatGoods"	
 msgstr "What goods"
+
 msgid "GoodsAmount"
 msgstr "Goods amount"
+
 msgid "Sponsors"
 msgstr "Sponsors"
 
 msgid "Allocate"
 msgstr "Allocate"
+
 msgid "AllocatedSponsors"	
 msgstr "Allocated sponsors"
+
 msgid "AllocatedVolunteers"	
 msgstr "Allocated volunteers"
+
 msgid "AllocateSponsors"	
 msgstr "Allocate Sponsors"
+
 msgid "AllocateVolunteers"	
 msgstr "Allocate Volunteers"
+
 msgid "AllocationStatus"	
 msgstr "Allocation status"
+
 msgid "SponsorAllocation" 
 msgstr "Sponsor Allocation"
+
 msgid "VolunteerAllocation"
 msgstr "Volunteer Allocation"
 
 msgid "PRESSHERETORELOAD"
 msgstr "Press here to reload"
 
-msgid "Choose image"
+msgid "ChooseImage"
 msgstr  "No image was loaded"
 
 msgid "MakeItInactive"
@@ -516,8 +665,7 @@ msgstr "Fullname"
 msgid "ExpirationDateCI"
 msgstr "Expiration date of CI"
 
-msgid "ExportToCsv"
-msgid "UploadFromCsv""
+msgid "UploadFromCsv"
 msgstr "Export To Excel"
 
 msgid "MessageFailedExport"
@@ -526,7 +674,7 @@ msgstr"Could not open file,it might be open somewhere"
 msgid "MessageFailedExport2"
 msgstr "Please,close the file,then load."
 
-msgid "CiInfo"
+msgid "IdInfo"
 msgstr "CI information"
 
 msgid "Choose"
@@ -563,7 +711,7 @@ msgid "The date of active till cant be smaller that that of activesince!"
 msgstr "The date of active till cant be smaller that that of activesince!"
 
 
-msgid "activesince"
+msgid "ActiveSince"
 msgstr "Begining date of activity"
 
 msgid "activetill"
@@ -578,46 +726,45 @@ msgstr "Contact information"
 msgid "Export"
 msgstr "Export"
 
-msgid "Additional_info"
+msgid "AdditionalInfo"
 msgstr "Additional information"
 
-msgid "CI_Info"
-msgstr "CI informations"
+msgid "IdInfo"
+msgstr "ID information"
 
-msgid "Additional_info"
-msgstr "Aditional informations"
+msgid "AdditionalInfo"
+msgstr "Additional information"
 
-msgid "Inntinf"
+msgid "LowerRange"
 msgstr "Lower range"
 
-msgid "intsuo"
+msgid "UpperRange"
 msgstr "Upper range"
-msgid "Married&SpouseName"
+
+msgid "MarriedAndSpouseName"
 msgstr "Marital status"
 
 msgid "HomeDelivery"
 msgstr "Home Delivery"
 
 
-msgid "Profesion&Ocupation"
+msgid "ProfesionAndOcupation"
 msgstr "Profession/occupation"
-msgid "This action will Merge the two databases data on the local database."
-msgstr "This action will merge the two databases data on the local database."
-msgid "HealthState&Disalility&ChronicCondition"
-msgstr "Health state/Disability/Chronica conditions"
+
+msgid "HealthStateAndDisalilityAndChronicCondition"
+msgstr "Health state/Disability/Chronic condition"
+
 msgid "Yes"
 msgstr "Yes"
+
 msgid "No"
 msgstr "No"
-msgid "Are you sure you want to continue?"
-msgstr "Are you sure you want to continue?"
-msgid "This action will overwrite data on the local database."
-msgstr "This action will overwrite data on the local database."
-msgid "Warning! This action is unreversible!"
-msgstr "Warning! This action is unreversible!"
 
-msgid "This action will overwrite data on the remote database."
-msgstr "This action will overwrite data on the remote database."
+msgid "AreYouSureYouWantToContinue"
+msgstr "Are you sure you want to continue?"
+
+msgid "WarningThisActionIsUnreversible"
+msgstr "Warning! This action is unreversible!"
 
 msgid "FileOptions"
 msgstr "File Options"
@@ -640,10 +787,10 @@ msgstr "Download"
 msgid "FileName"
 msgstr "File name"
 
-msgid "Please insert a file name"
+msgid "PleaseInsertAFileName"
 msgstr "Please insert a file name"
 
-msgid "NumberAllocatedVolunteers"
+msgid "NumberOfAllocatedVolunteers"
 msgstr "Number of allocated volunteers"
 
 msgid "NoDocumentsMatchingCriteria"
@@ -658,20 +805,14 @@ msgstr "Lower date"
 msgid "UpperDate"
 msgstr "Upper date"
 
-msgid "IdExpirationDate"
-msgstr "ID expiration date"
-
 msgid "EmptyDatabase"
 msgstr "Empty database"
 
 msgid "MarcaName"
 msgstr "Marca name"
 
-msgid "Marca_IdContract"
+msgid "MarcaIdContract"
 msgstr "Marca id contract"
-
-msgid "CiExpirationDate"
-msgstr "ID expiration date"
 
 msgid "ChooseContractTemplate"
 msgstr "Choose a contract template"
