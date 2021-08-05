@@ -1,13 +1,10 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 {
-   public  class BeneficiaryContractPrintContext
+    public class BeneficiaryContractPrintContext
     {
         private readonly IBeneficiaryContractPrintGateway dataGateway;
 
@@ -16,12 +13,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream data, string idContract,string optionValue,string  otherOptionValue)
+        public BeneficiaryContractPrintResponse Execute(Stream data, string idContract, string optionValue, string otherOptionValue)
         {
-            var response = new Response();
+            var response = new BeneficiaryContractPrintResponse();
             if (FileIsNotEmpty(data))
             {
-                response.Message="File Cannot be Empty!";
+                response.Message = "File Cannot be Empty!";
                 response.IsValid = false;
             }
             if (response.IsValid)
@@ -40,6 +37,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
             return response;
         }
+
         private bool FileIsNotEmpty(Stream dataToImport)
         {
             return dataToImport.Length <= 0;
@@ -59,11 +57,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             if (otherOptionValue != null || otherOptionValue != "")
                 option = otherOptionValue;
 
-                return option;
-        
+            return option;
         }
 
-        public Novacode.DocX FillInDocument(Novacode.DocX document, BeneficiaryContract contract,string optionValue)
+        public Novacode.DocX FillInDocument(Novacode.DocX document, BeneficiaryContract contract, string optionValue)
         {
             document.ReplaceText("<nrreg>", contract.NumberOfRegistration);
             document.ReplaceText("<todaydate>", contract.RegistrationDate.ToShortDateString());
@@ -87,27 +84,18 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
             return document;
         }
-        public string GetFileName( string Fullname)
+
+        public string GetFileName(string Fullname)
         {
             string resultName = string.Empty;
-            //if (fileName != null && fileName != "")
-            //{
-            //    if (fileName.Contains(".docx"))
-            //        resultName = fileName;
-            //    else
-            //        resultName = fileName + ".docx";
-            //}
-            //else
-            //{
-                if (Fullname.Contains(" "))
-                    resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
-            
+            if (Fullname.Contains(" "))
+                resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
 
             return resultName;
         }
     }
 
-    public class Response
+    public class BeneficiaryContractPrintResponse
     {
         public string DownloadPath { get; set; }
         public bool IsValid { get; set; }
@@ -115,10 +103,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
         public string Message { get; set; }
 
-        public Response()
+        public BeneficiaryContractPrintResponse()
         {
             IsValid = true;
-            Message = "Contract exported succesfully!";
+            Message = "Contract exported successfully!";
         }
     }
 }

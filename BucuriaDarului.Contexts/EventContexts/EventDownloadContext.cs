@@ -62,7 +62,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 @event.Id,
                 @event.NameOfEvent,
                 @event.PlaceOfEvent,
-                DateTime.Parse(@event.DateOfEvent.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                DateTime.Parse(@event.DateOfEvent.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToShortDateString().ToString(CultureInfo.InvariantCulture),
                 @event.TypeOfActivities,
                 @event.TypeOfEvent,
                 @event.Duration,

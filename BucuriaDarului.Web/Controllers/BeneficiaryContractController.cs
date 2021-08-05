@@ -58,25 +58,34 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Print(string id)
+        public ActionResult Print(string id, string message)
         {
+            ViewBag.message = message;
             var model = SingleBeneficiaryContractReturnerGateway.GetBeneficiaryContract(id);
+
             return View(model);
         }
 
-        public ActionResult Print(IFormFile Files, string fileName, string id,string optionValue,string otherOptionValue)
+        public ActionResult Print(IFormFile Files, string fileName, string id, string optionValue, string otherOptionValue)
         {
             var printContext = new BeneficiaryContractPrintContext(new BeneficiaryContractPrintGateway());
-            var response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
+            var response = new BeneficiaryContractPrintResponse();
+            if (Files == null)
+            {
+                response.Message = "Please choose the template!";
+                response.IsValid = false;
+            }
+            else
+            {
+                response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
+            }
             if (response.IsValid)
                 return GetPhysicalFileResult(response.DownloadPath);
-            else
-                return RedirectToAction("Print", new { id = id, message = response.Message });
-
+            return RedirectToAction("Print", new { id = id, message = response.Message });
         }
+
         public PhysicalFileResult GetPhysicalFileResult(string path)
         {
-
             return new PhysicalFileResult(path, "application/doc");
         }
 
@@ -95,7 +104,7 @@ namespace BucuriaDarului.Web.Controllers
             var response = beneficiaryContractDeleteContext.Execute(contractId, ownerId);
             if (response.Contains("Error"))
                 return RedirectToAction("DeleteDisplay", new { id = contractId, message = response });
-            return RedirectToAction("Index", new { idOfBeneficiary = ownerId});
+            return RedirectToAction("Index", new { idOfBeneficiary = ownerId });
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BucuriaDarului.Web.Controllers
@@ -29,11 +30,17 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Import(IFormFile files)
         {
             var beneficiaryImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
-            var response = beneficiaryImportContext.Execute(files.OpenReadStream());
-            if (response.IsValid)
-                return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
+            var response = new BeneficiaryImportResponse();
+            if (files != null)
+                response = beneficiaryImportContext.Execute(files.OpenReadStream());
             else
-                return RedirectToAction("Import", new { message = response.Message[0].Value });
+            {
+                response.Message.Add(new KeyValuePair<string, string>("NoFile", "Please choose a file!"));
+                response.IsValid = false;
+            }
+            if (response.IsValid)
+                return RedirectToAction("Import", new { message = "The Document has been successfully imported" });
+            return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
         public ActionResult Contracts(string id)

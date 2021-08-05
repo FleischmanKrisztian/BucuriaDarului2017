@@ -1,11 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
-using DocumentFormat.OpenXml.Packaging;
 using Novacode;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace BucuriaDarului.Contexts.VolunteerContractContexts
 {
@@ -18,11 +14,9 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute(Stream data, string idContract, string fileName)
+        public VolunteerContractPrintResponse Execute(Stream data, string idContract, string fileName)
         {
-            
-            
-            var response = new Response();
+            var response = new VolunteerContractPrintResponse();
             if (FileIsNotEmpty(data))
             {
                 response.Message = "File Cannot be Empty!";
@@ -40,10 +34,10 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                 document.SaveAs(response.FileName);
 
                 response.DownloadPath = Path.GetFullPath(response.FileName);
-
             }
             return response;
         }
+
         private bool FileIsNotEmpty(Stream dataToImport)
         {
             return dataToImport.Length <= 0;
@@ -67,10 +61,11 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             document.ReplaceText("<hourcount>", contract.HourCount.ToString());
             return document;
         }
-        public string GetFileName(string fileName,string Fullname)
+
+        public string GetFileName(string fileName, string Fullname)
         {
-            string resultName = string.Empty;
-            if (fileName != null && fileName != "")
+            var resultName = string.Empty;
+            if (!string.IsNullOrEmpty(fileName))
             {
                 if (fileName.Contains(".docx"))
                     resultName = fileName;
@@ -85,22 +80,20 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
 
             return resultName;
         }
- 
-        
     }
 
-    public class Response
+    public class VolunteerContractPrintResponse
     {
-        public string  DownloadPath { get; set; }
+        public string DownloadPath { get; set; }
         public bool IsValid { get; set; }
         public string FileName { get; set; }
 
         public string Message { get; set; }
 
-        public Response()
+        public VolunteerContractPrintResponse()
         {
             IsValid = true;
-            Message = "Contract exported succesfully!";
+            Message = "Contract exported successfully!";
         }
     }
 }
