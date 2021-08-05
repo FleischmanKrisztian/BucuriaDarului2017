@@ -58,7 +58,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var result = new string[19];
             result[0] = volunteer.Id;
             result[1] = volunteer.Fullname;
-            result[2] = DateTime.Parse(volunteer.Birthdate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
+            result[2] = DateTime.Parse(volunteer.Birthdate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToShortDateString().ToString(CultureInfo.InvariantCulture);
             result[3] = volunteer.Address;
             result[4] = volunteer.Gender.ToString();
             result[5] = volunteer.DesiredWorkplace;
@@ -67,7 +67,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             result[8] = volunteer.Occupation;
             result[9] = volunteer.CI.HasId.ToString();
             result[10] = volunteer.CI.Info;
-            result[11] = DateTime.Parse(volunteer.CI.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
+            result[11] = DateTime.Parse(volunteer.CI.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToShortDateString().ToString(CultureInfo.InvariantCulture);
             result[12] = volunteer.InActivity.ToString();
             result[13] = volunteer.HourCount.ToString();
             result[14] = volunteer.ContactInformation.PhoneNumber;
