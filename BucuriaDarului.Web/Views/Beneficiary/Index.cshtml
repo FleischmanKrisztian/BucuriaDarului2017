@@ -3,60 +3,89 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Index";
-    
 
 }
 <head>
     <style>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" > </script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script>
 
         .pagination {
             display: inline-block;
             width: 800px;
         }
+
         .dropdown-menu {
             width: 500px !important;
         }
-            .pagination a {
-                color: black;
-                float: left;
-                padding: 8px 16px;
-                text-decoration: none;
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid #ddd; /* Gray */
+            transition: background-color .3s;
+        }
+
+            .pagination a.active {
+                background-color: red;
+                color: red;
                 border-radius: 5px;
-                border: 1px solid #ddd; /* Gray */
-                transition: background-color .3s;
             }
 
-                .pagination a.active {
-                    background-color: red;
-                    color: red;
-                    border-radius: 5px;
-                }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
 
-                .pagination a:hover:not(.active) {
-                    background-color: #ddd;
-                }
+            .pagination a:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
 
-                .pagination a:first-child {
-                    border-top-left-radius: 5px;
-                    border-bottom-left-radius: 5px;
-                }
-
-                .pagination a:last-child {
-                    border-top-right-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                }
+            .pagination a:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
 
         .scrollable-menu {
             height: auto;
             max-height: 200px;
             overflow-x: hidden;
         }
+
+        .modal-dialog {
+            width: 800px;
+            height: 1400px !important;
+        }
+
+        .modal-content {
+            /* 80% of window height */
+
+            height: 80%;
+        }
+
+        .modal-header {
+            background-color: dodgerblue;
+            padding: 16px 16px;
+            color: white;
+            border-bottom: 2px dashed #337AB7;
+        }
+
+        .modal-footer {
+            width: 100%;
+            height: 100px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
     </style>
 </head>
 <h2>
     @Localizer["Beneficiaries"] <small> (@Model.TotalBeneficiaries)</small>
 </h2>
-
 
 @using (Html.BeginForm("Index", "Beneficiary", FormMethod.Get))
 {<div>
@@ -127,7 +156,7 @@
     </p>
     <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all beneficiaries"]</a>
     <br />
-    @if (Model.FilterData.BeneficiaryName!= null)
+    @if (Model.FilterData.BeneficiaryName != null)
     {
         <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Fullname"]:@Model.FilterData.BeneficiaryName
@@ -136,15 +165,14 @@
     @if (Model.FilterData.SearchingBirthPlace != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["Birthplace"]:@Model.FilterData.SearchingBirthPlace
-            
         </div>
     }
     @if (Model.FilterData.Active != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Active"]::@Model.FilterData.Active
-</div>
+            @Localizer["Active"]::@Model.FilterData.Active
+        </div>
     }
-    @if (Model.FilterData.HasContract!= false)
+    @if (Model.FilterData.HasContract != false)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
             @Localizer["HasContract"]
         </div>
@@ -198,41 +226,41 @@
 
     @if (Model.FilterData.SearchingNumberOfPortions != 0)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["NumberOfPortions"]:@Model.FilterData.SearchingNumberOfPortions
-</div>
+            @Localizer["NumberOfPortions"]:@Model.FilterData.SearchingNumberOfPortions
+        </div>
     }
     @if (Model.FilterData.SearchingComments != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Comments"]:@Model.FilterData.SearchingComments
-</div>
+            @Localizer["Comments"]:@Model.FilterData.SearchingComments
+        </div>
     }
     @if (Model.FilterData.SearchingStudies != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Studies"]:@Model.FilterData.SearchingStudies
-</div>
+            @Localizer["Studies"]:@Model.FilterData.SearchingStudies
+        </div>
     }
 
     @if (Model.FilterData.SearchingPO != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Profession&Occupation"]:@Model.FilterData.SearchingPO
-</div>
+            @Localizer["Profession&Occupation"]:@Model.FilterData.SearchingPO
+        </div>
     }
     @if (Model.FilterData.SearchingSeniority != null)
     {
-<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["SeniorityInWorkField"]:@Model.FilterData.SearchingSeniority
-</div>
+        <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["SeniorityInWorkField"]:@Model.FilterData.SearchingSeniority
+        </div>
     }
 
     @if (Model.FilterData.SearchingHealthState != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["HealthState&Disability&ChronicCondition"]:@Model.FilterData.SearchingHealthState
-</div>
+            @Localizer["HealthState&Disability&ChronicCondition"]:@Model.FilterData.SearchingHealthState
+        </div>
     }
     @if (Model.FilterData.SearchingAddictions != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Addictions"]: @Model.FilterData.SearchingAddictions
-</div>
+            @Localizer["Addictions"]: @Model.FilterData.SearchingAddictions
+        </div>
     }
     @if (Model.FilterData.SearchingMarried != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
@@ -253,8 +281,8 @@
 
     @if (Model.FilterData.SearchingHousingType != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["HousingType"]:@Model.FilterData.SearchingHousingType
-</div>
+            @Localizer["HousingType"]:@Model.FilterData.SearchingHousingType
+        </div>
     }
     @if (Model.FilterData.SearchingIncome != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
@@ -269,8 +297,8 @@
     }
     @if (Model.FilterData.Gender != null)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["Gender"]:@Model.FilterData.Gender
-</div>
+            @Localizer["Gender"]:@Model.FilterData.Gender
+        </div>
     }
 
     @if (Model.FilterData.LowerDate != null && Model.FilterData.LowerDate.Year > DateTime.MinValue.Year)
@@ -286,10 +314,10 @@
             @Localizer["LowerDate"]:@Model.FilterData.ActiveSince
         </div>
     }
-    @if (Model.FilterData.ActiveTill != null&& Model.FilterData.ActiveTill.Year > DateTime.MinValue.Year)
+    @if (Model.FilterData.ActiveTill != null && Model.FilterData.ActiveTill.Year > DateTime.MinValue.Year)
     {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-    @Localizer["UpperDate"]:@Model.FilterData.ActiveTill
-</div>
+            @Localizer["UpperDate"]:@Model.FilterData.ActiveTill
+        </div>
     }
     <table class="table">
 
@@ -330,147 +358,163 @@
                 </dt>
                 <dd></dd>
             </th>
+
             <th>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@Localizer["Filters"]</button>
 
-                        @Localizer["Filters"]:
-                    </button>
+                <form method="post" asp-action="Index" asp-controller="Home">
+                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog  modal-lg " role="document">
+                            <div class="modal-content" sstyle="max-height: 90vh;">
 
-                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;overflow: scroll;">
-                        <dt class="col-sm-8">@Localizer["Homeless"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.CheckBox("Homeless")
-                        </dd>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@Localizer["Filters"]:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <br />
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <dt class="col-sm-8">@Localizer["Homeless"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.CheckBox("Homeless")
+                                        </dd>
 
-                        <dt class="col-sm-8">@Localizer["BornAfter"]: </dt>
-                        <dd class="col-sm-2">
-                            <input type="date" name="lowerdate">
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["BornBefore"]: </dt>
-                        <dd class="col-sm-2">
-                            <input type="date" name="upperdate">
-                        </dd>
+                                        <dt class="col-sm-8">@Localizer["BornAfter"]: </dt>
+                                        <dd class="col-sm-2">
+                                            <input type="date" name="lowerdate">
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["BornBefore"]: </dt>
+                                        <dd class="col-sm-2">
+                                            <input type="date" name="upperdate">
+                                        </dd>
 
-                        <dt class="col-sm-8">@Localizer["HomeDelivery"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.CheckBox("HomeDelivery")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["HomeDeliveryDriver"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingDriver")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["HasGDPRAgreement"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.CheckBox("HasGDPRAgreement")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Address"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingAddress")
-                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HomeDelivery"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.CheckBox("HomeDelivery")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HomeDeliveryDriver"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingDriver")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HasGDPRAgreement"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.CheckBox("HasGDPRAgreement")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Address"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingAddress")
+                                        </dd>
 
-                        <dt class="col-sm-8">@Localizer["HasID"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.CheckBox("HasID")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["NumberOfPortions"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingNumberOfPortions")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Comments"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingComments")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["LowerDate"]: </dt>
-                        <dd class="col-sm-2">
-                            <input type="date" name="activesince">
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["UpperDate"]: </dt>
-                        <dd class="col-sm-2">
-                            <input type="date" name="activetill">
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Birthplace"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingBirthPlace")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Studies"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingStudies")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Profesion&Occupation"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingPO")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["SeniorityInWorkField"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingSeniority")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["HealthState&Disalility&ChronicCondition"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingHealthState")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Addictions"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingAddictions")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Married&SpouseName"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingMarried")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["HasHealthInsurance"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.CheckBox("searchingHealthInsurance")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["HasHealthCard"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.CheckBox("searchingHealthCard")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["HousingType"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingHousingType")
-                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HasID"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.CheckBox("HasID")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["NumberOfPortions"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingNumberOfPortions")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Comments"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingComments")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["LowerDate"]: </dt>
+                                        <dd class="col-sm-2">
+                                            <input type="date" name="activesince">
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["UpperDate"]: </dt>
+                                        <dd class="col-sm-2">
+                                            <input type="date" name="activetill">
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Birthplace"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingBirthPlace")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Studies"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingStudies")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Profesion&Occupation"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingPO")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["SeniorityInWorkField"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingSeniority")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HealthState&Disalility&ChronicCondition"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingHealthState")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Addictions"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingAddictions")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Married&SpouseName"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingMarried")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HasHealthInsurance"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.CheckBox("searchingHealthInsurance")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HasHealthCard"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.CheckBox("searchingHealthCard")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["HousingType"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingHousingType")
+                                        </dd>
 
-                        <dt class="col-sm-8">@Localizer["Income"]: </dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingIncome")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Expenses"]:</dt>
-                        <dd class="col-sm-2">
-                            @Html.TextBox("searchingExpenses")
-                        </dd>
-                        <dt class="col-sm-8">@Localizer["Gender"]: </dt>
-                        <dd class="col-sm-12">
+                                        <dt class="col-sm-8">@Localizer["Income"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingIncome")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Expenses"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingExpenses")
+                                        </dd>
+                                        <dt class="col-sm-8">@Localizer["Gender"]: </dt>
+                                        <dd class="col-sm-12">
 
-                            <input type="radio" name="gender" value="All" text="All" checked="checked" />@Localizer["All"]
-                            <input type="radio" name="gender" value="Male" text="Male" />@Localizer["Male"]
-                            <input type="radio" name="gender" value="Female" text="Female" />@Localizer["Female"]
-                        </dd>
+                                            <input type="radio" name="gender" value="All" text="All" checked="checked" />@Localizer["All"]
+                                            <input type="radio" name="gender" value="Male" text="Male" />@Localizer["Male"]
+                                            <input type="radio" name="gender" value="Female" text="Female" />@Localizer["Female"]
+                                        </dd>
+                                    </div>
+                                    <hr />
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        <span aria-hidden="true"></span> @Localizer["Search"]
-                    </button>
-                    <dd></dd>
-                </div>
+                </form>
             </th>
+
             <th></th>
         </tr>
 
-    @if (Model.EmptyDatabase)
-    {
-        <tr>
-            <td colspan="3 " style="color:red">
-                @Localizer["EmptyDatabase"]
-            </td>
-        </tr>
-    }
-    else if (Model.TotalBeneficiaries == 0)
-    {
-        <tr>
-            <td colspan="3 " style="color:red">
-                @Localizer["NoDocumentsMatchingCriteria"]
-            </td>
-        </tr>
-    }
+        @if (Model.EmptyDatabase)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["EmptyDatabase"]
+                </td>
+            </tr>
+        }
+        else if (Model.TotalBeneficiaries == 0)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["NoDocumentsMatchingCriteria"]
+                </td>
+            </tr>
+        }
         else
         {
             @foreach (var item in Model.Beneficiaries)
