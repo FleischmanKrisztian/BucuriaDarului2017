@@ -1,13 +1,10 @@
 ﻿@model BucuriaDarului.Contexts.VolunteerContexts.ExportParameters
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Localization
-@using Microsoft.Extensions.Options
+
 @{
     ViewData["Title"] = "CSVExporter";
-    
-
+    string ids = ViewBag.Ids;
 }
 <head>
     <style>
@@ -49,10 +46,11 @@
     </style>
 </head>
 
-@using (Html.BeginForm())
-{
+<form method="post" action="/Volunteer/CsvExporter" enctype="multipart/form-data">
+
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.StringOfIDs, new { ViewBag.Ids })
+    <input id="StringOfIDs" name="StringOfIDs" type="hidden" value=@ViewBag.Ids />
+
     <div class="container emp-profile">
         <div>
             <h3 style="color:red">
@@ -307,7 +305,7 @@
             <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
         </div>
     </div>
-}
+</form>
 <script>
     $('.selectall').click(function () {
         if ($(this).is(':checked')) {

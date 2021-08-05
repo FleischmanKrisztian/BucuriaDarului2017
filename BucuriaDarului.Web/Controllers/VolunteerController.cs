@@ -58,7 +58,6 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
-             
             var volunteerExporterContext = new VolunteerExporterContext(_localizer);
             var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
             DictionaryHelper.d = volunteerExportData.Dictionary;
