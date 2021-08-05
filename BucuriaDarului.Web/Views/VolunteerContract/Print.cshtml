@@ -55,9 +55,7 @@
     @ViewBag.message
 </h3>
 <div class="emp-profile">
-    <form action="./Print"
-          enctype="multipart/form-data"
-          method="post">
+    <form action="./Print" enctype="multipart/form-data" method="post">
         @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
 
         <div class="row">
@@ -71,26 +69,23 @@
                     </div>
                 </div>
                 <hr />
-            </div>
-        </div>
-        <br />
-        @*<div class="row">
-            <div class="col-md-9">
-                <div class="row">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-6">
-                        <label> @Localizer["FileName"]:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.TextBox("fileName")
 
-                    </div>
-                </div>
-                <hr />
-            </div>
-        </div>*@
-        <div class="row">
-            <div class="col-md-9">
+                <br />
+                @*<div class="row">
+                        <div class="col-md-9">
+                            <div class="row">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="col-md-6">
+                                    <label> @Localizer["FileName"]:</label>
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.TextBox("fileName")
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>*@
+
                 <div class="row">
                     <div class="col-sm-6">
                         <label> @Localizer["Fullname"]:</label>

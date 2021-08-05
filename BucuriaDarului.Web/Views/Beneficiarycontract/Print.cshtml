@@ -95,7 +95,7 @@
                     <br />
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="col-md-12"> <input type="radio" name="optionValue" value="fourth" >@Localizer["Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei."]</div>
+                            <div class="col-md-12"> <input type="radio" name="optionValue" value="fourth">@Localizer["Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei."]</div>
                         </div>
                     </div>
                 </div>
@@ -107,10 +107,8 @@
                     <div class="row">
                         <div class="col-sm-12">
                             @Html.TextBox("otherOptionValue")
-
                         </div>
                     </div>
-
                 </div>
                 <hr />
                 <br />
@@ -210,5 +208,6 @@
                 <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
                 <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
             </div>
+        </div>
     </form>
 </div>
