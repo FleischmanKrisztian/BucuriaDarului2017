@@ -26,7 +26,6 @@
     </script>
     <style>
 
-
         .emp-profile {
             padding: 3%;
             margin-top: 3%;
@@ -47,7 +46,6 @@
             font-weight: 600;
             font-size: 15px;
         }
-        }
     </style>
 </head>
 <div>
@@ -56,7 +54,7 @@
     </h3>
 </div>
 <form method="post" action="/Beneficiary/Edit" enctype="multipart/form-data">
-    @Html.HiddenFor(model=>model.Id, new { Id = Model.Id })
+    @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">
         <hr />
@@ -109,19 +107,16 @@
                         <hr />
                     </div>
                 </div>
-                @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
-                {
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label> @Localizer["Gender"]:</label>
-                        </div>
-                        <div class="col-md-6">
-                            @Localizer["Male"] @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
-                            @Localizer["Female"] @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
-                            <hr />
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label> @Localizer["Gender"]:</label>
                     </div>
-                }
+                    <div class="col-md-6">
+                        @Localizer["Male"] @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Male")
+                        @Localizer["Female"] @Html.RadioButtonFor(m => m.PersonalInfo.Gender, "Female")
+                        <hr />
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label> @Localizer["CNP"]:</label>
@@ -137,7 +132,7 @@
                         <label> @Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="DateOfEvent" value="2021-01-01" />
+                        <input class="form-control" type="date" name="PersonalInfo.Birthdate" value="@Model.PersonalInfo.Birthdate.ToString("yyyy-MM-dd")" />
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -148,6 +143,7 @@
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.PersonalInfo.BirthPlace, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PersonalInfo.BirthPlace, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
@@ -165,11 +161,11 @@
                     <div class="col-md-6">
                         <label> @Localizer["Active"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.Active)
+                            @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
@@ -177,7 +173,7 @@
                     <div class="col-md-6">
                         <label>@Localizer["WeeklyPackage"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.WeeklyPackage)
                         </div>
@@ -199,7 +195,7 @@
                     <div class="col-md-6">
                         <label> @Localizer["Canteen"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.Canteen)
                         </div>
@@ -211,7 +207,7 @@
                     <div class="col-md-6">
                         <label> @Localizer["HomeDelivery"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.HomeDelivery)
                         </div>
@@ -234,7 +230,7 @@
                         <label>@Localizer["LastTimeActive"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="LastTimeActive" value="2021-01-01" />
+                        <input class="form-control" type="date" name="LastTimeActive" value="@Model.LastTimeActive.ToString("yyyy-MM-dd")" />
                         @Html.ValidationMessageFor(model => model.LastTimeActive, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -293,7 +289,7 @@
                     <div class="col-md-6">
                         <label> @Localizer["HasGDPRAgreement"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.HasGDPRAgreement)
                         </div>
@@ -319,7 +315,7 @@
                     <div class="col-md-6">
                         <label>@Localizer["HasID"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.CI.HasId)
                         </div>
@@ -342,7 +338,7 @@
                         <label>@Localizer["ExpirationDateCI"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="CI.ExpirationDate" value="2021-01-01" />
+                        <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -373,7 +369,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label> @Localizer["IDcontract"]:</label>
+                        <label> @Localizer["IdContract"]:</label>
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.Marca.IdContract, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
@@ -393,13 +389,13 @@
                 </div>
                 <br />
                 <h4>
-                    @Localizer["Healthdetails"]:
+                    @Localizer["HealthDetails"]:
                 </h4>
                 <div class="row">
                     <div class="col-md-6">
                         <label> @Localizer["HasHealthCard"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.PersonalInfo.HealthCard)
                         </div>
@@ -411,7 +407,7 @@
                     <div class="col-md-6">
                         <label>@Localizer["HasHealthInsurance"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.PersonalInfo.HealthInsurance)
                         </div>
@@ -461,13 +457,13 @@
                 </div>
                 <br />
                 <h4>
-                    @Localizer["Housinginformation"]:
+                    @Localizer["HousingInformation"]:
                 </h4>
                 <div class="row">
                     <div class="col-md-6">
                         <label>@Localizer["HasHome"]:</label>
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.PersonalInfo.HasHome)
                         </div>

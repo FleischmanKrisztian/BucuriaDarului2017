@@ -90,7 +90,7 @@
                         <label> @Localizer["DateOfEvent"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="DateOfEvent" value="2021-01-01" />
+                        <input class="form-control" type="date" name="DateOfEvent" value="@Model.DateOfEvent.ToString("yyyy-MM-dd")"/>
                         @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
                         <hr />
                     </div>

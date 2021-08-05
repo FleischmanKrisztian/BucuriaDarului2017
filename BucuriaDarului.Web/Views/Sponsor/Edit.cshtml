@@ -119,7 +119,7 @@
                         <label>@Localizer["RegistrationDate"]: </label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="Contract.RegistrationDate" value="2021-01-01" />
+                        <input class="form-control" type="date" name="Contract.RegistrationDate" value="@Model.Contract.RegistrationDate.ToString("yyyy-MM-dd")"/>
                         @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -129,7 +129,7 @@
                         <label> @Localizer["ExpirationDate"]: </label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="Contract.ExpirationDate" value="2021-01-01" />
+                        <input class="form-control" type="date" name="Contract.ExpirationDate" value="@Model.Contract.ExpirationDate.ToString("yyyy-MM-dd")"/>
                         @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -139,7 +139,7 @@
                         <label> @Localizer["Date"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="Sponsorship.Date" value="2021-01-01" />
+                        <input class="form-control" type="date" name="Sponsorship.Date" value="@Model.Sponsorship.Date.ToString("yyyy-MM-dd")"/>
                         @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
                         <hr />
                     </div>
