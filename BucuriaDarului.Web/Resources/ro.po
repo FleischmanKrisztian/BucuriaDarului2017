@@ -679,3 +679,6 @@ msgstr "Obiectul prezentului contract il constituie acordarea"
 
 msgid "OtherOption"
 msgstr "Altă variantă"
+
+msgid "Close"
+msgstr "Închide"

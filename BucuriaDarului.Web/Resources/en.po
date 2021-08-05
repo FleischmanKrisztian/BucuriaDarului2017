@@ -822,3 +822,6 @@ msgstr "Choose an option for the main gol of this contrct"
 
 msgid "OtherOption"
 msgstr "Other option"
+
+msgid "Close"
+msgstr "Close"

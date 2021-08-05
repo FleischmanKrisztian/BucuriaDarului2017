@@ -5,6 +5,10 @@
 @inject IViewLocalizer Localizer
 @using Microsoft.AspNetCore.Mvc.Localization
 <head>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <style>
 
         .pagination {
@@ -54,6 +58,32 @@
             height: auto;
             max-height: 200px;
             overflow-x: hidden;
+        }
+
+        .modal-dialog {
+            width: 600px;
+            height: 700px !important;
+        }
+
+        .modal-content {
+            /* 80% of window height */
+
+            height: 80%;
+        }
+
+        .modal-header {
+            background-color: dodgerblue;
+            padding: 16px 16px;
+            color: white;
+            border-bottom: 2px dashed #337AB7;
+        }
+
+        .modal-footer {
+            width: 100%;
+            height: 100px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
@@ -132,7 +162,7 @@
     </p>
 }
 @using (Html.BeginForm("Index", "Event", FormMethod.Get))
-{<a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all events"]</a>
+{<a href=@Url.Action("Index") class="btn btn-primary">@Localizer["Show all events"]</a>
 <br />
 
 <br />
@@ -196,48 +226,62 @@
             @Localizer["CurrentlyAllocated"]:
         </th>
         <th>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                    @Localizer["Filters"]:
-                </button>
-                <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;overflow: scroll;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@Localizer["Filters"]</button>
 
-                    <dt class="col-sm-6">@Localizer["PlaceOfEvent"]:</dt>
-                    <dd class="col-sm-2">
-                        @Html.TextBox("searchingPlace")
-                    </dd>
-                    <dt class="col-sm-6">@Localizer["TypeOfActivities"]: </dt>
-                    <dd class="col-sm-2">
-                        @Html.TextBox("searchingActivity")
-                    </dd>
+            <form method="post" asp-action="Index" asp-controller="Home">
+                <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog  modal-lg " role="document">
+                        <div class="modal-content" sstyle="max-height: 90vh;">
 
-                    <dt class="col-sm-6">@Localizer["TypeOfEvent"]: </dt>
-                    <dd class="col-sm-2">
-                        @Html.TextBox("searchingType")
-                    </dd>
-                    <dt class="col-sm-6">@Localizer["AllocatedVolunteers"]: </dt>
-                    <dd class="col-sm-2">
-                        @Html.TextBox("searchingVolunteers")
-                    </dd>
-                    <dt class="col-sm-6">@Localizer["AllocatedSponsors"]:</dt>
-                    <dd class="col-sm-2">
-                        @Html.TextBox("searchingSponsor")
-                    </dd>
-                    <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
-                    <dd class="col-sm-2">
-                        <input type="date" name="lowerdate">
-                    </dd>
-                    <dt class="col-sm-6">@Localizer["UpperDate"]: </dt>
-                    <dd class="col-sm-2">
-                        <input type="date" name="upperdate">
-                    </dd>
+                            <div class="modal-header">
+                                <h5 class="modal-title">@Localizer["Filters"]:</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <dt class="col-sm-6">@Localizer["PlaceOfEvent"]:</dt>
+                                    <dd class="col-sm-2">
+                                        @Html.TextBox("searchingPlace")
+                                    </dd>
+                                    <dt class="col-sm-6">@Localizer["TypeOfActivities"]: </dt>
+                                    <dd class="col-sm-2">
+                                        @Html.TextBox("searchingActivity")
+                                    </dd>
+
+                                    <dt class="col-sm-6">@Localizer["TypeOfEvent"]: </dt>
+                                    <dd class="col-sm-2">
+                                        @Html.TextBox("searchingType")
+                                    </dd>
+                                    <dt class="col-sm-6">@Localizer["AllocatedVolunteers"]: </dt>
+                                    <dd class="col-sm-2">
+                                        @Html.TextBox("searchingVolunteers")
+                                    </dd>
+                                    <dt class="col-sm-6">@Localizer["AllocatedSponsors"]:</dt>
+                                    <dd class="col-sm-2">
+                                        @Html.TextBox("searchingSponsor")
+                                    </dd>
+                                    <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
+                                    <dd class="col-sm-2">
+                                        <input type="date" name="lowerdate">
+                                    </dd>
+                                    <dt class="col-sm-6">@Localizer["UpperDate"]: </dt>
+                                    <dd class="col-sm-2">
+                                        <input type="date" name="upperdate">
+                                    </dd>
+                                </div>
+                                <hr />
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> @Localizer["Search"]
-                </button>
-            </div>
+            </form>
         </th>
 
         <th></th>
