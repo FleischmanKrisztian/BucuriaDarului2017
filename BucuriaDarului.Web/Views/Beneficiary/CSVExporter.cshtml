@@ -48,10 +48,10 @@
     </style>
 </head>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<form method="post" action="/Beneficiary/CsvExporter" enctype="multipart/form-data">
 
+    @Html.AntiForgeryToken()
+    <input id="StringOfIDs" name="StringOfIDs" type="hidden" value=@ViewBag.Ids />
     <div class="container emp-profile">
         <div>
             <h3 style="color:red">
@@ -252,30 +252,30 @@
                     </div>
                 </div>
             </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["LastTimeActive"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.LastTimeActive, new { @checked = true })
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="col-md-6">
-                    <label> @Localizer["Birthdate"]:</label>
-                </div>
-                <div class="col-md-2">
-                    @Html.CheckBoxFor(model => model.Birthdate, new { @checked = true })
-                    <hr />
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["LastTimeActive"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.LastTimeActive, new { @checked = true })
+                        <hr />
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="col-md-6">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["Birthdate"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.Birthdate, new { @checked = true })
+                        <hr />
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="row">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -522,7 +522,7 @@
             <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
         </div>
     </div>
-}
+</form>
 <script>
     $('.selectall').click(function () {
         if ($(this).is(':checked')) {

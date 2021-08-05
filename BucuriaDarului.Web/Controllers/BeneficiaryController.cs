@@ -54,12 +54,15 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var beneficiariesMainDisplayIndexContext = new BeneficiariesMainDisplayIndexContext(new BeneficiariesMainDisplayIndexGateway());
             var model = beneficiariesMainDisplayIndexContext.Execute(new BeneficiariesMainDisplayIndexRequest(searching, page, nrOfDocs, sortOrder, active, searchingBirthPlace, hasContract, homeless, lowerDate, upperDate, activeSince, activeTill, weeklyPackage, canteen, homeDelivery, searchingDriver, hasGDPRAgreement, searchingAddress, hasID, searchingNumberOfPortions, searchingComments, searchingStudies, searchingPO, searchingSeniority, searchingHealthState, searchingAddictions, searchingMarried, searchingHealthInsurance, searchingHealthCard, searchingHasHome, searchingHousingType, searchingIncome, searchingExpenses, gender));
+            HttpContext.Session.SetString(model.DictionaryKey, model.StringOfIDs);
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult CsvExporter(string message)
+        public ActionResult CsvExporter(string dictionaryKey, string message)
         {
+            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = StringOfIds;
             ViewBag.message = message;
             return View();
         }

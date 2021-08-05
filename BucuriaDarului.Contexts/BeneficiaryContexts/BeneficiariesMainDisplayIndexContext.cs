@@ -26,7 +26,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             var stringOfIDs = GetStringOfIds(beneficiaries);
             beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
 
-            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs);
+            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARYSESSION);
         }
 
         private string GetStringOfIds(List<Beneficiary> beneficiaries)
@@ -273,7 +273,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public string StringOfIDs { get; set; }
 
-        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs)
+        public string DictionaryKey { get; set; }
+
+        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs,string dictionaryKey)
         {
             Beneficiaries = beneficiaries;
             FilterData = filterData;
@@ -281,6 +283,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             TotalBeneficiaries = beneficiariesAfterFiltering;
             EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
+            DictionaryKey = dictionaryKey;
         }
     }
 
