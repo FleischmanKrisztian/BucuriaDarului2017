@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BucuriaDarului.Web.Controllers
@@ -29,11 +30,17 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Import(IFormFile files)
         {
             var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway());
-            var response = volunteerImportContext.Execute(files.OpenReadStream());
-            if (response.IsValid)
-                return RedirectToAction("Import", new { message = "The Document has successfully been imported" });
+            var response = new VolunteerImportResponse();
+            if (files != null)
+                response = volunteerImportContext.Execute(files.OpenReadStream());
             else
-                return RedirectToAction("Import", new { message = response.Message[0].Value });
+            {
+                response.Message.Add(new KeyValuePair<string, string>("NoFile", "Please choose a file!"));
+                response.IsValid = false;
+            }
+            if (response.IsValid)
+                return RedirectToAction("Import", new { message = "The Document has been successfully imported" });
+            return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
         public ActionResult Index(string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicense, DateTime lowerDate, DateTime upperDate, int page, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
@@ -58,7 +65,6 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
-             
             var volunteerExporterContext = new VolunteerExporterContext(_localizer);
             var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
             DictionaryHelper.d = volunteerExportData.Dictionary;

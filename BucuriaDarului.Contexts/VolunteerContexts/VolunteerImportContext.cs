@@ -259,18 +259,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return volunteers;
         }
 
-        public class VolunteerImportResponse
-        {
-            public bool IsValid { get; set; }
-
-            public List<KeyValuePair<string, string>> Message { get; set; }
-
-            public VolunteerImportResponse()
-            {
-                IsValid = true;
-                Message = new List<KeyValuePair<string, string>>();
-            }
-        }
 
         public static class CsvUtils
         {
@@ -288,6 +276,18 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
                 return CsvUtils.CsvSeparator;
             }
+        }
+    }
+    public class VolunteerImportResponse
+    {
+        public bool IsValid { get; set; }
+
+        public List<KeyValuePair<string, string>> Message { get; set; }
+
+        public VolunteerImportResponse()
+        {
+            IsValid = true;
+            Message = new List<KeyValuePair<string, string>>();
         }
     }
 }
