@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public string Execute(string dataString, string header)
         {
             var finalHeader = SplitHeader(header);
-            string jsonString = string.Empty;
+            string jsonString;
             var properties = GetProperties(dataString);
             var ids = GetIds(dataString);
 
@@ -39,9 +39,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return splitHeader;
         }
 
-        public string GetProperties(string ids_)
+        public string GetProperties(string ids)
         {
-            var auxiliaryStrings = ids_.Split("(((");
+            var auxiliaryStrings = ids.Split("(((");
             var properties = auxiliaryStrings[1];
             return properties;
         }
@@ -55,7 +55,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public string[] BeneficiaryToArray(Beneficiary beneficiary)
         {
-            string[] result = new string[40];
+            var result = new string[40];
             result[0] = beneficiary.Id;
             result[1] = beneficiary.Fullname;
             result[2] = beneficiary.Active.ToString();

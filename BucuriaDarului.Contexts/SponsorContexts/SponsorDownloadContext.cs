@@ -20,7 +20,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         public string Execute(string dataString, string header)
         {
             var finalHeader = SplitHeader(header);
-            string jsonString = string.Empty;
+            string jsonString;
             var properties = GetProperties(dataString);
             var ids = GetIds(dataString);
 
@@ -59,14 +59,14 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             {
                 sponsor.Id,
                 sponsor.NameOfSponsor,
-                DateTime.Parse(sponsor.Sponsorship.Date.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                DateTime.Parse(sponsor.Sponsorship.Date.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToShortDateString().ToString(CultureInfo.InvariantCulture),
                 sponsor.Sponsorship.MoneyAmount,
                 sponsor.Sponsorship.WhatGoods,
                 sponsor.Sponsorship.GoodsAmount,
                 sponsor.Contract.HasContract.ToString(),
                 sponsor.Contract.NumberOfRegistration,
-                DateTime.Parse(sponsor.Contract.RegistrationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
-                DateTime.Parse(sponsor.Contract.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture),
+                DateTime.Parse(sponsor.Contract.RegistrationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToShortDateString().ToString(CultureInfo.InvariantCulture),
+                DateTime.Parse(sponsor.Contract.ExpirationDate.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).ToShortDateString().ToString(CultureInfo.InvariantCulture),
                 sponsor.ContactInformation.PhoneNumber,
                 sponsor.ContactInformation.MailAddress
             };
