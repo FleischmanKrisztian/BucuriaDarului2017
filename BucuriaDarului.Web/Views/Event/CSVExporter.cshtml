@@ -51,8 +51,8 @@
 <br />
 <br />
 <body>
-    @using (Html.BeginForm())
-    {
+    <form method="post" action="/Event/CsvExporter" enctype="multipart/form-data">
+        <input id="StringOfIDs" name="StringOfIDs" type="hidden" value=@ViewBag.Ids />
         @Html.AntiForgeryToken()
 
         <div class="container emp-profile">
@@ -201,7 +201,7 @@
                 </div>
             </div>
         </div>
-    }
+    </form>
 </body>
 
 <script>

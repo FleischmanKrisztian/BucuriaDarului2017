@@ -48,12 +48,15 @@ namespace BucuriaDarului.Web.Controllers
             HttpContext.Session.SetString("queryString", Request.QueryString.ToString());
             var eventsMainDisplayIndexContext = new EventsMainDisplayIndexContext(new EventsMainDisplayIndexGateway());
             var model = eventsMainDisplayIndexContext.Execute(new EventsMainDisplayIndexRequest(searching, page, nrOfDocs, searchingPlace, searchingActivity, searchingType, searchingVolunteers, searchingSponsor, lowerDate, upperDate));
+            HttpContext.Session.SetString(model.DictionaryKey, model.StringOfIDs);
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult CsvExporter(string message)
+        public ActionResult CsvExporter(string dictionaryKey, string message)
         {
+            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = StringOfIds;
             ViewBag.message = message;
             return View();
         }

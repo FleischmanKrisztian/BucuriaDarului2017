@@ -32,7 +32,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             events = GetEventsAfterPaging(events, request.PagingData);
 
-            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs);
+            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs,Constants.EVENTSESSION);
         }
 
         private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
@@ -132,7 +132,9 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string StringOfIDs { get; set; }
 
-        public EventsMainDisplayIndexResponse(List<Event> events, FilterData filterData, PagingData pagingData, bool emptyDatabase, int eventsAfterFiltering, string stringOfIDs)
+        public string DictionaryKey { get; set; }
+
+        public EventsMainDisplayIndexResponse(List<Event> events, FilterData filterData, PagingData pagingData, bool emptyDatabase, int eventsAfterFiltering, string stringOfIDs,string dictionaryKey)
         {
             Events = events;
             FilterData = filterData;
@@ -140,6 +142,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             TotalEvents = eventsAfterFiltering;
             EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
+            DictionaryKey = dictionaryKey;
         }
     }
 
