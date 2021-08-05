@@ -6,6 +6,7 @@
 @using Microsoft.Extensions.Options
 @{
     ViewData["Title"] = "CSVExporter";
+    
 
 }
 <head>
@@ -51,7 +52,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => model.StringOfIDs, new { ViewBag.Ids })
     <div class="container emp-profile">
         <div>
             <h3 style="color:red">

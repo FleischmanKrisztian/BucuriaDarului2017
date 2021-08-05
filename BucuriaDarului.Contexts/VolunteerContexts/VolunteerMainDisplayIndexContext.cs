@@ -2,7 +2,6 @@
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
@@ -27,9 +26,17 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var stringOfIDs = GetStringOfIds(volunteers);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData);
 
-            return new VolunteerMainDisplayIndexResponse(volunteers, request.FilterData, request.PagingData, emptyDatabase, volunteersAfterFiltering, stringOfIDs);
+            return new VolunteerMainDisplayIndexResponse(volunteers, request.FilterData, request.PagingData, emptyDatabase, volunteersAfterFiltering, stringOfIDs,Constants.VOLUNTEERSESSION,CreateDictionary(Constants.VOLUNTEERSESSION, stringOfIDs));
         }
+        private Dictionary<string, string> CreateDictionary(string key1, string idsAndFields)
+        {
+            var result = new Dictionary<string, string>
+            {
+                { key1, idsAndFields }
+            };
 
+            return result;
+        }
         public List<Volunteer> GetVolunteersAfterFilters(List<Volunteer> volunteers, FilterData filterData)
         {
             if (filterData.SearchedFullname != null)
@@ -216,7 +223,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public string StringOfIDs { get; set; }
 
-        public VolunteerMainDisplayIndexResponse(List<Volunteer> volunteers, FilterData filterData, PagingData pagingData, bool emptyDatabase, int volunteersAfterFiltering, string stringOfIDs)
+        public string DictionaryKey { get; set; }
+
+        public Dictionary<string, string> IdsDictionary { get; set; }
+
+        public VolunteerMainDisplayIndexResponse(List<Volunteer> volunteers, FilterData filterData, PagingData pagingData, bool emptyDatabase, int volunteersAfterFiltering, string stringOfIDs, string dictionaryKey, Dictionary<string, string> idsDictionary)
         {
             Volunteers = volunteers;
             FilterData = filterData;
@@ -224,6 +235,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             TotalVolunteers = volunteersAfterFiltering;
             EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
+            DictionaryKey = dictionaryKey;
+            IdsDictionary = idsDictionary;
         }
     }
 

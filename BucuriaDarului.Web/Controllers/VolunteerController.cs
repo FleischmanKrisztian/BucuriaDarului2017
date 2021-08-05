@@ -42,12 +42,15 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var volunteerMainDisplayIndexContext = new VolunteerMainDisplayIndexContext(new VolunteerMainDisplayIndexGateway());
             var model = volunteerMainDisplayIndexContext.Execute(new VolunteerMainDisplayIndexRequest(nrOfDocs, page, searchedFullname, searchedContact, sortOrder, active, hasCar, hasDrivingLicense, lowerDate, upperDate, gender, searchedAddress, searchedWorkplace, searchedOccupation, searchedRemarks, searchedHourCount));
+            HttpContext.Session.SetString(model.DictionaryKey, model.StringOfIDs);
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult CsvExporter(string message)
+        public ActionResult CsvExporter(string dictionaryKey, string message)
         {
+            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = StringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -55,6 +58,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult CsvExporter(ExportParameters csvExportProperties)
         {
+             
             var volunteerExporterContext = new VolunteerExporterContext(_localizer);
             var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
             DictionaryHelper.d = volunteerExportData.Dictionary;

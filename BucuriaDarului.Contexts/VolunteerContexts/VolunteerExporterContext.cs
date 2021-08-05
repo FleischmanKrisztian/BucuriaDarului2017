@@ -156,6 +156,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class ExportParameters
     {
         public string StringOfIDs { get; set; }
+        public string DictionaryKey { get; set; }
         public bool All { get; set; }
         public bool Fullname { get; set; }
         public bool Birthdate { get; set; }
@@ -175,5 +176,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public bool DriversLicense { get; set; }
         public bool HasCar { get; set; }
         public string FileName { get; set; }
+
     }
 }
