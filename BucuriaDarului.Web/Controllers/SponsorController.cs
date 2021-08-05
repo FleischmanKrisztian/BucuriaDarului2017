@@ -44,8 +44,10 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult CSVExporter(string message)
+        public ActionResult CSVExporter(string dictionaryKey, string message)
         {
+            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = StringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -76,6 +78,7 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var sponsorsMainDisplayIndexContext = new SponsorsMainDisplayIndexContext(new SponsorMainDisplayIndexGateway());
             var model = sponsorsMainDisplayIndexContext.Execute(new SponsorsMainDisplayIndexRequest(sponsorName, page, nrOfDocs, contactInfo, lowerDate, upperDate, hasContract, whatGoods, moneyAmount, goodsAmounts));
+            HttpContext.Session.SetString(model.DictionaryKey, model.StringOfIDs);
             return View(model);
         }
 

@@ -31,7 +31,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData);
 
-            return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, emptyDatabase, sponsorsAfterFiltering, stringOfIDs);
+            return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, emptyDatabase, sponsorsAfterFiltering, stringOfIDs,Constants.SPONSORSESSION);
         }
 
         private string GetStringOfIds(List<Sponsor> sponsors)
@@ -132,7 +132,9 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public string StringOfIDs { get; set; }
 
-        public SponsorsMainDisplayIndexResponse(List<Sponsor> sponsors, FilterData filterData, PagingData pagingData, bool emptyDatabase, int sponsorsAfterFiltering, string stringOfIDs)
+        public string DictionaryKey { get; set; }
+
+        public SponsorsMainDisplayIndexResponse(List<Sponsor> sponsors, FilterData filterData, PagingData pagingData, bool emptyDatabase, int sponsorsAfterFiltering, string stringOfIDs, string dictionaryKey)
         {
             Sponsors = sponsors;
             FilterData = filterData;
@@ -140,6 +142,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             TotalSponsors = sponsorsAfterFiltering;
             EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
+            DictionaryKey =dictionaryKey;
         }
     }
 
