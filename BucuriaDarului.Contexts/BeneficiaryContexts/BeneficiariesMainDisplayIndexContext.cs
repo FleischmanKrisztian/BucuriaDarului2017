@@ -25,8 +25,22 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             var beneficiariesAfterFiltering = beneficiaries.Count();
             var stringOfIDs = GetStringOfIds(beneficiaries);
             beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
+            var contracts = dataGateway.GetContractList();
+            var numberOfContracts = GetNumberOfContractsForVolunteer(contracts, beneficiaries);
+            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARYSESSION,numberOfContracts);
+        }
 
-            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARYSESSION);
+        public Dictionary<string, int> GetNumberOfContractsForVolunteer(List<BeneficiaryContract> contracts, List<Beneficiary>beneficiaries)
+        {
+            var d = new Dictionary<string, int>();
+            foreach (var beneficiary in beneficiaries)
+            {
+                var contractsList = contracts.Where(z => z.OwnerID.ToString() == beneficiary.Id).ToList();
+                var numberOfContracts = contractsList.Count();
+                d.Add(beneficiary.Id, numberOfContracts);
+            }
+
+            return d;
         }
 
         private string GetStringOfIds(List<Beneficiary> beneficiaries)
@@ -271,11 +285,14 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public int TotalBeneficiaries { get; set; }
 
+        public Dictionary<string, int> BeneficiaryNumberOfContracts { get; set; }
+
+
         public string StringOfIDs { get; set; }
 
         public string DictionaryKey { get; set; }
 
-        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs,string dictionaryKey)
+        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs,string dictionaryKey, Dictionary<string, int> beneficiaryNumberOfContracts)
         {
             Beneficiaries = beneficiaries;
             FilterData = filterData;
@@ -284,6 +301,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
             DictionaryKey = dictionaryKey;
+            BeneficiaryNumberOfContracts = beneficiaryNumberOfContracts;
         }
     }
 
