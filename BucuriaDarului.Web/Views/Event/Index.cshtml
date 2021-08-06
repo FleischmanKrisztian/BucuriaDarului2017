@@ -87,25 +87,25 @@
         }
     </style>
 </head>
+<div class="container" style="max-width: 1300px; min-width: 1300px; width: auto;">
+    <h2>
+        @Localizer["Events"] <small> (@Model.TotalEvents)</small>
+    </h2>
 
-<h2>
-    @Localizer["Events"] <small> (@Model.TotalEvents)</small>
-</h2>
-
-@using (Html.BeginForm("Index", "Event", FormMethod.Get))
-{
-
-    <a href=@Url.Action( "Create")><img src="~/Resources/new_event.png" width="40" height="40" title=@Localizer["CreateNew"]></a>
-    @if (Model.TotalEvents != 0)
+    @using (Html.BeginForm("Index", "Event", FormMethod.Get))
     {
-        <a href=@Url.Action("CsvExporter", new { dictionaryKey = Model.DictionaryKey })><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
-    }
-    <a href=@Url.Action( "Import")><img src="~/Resources/import-csv.png" width="40" height="40" title=@Localizer["UploadFromCsv"]></a>
-    <br />
 
-    <p>
-        <div class="pagination">
-            <pre style="white-space:pre-wrap;">
+        <a href=@Url.Action( "Create")><img src="~/Resources/new_event.png" width="40" height="40" title=@Localizer["CreateNew"]></a>
+        @if (Model.TotalEvents != 0)
+        {
+            <a href=@Url.Action("CsvExporter", new { dictionaryKey = Model.DictionaryKey })><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
+        }
+        <a href=@Url.Action( "Import")><img src="~/Resources/import-csv.png" width="40" height="40" title=@Localizer["UploadFromCsv"]></a>
+        <br />
+
+        <p>
+            <div class="pagination">
+                <pre style="white-space:pre-wrap;">
             @{
                 int maxpage = (Model.TotalEvents / Model.PagingData.NrOfDocumentsPerPage) + 1;
                 if (Model.TotalEvents % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalEvents != 0)
@@ -159,181 +159,181 @@
                 }
             }
             </pre>
+            </div>
+        </p>
+    }
+    @using (Html.BeginForm("Index", "Event", FormMethod.Get))
+    {<a href=@Url.Action("Index") class="btn btn-primary">@Localizer["Show all events"]</a>
+    <br />
+    <br />
+    @if (Model.FilterData.NameOfEvent != "")
+    {
+        <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["NameOfEvent"]:@Model.FilterData.NameOfEvent
         </div>
-    </p>
-}
-@using (Html.BeginForm("Index", "Event", FormMethod.Get))
-{<a href=@Url.Action("Index") class="btn btn-primary">@Localizer["Show all events"]</a>
-<br />
+    }
+    @if (Model.FilterData.PlaceOfEvent != "")
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["PlaceOfEvent"]:@Model.FilterData.PlaceOfEvent
+        </div>
+    }
+    @if (Model.FilterData.TypeOfActivities != "")
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["TypeOfActivities"]: @Model.FilterData.TypeOfActivities
+        </div>
+    }
+    @if (Model.FilterData.TypeOfEvent != "")
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["TypeOfEvent"]:@Model.FilterData.TypeOfEvent
+        </div>
+    }
+    @if (Model.FilterData.AllocatedVolunteers != "")
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["AllocatedVolunteers"]:@Model.FilterData.AllocatedVolunteers
+        </div>
+    }
+    @if (Model.FilterData.AllocatedSponsors != "")
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["AllocatedSponsors"]:@Model.FilterData.AllocatedSponsors
+        </div>
+    }
+    @if (Model.FilterData.LowerDate > DateTime.MinValue.AddYears(3))
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["LowerDate"]:@Model.FilterData.LowerDate
+        </div>
+    }
 
-<br />
-@if (Model.FilterData.NameOfEvent != "")
-{
-    <div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["NameOfEvent"]:@Model.FilterData.NameOfEvent
-    </div>
-}
-@if (Model.FilterData.PlaceOfEvent != "")
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["PlaceOfEvent"]:@Model.FilterData.PlaceOfEvent
-    </div>
-}
-@if (Model.FilterData.TypeOfActivities != "")
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["TypeOfActivities"]: @Model.FilterData.TypeOfActivities
-    </div>
-}
-@if (Model.FilterData.TypeOfEvent != "")
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["TypeOfEvent"]:@Model.FilterData.TypeOfEvent
-    </div>
-}
-@if (Model.FilterData.AllocatedVolunteers != "")
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["AllocatedVolunteers"]:@Model.FilterData.AllocatedVolunteers
-    </div>
-}
-@if (Model.FilterData.AllocatedSponsors != "")
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["AllocatedSponsors"]:@Model.FilterData.AllocatedSponsors
-    </div>
-}
-@if (Model.FilterData.LowerDate > DateTime.MinValue.AddYears(3))
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["LowerDate"]:@Model.FilterData.LowerDate
-    </div>
-}
+    @if (Model.FilterData.UpperDate > DateTime.MinValue.AddYears(3))
+    {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
+            @Localizer["UpperDate"]:@Model.FilterData.UpperDate
+        </div>
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Localizer["NameOfEvent"]:
 
-@if (Model.FilterData.UpperDate > DateTime.MinValue.AddYears(3))
-{<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-        @Localizer["UpperDate"]:@Model.FilterData.UpperDate
-    </div>
-}
-<table class="table">
-    <tr>
-        <th>
-            @Localizer["NameOfEvent"]:
+                @Html.TextBox("searching")
+            </th>
 
-            @Html.TextBox("searching")
-        </th>
+            <th>
+                @Localizer["DateOfEvent"]:
+            </th>
+            <th>
+                @Localizer["NumberOfVolunteersNeeded"]:
+            </th>
+            <th>
+                @Localizer["CurrentlyAllocated"]:
+            </th>
+            <th>
 
-        <th>
-            @Localizer["DateOfEvent"]:
-        </th>
-        <th>
-            @Localizer["NumberOfVolunteersNeeded"]:
-        </th>
-        <th>
-            @Localizer["CurrentlyAllocated"]:
-        </th>
-        <th>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@Localizer["Filters"]</button>
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@Localizer["Filters"]</button>
+                <form method="post" asp-action="Index" asp-controller="Home">
+                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog  modal-lg " role="document">
+                            <div class="modal-content" sstyle="max-height: 90vh;">
 
-            <form method="post" asp-action="Index" asp-controller="Home">
-                <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog  modal-lg " role="document">
-                        <div class="modal-content" sstyle="max-height: 90vh;">
-
-                            <div class="modal-header">
-                                <h5 class="modal-title">@Localizer["Filters"]:</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <br />
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <dt class="col-sm-6">@Localizer["PlaceOfEvent"]:</dt>
-                                    <dd class="col-sm-2">
-                                        @Html.TextBox("searchingPlace")
-                                    </dd>
-                                    <dt class="col-sm-6">@Localizer["TypeOfActivities"]: </dt>
-                                    <dd class="col-sm-2">
-                                        @Html.TextBox("searchingActivity")
-                                    </dd>
-
-                                    <dt class="col-sm-6">@Localizer["TypeOfEvent"]: </dt>
-                                    <dd class="col-sm-2">
-                                        @Html.TextBox("searchingType")
-                                    </dd>
-                                    <dt class="col-sm-6">@Localizer["AllocatedVolunteers"]: </dt>
-                                    <dd class="col-sm-2">
-                                        @Html.TextBox("searchingVolunteers")
-                                    </dd>
-                                    <dt class="col-sm-6">@Localizer["AllocatedSponsors"]:</dt>
-                                    <dd class="col-sm-2">
-                                        @Html.TextBox("searchingSponsor")
-                                    </dd>
-                                    <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
-                                    <dd class="col-sm-2">
-                                        <input type="date" name="lowerdate">
-                                    </dd>
-                                    <dt class="col-sm-6">@Localizer["UpperDate"]: </dt>
-                                    <dd class="col-sm-2">
-                                        <input type="date" name="upperdate">
-                                    </dd>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@Localizer["Filters"]:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <hr />
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                                <br />
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <dt class="col-sm-6">@Localizer["PlaceOfEvent"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingPlace")
+                                        </dd>
+                                        <dt class="col-sm-6">@Localizer["TypeOfActivities"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingActivity")
+                                        </dd>
+
+                                        <dt class="col-sm-6">@Localizer["TypeOfEvent"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingType")
+                                        </dd>
+                                        <dt class="col-sm-6">@Localizer["AllocatedVolunteers"]: </dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingVolunteers")
+                                        </dd>
+                                        <dt class="col-sm-6">@Localizer["AllocatedSponsors"]:</dt>
+                                        <dd class="col-sm-2">
+                                            @Html.TextBox("searchingSponsor")
+                                        </dd>
+                                        <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
+                                        <dd class="col-sm-2">
+                                            <input type="date" name="lowerdate">
+                                        </dd>
+                                        <dt class="col-sm-6">@Localizer["UpperDate"]: </dt>
+                                        <dd class="col-sm-2">
+                                            <input type="date" name="upperdate">
+                                        </dd>
+                                    </div>
+                                    <hr />
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </th>
+                </form>
+            </th>
 
-        <th></th>
-    </tr>
+            <th></th>
+        </tr>
 
-    @if (Model.EmptyDatabase)
-    {
-        <tr>
-            <td colspan="3 " style="color:red">
-                @Localizer["EmptyDatabase"]
-            </td>
-        </tr>
-    }
-    else if (Model.TotalEvents == 0)
-    {
-        <tr>
-            <td colspan="3 " style="color:red">
-                @Localizer["NoDocumentsMatchingCriteria"]
-            </td>
-        </tr>
-    }
-    else
-    {
-        foreach (var item in Model.Events)
+        @if (Model.EmptyDatabase)
         {
-
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameOfEvent)
-                </td>
-
-                <td>
-                    @item.DateOfEvent.ToShortDateString()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfVolunteersNeeded)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberAllocatedVolunteers)
-                </td>
-
-                <td>
-                    <a href=@Url.Action("Edit", new { id = item.Id })><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]></a> |
-                    <a href=@Url.Action("Details", new { id = item.Id })><img src="~/Resources/detali.jpg" width="40" height="40" title=@Localizer["Details"]></a> |
-                    <a href=@Url.Action("Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]> </a>|
-                    <a href=@Url.Action("VolunteerAllocationDisplay", new { id = item.Id })><img src="~/Resources/vol.jpg" width="40" height="40" title=@Localizer["VolunteerAllocation"]></a> |
-                    <a href=@Url.Action("SponsorAllocationDisplay", new { id = item.Id })><img src="~/Resources/sponsor.jpg" width="40" height="40" title=@Localizer["SponsorAllocation"]></a>
+                <td colspan="3 " style="color:red">
+                    @Localizer["EmptyDatabase"]
                 </td>
             </tr>
         }
-    }
-</table>
+        else if (Model.TotalEvents == 0)
+        {
+            <tr>
+                <td colspan="3 " style="color:red">
+                    @Localizer["NoDocumentsMatchingCriteria"]
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.Events)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameOfEvent)
+                    </td>
+
+                    <td>
+                        @item.DateOfEvent.ToShortDateString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberOfVolunteersNeeded)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberAllocatedVolunteers)
+                    </td>
+
+                    <td>
+                        <a href=@Url.Action("Edit", new { id = item.Id })><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]></a> |
+                        <a href=@Url.Action("Details", new { id = item.Id })><img src="~/Resources/detali.jpg" width="40" height="40" title=@Localizer["Details"]></a> |
+                        <a href=@Url.Action("Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]> </a>|
+                        <a href=@Url.Action("VolunteerAllocationDisplay", new { id = item.Id })><img src="~/Resources/vol.jpg" width="40" height="40" title=@Localizer["VolunteerAllocation"]></a> |
+                        <a href=@Url.Action("SponsorAllocationDisplay", new { id = item.Id })><img src="~/Resources/sponsor.jpg" width="40" height="40" title=@Localizer["SponsorAllocation"]></a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
 }
+</div>
