@@ -10,8 +10,6 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script>
 
-        
-
         .pagination {
             display: inline-block;
             width: 800px;
@@ -56,6 +54,7 @@
             max-height: 200px;
             overflow-x: hidden;
         }
+
         .modal-dialog {
             width: 600px;
             height: 800px !important;
@@ -93,7 +92,10 @@
 {
 
     <a href=@Url.Action( "Create")><img src="~/Resources/new_sponsor.png" width="40" height="40" title=@Localizer["CreateNew"]></a>
-    <a href=@Url.Action("CSVExporter", new { dictionaryKey = Model.DictionaryKey  })><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
+    @if (Model.TotalSponsors != 0)
+    {
+        <a href=@Url.Action("CSVExporter", new { dictionaryKey = Model.DictionaryKey })><img src="~/Resources/csv.png" width="40" height="40" title=@Localizer["ExportToCsv"]></a>
+    }
     <a href=@Url.Action( "Import")><img src="~/Resources/import-csv.png" width="40" height="40" title=@Localizer["UploadFromCsv"]></a>
 
     <p>
