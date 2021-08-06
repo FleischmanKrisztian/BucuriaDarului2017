@@ -24,25 +24,33 @@
 <br />
 <br />
 <div class="emp-profile">
-    <h1>Synchronization Results</h1>
+    <h1>
+        @Localizer["Synchronization Results"]
+    </h1>
     <hr />
     <br />
     @if (Convert.ToInt64(modifications) >= 1)
     {
-        <h3>@modifications documents have been Edited/Created in the Common Database.</h3>
+        <h3>
+            @modifications @Localizer["documents have been Edited/Created in the Common Database."]
+        </h3>
     }
     @if (Convert.ToInt64(deletions) >= 1)
     {
-        <h3>@deletions documents have been Deleted in the Common Database.</h3>
+        <h3>
+            @deletions @Localizer["documents have been Deleted in the Common Database."]
+        </h3>
     }
     @if (Convert.ToInt64(deletions) == 0 && Convert.ToInt64(modifications) == 0)
     {
-        <h3>No documents have been added to the Common Database.</h3>
+        <h3>
+            @Localizer["No documents have been added to the Common Database."]
+        </h3>
     }
     @if (outOfSyncDocuments.Length > 3)
     {
-    <h3>The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost:</h3>
-    <h4>@outOfSyncDocuments</h4>
+        <h3>@Localizer["The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"]:</h3>
+        <h4>@outOfSyncDocuments</h4>
     }
     <br />
     <div>
