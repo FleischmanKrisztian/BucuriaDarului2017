@@ -706,3 +706,21 @@ msgstr "Câmpul coresunzător numelui trebuie completat!"
 
 msgid "Empty list of ids"
 msgstr "Lista documentelor pentru export este goală"
+
+msgid "Warning! This action is irreversible!"
+msgstr "Atenție!Această acțiune este ireversibilă!"
+
+msgid "Synchronization Results"
+msgstr "Rezultatele acțiunii de sincronizare a bazelor de date"
+
+msgid "documents have been Edited/Created in the Common Database."
+msgstr "documente au fost editate/create în baza de date comună."
+
+msgid "documents have been Deleted in the Common Database."
+msgstr "documente au fost șterse în baza de date comună."
+
+msgid "No documents have been added to the Common Database."
+msgstr "Nici un document nu a fost adăugat în baza de date comună."
+
+msgid "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
+msgstr "Următoarele documente au fost modificate de altcineva de la ultima sincronizare.Asigurați-vă ca nu se vor pierde date."
