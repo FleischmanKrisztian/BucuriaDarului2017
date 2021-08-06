@@ -80,7 +80,7 @@
                 </div>
             </div>
             <h3>
-                @Localizer["Please choose what you want the Excel to contain"]:
+                @Localizer["PleaseChooseWhatYouWantTheExcelToContain"]:
             </h3>
             <br />
             <div class="row">
@@ -88,10 +88,10 @@
                     <div class="row">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="col-md-6" style="color:red">
-                            <label> @Localizer["Check this for all fields"]:</label>
+                            <label> @Localizer["CheckThisForAllFields"]:</label>
                         </div>
                         <div class="col-md-2">
-                            @Html.CheckBoxFor(model => model.All, new { @checked = true, @class = "selectall", @name = "sample" })
+                            @Html.CheckBoxFor(model => model.All, new { @checked = true, @class = "selectAll", @name = "sample" })
                             <hr />
                         </div>
                     </div>
@@ -205,7 +205,7 @@
 </body>
 
 <script>
-    $('.selectall').click(function () {
+    $('.selectAll').click(function () {
         if ($(this).is(':checked')) {
             $('div input').attr('checked', true);
         }

@@ -32,24 +32,24 @@
     @if (Convert.ToInt64(modifications) >= 1)
     {
         <h3>
-            @modifications @Localizer["documents have been Edited/Created in the Common Database."]
+            @modifications @Localizer["DocumentsHaveBeenEdited/Created"]
         </h3>
     }
     @if (Convert.ToInt64(deletions) >= 1)
     {
         <h3>
-            @deletions @Localizer["documents have been Deleted in the Common Database."]
+            @deletions @Localizer["DocumentsHaveBeenDeleted"]
         </h3>
     }
     @if (Convert.ToInt64(deletions) == 0 && Convert.ToInt64(modifications) == 0)
     {
         <h3>
-            @Localizer["No documents have been added to the Common Database."]
+            @Localizer["NoDocumentsHaveBeenAddedTo"]
         </h3>
     }
     @if (outOfSyncDocuments.Length > 3)
     {
-        <h3>@Localizer["The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"]:</h3>
+        <h3>@Localizer["TheFollowingDocumentsHaveBeenAlsoModified"]:</h3>
         <h4>@outOfSyncDocuments</h4>
     }
     <br />

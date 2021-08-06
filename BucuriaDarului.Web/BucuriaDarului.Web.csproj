@@ -81,6 +81,7 @@
     <None Include="wwwroot\Resources\import-csv.png" />
     <None Include="wwwroot\Resources\print.jpg" />
     <None Include="wwwroot\Resources\sponsor.jpg" />
+    <None Include="wwwroot\Resources\syncronize.png" />
     <None Include="wwwroot\Resources\vol.jpg" />
   </ItemGroup>
 

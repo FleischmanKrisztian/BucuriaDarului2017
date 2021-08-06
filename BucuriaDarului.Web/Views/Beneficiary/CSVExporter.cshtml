@@ -89,7 +89,7 @@
                         <label> @Localizer["Check this for all fields"]:</label>
                     </div>
                     <div class="col-md-2">
-                        @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true, @class = "selectall", @name = "sample" })
+                        @Html.CheckBoxFor(model => model.All, htmlAttributes: new { @checked = true, @class = "selectAll", @name = "sample" })
                         <hr />
                     </div>
                 </div>
@@ -524,7 +524,7 @@
     </div>
 </form>
 <script>
-    $('.selectall').click(function () {
+    $('.selectAll').click(function () {
         if ($(this).is(':checked')) {
             $('div input').attr('checked', true);
         }
