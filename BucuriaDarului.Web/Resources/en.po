@@ -825,3 +825,27 @@ msgstr "Other option"
 
 msgid "Close"
 msgstr "Close"
+
+msgid "Please choose a file!"
+msgstr "Please choose a file!"
+
+msgid "The Document has been successfully imported"
+msgstr "The Document has been successfully imported"
+
+msgid "File Cannot be Empty!"
+msgstr "File Cannot be Empty!"
+
+msgid "File must be of type Volunteer!"
+msgstr "File must be of type Volunteer!"
+
+msgid "Please select at least one Property!"
+msgstr "Please select at least one Property!"
+
+msgid "The Object Cannot contain Semi-Colons! "
+msgstr "The Object Cannot contain Semi-Colons! "
+
+msgid "The Volunteer must have a name!"
+msgstr "The Volunteer must have a name!"
+
+msgid "Empty list of ids"
+msgstr "Empty list of documents for printing"

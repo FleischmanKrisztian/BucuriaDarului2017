@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,9 +15,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     {
         private readonly IVolunteerImportGateway dataGateway;
         private static int _fileType = 0;
+        private readonly IStringLocalizer localizer;
 
-        public VolunteerImportContext(IVolunteerImportGateway dataGateway)
+
+        public VolunteerImportContext(IStringLocalizer localizer,IVolunteerImportGateway dataGateway)
         {
+            this.localizer=localizer;
             this.dataGateway = dataGateway;
         }
 
@@ -25,7 +29,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var response = new VolunteerImportResponse();
             if (FileIsNotEmpty(dataToImport))
             {
-                response.Message.Add(new KeyValuePair<string, string>("EmptyFile", "File Cannot be Empty!"));
+                response.Message.Add(new KeyValuePair<string, string>("EmptyFile",@localizer["File Cannot be Empty!"]));
                 response.IsValid = false;
             }
 
@@ -35,7 +39,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 List<Volunteer> volunteersFromCsv = new List<Volunteer>();
                 if (_fileType == 0)
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["File must be of type Volunteer!"]));
                     response.IsValid = false;
                 }
                 else if (_fileType == 1)

@@ -29,17 +29,17 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Import(IFormFile files)
         {
-            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway());
+            var volunteerImportContext = new VolunteerImportContext(_localizer, new VolunteerImportGateway());
             var response = new VolunteerImportResponse();
             if (files != null)
                 response = volunteerImportContext.Execute(files.OpenReadStream());
             else
             {
-                response.Message.Add(new KeyValuePair<string, string>("NoFile", "Please choose a file!"));
+                response.Message.Add(new KeyValuePair<string, string>("NoFile", @_localizer["Please choose a file!"]));
                 response.IsValid = false;
             }
             if (response.IsValid)
-                return RedirectToAction("Import", new { message = "The Document has been successfully imported" });
+                return RedirectToAction("Import", new { message = @_localizer["The Document has been successfully imported"] });
             return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 
@@ -56,7 +56,10 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            string StringOfIds = "";
+            StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            if (StringOfIds == "" || StringOfIds == "volunteerCSV") 
+                return RedirectToAction("CsvExporter", new { message = _localizer["Empty list of ids"] });
             ViewBag.Ids = StringOfIds;
             ViewBag.message = message;
             return View();
@@ -70,7 +73,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = volunteerExportData.Dictionary;
             if (volunteerExportData.IsValid && volunteerExportData.FileName != "")
                 return DownloadCSV(volunteerExportData.FileName, "volunteerSession", "volunteerHeader");
-            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+            return RedirectToAction("CsvExporter", new { message = @_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -111,7 +114,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(VolunteerCreateRequest request, IFormFile image)
         {
-            var volunteerCreateContext = new VolunteerCreateContext(new VolunteerCreateGateway());
+            var volunteerCreateContext = new VolunteerCreateContext(new VolunteerCreateGateway(),_localizer);
             var fileBytes = new byte[0];
 
             if (image != null)
@@ -157,7 +160,7 @@ namespace BucuriaDarului.Web.Controllers
                     fileBytes = ms.ToArray();
                 }
             }
-            var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway());
+            var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway(),_localizer);
             var volunteerEditResponse = volunteerEditContext.Execute(request, fileBytes);
             ModelState.Remove("Birthdate");
             ModelState.Remove("HourCount");

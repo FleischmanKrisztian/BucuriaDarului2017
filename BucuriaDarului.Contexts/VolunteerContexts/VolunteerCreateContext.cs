@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
 
@@ -9,10 +10,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     {
         private readonly IVolunteerCreateGateway dataGateway;
         private VolunteerCreateResponse response = new VolunteerCreateResponse("", true);
+        private readonly IStringLocalizer localizer;
 
-        public VolunteerCreateContext(IVolunteerCreateGateway dataGateway)
+        public VolunteerCreateContext(IVolunteerCreateGateway dataGateway, IStringLocalizer localizer)
         {
             this.dataGateway = dataGateway;
+            this.localizer=localizer;
         }
 
         public VolunteerCreateResponse Execute(VolunteerCreateRequest request, byte[] image)
@@ -22,7 +25,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.IsValid = false;
-                response.Message = "The Object Cannot contain Semi-Colons! ";
+                response.Message = @localizer["The Object Cannot contain Semi-Colons! "];
             }
 
             var volunteer = ValidateRequest(noNullRequest, image);
@@ -38,7 +41,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             if (request.Fullname == "")
             {
-                response.Message += "The Volunteer must have a name! ";
+                response.Message += @localizer["The Volunteer must have a name!"];
                 response.IsValid = false;
             }
             request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);
