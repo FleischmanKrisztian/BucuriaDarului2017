@@ -849,3 +849,21 @@ msgstr "The Volunteer must have a name!"
 
 msgid "Empty list of ids"
 msgstr "Empty list of documents for printing"
+
+msgid "Warning! This action is irreversible!"
+msgstr "Warning! This action is irreversible!"
+
+msgid "Synchronization Results"
+msgstr "Synchronization Results"
+
+msgid "documents have been Edited/Created in the Common Database."
+msgstr "documents have been Edited/Created in the Common Database."
+
+msgid "documents have been Deleted in the Common Database."
+msgstr "documents have been Deleted in the Common Database."
+
+msgid "No documents have been added to the Common Database."
+msgstr "No documents have been added to the Common Database."
+
+msgid "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
+msgstr "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
