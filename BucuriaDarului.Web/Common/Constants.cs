@@ -16,6 +16,12 @@
         public const string NUMBER_OF_ITEMS_PER_PAGE = "numberofdocuments";
         public const int DEFAULT_NUMBER_OF_ITEMS_PER_PAGE = 15;
 
+        public const string ALARM_NUMBER_OF_DAYS_BEFOR_BIRTHDAY = "alarmnumberofdays";
+        public const int BIRTHDAY_ALARM_SETTING_DEFAULT = 10;
+
+        public const string NUMBER_OF_DAYS_BEFOR_EXPIRATION = "alarmnumberofdays";
+        public const int DEFAULT_NUMBER_OF_DAYS_BEFOR_EXPIRATION = 10;
+
         public const string CONNECTION_LANGUAGE = "Language";
 
         public static string SESSION_KEY_EVENT = "FirstSessionEvent";
