@@ -15,17 +15,17 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
             this.dataGateway = dataGateway;
         }
 
-        public Response Execute()
+        public Response Execute(int birthdayAlarm, int numberOfDaysBeforExpiration)
         {
             var response = new Response();
             var volunteerContracts = dataGateway.GetListVolunteerContracts();
             var beneficiarycontracts = dataGateway.GetListOfBeneficiaryContracts();
             var volunteers = dataGateway.GetListOfVolunteers();
             var sponsors = dataGateway.GetListOfSponsors();
-            response.BirthdayOfVolunteersNumber = GetNumberOfVolunteersWithBirthdays(volunteers);
-            response.VolunteerContractExpirationNumber = GetNumberOfExpiringVolContracts(volunteerContracts);
-            response.SponsorContractExpirationNumber= GetNumberOfExpiringSponsorContracts(sponsors);
-            response.BeneficiaryContractExpirationNumber= GetNumberOfExpiringBeneficiaryContracts(beneficiarycontracts);
+            response.BirthdayOfVolunteersNumber = GetNumberOfVolunteersWithBirthdays(volunteers, birthdayAlarm);
+            response.VolunteerContractExpirationNumber = GetNumberOfExpiringVolContracts(volunteerContracts, numberOfDaysBeforExpiration);
+            response.SponsorContractExpirationNumber= GetNumberOfExpiringSponsorContracts(sponsors, numberOfDaysBeforExpiration);
+            response.BeneficiaryContractExpirationNumber= GetNumberOfExpiringBeneficiaryContracts(beneficiarycontracts,numberOfDaysBeforExpiration);
 
             response.Settings= dataGateway.GetSettingItem();
 
@@ -33,28 +33,28 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
 
         }
 
-        public int GetNumberOfVolunteersWithBirthdays(List<Volunteer> volunteers)
+        public int GetNumberOfVolunteersWithBirthdays(List<Volunteer> volunteers,int birthdayAlarm)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             int birthdayCounter = 0;
             foreach (var item in volunteers)
             {
                 int volunteerbirthday = GetDayOfYear(item.Birthdate);
-                if (IsAboutToExpire(currentDay, volunteerbirthday))
+                if (BirthdayAlarm(currentDay, volunteerbirthday, birthdayAlarm))
                 {
                     birthdayCounter++;
                 }
             }
             return birthdayCounter;
         }
-        public int GetNumberOfExpiringBeneficiaryContracts(List<BeneficiaryContract> beneficiaryContracts)
+        public int GetNumberOfExpiringBeneficiaryContracts(List<BeneficiaryContract> beneficiaryContracts, int numberOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             int beneficiaryContractsCounter = 0;
             foreach (var item in beneficiaryContracts)
             {
                 int dayToCompareTo = GetDayOfYear(item.ExpirationDate);
-                if (IsAboutToExpire(currentDay, dayToCompareTo))
+                if (IsAboutToExpire(currentDay, dayToCompareTo, numberOfDaysBeforExpiration))
                 {
                     beneficiaryContractsCounter++;
                 }
@@ -62,14 +62,14 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
             return beneficiaryContractsCounter;
         }
 
-        public int GetNumberOfExpiringSponsorContracts(List<Sponsor> sponsors)
+        public int GetNumberOfExpiringSponsorContracts(List<Sponsor> sponsors, int numberOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             int sponsorContractsCounter = 0;
             foreach (var item in sponsors)
             {
                 int dayToCompareTo = GetDayOfYear(item.Contract.ExpirationDate);
-                if (IsAboutToExpire(currentDay, dayToCompareTo))
+                if (IsAboutToExpire(currentDay, dayToCompareTo, numberOfDaysBeforExpiration))
                 {
                     sponsorContractsCounter++;
                 }
@@ -77,14 +77,14 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
             return sponsorContractsCounter;
         }
 
-        public int GetNumberOfExpiringVolContracts(List<VolunteerContract> volunteerContracts)
+        public int GetNumberOfExpiringVolContracts(List<VolunteerContract> volunteerContracts, int numberOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             int volunteerContractsCounter = 0;
             foreach (var item in volunteerContracts)
             {
                 int dayToCompareTo = GetDayOfYear(item.ExpirationDate);
-                if (IsAboutToExpire(currentDay, dayToCompareTo))
+                if (IsAboutToExpire(currentDay, dayToCompareTo, numberOfDaysBeforExpiration))
                 {
                     volunteerContractsCounter++;
                 }
@@ -92,9 +92,17 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
             return volunteerContractsCounter;
         }
 
-        public  bool IsAboutToExpire(int currentDay, int dayToCompareTo)
+        public  bool IsAboutToExpire(int currentDay, int dayToCompareTo, int numberOfDaysBeforExpiration)
         {
-            if (currentDay <= dayToCompareTo && currentDay + 10 > dayToCompareTo || currentDay > 355 && dayToCompareTo < 9)
+            if (currentDay <= dayToCompareTo && currentDay + numberOfDaysBeforExpiration > dayToCompareTo || currentDay > 355 && dayToCompareTo < numberOfDaysBeforExpiration - 1)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool BirthdayAlarm(int currentDay, int dayToCompareTo, int alarmNumberOfDaysBeforExpiration)
+        {
+            if (currentDay <= dayToCompareTo && currentDay + alarmNumberOfDaysBeforExpiration > dayToCompareTo || currentDay > 355 && dayToCompareTo < alarmNumberOfDaysBeforExpiration - 1)
             {
                 return true;
             }
