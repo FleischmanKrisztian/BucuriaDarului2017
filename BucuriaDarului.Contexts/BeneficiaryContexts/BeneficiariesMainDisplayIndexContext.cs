@@ -55,7 +55,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         private List<Beneficiary> GetBeneficiariesAfterFilters(List<Beneficiary> beneficiaries, FilterData filterData)
         {
-            // TODO : Apply the Correct Filters
             if (filterData.BeneficiaryName != null)
                 beneficiaries = beneficiaries.Where(x => x.Fullname.Contains(filterData.BeneficiaryName, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.SearchingDriver != null)
@@ -152,46 +151,26 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             {
                 beneficiaries = beneficiaries.Where(x => x.PersonalInfo.Birthdate <= filterData.UpperDate).ToList();
             }
-
             if (DateInputReceived(filterData.ActiveTill))
             {
-                beneficiaries = beneficiaries.Where(x => x.LastTimeActive > filterData.ActiveTill).ToList();
+                beneficiaries = beneficiaries.Where(x => x.LastTimeActive <= filterData.ActiveTill).ToList();
             }
-
-            switch (filterData.SortOrder.SortOrder)
+            if (DateInputReceived(filterData.ActiveSince))
             {
-                case "Gender":
-                    beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Gender).ToList();
-                    break;
-
-                case "Gender_desc":
-                    beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Gender).ToList();
-                    break;
-
-                case "Fullname_desc":
-                    beneficiaries = beneficiaries.OrderByDescending(s => s.Fullname).ToList();
-                    break;
-
-                case "Active":
-                    beneficiaries = beneficiaries.OrderBy(s => s.Active).ToList();
-                    break;
-
-                case "Active_desc":
-                    beneficiaries = beneficiaries.OrderByDescending(s => s.Active).ToList();
-                    break;
-
-                case "Date":
-                    beneficiaries = beneficiaries.OrderBy(s => s.PersonalInfo.Birthdate).ToList();
-                    break;
-
-                case "Date_desc":
-                    beneficiaries = beneficiaries.OrderByDescending(s => s.PersonalInfo.Birthdate).ToList();
-                    break;
-
-                default:
-                    beneficiaries = beneficiaries.OrderBy(s => s.Fullname).ToList();
-                    break;
+                beneficiaries = beneficiaries.Where(x => x.LastTimeActive >= filterData.ActiveSince).ToList();
             }
+
+            beneficiaries = filterData.SortOrder.SortOrder switch
+            {
+                "Gender" => beneficiaries.OrderBy(s => s.PersonalInfo.Gender).ToList(),
+                "Gender_desc" => beneficiaries.OrderByDescending(s => s.PersonalInfo.Gender).ToList(),
+                "Fullname_desc" => beneficiaries.OrderByDescending(s => s.Fullname).ToList(),
+                "Active" => beneficiaries.OrderBy(s => s.Active).ToList(),
+                "Active_desc" => beneficiaries.OrderByDescending(s => s.Active).ToList(),
+                "Date" => beneficiaries.OrderBy(s => s.PersonalInfo.Birthdate).ToList(),
+                "Date_desc" => beneficiaries.OrderByDescending(s => s.PersonalInfo.Birthdate).ToList(),
+                _ => beneficiaries.OrderBy(s => s.Fullname).ToList()
+            };
             return beneficiaries;
         }
 

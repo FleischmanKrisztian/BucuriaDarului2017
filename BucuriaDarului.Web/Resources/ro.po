@@ -422,9 +422,6 @@ msgstr "Gen"
 msgid "HasCar"	
 msgstr "Mașină"
 
-msgid "HourCount"
-msgstr "Program de lucru (ore)"
-
 msgid "Name"	
 msgstr "Nume"
 
@@ -530,8 +527,11 @@ msgstr "Mașină"
 msgid "HasDrivingLicense"	
 msgstr "Permis de conducere"
 
-msgid "Hourcount"
-msgstr "Program de lucru (ore)"
+msgid "HourCount"
+msgstr "Norma de lucru (ore/zi)"
+
+msgid "DateOfSponsorship"
+msgstr "Data Sponsorizării"
 
 msgid "Male"
 msgstr "Masculin"
@@ -867,10 +867,10 @@ msgid "ContractNumberOfRegistration"
 msgstr "Numărul de înregistrare al contractului"
 
 msgid "LowerDate"
-msgstr "Dată inferioară"
+msgstr "Activ După data de"
 
 msgid "UpperDate"
-msgstr "Dată superioară"
+msgstr "Activ înainte de data de"
 
 msgid "IdExpirationDate"
 msgstr "Data expirării CI/BI"
