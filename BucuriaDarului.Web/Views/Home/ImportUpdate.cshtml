@@ -28,21 +28,20 @@
     <br />
     @if (Convert.ToInt64(docsImported) > 1)
     {
-        <h3>You have successfully imported @docsImported  documents.</h3>
+        <h3>You have successfully imported @docsImported documents.</h3>
     }
     else if (Convert.ToInt64(docsImported) == 1)
     {
-        <h3>You have successfully imported @docsImported  document.</h3>
+        <h3>You have successfully imported @docsImported document.</h3>
     }
     else
     {
         <h2>No documents were imported.</h2>
     }
     @{
-        string phrase = duplicates;
-        if (!string.IsNullOrEmpty(phrase))
+        if (!string.IsNullOrEmpty(duplicates))
         {
-            string[] words = phrase.Split(',');
+            var words = duplicates.Split(',');
             if (words.Any())
             {
                 <h2>The following documents have been skipped:</h2>

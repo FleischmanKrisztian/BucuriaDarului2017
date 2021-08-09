@@ -86,7 +86,7 @@
     <hr />
     @if (ViewBag.wrongorder == true)
     {
-        <h3 style="color:red">@Localizer["The date of active till cant be smaller that that of active since!"]</h3>
+        <h3 style="color:red">@Localizer["TheDateOfActiveCant"]</h3>
     }
     @using (Html.BeginForm("Index", "Sponsor", FormMethod.Get))
     {
@@ -203,9 +203,9 @@
             @Localizer["UpperDate"]:@Model.FilterData.UpperDate
         </div>
     }
-    <table class="table">
+    <table class="table" style="text-align: center">
         <tr>
-            <th>
+            <th style="width: 220px">
                 @Localizer["NameOfSponsor"]
                 @Html.TextBox("sponsorName")
             </th>

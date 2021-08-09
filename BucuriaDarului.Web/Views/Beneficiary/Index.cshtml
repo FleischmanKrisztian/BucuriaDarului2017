@@ -12,9 +12,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script>
 
         .pagination {
-                                                                                                                                                                                                              display: inline-block;
-                                                                                                                                                                                                              width: 800px;
-                                                                                                                                                                                                          }
+            display: inline-block;
+            width: 800px;
+        }
 
         .dropdown-menu {
             width: 500px !important;
@@ -30,25 +30,25 @@
             transition: background-color .3s;
         }
 
-        .pagination a.active {
-            background-color: red;
-            color: red;
-            border-radius: 5px;
-        }
+            .pagination a.active {
+                background-color: red;
+                color: red;
+                border-radius: 5px;
+            }
 
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-        }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
 
-        .pagination a:first-child {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-        }
+            .pagination a:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
 
-        .pagination a:last-child {
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
+            .pagination a:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
 
         .scrollable-menu {
             height: auto;
@@ -63,7 +63,6 @@
 
         .modal-content {
             /* 80% of window height */
-
             height: 80%;
         }
 
@@ -81,6 +80,7 @@
             bottom: 0;
             left: 0;
         }
+
         .i-circle {
             background: #ff0000;
             color: #fff;
@@ -166,7 +166,7 @@
             </pre>
             </div>
         </p>
-        <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["Show all beneficiaries"]</a>
+        <a href=@Url.Action( "Index" ) class="btn btn-primary">@Localizer["ShowAllBeneficiaries"]</a>
         <br />
         <br />
         @if (Model.FilterData.BeneficiaryName != null)
@@ -233,7 +233,7 @@
 
         @if (Model.FilterData.HasID)
         {<div class="badge badge-primary text-wrap" style="width: 10rem; background-color:lightgrey; color:black ">
-                @Localizer["HasID"]
+                @Localizer["HasId"]
             </div>
         }
 
@@ -332,38 +332,33 @@
                 @Localizer["UpperDate"]:@Model.FilterData.ActiveTill
             </div>
         }
-        <table class="table">
-
+        <table class="table" style="text-align: center">
             <tr>
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
-
+                    <br />
                     @Html.TextBox("searching")
                 </th>
 
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Activesort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Active"]</a>
-                    <dd class="col-sm-2">
-                        @Html.CheckBox("Active")
-                    </dd>
+                    <br />
+                    @Html.CheckBox("Active")
                 </th>
                 <th>
                     <dt>
                         <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Gendersort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Gender"]</a>
                     </dt>
-                    <dd></dd>
                 </th>
                 <th>
                     @Localizer["WeeklyPackage"]
-                    <dd class="col-sm-2">
-                        @Html.CheckBox("WeeklyPackage")
-                    </dd>
+                    <br />
+                    @Html.CheckBox("WeeklyPackage")
                 </th>
                 <th>
                     @Localizer["Canteen"]
-                    <dd class="col-sm-2">
-                        @Html.CheckBox("Canteen")
-                    </dd>
+                    <br />
+                    @Html.CheckBox("Canteen")
                 </th>
                 <th valign="top">
                     <dt>
@@ -393,7 +388,6 @@
                                             <dd class="col-sm-2">
                                                 @Html.CheckBox("Homeless")
                                             </dd>
-
                                             <dt class="col-sm-8">@Localizer["BornAfter"]: </dt>
                                             <dd class="col-sm-2">
                                                 <input type="date" name="lowerdate">
@@ -402,7 +396,6 @@
                                             <dd class="col-sm-2">
                                                 <input type="date" name="upperdate">
                                             </dd>
-
                                             <dt class="col-sm-8">@Localizer["HomeDelivery"]: </dt>
                                             <dd class="col-sm-2">
                                                 @Html.CheckBox("HomeDelivery")
@@ -419,8 +412,7 @@
                                             <dd class="col-sm-2">
                                                 @Html.TextBox("searchingAddress")
                                             </dd>
-
-                                            <dt class="col-sm-8">@Localizer["HasID"]: </dt>
+                                            <dt class="col-sm-8">@Localizer["HasId"]: </dt>
                                             <dd class="col-sm-2">
                                                 @Html.CheckBox("HasID")
                                             </dd>
@@ -489,12 +481,11 @@
                                             <dd class="col-sm-2">
                                                 @Html.TextBox("searchingExpenses")
                                             </dd>
-                                            <dt class="col-sm-8">@Localizer["Gender"]: </dt>
-                                            <dd class="col-sm-12">
-
-                                                <input type="radio" name="gender" value="All" text="All" checked="checked" />@Localizer["All"]
-                                                <input type="radio" name="gender" value="Male" text="Male" />@Localizer["Male"]
-                                                <input type="radio" name="gender" value="Female" text="Female" />@Localizer["Female"]
+                                            <dt class="col-sm-8">@Localizer["Gender"] :</dt>
+                                            <dd class="col-sm-4">
+                                                <input type="radio" name="gender" value="All" checked="checked" />@Localizer["All"]
+                                                <input type="radio" name="gender" value="Male" />@Localizer["Male"]
+                                                <input type="radio" name="gender" value="Female" />@Localizer["Female"]
                                             </dd>
                                         </div>
                                         <hr />

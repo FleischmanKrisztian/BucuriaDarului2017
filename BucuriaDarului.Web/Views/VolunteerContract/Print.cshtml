@@ -71,21 +71,6 @@
                 <hr />
 
                 <br />
-                @*<div class="row">
-                        <div class="col-md-9">
-                            <div class="row">
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="col-md-6">
-                                    <label> @Localizer["FileName"]:</label>
-                                </div>
-                                <div class="col-md-2">
-                                    @Html.TextBox("fileName")
-                                </div>
-                            </div>
-                            <hr />
-                        </div>
-                    </div>*@
-
                 <div class="row">
                     <div class="col-sm-6">
                         <label> @Localizer["Fullname"]:</label>
@@ -124,7 +109,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label>@Localizer["CiInfo"]:</label>
+                        <label>@Localizer["IdInfo"]:</label>
                     </div>
                     <div class="col-sm-6">
                         @Html.DisplayName(Model.CI.Info)
@@ -133,7 +118,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label>@Localizer["CiExpirationDate"]:</label>
+                        <label>@Localizer["IdExpirationDate"]:</label>
                     </div>
                     <div class="col-sm-6">
                         @Model.CI.ExpirationDate.ToShortDateString()

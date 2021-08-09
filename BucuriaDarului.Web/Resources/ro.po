@@ -1,81 +1,133 @@
-﻿msgid "Show all volunteers"
+﻿msgid "ShowAllVolunteers"
 msgstr "Arată toți voluntarii"
-msgid "Show all beneficiaries"
+
+msgid "ShowAllBeneficiaries"
 msgstr "Arată toți beneficiarii"
+
 msgid "Privacy"
 msgstr "Confidențialitate"
-msgid "Show all events"
+
+msgid "ShowAllEvents"
 msgstr "Arată toate evenimentele"
-msgid "Contractsofb"
-smgstr "Contractele beneficiarului"
-msgid "Show all sponsors"
+
+msgid "ContractsOfV"
+msgstr "Contractele voluntarului"
+
+msgid "ContractsOfB"
+msgstr "Contractele beneficiarului"
+
+msgid "NumberOfDocumentsPerPage"
+msgstr "Numărul de documente pe pagină"
+
+msgid "PleaseInsertAFileName"
+msgstr "Introduceți numele Fișierului"
+
+
+msgid "PleaseChooseWhatYouWantTheExcelToContain"
+msgstr "Selectati ce să conțina fișierul"
+
+msgid "ShowAllSponsors"
 msgstr "Arată toți sponsorii"
+
 msgid "Volunteering"
 msgstr "Voluntariat"
+
 msgid "Active"	
 msgstr "Activ"
+
 msgid "Addictions"	
 msgstr "Dependențe"
+
 msgid "AddressInformation"	
 msgstr "Adresă"
+
 msgid "BackToList"	
 msgstr "Înapoi la listă"
+
 msgid "Beneficiary"	
 msgstr "Beneficiar"
+
 msgid "Birthdate"	
 msgstr "Data nașterii"
+
 msgid "Birthplace"	
 msgstr "Locul nașterii"
+
 msgid "BornAfter"	
 msgstr "Născut după data de"
+
 msgid "BornBefore"	
 msgstr "Născut înainte de data de"
+
 msgid "Canteen"
 msgstr "Cantină"
+
 msgid "ChronicCondition"
 msgstr "Boli cronice"
+
 msgid "CIEliberat"	
 msgstr "Data eliberării carții de identitate"
+
 msgid "CIeliberator"
 msgstr "Emisă de"
+
 msgid "CiExpirationDate"
 msgstr "Data expirarii actului de identitate"
+
 msgid "CINr"
 msgstr "Număr carte de identitate"
+
 msgid "CISeria"	
 msgstr "Serie carte de identitate"
+
 msgid "City"
 msgstr "Oraș"
+
 msgid "CNP"	
 msgstr "CNP"
+
 msgid "Comments"	
 msgstr "Observații"
+
 msgid "ContractExpiraton"	
 msgstr "Expirarea contractelor benficiarilor"
+
 msgid "Contractinformation"	
 msgstr "Informații despre contract"
+
 msgid "Country"
 msgstr "Județ"
+
 msgid "Create"	
 msgstr "Crează"
+
 msgid "CreateNew"	
 msgstr "Crează o nouă înregistrare"
+
 msgid "Delete"	
 msgstr "Șterge"
+
 msgid "DeleteMessage"	
 msgstr "Ești sigur că vrei să ștergi acet document?"
+
 msgid "Details"
 msgstr "Detalii"
+
 msgid "Disability"	
 msgstr "Dizabilități"
+
 msgid "District"
 msgstr "Municipiul"
+
 msgid "Edit"	
 msgstr "Editează"
+
 msgid "Expenses"
 msgstr "Cheltuieli"
+
 msgid "Expirationdate"	
 msgstr "Data expirării"
+
 msgid "Female"	
 msgstr "Feminin"
 
@@ -84,124 +136,172 @@ msgstr"Nespecificat"
 
 msgid "Fullname"	
 msgstr "Nume"
+
 msgid "Gender"	
 msgstr "Gen"
+
 msgid "Generalinformation"	
 msgstr "Informații generale"
+
 msgid "HasContract"
 msgstr "Are contract"
+
 msgid "HasGDPRAgreement"
 msgstr "Are contract GDPR"
+
 msgid "HasHealthCard"	
 msgstr "Are card de sănătate"
+
 msgid "HasHealthInsurance"	
 msgstr "Are asigurare de sănătate"
+
 msgid "HasHome"	
 msgstr "Are locuință"
-msgid "HasId"	
+
+msgid "HasId"
 msgstr "Are carte de identitate"
-msgid "Healthdetails"	
+
+msgid "HealthDetails"	
 msgstr "Detalii despre sănătate"
+
 msgid "HealthState"	
 msgstr "Starea sănătății"
+
 msgid "HomeDeliveryDriver"	
 msgstr "Numele șoferului care livrează la domiciliu"
+
 msgid "Homeless"
 msgstr "Fără adăpost"
-msgid "Housinginformation"
+
+msgid "HousingInformation"
 msgstr "Informații" 
+
 msgid "HousingType"	
 msgstr "Locuință"
+
 msgid "IdApplication"	
 msgstr "ID cerere"
-msgid "IDcontract"	
+
+msgid "IdContract"	
 msgstr "ID anchetă"
+
 msgid "IdInformation"	
 msgstr "Detalii CI"
+
 msgid "IdInvestigation"
 msgstr "ID investigație"
+
 msgid "Income"	
 msgstr "Venit"
+
 msgid "IndexMessageBeneficiary"
 msgstr "Nu există beneficiar cu acest nume in baza de date!"
+
 msgid "LastTimeActive"	
 msgstr "Ultima dată activ"
-msgid "Makethisbeneficiaryinactive"
+
+msgid "MakeThisBeneficiaryInactive"
 msgstr "Marchează ca inactiv"
+
 msgid "Male"
 msgstr "Masculin"
-msgid "Marcadetails"	
+
+msgid "MarcaDetails"	
 msgstr "Detalii despre marcă"
 
 msgid "Married"	
 msgstr "Căsătorit/ă"
+
 msgid "Name"	
 msgstr "Nume"
 
 msgid "Married&SpouseName"
 msgstr "Stare civilă"
 
-msgid "HealthState&Disalility&ChronicCondition"
+msgid "HealthState&Disability&ChronicCondition"
 msgstr "Starea sănătății/Dizabilități/Boli cronice"
 
-msgid "Profesion&Ocupation"
+msgid "Profession&Occupation"
 msgstr "Profesie/ocupație"
 
 msgid "Number"
 msgstr "Număr"
+
 msgid "NumberOfPortions"
 msgstr "Numărul de porții"
+
 msgid "Numberofregistration"	
 msgstr "Numărul de înregistrare a contractului"
+
 msgid "Occupation"	
 msgstr "Ocupația"
+
 msgid "PersonalInformation"	
 msgstr "Informații personale"
+
 msgid "PhoneNumber"	
 msgstr "Număr de telefon"
+
 msgid "Profession"
 msgstr "Profesia"
-msgid "Registrationdate"	
+
+msgid "RegistrationDate"	
 msgstr "Data înregistrării"
+
 msgid "Save"	
 msgstr "Salvează"
+
 msgid "Search"	
 msgstr "Caută"
+
 msgid "SeniorityInWorkField"
 msgstr "Vechime în cămpul muncii"
+
 msgid "SpouseName"	
 msgstr "Numele soției/soțului"
+
 msgid "Street"	
 msgstr "Strada"
+
 msgid "Studies"	
 msgstr "Studii"
+
 msgid "StudiesAndJobRelatedInformation"	
 msgstr "Informații despre studii și activitatea profesională"
+
 msgid "WeeklyPackage"		
 msgstr "Pachet săptămânal"
 
-msgid "(internet access necessary)"	
-msgstr "(este nevoie de conexiune la internet)"
-msgid "Backupdata"	
+msgid "BackupData"	
 msgstr "Backup data"
-msgid "Beneficiaries : Contract Alert"
+
+msgid "BeneficiariesContractAlert"
 msgstr "Contractele benficiarilor care urmează să expire"
+
 msgid "Export beneficiaries to Excel"
 msgstr "Crează un excel cu datele beneficiarilor din baza de date."
+
 msgid "Export events to Excel"
 msgstr "Crează un excel cu datele evenimentelor din baza de date."
+
 msgid "Export sponsors to Excel"
 msgstr "Crează un excel cu datele sponsorizărilor din baza de date."
+
 msgid "Export volunteers to Excel"	
 msgstr "Crează un excel cu datele voluntarilor din baza de date."
-msgid "Sponsors : Contract Alert"	
+
+msgid "SponsorsContractAlert"	
 msgstr "Contractele sponsorilor care urmează să expire"
+
 msgid "Title"	
 msgstr "Bucuria Darului"
-msgid "Volunteers : Birthday Alert"
+
+msgid "VolunteersBirthdayAlert"
 msgstr "Zile de naștere"
-msgid "Volunteers : Contract Alert"
+
+msgid "VolunteersContractAlert"
 msgstr "Contractele voluntarilor care urmează să expire"
+
 msgid "You are currently"
 msgstr "Momentan ești"	
 
@@ -213,301 +313,420 @@ msgstr "Introduceți comanda mongod în linia de comandă și apoi rulați aplic
 
 msgid "message"	
 msgstr "Folosește această pagină pentru a detalia politica aplicației."
+
 msgid "Apply"
 msgstr "Aplică"
+
 msgid "English"	
 msgstr "Engleză"
+
 msgid "Environment"
 msgstr "Mediul de lucru"
+
 msgid "Language"
 msgstr "Limbă"
+
 msgid "message"	
 msgstr "Numărul de documente pe o pagină"
-msgid "Romanian"	
+
+msgid "Romanian"
 msgstr "Română"
-msgid "Backupdata"	
+
+msgid "BackupData"	
 msgstr "Backup data"
+
 msgid "internetaccessnecessary"
 msgstr "este nevoie de conexiune la internet"
+
 msgid "Localserverpriority"
 msgstr "Baza de date locală are prioritate"
-msgid "Mergedata"	
-msgstr "Combină bazele de date"
-msgid "Remoteserverpriority"	
-msgstr "Baza de date online are prioritate"
-msgid "Restorefrompreviousbackup"	
-msgstr "Copiază datele din baza de date locală pe server-ul online"
-msgid "Servermanagement"
+
+msgid "ServerManagement"
 msgstr "Gestionare baze de date"
+
 msgid "Phone"	
 msgstr "Număr de telefon"
+
 msgid "MessageAbout"	
 msgstr "Această aplicație a fost creată în timpul unui internship în cadrul companiei Siemens S.R.L de către Fleischman Krisztian și Grămadă Corina."
+
 msgid "About"	
 msgstr "Despre noi"
+
 msgid "Beneficiaries"	
 msgstr "Beneficiari"
+
 msgid "Contact"
 msgstr "Contact"
+
 msgid "Events"
 msgstr "Evenimente"
+
 msgid "Home"
 msgstr "Acasă"
+
 msgid "More"
 msgstr "Mai mult..."
+
 msgid "Settings"	
 msgstr "Setări"
+
 msgid "Sponsor"	
 msgstr "Sponsori"
+
 msgid "Volunteers"	
 msgstr "Voluntari"
+
 msgid "ConcurrencyWarning"	
 msgstr "Avertizare!"
+
 msgid "Error"
 msgstr "Cineva a modificat acest document în timp ce editați această înregistrare!"
-msgid "Active"	
+
+msgid "Active"
 msgstr "Activ"
-msgid "BirthDate"	
+
+msgid "BirthDate"
 msgstr "Data nașterii"
+
 msgid "BornAfter"	
 msgstr "Născut după data de"
+
 msgid "BornBefore"	
 msgstr "Născut înainte de data de"
+
 msgid "Contracts"
 msgstr "Contracte"
+
 msgid "CreateNew"	
 msgstr "Crează o nouă înregistrare"
+
 msgid "Delete"
 msgstr "Șterge"
+
 msgid "Details"	
 msgstr "Detalii"
+
 msgid "Edit"
 msgstr "Editează"
+
 msgid "Error"
 msgstr "Nu există niciun voluntar cu acest nume în baza de date!"
+
 msgid "Fullname"
 msgstr "Nume"
+
 msgid "Gender"	
 msgstr "Gen"
+
 msgid "HasCar"	
-msgstr "Mașină:"
-msgid "HourCount"	
+msgstr "Mașină"
+
+msgid "HourCount"
 msgstr "Program de lucru (ore)"
+
 msgid "Name"	
 msgstr "Nume"
 
- 
 msgid "Phonenumber"
 msgstr "Număr de telefon"
+
 msgid "Search"
 msgstr "Caută"
+
 msgid "Volunteers"
 msgstr "Voluntari"
 
 msgid "Address"
 msgstr "Adresă"
+
 msgid "ContractExpirations"
 msgstr "Contracte care vor expira"
+
 msgid "Contractsof"	
 msgstr "Contractele voluntarului:"
+
 msgid "Create"
 msgstr "Crează"
+
 msgid "CreateNew"	
 msgstr "Crează o nouă înregistrare"
+
 msgid "ExpirationDate"
 msgstr "Data expirării contractului"
+
 msgid "Fullname"
 msgstr "Numele"
+
 msgid "Message"	
 msgstr "Sunteți sigur că doriți să ștergeți acest voluntar?"
+
 msgid "NumberOfRegistration"	
 msgstr "Numărul de înregistrare"
+
 msgid "OwnerID"	
 msgstr "Id-ul proprietarului" 
+
 msgid "Print"	
 msgstr "Printează"
+
 msgid "RegistrationDate"	
 msgstr "Data întocmirii contractului"
+
 msgid "Volcontract"	
 msgstr "contract"
 
-
 msgid "Avatar"	
 msgstr "Poză de profil"
+
 msgid "BackToList"	
 msgstr "Înapoi la listă"
+
 msgid "Birthdate"	
 msgstr "Data nașterii"
+
 msgid "CIELIBERAT"
 msgstr "Data eliberării cărții de identitate"
+
 msgid "CIELIBERATOR"
 msgstr "Emisă de"
+
 msgid "CINR"
 msgstr "Număr carte de identitate"
+
 msgid "CISERIE"	
 msgstr "Serie carte de identitate"
+
 msgid "City"
 msgstr "Oraș"
+
 msgid "Country"	
 msgstr "Județ"
+
 msgid "Desiredarea"
 msgstr "Aria de lucru dorită"
+
 msgid "District"	
 msgstr "Municipiul"
+
 msgid "EmailAddress"
 msgstr "Adresă de email"
+
 msgid "Female"	
 msgstr "Feminin"
+
 msgid "FieldOfActivity"
 msgstr "Domeniul de activitate"
+
 msgid "Fullname"
 msgstr "Nume"
+
 msgid "Gender"	
 msgstr "Gen"
-msgid "Hascar"	
+
+msgid "HasCar"	
 msgstr "Mașină"
+
 msgid "HasDrivingLicense"	
-msgstr "Permis de conducere:"
+msgstr "Permis de conducere"
+
 msgid "Hourcount"
 msgstr "Program de lucru (ore)"
+
 msgid "Male"
 msgstr "Masculin"
+
 msgid "Number"
 msgstr "Numărul"
+
 msgid "Occupation"	
 msgstr "Ocupația"
+
 msgid "Phonenumber"
 msgstr "Numărul de telefon"
+
 msgid "Remarks"	
 msgstr "Observații"
+
 msgid "Street"	
 msgstr "Strada"
+
 msgid "Uploadimage"
 msgstr "Încarcă imagine"
+
 msgid "Volunteer"
 msgstr "Voluntar"
-msgid  "beneficiarycontract"
+
+msgid  "BeneficiaryContract"
 msgstr "Contract beneficiar"
 
 msgid "Birthdays"
 msgstr "Zile de naștere"
+
 msgid "Allocate"
 msgstr "Alocă"
+
 msgid "Allocatedsponsors"
 msgstr "Sponsori alocați"
+
 msgid "Allocatedvolunteers"
 msgstr "Voluntari alocați"
+
 msgid "AllocateSponsors"	
 msgstr "Sponsori alocați"
+
 msgid "AllocateVolunteers"
 msgstr "Voluntari alocați"
+
 msgid "Allocationstatus"
 msgstr "Status alocare"
 
 msgid "ContractExpiration"	
 msgstr "Contracte care vor expira"
+
 msgid "CurrentlyAllocated"	
 msgstr "Voluntari alocați momentan"
+
 msgid "DateOfEvent"
 msgstr "Data evenimentului"
+
 msgid "IndexMessage"	
 msgstr "Nu exista nicun eveniment cu acest nume in baza de date!"
+
 msgid "DeleteMessage"
-msgstr "Sunteti sigur  că doriți să ștergeți aceasta inregistrare?"
+msgstr "Sunteti sigur  că doriți să ștergeți aceasta înregistrare?"
+
 msgid "DesiredArea"	
 msgstr "Aria de lucru dorită"
+
 msgid "Message"	
 msgstr "Nu există niciun sponsor cu acest nume în baza de date!"
+
 msgid "Duration"	
 msgstr "Durata"
-msgid "DeleteMessage"
-msgstr "Sunteti sigur că doriți să ștergeți aceasta inregistrare?"
+
 msgid "Event"	
 msgstr "Eveniment"
+
 msgid "Fullname"
 msgstr "Nume"
+
 msgid "Hourcount"
 msgstr "Numărul de ore total"
+
 msgid "IndexMessage"
 msgstr "Nu exista nicun eveniment cu acest nume in baza de date!"
+
 msgid "NameOfEvent"	
 msgstr "Numele evenimentului"
+
 msgid "NumberOfVolunteersNeeded"
 msgstr "Numărul de voluntari necesari"
+
 msgid "PhoneNumber"
 msgstr "Număr de telefon"
+
 msgid "PlaceOfEvent"	
 msgstr "Locul evenimentului"
-msgid "SponsorAllocationto"
-msgstr "Sponsori alocați evenimentului" 
+
+msgid "SponsorAllocationTo"
+msgstr "Alocați sponsori evenimentului" 
+
 msgid "TypeOfActivities"	
 msgstr "Tipul activității"
+
 msgid "TypeOfEvent"	
 msgstr "Tipul evenimentului"
+
 msgid "VolunteerAllocationTo"
 msgstr "Voluntari alocați evenimentului"
+
 msgid "ContractExpiration"
 msgstr "Contracte care vor expira"
+
 msgid "Date"	
 msgstr "Data"
+
 msgid "Emailaddrss"	
 msgstr "Adresă de email"
+
 msgid "Expirationdate"	
 msgstr "Data expirării"
+
 msgid "Goodsamoun"
 msgstr "Cantitatea de produse donate"
+
 msgid "Has contract?"
 msgstr "Are contract?"
-Hmsgid "HasContract"	
-msgstr "Are contract?"
+
+msgid "HasContract"	
+msgstr "Are contract"
+
 msgid "Message"	
 msgstr "Nu există niciun sponsor cu acest nume în baza de date!"
+
 msgid "Message1"	
 msgstr "Sunteți sigur ca doriți să ștergeți această înregistrare?"
+
 msgid "MoneyAmount"
 msgstr "Suma de bani donată"
+
 msgid "NameOfSponsor"	
 msgstr "Numele sponsorului"
+
 msgid "Numberofregistration"
 msgstr "Numărul de înregistrare al contractului"
+
 msgid "Phonenumber"	
 msgstr "Numărul de telefon"
+
 msgid "Registrationdate"
 msgstr "Data înregistrării"
+
 msgid "Sponsor"	
 msgstr "Sponsor"
+
 msgid "WhatGoods"	
 msgstr "Tipul bunurilor donate"
+
 msgid "Sponsors"	
 msgstr "Sponsori"
+
 msgid "GoodsAmount"
 msgstr "Cantitatea de produse donate"
 
 msgid "Allocate"
 msgstr "Alocă"
+
 msgid "AllocatedSponsors"	
 msgstr "Sponsori alocați"
+
 msgid "AllocatedVolunteers"	
 msgstr "Voluntari alocați"
+
 msgid "AllocateSponsors"	
 msgstr "Sponsori alocați"
+
 msgid "AllocateVolunteers"	
 msgstr "Voluntari alocați"
+
 msgid "AllocationStatus"
 msgstr "Status alocare"
+
 msgid "SponsorAllocation" 
 msgstr "Alocați sponsori evenimentului"
+
 msgid "VolunteerAllocation"
 msgstr "Alocați voluntari evenimentului"
 
 msgid "PRESSHERETORELOAD"
 msgstr "Apasați aici pentru reîncărcare"
+
 msgid "Choose image"
 msgstr "Nicio imagine încărcată"
 
 msgid "MakeItInactive"
 msgstr "Marchează ca inactiv"
-
 
 msgid "Fullname"
 msgstr "Nume și prenume"
@@ -524,10 +743,8 @@ msgstr "Importă din Excel"
 msgid "MessageFailedExport"
 msgstr "Fisierul nu poate fi deschis.Este posibil să fie deschis."
 
-
 msgid "MessageFailedExport2"
 msgstr "Inchideți fisierul și încercați incă o dată"
-
 
 msgid "CiInfo"
 msgstr "Informații carte de identitate"
@@ -547,7 +764,7 @@ msgstr "CSVSaver"
 msgid "Please choose what you want the Excel to contain"
 msgstr "Alege câmpurile pe care doriți să le conțina fișierul Excel"
 
-msgid "Check this for all fields"
+msgid "CheckThisForAllFields"
 msgstr "Bifează căsuța pentru toate câmpurile"
 
 msgid "Select the properties"
@@ -562,7 +779,7 @@ msgstr "Câmpurile nu pot conține caracterul ';'"
 msgid "Filters"
 msgstr "Filtre"
 
-msgid "The date of active till cant be smaller that that of activesince!"
+msgid  "TheDateOfActiveCant"
 msgstr "Data finală a activității nu poate fi mai mică decat data de început!"
 
 msgid "activesince"
@@ -583,12 +800,10 @@ msgstr "Toți"
 msgid "CI_Info"
 msgstr "Informații CI"
 
-
 msgid "Additional_info"
 msgstr "Informații adiționale"
 
 msgid "Inntinf"
-
 msgstr "Intervalul inferior"
 
 msgid "intsuo"
@@ -600,7 +815,6 @@ msgstr "Livrare la domiciliu"
 msgid "Warning! This action is unreversible!"
 msgstr "Atenție! Această acțiune este ireversibilă!"
 
-
 msgid "This action will overwrite data on the local database."
 msgstr "Această acțiune va rescrie datele din baza de date locală."
 
@@ -609,6 +823,7 @@ msgstr "Sunteți sigur că doriți să continuați?"
 
 msgid "Yes"
 msgstr "Da"
+
 msgid "No"
 msgstr "Nu"
 
@@ -618,9 +833,9 @@ msgstr "Această acține va uni cele două baze de date și va stoca rezultatul 
 msgid "This action will overwrite data on the remote database."
 msgstr "Această acțiune va rescrie datele din baza de date locală."
 
-
 msgid "FileOptions"
 msgstr "Opțiuni fișier"
+
 msgid "Next"
 msgstr "Următorul pas"
 
@@ -663,10 +878,8 @@ msgstr "Data expirării CI/BI"
 msgid "EmptyDatabase"
 msgstr "Baza de date este goală"
 
-
 msgid "MarcaName"
 msgstr "Marca"
-
 
 msgid "Marca_IdContract"
 msgstr "Id-ul contractului"

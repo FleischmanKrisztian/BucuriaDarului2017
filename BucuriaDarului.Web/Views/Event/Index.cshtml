@@ -107,10 +107,10 @@
             <div class="pagination">
                 <pre style="white-space:pre-wrap;">
             @{
-                int maxpage = (Model.TotalEvents / Model.PagingData.NrOfDocumentsPerPage) + 1;
+                var maxPage = (Model.TotalEvents / Model.PagingData.NrOfDocumentsPerPage) + 1;
                 if (Model.TotalEvents % Model.PagingData.NrOfDocumentsPerPage == 0 && Model.TotalEvents != 0)
                 {
-                    maxpage--;
+                    maxPage--;
                 }
 
                 if(Model.PagingData.CurrentPage==1)
@@ -133,29 +133,29 @@
                 {
                     @Html.ActionLink((Model.PagingData.CurrentPage-1).ToString(), "Index", new { page = Model.PagingData.CurrentPage-1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
-                if(Model.PagingData.CurrentPage!=1 && Model.PagingData.CurrentPage!= maxpage)
+                if(Model.PagingData.CurrentPage!=1 && Model.PagingData.CurrentPage!= maxPage)
                 {
                     @Html.ActionLink(Model.PagingData.CurrentPage.ToString(), "Index", new { page = Model.PagingData.CurrentPage, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                if(Model.PagingData.CurrentPage<maxpage-1)
+                if(Model.PagingData.CurrentPage<maxPage-1)
                 {
                     @Html.ActionLink((Model.PagingData.CurrentPage+1).ToString(), "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
-                if(Model.PagingData.CurrentPage<maxpage-2)
+                if(Model.PagingData.CurrentPage<maxPage-2)
                 {
                     @Html.ActionLink((Model.PagingData.CurrentPage+2).ToString(), "Index", new { page = Model.PagingData.CurrentPage+2, searching = Model.FilterData.NameOfEvent, searchingPlace = Model.FilterData.PlaceOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
-                if(Model.PagingData.CurrentPage<maxpage-3)
+                if(Model.PagingData.CurrentPage<maxPage-3)
                 {
                     @Html.ActionLink(">>", "Index", new { page = Model.PagingData.CurrentPage+1, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
-                if(maxpage!=1 && Model.PagingData.CurrentPage==maxpage)
+                if(maxPage!=1 && Model.PagingData.CurrentPage==maxPage)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
+                    @Html.ActionLink(maxPage.ToString(), "Index", new { page = maxPage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities,  searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate }, new { Style = "background-color:lightgray;  color:black; border-radius: 5px;" })
                 }
-                else if (maxpage != 1)
+                else if (maxPage != 1)
                 {
-                    @Html.ActionLink(maxpage.ToString(), "Index", new { page = maxpage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
+                    @Html.ActionLink(maxPage.ToString(), "Index", new { page = maxPage, searching = Model.FilterData.NameOfEvent, searchingActivity = Model.FilterData.TypeOfActivities, searchingPlace = Model.FilterData.PlaceOfEvent, searchingType = Model.FilterData.TypeOfEvent, searchingVolunteers = Model.FilterData.AllocatedVolunteers, searchingSponsor = Model.FilterData.AllocatedSponsors, lowerdate = Model.FilterData.LowerDate, upperdate = Model.FilterData.UpperDate })
                 }
             }
             </pre>
@@ -163,7 +163,7 @@
         </p>
     }
     @using (Html.BeginForm("Index", "Event", FormMethod.Get))
-    {<a href=@Url.Action("Index") class="btn btn-primary">@Localizer["Show all events"]</a>
+    {<a href=@Url.Action("Index") class="btn btn-primary">@Localizer["ShowAllEvents"]</a>
     <br />
     <br />
     @if (Model.FilterData.NameOfEvent != "")
@@ -208,14 +208,12 @@
             @Localizer["UpperDate"]:@Model.FilterData.UpperDate
         </div>
     }
-    <table class="table">
+    <table class="table" style="text-align: center">
         <tr>
-            <th>
+            <th style="width: 250px">
                 @Localizer["NameOfEvent"]:
-
                 @Html.TextBox("searching")
             </th>
-
             <th>
                 @Localizer["DateOfEvent"]:
             </th>
@@ -309,7 +307,6 @@
         {
             foreach (var item in Model.Events)
             {
-
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.NameOfEvent)

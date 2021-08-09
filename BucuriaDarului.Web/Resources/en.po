@@ -707,7 +707,7 @@ msgstr "Cannot contain Special character ';'"
 msgid "Filters"
 msgstr "Order by"
 
-msgid "The date of active till cant be smaller that that of activesince!"
+msgid "TheDateOfActiveCant"
 msgstr "The date of active till cant be smaller that that of activesince!"
 
 
@@ -748,10 +748,10 @@ msgid "HomeDelivery"
 msgstr "Home Delivery"
 
 
-msgid "ProfesionAndOcupation"
+msgid "Profession&Occupation"
 msgstr "Profession/occupation"
 
-msgid "HealthStateAndDisalilityAndChronicCondition"
+msgid "HealthState&Disability&ChronicCondition"
 msgstr "Health state/Disability/Chronic condition"
 
 msgid "Yes"
