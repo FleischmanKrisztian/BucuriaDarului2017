@@ -11,5 +11,9 @@ namespace BucuriaDarului.Core
         public string Lang { get; set; }
 
         public int Quantity { get; set; }
+
+        public int NumberOfDaysBeforBirthday { get; set; }
+
+        public int NumberOfDaysBeforeExpiration { get; set; }
     }
 }
