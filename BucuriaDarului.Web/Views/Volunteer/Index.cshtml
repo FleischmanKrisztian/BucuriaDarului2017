@@ -55,7 +55,7 @@
     <h2>@Localizer["Volunteers"] <small> (@Model.TotalVolunteers)</small> </h2>
     @if (ViewBag.wrongorder == true)
     {
-        <h3 style="color:red">@Localizer["The date of active till cant be smaller that that of active since!"] </h3>
+        <h3 style="color:red">@Localizer["TheDateOfActiveCant"]</h3>
     }
     @using (Html.BeginForm("Index", "Volunteer", FormMethod.Get))
     {
@@ -127,7 +127,7 @@
             </div>
         </p>
 
-        <a href=@Url.Action("Index") class="btn btn-primary">@Localizer["Show all volunteers"] </a>
+        <a href=@Url.Action("Index") class="btn btn-primary">@Localizer["ShowAllVolunteers"] </a>
         <br />
         <br />
 
@@ -198,9 +198,9 @@
             </div>
         }
 
-        <table class="table">
+        <table class="table" style="text-align: center">
             <tr>
-                <th>
+                <th style="width: 280px">
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })>@Localizer["Fullname"] </a>
                     @Html.TextBox("searchedFullname")
                 </th>
@@ -209,6 +209,7 @@
                 </th>
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.ActiveSort,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["Active"] </a>
+                    <br/>
                     @Html.CheckBox("Active")
                 </th>
                 <th>
@@ -217,9 +218,10 @@
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.GenderSort,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["Gender"] </a>
                 </th>
-                <th>
+                <th style="width: 220px">
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.HourCountSort, searchedFullname =Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["HourCount"] </a>
-                    @Html.TextBox("searchedHourCount","", new { @style = " width:70px; " })
+                    <br/>
+                    @Html.TextBox("searchedHourCount", "", new { @style = " width:70px; " })
                 </th>
                 <th>
 
@@ -255,7 +257,7 @@
                                             <dd class="col-sm-3">
                                                 <input type="date" name="upperdate">
                                             </dd>
-                                            <dt class="col-sm-6">@Localizer["gender"] :</dt>
+                                            <dt class="col-sm-6">@Localizer["Gender"] :</dt>
                                             <dd class="col-sm-6">
                                                 <input type="radio" name="gender" value="All" checked="checked" />@Localizer["All"]
                                                 <input type="radio" name="gender" value="Male" />@Localizer["Male"]

@@ -87,7 +87,7 @@
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="inputGroupFile01"
                                aria-describedby="inputGroupFileAddon01" asp-for="Image" onchange="ShowImagePreview(this)">
-                        <label class="custom-file-label" for="inputGroupFile01"> @Localizer["Choose image"]</label><br />
+                        <label class="custom-file-label" for="inputGroupFile01"> @Localizer["ChooseImage"]</label><br />
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label> @Localizer["Birthdate"]:</label>
+                        <label> @Localizer["BirthDate"]:</label>
                     </div>
                     <div class="col-md-6">
                         <input class="form-control" type="date" name="PersonalInfo.Birthdate" value="@Model.PersonalInfo.Birthdate.ToString("yyyy-MM-dd")" />
@@ -139,7 +139,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>@Localizer["Birthplace"]:</label>
+                        <label>@Localizer["BirthPlace"]:</label>
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.PersonalInfo.BirthPlace, new { htmlAttributes = new { @class = "form-control" } })
@@ -309,7 +309,7 @@
                 </div>
                 <br />
                 <h4>
-                    @Localizer["IDInformation"]:
+                    @Localizer["IdInformation"]:
                 </h4>
                 <div class="row">
                     <div class="col-md-6">
@@ -325,7 +325,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>  @Localizer["CiInfo"]:</label>
+                        <label>  @Localizer["IdInfo"]:</label>
                     </div>
                     <div class="col-md-6">
                         @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
@@ -335,7 +335,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>@Localizer["ExpirationDateCI"]:</label>
+                        <label>@Localizer["IdExpirationDate"]:</label>
                     </div>
                     <div class="col-md-6">
                         <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
