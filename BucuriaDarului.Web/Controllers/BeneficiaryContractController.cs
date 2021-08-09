@@ -21,8 +21,9 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult ContractExp()
         {
+            var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforExpiration(TempData);
             var contractExpirationContext = new BeneficiaryContractsExpirationContext(new BeneficiaryContractExpirationGateway());
-            var contracts = contractExpirationContext.Execute();
+            var contracts = contractExpirationContext.Execute(nrOfDays);
             return View(contracts);
         }
 
