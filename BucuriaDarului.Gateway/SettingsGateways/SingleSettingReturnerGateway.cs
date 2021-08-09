@@ -19,7 +19,9 @@ namespace BucuriaDarului.Gateway.SettingsGateways
                 {
                     Id = Guid.NewGuid().ToString(),
                     Lang = "ro",
-                    Quantity = 15
+                    Quantity = 15,
+                    NumberOfDaysBeforBirthday = 10,
+                    NumberOfDaysBeforeExpiration=30
                 };
                 settingCollection.InsertOne(newSetting);
                 return newSetting;

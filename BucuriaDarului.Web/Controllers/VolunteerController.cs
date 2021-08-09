@@ -88,8 +88,9 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Birthday()
         {
+            var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforBirtday(TempData);
             var volunteerContext = new VolunteerBirthdayDisplayContext(new BithdayListVolunteersGateway());
-            var volunteers = volunteerContext.Execute();
+            var volunteers = volunteerContext.Execute(nrOfDays);
             return View(volunteers);
         }
 

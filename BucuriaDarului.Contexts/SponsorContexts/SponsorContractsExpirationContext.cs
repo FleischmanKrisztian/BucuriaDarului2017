@@ -14,22 +14,22 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             this.dataGateway = dataGateway;
         }
 
-        public List<Sponsor> Execute()
+        public List<Sponsor> Execute(int nrOfDaysBeforExpiration)
         {
             var sponsors = dataGateway.GetListSponsorContracts();
-            sponsors = GetExpiringContracts(sponsors);
+            sponsors = GetExpiringContracts(sponsors, nrOfDaysBeforExpiration);
             return sponsors;
 
         }
 
-        internal static List<Sponsor> GetExpiringContracts(List<Sponsor> sponsors)
+        internal static List<Sponsor> GetExpiringContracts(List<Sponsor> sponsors, int nrOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             List<Sponsor> returnlistofspons = new List<Sponsor>();
             foreach (var spons in sponsors)
             {
                 int dayToCompare = GetDayOfYear(spons.Contract.ExpirationDate);
-                if (IsAboutToExpire(currentDay, dayToCompare))
+                if (IsAboutToExpire(currentDay, dayToCompare, nrOfDaysBeforExpiration))
                 {
                     returnlistofspons.Add(spons);
                 }
@@ -37,9 +37,9 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             return returnlistofspons;
         }
 
-        public static bool IsAboutToExpire(int currentDay, int dayToCompare)
+        public static bool IsAboutToExpire(int currentDay, int dayToCompare, int nrOfDaysBeforExpiration)
         {
-            if (currentDay <= dayToCompare && currentDay + 10 > dayToCompare || currentDay > 355 && dayToCompare < 9)
+            if (currentDay <= dayToCompare && currentDay + nrOfDaysBeforExpiration > dayToCompare || currentDay > 355 && dayToCompare < nrOfDaysBeforExpiration - 1)
             {
                 return true;
             }

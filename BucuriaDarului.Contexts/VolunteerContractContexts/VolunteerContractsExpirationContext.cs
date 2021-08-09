@@ -14,21 +14,21 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public List<VolunteerContract> Execute()
+        public List<VolunteerContract> Execute( int nrOfDaysBeforExpiration)
         {
             var contracts = dataGateway.GetListVolunteerContracts();
-            contracts = GetExpiringContracts(contracts);
+            contracts = GetExpiringContracts(contracts, nrOfDaysBeforExpiration);
             return contracts;
         }
 
-        internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts)
+        internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts,int nrOfDaysBeforExpiration)
         {
             var currentDay = GetDayOfYear(DateTime.Today);
             var returnListOfVolunteerContracts = new List<VolunteerContract>();
             foreach (var contract in contracts)
             {
                 var dayToCompare = GetDayOfYear(contract.ExpirationDate);
-                if (IsAboutToExpire(currentDay, dayToCompare))
+                if (IsAboutToExpire(currentDay, dayToCompare, nrOfDaysBeforExpiration))
                 {
                     returnListOfVolunteerContracts.Add(contract);
                 }
@@ -36,15 +36,14 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             return returnListOfVolunteerContracts;
         }
 
-        public static bool IsAboutToExpire(int currentDay, int dayToCompare)
+        public static bool IsAboutToExpire(int currentDay, int dayToCompare, int nrOfDaysBeforExpiration)
         {
-            if (currentDay <= dayToCompare && currentDay + 10 > dayToCompare || currentDay > 355 && dayToCompare < 9)
+            if (currentDay <= dayToCompare && currentDay + nrOfDaysBeforExpiration > dayToCompare || currentDay > 355 && dayToCompare < nrOfDaysBeforExpiration - 1)
             {
                 return true;
             }
             return false;
         }
-
         internal static int GetDayOfYear(DateTime date)
         {
             var dateAsString = date.ToString("dd-MM-yyyy");

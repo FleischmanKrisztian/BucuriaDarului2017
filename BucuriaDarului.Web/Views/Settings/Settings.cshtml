@@ -70,6 +70,16 @@
                         @Localizer["NumberOfDocumentsPerPage"]:
                     </p>
                 </div>
+                <div class="row">
+                    <p>
+                        @Localizer["BirthdaySettings"]:
+                    </p>
+                </div>
+                <div class="row">
+                    <p>
+                        @Localizer["ContractExpirationSettings"]:
+                    </p>
+                </div>
             </div>
             <div class="vl  col-md-1"> </div>
             <div class="col-md-6 profile-work">
@@ -85,9 +95,22 @@
                         <div class="col-md-4"> <input type="radio" name="lang" value="en">@Localizer["English"]</div>
                     }
                 </div>
-                <p>
-                    <div class="col-md-3 for-documents-numbers ">   <input type="number" name="quantity" class="rounded" value="@Model.Quantity" min="1" max="100"> </div>
-                </p>
+                <div>
+                    <p>
+                        <div class="col-md-3 for-documents-numbers ">   <input type="number" name="quantity" class="rounded" value="@Model.Quantity" min="1" max="100"> </div>
+                    </p>
+                </div>
+                <br />
+                <div>
+                    <p>
+                        <div class="col-md-3 for-documents-numbers ">   <input type="number" name="numberOfDaysBeforBirthday" class="rounded" value="@Model.NumberOfDaysBeforBirthday" min="1" max="100"> </div>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <div class="col-md-3 for-documents-numbers ">   <input type="number" name="numberOfDaysBeforeExpiration" class="rounded" value="@Model.NumberOfDaysBeforeExpiration" min="1" max="100"> </div>
+                    </p>
+                </div>
             </div>
         </div>
 

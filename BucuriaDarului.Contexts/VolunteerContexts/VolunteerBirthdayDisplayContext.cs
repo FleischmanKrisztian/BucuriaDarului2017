@@ -15,21 +15,21 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             this.dataGateway = dataGateway;
         }
 
-        public List<Volunteer> Execute()
+        public List<Volunteer> Execute(int alarmNumberOfDaysBeforExpiration)
         {
             List<Volunteer> volunteers = dataGateway.GetListOfVolunteers();
-            volunteers = GetVolunteersWithBirthdays(volunteers);
+            volunteers = GetVolunteersWithBirthdays(volunteers, alarmNumberOfDaysBeforExpiration);
             return volunteers;
         }
 
-        internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers)
+        internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers,int alarmNumberOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             List<Volunteer> returnListOfVolunteers = new List<Volunteer>();
             foreach (var vol in volunteers)
             {
                 int dayToCompare = GetDayOfYear(vol.Birthdate);
-                if (IsAboutToExpire(currentDay, dayToCompare))
+                if (IsAboutToExpire(currentDay, dayToCompare, alarmNumberOfDaysBeforExpiration))
                 {
                     returnListOfVolunteers.Add(vol);
                 }
@@ -47,9 +47,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return Day;
         }
 
-        public static bool IsAboutToExpire(int currentDay, int dayToCompareto)
+        public static bool IsAboutToExpire(int currentDay, int dayToCompareto,int alarmNumberOfDaysBeforExpiration)
         {
-            if (currentDay <= dayToCompareto && currentDay + 10 > dayToCompareto || currentDay > 355 && dayToCompareto < 9)
+            if (currentDay <= dayToCompareto && currentDay + alarmNumberOfDaysBeforExpiration > dayToCompareto || currentDay > 355 && dayToCompareto < alarmNumberOfDaysBeforExpiration-1)
             {
                 return true;
             }
