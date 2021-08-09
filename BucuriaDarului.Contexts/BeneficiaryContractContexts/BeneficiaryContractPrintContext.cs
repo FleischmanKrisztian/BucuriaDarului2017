@@ -91,7 +91,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
         public string GetFileName(string Fullname)
         {
             string resultName = string.Empty;
-            //if (Fullname.Contains(" "))
             resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
 
             return resultName;

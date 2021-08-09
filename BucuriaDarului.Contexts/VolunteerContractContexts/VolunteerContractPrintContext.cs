@@ -74,8 +74,8 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             }
             else
             {
-                if (Fullname.Contains(" "))
-                    resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
+               
+               resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
             }
 
             return resultName;
