@@ -334,37 +334,31 @@
         }
         <table class="table" style="text-align: center">
             <tr>
-                <th style="width: 280px">
+                <th>
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
+                    <br />
                     @Html.TextBox("searching")
                 </th>
 
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Activesort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Active"]</a>
                     <br />
-                    <dd class="col-sm-2" style="text-align: center">
-                        @Html.CheckBox("Active" ,new { @style="text-align: center"})
-                    </dd>
+                    @Html.CheckBox("Active")
                 </th>
                 <th>
                     <dt>
                         <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.Gendersort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate })>@Localizer["Gender"]</a>
                     </dt>
-                    <dd></dd>
                 </th>
                 <th>
                     @Localizer["WeeklyPackage"]
                     <br />
-                    <dd class="col-sm-2">
-                        @Html.CheckBox("WeeklyPackage")
-                    </dd>
+                    @Html.CheckBox("WeeklyPackage")
                 </th>
                 <th>
                     @Localizer["Canteen"]
                     <br />
-                    <dd class="col-sm-2">
-                        @Html.CheckBox("Canteen")
-                    </dd>
+                    @Html.CheckBox("Canteen")
                 </th>
                 <th valign="top">
                     <dt>
@@ -487,12 +481,11 @@
                                             <dd class="col-sm-2">
                                                 @Html.TextBox("searchingExpenses")
                                             </dd>
-                                            <dt class="col-sm-8">@Localizer["Gender"]: </dt>
-                                            <dd class="col-sm-12">
-
-                                                <input type="radio" name="gender" value="All" text="All" checked="checked" />@Localizer["All"]
-                                                <input type="radio" name="gender" value="Male" text="Male" />@Localizer["Male"]
-                                                <input type="radio" name="gender" value="Female" text="Female" />@Localizer["Female"]
+                                            <dt class="col-sm-8">@Localizer["Gender"] :</dt>
+                                            <dd class="col-sm-4">
+                                                <input type="radio" name="gender" value="All" checked="checked" />@Localizer["All"]
+                                                <input type="radio" name="gender" value="Male" />@Localizer["Male"]
+                                                <input type="radio" name="gender" value="Female" />@Localizer["Female"]
                                             </dd>
                                         </div>
                                         <hr />

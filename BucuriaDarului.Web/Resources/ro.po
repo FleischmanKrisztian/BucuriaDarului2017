@@ -16,6 +16,16 @@ msgstr "Contractele voluntarului"
 msgid "ContractsOfB"
 msgstr "Contractele beneficiarului"
 
+msgid "NumberOfDocumentsPerPage"
+msgstr "Numărul de documente pe pagină"
+
+msgid "PleaseInsertAFileName"
+msgstr "Introduceți numele Fișierului"
+
+
+msgid "PleaseChooseWhatYouWantTheExcelToContain"
+msgstr "Selectati ce să conțina fișierul"
+
 msgid "ShowAllSponsors"
 msgstr "Arată toți sponsorii"
 
@@ -172,7 +182,7 @@ msgstr "Locuință"
 msgid "IdApplication"	
 msgstr "ID cerere"
 
-msgid "IDcontract"	
+msgid "IdContract"	
 msgstr "ID anchetă"
 
 msgid "IdInformation"	
@@ -584,7 +594,7 @@ msgid "IndexMessage"
 msgstr "Nu exista nicun eveniment cu acest nume in baza de date!"
 
 msgid "DeleteMessage"
-msgstr "Sunteti sigur  că doriți să ștergeți aceasta inregistrare?"
+msgstr "Sunteti sigur  că doriți să ștergeți aceasta înregistrare?"
 
 msgid "DesiredArea"	
 msgstr "Aria de lucru dorită"
@@ -594,9 +604,6 @@ msgstr "Nu există niciun sponsor cu acest nume în baza de date!"
 
 msgid "Duration"	
 msgstr "Durata"
-
-msgid "DeleteMessage"
-msgstr "Sunteti sigur că doriți să ștergeți aceasta inregistrare?"
 
 msgid "Event"	
 msgstr "Eveniment"
@@ -622,8 +629,8 @@ msgstr "Număr de telefon"
 msgid "PlaceOfEvent"	
 msgstr "Locul evenimentului"
 
-msgid "SponsorAllocationto"
-msgstr "Sponsori alocați evenimentului" 
+msgid "SponsorAllocationTo"
+msgstr "Alocați sponsori evenimentului" 
 
 msgid "TypeOfActivities"	
 msgstr "Tipul activității"
@@ -653,7 +660,7 @@ msgid "Has contract?"
 msgstr "Are contract?"
 
 msgid "HasContract"	
-msgstr "Are contract?"
+msgstr "Are contract"
 
 msgid "Message"	
 msgstr "Nu există niciun sponsor cu acest nume în baza de date!"
@@ -757,7 +764,7 @@ msgstr "CSVSaver"
 msgid "Please choose what you want the Excel to contain"
 msgstr "Alege câmpurile pe care doriți să le conțina fișierul Excel"
 
-msgid "Check this for all fields"
+msgid "CheckThisForAllFields"
 msgstr "Bifează căsuța pentru toate câmpurile"
 
 msgid "Select the properties"
