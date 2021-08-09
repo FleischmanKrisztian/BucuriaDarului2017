@@ -54,7 +54,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
                 option = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la domiciliul beneficiarului.";
             if (optionValue == "fourth")
                 option = "Saptamanal, a unui pachet cu alimente necesare pentru pregatirea unei mese calde/persoana/zi lucratoare, respectiv pranzul, acordat la sediul cantinei.";
-            if (otherOptionValue != null || otherOptionValue != "")
+            if (otherOptionValue != null && otherOptionValue != " ")
                 option = otherOptionValue;
 
             return option;
@@ -77,7 +77,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
                 document.ReplaceText("<IdAplication>", contract.IdApplication);
             if (contract.IdInvestigation != null)
                 document.ReplaceText("<IdInvestigation>", contract.IdInvestigation);
-            document.ReplaceText("<option>", optionValue);
+            if (optionValue != null)
+            { 
+                document.ReplaceText("<option>", optionValue); 
+            }
             document.ReplaceText("<NumberOfPortions>", contract.NumberOfPortions.ToString());
             document.ReplaceText("<RegistrationDate> ", contract.RegistrationDate.ToShortDateString());
             document.ReplaceText("<ExpirationDate>", contract.ExpirationDate.ToShortDateString());
@@ -88,8 +91,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
         public string GetFileName(string Fullname)
         {
             string resultName = string.Empty;
-            if (Fullname.Contains(" "))
-                resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
+            //if (Fullname.Contains(" "))
+            resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
 
             return resultName;
         }
