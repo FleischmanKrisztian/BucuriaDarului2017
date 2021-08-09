@@ -22,6 +22,11 @@ msgstr "Numărul de documente pe pagină"
 msgid "PleaseInsertAFileName"
 msgstr "Introduceți numele Fișierului"
 
+msgid "ContractExpirationSettings"
+msgstr "Numărul de zile pentru avertisment expirare contract"
+
+msgid "BirthdaySettings"
+msgstr "Numărul de zile pentru avertisment zi de nastere"
 
 msgid "PleaseChooseWhatYouWantTheExcelToContain"
 msgstr "Selectati ce să conțina fișierul"
