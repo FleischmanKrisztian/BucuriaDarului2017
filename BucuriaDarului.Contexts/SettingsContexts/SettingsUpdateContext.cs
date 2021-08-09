@@ -13,11 +13,13 @@ namespace BucuriaDarului.Contexts.SettingsContexts
             this.dataGateway = dataGateway;
         }
 
-        public void Execute(string lang, int quantity)
+        public void Execute(string lang, int quantity,int numberOfDaysBeforBirthday,int numberOfDaysBeforeExpiration)
         {
             var settings = dataGateway.GetSettingItem();
             settings.Quantity = quantity;
             settings.Lang = lang;
+            settings.NumberOfDaysBeforBirthday = numberOfDaysBeforBirthday;
+            settings.NumberOfDaysBeforeExpiration = numberOfDaysBeforeExpiration;
             dataGateway.UpdateSettings(settings);
         }
     }
