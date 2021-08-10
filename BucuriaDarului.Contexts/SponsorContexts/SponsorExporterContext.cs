@@ -44,7 +44,8 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         private string GetIdAndFieldString(ExportParameters csv)
         {
             var idsAndOptions = csv.StringOfIDs + "(((";
-            if (csv.All)
+            if (csv.NameOfSponsor && csv.Date && csv.HasContract && csv.ContractDetails && csv.PhoneNumber && csv.MailAddress && csv.MoneyAmount &&
+               csv.WhatGoods && csv.GoodsAmount)
                 idsAndOptions += "0";
             if (csv.NameOfSponsor)
                 idsAndOptions += "1";
