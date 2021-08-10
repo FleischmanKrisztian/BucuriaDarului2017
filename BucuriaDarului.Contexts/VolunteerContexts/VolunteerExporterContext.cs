@@ -44,7 +44,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private string GetIdAndFieldString(ExportParameters csv)
         {
             var idsAndOptions = csv.StringOfIDs + "(((";
-            if (csv.All)
+            if (csv.Fullname && csv.Birthdate && csv.Address && csv.Gender && csv.DesiredWorkplace && csv.CNP && csv.FieldOfActivity && csv.Occupation &&
+                csv.HasId && csv.IdInfo && csv.IdExpirationDate && csv.Active && csv.HourCount && csv.PhoneNumber && csv.EmailAddress && csv.DriversLicense 
+                && csv.HasCar)
                 idsAndOptions += "0";
             if (csv.Fullname)
                 idsAndOptions += "1";
