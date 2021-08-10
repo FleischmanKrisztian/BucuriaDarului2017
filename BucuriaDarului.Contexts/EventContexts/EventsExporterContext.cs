@@ -45,7 +45,8 @@ namespace BucuriaDarului.Contexts.EventContexts
         private string GetIdAndFieldString(ExportParameters csv)
         {
             var idsAndOptions = csv.StringOfIDs + "(((";
-            if (csv.All)
+            if (csv.NameOfEvent && csv.PlaceOfEvent && csv.DateOfEvent && csv.TypeOfActivities && csv.TypeOfEvent &&
+                csv.Duration && csv.AllocatedVolunteers && csv.AllocatedSponsors)
                 idsAndOptions += "0";
             if (csv.NameOfEvent)
                 idsAndOptions += "1";
