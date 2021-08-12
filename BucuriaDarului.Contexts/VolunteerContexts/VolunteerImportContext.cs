@@ -155,7 +155,10 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 var volunteer = new Volunteer();
                 try
                 {
-                    volunteer.Id = line[0];
+                    if (line[0] != null && line[0] != string.Empty)
+                        volunteer.Id = line[0];
+                    else
+                        volunteer.Id = Guid.NewGuid().ToString();
                     volunteer.Fullname = line[1];
                     volunteer.Birthdate = Convert.ToDateTime(line[2]);
                     volunteer.Address = line[3];
