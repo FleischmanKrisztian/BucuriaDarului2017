@@ -41,13 +41,18 @@
             bottom: 0;
             left: 0;
         }
-        
+
         .i-circle {
             background: #ff0000;
             color: #fff;
             padding-right: 5px;
             font-size: 15px;
         }
+
+        .image {
+            opacity: 0.4;
+            filter: alpha(opacity=60);
+        } 
     </style>
 </head>
 
@@ -202,7 +207,7 @@
             <tr>
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })>@Localizer["Fullname"] </a>
-                    <br/>
+                    <br />
                     @Html.TextBox("searchedFullname")
                 </th>
                 <th>
@@ -210,7 +215,7 @@
                 </th>
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.ActiveSort,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["Active"] </a>
-                    <br/>
+                    <br />
                     @Html.CheckBox("Active")
                 </th>
                 <th>
@@ -221,13 +226,13 @@
                 </th>
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.HourCountSort, searchedFullname =Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["HourCount"] </a>
-                    <br/>
+                    <br />
                     @Html.TextBox("searchedHourCount", "", new { @style = " width:70px; " })
                 </th>
                 <th>
 
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@Localizer["Filters"]</button>
-                    <input type="submit"  value=@Localizer["Search"] class="btn btn-primary" />
+                    <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
 
                     <form method="post" asp-action="Index" asp-controller="Home">
                         <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -295,7 +300,7 @@
                                         <hr />
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" buttonAction="cancelButton">@Localizer["Close"]</button>
                                         </div>
                                     </div>
                                 </div>
@@ -346,11 +351,19 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.HourCount)
                         </td>
-                        <td>
+                        <td style="text-align:left">
                             <a href=@Url.Action("Edit", new { id = item.Id })> <img src="~/Resources/edit.jpg" width="40" height="40" title=" @Localizer["Edit"]"> </a> |
                             <a href=@Url.Action("Details", new { id = item.Id })> <img src="~/Resources/detali.jpg" width="40" height="40" title="@Localizer["Details"]"> </a> |
                             <a href=@Url.Action("Delete", new { id = item.Id })> <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]"> </a>
-                            <a href=@Url.Action("Contracts", new { id = item.Id })> <img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"><span class="i-circle"> @Model.VolunteerNumberOfContracts[item.Id]</span> </a>
+                            @if (item.CNP != "" && item != null)
+                            {
+                                <a href=@Url.Action("Contracts", new { id = item.Id })><img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"><span class="i-circle"> @Model.VolunteerNumberOfContracts[item.Id]</span></a>
+                            }
+                            else
+                            {
+                                <img class="image" src="~/Resources/contract.jpg" width="40" height="40"  title="@Localizer["NoCnp"]">
+                              
+                            }
                         </td>
                     </tr>
                 }
