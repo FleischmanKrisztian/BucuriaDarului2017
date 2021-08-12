@@ -942,3 +942,6 @@ msgstr "Nici un document nu a fost adăugat în baza de date comună."
 
 msgid "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
 msgstr "Următoarele documente au fost modificate de altcineva de la ultima sincronizare.Asigurați-vă ca nu se vor pierde date."
+
+msgid:"NoCnp"
+msgstr:"Câmpul CNP al acestei persoane este gol!"

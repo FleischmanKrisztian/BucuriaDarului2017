@@ -152,7 +152,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 var beneficiary = new Beneficiary();
                 try
                 {
-                    beneficiary.Id = line[0];
+                    if(line[0] !=null && line[0] !=string.Empty)
+                         beneficiary.Id = line[0];
+                    else
+                        beneficiary.Id=Guid.NewGuid().ToString();
                     beneficiary.Fullname = line[1];
                     beneficiary.Active = Convert.ToBoolean(line[2]);
                     beneficiary.WeeklyPackage = Convert.ToBoolean(line[3]);

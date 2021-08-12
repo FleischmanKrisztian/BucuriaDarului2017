@@ -867,3 +867,6 @@ msgstr "No documents have been added to the Common Database."
 
 msgid "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
 msgstr "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
+
+msgid:"NoCnp"
+msgstr:"Can't create contracts without CNP"

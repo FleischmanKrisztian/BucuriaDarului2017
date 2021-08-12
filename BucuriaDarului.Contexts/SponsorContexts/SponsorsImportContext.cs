@@ -132,7 +132,10 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 var contactInformation = new ContactInformation();
                 try
                 {
-                    newSponsor.Id = line[0];
+                    if (line[0] != null && line[0] != string.Empty)
+                        newSponsor.Id = line[0];
+                    else
+                        newSponsor.Id = Guid.NewGuid().ToString();
                     newSponsor.NameOfSponsor = line[1];
 
                     sponsorship.Date = Convert.ToDateTime(line[2]);
