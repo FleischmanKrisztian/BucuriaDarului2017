@@ -29,7 +29,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     response.FileName = request.ExportParameters.FileName + ".csv";
             }
             else
-                response.FileName = "VolunteersReport" + DateTime.Now.ToString() + ".csv";
+                response.FileName = localizer["VolunteersReport"] + DateTime.Now.ToString() + ".csv";
             return response;
         }
 
