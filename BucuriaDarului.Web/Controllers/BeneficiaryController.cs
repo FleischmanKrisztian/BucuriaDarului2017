@@ -75,7 +75,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
             if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
                 return DownloadCSV(beneficiaryExportData.FileName, "beneficiarySession", "beneficiaryHeader");
-            return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARYSESSION, message = "Please select at least one Property!" });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
