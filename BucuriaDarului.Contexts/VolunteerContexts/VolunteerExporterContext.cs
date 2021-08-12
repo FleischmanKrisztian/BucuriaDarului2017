@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
 {
@@ -18,7 +19,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             var idsAndFields = GetIdAndFieldString(request.ExportParameters);
             var header = GetHeaderForExcelPrinterVolunteer();
-            var response = new VolunteerExporterResponse(CreateDictionaries(Constants.VOLUNTEERSESSION, Constants.VOLUNTEERHEADER, idsAndFields, header));
+            var response = new VolunteerExporterResponse(CreateDictionaries(Constants.VOLUNTEER_SESSION, Constants.VOLUNTEER_HEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
             if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {

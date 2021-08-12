@@ -1,10 +1,12 @@
-﻿using BucuriaDarului.Contexts.VolunteerContractContexts;
+﻿using System;
+using BucuriaDarului.Contexts.VolunteerContractContexts;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -22,7 +24,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult ContractExp()
         {
-            var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforExpiration(TempData);
+            var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData);
             var contractExpirationContext = new VolunteerContractsExpirationContext(new VolunteerContractExpirationGateway());
             var contracts = contractExpirationContext.Execute(nrOfDays);
             return View(contracts);
@@ -72,11 +74,16 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
             var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
-            var response = new VolunteerContractPrintResponse();
+            VolunteerContractPrintResponse response;
             if (Files == null)
             {
-                response.Message = "Please choose the template!";
-                response.IsValid = false;
+                //TODO: Add the path to the Default Templates
+                var defaultPath =  "Constants.PATH_TO_THE_DEFAULT_CONTRACT_TEMPLATE";
+                using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
+                response = printContext.Execute(stream, id, fileName);
+
+                //response.Message = "Please choose the template!";
+                //response.IsValid = false;
             }
             else
                 response = printContext.Execute(Files.OpenReadStream(), id, fileName);

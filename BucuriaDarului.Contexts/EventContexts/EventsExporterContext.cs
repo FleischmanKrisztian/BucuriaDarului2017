@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -18,7 +19,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             var idsAndFields = GetIdAndFieldString(request.ExportParameters);
             var header = GetHeaderForExcelPrinterEvent();
-            var response = new EventsExporterResponse(CreateDictionaries(Constants.EVENTSESSION, Constants.EVENTHEADER, idsAndFields, header));
+            var response = new EventsExporterResponse(CreateDictionaries(Constants.EVENT_SESSION, Constants.EVENT_HEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
             if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {

@@ -27,7 +27,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
             var contracts = dataGateway.GetContractList();
             var numberOfContracts = GetNumberOfContractsForVolunteer(contracts, beneficiaries);
-            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARYSESSION,numberOfContracts);
+            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARY_SESSION,numberOfContracts);
         }
 
         public Dictionary<string, int> GetNumberOfContractsForVolunteer(List<BeneficiaryContract> contracts, List<Beneficiary>beneficiaries)

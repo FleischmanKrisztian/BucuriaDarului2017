@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization;
 
 using System;
 using System.Collections.Generic;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -59,7 +60,7 @@ namespace BucuriaDarului.Web.Controllers
             var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
             DictionaryHelper.d = sponsorExportData.Dictionary;
             if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
-                return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
+                return DownloadCSV(sponsorExportData.FileName, Constants.SPONSOR_SESSION, Constants.SPONSOR_HEADER);
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 
@@ -84,7 +85,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult ContractExp()
         {
-            var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforExpiration(TempData);
+            var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData);
             var contractExpirationContext = new SponsorContractsExpirationContext(new SponsorContractExpirationGateway());
             var contracts = contractExpirationContext.Execute(nrOfDays);
             return View(contracts);

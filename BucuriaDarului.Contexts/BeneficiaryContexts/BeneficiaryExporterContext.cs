@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 using System;
+using BucuriaDarului.Core;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         {
             var idsAndFields = GetIdAndFieldString(request.ExportParameters);
             var header = GetHeaderForExcelPrinterBeneficiary();
-            var response = new BeneficiaryExporterResponse(CreateDictionaries(Constants.BENEFICIARYSESSION, Constants.BENEFICIARYHEADER, idsAndFields, header));
+            var response = new BeneficiaryExporterResponse(CreateDictionaries(Constants.BENEFICIARY_SESSION, Constants.BENEFICIARY_HEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
             if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {

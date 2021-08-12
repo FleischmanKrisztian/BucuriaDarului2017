@@ -32,7 +32,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             events = GetEventsAfterPaging(events, request.PagingData);
 
-            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs,Constants.EVENTSESSION);
+            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs,Constants.EVENT_SESSION);
         }
 
         private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -74,7 +75,7 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryExportData = beneficiaryExporterContext.Execute(new BeneficiaryExporterRequest(csvExportProperties));
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
             if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
-                return DownloadCSV(beneficiaryExportData.FileName, "beneficiarySession", "beneficiaryHeader");
+                return DownloadCSV(beneficiaryExportData.FileName, Constants.BENEFICIARY_SESSION, Constants.BENEFICIARY_HEADER);
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }
 

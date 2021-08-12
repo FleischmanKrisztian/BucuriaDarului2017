@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -68,7 +69,7 @@ namespace BucuriaDarului.Web.Controllers
             var eventsExportData = eventsExporterContext.Execute(new EventsExporterRequest(csvExportProperties));
             DictionaryHelper.d = eventsExportData.Dictionary;
             if (eventsExportData.IsValid && eventsExportData.FileName != "")
-                return DownloadCSV(eventsExportData.FileName, "eventSession", "eventHeader");
+                return DownloadCSV(eventsExportData.FileName, Constants.EVENT_SESSION, Constants.EVENT_HEADER);
 
             return RedirectToAction("CsvExporter", new { message = "Please select at least one Property!" });
         }

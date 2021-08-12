@@ -2,7 +2,6 @@
 using BucuriaDarului.Core.Gateways.SponsorGateways;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace BucuriaDarului.Contexts.SponsorContexts
@@ -31,7 +30,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData);
 
-            return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, emptyDatabase, sponsorsAfterFiltering, stringOfIDs,Constants.SPONSORSESSION);
+            return new SponsorsMainDisplayIndexResponse(sponsors, request.FilterData, request.PagingData, emptyDatabase, sponsorsAfterFiltering, stringOfIDs, Constants.SPONSOR_SESSION);
         }
 
         private string GetStringOfIds(List<Sponsor> sponsors)
@@ -142,7 +141,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             TotalSponsors = sponsorsAfterFiltering;
             EmptyDatabase = emptyDatabase;
             StringOfIDs = stringOfIDs;
-            DictionaryKey =dictionaryKey;
+            DictionaryKey = dictionaryKey;
         }
     }
 
