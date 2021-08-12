@@ -475,8 +475,8 @@ msgstr "Printează"
 msgid "RegistrationDate"	
 msgstr "Data întocmirii contractului"
 
-msgid "Volcontract"	
-msgstr "contract"
+msgid "VolContract"	
+msgstr "contract voluntar"
 
 msgid "Avatar"	
 msgstr "Poză de profil"

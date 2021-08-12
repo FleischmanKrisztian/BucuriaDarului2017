@@ -57,8 +57,7 @@
     @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
             <div class="col-md-4">
                 @{
@@ -91,7 +90,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-8">
                 <h4>
                     @Localizer["PersonalInformation"]:
@@ -102,7 +100,7 @@
                         <label> @Localizer["Fullname"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -122,14 +120,14 @@
                         <label> @Localizer["CNP"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control", maxlength = "15" } })
                         @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label> @Localizer["BirthDate"]:</label>
+                        <label> @Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
                         <input class="form-control" type="date" name="PersonalInfo.Birthdate" value="@Model.PersonalInfo.Birthdate.ToString("yyyy-MM-dd")" />
@@ -139,11 +137,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>@Localizer["BirthPlace"]:</label>
+                        <label>@Localizer["Birthplace"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.BirthPlace, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.PersonalInfo.BirthPlace, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.PersonalInfo.BirthPlace, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         <hr />
                     </div>
                 </div>
@@ -152,7 +149,7 @@
                         <label> @Localizer["PhoneNumber"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.PhoneNumber, new { htmlAttributes = new { @class = "form-control", maxlength = "15" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.PhoneNumber, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -162,10 +159,9 @@
                         <label> @Localizer["Active"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <div style=" padding-left:20px; padding-bottom:2px !important">
-                            @Html.EditorFor(model => model.Active)
-                            @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
-                        </div>
+                        <div style=" padding-left:20px; padding-bottom:2px !important">@Html.EditorFor(model => model.Active)</div>
+
+                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
@@ -186,7 +182,7 @@
                         <label>@Localizer["NumberOfPortions"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.NumberOfPortions, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.NumberOfPortions, new { htmlAttributes = new { @class = "form-control", maxlength = "20" } })
                         @Html.ValidationMessageFor(model => model.NumberOfPortions, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -220,7 +216,7 @@
                         <label> @Localizer["HomeDeliveryDriver"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.HomeDeliveryDriver, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.HomeDeliveryDriver, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.HomeDeliveryDriver, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -240,7 +236,7 @@
                         <label>@Localizer["Married"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Married, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Married, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Married, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -250,7 +246,7 @@
                         <label> @Localizer["SpouseName"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.SpouseName, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.SpouseName, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.SpouseName, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -260,7 +256,7 @@
                         <label>@Localizer["Expenses"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Expenses, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Expenses, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Expenses, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -270,7 +266,7 @@
                         <label>@Localizer["Income"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Income, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Income, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Income, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -280,7 +276,7 @@
                         <label> @Localizer["Comments"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -302,7 +298,7 @@
                         <label> @Localizer["AddressInformation"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -313,7 +309,7 @@
                 </h4>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>@Localizer["HasID"]:</label>
+                        <label>@Localizer["HasId"]:</label>
                     </div>
                     <div class="col-md-6">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
@@ -325,17 +321,17 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>  @Localizer["IdInfo"]:</label>
+                        <label>  @Localizer["CiInfo"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.CI.Info, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <label>@Localizer["IdExpirationDate"]:</label>
+                        <label>@Localizer["ExpirationDateCI"]:</label>
                     </div>
                     <div class="col-md-6">
                         <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
@@ -352,7 +348,7 @@
                         <label> @Localizer["Marca"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Marca.MarcaName, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.Marca.MarcaName, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Marca.MarcaName, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -362,7 +358,7 @@
                         <label>@Localizer["IdApplication"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Marca.IdApplication, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.Marca.IdApplication, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Marca.IdApplication, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -372,7 +368,7 @@
                         <label> @Localizer["IdContract"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Marca.IdContract, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.Marca.IdContract, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Marca.IdContract, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -382,7 +378,7 @@
                         <label>@Localizer["IdInvestigation"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Marca.IdInvestigation, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.Marca.IdInvestigation, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.Marca.IdInvestigation, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -411,6 +407,7 @@
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.PersonalInfo.HealthInsurance)
                         </div>
+
                         @Html.ValidationMessageFor(model => model.PersonalInfo.HealthInsurance, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -420,7 +417,7 @@
                         <label> @Localizer["HealthState"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.HealthState, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.HealthState, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.HealthState, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -430,7 +427,7 @@
                         <label> @Localizer["ChronicCondition"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.ChronicCondition, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.ChronicCondition, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.ChronicCondition, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -440,7 +437,7 @@
                         <label>@Localizer["Addictions"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Addictions, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Addictions, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Addictions, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -450,7 +447,7 @@
                         <label>@Localizer["Disability"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Disability, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Disability, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Disability, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -476,7 +473,7 @@
                         <label> @Localizer["HousingType"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.HousingType, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.HousingType, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.HousingType, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -490,7 +487,7 @@
                         <label>@Localizer["Studies"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Studies, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Studies, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Studies, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -500,7 +497,7 @@
                         <label> @Localizer["Occupation"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Occupation, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Occupation, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Occupation, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -510,7 +507,7 @@
                         <label>@Localizer["Profession"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.Profession, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.Profession, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.Profession, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -520,7 +517,7 @@
                         <label>@Localizer["SeniorityInWorkField"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PersonalInfo.SeniorityInWorkField, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                        @Html.EditorFor(model => model.PersonalInfo.SeniorityInWorkField, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.PersonalInfo.SeniorityInWorkField, "", new { @class = "text-danger" })
                         <hr />
                     </div>

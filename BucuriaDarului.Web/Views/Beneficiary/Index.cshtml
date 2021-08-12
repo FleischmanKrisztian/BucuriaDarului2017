@@ -334,7 +334,7 @@
         }
         <table class="table" style="text-align: center">
             <tr>
-                <th>
+                <th style="max-width: 220px; width: 200px">
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
                     <br />
                     @Html.TextBox("searching")
