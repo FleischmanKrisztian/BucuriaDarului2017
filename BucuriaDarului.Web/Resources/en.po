@@ -897,3 +897,12 @@ msgstr "Contract exported successfully!"
 
 msgstr "VolunteersReport"
 msgstr "VolunteersReport"
+
+msgstr "File must be of type Volunteer!"
+msgstr "Acest fișier trebuie să corespundă formatului pentru import voluntar!"
+
+msgstr "The File Does Not have the correct header!"
+msgstr "Coloanele acestui fișier nu se portivesc cu tipul de fișier importat pentru voluntar!"
+
+msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
+msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
