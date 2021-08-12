@@ -1,4 +1,5 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -62,8 +62,8 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
-            ViewBag.Ids = StringOfIds;
+            var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = stringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -75,21 +75,19 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryExportData = beneficiaryExporterContext.Execute(new BeneficiaryExporterRequest(csvExportProperties));
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
             if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
-                return DownloadCSV(beneficiaryExportData.FileName, "beneficiarySession", "beneficiaryHeader");
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARYSESSION, message = "Please select at least one Property!" });
+                return DownloadCSV(beneficiaryExportData.FileName, Constants.BENEFICIARY_SESSION, Constants.BENEFICIARY_SESSION);
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARY_SESSION, message = "Please select at least one Property!" });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
         {
-            string ids = string.Empty;
-            string header = string.Empty;
-            DictionaryHelper.d.TryGetValue(idsKey, out ids);
-            DictionaryHelper.d.TryGetValue(headerKey, out header);
+            DictionaryHelper.d.TryGetValue(idsKey, out var ids);
+            DictionaryHelper.d.TryGetValue(headerKey, out var header);
 
             var context = new BeneficiaryDownloadContext(new BeneficiaryDownloadGateway());
-            var respons = context.Execute(ids, header);
+            var response = context.Execute(ids, header);
 
-            return File(new System.Text.UTF8Encoding().GetBytes(respons.ToString()), "text/csv", fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "text/csv", fileName);
         }
 
         public ActionResult Details(string id)
@@ -108,7 +106,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Create(BeneficiaryCreateRequest request, IFormFile image)
         {
             var beneficiaryCreateContext = new BeneficiaryCreateContext(new BeneficiaryCreateGateway());
-            var fileBytes = new byte[0];
+            var fileBytes = Array.Empty<byte>();
 
             if (image != null)
             {
@@ -138,7 +136,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Edit(BeneficiaryEditRequest request, IFormFile image)
         {
-            var fileBytes = new byte[0];
+            var fileBytes = Array.Empty<byte>();
             if (image != null)
             {
                 if (image.Length > 0)

@@ -60,8 +60,8 @@ namespace BucuriaDarului.Web.Controllers
             var sponsorExportData = sponsorExporterContext.Execute(new SponsorExporterRequest(csvExportProperties));
             DictionaryHelper.d = sponsorExportData.Dictionary;
             if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
-                return DownloadCSV(sponsorExportData.FileName, "sponsorSession", "sponsorHeader");
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.SPONSORSESSION, message = "Please select at least one Property!" });
+                return DownloadCSV(sponsorExportData.FileName, Constants.SPONSOR_SESSION, Constants.SPONSOR_HEADER);
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.SPONSOR_SESSION, message = "Please select at least one Property!" });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
