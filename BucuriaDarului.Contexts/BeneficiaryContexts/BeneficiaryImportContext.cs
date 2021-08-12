@@ -32,7 +32,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             if (response.IsValid)
             {
                 var result = ExtractImportRawData(dataToImport);
-                List<Beneficiary> beneficiariesFromCsv = new List<Beneficiary>();
+                var beneficiariesFromCsv = new List<Beneficiary>();
                 if (_fileType == 0)
                 {
                     response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Beneficiary!"));

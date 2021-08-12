@@ -29,7 +29,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Import(IFormFile files)
         {
-            var volunteerImportContext = new VolunteerImportContext(_localizer, new VolunteerImportGateway());
+            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway());
             var response = new VolunteerImportResponse();
             if (files != null)
                 response = volunteerImportContext.Execute(files.OpenReadStream());
