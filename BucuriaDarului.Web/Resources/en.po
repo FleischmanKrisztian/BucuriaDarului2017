@@ -894,3 +894,6 @@ msgstr "Missing CI information for this volunteer!Please fill in all the data ne
 
 msgstr "Contract exported successfully!"
 msgstr "Contract exported successfully!"
+
+msgstr "VolunteersReport"
+msgstr "VolunteersReport"
