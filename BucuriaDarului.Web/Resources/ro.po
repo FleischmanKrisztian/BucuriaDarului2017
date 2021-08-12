@@ -946,6 +946,9 @@ msgstr "Următoarele documente au fost modificate de altcineva de la ultima sinc
 msgid:"NoCnp"
 msgstr:"Câmpul CNP al acestei persoane este gol!"
 
+msgid:" "NoCiInfo"
+msgstr: "Câmpul depre informațiile din cartea de indentitate al acestei persoane este gol!"
+
 msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
 msgstr "Câmpul CNP al acestui voluntar nu este completat!Introduceți datele neceseare pentru a putea crea contractul."
 
