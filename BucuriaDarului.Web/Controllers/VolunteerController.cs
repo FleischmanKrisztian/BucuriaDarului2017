@@ -50,17 +50,21 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var volunteerMainDisplayIndexContext = new VolunteerMainDisplayIndexContext(new VolunteerMainDisplayIndexGateway());
             var model = volunteerMainDisplayIndexContext.Execute(new VolunteerMainDisplayIndexRequest(nrOfDocs, page, searchedFullname, searchedContact, sortOrder, active, hasCar, hasDrivingLicense, lowerDate, upperDate, gender, searchedAddress, searchedWorkplace, searchedOccupation, searchedRemarks, searchedHourCount));
-            HttpContext.Session.SetString(model.DictionaryKey, model.StringOfIDs);
+            var dictionary= new Dictionary<string, string>();
+            dictionary.Add(model.DictionaryKey, model.StringOfIDs);
+            DictionaryHelper.d = dictionary;
             return View(model);
         }
 
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
-            if (stringOfIds == "" || stringOfIds == "volunteerCSV") 
-                return RedirectToAction("CsvExporter", new { message = _localizer["Empty list of ids"] });
+            var stringOfIds = string.Empty;
+            DictionaryHelper.d.TryGetValue(dictionaryKey, out stringOfIds);
             ViewBag.Ids = stringOfIds;
+
+            if (stringOfIds == "" || stringOfIds == "volunteerCSV")
+                return RedirectToAction("CsvExporter", new {message="Empty list of ids!"});
             ViewBag.message = message;
             return View();
         }
@@ -72,8 +76,8 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
             DictionaryHelper.d = volunteerExportData.Dictionary;
             if (volunteerExportData.IsValid && volunteerExportData.FileName != "")
-                return DownloadCSV(volunteerExportData.FileName, Constants.VOLUNTEER_SESSION, Constants.VOLUNTEER_HEADER);
-            return RedirectToAction("CsvExporter", new { message = @_localizer["Please select at least one Property!"] });
+                return DownloadCSV(volunteerExportData.FileName, "volunteerSession", "volunteerHeader");
+            return RedirectToAction("CsvExporter", new {dictionaryKey=Constants.VOLUNTEERSESSION, message = @_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
