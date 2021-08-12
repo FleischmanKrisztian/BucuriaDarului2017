@@ -91,22 +91,22 @@
                     </div>
                 </div>
             </div>
-            <div claas="col-md-8">
+            <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["Fullname"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Fullname, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.Fullname, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        @Localizer["Active"]:
+                    <div class="col-md-7">
+                        @Localizer["Active"]
                     </div>
-                    <div class="col-md-6 checkbox">
+                    <div class="col-md-5">
                         <div style=" padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.InActivity)
                         </div>
@@ -115,167 +115,167 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["Birthdate"]:
                     </div>
-                    <div class="col-md-6">
-                        <input class="form-control" type="date" name="Birthdate" value="@Model.Birthdate.ToString("yyyy-MM-dd")"/>
+                    <div class="col-md-5">
+                        <input class="form-control" type="date" name="Birthdate" value="@Model.Birthdate.ToString("yyyy-MM-dd")" />
                         @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["Address"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", maxlength = "60" } })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["CNP"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control", maxlength = "15" } })
                         @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["HasId"]
                     </div>
-                    <div class="col-md-6">
-
-                        @Html.EditorFor(model => model.CI.HasId)
+                    <div class="col-md-5">
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.CI.HasId)
+                        </div>
                         @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["IdInformation"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.CI.Info, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["IdExpirationDate"]:
                     </div>
-                    <div class="col-md-6">
-                        <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")"/>
+                    <div class="col-md-5">
+                        <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["PhoneNumber"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.ContactInformation.PhoneNumber, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "15" } })
                         @Html.ValidationMessageFor(model => model.ContactInformation.PhoneNumber, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["EmailAddress"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.ContactInformation.MailAddress, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.ContactInformation.MailAddress, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.ContactInformation.MailAddress, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["HasCar"]
                     </div>
-                    <div class="col-md-6">
-
-                        @Html.EditorFor(model => model.AdditionalInfo.HasCar)
+                    <div class="col-md-5">
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.AdditionalInfo.HasCar)
+                        </div>
                         @Html.ValidationMessageFor(model => model.AdditionalInfo.HasCar, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["HasDrivingLicense"]
                     </div>
-                    <div class="col-md-6">
-
-                        @Html.EditorFor(model => model.AdditionalInfo.HasDrivingLicense)
+                    <div class="col-md-5">
+                        <div style=" padding-left:20px; padding-bottom:2px !important">
+                            @Html.EditorFor(model => model.AdditionalInfo.HasDrivingLicense)
+                        </div>
                         @Html.ValidationMessageFor(model => model.AdditionalInfo.HasDrivingLicense, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["Remarks"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.AdditionalInfo.Remark, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.AdditionalInfo.Remark, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "200" } })
                         <hr />
                     </div>
                 </div>
-                @using (Html.BeginForm("CheckRadio", "Home", FormMethod.Post))
-                {
-                    <div class="row">
-                        <div class="col-md-6">
-                            @Localizer["Gender"]:
-                        </div>
-                        <div class="col-md-6">
-                            @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
-                            @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
-                            <hr />
-                        </div>
-                    </div>
-                }
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
+                        @Localizer["Gender"]:
+                    </div>
+                    <div class="col-md-5">
+                        @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
+                        @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-7">
                         @Localizer["DesiredArea"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.DesiredWorkplace, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.DesiredWorkplace, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.DesiredWorkplace, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["FieldOfActivity"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.FieldOfActivity, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.FieldOfActivity, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.FieldOfActivity, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["Occupation"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Occupation, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
                         <hr />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         @Localizer["HourCount"]:
                     </div>
-                    <div class="col-md-6">
-                        @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "8" } })
                         @Html.ValidationMessageFor(model => model.HourCount, "", new { @class = "text-danger" })
                         <hr />
                     </div>

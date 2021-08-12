@@ -35,11 +35,11 @@ namespace BucuriaDarului.Web.Controllers
                 response = sponsorsImportContext.Execute(files.OpenReadStream());
             else
             {
-                response.Message.Add(new KeyValuePair<string, string>("NoFile", "Please choose a file!"));
+                response.Message.Add(new KeyValuePair<string, string>("NoFile", @_localizer["Please choose a file!"]));
                 response.IsValid = false;
             }
             if (response.IsValid)
-                return RedirectToAction("Import", new { message = "The Document has been successfully imported" });
+                return RedirectToAction("Import", new { message = @_localizer["The Document has been successfully imported"] });
             return RedirectToAction("Import", new { message = response.Message[0].Value });
         }
 

@@ -70,7 +70,7 @@
                             <label>@Localizer["NumberOfRegistration"]:</label>
                         </div>
                         <div class="col-md-6">
-                            @Html.EditorFor(model => model.NumberOfRegistration, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.NumberOfRegistration, new { htmlAttributes = new { @class = "form-control", maxlength="25" } })
                             @Html.ValidationMessageFor(model => model.NumberOfRegistration, "", new { @class = "text-danger" })
                             <hr />
                         </div>

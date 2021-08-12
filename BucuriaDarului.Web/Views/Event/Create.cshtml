@@ -70,7 +70,7 @@
                         <label> @Localizer["NameOfEvent"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.NameOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.NameOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.NameOfEvent, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -80,7 +80,7 @@
                         <label> @Localizer["PlaceOfEvent"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.PlaceOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.PlaceOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.PlaceOfEvent, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -100,7 +100,7 @@
                         <label>  @Localizer["NumberOfVolunteersNeeded"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.NumberOfVolunteersNeeded, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.NumberOfVolunteersNeeded, new { htmlAttributes = new { @class = "form-control", maxlength = "5" } })
                         @Html.ValidationMessageFor(model => model.NumberOfVolunteersNeeded, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -110,7 +110,7 @@
                         <label>@Localizer["TypeOfActivities"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.TypeOfActivities, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.TypeOfActivities, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
                         @Html.ValidationMessageFor(model => model.TypeOfActivities, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -120,7 +120,7 @@
                         <label>@Localizer["TypeOfEvent"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.TypeOfEvent, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.TypeOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.TypeOfEvent, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -130,7 +130,7 @@
                         <label>@Localizer["Duration"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
                         <hr />
                     </div>
