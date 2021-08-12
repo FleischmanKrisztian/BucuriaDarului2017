@@ -131,7 +131,10 @@ namespace BucuriaDarului.Contexts.EventContexts
                 try
                 {
                     //TODO : The Date Crashes From the Romanian Import
-                    ev.Id = line[0];
+                    if (line[0] != null && line[0] != string.Empty)
+                        ev.Id = line[0];
+                    else
+                        ev.Id = Guid.NewGuid().ToString();
                     ev.NameOfEvent = line[1];
                     ev.PlaceOfEvent = line[2];
                     ev.DateOfEvent = Convert.ToDateTime(line[3]);
