@@ -4,6 +4,7 @@ using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -81,13 +82,13 @@ namespace BucuriaDarului.Web.Controllers
                 response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
             }
             if (response.IsValid)
-                return GetPhysicalFileResult(response.DownloadPath);
+                return DownloadFile(response.Stream, response.FileName);
             return RedirectToAction("Print", new { id = id, message = response.Message });
         }
 
-        public PhysicalFileResult GetPhysicalFileResult(string path)
+        public FileContentResult DownloadFile(MemoryStream data, string fileName)
         {
-            return new PhysicalFileResult(path, "application/doc");
+            return File(data.ToArray(), "application/docx", fileName);
         }
 
         [HttpGet]

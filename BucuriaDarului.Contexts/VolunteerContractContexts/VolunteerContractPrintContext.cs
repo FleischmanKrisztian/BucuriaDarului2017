@@ -31,9 +31,10 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                 response.FileName = GetFileName(fileName, contract.Fullname);
 
                 document = FillInDocument(document, contract);
-                document.SaveAs(response.FileName);
+                MemoryStream stream = new MemoryStream();
+                document.SaveAs(stream);
 
-                response.DownloadPath = Path.GetFullPath(response.FileName);
+                response.Stream = stream;
             }
             return response;
         }
@@ -87,7 +88,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         public string DownloadPath { get; set; }
         public bool IsValid { get; set; }
         public string FileName { get; set; }
-
+        public MemoryStream Stream { get; set; }
         public string Message { get; set; }
 
         public VolunteerContractPrintResponse()

@@ -44,7 +44,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         private string GetIdAndFieldString(ExportParameters csv)
         {
             var idsAndOptions = csv.StringOfIDs + "(((";
-            if (csv.All)
+            if (csv.Fullname && csv.Active && csv.Canteen && csv.HomeDelivery && csv.HomeDeliveryDriver && csv.HasGDPRAgreement &&
+                csv.Address && csv.CNP && csv.CIInfo && csv.Marca && csv.IdInvestigation && csv.IdApplication && csv.NumberOfPortions && csv.LastTimeActive &&
+                csv.PhoneNumber && csv.BirthPlace && csv.Studies && csv.Profession && csv.Occupation && csv.SeniorityInWorkField &&
+                csv.HealthState && csv.Disability && csv.ChronicCondition && csv.Addictions && csv.HealthInsurance && csv.HealthCard && csv.Married &&
+                csv.SpouseName && csv.HasHome && csv.HousingType && csv.Income && csv.Expenses && csv.Gender && csv.WeeklyPackage && csv.Birthdate)
+
                 idsAndOptions += "0";
             if (csv.Fullname)
                 idsAndOptions += "1";

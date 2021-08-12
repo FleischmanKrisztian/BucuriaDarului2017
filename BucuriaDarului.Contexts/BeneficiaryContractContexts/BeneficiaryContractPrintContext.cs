@@ -30,9 +30,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
                 response.FileName = GetFileName(contract.Fullname);
                 var option = GetOptionValue(optionValue, otherOptionValue);
                 document = FillInDocument(document, contract, option);
-                document.SaveAs(response.FileName);
+                MemoryStream stream = new MemoryStream();
+                document.SaveAs(stream);
 
-                response.DownloadPath = Path.GetFullPath(response.FileName);
+                response.Stream = stream;
             }
 
             return response;
@@ -78,8 +79,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             if (contract.IdInvestigation != null)
                 document.ReplaceText("<IdInvestigation>", contract.IdInvestigation);
             if (optionValue != null)
-            { 
-                document.ReplaceText("<option>", optionValue); 
+            {
+                document.ReplaceText("<option>", optionValue);
             }
             document.ReplaceText("<NumberOfPortions>", contract.NumberOfPortions.ToString());
             document.ReplaceText("<RegistrationDate> ", contract.RegistrationDate.ToShortDateString());
@@ -102,7 +103,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
         public string DownloadPath { get; set; }
         public bool IsValid { get; set; }
         public string FileName { get; set; }
-
+        public MemoryStream Stream { get; set; }
         public string Message { get; set; }
 
         public BeneficiaryContractPrintResponse()
