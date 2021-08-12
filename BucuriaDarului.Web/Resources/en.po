@@ -426,7 +426,7 @@ msgstr "Print"
 msgid "RegistrationDate"	
 msgstr "Registration Date"
 
-msgid "Volcontract"
+msgid "VolContract"
 msgstr "Volunteer's contract"
 
 msgid "Avatar"

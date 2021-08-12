@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Contexts.SponsorContexts
 {
@@ -18,9 +19,9 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         {
             var idsAndFields = GetIdAndFieldString(request.ExportParameters);
             var header = GetHeaderForExcelPrinterSponsor();
-            var response = new SponsorExporterResponse(CreateDictionaries(Constants.SPONSORSESSION, Constants.SPONSORHEADER, idsAndFields, header));
+            var response = new SponsorExporterResponse(CreateDictionaries(Constants.SPONSOR_SESSION, Constants.SPONSOR_HEADER, idsAndFields, header));
             response.IsValid = CheckForProperties(idsAndFields);
-            if (request.ExportParameters.FileName != "" && request.ExportParameters.FileName != null)
+            if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {
                 if (request.ExportParameters.FileName.Contains(".csv"))
                     response.FileName = request.ExportParameters.FileName;

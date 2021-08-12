@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -23,8 +24,8 @@ namespace BucuriaDarului.Web.Controllers
 
             TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = quantity;
             TempData[Constants.CONNECTION_LANGUAGE] = lang;
-            TempData[Constants.ALARM_NUMBER_OF_DAYS_BEFOR_BIRTHDAY] = numberOfDaysBeforBirthday;
-            TempData[Constants.NUMBER_OF_DAYS_BEFOR_EXPIRATION] = numberOfDaysBeforeExpiration;
+            TempData[Constants.ALARM_NUMBER_OF_DAYS_BEFORE_BIRTHDAY] = numberOfDaysBeforBirthday;
+            TempData[Constants.NUMBER_OF_DAYS_BEFORE_EXPIRATION] = numberOfDaysBeforeExpiration;
 
             SetCookie(lang);
             return RedirectToAction("Index", "Home");
@@ -50,8 +51,8 @@ namespace BucuriaDarului.Web.Controllers
             var response = firstStartupContext.Execute();
             TempData[Constants.NUMBER_OF_ITEMS_PER_PAGE] = response.NumberOfItemsPerPage;
             TempData[Constants.CONNECTION_LANGUAGE] = response.Language;
-            TempData[Constants.ALARM_NUMBER_OF_DAYS_BEFOR_BIRTHDAY] = response.NumberOfDaysBeforBirthday;
-            TempData[Constants.NUMBER_OF_DAYS_BEFOR_EXPIRATION] = response.NumberOfDaysBeforeExpiration;
+            TempData[Constants.ALARM_NUMBER_OF_DAYS_BEFORE_BIRTHDAY] = response.NumberOfDaysBeforBirthday;
+            TempData[Constants.NUMBER_OF_DAYS_BEFORE_EXPIRATION] = response.NumberOfDaysBeforeExpiration;
             return RedirectToAction("Index", "Home");
         }
     }

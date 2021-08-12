@@ -1,6 +1,7 @@
 ﻿using BucuriaDarului.Web.Common;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
+using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
 {
@@ -20,11 +21,11 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
         }
 
 
-        public static int GetNumberOfDaysBeforBirtday(ITempDataDictionary tempDataDic)
+        public static int GetNumberOfDaysBeforeBirthday(ITempDataDictionary tempDataDic)
         {
             try
             {
-                var numberOfDays = tempDataDic.Peek(Constants.ALARM_NUMBER_OF_DAYS_BEFOR_BIRTHDAY).ToString();
+                var numberOfDays = tempDataDic.Peek(Constants.ALARM_NUMBER_OF_DAYS_BEFORE_BIRTHDAY).ToString();
                 return Convert.ToInt16(numberOfDays);
             }
             catch
@@ -33,16 +34,16 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
             }
         }
 
-        public static int GetNumberOfDaysBeforExpiration(ITempDataDictionary tempDataDic)
+        public static int GetNumberOfDaysBeforeExpiration(ITempDataDictionary tempDataDic)
         {
             try
             {
-                var numberOfDays = tempDataDic.Peek(Constants.NUMBER_OF_DAYS_BEFOR_EXPIRATION).ToString();
+                var numberOfDays = tempDataDic.Peek(Constants.NUMBER_OF_DAYS_BEFORE_EXPIRATION).ToString();
                 return Convert.ToInt16(numberOfDays);
             }
             catch
             {
-                return Constants.DEFAULT_NUMBER_OF_DAYS_BEFOR_EXPIRATION;
+                return Constants.DEFAULT_NUMBER_OF_DAYS_BEFORE_EXPIRATION;
             }
         }
 
