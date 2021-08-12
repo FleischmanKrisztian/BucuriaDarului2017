@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,9 +15,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     {
         private readonly IVolunteerImportGateway dataGateway;
         private static int _fileType = 0;
+        private readonly IStringLocalizer localizer;
 
-        public VolunteerImportContext(IVolunteerImportGateway dataGateway)
+        public VolunteerImportContext(IVolunteerImportGateway dataGateway,IStringLocalizer localizer)
         {
+            this.localizer = localizer;
             this.dataGateway = dataGateway;
         }
 
@@ -25,21 +28,21 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var response = new VolunteerImportResponse();
             if (FileIsNotEmpty(dataToImport))
             {
-                response.Message.Add(new KeyValuePair<string, string>("EmptyFile", "File Cannot be Empty!"));
+                response.Message.Add(new KeyValuePair<string, string>("EmptyFile", @localizer["File Cannot be Empty!"]));
                 response.IsValid = false;
             }
 
             if (response.IsValid)
             {
-                var result = ExtractImportRawData(dataToImport);
+                var result = ExtractImportRawData(dataToImport,localizer);
                 var volunteersFromCsv = new List<Volunteer>();
                 if (_fileType == 0)
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Volunteer!"));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["File must be of type Volunteer!"]));
                     response.IsValid = false;
                 }
                 else if (_fileType == 1)
-                    volunteersFromCsv = GetVolunteerFromCsv(result, response);
+                    volunteersFromCsv = GetVolunteerFromCsv(result, response,localizer);
                 else
                     volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response);
                 if (response.IsValid)
@@ -56,7 +59,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return dataToImport.Length <= 0;
         }
 
-        private static List<string[]> ExtractImportRawData(Stream dataToImport)
+        private static List<string[]> ExtractImportRawData(Stream dataToImport,IStringLocalizer localizer)
         {
             var result = new List<string[]>();
             var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
@@ -78,7 +81,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     {
                         var returnList = new List<string[]>();
                         var strArray = new string[1];
-                        strArray[0] = "The File Does Not have the correct header!";
+                        strArray[0] = @localizer["The File Does Not have the correct header!"];
                         returnList.Add(strArray);
 
                         return returnList;
@@ -142,7 +145,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return i == 0;
         }
 
-        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response)
+        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response,IStringLocalizer localizer)
         {
             var volunteers = new List<Volunteer>();
 
@@ -194,7 +197,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 catch
                 {
                     response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",
-                        "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
+                        @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
                     response.IsValid = false;
                 }
 
@@ -205,7 +208,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         }
 
         private List<Volunteer> GetVolunteerFromBucuriaDaruluiCSV(List<string[]> lines,
-            VolunteerImportResponse response)
+            VolunteerImportResponse response,IStringLocalizer localizer)
         {
             var volunteers = new List<Volunteer>();
 
@@ -252,7 +255,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
                 catch
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",@localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
                     response.IsValid = false;
                 }
 
