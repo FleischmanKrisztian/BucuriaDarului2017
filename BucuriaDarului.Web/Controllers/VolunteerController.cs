@@ -129,9 +129,7 @@ namespace BucuriaDarului.Web.Controllers
 
             var volunteerCreateResponse = volunteerCreateContext.Execute(request, fileBytes);
 
-            //ModelState.Remove("Birthdate");
-            //ModelState.Remove("HourCount");
-            //ModelState.Remove("ExpirationDate");
+            ModelState.AddModelError("Fullname","Too many Characters");
 
             if (!volunteerCreateResponse.IsValid)
             {
@@ -162,9 +160,6 @@ namespace BucuriaDarului.Web.Controllers
             }
             var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway(),_localizer);
             var volunteerEditResponse = volunteerEditContext.Execute(request, fileBytes);
-            ModelState.Remove("Birthdate");
-            ModelState.Remove("HourCount");
-            ModelState.Remove("ExpirationDate");
             if (!volunteerEditResponse.IsValid)
             {
                 return RedirectToAction("Edit", new { id = request.Id, message = volunteerEditResponse.Message });

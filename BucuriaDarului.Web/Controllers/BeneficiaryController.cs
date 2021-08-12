@@ -120,15 +120,6 @@ namespace BucuriaDarului.Web.Controllers
             }
 
             var beneficiaryCreateResponse = beneficiaryCreateContext.Execute(request, fileBytes);
-            ModelState.Remove("Contract.RegistrationDate");
-            ModelState.Remove("Contract.ExpirationDate");
-            ModelState.Remove("Marca.IdApplication");
-            ModelState.Remove("Marca.IdContract");
-            ModelState.Remove("Marca.IdInvestigation");
-            ModelState.Remove("NumberOfPortions");
-            ModelState.Remove("LastTimeActive");
-            ModelState.Remove("PersonalInfo.Birthdate");
-            ModelState.Remove("CI.ExpirationDate");
             if (!beneficiaryCreateResponse.IsValid)
             {
                 return RedirectToAction("Create", new { message = beneficiaryCreateResponse.Message });
@@ -158,15 +149,6 @@ namespace BucuriaDarului.Web.Controllers
             }
             var beneficiaryEditContext = new BeneficiaryEditContext(new BeneficiaryEditGateway());
             var beneficiaryEditResponse = beneficiaryEditContext.Execute(request, fileBytes);
-            ModelState.Remove("Contract.RegistrationDate");
-            ModelState.Remove("Contract.ExpirationDate");
-            ModelState.Remove("Marca.IdApplication");
-            ModelState.Remove("Marca.IdContract");
-            ModelState.Remove("Marca.IdInvestigation");
-            ModelState.Remove("NumberOfPortions");
-            ModelState.Remove("LastTimeActive");
-            ModelState.Remove("PersonalInfo.Birthdate");
-            ModelState.Remove("CI.ExpirationDate");
 
             if (!beneficiaryEditResponse.IsValid)
             {

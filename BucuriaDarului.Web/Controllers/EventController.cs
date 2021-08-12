@@ -144,8 +144,6 @@ namespace BucuriaDarului.Web.Controllers
         {
             var eventCreateContext = new EventCreateContext(new EventCreateGateway());
             var eventCreateResponse = eventCreateContext.Execute(request);
-            ModelState.Remove("NumberOfVolunteersNeeded");
-            ModelState.Remove("DateOfEvent");
             if (!eventCreateResponse.IsValid)
             {
                 return RedirectToAction("Create", new { message = eventCreateResponse.Message });
@@ -165,8 +163,6 @@ namespace BucuriaDarului.Web.Controllers
         {
             var eventEditContext = new EventEditContext(new EventEditGateway());
             var eventEditResponse = eventEditContext.Execute(request);
-            ModelState.Remove("NumberOfVolunteersNeeded");
-            ModelState.Remove("DateOfEvent");
             if (!eventEditResponse.IsValid)
             {
                 return RedirectToAction("Edit", new { id = request.Id, message = eventEditResponse.Message });
