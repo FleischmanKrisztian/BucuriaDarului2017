@@ -7,11 +7,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using BucuriaDarului.Core;
+using Microsoft.Extensions.Localization;
 
 namespace BucuriaDarului.Web.Controllers
 {
     public class VolunteerContractController : Controller
     {
+        private readonly IStringLocalizer<VolunteerContractController> _localizer;
+
+        public VolunteerContractController(IStringLocalizer<VolunteerContractController> localizer)
+        {
+            _localizer = localizer;
+        }
+
         [HttpGet]
         public IActionResult Index(string idOfVolunteer)
         {
@@ -37,7 +45,7 @@ namespace BucuriaDarului.Web.Controllers
             ViewBag.NameOfVolunteer = volunteer.Fullname;
             if (string.IsNullOrEmpty(volunteer.CNP))
             {
-                ViewBag.message = "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation.";
+                ViewBag.message = @_localizer["Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."];
                 ViewBag.idOfVol = idOfVolunteer;
             }
             else
@@ -51,7 +59,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(VolunteerContractCreateRequest request)
         {
-            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
+            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway(),_localizer);
             var contractCreateResponse = contractCreateContext.Execute(request);
 
             if (!contractCreateResponse.IsValid)
@@ -73,7 +81,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
-            var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
+            var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway(),_localizer);
             VolunteerContractPrintResponse response;
             if (Files == null)
             {
@@ -88,7 +96,9 @@ namespace BucuriaDarului.Web.Controllers
             else
                 response = printContext.Execute(Files.OpenReadStream(), id, fileName);
             if (response.IsValid)
-                return DownloadFile(response.Stream, response.FileName);
+            {
+                response.Message = @_localizer["Contract exported successfully!"];
+                return DownloadFile(response.Stream, response.FileName);             }
             return RedirectToAction("Print", new { id = id, message = response.Message });
         }
 
@@ -111,7 +121,7 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerContractDeleteContext = new VolunteerContractDeleteContext(new VolunteerContractDeleteGateway());
             var response = volunteerContractDeleteContext.Execute(request);
             if (!response.IsValid)
-                return RedirectToAction("Delete", new { id = request.ContractId, message = "Error! This document couldn't be deleted!" });
+                return RedirectToAction("Delete", new { id = request.ContractId, message = @_localizer["Error! This document couldn't be deleted!"]});
             return RedirectToAction("Index", new { idOfVolunteer = response.VolunteerId });
         }
     }

@@ -870,3 +870,24 @@ msgstr "The following Documents Have been also modified by someone else since yo
 
 msgid:"NoCnp"
 msgstr:"Can't create contracts without CNP"
+
+msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
+msgstr "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
+
+msgid "Error! This document couldn't be deleted!"
+msgstr "Error! This document couldn't be deleted!"
+
+msgid "Please enter number of registration!"
+msgstr "Please enter number of registration!"
+
+msgstr "Please enter a valid Expiration Date!"
+msgstr "Please enter a valid Expiration Date!"
+
+msgstr "Please enter a valid Registration Date!"
+msgstr "Please enter a valid Registration Date!"
+
+msgstr "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
+msgstr "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
+
+msgstr "Contract exported successfully!"
+msgstr "Contract exported successfully!"

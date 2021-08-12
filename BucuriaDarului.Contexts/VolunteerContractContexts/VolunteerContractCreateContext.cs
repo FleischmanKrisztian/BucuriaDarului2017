@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using Microsoft.Extensions.Localization;
 
 namespace BucuriaDarului.Contexts.VolunteerContractContexts
 {
@@ -9,10 +10,12 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
     {
         private readonly IVolunteerContractCreateGateway dataGateway;
         private VolunteerContractCreateResponse response = new VolunteerContractCreateResponse("", true);
+        private readonly IStringLocalizer localizer;
 
-        public VolunteerContractCreateContext(IVolunteerContractCreateGateway dataGateway)
+        public VolunteerContractCreateContext(IVolunteerContractCreateGateway dataGateway, IStringLocalizer localizer)
         {
             this.dataGateway = dataGateway;
+            this.localizer = localizer;
         }
 
         public VolunteerContractCreateResponse Execute(VolunteerContractCreateRequest request)
@@ -51,21 +54,21 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             if (request.NumberOfRegistration == "")
             {
                 response.IsValid = false;
-                response.Message += "Please enter number of registration!";
+                response.Message += @localizer["Please enter number of registration!"];
             }
             else
                 contract.NumberOfRegistration = request.NumberOfRegistration;
             if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
             {
                 response.IsValid = false;
-                response.Message += "Please enter a valid Expiration Date! ";
+                response.Message += @localizer["Please enter a valid Expiration Date!"];
             }
             else
                 contract.ExpirationDate = request.ExpirationDate.AddDays(1);
             if (request.RegistrationDate < DateTime.MinValue.AddYears(3))
             {
                 response.IsValid = false;
-                response.Message += "Please enter a valid Registration Date! ";
+                response.Message += @localizer["Please enter a valid Registration Date!"];
             }
             else
                 contract.RegistrationDate = request.RegistrationDate.AddDays(1);
@@ -76,7 +79,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             else
             {
                 response.IsValid = false;
-                response.Message += "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation.";
+                response.Message += @localizer["Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."];
             }
             //CI will never be null 
             if (volunteer.CI != null)
@@ -84,7 +87,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             else
             {
                 response.IsValid = false;
-                response.Message += "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation.";
+                response.Message += @localizer["Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."];
             }
             contract.PhoneNumber = volunteer.ContactInformation.PhoneNumber;
             contract.HourCount = volunteer.HourCount;

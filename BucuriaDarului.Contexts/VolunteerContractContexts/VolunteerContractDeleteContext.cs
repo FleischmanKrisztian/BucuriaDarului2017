@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Linq;
 
@@ -8,7 +9,6 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
     public class VolunteerContractDeleteContext
     {
         private readonly IVolunteerContractDeleteGateway dataGateway;
-
         public VolunteerContractDeleteContext(IVolunteerContractDeleteGateway dataGateway)
         {
             this.dataGateway = dataGateway;

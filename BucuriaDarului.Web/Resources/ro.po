@@ -945,3 +945,24 @@ msgstr "Următoarele documente au fost modificate de altcineva de la ultima sinc
 
 msgid:"NoCnp"
 msgstr:"Câmpul CNP al acestei persoane este gol!"
+
+msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
+msgstr "Câmpul CNP al acestui voluntar nu este completat!Introduceți datele neceseare pentru a putea crea contractul."
+
+msgid "Error! This document couldn't be deleted!"
+msgstr "Eroare!Acest document nu poate fi șters!"
+
+msgid "Please enter number of registration!"
+msgstr "Introduceți numărul de înregistrare!"
+
+msgstr "Please enter a valid Expiration Date!"
+msgstr "Introduceți o dată de expirare validă!"
+
+msgstr "Please enter a valid Registration Date!"
+msgstr "Introduceți o dată de înregistrare validă!"
+
+msgstr "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
+msgstr "Câmpul corespondent datelor cărții de identitate al acestui voluntar nu este completat!Introduceți datele neceseare pentru a putea crea contractul."
+
+msgstr "Contract exported successfully!"
+msgstr  "Contractul a fost exportat cu succes!"
