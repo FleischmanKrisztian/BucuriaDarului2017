@@ -871,6 +871,9 @@ msgstr "The following Documents Have been also modified by someone else since yo
 msgid:"NoCnp"
 msgstr:"Can't create contracts without CNP"
 
+msgid:" "NoCiInfo"
+msgstr: "Can't create contracts without CI info"
+
 msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
 msgstr "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
 
