@@ -107,9 +107,6 @@ namespace BucuriaDarului.Web.Controllers
         {
             var sponsorCreateContext = new SponsorCreateContext(new SponsorCreateGateway());
             var sponsorCreateResponse = sponsorCreateContext.Execute(request);
-            ModelState.Remove("Contract.RegistrationDate");
-            ModelState.Remove("Contract.ExpirationDate");
-            ModelState.Remove("Sponsorship.Date");
 
             if (!sponsorCreateResponse.IsValid)
             {
@@ -130,9 +127,6 @@ namespace BucuriaDarului.Web.Controllers
         {
             var sponsorEditContext = new SponsorEditContext(new SponsorEditGateway());
             var sponsorEditResponse = sponsorEditContext.Execute(request);
-            ModelState.Remove("Contract.RegistrationDate");
-            ModelState.Remove("Contract.ExpirationDate");
-            ModelState.Remove("Sponsorship.Date");
 
             if (!sponsorEditResponse.IsValid)
             {
