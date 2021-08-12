@@ -137,8 +137,8 @@
                     <div class="col-md-7">
                         @Localizer["HasId"]:
                     </div>
-                    <div class="col-md-5 checkbox">
-                        <div class style=" padding-left:20px; padding-bottom:2px !important">
+                    <div class="col-md-5">
+                        <div class="col-md-5" style="padding-left:20px; padding-bottom:2px !important">
                             @Html.EditorFor(model => model.CI.HasId)
                             @Html.ValidationMessageFor(model => model.CI.HasId, "", new { @class = "text-danger" })
                             <hr />
@@ -160,7 +160,7 @@
                         @Localizer["IdExpirationDate"]:
                     </div>
                     <div class="col-md-5">
-                        <input class="form-control" type="date" name="ExpirationDate" value="2021-01-01" />
+                        <input class="form-control" type="date" name="CI.ExpirationDate" value="2021-01-01" />
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>

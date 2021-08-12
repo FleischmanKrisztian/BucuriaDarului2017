@@ -56,11 +56,10 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            string StringOfIds = "";
-            StringOfIds = HttpContext.Session.GetString(dictionaryKey);
-            if (StringOfIds == "" || StringOfIds == "volunteerCSV") 
+            var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            if (stringOfIds == "" || stringOfIds == "volunteerCSV") 
                 return RedirectToAction("CsvExporter", new { message = _localizer["Empty list of ids"] });
-            ViewBag.Ids = StringOfIds;
+            ViewBag.Ids = stringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -116,7 +115,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Create(VolunteerCreateRequest request, IFormFile image)
         {
             var volunteerCreateContext = new VolunteerCreateContext(new VolunteerCreateGateway(),_localizer);
-            var fileBytes = new byte[0];
+            var fileBytes = Array.Empty<byte>();
 
             if (image != null)
             {
@@ -130,9 +129,9 @@ namespace BucuriaDarului.Web.Controllers
 
             var volunteerCreateResponse = volunteerCreateContext.Execute(request, fileBytes);
 
-            ModelState.Remove("Birthdate");
-            ModelState.Remove("HourCount");
-            ModelState.Remove("ExpirationDate");
+            //ModelState.Remove("Birthdate");
+            //ModelState.Remove("HourCount");
+            //ModelState.Remove("ExpirationDate");
 
             if (!volunteerCreateResponse.IsValid)
             {
@@ -151,7 +150,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Edit(VolunteerEditRequest request, IFormFile image)
         {
-            var fileBytes = new byte[0];
+            var fileBytes = Array.Empty<byte>();
             if (image != null)
             {
                 if (image.Length > 0)

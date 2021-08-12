@@ -170,7 +170,7 @@
                         @Localizer["IdExpirationDate"]:
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")"/>
+                        <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")"/>
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
