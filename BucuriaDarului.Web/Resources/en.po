@@ -58,6 +58,9 @@ msgstr "Issue date"
 msgid "IdIssuer"	
 msgstr "Issued by"
 
+msgid "No Template has been chosen, and the default template has been moved to an unknown location!"
+msgstr "No Template has been chosen, and the default template has been moved to an unknown location!"
+
 msgid "IdExpirationDate"
 msgstr "ID expiration date"
 
@@ -868,11 +871,11 @@ msgstr "No documents have been added to the Common Database."
 msgid "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
 msgstr "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
 
-msgid:"NoCnp"
-msgstr:"Can't create contracts without CNP"
+msgid "NoCnp"
+msgstr "Can't create contracts without CNP"
 
-msgid:" "NoCiInfo"
-msgstr: "Can't create contracts without CI info"
+msgid "NoCiInfo"
+msgstr "Can't create contracts without CI info"
 
 msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
 msgstr "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
@@ -883,41 +886,41 @@ msgstr "Error! This document couldn't be deleted!"
 msgid "Please enter number of registration!"
 msgstr "Please enter number of registration!"
 
+msgid "Please enter a valid Expiration Date!"
 msgstr "Please enter a valid Expiration Date!"
-msgstr "Please enter a valid Expiration Date!"
 
+msgid "Please enter a valid Registration Date!"
 msgstr "Please enter a valid Registration Date!"
-msgstr "Please enter a valid Registration Date!"
 
+msgid "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
 msgstr "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
-msgstr "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
 
+msgid "Contract exported successfully!"
 msgstr "Contract exported successfully!"
-msgstr "Contract exported successfully!"
 
-msgstr "VolunteersReport"
+msgid "VolunteersReport"
 msgstr "VolunteersReport"
 
-msgstr "File must be of type Volunteer!"
+msgid "File must be of type Volunteer!"
 msgstr "Acest fișier trebuie să corespundă formatului pentru import voluntar!"
 
-msgstr "The File Does Not have the correct header!"
+msgid "The File Does Not have the correct header!"
 msgstr "Coloanele acestui fișier nu se portivesc cu tipul de fișier importat pentru voluntar!"
 
+msgid "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
 msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
-msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
 
+msgid "The Sponsor must have a name!"
 msgstr "The Sponsor must have a name!"
-msgstr "The Sponsor must have a name!"
 
+msgid "The event has been successfully updated!"
 msgstr "The event has been successfully updated!"
-msgstr "The event has been successfully updated!"
 
+msgid "Update failed!Please try again!"
 msgstr "Update failed!Please try again!"
-msgstr "Update failed!Please try again!"
 
-msgstr "The Event must have a name!"
+msgid "The Event must have a name!"
 msgstr "The Event must have a name!"
 
-msgstr "The Beneficiary must have a name!"
+msgid "The Beneficiary must have a name!"
 msgstr  "The Beneficiary must have a name!"

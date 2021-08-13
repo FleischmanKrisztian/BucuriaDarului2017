@@ -127,9 +127,6 @@ namespace BucuriaDarului.Web.Controllers
             }
 
             var volunteerCreateResponse = volunteerCreateContext.Execute(request, fileBytes);
-
-            ModelState.AddModelError("Fullname", @_localizer["Too many Characters"]);
-
             if (!volunteerCreateResponse.IsValid)
             {
                 return RedirectToAction("Create", new { message = @_localizer[volunteerCreateResponse.Message] });
