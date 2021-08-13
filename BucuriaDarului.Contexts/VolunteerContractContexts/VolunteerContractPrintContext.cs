@@ -9,12 +9,10 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
     public class VolunteerContractPrintContext
     {
         private readonly IVolunteerContractPrintGateway dataGateway;
-        private readonly IStringLocalizer localizer;
 
-        public VolunteerContractPrintContext(IVolunteerContractPrintGateway dataGateway, IStringLocalizer localizer)
+        public VolunteerContractPrintContext(IVolunteerContractPrintGateway dataGateway)
         {
             this.dataGateway = dataGateway;
-            this.localizer = localizer;
         }
 
         public VolunteerContractPrintResponse Execute(Stream data, string idContract, string fileName)
@@ -22,7 +20,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var response = new VolunteerContractPrintResponse();
             if (FileIsNotEmpty(data))
             {
-                response.Message =@localizer["File Cannot be Empty!"];
+                response.Message ="File Cannot be Empty!";
                 response.IsValid = false;
             }
             if (response.IsValid)
