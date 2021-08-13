@@ -87,7 +87,7 @@ namespace BucuriaDarului.Web.Controllers
             var context = new BeneficiaryDownloadContext(new BeneficiaryDownloadGateway());
             var response = context.Execute(ids, header);
 
-            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "text/csv", fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(response), "text/csv", fileName);
         }
 
         public ActionResult Details(string id)

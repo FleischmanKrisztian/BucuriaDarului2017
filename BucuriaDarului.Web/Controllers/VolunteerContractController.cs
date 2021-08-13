@@ -1,13 +1,13 @@
-﻿using System;
-using BucuriaDarului.Contexts.VolunteerContractContexts;
+﻿using BucuriaDarului.Contexts.VolunteerContractContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using BucuriaDarului.Core;
 using Microsoft.Extensions.Localization;
+using System;
+using System.IO;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -59,7 +59,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(VolunteerContractCreateRequest request)
         {
-            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway(),_localizer);
+            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway(), _localizer);
             var contractCreateResponse = contractCreateContext.Execute(request);
 
             if (!contractCreateResponse.IsValid)
@@ -81,24 +81,30 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
-            var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway(),_localizer);
-            VolunteerContractPrintResponse response;
+            var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway(), _localizer);
+            VolunteerContractPrintResponse response = new VolunteerContractPrintResponse();
             if (Files == null)
             {
-                //TODO: Add the path to the Default Templates
-                var defaultPath =  "Constants.PATH_TO_THE_DEFAULT_CONTRACT_TEMPLATE";
+                //TODO: TEST THIS
+                var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) + "\\ContractTemplates\\VolunteerContract.docx";
                 using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
-                response = printContext.Execute(stream, id, fileName);
-
-                //response.Message = "Please choose the template!";
-                //response.IsValid = false;
+                if (stream == Stream.Null)
+                {
+                    response.Message = "No Template has been chosen, and the default template has been moved to an unknown location!";
+                    response.IsValid = false;
+                }
+                else
+                {
+                    response = printContext.Execute(stream, id, fileName);
+                }
             }
             else
                 response = printContext.Execute(Files.OpenReadStream(), id, fileName);
             if (response.IsValid)
             {
                 response.Message = @_localizer["Contract exported successfully!"];
-                return DownloadFile(response.Stream, response.FileName);             }
+                return DownloadFile(response.Stream, response.FileName);
+            }
             return RedirectToAction("Print", new { id = id, message = response.Message });
         }
 
@@ -121,7 +127,7 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerContractDeleteContext = new VolunteerContractDeleteContext(new VolunteerContractDeleteGateway());
             var response = volunteerContractDeleteContext.Execute(request);
             if (!response.IsValid)
-                return RedirectToAction("Delete", new { id = request.ContractId, message = @_localizer["Error! This document couldn't be deleted!"]});
+                return RedirectToAction("Delete", new { id = request.ContractId, message = @_localizer["Error! This document couldn't be deleted!"] });
             return RedirectToAction("Index", new { idOfVolunteer = response.VolunteerId });
         }
     }

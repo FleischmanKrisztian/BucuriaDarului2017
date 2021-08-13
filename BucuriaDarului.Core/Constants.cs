@@ -6,6 +6,8 @@
         public static string SERVER_PORT_LOCAL = "volmongo_port";
         public static string DATABASE_NAME_LOCAL = "volmongo_databasename";
 
+        public static string BUCURIA_DARULUI_PATH = "BucuriaDaruluiDirectory";
+
         public static string SERVER_NAME_COMMON = "volmongo_server2";
         public static string SERVER_PORT_COMMON = "volmongo_port2";
         public static string DATABASE_NAME_COMMON = "volmongo_databasename2";
