@@ -61,7 +61,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = sponsorExportData.Dictionary;
             if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
                 return DownloadCSV(sponsorExportData.FileName, Constants.SPONSOR_SESSION, Constants.SPONSOR_HEADER);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.SPONSOR_SESSION, message = "Please select at least one Property!" });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.SPONSOR_SESSION, message =_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -106,7 +106,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(SponsorCreateRequest request)
         {
-            var sponsorCreateContext = new SponsorCreateContext(new SponsorCreateGateway());
+            var sponsorCreateContext = new SponsorCreateContext(new SponsorCreateGateway(),_localizer);
             var sponsorCreateResponse = sponsorCreateContext.Execute(request);
 
             if (!sponsorCreateResponse.IsValid)
@@ -126,7 +126,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Edit(SponsorEditRequest request)
         {
-            var sponsorEditContext = new SponsorEditContext(new SponsorEditGateway());
+            var sponsorEditContext = new SponsorEditContext(new SponsorEditGateway(),_localizer);
             var sponsorEditResponse = sponsorEditContext.Execute(request);
 
             if (!sponsorEditResponse.IsValid)
