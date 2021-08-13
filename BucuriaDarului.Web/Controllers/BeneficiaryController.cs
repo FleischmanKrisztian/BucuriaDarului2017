@@ -76,7 +76,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
             if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
                 return DownloadCSV(beneficiaryExportData.FileName, Constants.BENEFICIARY_SESSION, Constants.BENEFICIARY_SESSION);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARY_SESSION, message = "Please select at least one Property!" });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARY_SESSION, message =@_localizer["Please select at least one Property!"]});
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -121,7 +121,7 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryCreateResponse = beneficiaryCreateContext.Execute(request, fileBytes);
             if (!beneficiaryCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { message = beneficiaryCreateResponse.Message });
+                return RedirectToAction("Create", new { message = @_localizer[beneficiaryCreateResponse.Message]});
             }
             return RedirectToAction("Index");
         }
@@ -151,7 +151,7 @@ namespace BucuriaDarului.Web.Controllers
 
             if (!beneficiaryEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new { id = request.Id, message = beneficiaryEditResponse.Message });
+                return RedirectToAction("Edit", new { id = request.Id, message =_localizer[beneficiaryEditResponse.Message] });
             }
             return RedirectToAction("Index");
         }
