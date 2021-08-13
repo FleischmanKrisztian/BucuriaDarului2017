@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
 
@@ -9,7 +10,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     {
         private readonly IBeneficiaryCreateGateway dataGateway;
         private BeneficiaryCreateResponse response = new BeneficiaryCreateResponse("", true);
-
         public BeneficiaryCreateContext(IBeneficiaryCreateGateway dataGateway)
         {
             this.dataGateway = dataGateway;
@@ -23,7 +23,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.IsValid = false;
-                response.Message = "The Object Cannot contain Semi-Colons! ";
+                response.Message = "The Object Cannot contain Semi-Colons!";
             }
 
             var beneficiary = ValidateRequest(noNullRequest,image);
@@ -39,7 +39,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         {
             if (request.Fullname == "")
             {
-                response.Message += "The Beneficiary must have a name! ";
+                response.Message += "The Beneficiary must have a name!";
                 response.IsValid = false;
             }
             request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);

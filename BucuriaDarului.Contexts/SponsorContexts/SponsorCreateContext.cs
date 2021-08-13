@@ -10,11 +10,10 @@ namespace BucuriaDarului.Contexts.SponsorContexts
     {
         private readonly ISponsorCreateGateway dataGateway;
         private SponsorCreateResponse response = new SponsorCreateResponse("", false, true);
-        private readonly IStringLocalizer localizer;
+        
 
-        public SponsorCreateContext(ISponsorCreateGateway dataGateway, IStringLocalizer localizer)
+        public SponsorCreateContext(ISponsorCreateGateway dataGateway)
         {
-            this.localizer = localizer;
             this.dataGateway = dataGateway;
         }
 
@@ -25,7 +24,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.ContainsSpecialChar = true;
-                response.Message = localizer["The Object Cannot contain Semi-Colons!"];
+                response.Message = "The Object Cannot contain Semi-Colons!";
             }
 
             var @sponsor = ValidateRequest(noNullRequest);
@@ -41,7 +40,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         {
             if (request.NameOfSponsor == "")
             {
-                response.Message += localizer["The Sponsor must have a name!"];
+                response.Message += "The Sponsor must have a name!";
                 response.IsValid = false;
             }
 

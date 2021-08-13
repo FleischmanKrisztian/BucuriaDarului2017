@@ -70,7 +70,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = eventsExportData.Dictionary;
             if (eventsExportData.IsValid && eventsExportData.FileName != "")
                 return DownloadCSV(eventsExportData.FileName, Constants.EVENT_SESSION, Constants.EVENT_HEADER);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.EVENT_SESSION, message = "Please select at least one Property!" });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.EVENT_SESSION, message =@_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -101,9 +101,9 @@ namespace BucuriaDarului.Web.Controllers
             var response = allocatedVolunteerUpdateContext.Execute(new EventsVolunteerAllocationRequest(CheckedIds, AllIds, evId));
 
             if (response.IsValid)
-                return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
+                return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = @_localizer["The event has been successfully updated!"], page = 1, searching = "" });
             else
-                return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
+                return RedirectToAction("VolunteerAllocationDisplay", new { id = evId, messages = @_localizer["Update failed!Please try again!"], page = 1, searching = "" });
         }
 
         public ActionResult SponsorAllocationDisplay(string id, string messages, int page, string searching)
@@ -122,9 +122,9 @@ namespace BucuriaDarului.Web.Controllers
             var allocatedSponsorContext = new EventSponsorAllocationUpdateContext(new EventSponsorAllocationUpdateGateway());
             var response = allocatedSponsorContext.Execute(new EventsSponsorAllocationRequest(CheckedIds, AllIds, evId));
             if (response.IsValid)
-                return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "The event has been successfully updated!", page = 1, searching = "" });
+                return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = @_localizer["The event has been successfully updated!"], page = 1, searching = "" });
             else
-                return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = "Update failed!Please try again!", page = 1, searching = "" });
+                return RedirectToAction("SponsorAllocationDisplay", new { id = evId, messages = @_localizer["Update failed!Please try again!"], page = 1, searching = "" });
         }
 
         public ActionResult Details(string id)
@@ -146,7 +146,7 @@ namespace BucuriaDarului.Web.Controllers
             var eventCreateResponse = eventCreateContext.Execute(request);
             if (!eventCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { message = eventCreateResponse.Message });
+                return RedirectToAction("Create", new { message = @_localizer[eventCreateResponse.Message ]});
             }
             return RedirectToAction("Index");
         }
@@ -165,7 +165,7 @@ namespace BucuriaDarului.Web.Controllers
             var eventEditResponse = eventEditContext.Execute(request);
             if (!eventEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new { id = request.Id, message = eventEditResponse.Message });
+                return RedirectToAction("Edit", new { id = request.Id, message = @_localizer[eventEditResponse.Message] });
             }
             return RedirectToAction("Index");
         }

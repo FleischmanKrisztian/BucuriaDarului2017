@@ -22,7 +22,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.IsValid = false;
-                response.Message = "The Object Cannot contain Semi-Colons! ";
+                response.Message = "The Object Cannot contain Semi-Colons!";
             }
 
             var beneficiary = ValidateRequest(noNullRequest, image);
@@ -50,7 +50,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         {
             if (request.Fullname == "")
             {
-                response.Message += "The Beneficiary must have a name! ";
+                response.Message += "The Beneficiary must have a name!";
                 response.IsValid = false;
             }
 

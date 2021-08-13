@@ -59,12 +59,12 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(VolunteerContractCreateRequest request)
         {
-            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway(), _localizer);
+            var contractCreateContext = new VolunteerContractCreateContext(new VolunteerContractCreateGateway());
             var contractCreateResponse = contractCreateContext.Execute(request);
 
             if (!contractCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerId, message = contractCreateResponse.Message });
+                return RedirectToAction("Create", new { idOfVolunteer = request.OwnerId, message = @_localizer[contractCreateResponse.Message] });
             }
             return RedirectToAction("Index", new { idOfVolunteer = request.OwnerId });
         }
@@ -81,8 +81,8 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
-            var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway(), _localizer);
-            VolunteerContractPrintResponse response = new VolunteerContractPrintResponse();
+            var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
+            VolunteerContractPrintResponse response;
             if (Files == null)
             {
                 //TODO: TEST THIS
