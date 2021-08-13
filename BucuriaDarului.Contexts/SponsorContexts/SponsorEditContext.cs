@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.SponsorGateways;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
 namespace BucuriaDarului.Contexts.SponsorContexts
@@ -8,9 +9,10 @@ namespace BucuriaDarului.Contexts.SponsorContexts
     {
         private readonly ISponsorEditGateway dataGateway;
         private SponsorEditResponse response = new SponsorEditResponse("", true);
-
-        public SponsorEditContext(ISponsorEditGateway dataGateway)
+        private readonly IStringLocalizer localizer;
+        public SponsorEditContext(ISponsorEditGateway dataGateway, IStringLocalizer localizer)
         {
+            this.localizer = localizer;
             this.dataGateway = dataGateway;
         }
 
@@ -20,7 +22,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
             if (ContainsSpecialChar(noNullRequest))
             {
-                response.Message = "The Object Cannot contain Semi-Colons! ";
+                response.Message = localizer["The Object Cannot contain Semi-Colons!"];
             }
 
             var sponsor = ValidateRequest(noNullRequest);
@@ -46,7 +48,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         {
             if (request.NameOfSponsor == "")
             {
-                response.Message += "The Sponsor must have a name! ";
+                response.Message += localizer["The Sponsor must have a name!"];
                 response.IsValid = false;
             }
             request.Contract.RegistrationDate = request.Contract.RegistrationDate.AddHours(5);
