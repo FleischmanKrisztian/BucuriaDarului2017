@@ -113,7 +113,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(VolunteerCreateRequest request, IFormFile image)
         {
-            var volunteerCreateContext = new VolunteerCreateContext(new VolunteerCreateGateway(),_localizer);
+            var volunteerCreateContext = new VolunteerCreateContext(new VolunteerCreateGateway());
             var fileBytes = Array.Empty<byte>();
 
             if (image != null)
@@ -128,11 +128,11 @@ namespace BucuriaDarului.Web.Controllers
 
             var volunteerCreateResponse = volunteerCreateContext.Execute(request, fileBytes);
 
-            ModelState.AddModelError("Fullname","Too many Characters");
+            ModelState.AddModelError("Fullname", @_localizer["Too many Characters"]);
 
             if (!volunteerCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { message = volunteerCreateResponse.Message });
+                return RedirectToAction("Create", new { message = @_localizer[volunteerCreateResponse.Message] });
             }
             return RedirectToAction("Index");
         }
@@ -157,11 +157,11 @@ namespace BucuriaDarului.Web.Controllers
                     fileBytes = ms.ToArray();
                 }
             }
-            var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway(),_localizer);
+            var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway());
             var volunteerEditResponse = volunteerEditContext.Execute(request, fileBytes);
             if (!volunteerEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new { id = request.Id, message = volunteerEditResponse.Message });
+                return RedirectToAction("Edit", new { id = request.Id, message = @_localizer[volunteerEditResponse.Message] });
             }
             return RedirectToAction("Index");
         }
