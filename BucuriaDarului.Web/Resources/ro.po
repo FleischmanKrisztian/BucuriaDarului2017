@@ -925,6 +925,9 @@ msgstr "Documentul nu poate conține ; !"
 msgid "The Volunteer must have a name!"
 msgstr "Câmpul coresunzător numelui trebuie completat!"
 
+msgid "The Beneficiary must have a name!"
+msgstr "Câmpul coresunzător numelui trebuie completat!"
+
 msgid "Empty list of ids"
 msgstr "Lista documentelor pentru export este goală"
 
@@ -949,7 +952,7 @@ msgstr "Următoarele documente au fost modificate de altcineva de la ultima sinc
 msgid "NoCnp"
 msgstr "Câmpul CNP al acestei persoane este gol!"
 
-msgid " "NoCiInfo"
+msgid "NoCiInfo"
 msgstr "Câmpul depre informațiile din cartea de indentitate al acestei persoane este gol!"
 
 msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
