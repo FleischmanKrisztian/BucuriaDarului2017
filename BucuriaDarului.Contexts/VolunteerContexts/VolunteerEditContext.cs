@@ -10,12 +10,10 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     {
         private readonly IVolunteerEditGateway dataGateway;
         private VolunteerEditResponse response = new VolunteerEditResponse("", true);
-        private readonly IStringLocalizer localizer;
 
-        public VolunteerEditContext(IVolunteerEditGateway dataGateway, IStringLocalizer localizer)
+        public VolunteerEditContext(IVolunteerEditGateway dataGateway)
         {
             this.dataGateway = dataGateway;
-            this.localizer = localizer;
         }
 
         public VolunteerEditResponse Execute(VolunteerEditRequest request, byte[] image)
@@ -25,7 +23,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.IsValid = false;
-                response.Message = @localizer["The Object Cannot contain Semi-Colons! "];
+                response.Message = "The Object Cannot contain Semi-Colons! ";
             }
 
             var volunteer = ValidateRequest(noNullRequest, image);
@@ -53,7 +51,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             if (request.Fullname == "")
             {
-                response.Message += @localizer["The Volunteer must have a name!"];
+                response.Message += "The Volunteer must have a name!";
                 response.IsValid = false;
             }
 
