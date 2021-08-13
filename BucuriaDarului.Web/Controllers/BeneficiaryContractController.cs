@@ -4,12 +4,20 @@ using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.IO;
 
 namespace BucuriaDarului.Web.Controllers
 {
     public class BeneficiaryContractController : Controller
     {
+        private readonly IStringLocalizer<BeneficiaryContractController> _localizer;
+
+        public BeneficiaryContractController(IStringLocalizer<BeneficiaryContractController> localizer)
+        {
+            _localizer = localizer;
+        }
+
         [HttpGet]
         public IActionResult Index(string idOfBeneficiary)
         {
@@ -35,7 +43,7 @@ namespace BucuriaDarului.Web.Controllers
             ViewBag.NameOfBeneficiary = beneficiary.Fullname;
             if (string.IsNullOrEmpty(beneficiary.CNP))
             {
-                ViewBag.message = "Missing CNP information for this beneficiary! Please fill in all the data necessary for contract creation.";
+                ViewBag.message = @_localizer["Missing CNP information for this beneficiary! Please fill in all the data necessary for contract creation."];
                 ViewBag.idOfBeneficiary = idOfBeneficiary;
             }
             else
@@ -54,7 +62,7 @@ namespace BucuriaDarului.Web.Controllers
 
             if (!contractCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { idOfBeneficiary = request.OwnerID, message = contractCreateResponse.Message });
+                return RedirectToAction("Create", new { idOfBeneficiary = request.OwnerID, message = @_localizer[contractCreateResponse.Message] });
             }
             return RedirectToAction("Index", new { idOfBeneficiary = request.OwnerID });
         }
@@ -74,7 +82,7 @@ namespace BucuriaDarului.Web.Controllers
             var response = new BeneficiaryContractPrintResponse();
             if (Files == null)
             {
-                response.Message = "Please choose the template!";
+                response.Message = @_localizer["Please choose the template!"];
                 response.IsValid = false;
             }
             else
@@ -83,7 +91,7 @@ namespace BucuriaDarului.Web.Controllers
             }
             if (response.IsValid)
                 return DownloadFile(response.Stream, response.FileName);
-            return RedirectToAction("Print", new { id = id, message = response.Message });
+            return RedirectToAction("Print", new { id = id, message = @_localizer[response.Message] });
         }
 
         public FileContentResult DownloadFile(MemoryStream data, string fileName)
@@ -105,7 +113,7 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryContractDeleteContext = new BeneficiaryContractDeleteContext(new BeneficiaryContractDeleteGateway());
             var response = beneficiaryContractDeleteContext.Execute(contractId, ownerId);
             if (response.Contains("Error"))
-                return RedirectToAction("DeleteDisplay", new { id = contractId, message = response });
+                return RedirectToAction("DeleteDisplay", new { id = contractId, message = @_localizer[response] });
             return RedirectToAction("Index", new { idOfBeneficiary = ownerId });
         }
     }
