@@ -30,7 +30,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Import(IFormFile files)
         {
-            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway());
+            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway(),_localizer);
             var response = new VolunteerImportResponse();
             if (files != null)
                 response = volunteerImportContext.Execute(files.OpenReadStream());
@@ -62,7 +62,6 @@ namespace BucuriaDarului.Web.Controllers
             var stringOfIds = string.Empty;
             DictionaryHelper.d.TryGetValue(dictionaryKey, out stringOfIds);
             ViewBag.Ids = stringOfIds;
-
             if (stringOfIds == "" || stringOfIds == "volunteerCSV")
                 return RedirectToAction("CsvExporter", new {message="Empty list of ids!"});
             ViewBag.message = message;
