@@ -958,41 +958,41 @@ msgstr "Eroare!Acest document nu poate fi șters!"
 msgid "Please enter number of registration!"
 msgstr "Introduceți numărul de înregistrare!"
 
-msgstr "Please enter a valid Expiration Date!"
+msgid "Please enter a valid Expiration Date!"
 msgstr "Introduceți o dată de expirare validă!"
 
-msgstr "Please enter a valid Registration Date!"
+msgid "Please enter a valid Registration Date!"
 msgstr "Introduceți o dată de înregistrare validă!"
 
-msgstr "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
+msgid "Missing CI information for this volunteer!Please fill in all the data necessary for contract creation."
 msgstr "Câmpul corespondent datelor cărții de identitate al acestui voluntar nu este completat!Introduceți datele neceseare pentru a putea crea contractul."
 
-msgstr "Contract exported successfully!"
+msgid "Contract exported successfully!"
 msgstr "Contractul a fost exportat cu succes!"
 
-msgstr "VolunteersReport"
+msgid "VolunteersReport"
 msgstr "RaportVoluntari"
 
-msgstr "File must be of type Volunteer!"
+msgid "File must be of type Volunteer!"
 msgstr "Acest fișier trebuie să corespundă formatului pentru import voluntar!"
 
-msgstr "The File Does Not have the correct header!"
+msgid "The File Does Not have the correct header!"
 msgstr "Coloanele acestui fișier nu se portivesc cu tipul de fișier importat pentru voluntar!"
 
-msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
+msgid "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
 msgstr "S-a produs o eroare în timpul importului acestu fișier!Asigurați-vă ca acest fișier conține toate coloanele și că nu este doar un fișier csv parțial."
 
-msgstr "The Sponsor must have a name!"
+msgid "The Sponsor must have a name!"
 msgstr "Câmpul corespondent numelui trebuie completat!"
 
-msgstr "The event has been successfully updated!"
+msgid "The event has been successfully updated!"
 msgstr "Acest eventiment a fost actualizat."
 
-msgstr "Update failed!Please try again!"
+msgid "Update failed!Please try again!"
 msgstr "Actualizare eșuată!Mai încercați o dată"
 
-msgstr "The Event must have a name!"
+msgid "The Event must have a name!"
 msgstr "Câmpul corespondent numelui trebuie completat!"
 
-msgstr "The Beneficiary must have a name!"
+msgid "The Beneficiary must have a name!
 msgstr  "Câmpul corespondent numelui trebuie completat!"
