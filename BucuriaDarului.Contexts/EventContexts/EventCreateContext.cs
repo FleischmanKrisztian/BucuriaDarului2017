@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -23,7 +24,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.IsValid = false;
-                response.Message = "The Object Cannot contain Semi-Colons! ";
+                response.Message = "The Object Cannot contain Semi-Colons!";
             }
 
             var @event = ValidateRequest(noNullRequest);
@@ -39,7 +40,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         {
             if (request.NameOfEvent == "")
             {
-                response.Message += "The Event must have a name! ";
+                response.Message += "The Event must have a name!";
                 response.IsValid = false;
             }
 
