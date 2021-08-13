@@ -44,7 +44,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 else if (_fileType == 1)
                     volunteersFromCsv = GetVolunteerFromCsv(result, response,localizer);
                 else
-                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response);
+                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response,localizer);
                 if (response.IsValid)
                 {
                     dataGateway.Insert(volunteersFromCsv);
