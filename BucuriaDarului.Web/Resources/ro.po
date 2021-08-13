@@ -997,5 +997,5 @@ msgstr "Actualizare eșuată!Mai încercați o dată"
 msgid "The Event must have a name!"
 msgstr "Câmpul corespondent numelui trebuie completat!"
 
-msgid "The Beneficiary must have a name!
+msgid "The Beneficiary must have a name!"
 msgstr  "Câmpul corespondent numelui trebuie completat!"
