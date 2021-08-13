@@ -82,20 +82,19 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
             var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
-            VolunteerContractPrintResponse response = new VolunteerContractPrintResponse();
+            var response = new VolunteerContractPrintResponse();
             if (Files == null)
             {
-                //TODO: TEST THIS
                 var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) + "\\ContractTemplates\\VolunteerContract.docx";
-                using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
-                if (stream == Stream.Null)
+                if (System.IO.File.Exists(defaultPath))
                 {
-                    response.Message = "No Template has been chosen, and the default template has been moved to an unknown location!";
-                    response.IsValid = false;
+                    using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
+                    response = printContext.Execute(stream, id, fileName);
                 }
                 else
                 {
-                    response = printContext.Execute(stream, id, fileName);
+                    response.Message = "No Template has been chosen, and the default template has been moved to an unknown location!";
+                    response.IsValid = false;
                 }
             }
             else
@@ -105,7 +104,7 @@ namespace BucuriaDarului.Web.Controllers
                 response.Message = @_localizer["Contract exported successfully!"];
                 return DownloadFile(response.Stream, response.FileName);
             }
-            return RedirectToAction("Print", new { id = id, message = response.Message });
+            return RedirectToAction("Print", new {id, message = response.Message });
         }
 
         public FileContentResult DownloadFile(MemoryStream data, string fileName)

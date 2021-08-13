@@ -84,8 +84,7 @@ namespace BucuriaDarului.Web.Controllers
             var response = new BeneficiaryContractPrintResponse();
             if (Files == null)
             {
-                var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) +
-                                  "\\ContractTemplates\\BeneficiaryContract.docx";
+                var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) + "\\ContractTemplates\\BeneficiaryContract.docx";
                 using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
                 if (stream == Stream.Null)
                 {
