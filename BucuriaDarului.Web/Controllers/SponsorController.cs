@@ -106,12 +106,12 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Create(SponsorCreateRequest request)
         {
-            var sponsorCreateContext = new SponsorCreateContext(new SponsorCreateGateway(),_localizer);
+            var sponsorCreateContext = new SponsorCreateContext(new SponsorCreateGateway());
             var sponsorCreateResponse = sponsorCreateContext.Execute(request);
 
             if (!sponsorCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { message = sponsorCreateResponse.Message });
+                return RedirectToAction("Create", new { message = @_localizer[sponsorCreateResponse.Message] });
             }
             return RedirectToAction("Index");
         }
@@ -126,12 +126,12 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Edit(SponsorEditRequest request)
         {
-            var sponsorEditContext = new SponsorEditContext(new SponsorEditGateway(),_localizer);
+            var sponsorEditContext = new SponsorEditContext(new SponsorEditGateway());
             var sponsorEditResponse = sponsorEditContext.Execute(request);
 
             if (!sponsorEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new { id = request.Id, message = sponsorEditResponse.Message });
+                return RedirectToAction("Edit", new { id = request.Id, message = @_localizer[sponsorEditResponse.Message] });
             }
             return RedirectToAction("Index");
         }
