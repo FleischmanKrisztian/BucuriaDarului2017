@@ -82,7 +82,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Print(IFormFile Files, string fileName, string id)
         {
             var printContext = new VolunteerContractPrintContext(new VolunteerContractPrintGateway());
-            VolunteerContractPrintResponse response;
+            VolunteerContractPrintResponse response = new VolunteerContractPrintResponse();
             if (Files == null)
             {
                 //TODO: TEST THIS

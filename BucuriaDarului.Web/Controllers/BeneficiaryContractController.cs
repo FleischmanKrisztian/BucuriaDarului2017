@@ -1,10 +1,12 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContractContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.BeneficiaryContractGateways;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using System;
 using System.IO;
 
 namespace BucuriaDarului.Web.Controllers
@@ -82,13 +84,22 @@ namespace BucuriaDarului.Web.Controllers
             var response = new BeneficiaryContractPrintResponse();
             if (Files == null)
             {
-                response.Message = @_localizer["Please choose the template!"];
-                response.IsValid = false;
+                var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) +
+                                  "\\ContractTemplates\\BeneficiaryContract.docx";
+                using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
+                if (stream == Stream.Null)
+                {
+                    response.Message =
+                        "No Template has been chosen, and the default template has been moved to an unknown location!";
+                    response.IsValid = false;
+                }
+                else
+                {
+                    response = printContext.Execute(stream, id, optionValue, otherOptionValue);
+                }
             }
             else
-            {
                 response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
-            }
             if (response.IsValid)
                 return DownloadFile(response.Stream, response.FileName);
             return RedirectToAction("Print", new { id = id, message = @_localizer[response.Message] });
