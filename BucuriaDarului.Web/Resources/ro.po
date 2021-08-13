@@ -916,8 +916,8 @@ msgstr "Fișierul introdus nu corespunde șablonului pentru inportul în cazul v
 msgid "Please select at least one Property!"
 msgstr "Trebuie să alegeți cel puțin un câmp!"
 
-msgid "The Object Cannot contain Semi-Colons! "
-msgstr "Documentul nu poate conține ; ! "
+msgid "The Object Cannot contain Semi-Colons!"
+msgstr "Documentul nu poate conține ; !"
 
 msgid "The Volunteer must have a name!"
 msgstr "Câmpul coresunzător numelui trebuie completat!"
@@ -984,3 +984,15 @@ msgstr "S-a produs o eroare în timpul importului acestu fișier!Asigurați-vă 
 
 msgstr "The Sponsor must have a name!"
 msgstr "Câmpul corespondent numelui trebuie completat!"
+
+msgstr "The event has been successfully updated!"
+msgstr "Acest eventiment a fost actualizat."
+
+msgstr "Update failed!Please try again!"
+msgstr "Actualizare eșuată!Mai încercați o dată"
+
+msgstr "The Event must have a name!"
+msgstr "Câmpul corespondent numelui trebuie completat!"
+
+msgstr "The Beneficiary must have a name!"
+msgstr  "Câmpul corespondent numelui trebuie completat!"
