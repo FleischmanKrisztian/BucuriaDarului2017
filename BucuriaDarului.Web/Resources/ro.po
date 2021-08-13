@@ -10,6 +10,9 @@ msgstr "Confidențialitate"
 msgid "ShowAllEvents"
 msgstr "Arată toate evenimentele"
 
+msgid "No Template has been chosen, and the default template has been moved to an unknown location!"
+msgstr "Niciun șablon disponibil, iar modelul implicit a fost mutat într-o locație necunoscută!"
+
 msgid "ContractsOfV"
 msgstr "Contractele voluntarului"
 
@@ -943,11 +946,11 @@ msgstr "Nici un document nu a fost adăugat în baza de date comună."
 msgid "The following Documents Have been also modified by someone else since your last synchronization, Please make sure no data will be lost"
 msgstr "Următoarele documente au fost modificate de altcineva de la ultima sincronizare.Asigurați-vă ca nu se vor pierde date."
 
-msgid:"NoCnp"
-msgstr:"Câmpul CNP al acestei persoane este gol!"
+msgid "NoCnp"
+msgstr "Câmpul CNP al acestei persoane este gol!"
 
-msgid:" "NoCiInfo"
-msgstr: "Câmpul depre informațiile din cartea de indentitate al acestei persoane este gol!"
+msgid " "NoCiInfo"
+msgstr "Câmpul depre informațiile din cartea de indentitate al acestei persoane este gol!"
 
 msgid "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation."
 msgstr "Câmpul CNP al acestui voluntar nu este completat!Introduceți datele neceseare pentru a putea crea contractul."

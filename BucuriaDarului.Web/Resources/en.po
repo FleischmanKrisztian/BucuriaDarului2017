@@ -58,6 +58,9 @@ msgstr "Issue date"
 msgid "IdIssuer"	
 msgstr "Issued by"
 
+msgid "No Template has been chosen, and the default template has been moved to an unknown location!"
+msgstr "No Template has been chosen, and the default template has been moved to an unknown location!"
+
 msgid "IdExpirationDate"
 msgstr "ID expiration date"
 

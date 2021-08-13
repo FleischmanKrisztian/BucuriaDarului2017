@@ -90,7 +90,7 @@ namespace BucuriaDarului.Web.Controllers
                 if (stream == Stream.Null)
                 {
                     response.Message =
-                        "No Template has been chosen, and the default template has been moved to an unknown location!";
+                        _localizer["No Template has been chosen, and the default template has been moved to an unknown location!"];
                     response.IsValid = false;
                 }
                 else
