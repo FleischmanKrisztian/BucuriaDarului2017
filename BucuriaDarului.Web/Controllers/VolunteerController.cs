@@ -50,20 +50,15 @@ namespace BucuriaDarului.Web.Controllers
             var nrOfDocs = UniversalFunctions.GetNumberOfItemPerPageFromSettings(TempData);
             var volunteerMainDisplayIndexContext = new VolunteerMainDisplayIndexContext(new VolunteerMainDisplayIndexGateway());
             var model = volunteerMainDisplayIndexContext.Execute(new VolunteerMainDisplayIndexRequest(nrOfDocs, page, searchedFullname, searchedContact, sortOrder, active, hasCar, hasDrivingLicense, lowerDate, upperDate, gender, searchedAddress, searchedWorkplace, searchedOccupation, searchedRemarks, searchedHourCount));
-            var dictionary= new Dictionary<string, string>();
-            dictionary.Add(model.DictionaryKey, model.StringOfIDs);
-            DictionaryHelper.d = dictionary;
+            HttpContext.Session.SetString(model.DictionaryKey, model.StringOfIDs);
             return View(model);
         }
 
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            var stringOfIds = string.Empty;
-            DictionaryHelper.d.TryGetValue(dictionaryKey, out stringOfIds);
-            ViewBag.Ids = stringOfIds;
-            if (stringOfIds == "" || stringOfIds == "volunteerCSV")
-                return RedirectToAction("CsvExporter", new {message="Empty list of ids!"});
+            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = StringOfIds;
             ViewBag.message = message;
             return View();
         }
