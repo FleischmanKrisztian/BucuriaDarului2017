@@ -906,3 +906,6 @@ msgstr "Coloanele acestui fișier nu se portivesc cu tipul de fișier importat p
 
 msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
 msgstr "There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."
+
+msgstr "The Sponsor must have a name!"
+msgstr "The Sponsor must have a name!"
