@@ -841,8 +841,8 @@ msgstr "File must be of type Volunteer!"
 msgid "Please select at least one Property!"
 msgstr "Please select at least one Property!"
 
-msgid "The Object Cannot contain Semi-Colons! "
-msgstr "The Object Cannot contain Semi-Colons! "
+msgid "The Object Cannot contain Semi-Colons!"
+msgstr "The Object Cannot contain Semi-Colons!"
 
 msgid "The Volunteer must have a name!"
 msgstr "The Volunteer must have a name!"
@@ -909,3 +909,15 @@ msgstr "There was an error while adding the file! Make Sure the Document has all
 
 msgstr "The Sponsor must have a name!"
 msgstr "The Sponsor must have a name!"
+
+msgstr "The event has been successfully updated!"
+msgstr "The event has been successfully updated!"
+
+msgstr "Update failed!Please try again!"
+msgstr "Update failed!Please try again!"
+
+msgstr "The Event must have a name!"
+msgstr "The Event must have a name!"
+
+msgstr "The Beneficiary must have a name!"
+msgstr  "The Beneficiary must have a name!"
