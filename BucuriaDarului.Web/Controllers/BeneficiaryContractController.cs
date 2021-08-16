@@ -85,23 +85,25 @@ namespace BucuriaDarului.Web.Controllers
             if (Files == null)
             {
                 var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) + "\\ContractTemplates\\BeneficiaryContract.docx";
-                using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
-                if (stream == Stream.Null)
+                if (System.IO.File.Exists(defaultPath))
                 {
-                    response.Message =
-                        _localizer["No Template has been chosen, and the default template has been moved to an unknown location!"];
-                    response.IsValid = false;
+                    using var stream = System.IO.File.Open(defaultPath, FileMode.Open);
+                    response = printContext.Execute(stream, id, optionValue, otherOptionValue);
                 }
                 else
                 {
-                    response = printContext.Execute(stream, id, optionValue, otherOptionValue);
+                    response.Message = "No Template has been chosen, and the default template has been moved to an unknown location!";
+                    response.IsValid = false;
                 }
             }
             else
                 response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
             if (response.IsValid)
+            {
+                response.Message = @_localizer["Contract exported successfully!"];
                 return DownloadFile(response.Stream, response.FileName);
-            return RedirectToAction("Print", new { id = id, message = @_localizer[response.Message] });
+            }
+            return RedirectToAction("Print", new { id, message = response.Message });
         }
 
         public FileContentResult DownloadFile(MemoryStream data, string fileName)
