@@ -924,3 +924,12 @@ msgstr "The Event must have a name!"
 
 msgid "The Beneficiary must have a name!"
 msgstr  "The Beneficiary must have a name!"
+
+msgid "MoreOptions"
+msgstr "More template options"
+
+msgid "ContractGoal"
+msgstr "The main goal of this contract is to give"
+
+msgid "Options"
+msgstr "Options"
