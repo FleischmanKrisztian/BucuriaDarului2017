@@ -78,11 +78,11 @@ namespace BucuriaDarului.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Print(IFormFile Files, string fileName, string id, string optionValue, string otherOptionValue)
+        public ActionResult Print(IFormFile files, string id, string optionValue, string otherOptionValue)
         {
             var printContext = new BeneficiaryContractPrintContext(new BeneficiaryContractPrintGateway());
             var response = new BeneficiaryContractPrintResponse();
-            if (Files == null)
+            if (files == null)
             {
                 var defaultPath = Environment.GetEnvironmentVariable(Constants.BUCURIA_DARULUI_PATH) + "\\ContractTemplates\\BeneficiaryContract.docx";
                 if (System.IO.File.Exists(defaultPath))
@@ -97,7 +97,7 @@ namespace BucuriaDarului.Web.Controllers
                 }
             }
             else
-                response = printContext.Execute(Files.OpenReadStream(), id, optionValue, otherOptionValue);
+                response = printContext.Execute(files.OpenReadStream(), id, optionValue, otherOptionValue);
             if (response.IsValid)
             {
                 response.Message = @_localizer["Contract exported successfully!"];
