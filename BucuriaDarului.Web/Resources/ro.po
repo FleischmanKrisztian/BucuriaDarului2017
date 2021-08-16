@@ -1002,3 +1002,15 @@ msgstr "Câmpul corespondent numelui trebuie completat!"
 
 msgid "The Beneficiary must have a name!"
 msgstr  "Câmpul corespondent numelui trebuie completat!"
+
+msgid "MoreOptions"
+msgstr "Mai multe opțiuni"
+
+msgid  "TemplateOptions"
+msgstr "Alegeți un alt șablon pentru contract"
+
+msgid "ContractGoal"
+msgstr "Obiectul prezentului contract îl constituie acordarea"
+
+msgid "Options"
+msgstr "Opțiuni"
