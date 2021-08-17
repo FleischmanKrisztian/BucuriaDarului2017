@@ -16,7 +16,7 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
         public void Insert(VolunteerContract volunteerContract)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
+            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerContracts");
             volunteerContractCollection.InsertOne(volunteerContract);
             var modifiedIdGateway = new ModifiedIDGateway();
             modifiedIdGateway.AddIDtoModifications(volunteerContract.Id);
