@@ -1,6 +1,7 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace BucuriaDarului.Contexts.VolunteerContractContexts
@@ -18,9 +19,21 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         public VolunteerContractEditResponse Execute(VolunteerEditRequest request)
         {
             var listOfContracts = dataGateway.GetListOfVolunteersContracts(request.Id);
-            if (listOfContracts.Count > 0) 
+            if (listOfContracts.Count > 0)
+            {
+                CreateAuxiliaryFiles(listOfContracts);
                 UpdateContracts(listOfContracts, request);
+            }
             return response;
+        }
+
+        private void CreateAuxiliaryFiles(List<VolunteerContract> listOfContracts)
+        {
+            foreach (var contract in listOfContracts)
+            {
+                var beforeEditingVolunteerContractString = JsonConvert.SerializeObject(contract);
+                dataGateway.AddVolunteerContractToModifiedList(beforeEditingVolunteerContractString);
+            }
         }
 
         private void UpdateContracts(List<VolunteerContract> listOfContracts, VolunteerEditRequest request)
@@ -29,6 +42,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             {
                 foreach (var contract in listOfContracts)
                 {
+                    var beforeEditingVolunteerContractString = JsonConvert.SerializeObject(contract);
                     contract.Address = request.Address;
                     contract.Birthdate = request.Birthdate;
                     contract.CI = request.CI;

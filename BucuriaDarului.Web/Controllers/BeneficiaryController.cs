@@ -151,13 +151,19 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryEditContext = new BeneficiaryEditContext(new BeneficiaryEditGateway());
             var beneficiaryEditResponse = beneficiaryEditContext.Execute(request, fileBytes);
 
-            if (!beneficiaryEditResponse.IsValid)
+            var beneficiaryContractEditContext = new BeneficiaryContractEditContext(new BeneficiaryContractUpdateGateway());
+            var beneficiaryContractEditResponse = beneficiaryContractEditContext.Execute(request);
+
+            if (!beneficiaryContractEditResponse.IsValid)
             {
-                return RedirectToAction("Edit", new { id = request.Id, message =_localizer[beneficiaryEditResponse.Message] });
+                beneficiaryEditResponse.Message = beneficiaryContractEditResponse.Message;
+                beneficiaryEditResponse.IsValid = false;
             }
 
-            var beneficiaryContractUpdateContext = new BeneficiaryContractUpdateContext(new BeneficiaryContractUpdateGateway());
-            beneficiaryContractUpdateContext.Execute(request.Id);
+            if (!beneficiaryEditResponse.IsValid)
+            {
+                return RedirectToAction("Edit", new { id = request.Id, message = @_localizer[beneficiaryEditResponse.Message] });
+            }
             return RedirectToAction("Index");
         }
 

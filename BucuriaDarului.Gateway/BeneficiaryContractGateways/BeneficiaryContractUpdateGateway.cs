@@ -1,50 +1,38 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
-using BucuriaDarului.Gateway.BeneficiaryGateways;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
-
 
 namespace BucuriaDarului.Gateway.BeneficiaryContractGateways
 {
     public class BeneficiaryContractUpdateGateway : IBeneficiaryContractUpdateGateway
     {
         private MongoDBGateway dbContext = new MongoDBGateway();
-        public Beneficiary GetBeneficiary(string beneficiaryId)
-        {
-            return SingleBeneficiaryReturnerGateway.ReturnBeneficiary(beneficiaryId);
-        }
 
-        public List<BeneficiaryContract> GetContractsOfBeneficiary()
+        public void Update(BeneficiaryContract contract)
         {
-            return ListBeneficiaryContractGateway.GetListBeneficiaryContracts();
-        }
-
-        public void UpdateBeneficiaryContract(BeneficiaryContract beneficiaryContract)
-        {
-
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
-            var filter = Builders<BeneficiaryContract>.Filter.Eq("Id", beneficiaryContract.Id);
             var modifiedIdGateway = new ModifiedIDGateway();
-            modifiedIdGateway.AddIDtoModifications(beneficiaryContract.Id);
-            beneficiaryContractCollection.FindOneAndReplace(filter, beneficiaryContract);
+            var BeneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
+            var filter = Builders<BeneficiaryContract>.Filter.Eq("Id", contract.Id);
+            modifiedIdGateway.AddIDtoModifications(contract.Id);
+            BeneficiaryContractCollection.FindOneAndReplace(filter, contract);
         }
 
-      
-        public List<ModifiedIDs> ReturnModificationList()
+        public List<BeneficiaryContract> GetListOfBeneficiaryContracts(string id)
         {
+            var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var modifiedCollection = dbContext.Database.GetCollection<ModifiedIDs>("ModifiedIDS");
-            var modifiedIDs = modifiedCollection.AsQueryable().ToList();
-            return modifiedIDs;
+            var BeneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
+            var filter = Builders<BeneficiaryContract>.Filter.Eq("OwnerID", id);
+            return BeneficiaryContractCollection.Find(filter).ToList();
         }
 
-        public void AddBeneficiaryContractToModifiedList(string beforeEditingBeneficiaryContractString)
+        public void AddBeneficiaryContractToModifiedList(string beforeEditingBeneficiaryContract)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            BsonDocument.TryParse(beforeEditingBeneficiaryContractString, out var documentAsBson);
+            BsonDocument.TryParse(beforeEditingBeneficiaryContract, out var documentAsBson);
             var auxiliaryCollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
             auxiliaryCollection.InsertOne(documentAsBson);
         }

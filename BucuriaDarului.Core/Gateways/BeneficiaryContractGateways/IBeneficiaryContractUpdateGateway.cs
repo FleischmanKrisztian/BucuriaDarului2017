@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BucuriaDarului.Core.Gateways.BeneficiaryContractGateways
 {
     public interface IBeneficiaryContractUpdateGateway
     {
-        Beneficiary GetBeneficiary(string beneficiaryId);
-        List<BeneficiaryContract> GetContractsOfBeneficiary();
-        void AddBeneficiaryContractToModifiedList(string beforeEditingBeneficiaryContractString);
-        public List<ModifiedIDs> ReturnModificationList();
-        void UpdateBeneficiaryContract(BeneficiaryContract beneficiaryContract);
+        public void AddBeneficiaryContractToModifiedList(string beforeEditingBeneficiaryContract);
+
+        public void Update(BeneficiaryContract contract);
+
+        List<BeneficiaryContract> GetListOfBeneficiaryContracts(string id);
     }
 }

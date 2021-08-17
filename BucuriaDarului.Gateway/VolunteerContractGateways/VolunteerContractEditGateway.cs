@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
 
@@ -26,6 +27,14 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
             var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerContracts");
             var filter = Builders<VolunteerContract>.Filter.Eq("OwnerID", id);
             return volunteerContractCollection.Find(filter).ToList();
+        }
+
+        public void AddVolunteerContractToModifiedList(string beforeEditingVolunteerContract)
+        {
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            BsonDocument.TryParse(beforeEditingVolunteerContract, out var documentAsBson);
+            var auxiliaryCollection = dbContext.Database.GetCollection<BsonDocument>("Auxiliary");
+            auxiliaryCollection.InsertOne(documentAsBson);
         }
     }
 }
