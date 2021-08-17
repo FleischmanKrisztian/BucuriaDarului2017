@@ -71,7 +71,7 @@ namespace BucuriaDarului.Gateway.DatabaseManagementGateways
                 dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             else
                 dbContext.ConnectToDB(SecondaryConnection.SERVER_NAME_COMMON, SecondaryConnection.SERVER_PORT_COMMON, SecondaryConnection.DATABASE_NAME_COMMON);
-            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("Contracts");
+            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerContracts");
             var contracts = volunteerContractCollection.AsQueryable().ToList();
             return contracts;
         }
