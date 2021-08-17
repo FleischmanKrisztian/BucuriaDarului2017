@@ -39,7 +39,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             }
             catch
             {
-                response.Message = "There was an Error Updating the Volunteers Contracts. Please Try again!";
+                response.Message = "There was an Error Updating the beneficiary Contracts. Please Try again!";
                 response.IsValid = false;
             }
 
