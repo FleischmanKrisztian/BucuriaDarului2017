@@ -1,5 +1,7 @@
 ﻿using BucuriaDarului.Contexts.BeneficiaryContexts;
+using BucuriaDarului.Contexts.BeneficiaryContractContexts;
 using BucuriaDarului.Core;
+using BucuriaDarului.Gateway.BeneficiaryContractGateways;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
@@ -153,6 +155,9 @@ namespace BucuriaDarului.Web.Controllers
             {
                 return RedirectToAction("Edit", new { id = request.Id, message =_localizer[beneficiaryEditResponse.Message] });
             }
+
+            var beneficiaryContractUpdateContext = new BeneficiaryContractUpdateContext(new BeneficiaryContractUpdateGateway());
+            beneficiaryContractUpdateContext.Execute(request.Id);
             return RedirectToAction("Index");
         }
 
