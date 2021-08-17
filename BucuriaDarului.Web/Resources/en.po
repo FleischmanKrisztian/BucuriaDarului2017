@@ -936,3 +936,9 @@ msgstr "Options"
 
 msgid "ChooseDiffrentTemplateThanTheDefaultOne"
 msgstr "important!Fill in this option only if you want a diffrent template than the default one!!"
+
+msgid "There was an Error Updating the beneficiary Contracts. Please Try again!"
+msgstr "There was an error updating the beneficiary contracts. Please Try again!"
+
+msgid "There was an Error Updating the Volunteers Contracts. Please Try again!"
+msgstr "There was an error updating the volunteers contracts. Please Try again!"

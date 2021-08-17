@@ -1017,3 +1017,9 @@ msgstr "Opțiuni"
 
 msgid "ChooseDiffrentTemplateThanTheDefaultOne"
 msgstr "Atenție!Această opțiune se completează doar daca doriți un alt șablon decât cel prestabilit!!"
+
+msgid "There was an Error Updating the beneficiary Contracts. Please Try again!"
+msgstr "S-a produs o eroare la editarea contractului acestui beneficiar.Încercați încă o dată!"
+
+msgid "There was an Error Updating the Volunteers Contracts. Please Try again!"
+msgstr "S-a produs o eroare la editarea contractului acestui voluntar.Încercați încă o dată!"
