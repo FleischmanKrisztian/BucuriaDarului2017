@@ -1014,3 +1014,6 @@ msgstr "Obiectul prezentului contract îl constituie acordarea"
 
 msgid "Options"
 msgstr "Opțiuni"
+
+msgid "ChooseDiffrentTemplateThanTheDefaultOne"
+msgstr "Atenție!Această opțiune se completează doar daca doriți un alt șablon decât cel prestabilit!!"
