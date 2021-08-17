@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BucuriaDarului.Core;
+using BucuriaDarului.Gateway.VolunteerContractGateways;
+using BucuriaDarului.Contexts.VolunteerContractContexts;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -156,6 +158,16 @@ namespace BucuriaDarului.Web.Controllers
             }
             var volunteerEditContext = new VolunteerEditContext(new VolunteerEditGateway());
             var volunteerEditResponse = volunteerEditContext.Execute(request, fileBytes);
+
+            var volunteerContractEditContext = new VolunteerContractEditContext(new VolunteerContractEditGateway());
+            var volunteerContractEditResponse = volunteerContractEditContext.Execute(request);
+            
+            if(!volunteerContractEditResponse.IsValid)
+            {
+                volunteerEditResponse.Message = volunteerContractEditResponse.Message;
+                volunteerEditResponse.IsValid = false;
+            }
+
             if (!volunteerEditResponse.IsValid)
             {
                 return RedirectToAction("Edit", new { id = request.Id, message = @_localizer[volunteerEditResponse.Message] });

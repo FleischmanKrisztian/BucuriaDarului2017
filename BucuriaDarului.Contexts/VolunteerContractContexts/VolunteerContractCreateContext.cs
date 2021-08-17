@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
-using Microsoft.Extensions.Localization;
+using System;
 
 namespace BucuriaDarului.Contexts.VolunteerContractContexts
 {
@@ -18,7 +16,6 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
 
         public VolunteerContractCreateResponse Execute(VolunteerContractCreateRequest request)
         {
-          
             var contractToCreate = CreateContract(request);
             if (response.IsValid)
                 dataGateway.Insert(contractToCreate);
@@ -79,7 +76,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                 response.IsValid = false;
                 response.Message += "Missing CNP information for this volunteer! Please fill in all the data necessary for contract creation.";
             }
-            //CI will never be null 
+            //CI will never be null
             if (volunteer.CI != null)
                 contract.CI = volunteer.CI;
             else
