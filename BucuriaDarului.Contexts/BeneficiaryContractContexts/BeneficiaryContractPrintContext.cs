@@ -26,9 +26,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
                 var document = Novacode.DocX.Load(data);
 
                 var contract = dataGateway.GetBeneficiaryContract(idContract);
-
-                response.FileName = GetFileName(contract.Fullname);
-                var option = GetOptionValue(optionValue, otherOptionValue);
+                response.FileName=GetFileName(contract.Fullname);
+               var option = GetOptionValue(optionValue, otherOptionValue);
                 document = FillInDocument(document, contract, option);
                 MemoryStream stream = new MemoryStream();
                 document.SaveAs(stream);
