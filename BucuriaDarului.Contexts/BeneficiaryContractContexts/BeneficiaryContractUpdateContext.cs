@@ -13,23 +13,37 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public void Execute(string beneficiaryId)
+        public BeneficiaryContractEditResponse Execute(string beneficiaryId)
         {
+            var response = new BeneficiaryContractEditResponse("",true);
             var beneficiary = dataGateway.GetBeneficiary(beneficiaryId);
-            var contracts = dataGateway.GetContractsOfBeneficiary();
-
-            foreach (var c in contracts)
-            { var updatedContract = GetUpdateContract(beneficiary, c);
-
-                var modifiedList = dataGateway.ReturnModificationList();
-                var modifiedListString = JsonConvert.SerializeObject(modifiedList);
-                if (!modifiedListString.Contains(updatedContract.Id))
+            var listOfContracts = dataGateway.GetContractsOfBeneficiary();
+            try
+            {
+                if (listOfContracts.Count > 0)
                 {
-                    var beforeEditingBeneficiaryContractString = JsonConvert.SerializeObject(c);
-                    dataGateway.AddBeneficiaryContractToModifiedList(beforeEditingBeneficiaryContractString);
+                    foreach (var c in listOfContracts)
+                    {
+                        var updatedContract = GetUpdateContract(beneficiary, c);
+
+                        var modifiedList = dataGateway.ReturnModificationList();
+                        var modifiedListString = JsonConvert.SerializeObject(modifiedList);
+                        if (!modifiedListString.Contains(updatedContract.Id))
+                        {
+                            var beforeEditingBeneficiaryContractString = JsonConvert.SerializeObject(c);
+                            dataGateway.AddBeneficiaryContractToModifiedList(beforeEditingBeneficiaryContractString);
+                        }
+                        dataGateway.UpdateBeneficiaryContract(updatedContract);
+                    }
                 }
-                dataGateway.UpdateBeneficiaryContract(updatedContract);
             }
+            catch
+            {
+                response.Message = "There was an Error Updating the Volunteers Contracts. Please Try again!";
+                response.IsValid = false;
+            }
+
+            return response;
         }
 
         public BeneficiaryContract GetUpdateContract(Beneficiary beneficiary, BeneficiaryContract beneficiaryContract)
@@ -45,6 +59,19 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             beneficiaryContract.PhoneNumber = beneficiary.PersonalInfo.PhoneNumber;
 
             return beneficiaryContract;
+        }
+    }
+
+    public class BeneficiaryContractEditResponse
+    {
+        public string Message { get; set; }
+
+        public bool IsValid { get; set; }
+
+        public BeneficiaryContractEditResponse(string message, bool isValid)
+        {
+            Message = message;
+            IsValid = isValid;
         }
     }
 }
