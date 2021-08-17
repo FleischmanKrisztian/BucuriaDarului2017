@@ -101,6 +101,15 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <label>@Localizer["PhoneNumber"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.PhoneNumber)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
                         <label>@Localizer["IdInfo"]:</label>
                     </div>
                     <div class="col-sm-6">
@@ -157,21 +166,21 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                               <br />
-                               <div class="modal-body" style="text-align:left">
-                                   <div class="form-group">
-                                       <dt class="col-sm-6">@Localizer["ChooseContractTemplate"] :</dt>
-                                       <dd class="col-sm-2">
-                                           <input type="file" id="myFile" name="files">
-                                       </dd>
-                                   </div>
-                                   <br />
-                                   <br />
-                                   <div class="modal-footer">
-                                       <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
-                                       <button type="button" class="btn btn-secondary" data-dismiss="modal" buttonAction="cancelButton">@Localizer["Close"]</button>
-                                   </div>
-                               </div>
+                                <br />
+                                <div class="modal-body" style="text-align:left">
+                                    <div class="form-group">
+                                        <dt class="col-sm-6">@Localizer["ChooseContractTemplate"] :</dt>
+                                        <dd class="col-sm-2">
+                                            <input type="file" id="myFile" name="files">
+                                        </dd>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="modal-footer">
+                                        <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" buttonAction="cancelButton">@Localizer["Close"]</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
