@@ -159,7 +159,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     else
                         volunteer.Id = Guid.NewGuid().ToString();
                     volunteer.Fullname = line[1];
-                    volunteer.Birthdate = Convert.ToDateTime(line[2]);
+                    if (line[2] != null && line[2] != "")
+                        volunteer.Birthdate = Convert.ToDateTime(line[2]);
+                    else
+                        volunteer.Birthdate = DateTime.MinValue;
+
                     volunteer.Address = line[3];
                     volunteer.Gender = line[4] == "Male" ? Gender.Male : Gender.Female;
                     volunteer.DesiredWorkplace = line[5];
@@ -167,12 +171,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.FieldOfActivity = line[7];
                     volunteer.Occupation = line[8];
 
-                    var cI = new CI
-                    {
-                        HasId = Convert.ToBoolean(line[9]),
-                        Info = line[10],
-                        ExpirationDate = Convert.ToDateTime(line[11])
-                    };
+                    var cI = new CI();
+
+                    cI.HasId = Convert.ToBoolean(line[9]);
+                    cI.Info = line[10];
+                    if (line[11] != null && line[11] != "")
+                        cI.ExpirationDate = Convert.ToDateTime(line[11]);
+                    else
+                        cI.ExpirationDate = DateTime.MinValue;
 
                     volunteer.CI = cI;
                     if (line[12] != null && line[12] != "")
@@ -237,7 +243,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     {
                         HasId = true,
                         Info = line[3],
-                        ExpirationDate = DateTime.Today
+                        ExpirationDate = DateTime.MinValue
                     };
 
                     volunteer.Id = Guid.NewGuid().ToString();
@@ -247,7 +253,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Address = line[2];
                     volunteer.Occupation = line[8];
                     volunteer.DesiredWorkplace = line[9];
-                    volunteer.Birthdate = DateTime.Today;
+                    volunteer.Birthdate = DateTime.MinValue;
                     volunteer.FieldOfActivity = "";
                     volunteer.Gender = Gender.Female;
                     volunteer.HourCount = 0;
