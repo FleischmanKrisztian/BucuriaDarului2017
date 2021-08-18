@@ -19,7 +19,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             this.dataGateway = dataGateway;
         }
 
-        public EventImportResponse Execute(Stream dataToImport)
+        public EventImportResponse Execute(Stream dataToImport, string overwrite)
         {
             var response = new EventImportResponse();
             if (FileIsNotEmpty(dataToImport))
@@ -36,11 +36,31 @@ namespace BucuriaDarului.Contexts.EventContexts
                     response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", "File must be of type Event!"));
                     response.IsValid = false;
                 }
-                var eventsFromCsv = GetEventsFromCsv(result, response);
-                if (response.IsValid)
+                var listOfEvents = dataGateway.GetEvents();
+                var eventsFromCsv = GetEventsFromCsv(result, response,overwrite,listOfEvents);
+                var eventsToUpdate = new List<Event>();
+                var eventsToInsert = new List<Event>();
+                
+                if (response.IsValid )
                 {
-                    dataGateway.Insert(eventsFromCsv);
+                    if (overwrite == "yes")
+                    {
+                        foreach (var e in eventsFromCsv)
+                        {
+                            if (listOfEvents.FindAll(x => x.Id == e.Id).Count() != 0)
+                                eventsToUpdate.Add(e);
+                            else
+                                eventsToInsert.Add(e);
+                        }
+                        dataGateway.Update(eventsToUpdate);
+                        dataGateway.Insert(eventsToInsert);
+                    }
+                    else
+                        dataGateway.Insert(eventsFromCsv);
+
+
                 }
+                
             }
 
             return response;
@@ -121,30 +141,84 @@ namespace BucuriaDarului.Contexts.EventContexts
             return i == 0;
         }
 
-        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response)
+        private static Event GetDataFromLine(string[] line, Event ev)
+        {
+            ev.NameOfEvent = line[1];
+            ev.PlaceOfEvent = line[2];
+            ev.DateOfEvent = Convert.ToDateTime(line[3]);
+            ev.TypeOfActivities = line[4];
+            ev.TypeOfEvent = line[5];
+            ev.Duration = line[6];
+            ev.NumberOfVolunteersNeeded = Convert.ToInt32(line[7]);
+            ev.AllocatedVolunteers = line[8];
+            ev.NumberAllocatedVolunteers = Convert.ToInt32(line[9]);
+            ev.AllocatedSponsors = line[10];
+
+            return ev;
+        }
+        private static Event EventOverWrite(string[] line, Event databaseEvent)
+        {
+            if (line[1] != "" && line[1] != null)
+            databaseEvent.NameOfEvent = line[1];
+            if (line[2] != "" && line[2] != null)
+                databaseEvent.PlaceOfEvent = line[2];
+            if (line[3] != "" && line[3] != null)
+                databaseEvent.DateOfEvent = Convert.ToDateTime(line[3]);
+            if (line[4] != "" && line[4] != null)
+                databaseEvent.TypeOfActivities = line[4];
+            if (line[5] != "" && line[5] != null)
+                databaseEvent.TypeOfEvent = line[5];
+            if (line[6] != "" && line[6] != null)
+                databaseEvent.Duration = line[6];
+            if (line[7] != "" && line[7] != null)
+                databaseEvent.NumberOfVolunteersNeeded = Convert.ToInt32(line[7]);
+            if (line[8] != "" && line[8] != null)
+                databaseEvent.AllocatedVolunteers = line[8];
+            if (line[9] != "" && line[9] != null)
+                databaseEvent.NumberAllocatedVolunteers = Convert.ToInt32(line[9]);
+            if (line[10] != "" && line[10] != null)
+                databaseEvent.AllocatedSponsors = line[10];
+
+            return databaseEvent;
+        }
+
+        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response,string owerwrite,List<Event> allEventList)
         {
             var events = new List<Event>();
 
             foreach (var line in lines)
             {
                 var ev = new Event();
+                
                 try
                 {
-                    //TODO : The Date Crashes From the Romanian Import
-                    if (line[0] != null && line[0] != string.Empty)
-                        ev.Id = line[0];
+
+                    if (owerwrite == "no")
+                    {
+                        if (line[0] != null && line[0] != string.Empty)
+                            ev.Id = line[0];
+                        else
+                            ev.Id = Guid.NewGuid().ToString();
+                        ev = GetDataFromLine(line, ev);
+                    }
                     else
-                        ev.Id = Guid.NewGuid().ToString();
-                    ev.NameOfEvent = line[1];
-                    ev.PlaceOfEvent = line[2];
-                    ev.DateOfEvent = Convert.ToDateTime(line[3]);
-                    ev.TypeOfActivities = line[4];
-                    ev.TypeOfEvent = line[5];
-                    ev.Duration = line[6];
-                    ev.NumberOfVolunteersNeeded= Convert.ToInt32(line[7]);
-                    ev.AllocatedVolunteers = line[8];
-                    ev.NumberAllocatedVolunteers = Convert.ToInt32(line[9]);
-                    ev.AllocatedSponsors = line[10];
+                    {
+                        if (allEventList.FindAll(x => x.Id == line[0]).Count != 0)
+                        {
+                            var databaseEvent = allEventList.Find(x => x.Id == line[0]);
+                            ev= GetDataFromLine(line, databaseEvent);
+                        }
+                        else
+                        {
+                            if (line[0] != null && line[0] != string.Empty)
+                                ev.Id = line[0];
+                            else
+                                ev.Id = Guid.NewGuid().ToString();
+                            ev = GetDataFromLine(line, ev);
+                        }
+
+                    }
+
                 }
                 catch
                 {
