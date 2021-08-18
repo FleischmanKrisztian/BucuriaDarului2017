@@ -169,12 +169,14 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     beneficiary.Address = line[8];
                     beneficiary.CNP = line[9];
 
-                    var cI = new CI
-                    {
-                        HasId = Convert.ToBoolean(line[10]),
-                        Info = line[11],
-                        ExpirationDate = Convert.ToDateTime(line[12])
-                    };
+                    var cI = new CI();
+
+                    cI.HasId = Convert.ToBoolean(line[10]);
+                    cI.Info = line[11];
+                    if (line[12] != null && line[12] != "")
+                        cI.ExpirationDate = Convert.ToDateTime(line[12]);
+                    else
+                        cI.ExpirationDate = DateTime.MinValue;
 
                     beneficiary.CI = cI;
 
@@ -194,7 +196,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
                     var personalInfo = new PersonalInfo();
 
-                    personalInfo.Birthdate = Convert.ToDateTime(line[20]);
+                   
+                    if (line[20] != null && line[20] != "")
+                        personalInfo.Birthdate = Convert.ToDateTime(line[20]);
+                    else
+                        personalInfo.Birthdate = DateTime.MinValue;
+
                     personalInfo.PhoneNumber = line[21];
                     personalInfo.BirthPlace = line[22];
                     personalInfo.Studies = line[23];
@@ -264,8 +271,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
                     if (DateTime.TryParse(line[11], culture, styles, out var dateResult))
                         ci.ExpirationDate = dateResult;
-                    //else
-                    //    ci.ExpirationDate = DateTime.Today;
+                    else
+                        ci.ExpirationDate = DateTime.MinValue;
                     ci.HasId = true;
                     beneficiary.CI = ci;
 
@@ -315,7 +322,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     if (DateTime.TryParse(line[38] + "." + line[37] + "." + line[36], culture, styles, out var dateResult2))
                         personalInfo.Birthdate = dateResult2;
                     else
-                        personalInfo.Birthdate = DateTime.Today;
+                        personalInfo.Birthdate = DateTime.MinValue;
 
                     beneficiary.Comments = beneficiary.Comments + " Varsta: " + line[39];
                     personalInfo.Gender = line[41] == "M" ? Gender.Male : Gender.Female;
