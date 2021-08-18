@@ -942,3 +942,12 @@ msgstr "There was an error updating the beneficiary contracts. Please Try again!
 
 msgid "There was an Error Updating the Volunteers Contracts. Please Try again!"
 msgstr "There was an error updating the volunteers contracts. Please Try again!"
+
+msgid "Do you want to overwrite if some items already exist?"
+msgstr "Do you want to overwrite if some items already exist?"
+
+msgid "ImportOptions"
+msgstr "Import options"
+
+msgid "Continue"
+msgstr "Continue"
