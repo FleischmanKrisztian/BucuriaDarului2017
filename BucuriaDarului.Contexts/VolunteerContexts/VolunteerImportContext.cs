@@ -17,7 +17,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private static int _fileType = 0;
         private readonly IStringLocalizer localizer;
 
-        public VolunteerImportContext(IVolunteerImportGateway dataGateway,IStringLocalizer localizer)
+        public VolunteerImportContext(IVolunteerImportGateway dataGateway, IStringLocalizer localizer)
         {
             this.localizer = localizer;
             this.dataGateway = dataGateway;
@@ -34,7 +34,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
             if (response.IsValid)
             {
-                var result = ExtractImportRawData(dataToImport,localizer);
+                var result = ExtractImportRawData(dataToImport, localizer);
                 var volunteersFromCsv = new List<Volunteer>();
                 if (_fileType == 0)
                 {
@@ -42,9 +42,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     response.IsValid = false;
                 }
                 else if (_fileType == 1)
-                    volunteersFromCsv = GetVolunteerFromCsv(result, response,localizer);
+                    volunteersFromCsv = GetVolunteerFromCsv(result, response, localizer);
                 else
-                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response,localizer);
+                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response, localizer);
                 if (response.IsValid)
                 {
                     dataGateway.Insert(volunteersFromCsv);
@@ -59,7 +59,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return dataToImport.Length <= 0;
         }
 
-        private static List<string[]> ExtractImportRawData(Stream dataToImport,IStringLocalizer localizer)
+        private static List<string[]> ExtractImportRawData(Stream dataToImport, IStringLocalizer localizer)
         {
             var result = new List<string[]>();
             var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
@@ -126,7 +126,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
         {
             var differentCSV =
-                headerColumns[0].Contains("nume si prenume", StringComparison.InvariantCultureIgnoreCase) &&
+                headerColumns[0].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) &&
                 headerColumns[1].Contains("CNP", StringComparison.InvariantCultureIgnoreCase);
             if (differentCSV)
                 return 2;
@@ -145,7 +145,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return i == 0;
         }
 
-        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response,IStringLocalizer localizer)
+        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response, IStringLocalizer localizer)
         {
             var volunteers = new List<Volunteer>();
 
@@ -159,7 +159,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     else
                         volunteer.Id = Guid.NewGuid().ToString();
                     volunteer.Fullname = line[1];
-                    volunteer.Birthdate = Convert.ToDateTime(line[2]);
+                    if (line[2] != null && line[2] != "")
+                        volunteer.Birthdate = Convert.ToDateTime(line[2]);
+                    else
+                        volunteer.Birthdate = DateTime.MinValue;
+
                     volunteer.Address = line[3];
                     volunteer.Gender = line[4] == "Male" ? Gender.Male : Gender.Female;
                     volunteer.DesiredWorkplace = line[5];
@@ -167,15 +171,20 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.FieldOfActivity = line[7];
                     volunteer.Occupation = line[8];
 
-                    var cI = new CI
-                    {
-                        HasId = Convert.ToBoolean(line[9]),
-                        Info = line[10],
-                        ExpirationDate = Convert.ToDateTime(line[11])
-                    };
+                    var cI = new CI();
+
+                    cI.HasId = Convert.ToBoolean(line[9]);
+                    cI.Info = line[10];
+                    if (line[11] != null && line[11] != "")
+                        cI.ExpirationDate = Convert.ToDateTime(line[11]);
+                    else
+                        cI.ExpirationDate = DateTime.MinValue;
 
                     volunteer.CI = cI;
-                    volunteer.InActivity = Convert.ToBoolean(line[12]);
+                    if (line[12] != null && line[12] != "")
+                        volunteer.InActivity = Convert.ToBoolean(line[12]);
+                    else
+                        volunteer.InActivity = true;
                     volunteer.HourCount = Convert.ToInt16(line[13]);
 
                     var contactInformation = new ContactInformation
@@ -208,7 +217,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         }
 
         private List<Volunteer> GetVolunteerFromBucuriaDaruluiCSV(List<string[]> lines,
-            VolunteerImportResponse response,IStringLocalizer localizer)
+            VolunteerImportResponse response, IStringLocalizer localizer)
         {
             var volunteers = new List<Volunteer>();
 
@@ -234,7 +243,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     {
                         HasId = true,
                         Info = line[3],
-                        ExpirationDate = DateTime.Today
+                        ExpirationDate = DateTime.MinValue
                     };
 
                     volunteer.Id = Guid.NewGuid().ToString();
@@ -244,18 +253,18 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Address = line[2];
                     volunteer.Occupation = line[8];
                     volunteer.DesiredWorkplace = line[9];
-                    volunteer.Birthdate = DateTime.Today;
+                    volunteer.Birthdate = DateTime.MinValue;
                     volunteer.FieldOfActivity = "";
                     volunteer.Gender = Gender.Female;
                     volunteer.HourCount = 0;
-                    volunteer.InActivity = false;
+                    volunteer.InActivity = true;
                     volunteer.CI = ci;
                     volunteer.ContactInformation = contactInformation;
                     volunteer.AdditionalInfo = additionalInformation;
                 }
                 catch
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",@localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
                     response.IsValid = false;
                 }
 

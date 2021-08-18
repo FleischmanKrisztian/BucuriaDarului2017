@@ -52,7 +52,7 @@
         .image {
             opacity: 0.4;
             filter: alpha(opacity=60);
-        } 
+        }
     </style>
 </head>
 
@@ -337,7 +337,9 @@
                             @Html.DisplayFor(modelItem => item.Fullname)
                         </td>
                         <td>
-                            @item.Birthdate.ToShortDateString()
+                            @if (item.Birthdate != DateTime.MinValue)
+                                @item.Birthdate.ToShortDateString()
+                   
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.InActivity)
@@ -366,7 +368,6 @@
                                 else
                                 { <img class="image" src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["NoCiInfo"]">}
 
-
                             }
                         </td>
                     </tr>
@@ -375,4 +376,3 @@
         </table>
     }
 </div>
-

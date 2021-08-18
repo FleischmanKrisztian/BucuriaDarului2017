@@ -273,7 +273,9 @@
                             <label> @Localizer["Birthdate"]</label>
                         </div>
                         <div class="col-md-6">
-                            <p> @Model.Birthdate.ToShortDateString()</p>
+                            @if (Model.Birthdate != DateTime.MinValue)
+                            {<p> @Model.Birthdate.ToShortDateString()</p>}
+
                         </div>
                     </div>
                 </div>
@@ -339,7 +341,10 @@
                             <label> @Localizer["IdExpirationDate"]:</label>
                         </div>
                         <div class="col-md-6">
+                            @if (Model.CI.ExpirationDate != DateTime.MinValue)
+                            { 
                             <p>@Model.CI.ExpirationDate.ToShortDateString()</p>
+                            }
                         </div>
                     </div>
                 </div>
