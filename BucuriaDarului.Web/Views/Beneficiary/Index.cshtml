@@ -550,7 +550,8 @@
                 @Html.DisplayFor(modelItem => item.Canteen)
             </td>
             <td>
-                @item.PersonalInfo.Birthdate.ToShortDateString()
+                @if (item.PersonalInfo.Birthdate != DateTime.MinValue)
+                    @item.PersonalInfo.Birthdate.ToShortDateString()
             </td>
 
             <td style="text-align:left">
