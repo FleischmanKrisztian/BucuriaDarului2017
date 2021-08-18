@@ -152,12 +152,15 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 var beneficiary = new Beneficiary();
                 try
                 {
-                    if(line[0] !=null && line[0] !=string.Empty)
-                         beneficiary.Id = line[0];
+                    if (line[0] != null && line[0] != string.Empty)
+                        beneficiary.Id = line[0];
                     else
-                        beneficiary.Id=Guid.NewGuid().ToString();
+                        beneficiary.Id = Guid.NewGuid().ToString();
                     beneficiary.Fullname = line[1];
-                    beneficiary.Active = Convert.ToBoolean(line[2]);
+                    if (line[2] != null && line[2] != "")
+                        beneficiary.Active = Convert.ToBoolean(line[2]);
+                    else
+                        beneficiary.Active = true;
                     beneficiary.WeeklyPackage = Convert.ToBoolean(line[3]);
                     beneficiary.Canteen = Convert.ToBoolean(line[4]);
                     beneficiary.HomeDelivery = Convert.ToBoolean(line[5]);
@@ -261,8 +264,8 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
                     if (DateTime.TryParse(line[11], culture, styles, out var dateResult))
                         ci.ExpirationDate = dateResult;
-                    else
-                        ci.ExpirationDate = DateTime.Today;
+                    //else
+                    //    ci.ExpirationDate = DateTime.Today;
                     ci.HasId = true;
                     beneficiary.CI = ci;
 
@@ -273,7 +276,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     marca.IdContract = line[15];
                     beneficiary.Marca = marca;
 
-                    if (Int16.TryParse(line[16], out var result))                   
+                    if (Int16.TryParse(line[16], out var result))
                         beneficiary.NumberOfPortions = result;
                     else
                         beneficiary.NumberOfPortions = 0;
@@ -309,7 +312,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     personalInfo.Income = line[34];
                     personalInfo.Expenses = line[35];
 
-
                     if (DateTime.TryParse(line[38] + "." + line[37] + "." + line[36], culture, styles, out var dateResult2))
                         personalInfo.Birthdate = dateResult2;
                     else
@@ -320,7 +322,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     beneficiary.Comments = beneficiary.Comments + " Observatii: " + line[42];
 
                     beneficiary.PersonalInfo = personalInfo;
-
                 }
                 catch
                 {
