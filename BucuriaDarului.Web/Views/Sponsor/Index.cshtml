@@ -207,7 +207,7 @@
         <tr>
             <th style="width: 220px">
                 @Localizer["NameOfSponsor"]
-                @Html.TextBox("sponsorName")
+                @Html.TextBox("sponsorName", "", new { maxlength = "50" })
             </th>
             <th>
                 @Localizer["PhoneNumber"]
@@ -242,7 +242,7 @@
                                         <dd class="col-sm-2"></dd>
                                         <dt class="col-sm-6">@Localizer["ContactInfo"]:</dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("ContactInfo")
+                                            @Html.TextBox("ContactInfo", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
                                         <dd class="col-sm-2">
@@ -258,15 +258,15 @@
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["WhatGoods"]:</dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("whatGoods")
+                                            @Html.TextBox("whatGoods", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["GoodsAmount"]: </dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("goodsAmounts")
+                                            @Html.TextBox("goodsAmounts", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["MoneyAmount"]:</dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("moneyAmount")
+                                            @Html.TextBox("moneyAmount", "", new { maxlength = "50" })
                                         </dd>
                                     </div>
                                     <hr />

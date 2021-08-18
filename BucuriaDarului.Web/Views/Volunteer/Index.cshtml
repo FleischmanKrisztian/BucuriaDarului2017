@@ -208,7 +208,7 @@
                 <th style="max-width: 220px; width: 200px">
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount })>@Localizer["Fullname"] </a>
                     <br />
-                    @Html.TextBox("searchedFullname")
+                    @Html.TextBox("searchedFullname", "", new { maxlength = "50" })
                 </th>
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.DateSortParam,  searchedFullname = Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["BirthDate"] </a>
@@ -227,7 +227,7 @@
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.HourCountSort, searchedFullname =Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["HourCount"] </a>
                     <br />
-                    @Html.TextBox("searchedHourCount", "", new { @style = " width:70px; " })
+                    @Html.TextBox("searchedHourCount", "", new { @style = " width:70px; ", @maxlength = "5"})
                 </th>
                 <th>
 
@@ -278,23 +278,23 @@
                                             </dd>
                                             <dt class="col-sm-6">@Localizer["Address"] :</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchedAddress")
+                                                @Html.TextBox("searchedAddress", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-6">@Localizer["DesiredArea"] :</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchedWorkplace")
+                                                @Html.TextBox("searchedWorkplace", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-6">@Localizer["Occupation"] :</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchedOccupation")
+                                                @Html.TextBox("searchedOccupation", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-6">@Localizer["Remarks"] :</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchedRemarks")
+                                                @Html.TextBox("searchedRemarks", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-6">@Localizer["ContactInfo"] :</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchedContact")
+                                                @Html.TextBox("searchedContact", "", new { maxlength = "50" })
                                             </dd>
                                         </div>
                                         <hr />

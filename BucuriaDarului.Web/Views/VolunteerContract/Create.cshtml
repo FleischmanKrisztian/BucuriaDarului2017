@@ -61,7 +61,7 @@
 
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@idOfVolunteer />
+    <input data-val="true" id="OwnerID" name="OwnerID" type="hidden" value=@idOfVolunteer />
     <div class=" emp-profile">
         <div class="row">
             <div class="col-md-12">
@@ -81,7 +81,7 @@
                             <label> @Localizer["RegistrationDate"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <input class="form-control" type="date" name="RegistrationDate" value="2021-01-01" />
+                            <input class="form-control" id="RegistrationDate" type="date" name="RegistrationDate" value="2021-01-01" onchange="test()"  />
                             @Html.ValidationMessageFor(model => model.RegistrationDate, "", new { @class = "text-danger" })
                             <hr />
                         </div>
@@ -91,7 +91,7 @@
                             <label>@Localizer["ExpirationDate"]:</label>
                         </div>
                         <div class="col-md-6">
-                            <input class="form-control" type="date" name="ExpirationDate" value="2021-01-01" />
+                            <input class="form-control" id="ExpirationDate" type="date" name="ExpirationDate" value="2021-01-01" onchange="test()" />
                             @Html.ValidationMessageFor(model => model.ExpirationDate, "", new { @class = "text-danger" })
                             <hr />
                         </div>
@@ -105,3 +105,19 @@
         </div>
     </div>
 </form>
+
+<script>
+    function test() {
+        var startDate = document.getElementById("RegistrationDate").value;
+        var expDate = document.getElementById("ExpirationDate").value;
+
+        var startDT = new Date(startDate).getTime();
+        var expDT = new Date(expDate).getTime();
+
+        if (startDT >= expDT) {
+            ExpirationDate.setCustomValidity("The Expiration Date must be after the registration date!");
+        }
+        else
+            ExpirationDate.setCustomValidity("");
+    }
+</script>

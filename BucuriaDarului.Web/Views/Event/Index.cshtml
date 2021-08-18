@@ -212,7 +212,7 @@
         <tr>
             <th style="width: 250px">
                 @Localizer["NameOfEvent"]:
-                @Html.TextBox("searching")
+                @Html.TextBox("searching","", new { maxlength = "50" })
             </th>
             <th>
                 @Localizer["DateOfEvent"]:
@@ -250,24 +250,24 @@
                                         <dd class="col-sm-2"></dd>
                                         <dt class="col-sm-6">@Localizer["PlaceOfEvent"]:</dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("searchingPlace")
+                                            @Html.TextBox("searchingPlace", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["TypeOfActivities"]: </dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("searchingActivity")
+                                            @Html.TextBox("searchingActivity", "", new { maxlength = "50" })
                                         </dd>
 
                                         <dt class="col-sm-6">@Localizer["TypeOfEvent"]: </dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("searchingType")
+                                            @Html.TextBox("searchingType", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["AllocatedVolunteers"]: </dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("searchingVolunteers")
+                                            @Html.TextBox("searchingVolunteers", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["AllocatedSponsors"]:</dt>
                                         <dd class="col-sm-2">
-                                            @Html.TextBox("searchingSponsor")
+                                            @Html.TextBox("searchingSponsor", "", new { maxlength = "50" })
                                         </dd>
                                         <dt class="col-sm-6">@Localizer["LowerDate"]: </dt>
                                         <dd class="col-sm-2">

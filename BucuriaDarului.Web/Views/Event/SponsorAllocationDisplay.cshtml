@@ -59,7 +59,7 @@
 </h2>
 @using (Html.BeginForm("SponsorAllocationDisplay", "Event", FormMethod.Get))
 {
-    @Html.TextBox("searching")
+    @Html.TextBox("searching", "", new { maxlength = "50" })
     <input type="hidden" value="@Model.Event.Id" name="id" />
     <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
     <p>

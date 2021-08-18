@@ -341,7 +341,7 @@
                 <th style="max-width: 220px; width: 200px">
                     <a href=@Url.Action("Index", new { sortOrder =  Model.FilterData.SortOrder.FullnameSort, searching = Model.FilterData.BeneficiaryName, hasContract = Model.FilterData.HasContract, Model.FilterData.Active, homeless = Model.FilterData.Homeless, lowerDate = Model.FilterData.LowerDate, upperDate = Model.FilterData.UpperDate  })>@Localizer["Fullname"]</a>
                     <br />
-                    @Html.TextBox("searching")
+                    @Html.TextBox("searching", "", new { maxlength = "50" })
                 </th>
 
                 <th>
@@ -412,7 +412,7 @@
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["HomeDeliveryDriver"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingDriver")
+                                                @Html.TextBox("searchingDriver", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["HasGDPRAgreement"]:</dt>
                                             <dd class="col-sm-2">
@@ -420,7 +420,7 @@
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Address"]: </dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingAddress")
+                                                @Html.TextBox("searchingAddress", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["HasId"]: </dt>
                                             <dd class="col-sm-2">
@@ -428,11 +428,11 @@
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["NumberOfPortions"]: </dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingNumberOfPortions")
+                                                @Html.TextBox("searchingNumberOfPortions", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Comments"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingComments")
+                                                @Html.TextBox("searchingComments", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["LowerDate"]: </dt>
                                             <dd class="col-sm-2">
@@ -444,31 +444,31 @@
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Birthplace"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingBirthPlace")
+                                                @Html.TextBox("searchingBirthPlace", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Studies"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingStudies")
+                                                @Html.TextBox("searchingStudies", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Profession&Occupation"]: </dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingPO")
+                                                @Html.TextBox("searchingPO", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["SeniorityInWorkField"]: </dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingSeniority")
+                                                @Html.TextBox("searchingSeniority", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["HealthState&Disability&ChronicCondition"]: </dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingHealthState")
+                                                @Html.TextBox("searchingHealthState", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Addictions"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingAddictions")
+                                                @Html.TextBox("searchingAddictions", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Married&SpouseName"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingMarried")
+                                                @Html.TextBox("searchingMarried", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["HasHealthInsurance"]: </dt>
                                             <dd class="col-sm-2">
@@ -480,16 +480,16 @@
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["HousingType"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingHousingType")
+                                                @Html.TextBox("searchingHousingType", "", new { maxlength = "50" })
                                             </dd>
 
                                             <dt class="col-sm-8">@Localizer["Income"]: </dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingIncome")
+                                                @Html.TextBox("searchingIncome", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Expenses"]:</dt>
                                             <dd class="col-sm-2">
-                                                @Html.TextBox("searchingExpenses")
+                                                @Html.TextBox("searchingExpenses", "", new { maxlength = "50" })
                                             </dd>
                                             <dt class="col-sm-8">@Localizer["Gender"] :</dt>
                                             <dd class="col-sm-4">
