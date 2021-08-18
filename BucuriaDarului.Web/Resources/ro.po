@@ -1023,3 +1023,12 @@ msgstr "S-a produs o eroare la editarea contractului acestui beneficiar.Încerca
 
 msgid "There was an Error Updating the Volunteers Contracts. Please Try again!"
 msgstr "S-a produs o eroare la editarea contractului acestui voluntar.Încercați încă o dată!"
+
+msgid "Do you want to overwrite if some items already exist?"
+msgstr "Doriți să se suprascrie eventualele documente deja existente?"
+
+msgid "ImportOptions"
+msgstr "Opțiuni import"
+
+msgid "Continue"
+msgstr "Contiună"
