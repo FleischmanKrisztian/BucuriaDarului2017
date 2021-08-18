@@ -17,7 +17,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private static int _fileType = 0;
         private readonly IStringLocalizer localizer;
 
-        public VolunteerImportContext(IVolunteerImportGateway dataGateway,IStringLocalizer localizer)
+        public VolunteerImportContext(IVolunteerImportGateway dataGateway, IStringLocalizer localizer)
         {
             this.localizer = localizer;
             this.dataGateway = dataGateway;
@@ -34,7 +34,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
             if (response.IsValid)
             {
-                var result = ExtractImportRawData(dataToImport,localizer);
+                var result = ExtractImportRawData(dataToImport, localizer);
                 var volunteersFromCsv = new List<Volunteer>();
                 if (_fileType == 0)
                 {
@@ -42,9 +42,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     response.IsValid = false;
                 }
                 else if (_fileType == 1)
-                    volunteersFromCsv = GetVolunteerFromCsv(result, response,localizer);
+                    volunteersFromCsv = GetVolunteerFromCsv(result, response, localizer);
                 else
-                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response,localizer);
+                    volunteersFromCsv = GetVolunteerFromBucuriaDaruluiCSV(result, response, localizer);
                 if (response.IsValid)
                 {
                     dataGateway.Insert(volunteersFromCsv);
@@ -59,7 +59,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return dataToImport.Length <= 0;
         }
 
-        private static List<string[]> ExtractImportRawData(Stream dataToImport,IStringLocalizer localizer)
+        private static List<string[]> ExtractImportRawData(Stream dataToImport, IStringLocalizer localizer)
         {
             var result = new List<string[]>();
             var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
@@ -126,7 +126,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
         {
             var differentCSV =
-                headerColumns[0].Contains("nume si prenume", StringComparison.InvariantCultureIgnoreCase) &&
+                headerColumns[0].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) &&
                 headerColumns[1].Contains("CNP", StringComparison.InvariantCultureIgnoreCase);
             if (differentCSV)
                 return 2;
@@ -145,7 +145,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return i == 0;
         }
 
-        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response,IStringLocalizer localizer)
+        private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response, IStringLocalizer localizer)
         {
             var volunteers = new List<Volunteer>();
 
@@ -175,7 +175,10 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     };
 
                     volunteer.CI = cI;
-                    volunteer.InActivity = Convert.ToBoolean(line[12]);
+                    if (line[12] != null && line[12] != "")
+                        volunteer.InActivity = Convert.ToBoolean(line[12]);
+                    else
+                        volunteer.InActivity = true;
                     volunteer.HourCount = Convert.ToInt16(line[13]);
 
                     var contactInformation = new ContactInformation
@@ -208,7 +211,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         }
 
         private List<Volunteer> GetVolunteerFromBucuriaDaruluiCSV(List<string[]> lines,
-            VolunteerImportResponse response,IStringLocalizer localizer)
+            VolunteerImportResponse response, IStringLocalizer localizer)
         {
             var volunteers = new List<Volunteer>();
 
@@ -248,14 +251,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.FieldOfActivity = "";
                     volunteer.Gender = Gender.Female;
                     volunteer.HourCount = 0;
-                    volunteer.InActivity = false;
+                    volunteer.InActivity = true;
                     volunteer.CI = ci;
                     volunteer.ContactInformation = contactInformation;
                     volunteer.AdditionalInfo = additionalInformation;
                 }
                 catch
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",@localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
                     response.IsValid = false;
                 }
 
