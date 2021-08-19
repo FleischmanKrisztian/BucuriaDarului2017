@@ -337,7 +337,7 @@
                             @Html.DisplayFor(modelItem => item.Fullname)
                         </td>
                         <td>
-                            @if (item.Birthdate != DateTime.MinValue)
+                            @if (item.Birthdate > DateTime.MinValue.AddYears(3))
                                 @item.Birthdate.ToShortDateString()
                    
                         </td>

@@ -107,33 +107,48 @@
                 <div class="row">
                     <div class=" col-md-6"><label>@Localizer["RegistrationDate"]: </label></div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="Contract.RegistrationDate" value="@Model.Contract.RegistrationDate.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
-                        <hr/>
+                        @if (Model.Contract.RegistrationDate < DateTime.MinValue.AddYears(3))
+                        {
+                            <input class="form-control" type="date" name="Contract.RegistrationDate" />
+                            @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="Contract.RegistrationDate" value="@Model.Contract.RegistrationDate.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.Contract.RegistrationDate, "", new { @class = "text-danger" })
+                        }
+                        <hr />
                     </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-6"><label> @Localizer["ExpirationDate"]: </label></div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="Contract.ExpirationDate" value="@Model.Contract.ExpirationDate.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+                        @if (Model.Contract.ExpirationDate < DateTime.MinValue.AddYears(3))
+                        {
+                            <input class="form-control" type="date" name="Contract.ExpirationDate" />
+                            @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="Contract.ExpirationDate" value="@Model.Contract.ExpirationDate.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.Contract.ExpirationDate, "", new { @class = "text-danger" })
+                        }
                         <hr />
                     </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-6"> <label> @Localizer["DateOfSponsorship"]:</label></div>
                     <div class="col-md-6">
-                        @if (Model.Sponsorship.Date == DateTime.MinValue)
+                        @if (Model.Sponsorship.Date < DateTime.MinValue.AddYears(3))
                         {
                             <input class="form-control" type="date" name="Sponsorship.Date" />
                             @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
                         }
                         else
                         {
-                            <input class="form-control" type="date" name="Birthdate" value="@Model.Sponsorship.Date.ToString("yyyy-MM-dd")" />
+                            <input class="form-control" type="date" name="Sponsorship.Date" value="@Model.Sponsorship.Date.ToString("yyyy-MM-dd")" />
                             @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
-                        }
-                        
+                        } 
                         <hr />
                     </div>
                 </div>

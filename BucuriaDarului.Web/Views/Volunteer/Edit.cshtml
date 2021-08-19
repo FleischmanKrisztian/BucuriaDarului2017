@@ -119,7 +119,7 @@
                         @Localizer["Birthdate"]:
                     </div>
                     <div class="col-md-5">
-                        @if (Model.Birthdate == DateTime.MinValue)
+                        @if (Model.Birthdate < DateTime.MinValue.AddYears(3))
                         {
                             <input class="form-control" type="date" name="Birthdate" />
                             @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
@@ -179,7 +179,7 @@
                         @Localizer["IdExpirationDate"]:
                     </div>
                     <div class="col-md-5">
-                        @if (Model.CI.ExpirationDate == DateTime.MinValue)
+                        @if (Model.CI.ExpirationDate < DateTime.MinValue.AddYears(3))
                         {
                             <input class="form-control" type="date" name="CI.ExpirationDate" />
                             @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })

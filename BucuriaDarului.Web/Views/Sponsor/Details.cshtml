@@ -80,21 +80,21 @@
             <div class="row">
                 <div class=" col-md-6"><label>@Localizer["RegistrationDate"]: </label></div>
                 <div class="col-md-6">
-                    @if (Model.Contract.RegistrationDate != DateTime.MinValue)
+                    @if (Model.Contract.RegistrationDate > DateTime.MinValue.AddYears(3))
                     {@Model.Contract.RegistrationDate.ToShortDateString()}<hr />
                 </div>
             </div>
             <div class="row">
                 <div class=" col-md-6"><label> @Localizer["ExpirationDate"]: </label></div>
                 <div class="col-md-6">
-                    @if (Model.Contract.ExpirationDate!= DateTime.MinValue)
+                    @if (Model.Contract.ExpirationDate > DateTime.MinValue.AddYears(3))
                     { @Model.Contract.ExpirationDate.ToShortDateString()}<hr />
                 </div>
             </div>
             <div class="row">
                 <div class=" col-md-6"><label> @Localizer["DateOfSponsorship"]:</label></div>
                 <div class="col-md-6">
-                    @if (Model.Sponsorship.Date != DateTime.MinValue)
+                    @if (Model.Sponsorship.Date > DateTime.MinValue.AddYears(3))
                     { @Model.Sponsorship.Date.ToShortDateString()}<hr />
                 </div>
             </div>
