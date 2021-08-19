@@ -826,7 +826,7 @@ msgstr "Atenție! Această acțiune este ireversibilă!"
 msgid "This action will overwrite data on the local database."
 msgstr "Această acțiune va rescrie datele din baza de date locală."
 
-msgid "Are you sure you want to continue?"
+msgid "AreYouSureYouWantToContinue?"
 msgstr "Sunteți sigur că doriți să continuați?"
 
 msgid "Yes"
@@ -993,6 +993,10 @@ msgstr "Câmpul corespondent numelui trebuie completat!"
 
 msgid "The event has been successfully updated!"
 msgstr "Acest eventiment a fost actualizat."
+
+
+msgid "WarningThisActionIsIrreversible!"
+msgstr "Aceasta acțiune este irreversibilă!"
 
 msgid "Update failed!Please try again!"
 msgstr "Actualizare eșuată!Mai încercați o dată"
