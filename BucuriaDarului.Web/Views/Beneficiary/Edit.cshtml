@@ -130,7 +130,7 @@
                         <label> @Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @if (Model.PersonalInfo.Birthdate == DateTime.MinValue)
+                        @if (Model.PersonalInfo.Birthdate < DateTime.MinValue.AddYears(3))
                         {
                             <input class="form-control" type="date" name="PersonalInfo.Birthdate" />
                             @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
@@ -234,7 +234,7 @@
                         <label>@Localizer["LastTimeActive"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @if (Model.LastTimeActive == DateTime.MinValue)
+                        @if (Model.LastTimeActive < DateTime.MinValue.AddYears(3))
                         {
                             <input class="form-control" type="date" name="LastTimeActive" />
                             @Html.ValidationMessageFor(model => model.LastTimeActive, "", new { @class = "text-danger" })
@@ -351,7 +351,7 @@
                         <label>@Localizer["ExpirationDateCI"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @if (Model.CI.ExpirationDate == DateTime.MinValue)
+                        @if (Model.CI.ExpirationDate < DateTime.MinValue.AddYears(3))
                         {
                             <input class="form-control" type="date" name="CI.ExpirationDate" />
                             @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
