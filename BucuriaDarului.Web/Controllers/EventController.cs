@@ -27,12 +27,12 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile files)
+        public ActionResult Import(IFormFile files, string overwrite)
         {
             var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
             var response = new EventImportResponse();
             if (files != null)
-                response = eventsImportContext.Execute(files.OpenReadStream());
+                response = eventsImportContext.Execute(files.OpenReadStream(),overwrite);
             else
             {
                 response.Message.Add(new KeyValuePair<string, string>("NoFile", @_localizer["Please choose a file!"]));
