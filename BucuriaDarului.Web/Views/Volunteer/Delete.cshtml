@@ -55,7 +55,8 @@
                         <label>@Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Model.Birthdate.ToShortDateString()
+                        @if (Model.Birthdate != DateTime.MinValue)
+                            @Model.Birthdate.ToShortDateString()
                         <hr />
                     </div>
                 </div>
@@ -95,7 +96,7 @@
                     }
                     @using (Html.BeginForm(FormMethod.Post, new { style = "width: 100px" }))
                     {
-                        <input type="submit" class="btn btn-primary"  style="border-color: darkred; background-color: red" value=@Localizer["Delete"] />
+                        <input type="submit" class="btn btn-primary" style="border-color: darkred; background-color: red" value=@Localizer["Delete"] />
                     }
                 </span>
                 <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
