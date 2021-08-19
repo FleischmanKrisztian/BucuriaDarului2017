@@ -9,6 +9,18 @@ namespace BucuriaDarului.Gateway.SponsorGateways
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
+       
+
+        public Sponsor GetSponsor(string sponsorId)
+        {
+            return SingleSponsorReturnerGateway.ReturnSponsor(sponsorId);
+        }
+
+        public List<Sponsor> GetSponsors()
+        {
+            return ListSponsorsGateway.GetListOfSponsors();
+        }
+
         public void Insert(List<Sponsor> sponsors)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
@@ -22,6 +34,19 @@ namespace BucuriaDarului.Gateway.SponsorGateways
                     sponsorCollection.InsertOne(spons);
                     modifiedIdGateway.AddIDtoModifications(spons.Id);
                 }
+            }
+        }
+
+        public void Update(List<Sponsor> sponsors)
+        {
+            foreach (var sponsor in sponsors)
+            {
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+                var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
+                var filter = Builders<Sponsor>.Filter.Eq("Id", sponsor.Id);
+                var modifiedIdGateway = new ModifiedIDGateway();
+                modifiedIdGateway.AddIDtoModifications(sponsor.Id);
+                sponsorCollection.FindOneAndReplace(filter, sponsor);
             }
         }
     }

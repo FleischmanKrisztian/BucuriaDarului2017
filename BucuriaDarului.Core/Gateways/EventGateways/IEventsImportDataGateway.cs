@@ -8,7 +8,7 @@ namespace BucuriaDarului.Core.Gateways.EventGateways
 
         List<Event> GetEvents();
 
-         Event GetEvent(string eventId);
+        Event GetEvent(string eventId);
         void Update(List<Event> events);
     }
 }

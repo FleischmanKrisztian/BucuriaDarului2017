@@ -20,9 +20,10 @@ namespace BucuriaDarului.Gateway.SponsorGateways
 
         public void Edit(Sponsor sponsor)
         {
-            var modifiedIdGateway = new ModifiedIDGateway();
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var sponsorCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("Id", sponsor.Id);
+            var modifiedIdGateway = new ModifiedIDGateway();
             modifiedIdGateway.AddIDtoModifications(sponsor.Id);
             sponsorCollection.FindOneAndReplace(filter, sponsor);
         }

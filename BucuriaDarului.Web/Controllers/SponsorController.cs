@@ -33,7 +33,7 @@ namespace BucuriaDarului.Web.Controllers
             var sponsorsImportContext = new SponsorsImportContext(new SponsorsImportDataGateway());
             var response = new SponsorImportResponse();
             if (files != null)
-                response = sponsorsImportContext.Execute(files.OpenReadStream());
+                response = sponsorsImportContext.Execute(files.OpenReadStream(),overwrite);
             else
             {
                 response.Message.Add(new KeyValuePair<string, string>("NoFile", @_localizer["Please choose a file!"]));

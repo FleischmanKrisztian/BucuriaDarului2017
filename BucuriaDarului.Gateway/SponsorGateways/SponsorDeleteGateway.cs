@@ -9,11 +9,11 @@ namespace BucuriaDarului.Gateway.SponsorGateways
         {
             MongoDBGateway dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            IMongoCollection<Sponsor> eventCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
+            IMongoCollection<Sponsor> sponsorsCollection = dbContext.Database.GetCollection<Sponsor>("Sponsors");
             var filter = Builders<Sponsor>.Filter.Eq("Id", id);
             var deletedIdGateway = new DeletedIDGateway();
             deletedIdGateway.AddIDtoDeletions(id);
-            eventCollection.DeleteOne(filter);
+            sponsorsCollection.DeleteOne(filter);
         }
     }
 }

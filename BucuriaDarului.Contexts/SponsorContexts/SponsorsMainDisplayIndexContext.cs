@@ -49,9 +49,12 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             sponsors = sponsors.Where(x => x.ContactInformation.PhoneNumber.Contains(filterData.ContactInfo, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAddress.Contains(filterData.ContactInfo, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (filterData.HasContract == true)
                 sponsors = sponsors.Where(x => x.Contract.HasContract == true).ToList();
-            sponsors = sponsors.Where(x => x.Sponsorship.WhatGoods.Contains(filterData.WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            sponsors = sponsors.Where(x => x.Sponsorship.MoneyAmount.Contains(filterData.MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            sponsors = sponsors.Where(x => x.Sponsorship.GoodsAmount.Contains(filterData.GoodsAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.WhatGoods != "")
+                sponsors = sponsors.Where(x => x.Sponsorship.WhatGoods.Contains(filterData.WhatGoods, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.MoneyAmount != "")
+                sponsors = sponsors.Where(x => x.Sponsorship.MoneyAmount.Contains(filterData.MoneyAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (filterData.GoodsAmount != "")
+                sponsors = sponsors.Where(x => x.Sponsorship.GoodsAmount.Contains(filterData.GoodsAmount, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
             if (DateInputReceived(filterData.LowerDate))
             {
