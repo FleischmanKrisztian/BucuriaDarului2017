@@ -182,7 +182,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             return databaseEvent;
         }
 
-        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response,string owerwrite,List<Event> allEventList)
+        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response,string overwrite,List<Event> allEventList)
         {
             var events = new List<Event>();
 
@@ -193,7 +193,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 try
                 {
 
-                    if (owerwrite == "no")
+                    if (overwrite == "no")
                     {
                         if (line[0] != null && line[0] != string.Empty)
                             ev.Id = line[0];
@@ -206,7 +206,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                         if (allEventList.FindAll(x => x.Id == line[0]).Count != 0)
                         {
                             var databaseEvent = allEventList.Find(x => x.Id == line[0]);
-                            ev= GetDataFromLine(line, databaseEvent);
+                            ev= EventOverWrite(line, databaseEvent);
                         }
                         else
                         {
