@@ -69,7 +69,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6"><label>@Localizer["DateOfEvent"]:</label></div>
-                    <div class="col-md-6">@Model.DateOfEvent.ToShortDateString()<hr /></div>
+                    <div class="col-md-6">
+                        @if (Model.DateOfEvent != DateTime.MinValue)
+                            @Model.DateOfEvent.ToShortDateString()<hr />
+                        </div>
                 </div>
             </div>
 

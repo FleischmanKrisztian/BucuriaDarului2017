@@ -212,7 +212,7 @@
         <tr>
             <th style="width: 250px">
                 @Localizer["NameOfEvent"]:
-                @Html.TextBox("searching","", new { maxlength = "50" })
+                @Html.TextBox("searching", "", new { maxlength = "50" })
             </th>
             <th>
                 @Localizer["DateOfEvent"]:
@@ -229,7 +229,7 @@
                 <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
 
                 <form method="post" asp-action="Index" asp-controller="Home">
-                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  tabindex="-1">
+                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" tabindex="-1">
                         <div class="modal-dialog  modal-lg " role="document">
                             <div class="modal-content" sstyle="max-height: 90vh;">
 
@@ -319,7 +319,8 @@
                     </td>
 
                     <td>
-                        @item.DateOfEvent.ToShortDateString()
+                        @if (item.DateOfEvent != DateTime.MinValue)
+                            @item.DateOfEvent.ToShortDateString()
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.NumberOfVolunteersNeeded)

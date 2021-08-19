@@ -130,8 +130,16 @@
                         <label> @Localizer["Birthdate"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="PersonalInfo.Birthdate" value="@Model.PersonalInfo.Birthdate.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
+                        @if (Model.PersonalInfo.Birthdate == DateTime.MinValue)
+                        {
+                            <input class="form-control" type="date" name="PersonalInfo.Birthdate" />
+                            @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="PersonalInfo.Birthdate" value="@Model.PersonalInfo.Birthdate.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.PersonalInfo.Birthdate, "", new { @class = "text-danger" })
+                        }
                         <hr />
                     </div>
                 </div>
@@ -226,8 +234,16 @@
                         <label>@Localizer["LastTimeActive"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="LastTimeActive" value="@Model.LastTimeActive.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.LastTimeActive, "", new { @class = "text-danger" })
+                        @if (Model.LastTimeActive == DateTime.MinValue)
+                        {
+                            <input class="form-control" type="date" name="LastTimeActive" />
+                            @Html.ValidationMessageFor(model => model.LastTimeActive, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="LastTimeActive" value="@Model.LastTimeActive.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.LastTimeActive, "", new { @class = "text-danger" })
+                        }
                         <hr />
                     </div>
                 </div>
@@ -324,6 +340,7 @@
                         <label>  @Localizer["CiInfo"]:</label>
                     </div>
                     <div class="col-md-6">
+
                         @Html.EditorFor(model => model.CI.Info, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.CI.Info, "", new { @class = "text-danger" })
                         <hr />
@@ -334,8 +351,17 @@
                         <label>@Localizer["ExpirationDateCI"]:</label>
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
+                        @if (Model.CI.ExpirationDate == DateTime.MinValue)
+                        {
+                            <input class="form-control" type="date" name="CI.ExpirationDate" />
+                            @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
+                        }
+
                         <hr />
                     </div>
                 </div>

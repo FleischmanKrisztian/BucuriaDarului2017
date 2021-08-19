@@ -89,8 +89,16 @@
                 <label> @Localizer["DateOfEvent"]:</label>
             </div>
             <div class="col-md-6">
-                <input class="form-control" type="date" name="DateOfEvent" value="@Model.DateOfEvent.ToString("yyyy-MM-dd")" />
-                @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
+                @if (Model.DateOfEvent == DateTime.MinValue)
+                {
+                    <input class="form-control" type="date" name="DateOfEvent" />
+                    @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    <input class="form-control" type="date" name="DateOfEvent" value="@Model.DateOfEvent.ToString("yyyy-MM-dd")" />
+                    @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
+                }
                 <hr />
             </div>
         </div>

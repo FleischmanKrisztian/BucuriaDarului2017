@@ -123,8 +123,17 @@
                 <div class="row">
                     <div class=" col-md-6"> <label> @Localizer["DateOfSponsorship"]:</label></div>
                     <div class="col-md-6">
-                        <input class="form-control" type="date" name="Sponsorship.Date" value="@Model.Sponsorship.Date.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
+                        @if (Model.Sponsorship.Date == DateTime.MinValue)
+                        {
+                            <input class="form-control" type="date" name="Sponsorship.Date" />
+                            @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="Birthdate" value="@Model.Sponsorship.Date.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.Sponsorship.Date, "", new { @class = "text-danger" })
+                        }
+                        
                         <hr />
                     </div>
                 </div>

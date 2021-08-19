@@ -181,7 +181,7 @@
                     <div class="col-md-5">
                         @if (Model.CI.ExpirationDate == DateTime.MinValue)
                         {
-                            <input class="form-control" type="date" name="ExpirationDate" />
+                            <input class="form-control" type="date" name="CI.ExpirationDate" />
                             @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         }
                         else

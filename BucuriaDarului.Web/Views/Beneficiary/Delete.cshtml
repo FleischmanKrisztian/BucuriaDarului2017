@@ -188,7 +188,8 @@
                         <label> @Localizer["LastTimeActive"]:</label>
                     </div>
                     <div class="col-md-6">
-                        @Model.LastTimeActive.ToShortDateString()
+                        @if (Model.LastTimeActive != DateTime.MinValue)
+                            @Model.LastTimeActive.ToShortDateString()
                         <hr />
                     </div>
                 </div>
