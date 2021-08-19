@@ -5,5 +5,9 @@ namespace BucuriaDarului.Core.Gateways.BeneficiaryGateways
     public interface IBeneficiaryImportGateway
     {
         void Insert(List<Beneficiary> beneficiaries);
+
+        void Update(List<Beneficiary> beneficiaries);
+
+        List<Beneficiary> GetBenficiariesList();
     }
 }

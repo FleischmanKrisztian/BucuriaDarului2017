@@ -35,7 +35,7 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
             var response = new BeneficiaryImportResponse();
             if (files != null)
-                response = beneficiaryImportContext.Execute(files.OpenReadStream());
+                response = beneficiaryImportContext.Execute(files.OpenReadStream(),overwrite);
             else
             {
                 response.Message.Add(new KeyValuePair<string, string>("NoFile", _localizer["Please choose a file!"]));
