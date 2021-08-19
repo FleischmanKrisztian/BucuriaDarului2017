@@ -914,7 +914,7 @@ msgid "File Cannot be Empty!"
 msgstr "Fișierul este gol!"
 
 msgid "File must be of type Volunteer!"
-msgstr "Fișierul introdus nu corespunde șablonului pentru inportul în cazul volunatriilor."
+msgstr "Fișierul introdus nu corespunde șablonului pentru importul în cazul voluntariilor."
 
 msgid "Please select at least one Property!"
 msgstr "Trebuie să alegeți cel puțin un câmp!"
