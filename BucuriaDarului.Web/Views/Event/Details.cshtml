@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-6"><label>@Localizer["DateOfEvent"]:</label></div>
                 <div class="col-md-6">
-                    @if (Model.DateOfEvent != DateTime.MinValue)
+                    @if (Model.DateOfEvent > DateTime.MinValue.AddYears(3))
                     {@Model.DateOfEvent.ToShortDateString()}<hr />
                 </div>
             </div>

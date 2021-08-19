@@ -319,7 +319,7 @@
                     </td>
 
                     <td>
-                        @if (item.DateOfEvent != DateTime.MinValue)
+                        @if (item.DateOfEvent > DateTime.MinValue.AddYears(3))
                             @item.DateOfEvent.ToShortDateString()
                     </td>
                     <td>

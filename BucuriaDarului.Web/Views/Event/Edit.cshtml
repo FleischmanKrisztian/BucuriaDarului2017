@@ -89,7 +89,7 @@
                 <label> @Localizer["DateOfEvent"]:</label>
             </div>
             <div class="col-md-6">
-                @if (Model.DateOfEvent == DateTime.MinValue)
+                @if (Model.DateOfEvent < DateTime.MinValue.AddYears(3))
                 {
                     <input class="form-control" type="date" name="DateOfEvent" />
                     @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
