@@ -108,7 +108,7 @@
                         @Localizer["Birthdate"]:
                     </div>
                     <div class="col-md-5">
-                        <input class="form-control" type="date" name="Birthdate" value="2021-01-01" />
+                        <input class="form-control" type="date" name="Birthdate" />
                         @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
                         <hr />
                     </div>
@@ -160,7 +160,7 @@
                         @Localizer["IdExpirationDate"]:
                     </div>
                     <div class="col-md-5">
-                        <input class="form-control" type="date" name="CI.ExpirationDate" value="2021-01-01" />
+                        <input class="form-control" type="date" name="ExpirationDate" />
                         @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
                         <hr />
                     </div>

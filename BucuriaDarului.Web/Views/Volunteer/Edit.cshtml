@@ -119,8 +119,15 @@
                         @Localizer["Birthdate"]:
                     </div>
                     <div class="col-md-5">
+                        @if (Model.Birthdate == DateTime.MinValue)
+                        {
+                            <input class="form-control" type="date" name="Birthdate" />
+                            @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
+                        }else
+                        { 
                         <input class="form-control" type="date" name="Birthdate" value="@Model.Birthdate.ToString("yyyy-MM-dd")" />
                         @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
+                        }
 
                         <hr />
                     </div>
@@ -172,8 +179,15 @@
                         @Localizer["IdExpirationDate"]:
                     </div>
                     <div class="col-md-5">
+                        @if (Model.CI.ExpirationDate == DateTime.MinValue)
+                        {
+                            <input class="form-control" type="date" name="ExpirationDate" />
+                            @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
                         <input class="form-control" type="date" name="CI.ExpirationDate" value="@Model.CI.ExpirationDate.ToString("yyyy-MM-dd")" />
-                        @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.CI.ExpirationDate, "", new { @class = "text-danger" })}
                         <hr />
                     </div>
                 </div>
