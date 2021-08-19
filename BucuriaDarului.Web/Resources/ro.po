@@ -1036,3 +1036,6 @@ msgstr "Opțiuni import"
 
 msgid "Continue"
 msgstr "Contiună"
+
+msgid "SynchronizationResults"
+msgstr "Rezultat sincronizare baze de date"

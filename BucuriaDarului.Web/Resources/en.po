@@ -951,3 +951,6 @@ msgstr "Import options"
 
 msgid "Continue"
 msgstr "Continue"
+
+msgid "SynchronizationResults"
+msgstr "Database synchronization results"
