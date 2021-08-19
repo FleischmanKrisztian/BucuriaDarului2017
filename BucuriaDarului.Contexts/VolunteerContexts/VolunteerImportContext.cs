@@ -54,12 +54,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 {
                     if (overwrite == "yes")
                     {
-                        foreach (var e in volunteersFromCsv)
+                        foreach (var v in volunteersFromCsv)
                         {
-                            if (listOfVolunteers.FindAll(x => x.Id == e.Id).Count() != 0)
-                                volunteersToUpdate.Add(e);
+                            if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x=>x.CNP==v.CNP).Count()!=0)
+                                volunteersToUpdate.Add(v);
                             else
-                                volunteersToInsert.Add(e);
+                                volunteersToInsert.Add(v);
                         }
                         dataGateway.UpdateVolunteers(volunteersToUpdate);
                         dataGateway.Insert(volunteersToInsert);
