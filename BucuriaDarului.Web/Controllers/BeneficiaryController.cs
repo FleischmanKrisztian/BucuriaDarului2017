@@ -30,7 +30,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile files)
+        public ActionResult Import(IFormFile files, string overwrite)
         {
             var beneficiaryImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
             var response = new BeneficiaryImportResponse();

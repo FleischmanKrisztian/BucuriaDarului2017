@@ -28,7 +28,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Import(IFormFile files)
+        public ActionResult Import(IFormFile files, string overwrite)
         {
             var sponsorsImportContext = new SponsorsImportContext(new SponsorsImportDataGateway());
             var response = new SponsorImportResponse();
