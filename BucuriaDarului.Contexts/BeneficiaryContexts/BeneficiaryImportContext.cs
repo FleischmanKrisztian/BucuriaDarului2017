@@ -344,7 +344,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return beneficiary;
         }
 
-        private static List<Beneficiary> GetBeneficiaryFromCsv(List<string[]> lines, BeneficiaryImportResponse response,string overwrite,List<Beneficiary> listOfBeneficiaries)
+        private static List<Beneficiary> GetBeneficiaryFromCsv(List<string[]> lines, BeneficiaryImportResponse response, string overwrite, List<Beneficiary> listOfBeneficiaries)
         {
             var beneficiaries = new List<Beneficiary>();
 
@@ -353,8 +353,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 var beneficiary = new Beneficiary();
                 try
                 {
-                   
-
                     if (overwrite == "no")
                     {
                         if (line[0] != null && line[0] != string.Empty)
@@ -381,7 +379,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                                 beneficiary.Id = line[0];
                             else
                                 beneficiary.Id = Guid.NewGuid().ToString();
-                            beneficiary = GetBeneficiaryFromCvsLine(line,beneficiary);
+                            beneficiary = GetBeneficiaryFromCvsLine(line, beneficiary);
                         }
                     }
                 }
@@ -396,7 +394,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return beneficiaries;
         }
 
-        public static Beneficiary GetBeneficiarFromBucuriaDaruluiCsvLine(string[] line,Beneficiary beneficiary)
+        public static Beneficiary GetBeneficiarFromBucuriaDaruluiCsvLine(string[] line, Beneficiary beneficiary)
         {
             var culture = CultureInfo.CreateSpecificCulture("ro-RO");
             var styles = DateTimeStyles.None;
@@ -487,13 +485,53 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return beneficiary;
         }
 
+        //public static List<BeneficiaryContract> BeneficiaryContract(List<string[]> lines, List<Beneficiary> beneficiaries)
+        //{
+        //    var listOfBeneficiariesContract = new List<BeneficiaryContract>();
+        //    var splitedLineForNumberOfContract = new string[2];
+        //    var dataSplitedLine = new string[2];
+        //    var contract = new BeneficiaryContract();
+
+        //    foreach (var line in lines)
+        //    {
+
+        //        if (beneficiaries.FindAll(x => x.CNP == line[9]).Count != 0)
+        //        {var beneficiary= beneficiaries.Find(x => x.CNP == line[9]);
+        //            if (line[15] != "" && line[15] != null)
+        //            {
+        //                if (line[15].Contains("/"))
+        //                    splitedLineForNumberOfContract = line[15].Split("/");
+                       
+        //            }
+        //            if (line[16] != "" && line[16] != null)
+        //            {
+        //                if (line[16].Contains("-"))
+        //                    dataSplitedLine = line[16].Split("-");
+        //            }
+
+        //            if (splitedLineForNumberOfContract.Count() == 2 && dataSplitedLine.Count() == 2)
+        //            {
+        //                contract.NumberOfRegistration = splitedLineForNumberOfContract[0];
+        //                contract.NumberOfPortions = beneficiary.NumberOfPortions;
+        //                contract.PhoneNumber = beneficiary.PersonalInfo.PhoneNumber;
+
+                    
+        //            }
+
+
+        //        }
+        //    }
+
+        //    return listOfBeneficiariesContract;
+        //}
+
         public static Beneficiary BeneficiaryOverWriteFromBucuriadaruluiCsv(string[] line, Beneficiary beneficiary)
         {
             var culture = CultureInfo.CreateSpecificCulture("ro-RO");
             var styles = DateTimeStyles.None;
 
-            if(line[1]!="" && line[1]!=null)
-            beneficiary.Fullname = line[1];
+            if (line[1] != "" && line[1] != null)
+                beneficiary.Fullname = line[1];
             if (line[2] != "" && line[2] != null)
                 beneficiary.Comments = "Cap Familie: " + line[2];
             if (line[3].ToLower() == "activ")
@@ -600,13 +638,12 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             beneficiary.PersonalInfo = personalInfo;
 
             return beneficiary;
-
         }
 
-        private List<Beneficiary> GetBeneficiaryFromBucuriaDaruluiCSV(List<string[]> lines, BeneficiaryImportResponse response, string overwrite,List<Beneficiary> listOfBeneficiaries)
+        private List<Beneficiary> GetBeneficiaryFromBucuriaDaruluiCSV(List<string[]> lines, BeneficiaryImportResponse response, string overwrite, List<Beneficiary> listOfBeneficiaries)
         {
             var beneficiaries = new List<Beneficiary>();
-            
+
             foreach (var line in lines)
             {
                 var beneficiary = new Beneficiary();
@@ -614,15 +651,14 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 {
                     if (overwrite == "no")
                     {
-                       
-                            beneficiary.Id = Guid.NewGuid().ToString(); 
+                        beneficiary.Id = Guid.NewGuid().ToString();
                         beneficiary = GetBeneficiarFromBucuriaDaruluiCsvLine(line, beneficiary);
                     }
                     else
                     {
-                        if (listOfBeneficiaries.FindAll(x => x.CNP == line[1]).Count != 0)
+                        if (listOfBeneficiaries.FindAll(x => x.CNP == line[9]).Count != 0)
                         {
-                            var databaseBeneficiary = listOfBeneficiaries.Find(x => x.CNP == line[1]);
+                            var databaseBeneficiary = listOfBeneficiaries.Find(x => x.CNP == line[9]);
                             beneficiary = BeneficiaryOverWriteFromBucuriadaruluiCsv(line, databaseBeneficiary);
                         }
                         else
@@ -631,8 +667,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                             beneficiary = GetBeneficiarFromBucuriaDaruluiCsvLine(line, beneficiary);
                         }
                     }
-                    
-                    
                 }
                 catch
                 {
