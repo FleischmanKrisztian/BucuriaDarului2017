@@ -22,9 +22,11 @@ namespace BucuriaDarului.Core
         public string Duration { get; set; }
 
         public string AllocatedVolunteers { get; set; }
+        public string AllocatedVolunteersID { get; set; }
 
         public int NumberAllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
+        public string AllocatedSponsorsID { get; set; }
     }
 }
