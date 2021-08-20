@@ -1,8 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
 {
@@ -17,24 +15,46 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public void Execute(bool inactive, string id)
         {
-
-
             if (inactive == false)
             {
+                var events = dataGateway.GetEvents();
+                events = events.FindAll(x => x.AllocatedVolunteersID.Contains(id));
+                if (events.Count() != 0)
+                {
+                    foreach (var e in events)
+                    {
+                        var eventToUpdate = new Event();
+                        eventToUpdate = e;
+                        eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteersID.Replace(" + " + id, "");
+                        eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteersID.Replace(id, "");
+                        var volunteer = dataGateway.GetVolunteer(id);
+                        eventToUpdate.AllocatedVolunteers = eventToUpdate.AllocatedVolunteers.Replace(" + " + volunteer.Fullname, "");
+                        eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteers.Replace(volunteer.Fullname, "");
+                        eventToUpdate.NumberAllocatedVolunteers = AllocatedVolunteerCounter(eventToUpdate.AllocatedVolunteers);
+
+                        dataGateway.UpdateEvent(e.Id, eventToUpdate);
+                    }
+                }
                 dataGateway.Delete(id);
                 dataGateway.DeleteVolunteerContracts(id);
-
             }
             else
             {
                 Volunteer volunteer = dataGateway.GetVolunteer(id);
                 volunteer.InActivity = false;
-                var volunteerToUpdate=volunteer;
+                var volunteerToUpdate = volunteer;
                 dataGateway.UpdateVolunteer(id, volunteerToUpdate);
-               
             }
         }
-    }
 
-    
+        private int AllocatedVolunteerCounter(string AllocatedVolunteersName)
+        {
+            if (AllocatedVolunteersName != null)
+            {
+                var split = AllocatedVolunteersName.Split(" + ");
+                return split.Count() - 1;
+            }
+            return 0;
+        }
+    }
 }
