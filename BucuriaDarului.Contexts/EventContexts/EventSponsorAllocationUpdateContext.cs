@@ -25,6 +25,12 @@ namespace BucuriaDarului.Contexts.EventContexts
             sponsorsForAllocation = RemoveUncheckedSponsors(sponsorsForAllocation, sponsorsToRemove);
             sponsorsForAllocation = CheckForDuplicate(sponsorsForAllocation, GetSponsorNames(sponsorsToAdd));
             @event.AllocatedSponsors = sponsorsForAllocation;
+
+            var sponsorsAllocatedIds = @event.AllocatedSponsorsID;
+            sponsorsAllocatedIds = RemoveUncheckedSponsorsIds(sponsorsAllocatedIds, sponsorsToRemove);
+            var sponsorsForAllocationIds = CheckForDuplicateIds(sponsorsAllocatedIds, GetSponsorIds(sponsorsToAdd));
+            @event.AllocatedSponsorsID = sponsorsForAllocationIds;
+
             dataGateway.UpdateEvent(request.EventId, @event);
 
             return response;
@@ -40,6 +46,17 @@ namespace BucuriaDarului.Contexts.EventContexts
             return allSponsors;
         }
 
+        private string RemoveUncheckedSponsorsIds(string allSponsorsIds, List<Sponsor> sponsorsToRemove)
+        {
+            if (allSponsorsIds != null && allSponsorsIds != "")
+                foreach (var spons in sponsorsToRemove)
+                {
+                    allSponsorsIds = allSponsorsIds.Replace(" + " + spons.Id, "");
+                    allSponsorsIds = allSponsorsIds.Replace(spons.Id, "");
+                }
+            return allSponsorsIds;
+        }
+
         private string CheckForDuplicate(string previouslyAllocatedSponsors, List<string> names)
         {
             var AllSponsors = previouslyAllocatedSponsors;
@@ -53,6 +70,23 @@ namespace BucuriaDarului.Contexts.EventContexts
             return AllSponsors;
         }
 
+        private string CheckForDuplicateIds(string previouslyAllocatedSponsorsIds, List<string> ids)
+        {
+            var AllSponsors = previouslyAllocatedSponsorsIds;
+            foreach (var id in ids)
+            {
+                if (previouslyAllocatedSponsorsIds != null & previouslyAllocatedSponsorsIds != "")
+                {
+                    if (!previouslyAllocatedSponsorsIds.Contains(id))
+
+                        AllSponsors += " + " + id;
+                }
+                else
+                    AllSponsors += " + " + id;
+            }
+            return AllSponsors;
+        }
+
         private List<string> GetSponsorNames(List<Sponsor> sponsors)
         {
             var listOfNames = new List<string>();
@@ -61,6 +95,16 @@ namespace BucuriaDarului.Contexts.EventContexts
                 listOfNames.Add(sponsor.NameOfSponsor);
             }
             return listOfNames;
+        }
+
+        private List<string> GetSponsorIds(List<Sponsor> sponsors)
+        {
+            var listOfIds = new List<string>();
+            foreach (var sponsor in sponsors)
+            {
+                listOfIds.Add(sponsor.Id);
+            }
+            return listOfIds;
         }
 
         private List<Sponsor> GetSponsorsByIds(List<Sponsor> sponsors, string[] sponsorIds)
