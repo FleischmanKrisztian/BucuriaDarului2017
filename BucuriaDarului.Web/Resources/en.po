@@ -954,3 +954,6 @@ msgstr "Continue"
 
 msgid "SynchronizationResults"
 msgstr "Database synchronization results"
+
+msgid "version"
+msgstr "version"

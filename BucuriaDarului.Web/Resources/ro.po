@@ -1039,3 +1039,6 @@ msgstr "Contiună"
 
 msgid "SynchronizationResults"
 msgstr "Rezultat sincronizare baze de date"
+
+msgid "version"
+msgstr "versiunea"
