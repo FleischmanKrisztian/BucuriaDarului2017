@@ -221,7 +221,7 @@
                 <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
 
                 <form method="post" asp-action="Index" asp-controller="Home">
-                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  tabindex="-1">
+                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" tabindex="-1">
                         <div class="modal-dialog  modal-lg " role="document">
                             <div class="modal-content" sstyle="max-height: 90vh;">
 
@@ -323,4 +323,8 @@
             }}
     </table>
 }
+    <div class="row" style="position: fixed; bottom: 40px; right: 0px; padding-top: 2%; padding-right: 17%; padding-bottom: 2%">
+        <br />
+        <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+    </div>
 </div>
