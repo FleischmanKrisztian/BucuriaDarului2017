@@ -29,8 +29,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 response.IsValid = false;
             }
 
-            var beenficiariesToUpdate = new List<Beneficiary>();
-            var beenficiariesToImport = new List<Beneficiary>();
+            var benficiariesToUpdate = new List<Beneficiary>();
+            var benficiariesToImport = new List<Beneficiary>();
+            var listBeneficiaryContract = new List<BeneficiaryContract>();
             var listOfBeneficiaries = dataGateway.GetBenficiariesList();
             if (response.IsValid)
             {
@@ -44,7 +45,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 else if (_fileType == 1)
                     beneficiariesFromCsv = GetBeneficiaryFromCsv(result, response, overwrite, listOfBeneficiaries);
                 else
+                {
                     beneficiariesFromCsv = GetBeneficiaryFromBucuriaDaruluiCSV(result, response, overwrite, listOfBeneficiaries);
+                }
+
                 if (response.IsValid)
                 {
                     if (overwrite == "yes")
@@ -52,15 +56,21 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                         foreach (var b in beneficiariesFromCsv)
                         {
                             if (listOfBeneficiaries.FindAll(x => x.Id == b.Id).Count() != 0 || listOfBeneficiaries.FindAll(x => x.CNP == b.CNP).Count() != 0)
-                                beenficiariesToUpdate.Add(b);
+                                benficiariesToUpdate.Add(b);
                             else
-                                beenficiariesToImport.Add(b);
+                                benficiariesToImport.Add(b);
                         }
-                        dataGateway.Update(beenficiariesToUpdate);
-                        dataGateway.Insert(beenficiariesToImport);
+                        dataGateway.Update(benficiariesToUpdate);
+                        dataGateway.Insert(benficiariesToImport);
                     }
                     else
                         dataGateway.Insert(beneficiariesFromCsv);
+                }
+                if (_fileType != 0 && _fileType != 1)
+                {
+                    var beneficiaries = dataGateway.GetBenficiariesList();
+                    listBeneficiaryContract = GetBeneficiaryContract(result, beneficiaries);
+                    dataGateway.InsertBeneficiaryContracts(listBeneficiaryContract);
                 }
             }
 
@@ -485,45 +495,69 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             return beneficiary;
         }
 
-        //public static List<BeneficiaryContract> BeneficiaryContract(List<string[]> lines, List<Beneficiary> beneficiaries)
-        //{
-        //    var listOfBeneficiariesContract = new List<BeneficiaryContract>();
-        //    var splitedLineForNumberOfContract = new string[2];
-        //    var dataSplitedLine = new string[2];
-        //    var contract = new BeneficiaryContract();
+        public static DateTime GetDataFromString(string dataString)
+        {
+            var splitedData = new string[3];
+            splitedData = dataString.Split(".");
 
-        //    foreach (var line in lines)
-        //    {
+            var day = splitedData[0];
+            var month = splitedData[1];
+            var year = splitedData[2];
+            var data = DateTime.ParseExact(year + "-" + month + "-" + day, "yyyy-MM-dd",
+                                       System.Globalization.CultureInfo.InvariantCulture).AddHours(5);
 
-        //        if (beneficiaries.FindAll(x => x.CNP == line[9]).Count != 0)
-        //        {var beneficiary= beneficiaries.Find(x => x.CNP == line[9]);
-        //            if (line[15] != "" && line[15] != null)
-        //            {
-        //                if (line[15].Contains("/"))
-        //                    splitedLineForNumberOfContract = line[15].Split("/");
-                       
-        //            }
-        //            if (line[16] != "" && line[16] != null)
-        //            {
-        //                if (line[16].Contains("-"))
-        //                    dataSplitedLine = line[16].Split("-");
-        //            }
+            return data;
+        }
 
-        //            if (splitedLineForNumberOfContract.Count() == 2 && dataSplitedLine.Count() == 2)
-        //            {
-        //                contract.NumberOfRegistration = splitedLineForNumberOfContract[0];
-        //                contract.NumberOfPortions = beneficiary.NumberOfPortions;
-        //                contract.PhoneNumber = beneficiary.PersonalInfo.PhoneNumber;
+        public static List<BeneficiaryContract> GetBeneficiaryContract(List<string[]> lines, List<Beneficiary> beneficiaries)
+        {
+            var listOfBeneficiariesContract = new List<BeneficiaryContract>();
+
+            foreach (var line in lines)
+            {
+                if (beneficiaries.FindAll(x => x.CNP == line[9]).Count != 0)
+                {
+                    var contract = new BeneficiaryContract();
+                    var splitedLineForNumberOfContract = new string[2];
+                    var dataSplitedLine = new string[2];
+                    var beneficiary = beneficiaries.Find(x => x.CNP == line[9]);
+
+                    if (line[15] != "" && line[15] != null)
+                    {
+                        if (line[15].Contains("/"))
+                            splitedLineForNumberOfContract = line[15].Split("/");
+                    }
+                    if (line[16] != "" && line[16] != null)
+                    {
+                        if (line[16].Contains("-"))
+                            dataSplitedLine = line[16].Split("-");
+                    }
+
+                    if (splitedLineForNumberOfContract.Count() == 2 && dataSplitedLine.Count() == 2 && line[16].Contains("-"))
+                    {
+                        contract.Id = Guid.NewGuid().ToString();
+                        contract.Fullname = beneficiary.Fullname;
+                        contract.CNP = beneficiary.CNP;
+                        contract.Birthdate = beneficiary.PersonalInfo.Birthdate;
+                        contract.CIinfo = beneficiary.CI.Info;
+                        contract.OwnerID = beneficiary.Id;
+                        contract.Address = beneficiary.Address;
+                        contract.NumberOfRegistration = splitedLineForNumberOfContract[0];
+                        contract.NumberOfPortions = beneficiary.NumberOfPortions;
+                        contract.PhoneNumber = beneficiary.PersonalInfo.PhoneNumber;
+                        contract.RegistrationDate = GetDataFromString(dataSplitedLine[0]);
+                        contract.ExpirationDate = GetDataFromString(dataSplitedLine[1]);
+                        contract.IdInvestigation = beneficiary.Marca.IdInvestigation;
+                        contract.IdApplication = beneficiary.Marca.IdApplication;
+                        listOfBeneficiariesContract.Add(contract);
+                    }
 
                     
-        //            }
+                }
+            }
 
-
-        //        }
-        //    }
-
-        //    return listOfBeneficiariesContract;
-        //}
+            return listOfBeneficiariesContract;
+        }
 
         public static Beneficiary BeneficiaryOverWriteFromBucuriadaruluiCsv(string[] line, Beneficiary beneficiary)
         {
@@ -653,6 +687,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     {
                         beneficiary.Id = Guid.NewGuid().ToString();
                         beneficiary = GetBeneficiarFromBucuriaDaruluiCsvLine(line, beneficiary);
+                       // var beenficiaryContract = GetBeneficiaryContract(lines, listOfBeneficiaries);
                     }
                     else
                     {
