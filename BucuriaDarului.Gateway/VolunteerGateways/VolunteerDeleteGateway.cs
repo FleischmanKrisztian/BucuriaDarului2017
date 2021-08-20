@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
+using BucuriaDarului.Gateway.EventGateways;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,26 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
             volunteerContractCollection.DeleteMany(filter);
         }
 
+        public List<Event> GetEvents()
+        {
+            return ListEventsGateway.GetListOfEvents();
+        }
+
         public Volunteer GetVolunteer(string id)
         {
             return SingleVolunteerReturnerGateway.ReturnVolunteer(id);
+        }
+
+        public void UpdateEvent(string eventId, Event @event)
+        {
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            var eventCollection = dbContext.Database.GetCollection<Event>("Events");
+            var filter = Builders<Event>.Filter.Eq("Id", eventId);
+            @event.Id = eventId;
+            var modifiedIDGateway = new ModifiedIDGateway();
+            modifiedIDGateway.AddIDtoModifications(eventId);
+            eventCollection.FindOneAndReplace(filter, @event);
+
         }
 
         public void UpdateVolunteer(string volunteerId, Volunteer volunteerToUpdate)
