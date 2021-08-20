@@ -1,6 +1,5 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,6 +26,11 @@ namespace BucuriaDarului.Contexts.EventContexts
             volunteersForAllocation = CheckForDuplicate(volunteersForAllocation, GetVolunteerNames(volunteersToAdd));
             @event.AllocatedVolunteers = volunteersForAllocation;
             @event.NumberAllocatedVolunteers = VolunteersAllocatedCounter(volunteersForAllocation);
+            var volunteersAllocatedIds = @event.AllocatedVolunteersID;
+            volunteersAllocatedIds = RemoveUncheckedVolunteersIds(volunteersAllocatedIds, volunteersToRemove);
+            var volunteersForAllocationIds = CheckForDuplicateIds(volunteersAllocatedIds, GetVolunteerIds(volunteersToAdd));
+            @event.AllocatedVolunteersID = volunteersForAllocationIds;
+            
             dataGateway.UpdateEvent(request.EventId, @event);
 
             return response;
@@ -42,15 +46,45 @@ namespace BucuriaDarului.Contexts.EventContexts
             return allVolunteers;
         }
 
+        private string RemoveUncheckedVolunteersIds(string allVolunteersIds, List<Volunteer> volunteersToRemove)
+        {
+            if (allVolunteersIds != null && allVolunteersIds != "")
+                foreach (var vol in volunteersToRemove)
+                {
+                    allVolunteersIds = allVolunteersIds.Replace(" + " + vol.Id, "");
+                    allVolunteersIds = allVolunteersIds.Replace(vol.Id, "");
+                }
+            return allVolunteersIds;
+        }
+
         private string CheckForDuplicate(string previouslyAllocatedVolunteers, List<string> names)
         {
             var allVolunteers = previouslyAllocatedVolunteers;
-            foreach( var name in names)
+            foreach (var name in names)
             {
-                if(!previouslyAllocatedVolunteers.Contains(name))
+                if (!previouslyAllocatedVolunteers.Contains(name))
                 {
                     allVolunteers += " + " + name;
                 }
+            }
+            return allVolunteers;
+        }
+
+        private string CheckForDuplicateIds(string previouslyAllocatedVolunteersIds, List<string> ids)
+        {
+            var allVolunteers = previouslyAllocatedVolunteersIds;
+            foreach (var id in ids)
+            {
+                if (previouslyAllocatedVolunteersIds != null && previouslyAllocatedVolunteersIds != "")
+                {
+                    if (!previouslyAllocatedVolunteersIds.Contains(id))
+                    {
+                        allVolunteers += " + " + ids;
+                    }
+                }
+                else
+
+                    allVolunteers += " + " + id;
             }
             return allVolunteers;
         }
@@ -60,7 +94,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             if (allocatedVolunteers != null)
             {
                 var split = allocatedVolunteers.Split(" + ");
-                return split.Count()-1;
+                return split.Count() - 1;
             }
             return 0;
         }
@@ -73,6 +107,16 @@ namespace BucuriaDarului.Contexts.EventContexts
                 listOfNames.Add(volunteer.Fullname);
             }
             return listOfNames;
+        }
+
+        private List<string> GetVolunteerIds(List<Volunteer> volunteers)
+        {
+            var listOfIds = new List<string>();
+            foreach (var volunteer in volunteers)
+            {
+                listOfIds.Add(volunteer.Id);
+            }
+            return listOfIds;
         }
 
         private List<Volunteer> GetVolunteersByIds(List<Volunteer> volunteers, string[] ids)
