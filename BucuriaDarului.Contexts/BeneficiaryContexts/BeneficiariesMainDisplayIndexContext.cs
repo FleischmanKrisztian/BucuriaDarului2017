@@ -26,11 +26,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             var stringOfIDs = GetStringOfIds(beneficiaries);
             beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
             var contracts = dataGateway.GetContractList();
-            var numberOfContracts = GetNumberOfContractsForVolunteer(contracts, beneficiaries);
+            var numberOfContracts = GetNumberOfContractsForBeneficiary(contracts, beneficiaries);
             return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARY_SESSION,numberOfContracts);
         }
 
-        public Dictionary<string, int> GetNumberOfContractsForVolunteer(List<BeneficiaryContract> contracts, List<Beneficiary>beneficiaries)
+        public Dictionary<string, int> GetNumberOfContractsForBeneficiary(List<BeneficiaryContract> contracts, List<Beneficiary>beneficiaries)
         {
             var d = new Dictionary<string, int>();
             foreach (var beneficiary in beneficiaries)
