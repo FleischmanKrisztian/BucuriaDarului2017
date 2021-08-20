@@ -145,7 +145,8 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Delete(string id, IFormCollection collection)
         {
-            SponsorDeleteGateway.DeleteSponsor(id);
+            var deleteSponsorContext = new SponsorDeleteContext(new SponsorDeleteGateway());
+            deleteSponsorContext.Execute( id);
             return RedirectToAction("Index");
         }
     }
