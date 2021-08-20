@@ -114,6 +114,7 @@
             this.panelside.Name = "panelside";
             this.panelside.Size = new System.Drawing.Size(227, 464);
             this.panelside.TabIndex = 6;
+            this.panelside.Paint += new System.Windows.Forms.PaintEventHandler(this.panelside_Paint);
             // 
             // button4
             // 

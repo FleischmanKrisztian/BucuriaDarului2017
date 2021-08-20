@@ -134,5 +134,10 @@ namespace BackupDatabaseApp
         {
 
         }
+
+        private void panelside_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
