@@ -31,6 +31,19 @@ namespace BucuriaDarului.Gateway.BeneficiaryGateways
             }
         }
 
+        public void InsertBeneficiaryContracts(List<BeneficiaryContract> contracts)
+        {
+            foreach (var contract in contracts)
+            {
+                dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+                var beneficiaryContractCollection = dbContext.Database.GetCollection<BeneficiaryContract>("BeneficiaryContracts");
+                beneficiaryContractCollection.InsertOne(contract);
+                var modifiedIdGateway = new ModifiedIDGateway();
+                modifiedIdGateway.AddIDtoModifications(contract.Id);
+
+            }
+        }
+
         public void Update(List<Beneficiary> beneficiaries)
         {
             foreach (var beneficiary in beneficiaries)
