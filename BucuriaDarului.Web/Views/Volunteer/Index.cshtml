@@ -227,7 +227,7 @@
                 <th>
                     <a href=@Url.Action("Index", new { sortOrder = Model.FilterData.SortOrder.HourCountSort, searchedFullname =Model.FilterData.SearchedFullname, hasDrivingLicence = Model.FilterData.HasDrivingLicense, hasCar = Model.FilterData.HasCar, active = Model.FilterData.Active, lowerDate = Model.FilterData.LowerDate, upperDate =Model.FilterData.UpperDate,  gender =Model.FilterData.Gender, searchedAddress = Model.FilterData.SearchedAddress, searchedWorkplace =Model.FilterData.SearchedWorkplace, searchedOccupation = Model.FilterData.SearchedOccupation, searchedRemarks = Model.FilterData.SearchedRemarks, searchedContact = Model.FilterData.SearchedContact, searchedHourCount = Model.FilterData.SearchedHourCount  })>@Localizer["HourCount"] </a>
                     <br />
-                    @Html.TextBox("searchedHourCount", "", new { @style = " width:70px; ", @maxlength = "5"})
+                    @Html.TextBox("searchedHourCount", "", new { @style = " width:70px; ", @maxlength = "5" })
                 </th>
                 <th>
 
@@ -339,7 +339,7 @@
                         <td>
                             @if (item.Birthdate > DateTime.MinValue.AddYears(3))
                                 @item.Birthdate.ToShortDateString()
-                   
+
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.InActivity)
@@ -375,4 +375,9 @@
             }
         </table>
     }
+
+    <div class="row" style="position: fixed; bottom: 40px; right: 0px; padding-top: 2%; padding-right: 17%; padding-bottom: 2%">
+        <br />
+        <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+    </div>
 </div>
