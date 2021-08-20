@@ -8,6 +8,7 @@ namespace BucuriaDarului.Core.Gateways.BeneficiaryGateways
 
         void Update(List<Beneficiary> beneficiaries);
 
+        void InsertBeneficiaryContracts(List<BeneficiaryContract> contracts);
         List<Beneficiary> GetBenficiariesList();
     }
 }
