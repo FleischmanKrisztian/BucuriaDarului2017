@@ -375,7 +375,7 @@
                     <input type="submit" value=@Localizer["Search"] class="btn btn-primary" />
 
                     <form method="post" asp-action="Index" asp-controller="Home">
-                        <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  tabindex="-1">
+                        <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" tabindex="-1">
                             <div class="modal-dialog  modal-lg " role="document">
                                 <div class="modal-content" sstyle="max-height: 90vh;">
 
@@ -533,43 +533,48 @@
             {
                 @foreach (var item in Model.Beneficiaries)
                 {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalInfo.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WeeklyPackage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Canteen)
-            </td>
-            <td>
-                @if (item.PersonalInfo.Birthdate > DateTime.MinValue.AddYears(3))
-                    @item.PersonalInfo.Birthdate.ToShortDateString()
-            </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fullname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Active)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PersonalInfo.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WeeklyPackage)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Canteen)
+                        </td>
+                        <td>
+                            @if (item.PersonalInfo.Birthdate > DateTime.MinValue.AddYears(3))
+                                @item.PersonalInfo.Birthdate.ToShortDateString()
+                        </td>
 
-            <td style="text-align:left">
-                <a href=@Url.Action("Edit", new { id = item.Id })><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]></a> |
-                <a href=@Url.Action("Details", new { id = item.Id })><img src="~/Resources/detali.jpg" width="40" height="40" title=@Localizer["Details"]></a> |
-                <a href=@Url.Action("Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
-                @if (item.CNP != "" && item != null)
-                {
-                    <a href=@Url.Action("Contracts", new { id = item.Id })><img src="~/Resources/contract.jpg" width="40" height="40" title=@Localizer["Contracts"]><span class="i-circle">@Model.BeneficiaryNumberOfContracts[item.Id]</span></a>
-                }
-                else
-                {
-                    <img class="image" src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["NoCnp"]">
+                        <td style="text-align:left">
+                            <a href=@Url.Action("Edit", new { id = item.Id })><img src="~/Resources/edit.jpg" width="40" height="40" title=@Localizer["Edit"]></a> |
+                            <a href=@Url.Action("Details", new { id = item.Id })><img src="~/Resources/detali.jpg" width="40" height="40" title=@Localizer["Details"]></a> |
+                            <a href=@Url.Action("Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
+                            @if (item.CNP != "" && item != null)
+                            {
+                                <a href=@Url.Action("Contracts", new { id = item.Id })><img src="~/Resources/contract.jpg" width="40" height="40" title=@Localizer["Contracts"]><span class="i-circle">@Model.BeneficiaryNumberOfContracts[item.Id]</span></a>
+                            }
+                            else
+                            {
+                                <img class="image" src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["NoCnp"]">
 
-                }
-            </td>
-        </tr>
+                            }
+                        </td>
+                    </tr>
                 }}
         </table>
     }
+
+    <div class="row" style="position: fixed; bottom: 40px; right: 0px; padding-top: 2%; padding-right: 17%; padding-bottom: 2%">
+        <br />
+        <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+    </div>
 </div>
