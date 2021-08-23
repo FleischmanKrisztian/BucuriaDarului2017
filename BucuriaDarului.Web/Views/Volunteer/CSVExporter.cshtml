@@ -301,7 +301,7 @@
         </div>
         <div class="col-md-6">
             <input type="submit" value=@Localizer["Download"] class="btn btn-primary" /> |
-            <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+            <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     </div>
 </form>

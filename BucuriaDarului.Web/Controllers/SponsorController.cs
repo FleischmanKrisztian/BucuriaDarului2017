@@ -24,6 +24,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Import(string message)
         {
             ViewBag.message = message;
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             return View();
         }
 
@@ -47,8 +48,9 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult CSVExporter(string dictionaryKey, string message)
         {
-            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
-            ViewBag.Ids = StringOfIds;
+            var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.query = HttpContext.Session.GetString("queryString");
+            ViewBag.Ids = stringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -85,6 +87,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult ContractExp()
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData);
             var contractExpirationContext = new SponsorContractsExpirationContext(new SponsorContractExpirationGateway());
             var contracts = contractExpirationContext.Execute(nrOfDays);
@@ -93,12 +96,14 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Details(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
             return View(model);
         }
 
         public ActionResult Create(string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             return View();
         }
@@ -118,6 +123,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Edit(string id, string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
             return View(model);
@@ -138,6 +144,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Delete(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleSponsorReturnerGateway.ReturnSponsor(id);
             return View(model);
         }

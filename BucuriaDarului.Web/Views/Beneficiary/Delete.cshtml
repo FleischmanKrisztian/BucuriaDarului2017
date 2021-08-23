@@ -189,7 +189,9 @@
                     </div>
                     <div class="col-md-6">
                         @if (Model.LastTimeActive != DateTime.MinValue)
+                        {
                             @Model.LastTimeActive.ToShortDateString()
+                        }
                         <hr />
                     </div>
                 </div>
@@ -249,7 +251,7 @@
                         <input type="submit" class="btn btn-primary" style="border-color: darkred; background-color: red" value=@Localizer["Delete"] />
                     }
                 </span>
-                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+                <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
             </div>
         </div>
     </div>

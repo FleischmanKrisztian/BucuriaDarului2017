@@ -25,6 +25,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Import(string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             return View();
         }
@@ -59,8 +60,9 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
-            ViewBag.Ids = StringOfIds;
+            ViewBag.query = HttpContext.Session.GetString("queryString");
+            var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.Ids = stringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -88,6 +90,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Birthday()
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforeBirthday(TempData);
             var volunteerContext = new VolunteerBirthdayDisplayContext(new BithdayListVolunteersGateway());
             var volunteers = volunteerContext.Execute(nrOfDays);
@@ -96,11 +99,13 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Contracts(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             return RedirectToAction("Index", "VolunteerContract", new { idOfVolunteer = id });
         }
 
         public ActionResult Details(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
             return View(model);
         }
@@ -108,6 +113,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult Create(string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             return View();
         }
@@ -138,6 +144,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Edit(string id, string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
             return View(model);
@@ -177,6 +184,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Delete(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleVolunteerReturnerGateway.ReturnVolunteer(id);
             return View(model);
         }

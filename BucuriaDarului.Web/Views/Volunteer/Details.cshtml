@@ -232,7 +232,7 @@
             </div>
             <div class="col-md-3">
                 <a href=@Url.Action( "Edit",  new { id = Model.Id })><img src="~/Resources/edit.jpg" width="50" height="50" title=@Localizer["Edit"]></a> |
-                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+                <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
             </div>
         </div>
         <div class="row">

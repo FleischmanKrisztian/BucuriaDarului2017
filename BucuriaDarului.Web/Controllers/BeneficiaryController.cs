@@ -25,6 +25,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Import(string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             return View();
         }
@@ -35,7 +36,7 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryImportContext = new BeneficiaryImportContext(new BeneficiaryImportGateway());
             var response = new BeneficiaryImportResponse();
             if (files != null)
-                response = beneficiaryImportContext.Execute(files.OpenReadStream(),overwrite);
+                response = beneficiaryImportContext.Execute(files.OpenReadStream(), overwrite);
             else
             {
                 response.Message.Add(new KeyValuePair<string, string>("NoFile", _localizer["Please choose a file!"]));
@@ -48,6 +49,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Contracts(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             return RedirectToAction("Index", "Beneficiarycontract", new { idofbeneficiary = id });
         }
 
@@ -65,6 +67,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
             var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.Ids = stringOfIds;
             ViewBag.message = message;
             return View();
@@ -78,7 +81,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = beneficiaryExportData.Dictionary;
             if (beneficiaryExportData.IsValid && beneficiaryExportData.FileName != "")
                 return DownloadCSV(beneficiaryExportData.FileName, Constants.BENEFICIARY_SESSION, Constants.BENEFICIARY_SESSION);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARY_SESSION, message =@_localizer["Please select at least one Property!"]});
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.BENEFICIARY_SESSION, message = @_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -95,11 +98,13 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Details(string id)
         {
             var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             return View(model);
         }
 
         public ActionResult Create(string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             return View();
         }
@@ -123,7 +128,7 @@ namespace BucuriaDarului.Web.Controllers
             var beneficiaryCreateResponse = beneficiaryCreateContext.Execute(request, fileBytes);
             if (!beneficiaryCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { message = @_localizer[beneficiaryCreateResponse.Message]});
+                return RedirectToAction("Create", new { message = @_localizer[beneficiaryCreateResponse.Message] });
             }
             return RedirectToAction("Index");
         }
@@ -131,6 +136,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Edit(string id, string message)
         {
             ViewBag.message = message;
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
             return View(model);
         }
@@ -169,6 +175,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Delete(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleBeneficiaryReturnerGateway.ReturnBeneficiary(id);
             return View(model);
         }
