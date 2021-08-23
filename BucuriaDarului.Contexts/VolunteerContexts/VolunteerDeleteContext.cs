@@ -47,18 +47,17 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
             else
             {
-                Volunteer volunteer = dataGateway.GetVolunteer(id);
+                var volunteer = dataGateway.GetVolunteer(id);
                 volunteer.InActivity = false;
-                var volunteerToUpdate = volunteer;
-                dataGateway.UpdateVolunteer(id, volunteerToUpdate);
+                dataGateway.UpdateVolunteer(id, volunteer);
             }
         }
 
-        private int AllocatedVolunteerCounter(string AllocatedVolunteersName)
+        private int AllocatedVolunteerCounter(string allocatedVolunteersName)
         {
-            if (AllocatedVolunteersName != null)
+            if (allocatedVolunteersName != null)
             {
-                var split = AllocatedVolunteersName.Split(" + ");
+                var split = allocatedVolunteersName.Split(" + ");
                 return split.Count() - 1;
             }
             return 0;
