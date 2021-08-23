@@ -957,3 +957,6 @@ msgstr "Database synchronization results"
 
 msgid "version"
 msgstr "version"
+
+msgid "Back"
+msgstr "Back"
