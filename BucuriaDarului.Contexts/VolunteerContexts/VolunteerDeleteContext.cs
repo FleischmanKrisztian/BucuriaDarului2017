@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
@@ -18,10 +19,16 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             if (inactive == false)
             {
                 var events = dataGateway.GetEvents();
-                events = events.FindAll(x => x.AllocatedVolunteersID.Contains(id));
-                if (events.Count() != 0)
+                var listOfEventsToModify = new List<Event>();
+
+                foreach (var e in events)
                 {
-                    foreach (var e in events)
+                    if (e.AllocatedVolunteersID.Contains(id))
+                        listOfEventsToModify.Add(e);
+                }
+                if (listOfEventsToModify.Count() != 0)
+                {
+                    foreach (var e in listOfEventsToModify)
                     {
                         var eventToUpdate = new Event();
                         eventToUpdate = e;
@@ -29,7 +36,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteersID.Replace(id, "");
                         var volunteer = dataGateway.GetVolunteer(id);
                         eventToUpdate.AllocatedVolunteers = eventToUpdate.AllocatedVolunteers.Replace(" + " + volunteer.Fullname, "");
-                        eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteers.Replace(volunteer.Fullname, "");
+                        eventToUpdate.AllocatedVolunteers= eventToUpdate.AllocatedVolunteers.Replace(volunteer.Fullname, "");
                         eventToUpdate.NumberAllocatedVolunteers = AllocatedVolunteerCounter(eventToUpdate.AllocatedVolunteers);
 
                         dataGateway.UpdateEvent(e.Id, eventToUpdate);
