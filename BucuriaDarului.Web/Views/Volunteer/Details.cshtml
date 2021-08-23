@@ -265,7 +265,15 @@
                             <label>@Localizer["Gender"]</label>
                         </div>
                         <div class="col-md-6">
-                            <p>@Html.DisplayFor(model => model.Gender)</p>
+
+                            <p>@if (Model.Gender.ToString() == "NotSpecified")
+                            {
+                                @Localizer["NotSpecified"]
+                            }
+                            @if (Model.Gender.ToString() == "Female")
+                                @Localizer["Female"]
+                            @if (Model.Gender.ToString() == "Male")
+                                @Localizer["Male"]</p>
                         </div>
                     </div>
                     <div class="row">

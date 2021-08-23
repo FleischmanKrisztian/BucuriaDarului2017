@@ -275,7 +275,6 @@
                                                 <input type="radio" name="gender" value="All" checked="checked" />@Localizer["All"]
                                                 <input type="radio" name="gender" value="Male" />@Localizer["Male"]
                                                 <input type="radio" name="gender" value="Female" />@Localizer["Female"]
-                                               
                                             </dd>
                                             <dt class="col-sm-6">@Localizer["Address"] :</dt>
                                             <dd class="col-sm-2">
@@ -340,7 +339,6 @@
                         <td>
                             @if (item.Birthdate > DateTime.MinValue.AddYears(3))
                                 @item.Birthdate.ToShortDateString()
-
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.InActivity)
@@ -349,7 +347,14 @@
                             @Html.DisplayFor(modelItem => item.ContactInformation.PhoneNumber)
                         </td>
                         <td>
-                           @Html.DisplayFor(modelItem => item.Gender)
+                            @if (item.Gender.ToString() == "NotSpecified")
+                            {
+                                
+                            }
+                            @if (item.Gender.ToString() == "Female")
+                                @Localizer["Female"]
+                            @if (item.Gender.ToString() == "Male")
+                                @Localizer["Male"]
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.HourCount)
