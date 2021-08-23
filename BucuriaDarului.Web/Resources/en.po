@@ -961,5 +961,5 @@ msgstr "version"
 msgid "Back"
 msgstr "Back"
 
-msgid "NotSpefified"
+msgid "NotSpecified"
 msgstr "Not spefified"

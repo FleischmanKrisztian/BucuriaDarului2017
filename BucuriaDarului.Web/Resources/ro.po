@@ -1046,5 +1046,5 @@ msgstr "versiunea"
 msgid "Back"
 msgstr "Înapoi"
 
-msgid "NotSpefified"
+msgid "NotSpecified"
 msgstr "Nespecificat"
