@@ -23,6 +23,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Import(string message)
         {
             ViewBag.message = message;
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             return View();
         }
 
@@ -31,6 +32,7 @@ namespace BucuriaDarului.Web.Controllers
         {
             var eventsImportContext = new EventsImportContext(new EventsImportDataGateway());
             var response = new EventImportResponse();
+
             if (files != null)
                 response = eventsImportContext.Execute(files.OpenReadStream(),overwrite);
             else
@@ -56,8 +58,9 @@ namespace BucuriaDarului.Web.Controllers
         [HttpGet]
         public ActionResult CsvExporter(string dictionaryKey, string message)
         {
-            string StringOfIds = HttpContext.Session.GetString(dictionaryKey);
-            ViewBag.Ids = StringOfIds;
+            var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
+            ViewBag.query = HttpContext.Session.GetString("queryString");
+            ViewBag.Ids = stringOfIds;
             ViewBag.message = message;
             return View();
         }
@@ -129,12 +132,14 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Details(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleEventReturnerGateway.ReturnEvent(id);
             return View(model);
         }
 
         public ActionResult Create(string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             return View();
         }
@@ -153,6 +158,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Edit(string id, string message)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             ViewBag.message = message;
             var model = SingleEventReturnerGateway.ReturnEvent(id);
             return View(model);
@@ -172,6 +178,7 @@ namespace BucuriaDarului.Web.Controllers
 
         public ActionResult Delete(string id)
         {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
             var model = SingleEventReturnerGateway.ReturnEvent(id);
             return View(model);
         }
