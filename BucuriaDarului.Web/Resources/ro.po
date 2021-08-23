@@ -1042,3 +1042,6 @@ msgstr "Rezultat sincronizare baze de date"
 
 msgid "version"
 msgstr "versiunea"
+
+msgid "Back"
+msgstr "Înapoi"
