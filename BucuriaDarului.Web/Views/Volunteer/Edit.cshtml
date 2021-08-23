@@ -249,8 +249,9 @@
                         @Localizer["Gender"]:
                     </div>
                     <div class="col-md-5">
-                        @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, "Male")
-                        @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, "Female")
+                        @Localizer["Male"] @Html.RadioButtonFor(m => m.Gender, @Localizer["Male"])
+                        @Localizer["Female"] @Html.RadioButtonFor(m => m.Gender, @Localizer["Female"])
+                        @Localizer["NotSpeficied"] @Html.RadioButtonFor(m => m.Gender, @Localizer["NotSpeficied"])
                         <hr />
                     </div>
                 </div>
