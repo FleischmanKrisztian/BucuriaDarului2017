@@ -56,7 +56,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     {
                         foreach (var v in volunteersFromCsv)
                         {
-                            if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x=>x.CNP==v.CNP).Count()!=0)
+                            if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x => x.CNP == v.CNP).Count() != 0)
                                 volunteersToUpdate.Add(v);
                             else
                                 volunteersToInsert.Add(v);
@@ -172,7 +172,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 volunteer.Birthdate = DateTime.MinValue;
 
             volunteer.Address = line[3];
-            volunteer.Gender = line[4] == "Male" ? Gender.Male : Gender.Female;
+            if (line[4] == null && line[4] == "")
+                volunteer.Gender = Gender.NotSpecified;
+            else if (line[4] == "M" || line[4] == "Male" || line[4] == "Masculin")
+                volunteer.Gender = Gender.Male;
+            else if (line[4] == "F" || line[4] == "Female" || line[4] == "Feminin")
+                volunteer.Gender = Gender.Female;
             volunteer.DesiredWorkplace = line[5];
             volunteer.CNP = line[6];
             volunteer.FieldOfActivity = line[7];
@@ -223,8 +228,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 volunteer.Birthdate = DateTime.MinValue;
             if (line[3] != "" && line[3] != null)
                 volunteer.Address = line[3];
-            if (line[4] != "" && line[4] != null)
-                volunteer.Gender = line[4] == "Male" ? Gender.Male : Gender.Female;
+
+            if (line[4] == null && line[4] == "")
+                volunteer.Gender = Gender.NotSpecified;
+            else if (line[4] == "M" || line[4] == "Male" || line[4] == "Masculin")
+                volunteer.Gender = Gender.Male;
+            else if (line[4] == "F" || line[4] == "Female" || line[4] == "Feminin")
+                volunteer.Gender = Gender.Female;
+
             if (line[5] != "" && line[5] != null)
                 volunteer.DesiredWorkplace = line[5];
             if (line[6] != "" && line[6] != null)
@@ -357,7 +368,16 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             volunteer.DesiredWorkplace = line[9];
             volunteer.Birthdate = DateTime.MinValue;
             volunteer.FieldOfActivity = "";
-            volunteer.Gender = Gender.Female;
+            if (volunteer.CNP != null && volunteer.CNP != "")
+            {
+                if (volunteer.CNP.StartsWith("1") || volunteer.CNP.StartsWith("3"))
+                    volunteer.Gender = Gender.Male;
+                else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
+                    volunteer.Gender = Gender.Female;
+                
+            }
+            else
+                volunteer.Gender = Gender.NotSpecified;
             volunteer.HourCount = 0;
             volunteer.InActivity = true;
             volunteer.CI = ci;
@@ -397,7 +417,16 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 volunteer.DesiredWorkplace = line[9];
             volunteer.Birthdate = DateTime.MinValue;
             volunteer.FieldOfActivity = "";
-            volunteer.Gender = Gender.Female;
+            if (volunteer.CNP != null && volunteer.CNP != "")
+            {
+                if (volunteer.CNP.StartsWith("1") || volunteer.CNP.StartsWith("3"))
+                    volunteer.Gender = Gender.Male;
+                else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
+                    volunteer.Gender = Gender.Female;
+
+            }
+            else
+                volunteer.Gender = Gender.NotSpecified;
             volunteer.HourCount = 0;
             volunteer.InActivity = true;
             volunteer.CI = ci;
