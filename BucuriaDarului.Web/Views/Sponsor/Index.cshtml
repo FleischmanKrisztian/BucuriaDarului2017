@@ -11,9 +11,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script>
 
         .pagination {
-                                                                                                                                                                                                              display: inline-block;
-                                                                                                                                                                                                              width: 800px;
-                                                                                                                                                                                                          }
+            display: inline-block;
+            width: 800px;
+        }
 
         .dropdown-menu {
             width: 500px !important;
@@ -29,25 +29,25 @@
             transition: background-color .3s;
         }
 
-        .pagination a.active {
-            background-color: red;
-            color: red;
-            border-radius: 5px;
-        }
+            .pagination a.active {
+                background-color: red;
+                color: red;
+                border-radius: 5px;
+            }
 
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-        }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
 
-        .pagination a:first-child {
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-        }
+            .pagination a:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
 
-        .pagination a:last-child {
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
+            .pagination a:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
 
         .scrollable-menu {
             height: auto;
@@ -323,7 +323,8 @@
             }}
     </table>
 }
-    <div class="row" style="position: fixed; bottom: 40px; right: 0px; padding-top: 2%; padding-right: 17%; padding-bottom: 2%">
+    <div class="row" style="float:right;padding:3%;padding-right:7%">
+
         <br />
         <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
     </div>
