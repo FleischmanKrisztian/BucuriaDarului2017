@@ -26,10 +26,10 @@ namespace BucuriaDarului.Contexts.EventContexts
             sponsorsForAllocation = CheckForDuplicate(sponsorsForAllocation, GetSponsorNames(sponsorsToAdd));
             @event.AllocatedSponsors = sponsorsForAllocation;
 
-            var sponsorsAllocatedIds = @event.AllocatedSponsorsID;
+            var sponsorsAllocatedIds = @event.AllocatedSponsorsId;
             sponsorsAllocatedIds = RemoveUncheckedSponsorsIds(sponsorsAllocatedIds, sponsorsToRemove);
             var sponsorsForAllocationIds = CheckForDuplicateIds(sponsorsAllocatedIds, GetSponsorIds(sponsorsToAdd));
-            @event.AllocatedSponsorsID = sponsorsForAllocationIds;
+            @event.AllocatedSponsorsId = sponsorsForAllocationIds;
 
             dataGateway.UpdateEvent(request.EventId, @event);
 

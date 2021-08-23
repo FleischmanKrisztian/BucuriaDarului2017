@@ -21,10 +21,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 var events = dataGateway.GetEvents();
                 var listOfEventsToModify = new List<Event>();
 
-                foreach (var e in events)
+                if (events != null && events.Count != 0)
                 {
-                    if (e.AllocatedVolunteersID.Contains(id))
-                        listOfEventsToModify.Add(e);
+                    foreach (var e in events)
+                    {
+                        if (e.AllocatedVolunteersId != null)
+                            if (e.AllocatedVolunteersId.Contains(id))
+                                listOfEventsToModify.Add(e);
+                    }
                 }
                 if (listOfEventsToModify.Count() != 0)
                 {
@@ -32,11 +36,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     {
                         var eventToUpdate = new Event();
                         eventToUpdate = e;
-                        eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteersID.Replace(" + " + id, "");
-                        eventToUpdate.AllocatedVolunteersID = eventToUpdate.AllocatedVolunteersID.Replace(id, "");
+                        eventToUpdate.AllocatedVolunteersId = eventToUpdate.AllocatedVolunteersId.Replace(" + " + id, "");
+                        eventToUpdate.AllocatedVolunteersId = eventToUpdate.AllocatedVolunteersId.Replace(id, "");
                         var volunteer = dataGateway.GetVolunteer(id);
                         eventToUpdate.AllocatedVolunteers = eventToUpdate.AllocatedVolunteers.Replace(" + " + volunteer.Fullname, "");
-                        eventToUpdate.AllocatedVolunteers= eventToUpdate.AllocatedVolunteers.Replace(volunteer.Fullname, "");
+                        eventToUpdate.AllocatedVolunteers = eventToUpdate.AllocatedVolunteers.Replace(volunteer.Fullname, "");
                         eventToUpdate.NumberAllocatedVolunteers = AllocatedVolunteerCounter(eventToUpdate.AllocatedVolunteers);
 
                         dataGateway.UpdateEvent(e.Id, eventToUpdate);

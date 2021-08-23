@@ -18,11 +18,15 @@ namespace BucuriaDarului.Contexts.SponsorContexts
         {
             var events = dataGateway.GetEvents();
             var listOfEventsToModify = new List<Event>();
-            foreach (var e in events)
+            if (events != null && events.Count != 0)
             {
-                if (e.AllocatedSponsorsID.Contains(id))
+                foreach (var e in events)
                 {
-                    listOfEventsToModify.Add(e);
+                    if (e.AllocatedSponsorsId != null)
+                        if (e.AllocatedSponsorsId.Contains(id))
+                        {
+                            listOfEventsToModify.Add(e);
+                        }
                 }
             }
 
@@ -32,8 +36,8 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 {
                     var eventToUpdate = new Event();
                     eventToUpdate = e;
-                    eventToUpdate.AllocatedSponsorsID = eventToUpdate.AllocatedSponsorsID.Replace(" + " + id, "");
-                    eventToUpdate.AllocatedSponsorsID = eventToUpdate.AllocatedSponsorsID.Replace(id, "");
+                    eventToUpdate.AllocatedSponsorsId = eventToUpdate.AllocatedSponsorsId.Replace(" + " + id, "");
+                    eventToUpdate.AllocatedSponsorsId = eventToUpdate.AllocatedSponsorsId.Replace(id, "");
                     var sponsor = dataGateway.GetSponsor(id);
                     eventToUpdate.AllocatedSponsors = eventToUpdate.AllocatedSponsors.Replace(" + " + sponsor.NameOfSponsor, "");
                     eventToUpdate.AllocatedSponsors = eventToUpdate.AllocatedSponsors.Replace(sponsor.NameOfSponsor, "");

@@ -26,10 +26,10 @@ namespace BucuriaDarului.Contexts.EventContexts
             volunteersForAllocation = CheckForDuplicate(volunteersForAllocation, GetVolunteerNames(volunteersToAdd));
             @event.AllocatedVolunteers = volunteersForAllocation;
             @event.NumberAllocatedVolunteers = VolunteersAllocatedCounter(volunteersForAllocation);
-            var volunteersAllocatedIds = @event.AllocatedVolunteersID;
+            var volunteersAllocatedIds = @event.AllocatedVolunteersId;
             volunteersAllocatedIds = RemoveUncheckedVolunteersIds(volunteersAllocatedIds, volunteersToRemove);
             var volunteersForAllocationIds = CheckForDuplicateIds(volunteersAllocatedIds, GetVolunteerIds(volunteersToAdd));
-            @event.AllocatedVolunteersID = volunteersForAllocationIds;
+            @event.AllocatedVolunteersId = volunteersForAllocationIds;
             
             dataGateway.UpdateEvent(request.EventId, @event);
 

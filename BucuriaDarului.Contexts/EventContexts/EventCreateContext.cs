@@ -26,7 +26,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 response.IsValid = false;
                 response.Message = "The Object Cannot contain Semi-Colons!";
             }
-
+           
             var @event = ValidateRequest(noNullRequest);
 
             if (response.IsValid)
@@ -56,8 +56,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                 Duration = request.Duration,
                 AllocatedVolunteers = request.AllocatedVolunteers,
                 NumberAllocatedVolunteers = request.NumberAllocatedVolunteers,
-                AllocatedSponsors = request.AllocatedSponsors
-            };
+                AllocatedSponsors = request.AllocatedSponsors,
+             
+        };
 
             return validatedEvent;
         }
@@ -80,6 +81,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                     property.SetValue(request, string.Empty);
                 }
             }
+
+            
+            
             return request;
         }
     }
@@ -118,5 +122,13 @@ namespace BucuriaDarului.Contexts.EventContexts
         public int NumberAllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
+        public string AllocatedSponsorsId { get; set; }
+        public string AllocatedVolunteersId { get; set; }
+
+        public EventCreateRequest()
+        {
+            AllocatedSponsorsId = "";
+            AllocatedVolunteersId = "";
+        }
     }
 }
