@@ -73,13 +73,13 @@
                         @if (Model.DateOfEvent != DateTime.MinValue)
                             @Model.DateOfEvent.ToShortDateString()<hr />
                         </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
+                    <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
                 </div>
             </div>
-
-            <div class="col-md-3">
-                <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
-                <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
-            </div>
         </div>
-    </div>
-}
+    }

@@ -9,7 +9,7 @@ namespace BucuriaDarului.Gateway.EventGateways
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
-        public  Event GetEvent(string eventId)
+        public Event GetEvent(string eventId)
         {
             return SingleEventReturnerGateway.ReturnEvent(eventId);
         }

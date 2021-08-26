@@ -1,7 +1,5 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
-using MongoDB.Driver;
 
 namespace BucuriaDarului.Gateway.BeneficiaryGateways
 

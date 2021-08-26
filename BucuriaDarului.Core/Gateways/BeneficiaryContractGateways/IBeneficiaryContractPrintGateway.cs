@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BucuriaDarului.Core.Gateways.BeneficiaryContractGateways
+﻿namespace BucuriaDarului.Core.Gateways.BeneficiaryContractGateways
 {
     public interface IBeneficiaryContractPrintGateway
     {

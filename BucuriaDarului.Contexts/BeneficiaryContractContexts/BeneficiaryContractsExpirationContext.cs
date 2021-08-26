@@ -21,7 +21,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             return contracts;
         }
 
-        internal static List<BeneficiaryContract> GetExpiringContracts(List<BeneficiaryContract> contracts,int nrOfDaysBeforExpiration)
+        internal static List<BeneficiaryContract> GetExpiringContracts(List<BeneficiaryContract> contracts, int nrOfDaysBeforExpiration)
         {
             var currentDay = GetDayOfYear(DateTime.Today);
             var returnListOfBeneficiaryContracts = new List<BeneficiaryContract>();
@@ -36,9 +36,9 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             return returnListOfBeneficiaryContracts;
         }
 
-        public static bool IsAboutToExpire(int currentDay, int dayToCompare,int nrOfDaysBeforExpiration)
+        public static bool IsAboutToExpire(int currentDay, int dayToCompare, int nrOfDaysBeforExpiration)
         {
-            if (currentDay <= dayToCompare && currentDay + nrOfDaysBeforExpiration > dayToCompare || currentDay > 355 && dayToCompare < nrOfDaysBeforExpiration-1)
+            if (currentDay <= dayToCompare && currentDay + nrOfDaysBeforExpiration > dayToCompare || currentDay > 355 && dayToCompare < nrOfDaysBeforExpiration - 1)
             {
                 return true;
             }

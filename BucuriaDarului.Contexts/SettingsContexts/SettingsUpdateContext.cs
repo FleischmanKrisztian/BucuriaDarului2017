@@ -1,6 +1,4 @@
-﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.SettingsGateways;
-
+﻿using BucuriaDarului.Core.Gateways.SettingsGateways;
 
 namespace BucuriaDarului.Contexts.SettingsContexts
 {
@@ -13,7 +11,7 @@ namespace BucuriaDarului.Contexts.SettingsContexts
             this.dataGateway = dataGateway;
         }
 
-        public void Execute(string lang, int quantity,int numberOfDaysBeforBirthday,int numberOfDaysBeforeExpiration)
+        public void Execute(string lang, int quantity, int numberOfDaysBeforBirthday, int numberOfDaysBeforeExpiration)
         {
             var settings = dataGateway.GetSettingItem();
             settings.Quantity = quantity;

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.SponsorGateways;
+using System;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Contexts.SponsorContexts
 {
@@ -19,7 +19,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             var sponsors = dataGateway.GetListSponsorContracts();
             sponsors = GetExpiringContracts(sponsors, nrOfDaysBeforExpiration);
             return sponsors;
-
         }
 
         internal static List<Sponsor> GetExpiringContracts(List<Sponsor> sponsors, int nrOfDaysBeforExpiration)

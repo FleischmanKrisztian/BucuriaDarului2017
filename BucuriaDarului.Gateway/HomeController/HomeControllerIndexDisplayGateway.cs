@@ -4,9 +4,7 @@ using BucuriaDarului.Gateway.SettingsGateways;
 using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Gateway.HomeController
 {
@@ -24,14 +22,11 @@ namespace BucuriaDarului.Gateway.HomeController
 
         public List<Sponsor> GetListOfSponsors()
         {
-
             return ListSponsorsGateway.GetListOfSponsors();
         }
 
-        
         public List<Volunteer> GetListOfVolunteers()
         {
-
             return ListVolunteersGateway.GetListOfVolunteers();
         }
 

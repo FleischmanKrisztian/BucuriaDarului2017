@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.SponsorGateways;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.SponsorGateways
 {
@@ -12,6 +12,6 @@ namespace BucuriaDarului.Gateway.SponsorGateways
         {
             List<Sponsor> sponsors = ListSponsorsGateway.GetListOfSponsors();
             return sponsors;
-            }
         }
     }
+}

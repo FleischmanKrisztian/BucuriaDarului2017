@@ -551,8 +551,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                         contract.IdApplication = beneficiary.Marca.IdApplication;
                         listOfBeneficiariesContract.Add(contract);
                     }
-
-                    
                 }
             }
 
@@ -687,7 +685,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     {
                         beneficiary.Id = Guid.NewGuid().ToString();
                         beneficiary = GetBeneficiarFromBucuriaDaruluiCsvLine(line, beneficiary);
-                       // var beenficiaryContract = GetBeneficiaryContract(lines, listOfBeneficiaries);
+                        // var beenficiaryContract = GetBeneficiaryContract(lines, listOfBeneficiaries);
                     }
                     else
                     {

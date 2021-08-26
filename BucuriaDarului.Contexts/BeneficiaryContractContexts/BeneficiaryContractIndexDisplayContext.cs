@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 {

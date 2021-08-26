@@ -1,6 +1,6 @@
-﻿using System;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using MongoDB.Driver;
+using System;
 
 namespace BucuriaDarului.Gateway.SettingsGateways
 {
@@ -21,7 +21,7 @@ namespace BucuriaDarului.Gateway.SettingsGateways
                     Lang = "ro",
                     Quantity = 15,
                     NumberOfDaysBeforBirthday = 10,
-                    NumberOfDaysBeforeExpiration=30
+                    NumberOfDaysBeforeExpiration = 30
                 };
                 settingCollection.InsertOne(newSetting);
                 return newSetting;

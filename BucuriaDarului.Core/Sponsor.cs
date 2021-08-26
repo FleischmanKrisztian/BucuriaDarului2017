@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BucuriaDarului.Core
+﻿namespace BucuriaDarului.Core
 {
     public class Sponsor
     {

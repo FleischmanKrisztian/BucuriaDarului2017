@@ -1,6 +1,5 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
 
@@ -10,6 +9,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
     {
         private readonly IBeneficiaryCreateGateway dataGateway;
         private BeneficiaryCreateResponse response = new BeneficiaryCreateResponse("", true);
+
         public BeneficiaryCreateContext(IBeneficiaryCreateGateway dataGateway)
         {
             this.dataGateway = dataGateway;
@@ -17,16 +17,15 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public BeneficiaryCreateResponse Execute(BeneficiaryCreateRequest request, byte[] image)
         {
-            
             var noNullRequest = ChangeNullValues(request);
-            
+
             if (ContainsSpecialChar(noNullRequest))
             {
                 response.IsValid = false;
                 response.Message = "The Object Cannot contain Semi-Colons!";
             }
 
-            var beneficiary = ValidateRequest(noNullRequest,image);
+            var beneficiary = ValidateRequest(noNullRequest, image);
 
             if (response.IsValid)
             {
@@ -64,7 +63,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 PersonalInfo = request.PersonalInfo,
             };
 
-            if (image.Length>2)
+            if (image.Length > 2)
             {
                 validatedBeneficiary.Image = image;
             }
@@ -90,7 +89,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     property.SetValue(request, string.Empty);
                 }
             }
-           
+
             foreach (var property in request.PersonalInfo.GetType().GetProperties())
             {
                 var propertyType = property.PropertyType;
@@ -101,13 +100,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                     {
                         property.SetValue(request.PersonalInfo, string.Empty);
                     }
-                }   
+                }
             }
 
             return request;
         }
-
-        
     }
 
     public class BeneficiaryCreateResponse
@@ -115,7 +112,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public string Message { get; set; }
 
         public bool IsValid { get; set; }
-
 
         public BeneficiaryCreateResponse(string message, bool isValid)
         {
@@ -157,9 +153,5 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
         public PersonalInfo PersonalInfo { get; set; }
 
         public byte[] Image { get; set; }
-
-       
     }
-
-    
 }

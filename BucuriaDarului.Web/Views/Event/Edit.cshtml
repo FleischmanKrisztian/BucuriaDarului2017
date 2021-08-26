@@ -60,92 +60,92 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model=>model.Id, new { Id = Model.Id })
-<div class="container emp-profile">
-    <div class="col-md-9">
-        <div class="row">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="col-md-6">
-                <label> @Localizer["NameOfEvent"]:</label>
+    @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
+    <div class="container emp-profile">
+        <div class="col-md-9">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-6">
+                    <label> @Localizer["NameOfEvent"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.NameOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.NameOfEvent, "", new { @class = "text-danger" })
+                    <hr />
+                </div>
             </div>
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.NameOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                @Html.ValidationMessageFor(model => model.NameOfEvent, "", new { @class = "text-danger" })
-                <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <label> @Localizer["PlaceOfEvent"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.PlaceOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.PlaceOfEvent, "", new { @class = "text-danger" })
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label> @Localizer["DateOfEvent"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @if (Model.DateOfEvent < DateTime.MinValue.AddYears(3))
+                    {
+                        <input class="form-control" type="date" name="DateOfEvent" />
+                        @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        <input class="form-control" type="date" name="DateOfEvent" value="@Model.DateOfEvent.ToString("yyyy-MM-dd")" />
+                        @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
+                    }
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>  @Localizer["NumberOfVolunteersNeeded"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.NumberOfVolunteersNeeded, new { htmlAttributes = new { @class = "form-control", maxlength = "5" } })
+                    @Html.ValidationMessageFor(model => model.NumberOfVolunteersNeeded, "", new { @class = "text-danger" })
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>@Localizer["TypeOfActivities"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.TypeOfActivities, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
+                    @Html.ValidationMessageFor(model => model.TypeOfActivities, "", new { @class = "text-danger" })
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>@Localizer["TypeOfEvent"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.TypeOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.TypeOfEvent, "", new { @class = "text-danger" })
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>@Localizer["Duration"]:</label>
+                </div>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+                    @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                    <hr />
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label> @Localizer["PlaceOfEvent"]:</label>
-            </div>
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.PlaceOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                @Html.ValidationMessageFor(model => model.PlaceOfEvent, "", new { @class = "text-danger" })
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label> @Localizer["DateOfEvent"]:</label>
-            </div>
-            <div class="col-md-6">
-                @if (Model.DateOfEvent < DateTime.MinValue.AddYears(3))
-                {
-                    <input class="form-control" type="date" name="DateOfEvent" />
-                    @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
-                }
-                else
-                {
-                    <input class="form-control" type="date" name="DateOfEvent" value="@Model.DateOfEvent.ToString("yyyy-MM-dd")" />
-                    @Html.ValidationMessageFor(model => model.DateOfEvent, "", new { @class = "text-danger" })
-                }
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>  @Localizer["NumberOfVolunteersNeeded"]:</label>
-            </div>
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.NumberOfVolunteersNeeded, new { htmlAttributes = new { @class = "form-control", maxlength = "5" } })
-                @Html.ValidationMessageFor(model => model.NumberOfVolunteersNeeded, "", new { @class = "text-danger" })
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>@Localizer["TypeOfActivities"]:</label>
-            </div>
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.TypeOfActivities, new { htmlAttributes = new { @class = "form-control", maxlength = "200" } })
-                @Html.ValidationMessageFor(model => model.TypeOfActivities, "", new { @class = "text-danger" })
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>@Localizer["TypeOfEvent"]:</label>
-            </div>
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.TypeOfEvent, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                @Html.ValidationMessageFor(model => model.TypeOfEvent, "", new { @class = "text-danger" })
-                <hr />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>@Localizer["Duration"]:</label>
-            </div>
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
-                <hr />
-            </div>
+        <div class="col-md-3">
+            <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
+            <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
         </div>
     </div>
-    <div class="col-md-3">
-        <input type="submit" value=@Localizer["Save"] class="btn btn-primary" /> |
-        <a href="./Index/@ViewBag.query" class="btn btn-primary">@Localizer["BackToList"]</a>
-    </div>
-</div>
 }

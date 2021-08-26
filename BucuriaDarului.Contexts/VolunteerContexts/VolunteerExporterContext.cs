@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using BucuriaDarului.Core;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
 {
@@ -46,7 +46,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             var idsAndOptions = csv.StringOfIDs + "(((";
             if (csv.Fullname && csv.Birthdate && csv.Address && csv.Gender && csv.DesiredWorkplace && csv.CNP && csv.FieldOfActivity && csv.Occupation &&
-                csv.HasId && csv.IdInfo && csv.IdExpirationDate && csv.Active && csv.HourCount && csv.PhoneNumber && csv.EmailAddress && csv.DriversLicense 
+                csv.HasId && csv.IdInfo && csv.IdExpirationDate && csv.Active && csv.HourCount && csv.PhoneNumber && csv.EmailAddress && csv.DriversLicense
                 && csv.HasCar)
                 idsAndOptions += "0";
             if (csv.Fullname)
@@ -178,6 +178,5 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public bool DriversLicense { get; set; }
         public bool HasCar { get; set; }
         public string FileName { get; set; }
-
     }
 }

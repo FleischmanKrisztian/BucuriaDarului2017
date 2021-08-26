@@ -27,10 +27,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             beneficiaries = GetEventsAfterPaging(beneficiaries, request.PagingData);
             var contracts = dataGateway.GetContractList();
             var numberOfContracts = GetNumberOfContractsForBeneficiary(contracts, beneficiaries);
-            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs,Constants.BENEFICIARY_SESSION,numberOfContracts);
+            return new BeneficiariesMainDisplayIndexResponse(beneficiaries, request.FilterData, request.PagingData, emptyDatabase, beneficiariesAfterFiltering, stringOfIDs, Constants.BENEFICIARY_SESSION, numberOfContracts);
         }
 
-        public Dictionary<string, int> GetNumberOfContractsForBeneficiary(List<BeneficiaryContract> contracts, List<Beneficiary>beneficiaries)
+        public Dictionary<string, int> GetNumberOfContractsForBeneficiary(List<BeneficiaryContract> contracts, List<Beneficiary> beneficiaries)
         {
             var d = new Dictionary<string, int>();
             foreach (var beneficiary in beneficiaries)
@@ -266,12 +266,11 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
 
         public Dictionary<string, int> BeneficiaryNumberOfContracts { get; set; }
 
-
         public string StringOfIDs { get; set; }
 
         public string DictionaryKey { get; set; }
 
-        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs,string dictionaryKey, Dictionary<string, int> beneficiaryNumberOfContracts)
+        public BeneficiariesMainDisplayIndexResponse(List<Beneficiary> beneficiaries, FilterData filterData, PagingData pagingData, bool emptyDatabase, int beneficiariesAfterFiltering, string stringOfIDs, string dictionaryKey, Dictionary<string, int> beneficiaryNumberOfContracts)
         {
             Beneficiaries = beneficiaries;
             FilterData = filterData;

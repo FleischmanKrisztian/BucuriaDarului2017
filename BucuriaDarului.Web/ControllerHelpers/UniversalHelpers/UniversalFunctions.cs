@@ -1,7 +1,6 @@
-﻿using BucuriaDarului.Web.Common;
+﻿using BucuriaDarului.Core;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
 {
@@ -19,7 +18,6 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
                 return Constants.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE;
             }
         }
-
 
         public static int GetNumberOfDaysBeforeBirthday(ITempDataDictionary tempDataDic)
         {
@@ -46,6 +44,5 @@ namespace BucuriaDarului.Web.ControllerHelpers.UniversalHelpers
                 return Constants.DEFAULT_NUMBER_OF_DAYS_BEFORE_EXPIRATION;
             }
         }
-
     }
 }

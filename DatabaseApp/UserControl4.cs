@@ -18,8 +18,8 @@ namespace BackupDatabaseApp
         {
             try
             {
-               DatabaseMethods.DeleteDatabase(textBox1.Text);
-               MessageBox.Show("The Database has been successfully deleted");
+                DatabaseMethods.DeleteDatabase(textBox1.Text);
+                MessageBox.Show("The Database has been successfully deleted");
             }
             catch
             {

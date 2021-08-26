@@ -1,7 +1,6 @@
 ﻿using BucuriaDarului.Contexts.HomeControllerContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.HomeController;
-using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +11,7 @@ namespace BucuriaDarului.Web.Controllers
         public IActionResult Index()
         {
             var nrOfDaysBeforeBirthday = UniversalFunctions.GetNumberOfDaysBeforeBirthday(TempData);
-            var nrOfDaysBeforeExpiration= UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData); ;
+            var nrOfDaysBeforeExpiration = UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData); ;
             var context = new HomeControllerIndexDisplayContext(new HomeControllerIndexDisplayGateway());
             var response = context.Execute(nrOfDaysBeforeBirthday, nrOfDaysBeforeExpiration);
             TempData[Constants.CONNECTION_LANGUAGE] = response.Settings.Lang;

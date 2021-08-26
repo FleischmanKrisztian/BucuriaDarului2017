@@ -1,14 +1,13 @@
 ﻿using BucuriaDarului.Contexts.SponsorContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.SponsorGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-
 using System;
 using System.Collections.Generic;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -34,7 +33,7 @@ namespace BucuriaDarului.Web.Controllers
             var sponsorsImportContext = new SponsorsImportContext(new SponsorsImportDataGateway());
             var response = new SponsorImportResponse();
             if (files != null)
-                response = sponsorsImportContext.Execute(files.OpenReadStream(),overwrite);
+                response = sponsorsImportContext.Execute(files.OpenReadStream(), overwrite);
             else
             {
                 response.Message.Add(new KeyValuePair<string, string>("NoFile", @_localizer["Please choose a file!"]));
@@ -63,7 +62,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = sponsorExportData.Dictionary;
             if (sponsorExportData.IsValid && sponsorExportData.FileName != "")
                 return DownloadCSV(sponsorExportData.FileName, Constants.SPONSOR_SESSION, Constants.SPONSOR_HEADER);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.SPONSOR_SESSION, message =_localizer["Please select at least one Property!"] });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.SPONSOR_SESSION, message = _localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -153,7 +152,7 @@ namespace BucuriaDarului.Web.Controllers
         public ActionResult Delete(string id, IFormCollection collection)
         {
             var deleteSponsorContext = new SponsorDeleteContext(new SponsorDeleteGateway());
-            deleteSponsorContext.Execute( id);
+            deleteSponsorContext.Execute(id);
             return RedirectToAction("Index");
         }
     }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BucuriaDarului.Core.Gateways.VolunteerGateways
 {
     public interface IVolunteerMainDisplayIndexGateway
     {
         List<Volunteer> GetListOfVolunteers();
+
         List<VolunteerContract> GetContractList();
     }
 }

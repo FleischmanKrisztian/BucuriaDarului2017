@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
+using System;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 {
@@ -17,7 +16,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
 
         public BeneficiaryContractCreateResponse Execute(BeneficiaryContractCreateRequest request)
         {
-
             var contractToCreate = CreateContract(request);
             if (response.IsValid)
                 dataGateway.Insert(contractToCreate);
@@ -49,15 +47,15 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             var beneficiary = dataGateway.GetBeneficiary(request.OwnerID);
             contract.Id = Guid.NewGuid().ToString();
             contract.OwnerID = request.OwnerID;
-            if(request.NumberOfRegistration == "")
+            if (request.NumberOfRegistration == "")
             {
                 response.IsValid = false;
                 response.Message += "Please enter number of registration! ";
             }
             else
-            
-            contract.NumberOfRegistration = request.NumberOfRegistration;
-            
+
+                contract.NumberOfRegistration = request.NumberOfRegistration;
+
             if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
             {
                 response.IsValid = false;
@@ -73,7 +71,7 @@ namespace BucuriaDarului.Contexts.BeneficiaryContractContexts
             }
             else
                 contract.RegistrationDate = request.RegistrationDate.AddDays(1);
-                    
+
             contract.Fullname = beneficiary.Fullname;
             contract.NumberOfPortions = beneficiary.NumberOfPortions;
             if (beneficiary.CNP != "")

@@ -374,7 +374,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Gender = Gender.Male;
                 else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
                     volunteer.Gender = Gender.Female;
-                
             }
             else
                 volunteer.Gender = Gender.NotSpecified;
@@ -423,7 +422,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     volunteer.Gender = Gender.Male;
                 else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
                     volunteer.Gender = Gender.Female;
-
             }
             else
                 volunteer.Gender = Gender.NotSpecified;

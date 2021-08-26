@@ -9,8 +9,6 @@ namespace BucuriaDarului.Gateway.SponsorGateways
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
-       
-
         public Sponsor GetSponsor(string sponsorId)
         {
             return SingleSponsorReturnerGateway.ReturnSponsor(sponsorId);

@@ -57,7 +57,7 @@
     @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class=".emp-profile">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
             <div class="col-md-4">
                 @{

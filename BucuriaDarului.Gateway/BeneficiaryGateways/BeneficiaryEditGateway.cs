@@ -1,8 +1,8 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
-using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 
 namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {

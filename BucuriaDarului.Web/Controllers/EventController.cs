@@ -1,4 +1,5 @@
 using BucuriaDarului.Contexts.EventContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.EventGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -34,7 +34,7 @@ namespace BucuriaDarului.Web.Controllers
             var response = new EventImportResponse();
 
             if (files != null)
-                response = eventsImportContext.Execute(files.OpenReadStream(),overwrite);
+                response = eventsImportContext.Execute(files.OpenReadStream(), overwrite);
             else
             {
                 response.Message.Add(new KeyValuePair<string, string>("NoFile", @_localizer["Please choose a file!"]));
@@ -73,7 +73,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = eventsExportData.Dictionary;
             if (eventsExportData.IsValid && eventsExportData.FileName != "")
                 return DownloadCSV(eventsExportData.FileName, Constants.EVENT_SESSION, Constants.EVENT_HEADER);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.EVENT_SESSION, message =@_localizer["Please select at least one Property!"] });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.EVENT_SESSION, message = @_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -151,7 +151,7 @@ namespace BucuriaDarului.Web.Controllers
             var eventCreateResponse = eventCreateContext.Execute(request);
             if (!eventCreateResponse.IsValid)
             {
-                return RedirectToAction("Create", new { message = @_localizer[eventCreateResponse.Message ]});
+                return RedirectToAction("Create", new { message = @_localizer[eventCreateResponse.Message] });
             }
             return RedirectToAction("Index");
         }

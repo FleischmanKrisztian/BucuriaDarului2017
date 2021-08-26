@@ -57,7 +57,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string[] EventToArray(Event @event)
         {
-            var result = new []
+            var result = new[]
             {
                 @event.Id,
                 @event.NameOfEvent,
@@ -66,9 +66,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                 @event.TypeOfActivities,
                 @event.TypeOfEvent,
                 @event.Duration,
-                @event.NumberOfVolunteersNeeded.ToString(), 
-                @event.AllocatedVolunteers, 
-                @event.NumberAllocatedVolunteers.ToString(), 
+                @event.NumberOfVolunteersNeeded.ToString(),
+                @event.AllocatedVolunteers,
+                @event.NumberAllocatedVolunteers.ToString(),
                 @event.AllocatedSponsors
             };
             return result;

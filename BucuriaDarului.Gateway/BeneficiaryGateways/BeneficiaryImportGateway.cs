@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {
     public class BeneficiaryImportGateway : IBeneficiaryImportGateway
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
-
 
         public List<Beneficiary> GetBenficiariesList()
         {
@@ -40,7 +39,6 @@ namespace BucuriaDarului.Gateway.BeneficiaryGateways
                 beneficiaryContractCollection.InsertOne(contract);
                 var modifiedIdGateway = new ModifiedIDGateway();
                 modifiedIdGateway.AddIDtoModifications(contract.Id);
-
             }
         }
 

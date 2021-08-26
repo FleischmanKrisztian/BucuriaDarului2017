@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace BackupDatabaseApp
@@ -20,8 +19,8 @@ namespace BackupDatabaseApp
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                    string strfilename = folderBrowserDialog.SelectedPath;
-                    richTextBox1.Text = strfilename;
+                string strfilename = folderBrowserDialog.SelectedPath;
+                richTextBox1.Text = strfilename;
             }
         }
 
@@ -34,12 +33,10 @@ namespace BackupDatabaseApp
 
         private void richTextBox2_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

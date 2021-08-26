@@ -1,6 +1,5 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
-using Microsoft.Extensions.Localization;
 using Novacode;
 using System.IO;
 
@@ -20,7 +19,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var response = new VolunteerContractPrintResponse();
             if (FileIsNotEmpty(data))
             {
-                response.Message ="File Cannot be Empty!";
+                response.Message = "File Cannot be Empty!";
                 response.IsValid = false;
             }
             if (response.IsValid)
@@ -76,8 +75,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             }
             else
             {
-               
-               resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
+                resultName = "Contract" + "-" + Fullname.Replace(' ', '_') + ".docx";
             }
 
             return resultName;

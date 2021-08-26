@@ -4,7 +4,7 @@ namespace BucuriaDarului.Core
 {
     public enum Gender
     {
-        NotSpecified,Male, Female
+        NotSpecified, Male, Female
     }
 
     public class Volunteer

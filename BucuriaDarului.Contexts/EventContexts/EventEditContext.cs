@@ -68,7 +68,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 NumberAllocatedVolunteers = request.NumberAllocatedVolunteers,
                 AllocatedSponsors = request.AllocatedSponsors,
                 AllocatedVolunteersId = request.AllocatedVolunteersId,
-                AllocatedSponsorsId = request.AllocatedSponsorsId                
+                AllocatedSponsorsId = request.AllocatedSponsorsId
             };
 
             return validatedEvent;

@@ -82,7 +82,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
             if (filterData.SearchedHourCount != 0)
             {
-                volunteers = volunteers.Where(x => x.HourCount>=(filterData.SearchedHourCount)).ToList();
+                volunteers = volunteers.Where(x => x.HourCount >= (filterData.SearchedHourCount)).ToList();
             }
 
             if (DateInputReceived(filterData.LowerDate))

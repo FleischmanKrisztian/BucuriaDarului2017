@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -32,7 +30,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             events = GetEventsAfterPaging(events, request.PagingData);
 
-            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs,Constants.EVENT_SESSION);
+            return new EventsMainDisplayIndexResponse(events, request.FilterData, request.PagingData, emptyDatabase, eventsAfterFiltering, stringOfIDs, Constants.EVENT_SESSION);
         }
 
         private List<Event> GetEventsAfterFilters(List<Event> events, FilterData filterData)
@@ -134,7 +132,7 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public string DictionaryKey { get; set; }
 
-        public EventsMainDisplayIndexResponse(List<Event> events, FilterData filterData, PagingData pagingData, bool emptyDatabase, int eventsAfterFiltering, string stringOfIDs,string dictionaryKey)
+        public EventsMainDisplayIndexResponse(List<Event> events, FilterData filterData, PagingData pagingData, bool emptyDatabase, int eventsAfterFiltering, string stringOfIDs, string dictionaryKey)
         {
             Events = events;
             FilterData = filterData;

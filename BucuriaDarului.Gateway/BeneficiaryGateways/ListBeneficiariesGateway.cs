@@ -6,7 +6,7 @@ namespace BucuriaDarului.Gateway.BeneficiaryGateways
 {
     public class ListBeneficiariesGateway
     {
-        public static  List<Beneficiary> GetListOfBeneficiaries()
+        public static List<Beneficiary> GetListOfBeneficiaries()
         {
             var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);

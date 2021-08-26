@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
 using BucuriaDarului.Gateway.SponsorGateways;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.EventGateways
 {
@@ -13,7 +12,6 @@ namespace BucuriaDarului.Gateway.EventGateways
 
         public List<Sponsor> GetListOfSponsors()
         {
-
             return ListSponsorsGateway.GetListOfSponsors();
         }
 
@@ -27,7 +25,6 @@ namespace BucuriaDarului.Gateway.EventGateways
             modifiedIDGateway.AddIDtoModifications(eventId);
             eventCollection.FindOneAndReplace(filter, eventToUpdate);
         }
-
 
         public Event ReturnEvent(string eventId)
         {

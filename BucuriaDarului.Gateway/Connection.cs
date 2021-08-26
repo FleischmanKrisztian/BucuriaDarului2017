@@ -1,5 +1,5 @@
-﻿using System;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
+using System;
 
 namespace BucuriaDarului.Gateway
 {

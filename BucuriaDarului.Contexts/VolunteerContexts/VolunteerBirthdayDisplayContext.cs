@@ -2,7 +2,6 @@
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
 {
@@ -22,7 +21,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return volunteers;
         }
 
-        internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers,int alarmNumberOfDaysBeforExpiration)
+        internal static List<Volunteer> GetVolunteersWithBirthdays(List<Volunteer> volunteers, int alarmNumberOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             List<Volunteer> returnListOfVolunteers = new List<Volunteer>();
@@ -47,14 +46,13 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return Day;
         }
 
-        public static bool IsAboutToExpire(int currentDay, int dayToCompareto,int alarmNumberOfDaysBeforExpiration)
+        public static bool IsAboutToExpire(int currentDay, int dayToCompareto, int alarmNumberOfDaysBeforExpiration)
         {
-            if (currentDay <= dayToCompareto && currentDay + alarmNumberOfDaysBeforExpiration > dayToCompareto || currentDay > 355 && dayToCompareto < alarmNumberOfDaysBeforExpiration-1)
+            if (currentDay <= dayToCompareto && currentDay + alarmNumberOfDaysBeforExpiration > dayToCompareto || currentDay > 355 && dayToCompareto < alarmNumberOfDaysBeforExpiration - 1)
             {
                 return true;
             }
             return false;
         }
-
     }
 }

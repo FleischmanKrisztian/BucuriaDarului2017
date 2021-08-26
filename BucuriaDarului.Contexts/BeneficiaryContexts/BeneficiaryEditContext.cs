@@ -1,7 +1,7 @@
-﻿using System;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.BeneficiaryGateways;
 using Newtonsoft.Json;
+using System;
 
 namespace BucuriaDarului.Contexts.BeneficiaryContexts
 {
@@ -76,11 +76,10 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
                 PersonalInfo = request.PersonalInfo
             };
 
-            if (image.Length>2)
+            if (image.Length > 2)
             {
                 validatedBeneficiary.Image = image;
             }
-
 
             return validatedBeneficiary;
         }

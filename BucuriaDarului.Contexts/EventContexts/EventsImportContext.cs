@@ -37,11 +37,11 @@ namespace BucuriaDarului.Contexts.EventContexts
                     response.IsValid = false;
                 }
                 var listOfEvents = dataGateway.GetEvents();
-                var eventsFromCsv = GetEventsFromCsv(result, response,overwrite,listOfEvents);
+                var eventsFromCsv = GetEventsFromCsv(result, response, overwrite, listOfEvents);
                 var eventsToUpdate = new List<Event>();
                 var eventsToInsert = new List<Event>();
-                
-                if (response.IsValid )
+
+                if (response.IsValid)
                 {
                     if (overwrite == "yes")
                     {
@@ -57,10 +57,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                     }
                     else
                         dataGateway.Insert(eventsFromCsv);
-
-
                 }
-                
             }
 
             return response;
@@ -129,7 +126,6 @@ namespace BucuriaDarului.Contexts.EventContexts
             return correct;
         }
 
-
         private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
         {
             var headerColumns = headerLine?.Split(csvSeparator);
@@ -156,10 +152,11 @@ namespace BucuriaDarului.Contexts.EventContexts
 
             return ev;
         }
+
         private static Event EventOverWrite(string[] line, Event databaseEvent)
         {
             if (line[1] != "" && line[1] != null)
-            databaseEvent.NameOfEvent = line[1];
+                databaseEvent.NameOfEvent = line[1];
             if (line[2] != "" && line[2] != null)
                 databaseEvent.PlaceOfEvent = line[2];
             if (line[3] != "" && line[3] != null)
@@ -182,17 +179,16 @@ namespace BucuriaDarului.Contexts.EventContexts
             return databaseEvent;
         }
 
-        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response,string overwrite,List<Event> allEventList)
+        private static List<Event> GetEventsFromCsv(List<string[]> lines, EventImportResponse response, string overwrite, List<Event> allEventList)
         {
             var events = new List<Event>();
 
             foreach (var line in lines)
             {
                 var ev = new Event();
-                
+
                 try
                 {
-
                     if (overwrite == "no")
                     {
                         if (line[0] != null && line[0] != string.Empty)
@@ -206,7 +202,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                         if (allEventList.FindAll(x => x.Id == line[0]).Count != 0)
                         {
                             var databaseEvent = allEventList.Find(x => x.Id == line[0]);
-                            ev= EventOverWrite(line, databaseEvent);
+                            ev = EventOverWrite(line, databaseEvent);
                         }
                         else
                         {
@@ -216,9 +212,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                                 ev.Id = Guid.NewGuid().ToString();
                             ev = GetDataFromLine(line, ev);
                         }
-
                     }
-
                 }
                 catch
                 {

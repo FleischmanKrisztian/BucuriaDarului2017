@@ -104,7 +104,7 @@ namespace BucuriaDarului.Web.Controllers
                 response.Message = @_localizer["Contract exported successfully!"];
                 return DownloadFile(response.Stream, response.FileName);
             }
-            return RedirectToAction("Print", new {id, message = response.Message });
+            return RedirectToAction("Print", new { id, message = response.Message });
         }
 
         public FileContentResult DownloadFile(MemoryStream data, string fileName)

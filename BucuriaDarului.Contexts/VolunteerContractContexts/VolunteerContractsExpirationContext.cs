@@ -14,14 +14,14 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public List<VolunteerContract> Execute( int nrOfDaysBeforExpiration)
+        public List<VolunteerContract> Execute(int nrOfDaysBeforExpiration)
         {
             var contracts = dataGateway.GetListVolunteerContracts();
             contracts = GetExpiringContracts(contracts, nrOfDaysBeforExpiration);
             return contracts;
         }
 
-        internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts,int nrOfDaysBeforExpiration)
+        internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts, int nrOfDaysBeforExpiration)
         {
             var currentDay = GetDayOfYear(DateTime.Today);
             var returnListOfVolunteerContracts = new List<VolunteerContract>();
@@ -44,6 +44,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             }
             return false;
         }
+
         internal static int GetDayOfYear(DateTime date)
         {
             var dateAsString = date.ToString("dd-MM-yyyy");

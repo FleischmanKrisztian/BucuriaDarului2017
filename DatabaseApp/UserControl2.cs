@@ -26,7 +26,7 @@ namespace BackupDatabaseApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog  = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
                 string strfilename = folderBrowserDialog.SelectedPath;

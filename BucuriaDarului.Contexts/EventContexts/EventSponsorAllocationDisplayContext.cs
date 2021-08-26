@@ -1,9 +1,8 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+using BucuriaDarului.Core.Gateways.EventGateways;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BucuriaDarului.Core.Gateways.EventGateways;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -22,11 +21,10 @@ namespace BucuriaDarului.Contexts.EventContexts
             var sponsors = dataGateway.GetListOfSponsors();
             sponsors = GetSponsorsAfterSearching(sponsors, request.FilterData.NameOfSponsor);
             var totalSponsors = sponsors.Count();
-            sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);        
+            sponsors = GetSponsorsAfterPaging(sponsors, request.PagingData.CurrentPage, request.PagingData.NrOfDocumentsPerPage);
 
             return new EventsSponsorAllocationDisplayResponse(@event, sponsors, totalSponsors, request.PagingData, request.FilterData, request.Messages);
         }
-
 
         private List<Sponsor> GetSponsorsAfterSearching(List<Sponsor> sponsors, string searching)
         {
@@ -62,6 +60,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         public SponsorAllocationFilterData FilterData { get; set; }
 
         public string Messages { get; set; }
+
         public EventsSponsorsAllocationDisplayRequest(string eventId, int page, int nrOfDocs, string searching, string messages)
         {
             this.EventId = eventId;
@@ -72,8 +71,8 @@ namespace BucuriaDarului.Contexts.EventContexts
             pagingData.CurrentPage = GetCurrentPage(page);
             pagingData.NrOfDocumentsPerPage = nrOfDocs;
 
-           FilterData = filterData;
-           PagingData = pagingData;
+            FilterData = filterData;
+            PagingData = pagingData;
             Messages = messages;
         }
 
@@ -95,7 +94,6 @@ namespace BucuriaDarului.Contexts.EventContexts
         public SponsorAllocationPagingData PagingData { get; set; }
         public SponsorAllocationFilterData FilterData { get; set; }
         public string Messages { get; set; }
-
 
         public EventsSponsorAllocationDisplayResponse(Event @event, List<Sponsor> sponsors, int totalSponsors, SponsorAllocationPagingData pagingData, SponsorAllocationFilterData filterData, string messages)
         {

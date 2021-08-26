@@ -276,9 +276,9 @@
                             <label> @Localizer["Birthdate"]</label>
                         </div>
                         <div class="col-md-6">
-                            @if(Model.PersonalInfo.Birthdate > DateTime.MinValue.AddYears(3))
+                            @if (Model.PersonalInfo.Birthdate > DateTime.MinValue.AddYears(3))
                             {
-                            <p> @Model.PersonalInfo.Birthdate.ToShortDateString()</p>
+                                <p> @Model.PersonalInfo.Birthdate.ToShortDateString()</p>
                             }
                         </div>
                     </div>

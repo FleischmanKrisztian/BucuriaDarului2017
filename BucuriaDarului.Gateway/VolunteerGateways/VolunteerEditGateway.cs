@@ -2,9 +2,7 @@
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Gateway.VolunteerGateways
 {

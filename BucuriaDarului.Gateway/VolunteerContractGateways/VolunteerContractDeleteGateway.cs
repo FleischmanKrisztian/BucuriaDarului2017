@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
-    public class VolunteerContractDeleteGateway: IVolunteerContractDeleteGateway
+    public class VolunteerContractDeleteGateway : IVolunteerContractDeleteGateway
     {
         public void Delete(string id)
         {
@@ -18,7 +18,7 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
             volunteerContractCollection.DeleteOne(filter);
         }
 
-        public  List<VolunteerContract> GetListVolunteerContracts()
+        public List<VolunteerContract> GetListVolunteerContracts()
         {
             var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);

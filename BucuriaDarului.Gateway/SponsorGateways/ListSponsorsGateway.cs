@@ -1,11 +1,10 @@
 ﻿using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways.SponsorGateways;
 using MongoDB.Driver;
 using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.SponsorGateways
 {
-    public class ListSponsorsGateway 
+    public class ListSponsorsGateway
     {
         public static List<Sponsor> GetListOfSponsors()
         {

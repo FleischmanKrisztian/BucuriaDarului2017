@@ -1,6 +1,6 @@
 ﻿using BucuriaDarului.Core;
-using System.Collections.Generic;
 using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.BeneficiaryContractGateways
 {

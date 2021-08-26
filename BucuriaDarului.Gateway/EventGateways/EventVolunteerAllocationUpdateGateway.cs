@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.EventGateways
 {
@@ -13,7 +12,7 @@ namespace BucuriaDarului.Gateway.EventGateways
 
         public List<Volunteer> GetListOfVolunteers()
         {
-           return ListVolunteersGateway.GetListOfVolunteers();
+            return ListVolunteersGateway.GetListOfVolunteers();
         }
 
         public void UpdateEvent(string eventId, Event eventToUpdate)

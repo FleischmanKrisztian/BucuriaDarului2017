@@ -11,7 +11,7 @@ namespace BucuriaDarului.Web.Controllers
             return View();
         }
 
-        public ActionResult SynchronizationResults(int numberOfModifications=0, int numberOfDeletions=0, string outOfSyncDocuments = "")
+        public ActionResult SynchronizationResults(int numberOfModifications = 0, int numberOfDeletions = 0, string outOfSyncDocuments = "")
         {
             ViewBag.outOfSyncDocuments = outOfSyncDocuments;
             ViewBag.numberOfModifications = numberOfModifications.ToString();

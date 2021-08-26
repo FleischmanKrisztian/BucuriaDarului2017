@@ -9,6 +9,7 @@ namespace BucuriaDarului.Core.Gateways.EventGateways
         public List<ModifiedIDs> ReturnModificationList();
 
         public void AddEventToModifiedList(string beforeEditingEventString);
+
         public Event ReturnEvent(string id);
     }
 }

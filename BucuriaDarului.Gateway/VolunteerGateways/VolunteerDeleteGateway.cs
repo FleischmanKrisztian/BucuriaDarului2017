@@ -2,16 +2,15 @@
 using BucuriaDarului.Core.Gateways.VolunteerGateways;
 using BucuriaDarului.Gateway.EventGateways;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BucuriaDarului.Gateway.VolunteerGateways
 {
-   public  class VolunteerDeleteGateway: IVolunteerDeleteGateways
+    public class VolunteerDeleteGateway : IVolunteerDeleteGateways
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
-        public  void Delete(string id)
+
+        public void Delete(string id)
         {
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
@@ -48,12 +47,10 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
             var modifiedIDGateway = new ModifiedIDGateway();
             modifiedIDGateway.AddIDtoModifications(eventId);
             eventCollection.FindOneAndReplace(filter, @event);
-
         }
 
         public void UpdateVolunteer(string volunteerId, Volunteer volunteerToUpdate)
         {
-           
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
             var volunteerCollection = dbContext.Database.GetCollection<Volunteer>("Volunteers");
             var filter = Builders<Volunteer>.Filter.Eq("Id", volunteerId);
@@ -62,7 +59,5 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
             modifiedIDGateway.AddIDtoModifications(volunteerId);
             volunteerCollection.FindOneAndReplace(filter, volunteerToUpdate);
         }
-        
     }
-    
 }

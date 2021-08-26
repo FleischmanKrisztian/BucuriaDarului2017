@@ -1,4 +1,7 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContexts;
+using BucuriaDarului.Contexts.VolunteerContractContexts;
+using BucuriaDarului.Core;
+using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
@@ -8,9 +11,6 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using BucuriaDarului.Core;
-using BucuriaDarului.Gateway.VolunteerContractGateways;
-using BucuriaDarului.Contexts.VolunteerContractContexts;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -33,7 +33,7 @@ namespace BucuriaDarului.Web.Controllers
         [HttpPost]
         public ActionResult Import(IFormFile files, string overwrite)
         {
-            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway(),_localizer);
+            var volunteerImportContext = new VolunteerImportContext(new VolunteerImportGateway(), _localizer);
             var response = new VolunteerImportResponse();
             if (files != null)
                 response = volunteerImportContext.Execute(files.OpenReadStream(), overwrite);
@@ -75,7 +75,7 @@ namespace BucuriaDarului.Web.Controllers
             DictionaryHelper.d = volunteerExportData.Dictionary;
             if (volunteerExportData.IsValid && volunteerExportData.FileName != "")
                 return DownloadCSV(volunteerExportData.FileName, Constants.VOLUNTEER_SESSION, Constants.VOLUNTEER_HEADER);
-            return RedirectToAction("CsvExporter", new {dictionaryKey=Constants.VOLUNTEER_SESSION, message = @_localizer["Please select at least one Property!"] });
+            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["Please select at least one Property!"] });
         }
 
         public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
@@ -168,8 +168,8 @@ namespace BucuriaDarului.Web.Controllers
 
             var volunteerContractEditContext = new VolunteerContractEditContext(new VolunteerContractEditGateway());
             var volunteerContractEditResponse = volunteerContractEditContext.Execute(request);
-            
-            if(!volunteerContractEditResponse.IsValid)
+
+            if (!volunteerContractEditResponse.IsValid)
             {
                 volunteerEditResponse.Message = volunteerContractEditResponse.Message;
                 volunteerEditResponse.IsValid = false;

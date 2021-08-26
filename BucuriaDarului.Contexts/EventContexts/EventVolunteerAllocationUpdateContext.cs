@@ -30,7 +30,7 @@ namespace BucuriaDarului.Contexts.EventContexts
             volunteersAllocatedIds = RemoveUncheckedVolunteersIds(volunteersAllocatedIds, volunteersToRemove);
             var volunteersForAllocationIds = CheckForDuplicateIds(volunteersAllocatedIds, GetVolunteerIds(volunteersToAdd));
             @event.AllocatedVolunteersId = volunteersForAllocationIds;
-            
+
             dataGateway.UpdateEvent(request.EventId, @event);
 
             return response;

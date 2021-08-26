@@ -146,9 +146,8 @@ ul.tabs {
         border-color: green;
     }
 
-
 .pagination {
-    display:contents;
+    display: contents;
     width: 800px;
 }
 

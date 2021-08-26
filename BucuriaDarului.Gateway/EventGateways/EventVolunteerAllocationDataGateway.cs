@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Core;
-using BucuriaDarului.Core.Gateways;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.EventGateways
 {
-    public class EventVolunteerAllocationDataGateway: IEventVolunteerAllocationDisplayGateway
+    public class EventVolunteerAllocationDataGateway : IEventVolunteerAllocationDisplayGateway
     {
         private readonly MongoDBGateway dbContext = new MongoDBGateway();
 
         public List<Volunteer> GetListOfVolunteers()
         {
-
             return ListVolunteersGateway.GetListOfVolunteers();
         }
 
@@ -22,5 +19,4 @@ namespace BucuriaDarului.Gateway.EventGateways
             return SingleEventReturnerGateway.ReturnEvent(eventId);
         }
     }
-  }
-
+}

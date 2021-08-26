@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using BucuriaDarului.Core;
+﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
+using System.Collections.Generic;
 
 namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {

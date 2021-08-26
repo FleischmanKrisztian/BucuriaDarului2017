@@ -9,6 +9,7 @@ namespace BucuriaDarului.Core.Gateways.SponsorGateways
         public List<ModifiedIDs> ReturnModificationList();
 
         public void AddSponsorToModifiedList(string beforeEditingSponsorString);
+
         public Sponsor ReturnSponsor(string id);
     }
 }

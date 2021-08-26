@@ -6,10 +6,10 @@
 <html>
 <head>
     <style>
-        <link rel="stylesheet" href="~/css/style.css" type="text/css" />
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" > </script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script>
+        <link rel="stylesheet" href="~/css/style.css" type="text/css" / >
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" > </script >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" / >
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script >
 
         .emp-profile {
             border-radius: 25px;
@@ -64,17 +64,18 @@
                                             @Localizer["Do you want to overwrite if some items already exist?"]
                                         </div>
                                         <div class="col-md-1"><input type="radio" name="overwrite" value="yes">@Localizer["Yes"]</div>
-                                        <div class="col-md-1"></div> <input type="radio" name="overwrite" value="no" checked>@Localizer["No"]</div>
+                                        <div class="col-md-1"></div> <input type="radio" name="overwrite" value="no" checked>@Localizer["No"]
                                     </div>
                                 </div>
-                                <hr />
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">@Localizer["Continue"]</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" buttonAction="cancelButton">@Localizer["Close"]</button>
-                                </div>
+                            </div>
+                            <hr />
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">@Localizer["Continue"]</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" buttonAction="cancelButton">@Localizer["Close"]</button>
                             </div>
                         </div>
                     </div>
+                </div>
             </form>
 
             <div class="col-md-3" style="padding-top:2%;">

@@ -1,6 +1,5 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.SponsorGateways;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
 namespace BucuriaDarului.Contexts.SponsorContexts
@@ -9,6 +8,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
     {
         private readonly ISponsorEditGateway dataGateway;
         private SponsorEditResponse response = new SponsorEditResponse("", true);
+
         public SponsorEditContext(ISponsorEditGateway dataGateway)
         {
             this.dataGateway = dataGateway;
@@ -59,7 +59,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                 Sponsorship = request.Sponsorship,
                 Contract = request.Contract,
                 ContactInformation = request.ContactInformation
-        };
+            };
 
             return validatedSponsor;
         }

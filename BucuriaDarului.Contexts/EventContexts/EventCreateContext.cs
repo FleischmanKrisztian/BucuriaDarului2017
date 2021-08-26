@@ -119,13 +119,9 @@ namespace BucuriaDarului.Contexts.EventContexts
         public int NumberAllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
-        public string AllocatedSponsorsId { get; set; }
-        public string AllocatedVolunteersId { get; set; }
 
-        public EventCreateRequest()
-        {
-            AllocatedSponsorsId = "";
-            AllocatedVolunteersId = "";
-        }
+        public string AllocatedSponsorsId { get; set; }
+
+        public string AllocatedVolunteersId { get; set; }
     }
 }

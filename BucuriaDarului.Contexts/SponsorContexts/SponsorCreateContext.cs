@@ -1,6 +1,5 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.SponsorGateways;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
 
@@ -10,7 +9,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
     {
         private readonly ISponsorCreateGateway dataGateway;
         private SponsorCreateResponse response = new SponsorCreateResponse("", false, true);
-        
 
         public SponsorCreateContext(ISponsorCreateGateway dataGateway)
         {

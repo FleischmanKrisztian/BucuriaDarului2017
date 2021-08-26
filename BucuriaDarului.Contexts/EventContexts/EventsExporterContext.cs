@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using BucuriaDarului.Core;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -71,7 +71,7 @@ namespace BucuriaDarului.Contexts.EventContexts
         private string GetHeaderForExcelPrinterEvent()
         {
             var header = new string[11];
-            header[0]= localizer["Id"];
+            header[0] = localizer["Id"];
             header[1] = localizer["NameOfEvent"];
             header[2] = localizer["PlaceOfEvent"];
             header[3] = localizer["DateOfEvent"];

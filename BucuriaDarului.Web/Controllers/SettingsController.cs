@@ -1,11 +1,10 @@
 ﻿using BucuriaDarului.Contexts.SettingsContexts;
+using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.SettingsGateways;
-using BucuriaDarului.Web.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using BucuriaDarului.Core;
 
 namespace BucuriaDarului.Web.Controllers
 {
@@ -17,7 +16,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Settings(string lang, int quantity, int numberOfDaysBeforBirthday,int numberOfDaysBeforeExpiration)
+        public ActionResult Settings(string lang, int quantity, int numberOfDaysBeforBirthday, int numberOfDaysBeforeExpiration)
         {
             var settingContext = new SettingsUpdateContext(new SettingsUpdateGateway());
             settingContext.Execute(lang, quantity, numberOfDaysBeforBirthday, numberOfDaysBeforeExpiration);

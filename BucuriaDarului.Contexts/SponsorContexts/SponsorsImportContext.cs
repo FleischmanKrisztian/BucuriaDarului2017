@@ -19,7 +19,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             this.dataGateway = dataGateway;
         }
 
-        public SponsorImportResponse Execute(Stream dataToImport,string overwrite)
+        public SponsorImportResponse Execute(Stream dataToImport, string overwrite)
         {
             var response = new SponsorImportResponse();
             if (FileIsNotEmpty(dataToImport))
@@ -37,7 +37,7 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                     response.IsValid = false;
                 }
                 var listOfSponsors = dataGateway.GetSponsors();
-                var sponsorsFromCsv = GetSponsorsFromCsv(result, response,overwrite, listOfSponsors);
+                var sponsorsFromCsv = GetSponsorsFromCsv(result, response, overwrite, listOfSponsors);
                 var sponsorsToUpdate = new List<Sponsor>();
                 var sponsorsToInsert = new List<Sponsor>();
 
@@ -139,7 +139,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
 
         public static Sponsor GetSponsorFromCsvLine(string[] line, Sponsor newSponsor)
         {
-           
             var sponsorship = new Sponsorship();
             var contract = new Contract();
             var contactInformation = new ContactInformation();
@@ -163,17 +162,15 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             newSponsor.Contract = contract;
 
             return newSponsor;
-
         }
 
         public static Sponsor GetSponsorFromBucuriaDaruluiCsvLine(string[] line, Sponsor newSponsor)
         {
-
             var sponsorship = new Sponsorship();
             var contract = new Contract();
             var contactInformation = new ContactInformation();
-            if(line[1]!="" &&line[1]!=null)
-            newSponsor.NameOfSponsor = line[1];
+            if (line[1] != "" && line[1] != null)
+                newSponsor.NameOfSponsor = line[1];
             if (line[2] != "" && line[2] != null)
                 sponsorship.Date = Convert.ToDateTime(line[2]);
             if (line[3] != "" && line[3] != null)
@@ -200,17 +197,16 @@ namespace BucuriaDarului.Contexts.SponsorContexts
             newSponsor.Contract = contract;
 
             return newSponsor;
-
         }
 
-        private static List<Sponsor> GetSponsorsFromCsv(List<string[]> lines, SponsorImportResponse response,string overwrite,List<Sponsor> listOfSponsors)
+        private static List<Sponsor> GetSponsorsFromCsv(List<string[]> lines, SponsorImportResponse response, string overwrite, List<Sponsor> listOfSponsors)
         {
             var sponsors = new List<Sponsor>();
 
             foreach (var line in lines)
             {
                 var newSponsor = new Sponsor();
-                
+
                 try
                 {
                     if (overwrite == "no")
@@ -237,7 +233,6 @@ namespace BucuriaDarului.Contexts.SponsorContexts
                             newSponsor = GetSponsorFromCsvLine(line, newSponsor);
                         }
                     }
-                    
                 }
                 catch
                 {

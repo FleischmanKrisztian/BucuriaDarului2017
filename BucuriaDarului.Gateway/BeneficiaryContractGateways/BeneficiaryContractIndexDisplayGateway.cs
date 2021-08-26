@@ -1,7 +1,7 @@
 ﻿using BucuriaDarului.Core;
+using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
 using BucuriaDarului.Gateway.BeneficiaryGateways;
 using System.Collections.Generic;
-using BucuriaDarului.Core.Gateways.BeneficiaryContractGateways;
 
 namespace BucuriaDarului.Gateway.BeneficiaryContractGateways
 {

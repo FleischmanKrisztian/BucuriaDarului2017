@@ -278,7 +278,6 @@ namespace BucuriaDarului.Contexts.BeneficiaryContexts
             {
                 headerList.Add(header[39]);
             }
-            
 
             var returnedHeader = headerList.ToArray();
             return returnedHeader;
