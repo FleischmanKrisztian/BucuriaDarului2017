@@ -17,6 +17,9 @@ namespace BucuriaDarului.Contexts.EventContexts
 
         public EventEditResponse Execute(EventEditRequest request)
         {
+            var beforeEditingEvent = dataGateway.ReturnEvent(request.Id);
+            request.AllocatedSponsorsId = beforeEditingEvent.AllocatedSponsorsId;
+            request.AllocatedVolunteersId = beforeEditingEvent.AllocatedVolunteersId;
             var noNullRequest = ChangeNullValues(request);
 
             if (ContainsSpecialChar(noNullRequest))
@@ -33,7 +36,6 @@ namespace BucuriaDarului.Contexts.EventContexts
                 var modifiedListString = JsonConvert.SerializeObject(modifiedList);
                 if (!modifiedListString.Contains(@event.Id))
                 {
-                    var beforeEditingEvent = dataGateway.ReturnEvent(@event.Id);
                     var beforeEditingEventString = JsonConvert.SerializeObject(beforeEditingEvent);
                     dataGateway.AddEventToModifiedList(beforeEditingEventString);
                 }
@@ -64,7 +66,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                 Duration = request.Duration,
                 AllocatedVolunteers = request.AllocatedVolunteers,
                 NumberAllocatedVolunteers = request.NumberAllocatedVolunteers,
-                AllocatedSponsors = request.AllocatedSponsors
+                AllocatedSponsors = request.AllocatedSponsors,
+                AllocatedVolunteersId = request.AllocatedVolunteersId,
+                AllocatedSponsorsId = request.AllocatedSponsorsId                
             };
 
             return validatedEvent;
@@ -128,5 +132,9 @@ namespace BucuriaDarului.Contexts.EventContexts
         public int NumberAllocatedVolunteers { get; set; }
 
         public string AllocatedSponsors { get; set; }
+
+        public string AllocatedVolunteersId { get; set; }
+
+        public string AllocatedSponsorsId { get; set; }
     }
 }

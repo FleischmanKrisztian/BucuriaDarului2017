@@ -1,9 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.EventGateways;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace BucuriaDarului.Contexts.EventContexts
 {
@@ -26,7 +24,7 @@ namespace BucuriaDarului.Contexts.EventContexts
                 response.IsValid = false;
                 response.Message = "The Object Cannot contain Semi-Colons!";
             }
-           
+
             var @event = ValidateRequest(noNullRequest);
 
             if (response.IsValid)
@@ -57,8 +55,9 @@ namespace BucuriaDarului.Contexts.EventContexts
                 AllocatedVolunteers = request.AllocatedVolunteers,
                 NumberAllocatedVolunteers = request.NumberAllocatedVolunteers,
                 AllocatedSponsors = request.AllocatedSponsors,
-             
-        };
+                AllocatedSponsorsId = "",
+                AllocatedVolunteersId = ""
+            };
 
             return validatedEvent;
         }
@@ -82,8 +81,6 @@ namespace BucuriaDarului.Contexts.EventContexts
                 }
             }
 
-            
-            
             return request;
         }
     }
