@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BucuriaDarului.Core", "Bucu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BucuriaDarului.Gateway", "BucuriaDarului.Gateway\BucuriaDarului.Gateway.csproj", "{379B0406-6A68-4625-A894-E4B40E5CDD74}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F97A115-11D3-4C80-9795-000461C9998D}"
+	ProjectSection(SolutionItems) = preProject
+		VolunteerExcelMapping.txt = VolunteerExcelMapping.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

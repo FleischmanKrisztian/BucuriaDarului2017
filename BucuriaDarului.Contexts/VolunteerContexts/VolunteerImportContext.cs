@@ -25,6 +25,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public VolunteerImportResponse Execute(Stream dataToImport, string overwrite)
         {
+            var lines = ReadMappingTemplate();
             var response = new VolunteerImportResponse();
             if (FileIsNotEmpty(dataToImport))
             {
@@ -77,6 +78,22 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             return dataToImport.Length <= 0;
         }
 
+        public string[] ReadMappingTemplate()
+        {
+            var lines = new string[30];
+            var path = Environment.GetEnvironmentVariable(Constants.PATH_TO_VOLUNTEER_EXCEL_MAPPING_FILE);
+            int counter = 0; string line;
+            System.IO.StreamReader file = new System.IO.StreamReader(path);
+            while ((line = file.ReadLine()) != null) 
+            {
+                lines[counter]=line;
+                counter++; 
+            }
+            file.Close(); System.Console.WriteLine("There were {0} lines.", counter);
+
+
+            return lines;
+        }
         private static List<string[]> ExtractImportRawData(Stream dataToImport, IStringLocalizer localizer)
         {
             var result = new List<string[]>();
