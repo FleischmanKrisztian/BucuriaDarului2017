@@ -34,5 +34,8 @@
 
         public static string SPONSOR_SESSION = "sponsorSession";
         public static string SPONSOR_HEADER = "sponsorHeader";
+
+        public static string PATH_TO_VOLUNTEER_EXCEL_MAPPING_FILE = "volunteerExcelHeader";
     }
+
 }
