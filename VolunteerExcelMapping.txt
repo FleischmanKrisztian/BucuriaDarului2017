@@ -1,0 +1,13 @@
+Index="Nr. crt.";
+Name="nume și prenume";
+CNP="CNP";
+Address="domiciliu";
+CI="Act identitate";
+RegistrationNumberOfContract="nr. contract";
+RegistrationNumberAdditionalContract="nr. act aditional";
+ContractPeriod="perioada contract";
+WorkingHours="program de lucru";
+PhoneNumber="Telefon";
+Mail="E-mail";
+Activity="Activitate preferata";
+Comments="observatii";
