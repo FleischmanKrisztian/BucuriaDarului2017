@@ -9,5 +9,5 @@ ContractPeriod=perioada contract
 WorkingHours=program lucru
 PhoneNumber=Telefon
 Mail=E-mail
-Activity=activitate preferata
+DesiredWorkplace=activitate preferata
 Comments=observatii
