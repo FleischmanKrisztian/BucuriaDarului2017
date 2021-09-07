@@ -140,8 +140,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
                     _fileType = IsTheCorrectHeader(headerLine, listOfColumns);
 
-                    //var mapping = MapProperties(headerColumns);
-                    //var list = GetColumnsOrder(mapping, listOfColumns);
+                    var mapping = MapProperties(headerLine);
+                    var list = GetColumnsOrder(mapping, listOfColumns);
                     if (_fileType == 0)
                         {
                             var returnList = new List<string[]>();
@@ -239,14 +239,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 return columnsMappingList;
             }
 
-            public static int[] GetColumnsOrder(List<KeyValuePair<int, string>> columnsMappingList, List<KeyValuePair<string, string>> listOfColumns)
+            public static List<KeyValuePair<int, string>> GetColumnsOrder(List<KeyValuePair<int, string>> columnsMappingList, List<KeyValuePair<string, string>> listOfColumns)
             {
-                var list = new int[30];
+                var list = new List<KeyValuePair<int,string>>();
                 int count = 0;
                 foreach (var column in listOfColumns)
                 {
-                    var result = columnsMappingList.FirstOrDefault(x => x.Value == column.Value);
-                    list[count] = result.Key;
+                    var result = columnsMappingList.FirstOrDefault(x => x.Value==column.Value);
+                    list.Add(new KeyValuePair<int, string>( result.Key, column.Key));
                     count++;
                 }
 
