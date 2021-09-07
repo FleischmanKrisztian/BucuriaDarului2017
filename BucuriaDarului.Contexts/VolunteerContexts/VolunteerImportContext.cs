@@ -40,58 +40,36 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             {
                 var volunteersToUpdate = new List<Volunteer>();
                 var volunteersToInsert = new List<Volunteer>();
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-                var reader = ExcelReaderFactory.CreateReader((dataToImport));
-
-                var listVolunteer = new List<Volunteer>();
-                while (reader.Read()) //Each row of the file
+                var listOfVolunteers = dataGateway.GetVolunteersList();
+                var result = ExtractImportRawData(dataToImport, listOfColumns, localizer);
+                var volunteersFromCsv = new List<Volunteer>();
+                if (_fileType == 0)
                 {
-                    //var list = new int[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-                    listVolunteer.Add(new Volunteer
-                    {
-                        Fullname = reader.GetValue(1).ToString(),
-                        CNP = reader.GetValue(2).ToString(),
-                        Address = reader.GetValue(3).ToString(),
-                       // CI = new CI { Info = reader.GetValue(4).ToString() },
-                       // HourCount = Convert.ToInt32(reader.GetValue(8)),
-                       // ContactInformation=new ContactInformation { PhoneNumber= reader.GetValue(9).ToString() ,
-                       //     MailAddress= reader.GetValue(10).ToString() },
-                       // FieldOfActivity =  reader.GetValue(11).ToString(),
-                       //AdditionalInfo=new AdditionalInfo { Remark= reader.GetValue(12).ToString() }
-                    });
-                };
-
-                    //var listOfVolunteers = dataGateway.GetVolunteersList();
-                    //var result = ExtractImportRawData(dataToImport, listOfColumns, localizer);
-                    //var volunteersFromCsv = new List<Volunteer>();
-                    //if (_fileType == 0)
-                    //{
-                    //    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["File must be of type Volunteer!"]));
-                    //    response.IsValid = false;
-                    //}
-                    //else
-                    //    volunteersFromCsv = GetVolunteerFromCsv(result, response, localizer, overwrite, listOfVolunteers);
-
-                    //if (response.IsValid)
-                    //{
-                    //    if (overwrite == "yes")
-                    //    {
-                    //        foreach (var v in volunteersFromCsv)
-                    //        {
-                    //            if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x => x.CNP == v.CNP).Count() != 0)
-                    //                volunteersToUpdate.Add(v);
-                    //            else
-                    //                volunteersToInsert.Add(v);
-                    //        }
-                    //        dataGateway.UpdateVolunteers(volunteersToUpdate);
-                    //        dataGateway.Insert(volunteersToInsert);
-                    //    }
-                    //    else
-                    //        dataGateway.Insert(volunteersFromCsv);
-                    //}
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["File must be of type Volunteer!"]));
+                    response.IsValid = false;
                 }
+                else
+                    volunteersFromCsv = GetVolunteerFromCsv(result, response, localizer, overwrite, listOfVolunteers);
+
+                if (response.IsValid)
+                {
+                    if (overwrite == "yes")
+                    {
+                        foreach (var v in volunteersFromCsv)
+                        {
+                            if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x => x.CNP == v.CNP).Count() != 0)
+                                volunteersToUpdate.Add(v);
+                            else
+                                volunteersToInsert.Add(v);
+                        }
+                        dataGateway.UpdateVolunteers(volunteersToUpdate);
+                        dataGateway.Insert(volunteersToInsert);
+                    }
+                    else
+                        dataGateway.Insert(volunteersFromCsv);
+                }
+            }
 
                 return response;
             }
@@ -135,24 +113,36 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             private static List<string[]> ExtractImportRawData(Stream dataToImport, List<KeyValuePair<string, string>> listOfColumns, IStringLocalizer localizer)
             {
                 var result = new List<string[]>();
-                var reader = new StreamReader(dataToImport, Encoding.GetEncoding("iso-8859-1"));
+               System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+           
+              var reader = ExcelReaderFactory.CreateReader(dataToImport);
+            int numberOfColumns = 0;
+            
 
-                var csvSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-                var i = 0;
-                while (reader.Peek() >= 0)
+            var i = 0;
+                while (reader.Read())
                 {
+
+                
                     if (IsHeader(i))
                     {
-                        var headerLine = reader.ReadLine();
+                   
 
-                        csvSeparator = CsvUtils.DetectSeparator(headerLine);
+                    int j = 0;
+                    var headerLine=new string[30];
+                    while (reader.GetValue(j) != null)
+                    {
+                        headerLine[j] = reader.GetValue(j).ToString();
+                        j++;
+                    }
 
-                        var headerColumns = GetHeaderColumns(headerLine, csvSeparator);
-                        _fileType = IsTheCorrectHeader(headerColumns, listOfColumns) + IsTheCorrectHeaderForTheirCsv(headerColumns);
+                    numberOfColumns = CountColumns(headerLine);
 
-                        var mapping = MapProperties(headerColumns);
-                        var list = GetColumnsOrder(mapping, listOfColumns);
-                        if (_fileType == 0)
+                    _fileType = IsTheCorrectHeader(headerLine, listOfColumns);
+
+                    //var mapping = MapProperties(headerColumns);
+                    //var list = GetColumnsOrder(mapping, listOfColumns);
+                    if (_fileType == 0)
                         {
                             var returnList = new List<string[]>();
                             var strArray = new string[1];
@@ -164,9 +154,10 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     }
                     else
                     {
-                        var row = GetCsvRow(reader, csvSeparator);
-                        result.Add(row);
-                    }
+
+                    var row = GetCsvRow( reader, numberOfColumns);
+                    result.Add(row);
+                }
 
                     i++;
                 }
@@ -174,18 +165,23 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 return result;
             }
 
-            private static string[] GetCsvRow(StreamReader reader, string csvSeparator)
+            private static string[] GetCsvRow(IExcelDataReader reader,int numberOfColumns)
             {
-                var line = reader.ReadLine();
-                var splits = new Regex("((?<=\")[^\"]*(?=\"(" + csvSeparator + "|$)+)|(?<=" + csvSeparator + "|^)[^" +
-                                       csvSeparator + "\"]*(?=" + csvSeparator + "|$))").Matches(line);
-                var row = splits.Cast<Match>().Select(match => match.Value).ToArray();
+            var list = new string[numberOfColumns];
+            int j = 0;
+            while (reader.GetValue(j) != null)
+            {
+               list[j] = reader.GetValue(j).ToString();
+                j++;
+            }
+            var row = list;
                 return row;
             }
 
             private static int IsTheCorrectHeader(string[] headerColumns, List<KeyValuePair<string, string>> listOfColumns)
             {
                 var filter = listOfColumns.FirstOrDefault(kvp => kvp.Key == "Activity");
+            
 
                 foreach (var column in headerColumns)
                 {
@@ -194,6 +190,19 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
                 return 0;
             }
+
+        public static int CountColumns(string[] headerLine)
+        {
+            var numberOfColumns = 0;
+            foreach (var c in headerLine)
+            {
+                if (c != null)
+                    numberOfColumns++;
+            }
+
+            return numberOfColumns;
+
+        }
 
             private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
             {
