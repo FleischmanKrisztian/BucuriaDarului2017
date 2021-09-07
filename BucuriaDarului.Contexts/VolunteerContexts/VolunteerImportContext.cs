@@ -114,7 +114,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             {
                 var result = new List<string[]>();
                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-           
+            var list = new List<KeyValuePair<int, string>>();
               var reader = ExcelReaderFactory.CreateReader(dataToImport);
             int numberOfColumns = 0;
             
@@ -141,7 +141,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     _fileType = IsTheCorrectHeader(headerLine, listOfColumns);
 
                     var mapping = MapProperties(headerLine);
-                    var list = GetColumnsOrder(mapping, listOfColumns);
+                  list= GetColumnsOrder(mapping, listOfColumns);
                     if (_fileType == 0)
                         {
                             var returnList = new List<string[]>();
