@@ -23,13 +23,13 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             response.IsValid = CheckForProperties(idsAndFields);
             if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
             {
-                if (request.ExportParameters.FileName.Contains(".csv"))
+                if (request.ExportParameters.FileName.Contains(".xls"))
                     response.FileName = request.ExportParameters.FileName;
                 else
-                    response.FileName = request.ExportParameters.FileName + ".csv";
+                    response.FileName = request.ExportParameters.FileName + ".xls";
             }
             else
-                response.FileName = localizer["VolunteersReport"] + DateTime.Now.ToString() + ".csv";
+                response.FileName = localizer["VolunteersReport"] + DateTime.Now.ToString() + ".xls";
             return response;
         }
 

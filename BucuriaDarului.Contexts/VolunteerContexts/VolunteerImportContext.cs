@@ -321,14 +321,18 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     }
                     else
                     {
-                        if (listOfVolunteers.FindAll(x => x.Id == line[0]).Count != 0)
+                        var filterCnp = list.FirstOrDefault(kvp => kvp.Value == "CNP");
+
+                        //VAR FILTERiD
+                        //if (listOfVolunteers.FindAll(x => x.Id == line[0]).Count != 0)
+                        //{
+                        //    var databaseVolunteer = listOfVolunteers.Find(x => x.Id == );
+                        //    volunteer = GetDataFromCSVLine(line, databaseVolunteer);
+                        //}
+                        //else IF
+                        if (listOfVolunteers.FindAll(x => x.CNP == line[filterCnp.Key]).Count != 0)
                         {
-                            var databaseVolunteer = listOfVolunteers.Find(x => x.Id == line[0]);
-                            volunteer = GetDataFromCSVLine(line, databaseVolunteer);
-                        }
-                        else if (listOfVolunteers.FindAll(x => x.CNP == line[6]).Count != 0)
-                        {
-                            var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[6]);
+                            var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[filterCnp.Key]);
                             volunteer = GetDataFromCSVLine(line, databaseVolunteer);
                         }
                         else
@@ -348,7 +352,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     response.IsValid = false;
                 }
 
-                volunteers.Add(volunteer);
+                if (volunteer.Fullname != null && volunteer.Fullname != string.Empty)
+                    volunteers.Add(volunteer);
             }
 
             return volunteers;

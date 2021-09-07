@@ -85,7 +85,7 @@ namespace BucuriaDarului.Web.Controllers
             var context = new VolunteerDownloadContext(new VolunteerDownloadGateway());
             var response = context.Execute(ids, header);
 
-            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "text/csv", fileName);
+            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "application/vnd.ms-excel", fileName);
         }
 
         public ActionResult Birthday()
