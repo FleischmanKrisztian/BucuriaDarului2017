@@ -1,8 +1,8 @@
-Index=Nr. crt.
-Name=nume și prenume
+Index=nr. crt.
+Name=nume si prenume
 CNP=CNP
 Address=domiciliu
-CI=Act identitate
+CI=act identitate
 RegistrationNumberOfContract=nr. contract
 RegistrationNumberAdditionalContract=nr. act aditional
 ContractPeriod=perioada contract
