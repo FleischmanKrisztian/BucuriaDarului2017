@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
 {
@@ -71,65 +69,60 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
             }
 
-                return response;
-            }
+            return response;
+        }
 
-            private bool FileIsNotEmpty(Stream dataToImport)
-            {
-                return dataToImport.Length <= 0;
-            }
+        private bool FileIsNotEmpty(Stream dataToImport)
+        {
+            return dataToImport.Length <= 0;
+        }
 
-            public string[] ReadMappingTemplate()
+        public string[] ReadMappingTemplate()
+        {
+            var lines = new string[30];
+            var path = Environment.GetEnvironmentVariable(Constants.PATH_TO_VOLUNTEER_EXCEL_MAPPING_FILE);
+            int counter = 0; string line;
+            System.IO.StreamReader file = new System.IO.StreamReader(path);
+            while ((line = file.ReadLine()) != null)
             {
-                var lines = new string[30];
-                var path = Environment.GetEnvironmentVariable(Constants.PATH_TO_VOLUNTEER_EXCEL_MAPPING_FILE);
-                int counter = 0; string line;
-                System.IO.StreamReader file = new System.IO.StreamReader(path);
-                while ((line = file.ReadLine()) != null)
+                lines[counter] = line;
+                counter++;
+            }
+            file.Close();
+
+            return lines;
+        }
+
+        public List<KeyValuePair<string, string>> GetListOfColumns(string[] lines)
+        {
+            var listOfKeyValuePairs = new List<KeyValuePair<string, string>>();
+            foreach (var line in lines)
+            {
+                if (line != "" && line != null)
                 {
-                    lines[counter] = line;
-                    counter++;
+                    var splitLine = line.Split("=");
+                    listOfKeyValuePairs.Add(new KeyValuePair<string, string>(splitLine[0], splitLine[1]));
                 }
-                file.Close();
-
-                return lines;
             }
 
-            public List<KeyValuePair<string, string>> GetListOfColumns(string[] lines)
-            {
-                var listOfKeyValuePairs = new List<KeyValuePair<string, string>>();
-                foreach (var line in lines)
-                {
-                    if (line != "" && line != null)
-                    {
-                        var splitLine = line.Split("=");
-                        listOfKeyValuePairs.Add(new KeyValuePair<string, string>(splitLine[0], splitLine[1]));
-                    }
-                }
+            return listOfKeyValuePairs;
+        }
 
-                return listOfKeyValuePairs;
-            }
-
-            private static List<string[]> ExtractImportRawData(Stream dataToImport, List<KeyValuePair<string, string>> listOfColumns, IStringLocalizer localizer)
-            {
-                var result = new List<string[]>();
-               System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        private static Tuple<List<string[]>, List<KeyValuePair<int, string>>> ExtractImportRawData(Stream dataToImport, List<KeyValuePair<string, string>> listOfColumns, IStringLocalizer localizer)
+        {
+            var result = new List<string[]>();
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             var list = new List<KeyValuePair<int, string>>();
-              var reader = ExcelReaderFactory.CreateReader(dataToImport);
+            var reader = ExcelReaderFactory.CreateReader(dataToImport);
             int numberOfColumns = 0;
-            
 
             var i = 0;
-                while (reader.Read())
+            while (reader.Read())
+            {
+                if (IsHeader(i))
                 {
-
-                
-                    if (IsHeader(i))
-                    {
-                   
-
                     int j = 0;
-                    var headerLine=new string[30];
+                    var headerLine = new string[30];
                     while (reader.GetValue(j) != null)
                     {
                         headerLine[j] = reader.GetValue(j).ToString();
@@ -141,55 +134,53 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     _fileType = IsTheCorrectHeader(headerLine, listOfColumns);
 
                     var mapping = MapProperties(headerLine);
-                  list= GetColumnsOrder(mapping, listOfColumns);
+                    list = GetColumnsOrder(mapping, listOfColumns);
                     if (_fileType == 0)
-                        {
-                            var returnList = new List<string[]>();
-                            var strArray = new string[1];
-                            strArray[0] = @localizer["The File Does Not have the correct header!"];
-                            returnList.Add(strArray);
-
-                            return returnList;
-                        }
-                    }
-                    else
                     {
+                        var returnList = new List<string[]>();
+                        var strArray = new string[1];
+                        strArray[0] = @localizer["The File Does Not have the correct header!"];
+                        returnList.Add(strArray);
 
-                    var row = GetCsvRow( reader, numberOfColumns);
+                        return new Tuple<List<string[]>, List<KeyValuePair<int, string>>>(returnList, list);
+                    }
+                }
+                else
+                {
+                    var row = GetCsvRow(reader, numberOfColumns);
                     result.Add(row);
                 }
 
-                    i++;
-                }
-
-                return result;
+                i++;
             }
 
-            private static string[] GetCsvRow(IExcelDataReader reader,int numberOfColumns)
-            {
+            return new Tuple<List<string[]>, List<KeyValuePair<int, string>>>(result, list);
+        }
+
+        private static string[] GetCsvRow(IExcelDataReader reader, int numberOfColumns)
+        {
             var list = new string[numberOfColumns];
             int j = 0;
             while (reader.GetValue(j) != null)
             {
-               list[j] = reader.GetValue(j).ToString();
+                list[j] = reader.GetValue(j).ToString();
                 j++;
             }
             var row = list;
-                return row;
-            }
+            return row;
+        }
 
-            private static int IsTheCorrectHeader(string[] headerColumns, List<KeyValuePair<string, string>> listOfColumns)
+        private static int IsTheCorrectHeader(string[] headerColumns, List<KeyValuePair<string, string>> listOfColumns)
+        {
+            var filter = listOfColumns.FirstOrDefault(kvp => kvp.Key == "Activity");
+
+            foreach (var column in headerColumns)
             {
-                var filter = listOfColumns.FirstOrDefault(kvp => kvp.Key == "Activity");
-            
-
-                foreach (var column in headerColumns)
-                {
-                    if (column.Contains(filter.Value))
-                        return 1;
-                }
-                return 0;
+                if (column.Contains(filter.Value))
+                    return 1;
             }
+            return 0;
+        }
 
         public static int CountColumns(string[] headerLine)
         {
@@ -201,371 +192,384 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
 
             return numberOfColumns;
-
         }
 
-            private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
-            {
-                var differentCSV =
-                    headerColumns[0].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) &&
-                    headerColumns[1].Contains("CNP", StringComparison.InvariantCultureIgnoreCase);
-                if (differentCSV)
-                    return 2;
+        private static int IsTheCorrectHeaderForTheirCsv(string[] headerColumns)
+        {
+            var differentCSV =
+                headerColumns[0].Contains("prenume", StringComparison.InvariantCultureIgnoreCase) &&
+                headerColumns[1].Contains("CNP", StringComparison.InvariantCultureIgnoreCase);
+            if (differentCSV)
+                return 2;
 
-                return 0;
+            return 0;
+        }
+
+        private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
+        {
+            var headerColumns = headerLine?.Split(csvSeparator);
+            return headerColumns;
+        }
+
+        private static bool IsHeader(int i)
+        {
+            return i == 0;
+        }
+
+        public static List<KeyValuePair<int, string>> MapProperties(string[] header)
+        {
+            var columnsMappingList = new List<KeyValuePair<int, string>>();
+            int counter = 0;
+            foreach (var column in header)
+            {
+                columnsMappingList.Add(new KeyValuePair<int, string>(counter, column));
+                counter++;
             }
 
-            private static string[] GetHeaderColumns(string headerLine, string csvSeparator)
+            return columnsMappingList;
+        }
+
+        public static List<KeyValuePair<int, string>> GetColumnsOrder(List<KeyValuePair<int, string>> columnsMappingList, List<KeyValuePair<string, string>> listOfColumns)
+        {
+            var list = new List<KeyValuePair<int, string>>();
+            int count = 0;
+            foreach (var column in listOfColumns)
             {
-                var headerColumns = headerLine?.Split(csvSeparator);
-                return headerColumns;
+                var result = columnsMappingList.FirstOrDefault(x => x.Value == column.Value);
+                list.Add(new KeyValuePair<int, string>(result.Key, column.Key));
+                count++;
             }
 
-            private static bool IsHeader(int i)
-            {
-                return i == 0;
-            }
+            return list;
+        }
 
-            public static List<KeyValuePair<int, string>> MapProperties(string[] header)
+        private static Volunteer GetDataFromCSVLine(string[] line, Volunteer volunteer, List<KeyValuePair<int, string>> columnsOrder)
+        {
+            foreach (var c in columnsOrder)
             {
-                var columnsMappingList = new List<KeyValuePair<int, string>>();
-                int counter = 0;
-                foreach (var column in header)
+                if (c.Value == "Name")
                 {
-                    columnsMappingList.Add(new KeyValuePair<int, string>(counter, column));
-                    counter++;
+                    if (line[c.Key] != null && line[c.Key] != "")
+                        volunteer.Fullname = line[c.Key];
                 }
-
-                return columnsMappingList;
+                if (c.Value == "CNP")
+                    volunteer.CNP = line[c.Key];
+                if (c.Value == "Address")
+                    volunteer.Address = line[c.Key];
+                if (c.Value == "CI")
+                    volunteer.CI = new CI() { Info = line[c.Key] };
             }
 
-            public static List<KeyValuePair<int, string>> GetColumnsOrder(List<KeyValuePair<int, string>> columnsMappingList, List<KeyValuePair<string, string>> listOfColumns)
-            {
-                var list = new List<KeyValuePair<int,string>>();
-                int count = 0;
-                foreach (var column in listOfColumns)
-                {
-                    var result = columnsMappingList.FirstOrDefault(x => x.Value==column.Value);
-                    list.Add(new KeyValuePair<int, string>( result.Key, column.Key));
-                    count++;
-                }
+            if (line[2] != null && line[2] != "")
+                volunteer.Birthdate = Convert.ToDateTime(line[2]);
+            else
+                volunteer.Birthdate = DateTime.MinValue;
 
-                return list;
-            }
-            private static Volunteer GetDataFromCSVLine(string[] line, Volunteer volunteer)
+            volunteer.Address = line[3];
+            if (line[4] == null && line[4] == "")
+                volunteer.Gender = Gender.NotSpecified;
+            else if (line[4] == "M" || line[4] == "Male" || line[4] == "Masculin")
+                volunteer.Gender = Gender.Male;
+            else if (line[4] == "F" || line[4] == "Female" || line[4] == "Feminin")
+                volunteer.Gender = Gender.Female;
+            volunteer.DesiredWorkplace = line[5];
+            volunteer.CNP = line[6];
+            volunteer.FieldOfActivity = line[7];
+            volunteer.Occupation = line[8];
+
+            var cI = new CI();
+
+            cI.HasId = Convert.ToBoolean(line[9]);
+            cI.Info = line[10];
+            if (line[11] != null && line[11] != "")
+                cI.ExpirationDate = Convert.ToDateTime(line[11]);
+            else
+                cI.ExpirationDate = DateTime.MinValue;
+
+            volunteer.CI = cI;
+            if (line[12] != null && line[12] != "")
+                volunteer.InActivity = Convert.ToBoolean(line[12]);
+            else
+                volunteer.InActivity = true;
+            volunteer.HourCount = Convert.ToInt16(line[13]);
+
+            var contactInformation = new ContactInformation
             {
+                PhoneNumber = line[14],
+                MailAddress = line[15]
+            };
+            volunteer.ContactInformation = contactInformation;
+
+            var additionalInformation = new AdditionalInfo
+            {
+                HasDrivingLicense = Convert.ToBoolean(line[16]),
+                HasCar = Convert.ToBoolean(line[17]),
+                Remark = line[18]
+            };
+
+            volunteer.AdditionalInfo = additionalInformation;
+
+            return volunteer;
+        }
+
+        private static Volunteer VolunteerOverWriteFromCsv(string[] line, Volunteer volunteer)
+        {
+            if (line[1] != "" && line[1] != null)
                 volunteer.Fullname = line[1];
-                if (line[2] != null && line[2] != "")
-                    volunteer.Birthdate = Convert.ToDateTime(line[2]);
-                else
-                    volunteer.Birthdate = DateTime.MinValue;
-
+            if (line[2] != null && line[2] != "")
+                volunteer.Birthdate = Convert.ToDateTime(line[2]);
+            else
+                volunteer.Birthdate = DateTime.MinValue;
+            if (line[3] != "" && line[3] != null)
                 volunteer.Address = line[3];
-                if (line[4] == null && line[4] == "")
-                    volunteer.Gender = Gender.NotSpecified;
-                else if (line[4] == "M" || line[4] == "Male" || line[4] == "Masculin")
-                    volunteer.Gender = Gender.Male;
-                else if (line[4] == "F" || line[4] == "Female" || line[4] == "Feminin")
-                    volunteer.Gender = Gender.Female;
+
+            if (line[4] == null && line[4] == "")
+                volunteer.Gender = Gender.NotSpecified;
+            else if (line[4] == "M" || line[4] == "Male" || line[4] == "Masculin")
+                volunteer.Gender = Gender.Male;
+            else if (line[4] == "F" || line[4] == "Female" || line[4] == "Feminin")
+                volunteer.Gender = Gender.Female;
+
+            if (line[5] != "" && line[5] != null)
                 volunteer.DesiredWorkplace = line[5];
+            if (line[6] != "" && line[6] != null)
                 volunteer.CNP = line[6];
+            if (line[7] != "" && line[7] != null)
                 volunteer.FieldOfActivity = line[7];
+            if (line[8] != "" && line[8] != null)
                 volunteer.Occupation = line[8];
 
-                var cI = new CI();
-
+            var cI = new CI();
+            if (line[9] != "" && line[9] != null)
                 cI.HasId = Convert.ToBoolean(line[9]);
+            if (line[10] != "" && line[10] != null)
                 cI.Info = line[10];
-                if (line[11] != null && line[11] != "")
-                    cI.ExpirationDate = Convert.ToDateTime(line[11]);
-                else
-                    cI.ExpirationDate = DateTime.MinValue;
+            if (line[11] != null && line[11] != "")
+                cI.ExpirationDate = Convert.ToDateTime(line[11]);
+            else
+                cI.ExpirationDate = DateTime.MinValue;
 
-                volunteer.CI = cI;
-                if (line[12] != null && line[12] != "")
-                    volunteer.InActivity = Convert.ToBoolean(line[12]);
-                else
-                    volunteer.InActivity = true;
+            volunteer.CI = cI;
+            if (line[12] != null && line[12] != "")
+                volunteer.InActivity = Convert.ToBoolean(line[12]);
+            else
+                volunteer.InActivity = true;
+            if (line[13] != "" && line[13] != null)
                 volunteer.HourCount = Convert.ToInt16(line[13]);
 
-                var contactInformation = new ContactInformation
-                {
-                    PhoneNumber = line[14],
-                    MailAddress = line[15]
-                };
-                volunteer.ContactInformation = contactInformation;
+            var contactInformation = new ContactInformation();
+            if (line[14] != "" && line[14] != null)
+                contactInformation.PhoneNumber = line[14];
+            if (line[15] != "" && line[15] != null)
+                contactInformation.MailAddress = line[15];
 
-                var additionalInformation = new AdditionalInfo
-                {
-                    HasDrivingLicense = Convert.ToBoolean(line[16]),
-                    HasCar = Convert.ToBoolean(line[17]),
-                    Remark = line[18]
-                };
+            volunteer.ContactInformation = contactInformation;
 
-                volunteer.AdditionalInfo = additionalInformation;
+            var additionalInformation = new AdditionalInfo();
+            if (line[16] != "" && line[16] != null)
+                additionalInformation.HasDrivingLicense = Convert.ToBoolean(line[16]);
+            if (line[17] != "" && line[17] != null)
+                additionalInformation.HasCar = Convert.ToBoolean(line[17]);
+            if (line[18] != "" && line[18] != null)
+                additionalInformation.Remark = line[18];
 
-                return volunteer;
-            }
+            volunteer.AdditionalInfo = additionalInformation;
 
-            private static Volunteer VolunteerOverWriteFromCsv(string[] line, Volunteer volunteer)
+            return volunteer;
+        }
+
+        private static List<Volunteer> GetVolunteerFromCsv(Tuple<List<string[]>, List<KeyValuePair<int, string>>> tuple, VolunteerImportResponse response, IStringLocalizer localizer, string overwrite, List<Volunteer> listOfVolunteers)
+        {
+            var volunteers = new List<Volunteer>();
+            var lines = tuple.Item1;
+            foreach (var line in lines)
             {
-                if (line[1] != "" && line[1] != null)
-                    volunteer.Fullname = line[1];
-                if (line[2] != null && line[2] != "")
-                    volunteer.Birthdate = Convert.ToDateTime(line[2]);
-                else
-                    volunteer.Birthdate = DateTime.MinValue;
-                if (line[3] != "" && line[3] != null)
-                    volunteer.Address = line[3];
+                var volunteer = new Volunteer();
 
-                if (line[4] == null && line[4] == "")
-                    volunteer.Gender = Gender.NotSpecified;
-                else if (line[4] == "M" || line[4] == "Male" || line[4] == "Masculin")
-                    volunteer.Gender = Gender.Male;
-                else if (line[4] == "F" || line[4] == "Female" || line[4] == "Feminin")
-                    volunteer.Gender = Gender.Female;
-
-                if (line[5] != "" && line[5] != null)
-                    volunteer.DesiredWorkplace = line[5];
-                if (line[6] != "" && line[6] != null)
-                    volunteer.CNP = line[6];
-                if (line[7] != "" && line[7] != null)
-                    volunteer.FieldOfActivity = line[7];
-                if (line[8] != "" && line[8] != null)
-                    volunteer.Occupation = line[8];
-
-                var cI = new CI();
-                if (line[9] != "" && line[9] != null)
-                    cI.HasId = Convert.ToBoolean(line[9]);
-                if (line[10] != "" && line[10] != null)
-                    cI.Info = line[10];
-                if (line[11] != null && line[11] != "")
-                    cI.ExpirationDate = Convert.ToDateTime(line[11]);
-                else
-                    cI.ExpirationDate = DateTime.MinValue;
-
-                volunteer.CI = cI;
-                if (line[12] != null && line[12] != "")
-                    volunteer.InActivity = Convert.ToBoolean(line[12]);
-                else
-                    volunteer.InActivity = true;
-                if (line[13] != "" && line[13] != null)
-                    volunteer.HourCount = Convert.ToInt16(line[13]);
-
-                var contactInformation = new ContactInformation();
-                if (line[14] != "" && line[14] != null)
-                    contactInformation.PhoneNumber = line[14];
-                if (line[15] != "" && line[15] != null)
-                    contactInformation.MailAddress = line[15];
-
-                volunteer.ContactInformation = contactInformation;
-
-                var additionalInformation = new AdditionalInfo();
-                if (line[16] != "" && line[16] != null)
-                    additionalInformation.HasDrivingLicense = Convert.ToBoolean(line[16]);
-                if (line[17] != "" && line[17] != null)
-                    additionalInformation.HasCar = Convert.ToBoolean(line[17]);
-                if (line[18] != "" && line[18] != null)
-                    additionalInformation.Remark = line[18];
-
-                volunteer.AdditionalInfo = additionalInformation;
-
-                return volunteer;
-            }
-
-            private static List<Volunteer> GetVolunteerFromCsv(List<string[]> lines, VolunteerImportResponse response, IStringLocalizer localizer, string overwrite, List<Volunteer> listOfVolunteers)
-            {
-                var volunteers = new List<Volunteer>();
-
-                foreach (var line in lines)
+                try
                 {
-                    var volunteer = new Volunteer();
-
-                    try
+                    if (overwrite == "no")
                     {
-                        if (overwrite == "no")
+                        if (line[0] != null && line[0] != string.Empty)
+                            volunteer.Id = line[0];
+                        else
+                            volunteer.Id = Guid.NewGuid().ToString();
+                        volunteer = GetDataFromCSVLine(line, volunteer, tuple.Item2);
+                    }
+                    else
+                    {
+                        if (listOfVolunteers.FindAll(x => x.Id == line[0]).Count != 0)
                         {
-                            if (line[0] != null && line[0] != string.Empty)
-                                volunteer.Id = line[0];
-                            else
-                                volunteer.Id = Guid.NewGuid().ToString();
-                            volunteer = GetDataFromCSVLine(line, volunteer);
+                            var databaseVolunteer = listOfVolunteers.Find(x => x.Id == line[0]);
+                            volunteer = VolunteerOverWriteFromCsv(line, databaseVolunteer);
+                        }
+                        else if (listOfVolunteers.FindAll(x => x.CNP == line[6]).Count != 0)
+                        {
+                            var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[6]);
+                            volunteer = VolunteerOverWriteFromCsv(line, databaseVolunteer);
                         }
                         else
                         {
-                            if (listOfVolunteers.FindAll(x => x.Id == line[0]).Count != 0)
-                            {
-                                var databaseVolunteer = listOfVolunteers.Find(x => x.Id == line[0]);
-                                volunteer = VolunteerOverWriteFromCsv(line, databaseVolunteer);
-                            }
-                            else if (listOfVolunteers.FindAll(x => x.CNP == line[6]).Count != 0)
-                            {
-                                var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[6]);
-                                volunteer = VolunteerOverWriteFromCsv(line, databaseVolunteer);
-                            }
-                            else
-                            {
-                                if (line[0] != null && line[0] != string.Empty)
-                                    volunteer.Id = line[0];
-                                else
-                                    volunteer.Id = Guid.NewGuid().ToString();
-                                volunteer = GetDataFromCSVLine(line, volunteer);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",
-                            @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
-                        response.IsValid = false;
-                    }
-
-                    volunteers.Add(volunteer);
-                }
-
-                return volunteers;
-            }
-
-            private static Volunteer GetDataFromBucuriaDaruluiCSVLine(string[] line, Volunteer volunteer)
-            {
-                var additionalInformation = new AdditionalInfo
-                {
-                    HasCar = false,
-                    HasDrivingLicense = false,
-                    Remark = ""
-                };
-
-                var contactInformation = new ContactInformation
-                {
-                    PhoneNumber = line[4],
-                    MailAddress = ""
-                };
-
-                var ci = new CI
-                {
-                    HasId = true,
-                    Info = line[3],
-                    ExpirationDate = DateTime.MinValue
-                };
-
-                volunteer.Id = Guid.NewGuid().ToString();
-
-                volunteer.Fullname = line[0];
-                volunteer.CNP = line[1];
-                volunteer.Address = line[2];
-                volunteer.Occupation = line[8];
-                volunteer.DesiredWorkplace = line[9];
-                volunteer.Birthdate = DateTime.MinValue;
-                volunteer.FieldOfActivity = "";
-                if (volunteer.CNP != null && volunteer.CNP != "")
-                {
-                    if (volunteer.CNP.StartsWith("1") || volunteer.CNP.StartsWith("3"))
-                        volunteer.Gender = Gender.Male;
-                    else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
-                        volunteer.Gender = Gender.Female;
-                }
-                else
-                    volunteer.Gender = Gender.NotSpecified;
-                volunteer.HourCount = 0;
-                volunteer.InActivity = true;
-                volunteer.CI = ci;
-                volunteer.ContactInformation = contactInformation;
-                volunteer.AdditionalInfo = additionalInformation;
-
-                return volunteer;
-            }
-
-            private static Volunteer VolunteerOverWriteFromBucuriadaruluiCsv(string[] line, Volunteer volunteer)
-            {
-                var additionalInformation = new AdditionalInfo();
-
-                additionalInformation.HasCar = false;
-                additionalInformation.HasDrivingLicense = false;
-                additionalInformation.Remark = "";
-
-                var contactInformation = new ContactInformation();
-                if (line[4] != "" & line[4] != null)
-                    contactInformation.PhoneNumber = line[4];
-                contactInformation.MailAddress = "";
-
-                var ci = new CI();
-                ci.HasId = true;
-                if (line[3] != "" & line[3] != null)
-                    ci.Info = line[3];
-                ci.ExpirationDate = DateTime.MinValue;
-                if (line[0] != "" & line[0] != null)
-                    volunteer.Fullname = line[0];
-                if (line[1] != "" & line[1] != null)
-                    volunteer.CNP = line[1];
-                if (line[2] != "" & line[2] != null)
-                    volunteer.Address = line[2];
-                if (line[8] != "" & line[8] != null)
-                    volunteer.Occupation = line[8];
-                if (line[9] != "" & line[9] != null)
-                    volunteer.DesiredWorkplace = line[9];
-                volunteer.Birthdate = DateTime.MinValue;
-                volunteer.FieldOfActivity = "";
-                if (volunteer.CNP != null && volunteer.CNP != "")
-                {
-                    if (volunteer.CNP.StartsWith("1") || volunteer.CNP.StartsWith("3"))
-                        volunteer.Gender = Gender.Male;
-                    else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
-                        volunteer.Gender = Gender.Female;
-                }
-                else
-                    volunteer.Gender = Gender.NotSpecified;
-                volunteer.HourCount = 0;
-                volunteer.InActivity = true;
-                volunteer.CI = ci;
-                volunteer.ContactInformation = contactInformation;
-                volunteer.AdditionalInfo = additionalInformation;
-
-                return volunteer;
-            }
-
-            private List<Volunteer> GetVolunteerFromBucuriaDaruluiCSV(List<string[]> lines,
-                VolunteerImportResponse response, IStringLocalizer localizer, string overwrite, List<Volunteer> listOfVolunteers)
-            {
-                var volunteers = new List<Volunteer>();
-
-                foreach (var line in lines)
-                {
-                    var volunteer = new Volunteer();
-                    try
-                    {
-                        if (overwrite == "no")
-                        {
                             if (line[0] != null && line[0] != string.Empty)
                                 volunteer.Id = line[0];
                             else
                                 volunteer.Id = Guid.NewGuid().ToString();
+                            volunteer = GetDataFromCSVLine(line, volunteer, tuple.Item2);
+                        }
+                    }
+                }
+                catch
+                {
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile",
+                        @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
+                    response.IsValid = false;
+                }
+
+                volunteers.Add(volunteer);
+            }
+
+            return volunteers;
+        }
+
+        private static Volunteer GetDataFromBucuriaDaruluiCSVLine(string[] line, Volunteer volunteer)
+        {
+            var additionalInformation = new AdditionalInfo
+            {
+                HasCar = false,
+                HasDrivingLicense = false,
+                Remark = ""
+            };
+
+            var contactInformation = new ContactInformation
+            {
+                PhoneNumber = line[4],
+                MailAddress = ""
+            };
+
+            var ci = new CI
+            {
+                HasId = true,
+                Info = line[3],
+                ExpirationDate = DateTime.MinValue
+            };
+
+            volunteer.Id = Guid.NewGuid().ToString();
+
+            volunteer.Fullname = line[0];
+            volunteer.CNP = line[1];
+            volunteer.Address = line[2];
+            volunteer.Occupation = line[8];
+            volunteer.DesiredWorkplace = line[9];
+            volunteer.Birthdate = DateTime.MinValue;
+            volunteer.FieldOfActivity = "";
+            if (volunteer.CNP != null && volunteer.CNP != "")
+            {
+                if (volunteer.CNP.StartsWith("1") || volunteer.CNP.StartsWith("3"))
+                    volunteer.Gender = Gender.Male;
+                else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
+                    volunteer.Gender = Gender.Female;
+            }
+            else
+                volunteer.Gender = Gender.NotSpecified;
+            volunteer.HourCount = 0;
+            volunteer.InActivity = true;
+            volunteer.CI = ci;
+            volunteer.ContactInformation = contactInformation;
+            volunteer.AdditionalInfo = additionalInformation;
+
+            return volunteer;
+        }
+
+        private static Volunteer VolunteerOverWriteFromBucuriadaruluiCsv(string[] line, Volunteer volunteer)
+        {
+            var additionalInformation = new AdditionalInfo();
+
+            additionalInformation.HasCar = false;
+            additionalInformation.HasDrivingLicense = false;
+            additionalInformation.Remark = "";
+
+            var contactInformation = new ContactInformation();
+            if (line[4] != "" & line[4] != null)
+                contactInformation.PhoneNumber = line[4];
+            contactInformation.MailAddress = "";
+
+            var ci = new CI();
+            ci.HasId = true;
+            if (line[3] != "" & line[3] != null)
+                ci.Info = line[3];
+            ci.ExpirationDate = DateTime.MinValue;
+            if (line[0] != "" & line[0] != null)
+                volunteer.Fullname = line[0];
+            if (line[1] != "" & line[1] != null)
+                volunteer.CNP = line[1];
+            if (line[2] != "" & line[2] != null)
+                volunteer.Address = line[2];
+            if (line[8] != "" & line[8] != null)
+                volunteer.Occupation = line[8];
+            if (line[9] != "" & line[9] != null)
+                volunteer.DesiredWorkplace = line[9];
+            volunteer.Birthdate = DateTime.MinValue;
+            volunteer.FieldOfActivity = "";
+            if (volunteer.CNP != null && volunteer.CNP != "")
+            {
+                if (volunteer.CNP.StartsWith("1") || volunteer.CNP.StartsWith("3"))
+                    volunteer.Gender = Gender.Male;
+                else if (volunteer.CNP.StartsWith("2") || volunteer.CNP.StartsWith("4"))
+                    volunteer.Gender = Gender.Female;
+            }
+            else
+                volunteer.Gender = Gender.NotSpecified;
+            volunteer.HourCount = 0;
+            volunteer.InActivity = true;
+            volunteer.CI = ci;
+            volunteer.ContactInformation = contactInformation;
+            volunteer.AdditionalInfo = additionalInformation;
+
+            return volunteer;
+        }
+
+        private List<Volunteer> GetVolunteerFromBucuriaDaruluiCSV(List<string[]> lines,
+            VolunteerImportResponse response, IStringLocalizer localizer, string overwrite, List<Volunteer> listOfVolunteers)
+        {
+            var volunteers = new List<Volunteer>();
+
+            foreach (var line in lines)
+            {
+                var volunteer = new Volunteer();
+                try
+                {
+                    if (overwrite == "no")
+                    {
+                        if (line[0] != null && line[0] != string.Empty)
+                            volunteer.Id = line[0];
+                        else
+                            volunteer.Id = Guid.NewGuid().ToString();
+                        volunteer = GetDataFromBucuriaDaruluiCSVLine(line, volunteer);
+                    }
+                    else
+                    {
+                        if (listOfVolunteers.FindAll(x => x.CNP == line[1]).Count != 0)
+                        {
+                            var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[1]);
+                            volunteer = VolunteerOverWriteFromBucuriadaruluiCsv(line, databaseVolunteer);
+                        }
+                        else
+                        {
                             volunteer = GetDataFromBucuriaDaruluiCSVLine(line, volunteer);
                         }
-                        else
-                        {
-                            if (listOfVolunteers.FindAll(x => x.CNP == line[1]).Count != 0)
-                            {
-                                var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[1]);
-                                volunteer = VolunteerOverWriteFromBucuriadaruluiCsv(line, databaseVolunteer);
-                            }
-                            else
-                            {
-                                volunteer = GetDataFromBucuriaDaruluiCSVLine(line, volunteer);
-                            }
-                        }
                     }
-                    catch
-                    {
-                        response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
-                        response.IsValid = false;
-                    }
-
-                    volunteers.Add(volunteer);
+                }
+                catch
+                {
+                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["There was an error while adding the file! Make Sure the Document has all of its Fields and is not only a partial CSV file."]));
+                    response.IsValid = false;
                 }
 
-                return volunteers;
+                volunteers.Add(volunteer);
             }
 
+            return volunteers;
+        }
 
         public static class CsvUtils
         {
