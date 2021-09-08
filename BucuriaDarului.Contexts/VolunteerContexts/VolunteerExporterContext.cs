@@ -87,7 +87,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     cell = sheet.Cells["D" + (i + 2)];
                     cell.PutValue(volunteer.Address);
                     cell = sheet.Cells["E" + (i + 2)];
-                    cell.PutValue(volunteer.Gender);
+                    if (volunteer.Gender == Gender.Male)
+                        cell.PutValue("M");
+                    else if (volunteer.Gender == Gender.Female)
+                        cell.PutValue("F");
+                    else
+                        cell.PutValue("N");
                     cell = sheet.Cells["F" + (i + 2)];
                     cell.PutValue(volunteer.DesiredWorkplace);
                     cell = sheet.Cells["G" + (i + 2)];
@@ -116,7 +121,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     cell.PutValue(volunteer.AdditionalInfo.Remark);
                     cell = sheet.Cells["S" + (i + 2)];
                     cell.PutValue(volunteer.InActivity);
-
                 }
             }
             else
@@ -150,7 +154,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         cell = sheet.Cells["E1"];
                         cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Gender").Value);
                         cell = sheet.Cells["E" + (i + 2)];
-                        cell.PutValue(volunteer.Gender);
+                        if(volunteer.Gender==Gender.Male)
+                            cell.PutValue("M");
+                        else if (volunteer.Gender == Gender.Female)
+                            cell.PutValue("F");
+                        else 
+                            cell.PutValue("N");
                     }
                     if (request.ExportParameters.DesiredWorkplace)
                     {
@@ -228,7 +237,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "DriversLicense").Value);
                         cell = sheet.Cells["P" + (i + 2)];
                         cell.PutValue(volunteer.AdditionalInfo.HasDrivingLicense);
-                    }   
+                    }
                     if (request.ExportParameters.HasCar)
                     {
                         cell = sheet.Cells["Q1"];
@@ -244,9 +253,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         cell.PutValue(volunteer.InActivity);
                     }
                 }
-
             }
-                SaveWorkbook(request.ExportParameters.FileName, wb);
+            SaveWorkbook(request.ExportParameters.FileName, wb);
         }
 
         private void SaveWorkbook(string fileName, Workbook wb)

@@ -13,7 +13,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class VolunteerImportContext
     {
         private readonly IVolunteerImportGateway dataGateway;
-        private static int _fileType = 0;
         private readonly IStringLocalizer localizer;
         private static List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>>();
 
@@ -43,31 +42,23 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 var listOfVolunteers = dataGateway.GetVolunteersList();
                 var result = ExtractImportRawData(dataToImport, listOfColumns, localizer);
                 var volunteersFromCsv = new List<Volunteer>();
-                if (_fileType == 0)
+
+                volunteersFromCsv = GetVolunteerFromCsv(result, response, localizer, overwrite, listOfVolunteers);
+
+                if (overwrite == "yes")
                 {
-                    response.Message.Add(new KeyValuePair<string, string>("IncorrectFile", @localizer["File must be of type Volunteer!"]));
-                    response.IsValid = false;
+                    foreach (var v in volunteersFromCsv)
+                    {
+                        if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x => x.CNP == v.CNP).Count() != 0)
+                            volunteersToUpdate.Add(v);
+                        else
+                            volunteersToInsert.Add(v);
+                    }
+                    dataGateway.UpdateVolunteers(volunteersToUpdate);
+                    dataGateway.Insert(volunteersToInsert);
                 }
                 else
-                    volunteersFromCsv = GetVolunteerFromCsv(result, response, localizer, overwrite, listOfVolunteers);
-
-                if (response.IsValid)
-                {
-                    if (overwrite == "yes")
-                    {
-                        foreach (var v in volunteersFromCsv)
-                        {
-                            if (listOfVolunteers.FindAll(x => x.Id == v.Id).Count() != 0 || listOfVolunteers.FindAll(x => x.CNP == v.CNP).Count() != 0)
-                                volunteersToUpdate.Add(v);
-                            else
-                                volunteersToInsert.Add(v);
-                        }
-                        dataGateway.UpdateVolunteers(volunteersToUpdate);
-                        dataGateway.Insert(volunteersToInsert);
-                    }
-                    else
-                        dataGateway.Insert(volunteersFromCsv);
-                }
+                    dataGateway.Insert(volunteersFromCsv);
             }
 
             return response;
@@ -82,7 +73,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         {
             var lines = new string[30];
             var path = Environment.GetEnvironmentVariable(Constants.PATH_TO_VOLUNTEER_EXCEL_MAPPING_FILE);
-            int counter = 0; string line;
+            int counter = 0;
+            string line;
             System.IO.StreamReader file = new System.IO.StreamReader(path);
             while ((line = file.ReadLine()) != null)
             {
@@ -117,33 +109,26 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var reader = ExcelReaderFactory.CreateReader(dataToImport);
             int numberOfColumns = 0;
             var i = 0;
+            int j = 0;
             while (reader.Read())
             {
                 if (IsHeader(i))
                 {
-                    int j = 0;
                     var headerLine = new string[30];
-                    while (reader.GetValue(j) != null)
+
+                    for (int k = 0; k < reader.FieldCount; k++)
                     {
-                        headerLine[j] = reader.GetValue(j).ToString();
-                        j++;
+                        if (reader.GetValue(k) != null)
+                        {
+                            headerLine[j] = reader.GetValue(k).ToString();
+                            j++;
+                        }
                     }
 
                     numberOfColumns = CountColumns(headerLine);
 
-                    _fileType = IsTheCorrectHeader(headerLine, listOfColumns);
-
                     var mapping = MapPropertiesFromExcel(headerLine);
                     list = GetColumnsOrder(mapping, listOfColumns);
-                    if (_fileType == 0)
-                    {
-                        var returnList = new List<string[]>();
-                        var strArray = new string[1];
-                        strArray[0] = @localizer["The File Does Not have the correct header!"];
-                        returnList.Add(strArray);
-
-                        return returnList;
-                    }
                 }
                 else
                 {
@@ -159,9 +144,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         private static string[] GetCsvRow(IExcelDataReader reader, int numberOfColumns)
         {
-            var list = new string[numberOfColumns];
+            var list = new string[reader.FieldCount];
             int j;
-            for (j = 0; j < numberOfColumns; j++)
+            for (j = 0; j < reader.FieldCount; j++)
             {
                 if (reader.GetValue(j) != null)
 
@@ -171,18 +156,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
             var row = list;
             return row;
-        }
-
-        private static int IsTheCorrectHeader(string[] headerColumns, List<KeyValuePair<string, string>> listOfColumns)
-        {
-            var filter = listOfColumns.FirstOrDefault(kvp => kvp.Key == "DesiredWorkplace");
-
-            foreach (var column in headerColumns)
-            {
-                if (column.Contains(filter.Value))
-                    return 1;
-            }
-            return 0;
         }
 
         public static int CountColumns(string[] headerLine)
@@ -329,7 +302,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         try
                         {
                             date = Convert.ToDateTime(dateLine);
-
                         }
                         catch
                         {
@@ -347,33 +319,31 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         }
                         volunteer.CI.ExpirationDate = date;
                     }
-                
 
-                        if (c.Value == "Birthdate" && volunteer.CNP != string.Empty && volunteer.CNP != null)
-                        {
-                            var birthdateLine = line[c.Key];
+                    if (c.Value == "Birthdate" && volunteer.CNP != string.Empty && volunteer.CNP != null)
+                    {
+                        var birthdateLine = line[c.Key];
                         DateTime date;
-                            try
-                            {
-                                 date = Convert.ToDateTime(birthdateLine);
-                           
-                            }
-                            catch
-                            {
-                                string[] splitLine = new string[3];
-                                if (line[c.Key].Contains("."))
-                                    splitLine = birthdateLine.Split(".");
-                                if (line[c.Key].Contains("/"))
-                                    splitLine = birthdateLine.Split("/");
-                                if (line[c.Key].Contains("-"))
-                                    splitLine = birthdateLine.Split("-");
-                                if (DateTime.TryParse(splitLine[0] + "." + splitLine[1] + "." + splitLine[2], culture, styles, out var dateResult2))
-                                    date = dateResult2;
-                                else
-                                    date = DateTime.MinValue;
-                            }
-                        volunteer.Birthdate = date;
+                        try
+                        {
+                            date = Convert.ToDateTime(birthdateLine);
                         }
+                        catch
+                        {
+                            string[] splitLine = new string[3];
+                            if (line[c.Key].Contains("."))
+                                splitLine = birthdateLine.Split(".");
+                            if (line[c.Key].Contains("/"))
+                                splitLine = birthdateLine.Split("/");
+                            if (line[c.Key].Contains("-"))
+                                splitLine = birthdateLine.Split("-");
+                            if (DateTime.TryParse(splitLine[0] + "." + splitLine[1] + "." + splitLine[2], culture, styles, out var dateResult2))
+                                date = dateResult2;
+                            else
+                                date = DateTime.MinValue;
+                        }
+                        volunteer.Birthdate = date;
+                    }
 
                     try
                     {
@@ -427,14 +397,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     else
                     {
                         var filterCnp = list.FirstOrDefault(kvp => kvp.Value == "CNP");
-
-                        //VAR FILTERiD
-                        //if (listOfVolunteers.FindAll(x => x.Id == line[0]).Count != 0)
-                        //{
-                        //    var databaseVolunteer = listOfVolunteers.Find(x => x.Id == );
-                        //    volunteer = GetDataFromCSVLine(line, databaseVolunteer);
-                        //}
-                        //else IF
                         if (listOfVolunteers.FindAll(x => x.CNP == line[filterCnp.Key]).Count != 0)
                         {
                             var databaseVolunteer = listOfVolunteers.Find(x => x.CNP == line[filterCnp.Key]);
