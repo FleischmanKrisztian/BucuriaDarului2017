@@ -1,0 +1,206 @@
+﻿@model BucuriaDarului.Core.AdditionalContractVolunteer
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Print";
+}
+
+<h1>@Localizer["Print"]</h1>
+<hr />
+<head>
+    <style>
+        <link rel="stylesheet" href="~/css/style.css" type="text/css" />
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" > </script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" > </script>
+        /*body {
+                background-color: darkgray;
+            }*/
+        .emp-profile {
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 1%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .proile-rating {
+            font-size: 15px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .emp-profile label {
+            font-size: 18px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .emp-profile img {
+            padding-right: 2px;
+            width: 45px;
+            height: 35px;
+        }
+    </style>
+</head>
+<h3 style="color:red">
+    @ViewBag.message
+</h3>
+<div class="emp-profile">
+    <form action="./Print" enctype="multipart/form-data" method="post">
+        @Html.HiddenFor(model => model.Id, new { Id = Model.Id })
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["Fullname"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.Fullname)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["ContractNumberOfRegistration"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.ContractNumberOfRegistration)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["AdditionalContractNumberOfRegistration"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.AdditionalContractNumberOfRegistration)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["CNP"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.CNP)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["Address"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.Address)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["Birthdate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.Birthdate.ToShortDateString())
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["PhoneNumber"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.PhoneNumber)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["IdInfo"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayName(Model.CI.Info)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["IdExpirationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.CI.ExpirationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["RegistrationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.RegistrationDate.ToShortDateString()
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["ExpirationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.ExpirationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@Localizer["MoreOptions"]</button>
+                <form method="post" asp-action="Print" asp-controller="BeneficiaryContract">
+                    <div id="exampleModal" class="modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog  modal-lg " role="document">
+                            <div class="modal-content" sstyle="max-height: 90vh;">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@Localizer["TemplateOptions"]:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <br />
+                                <div class="modal-body" style="text-align:left">
+                                    <div class="form-group">
+                                        <dt class="col-sm-6">@Localizer["ChooseContractTemplate"] :</dt>
+                                        <dd class="col-sm-2">
+                                            <input type="file" id="myFile" name="files">
+                                        </dd>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="modal-footer">
+                                        <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" buttonAction="cancelButton">@Localizer["Close"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-3">
+                <button class="button" type="submit"><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Upload"] /></button> |
+                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+            </div>
+        </div>
+    </form>
+</div>

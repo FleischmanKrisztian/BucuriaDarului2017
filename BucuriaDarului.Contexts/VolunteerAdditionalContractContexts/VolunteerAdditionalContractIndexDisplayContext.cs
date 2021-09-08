@@ -19,8 +19,8 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
             var additionalContracts = dataGateway.GetListAdditionalContracts();
             var contract = dataGateway.GetContract(request.ContractId);
             additionalContracts = additionalContracts.Where(z => z.ContractID.ToString() == request.ContractId).ToList();
-
-            return new VolunteerAdditionalContractsMainDisplayIndexResponse(additionalContracts, contract.Fullname,contract.OwnerID, contract.Id);
+            
+            return new VolunteerAdditionalContractsMainDisplayIndexResponse(additionalContracts, contract.Fullname,contract.OwnerID, request.ContractId);
         }
     }
 

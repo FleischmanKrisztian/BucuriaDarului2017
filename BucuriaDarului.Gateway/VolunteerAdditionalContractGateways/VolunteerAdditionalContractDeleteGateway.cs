@@ -23,8 +23,8 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
         {
             var dbContext = new MongoDBGateway();
             dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
-            var volunteerContractCollection = dbContext.Database.GetCollection<AdditionalContractVolunteer>("VolunteerContracts");
-            List<AdditionalContractVolunteer> contracts = volunteerContractCollection.AsQueryable().ToList();
+            var additionalContractCollection = dbContext.Database.GetCollection<AdditionalContractVolunteer>("VolunteerAdditionalContracts");
+            List<AdditionalContractVolunteer> contracts = additionalContractCollection.AsQueryable().ToList();
             return contracts;
         }
     }

@@ -5,6 +5,7 @@ namespace BucuriaDarului.Core.Gateways.HomeControllerGateways
     public interface IHomeControllerIndexDisplayGateway
     {
         List<VolunteerContract> GetListVolunteerContracts();
+        List<AdditionalContractVolunteer> GetListVolunteerAdditionalContracts();
 
         List<BeneficiaryContract> GetListOfBeneficiaryContracts();
 

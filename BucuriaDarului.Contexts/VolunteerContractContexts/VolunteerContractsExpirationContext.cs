@@ -14,11 +14,13 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public List<VolunteerContract> Execute(int nrOfDaysBeforExpiration)
+        public Response Execute(int nrOfDaysBeforExpiration)
         {
             var contracts = dataGateway.GetListVolunteerContracts();
             contracts = GetExpiringContracts(contracts, nrOfDaysBeforExpiration);
-            return contracts;
+            var additionalContracts = dataGateway.GetListAdditionalContracts();
+            additionalContracts = GetExpiringAdditionalContracts(additionalContracts, nrOfDaysBeforExpiration);
+            return new Response(contracts, additionalContracts);
         }
 
         internal static List<VolunteerContract> GetExpiringContracts(List<VolunteerContract> contracts, int nrOfDaysBeforExpiration)
@@ -34,6 +36,21 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                 }
             }
             return returnListOfVolunteerContracts;
+        }
+
+        internal static List<AdditionalContractVolunteer> GetExpiringAdditionalContracts(List<AdditionalContractVolunteer> contracts, int nrOfDaysBeforExpiration)
+        {
+            var currentDay = GetDayOfYear(DateTime.Today);
+            var returnListOfAdditionalContracts = new List<AdditionalContractVolunteer>();
+            foreach (var contract in contracts)
+            {
+                var dayToCompare = GetDayOfYear(contract.ExpirationDate);
+                if (IsAboutToExpire(currentDay, dayToCompare, nrOfDaysBeforExpiration))
+                {
+                    returnListOfAdditionalContracts.Add(contract);
+                }
+            }
+            return returnListOfAdditionalContracts;
         }
 
         public static bool IsAboutToExpire(int currentDay, int dayToCompare, int nrOfDaysBeforExpiration)
@@ -53,6 +70,18 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             int month = Convert.ToInt16(dates[1]);
             day = (month - 1) * 30 + day;
             return day;
+        }
+    }
+
+    public class Response
+    {
+        public List<VolunteerContract> ContractList { get; set; }
+        public List<AdditionalContractVolunteer> AdditionalContractsList { get; set; }
+
+        public Response(List<VolunteerContract> contractList, List<AdditionalContractVolunteer> additionalContractsList)
+        {
+            ContractList = contractList;
+            AdditionalContractsList = additionalContractsList;
         }
     }
 }

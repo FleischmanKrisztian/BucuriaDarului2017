@@ -18,11 +18,12 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
         {
             var response = new Response();
             var volunteerContracts = dataGateway.GetListVolunteerContracts();
+            var volunteerAdditionalContracts = dataGateway.GetListVolunteerAdditionalContracts();
             var beneficiarycontracts = dataGateway.GetListOfBeneficiaryContracts();
             var volunteers = dataGateway.GetListOfVolunteers();
             var sponsors = dataGateway.GetListOfSponsors();
             response.BirthdayOfVolunteersNumber = GetNumberOfVolunteersWithBirthdays(volunteers, birthdayAlarm);
-            response.VolunteerContractExpirationNumber = GetNumberOfExpiringVolContracts(volunteerContracts, numberOfDaysBeforExpiration);
+            response.VolunteerContractExpirationNumber = GetNumberOfExpiringVolContracts(volunteerContracts, volunteerAdditionalContracts, numberOfDaysBeforExpiration);
             response.SponsorContractExpirationNumber = GetNumberOfExpiringSponsorContracts(sponsors, numberOfDaysBeforExpiration);
             response.BeneficiaryContractExpirationNumber = GetNumberOfExpiringBeneficiaryContracts(beneficiarycontracts, numberOfDaysBeforExpiration);
 
@@ -76,11 +77,20 @@ namespace BucuriaDarului.Contexts.HomeControllerContexts
             return sponsorContractsCounter;
         }
 
-        public int GetNumberOfExpiringVolContracts(List<VolunteerContract> volunteerContracts, int numberOfDaysBeforExpiration)
+        public int GetNumberOfExpiringVolContracts(List<VolunteerContract> volunteerContracts, List<AdditionalContractVolunteer> additionalContracts, int numberOfDaysBeforExpiration)
         {
             int currentDay = GetDayOfYear(DateTime.Today);
             int volunteerContractsCounter = 0;
             foreach (var item in volunteerContracts)
+            {
+                int dayToCompareTo = GetDayOfYear(item.ExpirationDate);
+                if (IsAboutToExpire(currentDay, dayToCompareTo, numberOfDaysBeforExpiration))
+                {
+                    volunteerContractsCounter++;
+                }
+            }
+
+            foreach (var item in additionalContracts)
             {
                 int dayToCompareTo = GetDayOfYear(item.ExpirationDate);
                 if (IsAboutToExpire(currentDay, dayToCompareTo, numberOfDaysBeforExpiration))

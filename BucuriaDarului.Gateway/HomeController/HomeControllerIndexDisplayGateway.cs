@@ -2,6 +2,7 @@
 using BucuriaDarului.Core.Gateways.HomeControllerGateways;
 using BucuriaDarului.Gateway.SettingsGateways;
 using BucuriaDarului.Gateway.SponsorGateways;
+using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
 using MongoDB.Driver;
 using System.Collections.Generic;
@@ -28,6 +29,11 @@ namespace BucuriaDarului.Gateway.HomeController
         public List<Volunteer> GetListOfVolunteers()
         {
             return ListVolunteersGateway.GetListOfVolunteers();
+        }
+
+        public List<AdditionalContractVolunteer> GetListVolunteerAdditionalContracts()
+        {
+            return ListVolunteerAdditionalContractGateway.GetListAdditionalContracts();
         }
 
         public List<VolunteerContract> GetListVolunteerContracts()

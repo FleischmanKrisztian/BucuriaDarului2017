@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BucuriaDarului.Core.VolunteerContract>
+﻿@model BucuriaDarului.Contexts.VolunteerContractContexts.Response
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
@@ -27,10 +27,13 @@
                 @Localizer["ExpirationDate"]
             </th>
             <th></th>
+
         </tr>
     </thead>
+
     <tbody>
-        @foreach (var item in Model)
+
+        @foreach (var item in Model.ContractList)
         {
             <tr>
                 <td>
@@ -52,3 +55,59 @@
         }
     </tbody>
 </table>
+<br />
+@if (Model.ContractList.Count == 0)
+{
+    <div style="color:red">@Localizer["There are no almost expired contracts!"]</div>
+}
+
+
+<br />
+<br />
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Localizer["Fullname"]
+            </th>
+            <th>
+                @Localizer["AdditionalContractNumberOfRegistration"]
+            </th>
+            <th>
+                @Localizer["RegistrationDate"]
+            </th>
+            <th>
+                @Localizer["ExpirationDate"]
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AdditionalContractsList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdditionalContractNumberOfRegistration)
+                </td>
+                <td>
+                    @item.RegistrationDate.ToShortDateString()
+                </td>
+                <td>
+                    @item.ExpirationDate.ToShortDateString()
+                </td>
+                <td>
+                    <a href=@Url.Action("Print", "VolunteerAdditionalContract", new { id = item.Id })><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Print"]></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+@if (Model.AdditionalContractsList.Count == 0)
+{
+    <div style="color:red">@Localizer["There are no almost expired additional contracts!"]</div>
+}

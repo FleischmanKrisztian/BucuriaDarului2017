@@ -1,20 +1,20 @@
-﻿@model BucuriaDarului.Contexts.VolunteerContractContexts.VolunteerContractsMainDisplayIndexResponse
+﻿@model BucuriaDarului.Contexts.VolunteerAdditionalContractContexts.VolunteerAdditionalContractsMainDisplayIndexResponse
 @{
-    ViewData["Title"] = "Contracts";
+    ViewData["Title"] = "AdditionlContracts";
 }
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-<h2 style="color:black">@Localizer["ContractsOfV"] @Model.NameOfVolunteer </h2>
+<h2 style="color:black">@Localizer["AdditionalContractsOfV"] @Model.NameOfVolunteer </h2>
 
 <p>
-    <a href="../Volunteer/Index/@Model.Query" class="btn btn-primary">@Localizer["BackToList"]</a>
-    <a href=@Url.Action("Create", new {idOfVolunteer = Model.VolunteerId}) class="btn btn-primary" style="background-color: green; border-color: darkgreen">@Localizer["CreateNew"]</a>
+      <a href=@Url.Action( "Index","VolunteerContract", new { idOfVolunteer = Model.VolunteerId}) class="btn btn-primary">@Localizer["BackToList"]</a>
+    <a href=@Url.Action("Create", new { idOfVolunteerContract = Model.ContractId }) class="btn btn-primary" style="background-color: green; border-color: darkgreen">@Localizer["CreateNew"]</a>
 </p>
 <table class="table" style="align-items: center">
     <thead>
         <tr>
             <th>
-                @Localizer["NumberOfRegistration"]
+                @Localizer["AdditionalContractNumberOfRegistration"]
             </th>
             <th>
                 @Localizer["RegistrationDate"]
@@ -30,7 +30,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfRegistration)
+                    @Html.DisplayFor(modelItem => item.AdditionalContractNumberOfRegistration)
                 </td>
                 <td>
                     @item.RegistrationDate.ToShortDateString()
@@ -39,7 +39,7 @@
                     @item.ExpirationDate.ToShortDateString()
                 </td>
                 <td>
-                    <a href=@Url.Action( "AdditionalContracts", new { id = item.Id })><img src="~/Resources/additional.png" width="40" height="40" title=@Localizer["AddAddditionalContract"]></a>
+                    
                     <a href=@Url.Action( "Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
                     <a href=@Url.Action( "Print", new { id = item.Id })><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Print"]></a>
                 </td>

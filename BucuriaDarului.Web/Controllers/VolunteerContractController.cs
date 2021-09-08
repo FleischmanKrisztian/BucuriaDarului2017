@@ -34,8 +34,8 @@ namespace BucuriaDarului.Web.Controllers
         {
             var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData);
             var contractExpirationContext = new VolunteerContractsExpirationContext(new VolunteerContractExpirationGateway());
-            var contracts = contractExpirationContext.Execute(nrOfDays);
-            return View(contracts);
+            var response= contractExpirationContext.Execute(nrOfDays);
+            return View(response);
         }
 
         public ActionResult AdditionalContracts(string id)

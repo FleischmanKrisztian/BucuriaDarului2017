@@ -1048,3 +1048,18 @@ msgstr "Înapoi"
 
 msgid "NotSpecified"
 msgstr "Nespecificat"
+
+msgid "AdditionalContractsOfV"
+msgstr "Acte aditionale ale voluntarului:"
+
+msgid  "AdditionalContractNumberOfRegistration"
+msgstr "Numărul de înregistare al actului aditional"
+
+msgid "ContractNumberOfRegistration"
+msgstr "Numărul de înregistrare al contractului"
+
+msgid "AddAddditionalContract"
+msgstr "Crează un nou act aditional"
+
+msgid "VolAdditionalContract"
+msgstr "Act aditional ale voluntarului"

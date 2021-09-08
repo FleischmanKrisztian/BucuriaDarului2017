@@ -963,3 +963,18 @@ msgstr "Back"
 
 msgid "NotSpecified"
 msgstr "Not spefified"
+
+msgid "AdditionalContractsOfV"
+msgstr "Additional contracts of volunteer:"
+
+msgid  "AdditionalContractNumberOfRegistration"
+msgstr "Additional contract number of registration"
+
+msgid "ContractNumberOfRegistration"
+msgstr "Contract number of registration"
+
+msgid "AddAddditionalContract"
+msgstr "Add new addditional contract"
+
+msgid "VolAdditionalContract"
+msgstr "Additional contract for volunteer"

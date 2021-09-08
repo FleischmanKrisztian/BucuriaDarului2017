@@ -1,0 +1,106 @@
+﻿@model BucuriaDarului.Core.AdditionalContractVolunteer
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Delete";
+
+}
+<h3>
+    @Localizer["VolAdditionalContract"]
+</h3>
+<hr />
+<head>
+    <style>
+
+        /*body {
+                background-color: darkgray;
+            }*/
+        .emp-profile {
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 1%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .proile-rating {
+            font-size: 15px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .emp-profile label {
+            font-size: 18px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .emp-profile img {
+            padding-right: 2px;
+            width: 45px;
+            height: 35px;
+        }
+    </style>
+</head>
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="emp-profile">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["NumberOfRegistration"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DisplayFor(model => model.AdditionalContractNumberOfRegistration)
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label> @Localizer["RegistrationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.RegistrationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>@Localizer["ExpirationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.ExpirationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <input type="hidden" name="OwnerID" value="@Model.PhoneNumber" />
+                <input type="hidden" name="ContractID" value="@Model.ContractID" />
+                <input type="hidden" name="ContractId" value="@Model.Id" />
+                <input type="submit" value=@Localizer["Delete"] class="btn btn-primary" /> |
+                <button type="button" name="cancel" class="btn btn-primary" onclick=" history.go(-1)">@Localizer["BackToList"]</button>
+            </div>
+        </div>
+    </div>
+
+}

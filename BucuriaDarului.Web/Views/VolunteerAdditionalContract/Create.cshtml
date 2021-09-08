@@ -1,0 +1,123 @@
+﻿@model BucuriaDarului.Contexts.VolunteerAdditionalContractContexts.VolunteerAdditionalContractCreateRequest
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Create";
+    string idOfContract = ViewBag.idOfContract;
+}
+
+<h1>@Localizer["Create"] @Localizer["VolContract"]: @ViewBag.NameOfVolunteer</h1>
+<hr />
+<head>
+    <style>
+
+        /*body {
+                background-color: darkgray;
+            }*/
+        .emp-profile {
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-right: 3%;
+            padding-bottom: 1%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            border-radius: 0.5rem;
+            background: #fff;
+        }
+
+        .profile-head h5 {
+            color: #333;
+        }
+
+        .profile-head h6 {
+            color: #0062cc;
+        }
+
+        .proile-rating {
+            font-size: 15px;
+            color: #818182;
+            margin-top: 5%;
+        }
+
+        .emp-profile label {
+            font-size: 18px;
+            color: black;
+            font-weight: 600;
+        }
+
+        .emp-profile img {
+            padding-right: 2px;
+            width: 45px;
+            height: 35px;
+        }
+    </style>
+</head>
+
+<div>
+    <h3 style="color: red">
+        @ViewBag.message
+    </h3>
+</div>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input data-val="true" id="ContractID" name="ContractID" type="hidden" value=@idOfContract />
+    <div class=" emp-profile">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["NumberOfRegistration"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.AdditionalContractNumberOfRegistration, new { htmlAttributes = new { @class = "form-control", maxlength = "25" } })
+                            @Html.ValidationMessageFor(model => model.AdditionalContractNumberOfRegistration, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label> @Localizer["RegistrationDate"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" id="RegistrationDate" type="date" name="RegistrationDate" value="2021-01-01" onchange="test()" />
+                            @Html.ValidationMessageFor(model => model.RegistrationDate, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Localizer["ExpirationDate"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" id="ExpirationDate" type="date" name="ExpirationDate" value="2021-01-01" onchange="test()" />
+                            @Html.ValidationMessageFor(model => model.ExpirationDate, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />|
+                    <button type="button" name="cancel" class="btn btn-primary" onclick=" history.back();">@Localizer["BackToList"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function test() {
+        var startDate = document.getElementById("RegistrationDate").value;
+        var expDate = document.getElementById("ExpirationDate").value;
+
+        var startDT = new Date(startDate).getTime();
+        var expDT = new Date(expDate).getTime();
+
+        if (startDT >= expDT) {
+            ExpirationDate.setCustomValidity("The Expiration Date must be after the registration date!");
+        }
+        else
+            ExpirationDate.setCustomValidity("");
+    }
+</script>
