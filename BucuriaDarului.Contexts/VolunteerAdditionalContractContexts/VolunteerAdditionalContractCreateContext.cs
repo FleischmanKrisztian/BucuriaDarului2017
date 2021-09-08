@@ -2,7 +2,7 @@
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using System;
 
-namespace BucuriaDarului.Contexts.VolunteerContractContexts
+namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
 {
     public class VolunteerAdditionalContractCreateContext
     {
@@ -14,7 +14,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             this.dataGateway = dataGateway;
         }
 
-        public VolunteerContractCreateResponse Execute(VolunteerAdditionalContractCreateRequest request)
+        public VolunteerAdditionalContractCreateResponse Execute(VolunteerAdditionalContractCreateRequest request)
         {
             var additionalContractToCreate = CreateAdditionalContract(request);
             if (response.IsValid)
@@ -68,7 +68,8 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             else
                 contract.RegistrationDate = request.RegistrationDate.AddDays(1);
 
-            contract.Birthdate = volunteerContract.Birthdate;
+           
+                contract.Birthdate = volunteerContract.Birthdate;
             contract.Fullname = volunteerContract.Fullname;
             if (volunteerContract.CNP != "")
                 contract.CNP = volunteerContract.CNP;
@@ -88,7 +89,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             contract.PhoneNumber = volunteerContract.PhoneNumber;
             contract.HourCount = volunteerContract.HourCount;
             contract.Address = volunteerContract.Address;
-            contract.ContractID= volunteerContract.Id;
+            contract.ContractID = volunteerContract.Id;
             contract.ContractNumberOfRegistration = volunteerContract.NumberOfRegistration;
             contract.OwnerID = volunteerContract.OwnerID;
 

@@ -3,52 +3,54 @@ using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BucuriaDarului.Contexts.VolunteerContractContexts
+namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
 {
-    public class VolunteerContractIndexDisplayContext
+    public class VolunteerAdditionalContractIndexDisplayContext
     {
-        private readonly IVolunteerContractMainDisplayGateway dataGateway;
+        private readonly IVolunteerAdditionalContractMainDisplayGateway dataGateway;
 
-        public VolunteerContractIndexDisplayContext(IVolunteerContractMainDisplayGateway dataGateway)
+        public VolunteerAdditionalContractIndexDisplayContext(IVolunteerAdditionalContractMainDisplayGateway dataGateway)
         {
             this.dataGateway = dataGateway;
         }
 
-        public VolunteerContractsMainDisplayIndexResponse Execute(VolunteerContractsMainDisplayIndexRequest request)
+        public VolunteerAdditionalContractsMainDisplayIndexResponse Execute(VolunteerAdditionalContractsMainDisplayIndexRequest request)
         {
-            var contracts = dataGateway.GetListVolunteerContracts();
-            var volunteer = dataGateway.GetVolunteer(request.VolunteerId);
-            contracts = contracts.Where(z => z.OwnerID.ToString() == request.VolunteerId).ToList();
+            var additionalContracts = dataGateway.GetListAdditionalContracts();
+            var contract = dataGateway.GetContract(request.ContractId);
+            additionalContracts = additionalContracts.Where(z => z.ContractID.ToString() == request.ContractId).ToList();
 
-            return new VolunteerContractsMainDisplayIndexResponse(contracts, volunteer.Fullname, volunteer.Id);
+            return new VolunteerAdditionalContractsMainDisplayIndexResponse(additionalContracts, contract.Fullname,contract.OwnerID, contract.Id);
         }
     }
 
-    public class VolunteerContractsMainDisplayIndexRequest
+    public class VolunteerAdditionalContractsMainDisplayIndexRequest
     {
-        public string VolunteerId { get; set; }
+        public string ContractId { get; set; }
 
         public int NrOfDocumentsPerPage { get; set; }
 
-        public VolunteerContractsMainDisplayIndexRequest(string volunteerId, int nrOfDocs)
+        public VolunteerAdditionalContractsMainDisplayIndexRequest(string contractId, int nrOfDocs)
         {
-            VolunteerId = volunteerId;
+            ContractId = contractId;
             NrOfDocumentsPerPage = nrOfDocs;
         }
     }
 
-    public class VolunteerContractsMainDisplayIndexResponse
+    public class VolunteerAdditionalContractsMainDisplayIndexResponse
     {
-        public List<VolunteerContract> Contracts { get; set; }
+        public List<AdditionalContractVolunteer> Contracts { get; set; }
         public string NameOfVolunteer { get; set; }
         public string Query { get; set; }
         public string VolunteerId { get; set; }
+        public string ContractId { get; set; }
 
-        public VolunteerContractsMainDisplayIndexResponse(List<VolunteerContract> contracts, string nameOfVolunteer, string volunteerId)
+        public VolunteerAdditionalContractsMainDisplayIndexResponse(List<AdditionalContractVolunteer> contracts, string nameOfVolunteer, string volunteerId,string contractId)
         {
             Contracts = contracts;
             NameOfVolunteer = nameOfVolunteer;
             VolunteerId = volunteerId;
+            ContractId = contractId;
         }
     }
 }

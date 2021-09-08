@@ -38,6 +38,12 @@ namespace BucuriaDarului.Web.Controllers
             return View(contracts);
         }
 
+        public ActionResult AdditionalContracts(string id)
+        {
+            ViewBag.query = HttpContext.Session.GetString("queryString");
+            return RedirectToAction("Index", "VolunteerAdditionalContract", new { id = id });
+        }
+
         [HttpGet]
         public ActionResult Create(string idOfVolunteer, string message)
         {

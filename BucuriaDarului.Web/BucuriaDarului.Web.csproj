@@ -68,6 +68,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Views\VolunteerContract\" />
     <Folder Include="wwwroot\lib\NewFolder\" />
   </ItemGroup>
 
