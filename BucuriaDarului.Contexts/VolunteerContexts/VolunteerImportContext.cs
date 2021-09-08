@@ -4,6 +4,7 @@ using ExcelDataReader;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -159,7 +160,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private static string[] GetCsvRow(IExcelDataReader reader, int numberOfColumns)
         {
             var list = new string[numberOfColumns];
-            int j = 0;
+            int j;
             for (j = 0; j < numberOfColumns; j++)
             {
                 if (reader.GetValue(j) != null)
@@ -230,6 +231,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         private static Volunteer GetDataFromCSVLine(string[] line, Volunteer volunteer)
         {
+            var culture = CultureInfo.CreateSpecificCulture("ro-RO");
+            var styles = DateTimeStyles.None;
             foreach (var c in list)
             {
                 if (c.Key != 0)
@@ -275,6 +278,103 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         else
                             volunteer.Gender = Gender.NotSpecified;
                     }
+                    if (c.Value == "DriversLicense")
+                    {
+                        if (line[c.Key] == "TRUE" || line[c.Key] == "FALSE")
+                            volunteer.AdditionalInfo.HasDrivingLicense = Convert.ToBoolean(line[c.Key]);
+                        else if (line[c.Key] == "no" || line[c.Key] == "nu")
+                            volunteer.AdditionalInfo.HasDrivingLicense = false;
+                        else if (line[c.Key] == "yes" || line[c.Key] == "da")
+                            volunteer.AdditionalInfo.HasDrivingLicense = true;
+                    }
+                    if (c.Value == "HasCar")
+                    {
+                        if (line[c.Key] == "TRUE" || line[c.Key] == "FALSE")
+                            volunteer.AdditionalInfo.HasCar = Convert.ToBoolean(line[c.Key]);
+                        else if (line[c.Key] == "no" || line[c.Key] == "nu")
+                            volunteer.AdditionalInfo.HasCar = false;
+                        else if (line[c.Key] == "yes" || line[c.Key] == "da")
+                            volunteer.AdditionalInfo.HasCar = true;
+                    }
+                    if (c.Value == "FieldOfActivity")
+                        volunteer.FieldOfActivity = line[c.Key];
+                    if (c.Value == "Gender" && volunteer.CNP != null && volunteer.CNP != string.Empty)
+                    {
+                        if (line[c.Key] == "f" || line[c.Key] == "feminin" || line[c.Key] == "Feminin" || line[c.Key] == "Female" || line[c.Key] == "female" || line[c.Key] == "FEMALE" || line[c.Key] == "FEMININ" || line[c.Key] == "F")
+                            volunteer.Gender = Gender.Female;
+                        else if (line[c.Key] == "m" || line[c.Key] == "masculin" || line[c.Key] == "Masculin" || line[c.Key] == "Male" || line[c.Key] == "male" || line[c.Key] == "MALE" || line[c.Key] == "MASCULIN" || line[c.Key] == "M")
+                            volunteer.Gender = Gender.Male;
+                        else
+                            volunteer.Gender = Gender.NotSpecified;
+                    }
+                    if (c.Value == "Occupation")
+                        volunteer.Occupation = line[c.Key];
+                    if (c.Value == "HasCI")
+                    {
+                        if (volunteer.CI.Info != null && volunteer.CI.Info != string.Empty)
+                            volunteer.CI.HasId = true;
+                        else if (line[c.Key] == "TRUE" || line[c.Key] == "FALSE")
+                            volunteer.CI.HasId = Convert.ToBoolean(line[c.Key]);
+                        else if (line[c.Key] == "no" || line[c.Key] == "nu")
+                            volunteer.CI.HasId = false;
+                        else if (line[c.Key] == "yes" || line[c.Key] == "da")
+                            volunteer.CI.HasId = true;
+                        else
+                            volunteer.CI.HasId = false;
+                    }
+                    if (c.Value == "CIExpirationDate")
+                    {
+                        var dateLine = line[c.Key];
+                        DateTime date;
+                        try
+                        {
+                            date = Convert.ToDateTime(dateLine);
+
+                        }
+                        catch
+                        {
+                            string[] splitLine = new string[3];
+                            if (line[c.Key].Contains("."))
+                                splitLine = dateLine.Split(".");
+                            if (line[c.Key].Contains("/"))
+                                splitLine = dateLine.Split("/");
+                            if (line[c.Key].Contains("-"))
+                                splitLine = dateLine.Split("-");
+                            if (DateTime.TryParse(splitLine[0] + "." + splitLine[1] + "." + splitLine[2], culture, styles, out var dateResult2))
+                                date = dateResult2;
+                            else
+                                date = DateTime.MinValue;
+                        }
+                        volunteer.CI.ExpirationDate = date;
+                    }
+                
+
+                        if (c.Value == "Birthdate" && volunteer.CNP != string.Empty && volunteer.CNP != null)
+                        {
+                            var birthdateLine = line[c.Key];
+                        DateTime date;
+                            try
+                            {
+                                 date = Convert.ToDateTime(birthdateLine);
+                           
+                            }
+                            catch
+                            {
+                                string[] splitLine = new string[3];
+                                if (line[c.Key].Contains("."))
+                                    splitLine = birthdateLine.Split(".");
+                                if (line[c.Key].Contains("/"))
+                                    splitLine = birthdateLine.Split("/");
+                                if (line[c.Key].Contains("-"))
+                                    splitLine = birthdateLine.Split("-");
+                                if (DateTime.TryParse(splitLine[0] + "." + splitLine[1] + "." + splitLine[2], culture, styles, out var dateResult2))
+                                    date = dateResult2;
+                                else
+                                    date = DateTime.MinValue;
+                            }
+                        volunteer.Birthdate = date;
+                        }
+
                     try
                     {
                         if (c.Value == "WorkingHours")
@@ -299,6 +399,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
                     volunteer.InActivity = true;
                 }
+
+                if (c.Value == "Ids" && volunteer.Id == null & volunteer.Id == string.Empty)
+                {
+                    volunteer.Id = line[c.Key];
+                }
             }
 
             return volunteer;
@@ -316,8 +421,8 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 {
                     if (overwrite == "no")
                     {
-                        volunteer.Id = Guid.NewGuid().ToString();
                         volunteer = GetDataFromCSVLine(line, volunteer);
+                        volunteer.Id = Guid.NewGuid().ToString();
                     }
                     else
                     {
