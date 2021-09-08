@@ -1,4 +1,5 @@
-﻿using BucuriaDarului.Core;
+﻿using Aspose.Cells;
+using BucuriaDarului.Core;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
@@ -17,118 +18,285 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public VolunteerExporterResponse Execute(VolunteerExporterRequest request)
         {
-            var idsAndFields = GetIdAndFieldString(request.ExportParameters);
-            var header = GetHeaderForExcelPrinterVolunteer();
-            var response = new VolunteerExporterResponse(CreateDictionaries(Constants.VOLUNTEER_SESSION, Constants.VOLUNTEER_HEADER, idsAndFields, header));
-            response.IsValid = CheckForProperties(idsAndFields);
-            if (!string.IsNullOrEmpty(request.ExportParameters.FileName))
-            {
-                if (request.ExportParameters.FileName.Contains(".xls"))
-                    response.FileName = request.ExportParameters.FileName;
-                else
-                    response.FileName = request.ExportParameters.FileName + ".xls";
-            }
-            else
-                response.FileName = localizer["VolunteersReport"] + DateTime.Now.ToString() + ".xls";
+            var lines = ReadMappingTemplate();
+            var listOfColumns = GetListOfColumnsTemplate(lines);
+
+            CreateExcelFile(request, listOfColumns);
+
+            var response = new VolunteerExporterResponse();
             return response;
         }
 
-        private bool CheckForProperties(string idsAndFields)
+        private void CreateExcelFile(VolunteerExporterRequest request, List<KeyValuePair<string, string>> listOfColumns)
         {
-            var splitStrings = idsAndFields.Split("(((");
-            if (splitStrings[1] == "")
-                return false;
+            var volunteerIds = GetIds(request.ExportParameters.StringOfIDs);
+            Workbook wb = new Workbook(fileFormatType: FileFormatType.Xlsx);
+            Worksheet sheet = wb.Worksheets[0];
+            Cell cell = sheet.Cells["A1"];
 
-            return true;
-        }
-
-        private string GetIdAndFieldString(ExportParameters csv)
-        {
-            var idsAndOptions = csv.StringOfIDs + "(((";
-            if (csv.Fullname && csv.Birthdate && csv.Address && csv.Gender && csv.DesiredWorkplace && csv.CNP && csv.FieldOfActivity && csv.Occupation &&
-                csv.HasId && csv.IdInfo && csv.IdExpirationDate && csv.Active && csv.HourCount && csv.PhoneNumber && csv.EmailAddress && csv.DriversLicense
-                && csv.HasCar)
-                idsAndOptions += "0";
-            if (csv.Fullname)
-                idsAndOptions += "1";
-            if (csv.Birthdate)
-                idsAndOptions += "2";
-            if (csv.Address)
-                idsAndOptions += "3";
-            if (csv.Gender)
-                idsAndOptions += "4";
-            if (csv.DesiredWorkplace)
-                idsAndOptions += "5";
-            if (csv.CNP)
-                idsAndOptions += "6";
-            if (csv.FieldOfActivity)
-                idsAndOptions += "7";
-            if (csv.Occupation)
-                idsAndOptions += "8";
-            if (csv.HasId)
-                idsAndOptions += "9";
-            if (csv.IdInfo)
-                idsAndOptions += "A";
-            if (csv.IdExpirationDate)
-                idsAndOptions += "B";
-            if (csv.Active)
-                idsAndOptions += "C";
-            if (csv.HourCount)
-                idsAndOptions += "D";
-            if (csv.PhoneNumber)
-                idsAndOptions += "E";
-            if (csv.EmailAddress)
-                idsAndOptions += "F";
-            if (csv.DriversLicense)
-                idsAndOptions += "G";
-            if (csv.HasCar)
-                idsAndOptions += "H";
-            return idsAndOptions;
-        }
-
-        private string GetHeaderForExcelPrinterVolunteer()
-        {
-            var header = new string[19];
-            header[0] = localizer["Ids"];
-            header[1] = localizer["Fullname"];
-            header[2] = localizer["Birthdate"];
-            header[3] = localizer["Address"];
-            header[4] = localizer["Gender"];
-            header[5] = localizer["DesiredArea"];
-            header[6] = localizer["CNP"];
-            header[7] = localizer["FieldOfActivity"];
-            header[8] = localizer["Occupation"];
-            header[9] = localizer["HasId"];
-            header[10] = localizer["IdInformation"];
-            header[11] = localizer["IdExpirationDate"];
-            header[12] = localizer["Active"];
-            header[13] = localizer["HourCount"];
-            header[14] = localizer["PhoneNumber"];
-            header[15] = localizer["EmailAddress"];
-            header[16] = localizer["HasDrivingLicense"];
-            header[17] = localizer["HasCar"];
-            header[18] = localizer["Remark"];
-
-            var result = string.Empty;
-            for (var i = 0; i < header.Count(); i++)
+            if (request.ExportParameters.All)
             {
-                if (i == 0)
-                { result = header[i]; }
-                else
-                { result = result + "," + header[i]; }
+                cell = sheet.Cells["A1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Ids").Value);
+                cell = sheet.Cells["B1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Name").Value);
+                cell = sheet.Cells["C1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Birthdate").Value);
+                cell = sheet.Cells["D1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Address").Value);
+                cell = sheet.Cells["E1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Gender").Value);
+                cell = sheet.Cells["F1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "DesiredWorkplace").Value);
+                cell = sheet.Cells["G1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CNP").Value);
+                cell = sheet.Cells["H1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "FieldOfActivity").Value);
+                cell = sheet.Cells["I1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Occupation").Value);
+                cell = sheet.Cells["J1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "HasCI").Value);
+                cell = sheet.Cells["K1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CI").Value);
+                cell = sheet.Cells["L1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CIExpirationDate").Value);
+                cell = sheet.Cells["M1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "WorkingHours").Value);
+                cell = sheet.Cells["N1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "PhoneNumber").Value);
+                cell = sheet.Cells["O1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Mail").Value);
+                cell = sheet.Cells["P1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "DriversLicense").Value);
+                cell = sheet.Cells["Q1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "HasCar").Value);
+                cell = sheet.Cells["R1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Comments").Value);
+                cell = sheet.Cells["S1"];
+                cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Active").Value);
+
+                for (int i = 0; i < volunteerIds.Count; i++)
+                {
+                    var volunteer = Gateway.VolunteerGateways.SingleVolunteerReturnerGateway.ReturnVolunteer(volunteerIds[i]);
+                    cell = sheet.Cells["A" + (i + 2)];
+                    cell.PutValue(volunteer.Id);
+                    cell = sheet.Cells["B" + (i + 2)];
+                    cell.PutValue(volunteer.Fullname);
+                    cell = sheet.Cells["C" + (i + 2)];
+                    cell.PutValue(volunteer.Birthdate.ToShortDateString());
+                    cell = sheet.Cells["D" + (i + 2)];
+                    cell.PutValue(volunteer.Address);
+                    cell = sheet.Cells["E" + (i + 2)];
+                    cell.PutValue(volunteer.Gender);
+                    cell = sheet.Cells["F" + (i + 2)];
+                    cell.PutValue(volunteer.DesiredWorkplace);
+                    cell = sheet.Cells["G" + (i + 2)];
+                    cell.PutValue(volunteer.CNP);
+                    cell = sheet.Cells["H" + (i + 2)];
+                    cell.PutValue(volunteer.FieldOfActivity);
+                    cell = sheet.Cells["I" + (i + 2)];
+                    cell.PutValue(volunteer.Occupation);
+                    cell = sheet.Cells["J" + (i + 2)];
+                    cell.PutValue(volunteer.CI.HasId);
+                    cell = sheet.Cells["K" + (i + 2)];
+                    cell.PutValue(volunteer.CI.Info);
+                    cell = sheet.Cells["L" + (i + 2)];
+                    cell.PutValue(volunteer.CI.ExpirationDate);
+                    cell = sheet.Cells["M" + (i + 2)];
+                    cell.PutValue(volunteer.HourCount);
+                    cell = sheet.Cells["N" + (i + 2)];
+                    cell.PutValue(volunteer.ContactInformation.PhoneNumber);
+                    cell = sheet.Cells["O" + (i + 2)];
+                    cell.PutValue(volunteer.ContactInformation.MailAddress);
+                    cell = sheet.Cells["P" + (i + 2)];
+                    cell.PutValue(volunteer.AdditionalInfo.HasDrivingLicense);
+                    cell = sheet.Cells["Q" + (i + 2)];
+                    cell.PutValue(volunteer.AdditionalInfo.HasCar);
+                    cell = sheet.Cells["R" + (i + 2)];
+                    cell.PutValue(volunteer.AdditionalInfo.Remark);
+                    cell = sheet.Cells["S" + (i + 2)];
+                    cell.PutValue(volunteer.InActivity);
+
+                }
             }
-            return result;
+            else
+            {
+                for (int i = 0; i < volunteerIds.Count; i++)
+                {
+                    var volunteer = Gateway.VolunteerGateways.SingleVolunteerReturnerGateway.ReturnVolunteer(volunteerIds[i]);
+                    if (request.ExportParameters.Fullname)
+                    {
+                        cell = sheet.Cells["B1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Name").Value);
+                        cell = sheet.Cells["B" + (i + 2)];
+                        cell.PutValue(volunteer.Fullname);
+                    }
+                    if (request.ExportParameters.Birthdate)
+                    {
+                        cell = sheet.Cells["C1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Birthdate").Value);
+                        cell = sheet.Cells["C" + (i + 2)];
+                        cell.PutValue(volunteer.Birthdate.ToShortDateString());
+                    }
+                    if (request.ExportParameters.Address)
+                    {
+                        cell = sheet.Cells["D1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Address").Value);
+                        cell = sheet.Cells["D" + (i + 2)];
+                        cell.PutValue(volunteer.Address);
+                    }
+                    if (request.ExportParameters.Gender)
+                    {
+                        cell = sheet.Cells["E1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Gender").Value);
+                        cell = sheet.Cells["E" + (i + 2)];
+                        cell.PutValue(volunteer.Gender);
+                    }
+                    if (request.ExportParameters.DesiredWorkplace)
+                    {
+                        cell = sheet.Cells["F1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "DesiredWorkplace").Value);
+                        cell = sheet.Cells["F" + (i + 2)];
+                        cell.PutValue(volunteer.DesiredWorkplace);
+                    }
+                    if (request.ExportParameters.CNP)
+                    {
+                        cell = sheet.Cells["G1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CNP").Value);
+                        cell = sheet.Cells["G" + (i + 2)];
+                        cell.PutValue(volunteer.CNP);
+                    }
+                    if (request.ExportParameters.FieldOfActivity)
+                    {
+                        cell = sheet.Cells["H1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "FieldOfActivity").Value);
+                        cell = sheet.Cells["H" + (i + 2)];
+                        cell.PutValue(volunteer.FieldOfActivity);
+                    }
+                    if (request.ExportParameters.Occupation)
+                    {
+                        cell = sheet.Cells["I1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Occupation").Value);
+                        cell = sheet.Cells["I" + (i + 2)];
+                        cell.PutValue(volunteer.Occupation);
+                    }
+                    if (request.ExportParameters.HasId)
+                    {
+                        cell = sheet.Cells["J1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "HasCI").Value);
+                        cell = sheet.Cells["J" + (i + 2)];
+                        cell.PutValue(volunteer.CI.HasId);
+                    }
+                    if (request.ExportParameters.IdInfo)
+                    {
+                        cell = sheet.Cells["K1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CI").Value);
+                        cell = sheet.Cells["K" + (i + 2)];
+                        cell.PutValue(volunteer.CI.Info);
+                    }
+                    if (request.ExportParameters.IdExpirationDate)
+                    {
+                        cell = sheet.Cells["L1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CIExpirationDate").Value);
+                        cell = sheet.Cells["L" + (i + 2)];
+                        cell.PutValue(volunteer.CI.ExpirationDate);
+                    }
+                    if (request.ExportParameters.HourCount)
+                    {
+                        cell = sheet.Cells["M1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "WorkingHours").Value);
+                        cell = sheet.Cells["M" + (i + 2)];
+                        cell.PutValue(volunteer.HourCount);
+                    }
+                    if (request.ExportParameters.PhoneNumber)
+                    {
+                        cell = sheet.Cells["N1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "PhoneNumber").Value);
+                        cell = sheet.Cells["N" + (i + 2)];
+                        cell.PutValue(volunteer.ContactInformation.PhoneNumber);
+                    }
+                    if (request.ExportParameters.EmailAddress)
+                    {
+                        cell = sheet.Cells["O1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Mail").Value);
+                        cell = sheet.Cells["O" + (i + 2)];
+                        cell.PutValue(volunteer.ContactInformation.MailAddress);
+                    }
+                    if (request.ExportParameters.DriversLicense)
+                    {
+                        cell = sheet.Cells["P1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "DriversLicense").Value);
+                        cell = sheet.Cells["P" + (i + 2)];
+                        cell.PutValue(volunteer.AdditionalInfo.HasDrivingLicense);
+                    }   
+                    if (request.ExportParameters.HasCar)
+                    {
+                        cell = sheet.Cells["Q1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "HasCar").Value);
+                        cell = sheet.Cells["Q" + (i + 2)];
+                        cell.PutValue(volunteer.AdditionalInfo.HasCar);
+                    }
+                    if (request.ExportParameters.Active)
+                    {
+                        cell = sheet.Cells["S1"];
+                        cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Active").Value);
+                        cell = sheet.Cells["S" + (i + 2)];
+                        cell.PutValue(volunteer.InActivity);
+                    }
+                }
+
+            }
+                SaveWorkbook(request.ExportParameters.FileName, wb);
         }
 
-        private Dictionary<string, string> CreateDictionaries(string key1, string key2, string idsAndFields, string header)
+        private void SaveWorkbook(string fileName, Workbook wb)
         {
-            var result = new Dictionary<string, string>
-            {
-                { key1, idsAndFields },
-                { key2, header }
-            };
+            if (fileName != null)
+                wb.Save("C:\\Users\\z004ccfs\\Desktop\\" + fileName.TrimEnd() + ".xlsx", SaveFormat.Xlsx);
+            else
+                wb.Save("C:\\Users\\z004ccfs\\Desktop\\" + localizer["VolunteersReport"] + DateTime.Today.ToShortDateString().TrimEnd() + ".xlsx", SaveFormat.Xlsx);
+        }
 
-            return result;
+        public List<string> GetIds(string ids_)
+        {
+            var listOfIds = new List<string>();
+            var splitString = ids_.Split(",");
+            for (int i = 1; i < splitString.Count(); i++)
+            {
+                listOfIds.Add(splitString[i]);
+            }
+            return listOfIds;
+        }
+
+        public string[] ReadMappingTemplate()
+        {
+            var lines = new string[30];
+            var path = Environment.GetEnvironmentVariable(Constants.PATH_TO_VOLUNTEER_EXCEL_MAPPING_FILE);
+            int counter = 0; string line;
+            System.IO.StreamReader file = new System.IO.StreamReader(path);
+            while ((line = file.ReadLine()) != null)
+            {
+                lines[counter] = line;
+                counter++;
+            }
+            file.Close();
+
+            return lines;
+        }
+
+        public List<KeyValuePair<string, string>> GetListOfColumnsTemplate(string[] lines)
+        {
+            var listOfKeyValuePairs = new List<KeyValuePair<string, string>>();
+            foreach (var line in lines)
+            {
+                if (line != "" && line != null)
+                {
+                    var splitLine = line.Split("=");
+                    listOfKeyValuePairs.Add(new KeyValuePair<string, string>(splitLine[0], splitLine[1]));
+                }
+            }
+
+            return listOfKeyValuePairs;
         }
     }
 
@@ -139,11 +307,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public bool IsValid { get; set; }
         public string FileName { get; set; }
 
-        public VolunteerExporterResponse(Dictionary<string, string> dictionary)
-        {
-            Dictionary = dictionary;
-            IsValid = true;
-        }
+        //public VolunteerExporterResponse(Dictionary<string, string> dictionary)
+        //{
+        //    Dictionary = dictionary;
+        //    IsValid = true;
+        //}
     }
 
     public class VolunteerExporterRequest

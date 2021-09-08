@@ -21,6 +21,3 @@ Gender=Gen
 Occupation=Ocupatia
 HasCI=Are carte de indentitate
 CIExpirationDate=Data expirarii CI
-
-
-
