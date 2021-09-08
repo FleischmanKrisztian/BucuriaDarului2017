@@ -87,7 +87,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     cell = sheet.Cells["D" + (i + 2)];
                     cell.PutValue(volunteer.Address);
                     cell = sheet.Cells["E" + (i + 2)];
-                    cell.PutValue(volunteer.Gender);
+                    if (volunteer.Gender == Gender.Male)
+                        cell.PutValue("M");
+                    else if (volunteer.Gender == Gender.Female)
+                        cell.PutValue("F");
+                    else
+                        cell.PutValue("N");
                     cell = sheet.Cells["F" + (i + 2)];
                     cell.PutValue(volunteer.DesiredWorkplace);
                     cell = sheet.Cells["G" + (i + 2)];
@@ -149,7 +154,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         cell = sheet.Cells["E1"];
                         cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Gender").Value);
                         cell = sheet.Cells["E" + (i + 2)];
-                        cell.PutValue(volunteer.Gender);
+                        if(volunteer.Gender==Gender.Male)
+                            cell.PutValue("M");
+                        else if (volunteer.Gender == Gender.Female)
+                            cell.PutValue("F");
+                        else 
+                            cell.PutValue("N");
                     }
                     if (request.ExportParameters.DesiredWorkplace)
                     {

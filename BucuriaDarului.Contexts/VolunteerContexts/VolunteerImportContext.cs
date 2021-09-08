@@ -13,7 +13,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class VolunteerImportContext
     {
         private readonly IVolunteerImportGateway dataGateway;
-        private static int _fileType = 0;
         private readonly IStringLocalizer localizer;
         private static List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>>();
 
