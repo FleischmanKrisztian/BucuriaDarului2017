@@ -1,4 +1,6 @@
 Index=nr. crt.
+Ids=Ids
+Active=Activ
 Name=nume si prenume
 CNP=CNP
 Address=domiciliu
@@ -8,6 +10,17 @@ RegistrationNumberAdditionalContract=nr. act aditional
 ContractPeriod=perioada contract
 WorkingHours=program lucru
 PhoneNumber=Telefon
-Mail=E-mail
 DesiredWorkplace=activitate preferata
+Mail=E-mail
 Comments=observatii
+Birthdate=Data nasterii
+DriversLicense=Permis de conducere
+HasCar=Masina
+FieldOfActivity=Domeniu de activitate
+Gender=Gen
+Occupation=Ocupatia
+HasCI=Are carte de indentitate
+CIExpirationDate=Data expirarii CI
+
+
+
