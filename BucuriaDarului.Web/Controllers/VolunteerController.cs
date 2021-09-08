@@ -72,9 +72,8 @@ namespace BucuriaDarului.Web.Controllers
         {
             var volunteerExporterContext = new VolunteerExporterContext(_localizer);
             var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
-            DictionaryHelper.d = volunteerExportData.Dictionary;
-            if (volunteerExportData.IsValid && volunteerExportData.FileName != "")
-                return DownloadCSV(volunteerExportData.FileName, Constants.VOLUNTEER_SESSION, Constants.VOLUNTEER_HEADER);
+            if (volunteerExportData.IsValid)
+                return File(new System.Text.UTF8Encoding().GetBytes(volunteerExportData.ToString()), "application/vnd.ms-excel", csvExportProperties.FileName);
             return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["Please select at least one Property!"] });
         }
 

@@ -21,13 +21,13 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var lines = ReadMappingTemplate();
             var listOfColumns = GetListOfColumnsTemplate(lines);
 
-            CreateExcelFile(request, listOfColumns);
+            var excelToDownload = CreateExcelFile(request, listOfColumns);
 
             var response = new VolunteerExporterResponse();
             return response;
         }
 
-        private void CreateExcelFile(VolunteerExporterRequest request, List<KeyValuePair<string, string>> listOfColumns)
+        private Workbook CreateExcelFile(VolunteerExporterRequest request, List<KeyValuePair<string, string>> listOfColumns)
         {
             var volunteerIds = GetIds(request.ExportParameters.StringOfIDs);
             Workbook wb = new Workbook(fileFormatType: FileFormatType.Xlsx);
@@ -106,7 +106,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     cell = sheet.Cells["K" + (i + 2)];
                     cell.PutValue(volunteer.CI.Info);
                     cell = sheet.Cells["L" + (i + 2)];
-                    cell.PutValue(volunteer.CI.ExpirationDate);
+                    cell.PutValue(volunteer.CI.ExpirationDate.ToShortDateString());
                     cell = sheet.Cells["M" + (i + 2)];
                     cell.PutValue(volunteer.HourCount);
                     cell = sheet.Cells["N" + (i + 2)];
@@ -208,7 +208,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         cell = sheet.Cells["L1"];
                         cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "CIExpirationDate").Value);
                         cell = sheet.Cells["L" + (i + 2)];
-                        cell.PutValue(volunteer.CI.ExpirationDate);
+                        cell.PutValue(volunteer.CI.ExpirationDate.ToShortDateString());
                     }
                     if (request.ExportParameters.HourCount)
                     {
@@ -255,6 +255,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
             }
             SaveWorkbook(request.ExportParameters.FileName, wb);
+            return wb;
         }
 
         private void SaveWorkbook(string fileName, Workbook wb)
@@ -313,7 +314,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public Dictionary<string, string> Dictionary { get; set; }
 
         public bool IsValid { get; set; }
-        public string FileName { get; set; }
+        public string Content { get; set; }
 
         //public VolunteerExporterResponse(Dictionary<string, string> dictionary)
         //{
