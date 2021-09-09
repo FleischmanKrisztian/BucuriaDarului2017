@@ -144,15 +144,20 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         private static string[] GetRowFromExcel(IExcelDataReader reader, int numberOfColumns)
         {
-            var list = new string[numberOfColumns];
+            var list = new string[reader.FieldCount];
             int j = 0;
 
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 if (reader.GetValue(i) != null)
                 {
-                    list[j] = reader.GetValue(i).ToString();
-                    j++;
+                    list[i] = reader.GetValue(i).ToString();
+                   
+                }
+                else
+                {
+                    list[i] = "";
+                    
                 }
             }
             return list;
@@ -221,7 +226,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     }
                     else if (c.Value == "Name")
                     {
-                        volunteer.Fullname = line[c.Key-1];
+                        volunteer.Fullname = line[c.Key - 1];
                     }
                     else if (c.Value == "CNP")
                         volunteer.CNP = line[c.Key - 1];
@@ -229,7 +234,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         volunteer.Address = line[c.Key - 1];
                     else if (c.Value == "CI")
                     {
-                        cI.Info = line[c.Key];
+                        cI.Info = line[c.Key - 1];
                         cI.HasId = true;
                     }
                     else if (c.Value == "PhoneNumber")
@@ -351,7 +356,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                             }
                         }
                     }
-
                 }
             }
             volunteer.InActivity = true;
@@ -382,9 +386,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         var filterCnp = list.FirstOrDefault(kvp => kvp.Value == "CNP");
                         var filterId = list.FirstOrDefault(kvp => kvp.Value == "Ids");
                         //TODO: TEST HERE IF we need both verifications
-                        if (listOfVolunteers.FindAll(x => x.CNP == line[filterCnp.Key-1]).Count != 0 || listOfVolunteers.FindAll(x => x.Id == line[filterId.Key-1]).Count != 0)
+                        if (listOfVolunteers.FindAll(x => x.CNP == line[filterCnp.Key - 1]).Count != 0 || listOfVolunteers.FindAll(x => x.Id == line[filterId.Key - 1]).Count != 0)
                         {
-                            var databaseVolunteer = listOfVolunteers.FirstOrDefault(x => x.CNP == line[filterCnp.Key-1] || x.Id == line[filterId.Key-1]);
+                            var databaseVolunteer = listOfVolunteers.FirstOrDefault(x => x.CNP == line[filterCnp.Key - 1] || x.Id == line[filterId.Key - 1]);
                             volunteer = GetDataFromCSVLine(line);
                             volunteer.Id = databaseVolunteer.Id;
                         }
