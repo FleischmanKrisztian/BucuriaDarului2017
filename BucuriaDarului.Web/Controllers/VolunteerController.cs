@@ -3,7 +3,6 @@ using BucuriaDarului.Contexts.VolunteerContractContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
-using BucuriaDarului.Web.Common;
 using BucuriaDarului.Web.ControllerHelpers.UniversalHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,8 +72,15 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerExporterContext = new VolunteerExporterContext(_localizer);
             var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(excelExportProperties));
             if (volunteerExportData.IsValid)
-                return RedirectToAction("ExcelExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["File Saved Successfully!"] });
+                return DownloadFile(volunteerExportData.Stream, volunteerExportData.FileName+".xls");
+                //TODO: Return Success Message to Screen
+            //TODO: Verification if there are any selected checkboxes
             return RedirectToAction("ExcelExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["Please select at least one Property!"] });
+        }
+
+        public FileContentResult DownloadFile(MemoryStream data, string fileName)
+        {
+            return File(data.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
         public ActionResult Birthday()

@@ -3,6 +3,7 @@ using BucuriaDarului.Core;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace BucuriaDarului.Contexts.VolunteerContexts
@@ -18,12 +19,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public VolunteerExporterResponse Execute(VolunteerExporterRequest request)
         {
-
             var lines = ReadMappingTemplate();
             var listOfColumns = GetListOfColumnsTemplate(lines);
             var excelToDownload = CreateExcelFile(request, listOfColumns);
+            var fileName = GetFileName(request.ExportParameters.FileName);
 
-            var response = new VolunteerExporterResponse(excelToDownload.ToString());
+            var stream = excelToDownload.SaveToStream();
+            var response = new VolunteerExporterResponse(stream,fileName,true);
+
             return response;
         }
 
@@ -154,11 +157,11 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         cell = sheet.Cells["E1"];
                         cell.PutValue(listOfColumns.FirstOrDefault(kvp => kvp.Key == "Gender").Value);
                         cell = sheet.Cells["E" + (i + 2)];
-                        if(volunteer.Gender==Gender.Male)
+                        if (volunteer.Gender == Gender.Male)
                             cell.PutValue("M");
                         else if (volunteer.Gender == Gender.Female)
                             cell.PutValue("F");
-                        else 
+                        else
                             cell.PutValue("N");
                     }
                     if (request.ExportParameters.DesiredWorkplace)
@@ -254,16 +257,15 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                     }
                 }
             }
-            SaveWorkbook(request.ExportParameters.FileName, wb);
             return wb;
         }
 
-        private void SaveWorkbook(string fileName, Workbook wb)
+        private string GetFileName(string fileName)
         {
             if (fileName != null)
-                wb.Save("C:\\Users\\z004ccfs\\Desktop\\" + fileName.TrimEnd() + ".xlsx", SaveFormat.Xlsx);
+                return fileName.TrimEnd();
             else
-                wb.Save("C:\\Users\\z004ccfs\\Desktop\\" + localizer["VolunteersReport"] + DateTime.Today.ToShortDateString().TrimEnd() + ".xlsx", SaveFormat.Xlsx);
+                return localizer["VolunteersReport"] + DateTime.Today.ToShortDateString().TrimEnd();
         }
 
         public List<string> GetIds(string ids_)
@@ -312,12 +314,15 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class VolunteerExporterResponse
     {
         public bool IsValid { get; set; }
-        public string Content { get; set; }
+        public MemoryStream Stream { get; set; }
 
-        public VolunteerExporterResponse(string content)
+        public string FileName { get; set; }
+
+        public VolunteerExporterResponse(MemoryStream content, string fileName, bool valid)
         {
-            Content = content;
-            IsValid = true;
+            Stream = content;
+            FileName = fileName;
+            IsValid = valid;
         }
     }
 

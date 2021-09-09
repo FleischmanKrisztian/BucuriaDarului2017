@@ -75,24 +75,6 @@
             </div>
         </div>
         <h3>
-            @Localizer["PleaseSelectLocation"]:
-        </h3>
-        <br />
-        <div class="row">
-            <div class="col-md-9">
-                <div class="row">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-6">
-                        <label> @Localizer["FileName"]:</label>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.EditorFor(model => model.Path)
-                        <hr />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h3>
             @Localizer["PleaseChooseWhatYouWantTheExcelToContain"]:
         </h3>
         <br />
