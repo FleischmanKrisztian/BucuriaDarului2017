@@ -3,7 +3,7 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "CSVExporter";
+    ViewData["Title"] = "ExcelExporter";
 }
 <head>
     <style>
@@ -45,7 +45,7 @@
     </style>
 </head>
 
-<form method="post" action="/Volunteer/CsvExporter" enctype="multipart/form-data">
+<form method="post" action="/Volunteer/ExcelExporter" enctype="multipart/form-data">
 
     @Html.AntiForgeryToken()
     <input id="StringOfIDs" name="StringOfIDs" type="hidden" value=@ViewBag.Ids />
@@ -69,6 +69,24 @@
                     </div>
                     <div class="col-md-2">
                         @Html.EditorFor(model => model.FileName)
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>
+            @Localizer["PleaseSelectLocation"]:
+        </h3>
+        <br />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-md-6">
+                        <label> @Localizer["FileName"]:</label>
+                    </div>
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Path)
                         <hr />
                     </div>
                 </div>

@@ -52,6 +52,10 @@ msgstr "Adresă"
 msgid "BackToList"	
 msgstr "Înapoi la listă"
 
+PleaseSelectLocation
+msgid "PleaseSelectLocation"	
+msgstr "Selectati locația unde să salvati"
+
 msgid "Beneficiary"	
 msgstr "Beneficiar"
 

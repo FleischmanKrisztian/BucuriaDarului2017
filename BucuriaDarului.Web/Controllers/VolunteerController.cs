@@ -58,7 +58,7 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult CsvExporter(string dictionaryKey, string message)
+        public ActionResult ExcelExporter(string dictionaryKey, string message)
         {
             ViewBag.query = HttpContext.Session.GetString("queryString");
             var stringOfIds = HttpContext.Session.GetString(dictionaryKey);
@@ -68,23 +68,13 @@ namespace BucuriaDarului.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CsvExporter(ExportParameters csvExportProperties)
+        public ActionResult ExcelExporter(ExportParameters excelExportProperties)
         {
             var volunteerExporterContext = new VolunteerExporterContext(_localizer);
-            var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(csvExportProperties));
+            var volunteerExportData = volunteerExporterContext.Execute(new VolunteerExporterRequest(excelExportProperties));
             if (volunteerExportData.IsValid)
-                return File(new System.Text.UTF8Encoding().GetBytes(volunteerExportData.ToString()), "application/vnd.ms-excel", csvExportProperties.FileName);
-            return RedirectToAction("CsvExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["Please select at least one Property!"] });
-        }
-
-        public FileContentResult DownloadCSV(string fileName, string idsKey, string headerKey)
-        {
-            DictionaryHelper.d.TryGetValue(idsKey, out var ids);
-            DictionaryHelper.d.TryGetValue(headerKey, out var header);
-            var context = new VolunteerDownloadContext(new VolunteerDownloadGateway());
-            var response = context.Execute(ids, header);
-
-            return File(new System.Text.UTF8Encoding().GetBytes(response.ToString()), "application/vnd.ms-excel", fileName);
+                return RedirectToAction("ExcelExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["File Saved Successfully!"] });
+            return RedirectToAction("ExcelExporter", new { dictionaryKey = Constants.VOLUNTEER_SESSION, message = @_localizer["Please select at least one Property!"] });
         }
 
         public ActionResult Birthday()

@@ -18,12 +18,12 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public VolunteerExporterResponse Execute(VolunteerExporterRequest request)
         {
+
             var lines = ReadMappingTemplate();
             var listOfColumns = GetListOfColumnsTemplate(lines);
-
             var excelToDownload = CreateExcelFile(request, listOfColumns);
 
-            var response = new VolunteerExporterResponse();
+            var response = new VolunteerExporterResponse(excelToDownload.ToString());
             return response;
         }
 
@@ -261,9 +261,9 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         private void SaveWorkbook(string fileName, Workbook wb)
         {
             if (fileName != null)
-                wb.Save("C:\\Users\\z004dj3m\\Desktop\\" + fileName.TrimEnd() + ".xlsx", SaveFormat.Xlsx);
+                wb.Save("C:\\Users\\z004ccfs\\Desktop\\" + fileName.TrimEnd() + ".xlsx", SaveFormat.Xlsx);
             else
-                wb.Save("C:\\Users\\z004dj3m\\Desktop\\" + localizer["VolunteersReport"] + DateTime.Today.ToShortDateString().TrimEnd() + ".xlsx", SaveFormat.Xlsx);
+                wb.Save("C:\\Users\\z004ccfs\\Desktop\\" + localizer["VolunteersReport"] + DateTime.Today.ToShortDateString().TrimEnd() + ".xlsx", SaveFormat.Xlsx);
         }
 
         public List<string> GetIds(string ids_)
@@ -311,16 +311,14 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
     public class VolunteerExporterResponse
     {
-        public Dictionary<string, string> Dictionary { get; set; }
-
         public bool IsValid { get; set; }
         public string Content { get; set; }
 
-        //public VolunteerExporterResponse(Dictionary<string, string> dictionary)
-        //{
-        //    Dictionary = dictionary;
-        //    IsValid = true;
-        //}
+        public VolunteerExporterResponse(string content)
+        {
+            Content = content;
+            IsValid = true;
+        }
     }
 
     public class VolunteerExporterRequest
@@ -355,5 +353,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public bool DriversLicense { get; set; }
         public bool HasCar { get; set; }
         public string FileName { get; set; }
+        public string Path { get; set; }
     }
 }
