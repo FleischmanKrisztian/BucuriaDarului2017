@@ -43,7 +43,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             }
             
             request.CI.ExpirationDate = request.CI.ExpirationDate.AddHours(5);
-            
+
             var validatedVolunteer = new Volunteer
             {
                 Id = Guid.NewGuid().ToString(),
@@ -56,7 +56,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 FieldOfActivity = request.FieldOfActivity,
                 Occupation = request.Occupation,
                 CI = request.CI,
-                InActivity = request.InActivity,
+                InActivity = false,
                 HourCount = request.HourCount,
                 ContactInformation = request.ContactInformation,
                 AdditionalInfo = request.AdditionalInfo
@@ -163,8 +163,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public string Occupation { get; set; }
 
         public CI CI { get; set; }
-
-        public bool InActivity { get; set; }
 
         public string HourCount { get; set; }
 

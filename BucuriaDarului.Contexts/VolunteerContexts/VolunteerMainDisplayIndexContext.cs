@@ -238,6 +238,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
     public class VolunteerMainDisplayIndexResponse
     {
         public List<Volunteer> Volunteers { get; set; }
+        public string VolunteersLastContract { get; set; }
 
         public FilterData FilterData { get; set; }
 
