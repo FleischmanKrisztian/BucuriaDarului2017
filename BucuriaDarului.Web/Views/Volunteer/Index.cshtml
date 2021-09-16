@@ -363,7 +363,7 @@
                             <a href=@Url.Action("Delete", new { id = item.Id })> <img src="~/Resources/delete.jpg" width="40" height="40" title=" @Localizer["Delete"]"> </a>
                             @if (item.CNP != "" && item.CNP != null && item.CI.Info != "" && item.CI.Info != null)
                             {
-                                <a href=@Url.Action("Contracts", new { id = item.Id })><img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"><span class="i-circle"> @Model.VolunteerNumberOfContracts[item.Id]</span></a>
+                                <a href=@Url.Action("Contracts", new { id = item.Id })><img src="~/Resources/contract.jpg" width="40" height="40" title="@Localizer["Contracts"]"><span class="i-circle"> @Model.VolunteerNumberOfContracts[item.Id]/@Model.VolunteerNumberOfAdditionals[item.Id]</span></a>
                             }
                             else
                             {

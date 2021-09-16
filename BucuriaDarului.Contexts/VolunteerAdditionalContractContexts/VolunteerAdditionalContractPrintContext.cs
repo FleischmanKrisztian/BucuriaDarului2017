@@ -1,10 +1,7 @@
 ﻿using BucuriaDarului.Core;
 using BucuriaDarului.Core.Gateways.VolunteerContractGateways;
 using Novacode;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
 {
@@ -31,7 +28,7 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
 
                 var contract = dataGateway.GetAdditionalContract(idAdditionalContract);
 
-                response.FileName = GetFileName(fileName, contract.Fullname, contract.ContractNumberOfRegistration );
+                response.FileName = GetFileName(fileName, contract.Fullname, contract.ContractNumberOfRegistration);
 
                 document = FillInDocument(document, contract);
                 MemoryStream stream = new MemoryStream();
@@ -62,13 +59,14 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
                 document.ReplaceText("<CiInfo>", contract.CI.Info);
             if (contract.PhoneNumber != null)
                 document.ReplaceText("<tel>", contract.PhoneNumber);
+            document.ReplaceText("<creationdate>", contract.CreationDate.ToShortDateString());
             document.ReplaceText("<startdate>", contract.RegistrationDate.ToShortDateString());
             document.ReplaceText("<finishdate>", contract.ExpirationDate.ToShortDateString());
             document.ReplaceText("<hourcount>", contract.HourCount.ToString());
             return document;
         }
 
-        public string GetFileName(string fileName, string Fullname,string contractNumberOfRegistration)
+        public string GetFileName(string fileName, string Fullname, string contractNumberOfRegistration)
         {
             var resultName = string.Empty;
             if (!string.IsNullOrEmpty(fileName))
@@ -80,7 +78,7 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
             }
             else
             {
-                resultName = "ContractAditional" + "-" + Fullname.Replace(' ', '_')+"-"+ contractNumberOfRegistration + ".docx";
+                resultName = "ContractAditional" + "-" + Fullname.Replace(' ', '_') + "-" + contractNumberOfRegistration + ".docx";
             }
 
             return resultName;

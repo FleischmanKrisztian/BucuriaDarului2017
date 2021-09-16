@@ -53,6 +53,13 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
             }
             else
                 contract.AdditionalContractNumberOfRegistration = request.AdditionalContractNumberOfRegistration;
+            if (request.CreationDate < DateTime.MinValue.AddYears(3))
+            {
+                response.IsValid = false;
+                response.Message += "Please enter a valid Creation Date!";
+            }
+            else
+                contract.ExpirationDate = request.ExpirationDate.AddDays(1);
             if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
             {
                 response.IsValid = false;
@@ -68,7 +75,6 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
             else
                 contract.RegistrationDate = request.RegistrationDate.AddDays(1);
 
-           
                 contract.Birthdate = volunteerContract.Birthdate;
             contract.Fullname = volunteerContract.Fullname;
             if (volunteerContract.CNP != "")
@@ -116,8 +122,8 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
         public string ContractID { get; set; }
         public string NumberOfRegistration { get; set; }
         public string AdditionalContractNumberOfRegistration { get; set; }
+        public DateTime CreationDate { get; set; }
         public DateTime RegistrationDate { get; set; }
-
         public DateTime ExpirationDate { get; set; }
     }
 }

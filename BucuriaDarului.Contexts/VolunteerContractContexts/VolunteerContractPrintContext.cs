@@ -57,6 +57,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
                 document.ReplaceText("<CiInfo>", contract.CI.Info);
             if (contract.PhoneNumber != null)
                 document.ReplaceText("<tel>", contract.PhoneNumber);
+            document.ReplaceText("<creationdate>", contract.CreationDate.ToShortDateString());
             document.ReplaceText("<startdate>", contract.RegistrationDate.ToShortDateString());
             document.ReplaceText("<finishdate>", contract.ExpirationDate.ToShortDateString());
             document.ReplaceText("<hourcount>", contract.HourCount.ToString());

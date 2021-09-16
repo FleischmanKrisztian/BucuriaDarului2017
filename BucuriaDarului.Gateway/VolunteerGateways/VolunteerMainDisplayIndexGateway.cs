@@ -9,6 +9,11 @@ namespace BucuriaDarului.Gateway.VolunteerGateways
     {
         private MongoDBGateway dbContext = new MongoDBGateway();
 
+        public List<AdditionalContractVolunteer> GetAdditionalContractList()
+        {
+            return ListVolunteerAdditionalContractGateway.GetListAdditionalContracts();
+        }
+
         public List<VolunteerContract> GetContractList()
         {
             return ListVolunteerContractGateway.GetListVolunteerContracts();

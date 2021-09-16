@@ -26,11 +26,27 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             var stringOfIDs = GetStringOfIds(volunteers);
             volunteers = GetVolunteersAfterPaging(volunteers, request.PagingData);
             var contracts = dataGateway.GetContractList();
+            var additionalContracts = dataGateway.GetAdditionalContractList();
             var numberOfContracts = GetNumberOfContractsForVolunteer(contracts, volunteers);
-            return new VolunteerMainDisplayIndexResponse(volunteers, request.FilterData, request.PagingData, emptyDatabase, volunteersAfterFiltering, stringOfIDs, Constants.VOLUNTEER_SESSION, CreateDictionary(Constants.VOLUNTEER_SESSION, stringOfIDs), numberOfContracts);
+            var numberOfAdditionals = GetNumberOfAdditionalContractsForVolunteer(additionalContracts, volunteers);
+
+            return new VolunteerMainDisplayIndexResponse(volunteers, request.FilterData, request.PagingData, emptyDatabase, volunteersAfterFiltering, stringOfIDs, Constants.VOLUNTEER_SESSION, CreateDictionary(Constants.VOLUNTEER_SESSION, stringOfIDs), numberOfContracts , numberOfAdditionals);
         }
 
         public Dictionary<string, int> GetNumberOfContractsForVolunteer(List<VolunteerContract> contracts, List<Volunteer> volunteers)
+        {
+            var d = new Dictionary<string, int>();
+            foreach (var volunteer in volunteers)
+            {
+                var contractsList = contracts.Where(z => z.OwnerID.ToString() == volunteer.Id).ToList();
+                var numberOfContracts = contractsList.Count();
+                d.Add(volunteer.Id, numberOfContracts);
+            }
+
+            return d;
+        }
+
+        public Dictionary<string, int> GetNumberOfAdditionalContractsForVolunteer(List<AdditionalContractVolunteer> contracts, List<Volunteer> volunteers)
         {
             var d = new Dictionary<string, int>();
             foreach (var volunteer in volunteers)
@@ -230,6 +246,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public int TotalVolunteers { get; set; }
 
         public Dictionary<string, int> VolunteerNumberOfContracts { get; set; }
+        public Dictionary<string, int> VolunteerNumberOfAdditionals { get; set; }
 
         public bool EmptyDatabase { get; set; }
 
@@ -239,7 +256,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
         public Dictionary<string, string> IdsDictionary { get; set; }
 
-        public VolunteerMainDisplayIndexResponse(List<Volunteer> volunteers, FilterData filterData, PagingData pagingData, bool emptyDatabase, int volunteersAfterFiltering, string stringOfIDs, string dictionaryKey, Dictionary<string, string> idsDictionary, Dictionary<string, int> volunteerNumberOfContracts)
+        public VolunteerMainDisplayIndexResponse(List<Volunteer> volunteers, FilterData filterData, PagingData pagingData, bool emptyDatabase, int volunteersAfterFiltering, string stringOfIDs, string dictionaryKey, Dictionary<string, string> idsDictionary, Dictionary<string, int> volunteerNumberOfContracts, Dictionary<string, int> volunteerNumberOfAdditionals)
         {
             Volunteers = volunteers;
             FilterData = filterData;
@@ -250,6 +267,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             DictionaryKey = dictionaryKey;
             IdsDictionary = idsDictionary;
             VolunteerNumberOfContracts = volunteerNumberOfContracts;
+            VolunteerNumberOfAdditionals = volunteerNumberOfAdditionals;
         }
     }
 

@@ -76,6 +76,15 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <label> @Localizer["CreationDate"]:</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Model.CreationDate.ToShortDateString()
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
                         <label> @Localizer["RegistrationDate"]:</label>
                     </div>
                     <div class="col-sm-6">

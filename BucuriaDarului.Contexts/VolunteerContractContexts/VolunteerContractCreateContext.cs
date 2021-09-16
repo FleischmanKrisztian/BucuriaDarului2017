@@ -53,6 +53,13 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             }
             else
                 contract.NumberOfRegistration = request.NumberOfRegistration;
+            if (request.CreationDate < DateTime.MinValue.AddYears(3))
+            {
+                response.IsValid = false;
+                response.Message += "Please enter a valid Creation Date!";
+            }
+            else
+                contract.CreationDate = request.CreationDate.AddDays(1);
             if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
             {
                 response.IsValid = false;
@@ -111,6 +118,8 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         public string OwnerId { get; set; }
 
         public string NumberOfRegistration { get; set; }
+
+        public DateTime CreationDate { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 

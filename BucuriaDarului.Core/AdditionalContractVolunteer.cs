@@ -28,6 +28,8 @@ namespace BucuriaDarului.Core
 
         public string AdditionalContractNumberOfRegistration { get; set; }
 
+        public DateTime CreationDate { get; set; }
+
         public DateTime RegistrationDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }

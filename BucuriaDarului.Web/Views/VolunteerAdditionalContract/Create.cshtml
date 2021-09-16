@@ -78,6 +78,16 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                            <label> @Localizer["CreationDate"]:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" id="CreationDate" type="date" name="CreationDate" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" />
+                            @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
                             <label> @Localizer["RegistrationDate"]:</label>
                         </div>
                         <div class="col-md-6">

@@ -22,6 +22,9 @@ msgstr "Contractele beneficiarului"
 msgid "NumberOfDocumentsPerPage"
 msgstr "Numărul de documente pe pagină"
 
+msgid "CreationDate"
+msgstr "Data Intocmirii"
+
 msgid "PleaseInsertAFileName"
 msgstr "Introduceți numele Fișierului"
 

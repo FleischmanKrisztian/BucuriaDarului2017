@@ -7,7 +7,7 @@
 <h2 style="color:black">@Localizer["AdditionalContractsOfV"] @Model.NameOfVolunteer </h2>
 
 <p>
-      <a href=@Url.Action( "Index","VolunteerContract", new { idOfVolunteer = Model.VolunteerId}) class="btn btn-primary">@Localizer["BackToList"]</a>
+    <a href=@Url.Action( "Index","VolunteerContract", new { idOfVolunteer = Model.VolunteerId}) class="btn btn-primary">@Localizer["BackToList"]</a>
     <a href=@Url.Action("Create", new { idOfVolunteerContract = Model.ContractId }) class="btn btn-primary" style="background-color: green; border-color: darkgreen">@Localizer["CreateNew"]</a>
 </p>
 <table class="table" style="align-items: center">
@@ -15,6 +15,9 @@
         <tr>
             <th>
                 @Localizer["AdditionalContractNumberOfRegistration"]
+            </th>
+            <th>
+                @Localizer["CreationDate"]
             </th>
             <th>
                 @Localizer["RegistrationDate"]
@@ -33,13 +36,16 @@
                     @Html.DisplayFor(modelItem => item.AdditionalContractNumberOfRegistration)
                 </td>
                 <td>
+                    @item.CreationDate.ToShortDateString()
+                </td>
+                <td>
                     @item.RegistrationDate.ToShortDateString()
                 </td>
                 <td>
                     @item.ExpirationDate.ToShortDateString()
                 </td>
                 <td>
-                    
+
                     <a href=@Url.Action( "Delete", new { id = item.Id })><img src="~/Resources/delete.jpg" width="40" height="40" title=@Localizer["Delete"]></a>
                     <a href=@Url.Action( "Print", new { id = item.Id })><img src="~/Resources/print.jpg" width="40" height="40" title=@Localizer["Print"]></a>
                 </td>

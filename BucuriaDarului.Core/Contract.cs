@@ -8,6 +8,8 @@ namespace BucuriaDarului.Core
 
         public string NumberOfRegistration { get; set; }
 
+        public DateTime CreationDate { get; set; }
+
         public DateTime RegistrationDate { get; set; }
 
         public DateTime ExpirationDate { get; set; }
