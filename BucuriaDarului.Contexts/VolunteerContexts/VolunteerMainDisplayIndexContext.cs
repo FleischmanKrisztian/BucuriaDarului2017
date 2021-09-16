@@ -80,11 +80,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             {
                 volunteers = volunteers.Where(x => x.ContactInformation.PhoneNumber.Contains(filterData.SearchedContact, StringComparison.InvariantCultureIgnoreCase) || x.ContactInformation.MailAddress.Contains(filterData.SearchedContact, StringComparison.InvariantCultureIgnoreCase)).ToList();
             }
-            if (filterData.SearchedHourCount != 0)
-            {
-                volunteers = volunteers.Where(x => x.HourCount >= (filterData.SearchedHourCount)).ToList();
-            }
-
             if (DateInputReceived(filterData.LowerDate))
             {
                 volunteers = volunteers.Where(x => x.Birthdate > filterData.LowerDate).ToList();
@@ -186,7 +181,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public FilterData FilterData { get; set; }
         public PagingData PagingData { get; set; }
 
-        public VolunteerMainDisplayIndexRequest(int nrOfDocs, int page, string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicense, DateTime lowerDate, DateTime upperDate, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, int searchedHourCount)
+        public VolunteerMainDisplayIndexRequest(int nrOfDocs, int page, string searchedFullname, string searchedContact, string sortOrder, bool active, bool hasCar, bool hasDrivingLicense, DateTime lowerDate, DateTime upperDate, string gender, string searchedAddress, string searchedWorkplace, string searchedOccupation, string searchedRemarks, string searchedHourCount)
         {
             var filterData = new FilterData();
             var pagingData = new PagingData();
@@ -202,8 +197,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
             filterData.SearchedWorkplace = searchedWorkplace;
             filterData.SearchedOccupation = searchedOccupation;
             filterData.SearchedRemarks = searchedRemarks;
-            if (searchedHourCount != 0)
-                filterData.SearchedHourCount = searchedHourCount;
+            filterData.SearchedHourCount = searchedHourCount;
             filterData.Gender = gender;
             filterData.SortOrder = new Sort(sortOrder);
             pagingData.CurrentPage = GetCurrentPage(page);
@@ -280,7 +274,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public string SearchedWorkplace { get; set; }
         public string SearchedOccupation { get; set; }
         public string SearchedRemarks { get; set; }
-        public int SearchedHourCount { get; set; }
+        public string SearchedHourCount { get; set; }
         public Sort SortOrder { get; set; }
     }
 
@@ -290,7 +284,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
         public string DateSortParam { get; set; }
         public string FullnameSort { get; set; }
         public string GenderSort { get; set; }
-        public string HourCountSort { get; set; }
         public string ActiveSort { get; set; }
 
         public Sort(string sortOrder)
@@ -299,7 +292,6 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
 
             DateSortParam = sortOrder == "Date" ? "Date_desc" : "Date";
             FullnameSort = sortOrder == "Fullname" ? "Fullname_desc" : "Fullname";
-            HourCountSort = sortOrder == "HourCount" ? "HourCount_desc" : "HourCount";
             GenderSort = sortOrder == "Gender" ? "Gender_desc" : "Gender";
             ActiveSort = sortOrder == "Active" ? "Active_desc" : "Active";
         }

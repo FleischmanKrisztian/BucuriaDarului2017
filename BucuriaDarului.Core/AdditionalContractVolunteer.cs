@@ -16,7 +16,7 @@ namespace BucuriaDarului.Core
 
         public string Address { get; set; }
 
-        public int HourCount { get; set; }
+        public string HourCount { get; set; }
 
         public string PhoneNumber { get; set; }
 

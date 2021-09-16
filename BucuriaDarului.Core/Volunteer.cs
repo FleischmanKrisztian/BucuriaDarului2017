@@ -31,7 +31,7 @@ namespace BucuriaDarului.Core
 
         public bool InActivity { get; set; }
 
-        public int HourCount { get; set; }
+        public string HourCount { get; set; }
 
         public ContactInformation ContactInformation { get; set; }
 

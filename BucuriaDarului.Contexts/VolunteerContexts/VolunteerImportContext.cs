@@ -338,24 +338,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                         volunteer.Birthdate = date.AddHours(3);
                     }
                     else if (c.Value == "WorkingHours")
-                    {
-                        try
-                        {
-                            volunteer.HourCount = Convert.ToInt32(line[c.Key - 1]);
-                        }
-                        catch
-                        {
-                            if (c.Value == "WorkingHours")
-                            {
-                                if (volunteer.AdditionalInfo != null)
-                                {
-                                    additionalInfo.Remark += " ;" + line[c.Key - 1];
-                                }
-                                else
-                                    additionalInfo.Remark = line[c.Key - 1];
-                            }
-                        }
-                    }
+                        volunteer.HourCount = line[c.Key - 1];
                 }
             }
             volunteer.InActivity = true;

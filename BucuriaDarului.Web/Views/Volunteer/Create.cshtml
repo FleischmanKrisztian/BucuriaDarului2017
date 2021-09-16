@@ -265,7 +265,7 @@
                         @Localizer["HourCount"]:
                     </div>
                     <div class="col-md-5">
-                        @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "8" } })
+                        @Html.EditorFor(model => model.HourCount, new { htmlAttributes = new { @data_val = "false", @class = "form-control", maxlength = "50" } })
                         @Html.ValidationMessageFor(model => model.HourCount, "", new { @class = "text-danger" })
                         <hr />
                     </div>
