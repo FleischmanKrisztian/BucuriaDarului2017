@@ -10,6 +10,11 @@
     <a href="../Volunteer/Index/@Model.Query" class="btn btn-primary">@Localizer["BackToList"]</a>
     <a href=@Url.Action("Create", new {idOfVolunteer = Model.VolunteerId}) class="btn btn-primary" style="background-color: green; border-color: darkgreen">@Localizer["CreateNew"]</a>
 </p>
+
+<br />
+<h4>@Localizer["LastContractWas"]: @Model.LastCreatedContract.NumberOfRegistration.</h4>
+<br />
+
 <table class="table" style="align-items: center">
     <thead>
         <tr>

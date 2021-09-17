@@ -17,10 +17,13 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
         public VolunteerAdditionalContractsMainDisplayIndexResponse Execute(VolunteerAdditionalContractsMainDisplayIndexRequest request)
         {
             var additionalContracts = dataGateway.GetListAdditionalContracts();
+            var lastCreatedContract = new AdditionalContractVolunteer();
+            if (additionalContracts.Count != 0)
+                lastCreatedContract = additionalContracts.OrderBy(p => p.CreationDate).Last();
             var contract = dataGateway.GetContract(request.ContractId);
             additionalContracts = additionalContracts.Where(z => z.ContractID.ToString() == request.ContractId).ToList();
             
-            return new VolunteerAdditionalContractsMainDisplayIndexResponse(additionalContracts, contract.Fullname,contract.OwnerID, request.ContractId);
+            return new VolunteerAdditionalContractsMainDisplayIndexResponse(additionalContracts, lastCreatedContract, contract.Fullname,contract.OwnerID, request.ContractId);
         }
     }
 
@@ -40,14 +43,16 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
     public class VolunteerAdditionalContractsMainDisplayIndexResponse
     {
         public List<AdditionalContractVolunteer> Contracts { get; set; }
+        public AdditionalContractVolunteer LastCreatedAdditional { get; set; }
         public string NameOfVolunteer { get; set; }
         public string Query { get; set; }
         public string VolunteerId { get; set; }
         public string ContractId { get; set; }
 
-        public VolunteerAdditionalContractsMainDisplayIndexResponse(List<AdditionalContractVolunteer> contracts, string nameOfVolunteer, string volunteerId,string contractId)
+        public VolunteerAdditionalContractsMainDisplayIndexResponse(List<AdditionalContractVolunteer> contracts,AdditionalContractVolunteer lastCreatedAdditional, string nameOfVolunteer, string volunteerId,string contractId)
         {
             Contracts = contracts;
+            LastCreatedAdditional = lastCreatedAdditional;
             NameOfVolunteer = nameOfVolunteer;
             VolunteerId = volunteerId;
             ContractId = contractId;

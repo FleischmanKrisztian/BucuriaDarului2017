@@ -17,12 +17,14 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
         public VolunteerContractsMainDisplayIndexResponse Execute(VolunteerContractsMainDisplayIndexRequest request)
         {
             var contracts = dataGateway.GetListVolunteerContracts();
+            var lastCreatedContract = new VolunteerContract();
+            if (contracts.Count != 0)
+                lastCreatedContract = contracts.OrderBy(p => p.CreationDate).Last();
+
             var volunteer = dataGateway.GetVolunteer(request.VolunteerId);
             contracts = contracts.Where(z => z.OwnerID.ToString() == request.VolunteerId).ToList();
 
-            var lastCreatedContract = new VolunteerContract();
-            if (contracts.Count != 0)
-                lastCreatedContract = contracts.OrderBy(p=>p.CreationDate).First();
+
 
             return new VolunteerContractsMainDisplayIndexResponse(contracts, lastCreatedContract, volunteer.Fullname, volunteer.Id);
         }

@@ -16,6 +16,13 @@ msgstr "Niciun șablon disponibil, iar modelul implicit a fost mutat într-o loc
 msgid "ContractsOfV"
 msgstr "Contractele voluntarului"
 
+msgid "LastContractWas"
+msgstr "Ultimul Contract Creat a fost"
+
+msgid "LastAdditionalContractWas"
+msgstr "Ultimul Contract Aditional Creat a fost"
+
+
 msgid "ContractsOfB"
 msgstr "Contractele beneficiarului"
 
