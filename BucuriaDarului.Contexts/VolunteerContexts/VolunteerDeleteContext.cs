@@ -48,6 +48,7 @@ namespace BucuriaDarului.Contexts.VolunteerContexts
                 }
                 dataGateway.Delete(id);
                 dataGateway.DeleteVolunteerContracts(id);
+                dataGateway.DeleteAdditionalContracts(id);
             }
             else
             {

@@ -18,6 +18,15 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
             volunteerContractCollection.DeleteOne(filter);
         }
 
+        public void DeleteAdditionalContracts(string id)
+        {
+            var dbContext = new MongoDBGateway();
+            dbContext.ConnectToDB(Connection.SERVER_NAME_LOCAL, Connection.SERVER_PORT_LOCAL, Connection.DATABASE_NAME_LOCAL);
+            var volunteerContractCollection = dbContext.Database.GetCollection<VolunteerContract>("VolunteerAdditionalContracts");
+            var filter = Builders<VolunteerContract>.Filter.Eq("ContractID", id);
+            volunteerContractCollection.DeleteMany(filter);
+        }
+
         public List<VolunteerContract> GetListVolunteerContracts()
         {
             var dbContext = new MongoDBGateway();

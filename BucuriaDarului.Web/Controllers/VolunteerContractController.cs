@@ -131,6 +131,7 @@ namespace BucuriaDarului.Web.Controllers
         {
             var volunteerContractDeleteContext = new VolunteerContractDeleteContext(new VolunteerContractDeleteGateway());
             var response = volunteerContractDeleteContext.Execute(request);
+
             if (!response.IsValid)
                 return RedirectToAction("Delete", new { id = request.ContractId, message = @_localizer["Error! This document couldn't be deleted!"] });
             return RedirectToAction("Index", new { idOfVolunteer = response.VolunteerId });

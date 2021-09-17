@@ -12,6 +12,8 @@ namespace BucuriaDarului.Core.Gateways.VolunteerGateways
 
         void DeleteVolunteerContracts(string id);
 
+        void DeleteAdditionalContracts(string id);
+
         void UpdateEvent(string eventId, Event @event);
 
         List<Event> GetEvents();

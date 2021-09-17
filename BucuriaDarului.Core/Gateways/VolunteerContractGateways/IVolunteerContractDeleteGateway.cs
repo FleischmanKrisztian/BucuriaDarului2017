@@ -6,6 +6,8 @@ namespace BucuriaDarului.Core.Gateways.VolunteerContractGateways
     {
         public void Delete(string id);
 
+        void DeleteAdditionalContracts(string id);
+
         List<VolunteerContract> GetListVolunteerContracts();
     }
 }

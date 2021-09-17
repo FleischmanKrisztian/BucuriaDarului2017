@@ -18,6 +18,7 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var response = new VolunteerContractDeleteResponse();
             response.VolunteerId = request.OwnerID;
             dataGateway.Delete(request.ContractId);
+            dataGateway.DeleteAdditionalContracts(request.ContractId);
             var contracts = dataGateway.GetListVolunteerContracts();
             if (contracts.Find(x => x.Id == request.ContractId) != null)
                 response.IsValid = false;
