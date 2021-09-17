@@ -1,5 +1,6 @@
 ﻿using BucuriaDarului.Contexts.VolunteerContexts;
 using BucuriaDarului.Contexts.VolunteerContractContexts;
+using BucuriaDarului.Contexts.VolunteerAdditionalContractContexts;
 using BucuriaDarului.Core;
 using BucuriaDarului.Gateway.VolunteerContractGateways;
 using BucuriaDarului.Gateway.VolunteerGateways;
@@ -164,9 +165,18 @@ namespace BucuriaDarului.Web.Controllers
             var volunteerContractEditContext = new VolunteerContractEditContext(new VolunteerContractEditGateway());
             var volunteerContractEditResponse = volunteerContractEditContext.Execute(request);
 
+            var volunteerAdditionalEditContext = new VolunteerAdditionalContractEditContext(new VolunteerAdditionalContractEditGateway());
+            var volunteerAdditionalEditResponse = volunteerAdditionalEditContext.Execute(request);
+
             if (!volunteerContractEditResponse.IsValid)
             {
                 volunteerEditResponse.Message = volunteerContractEditResponse.Message;
+                volunteerEditResponse.IsValid = false;
+            }
+
+            if (!volunteerAdditionalEditResponse.IsValid)
+            {
+                volunteerEditResponse.Message = volunteerAdditionalEditResponse.Message;
                 volunteerEditResponse.IsValid = false;
             }
 
