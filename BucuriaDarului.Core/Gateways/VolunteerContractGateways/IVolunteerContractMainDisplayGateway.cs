@@ -7,5 +7,6 @@ namespace BucuriaDarului.Core.Gateways.VolunteerContractGateways
         List<VolunteerContract> GetListVolunteerContracts();
 
         Volunteer GetVolunteer(string id);
+        //VolunteerContract GetLastVolunteerContract();
     }
 }

@@ -20,7 +20,11 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
             var volunteer = dataGateway.GetVolunteer(request.VolunteerId);
             contracts = contracts.Where(z => z.OwnerID.ToString() == request.VolunteerId).ToList();
 
-            return new VolunteerContractsMainDisplayIndexResponse(contracts, volunteer.Fullname, volunteer.Id);
+            var lastCreatedContract = new VolunteerContract();
+            if (contracts.Count != 0)
+                lastCreatedContract = contracts.OrderBy(p=>p.CreationDate).First();
+
+            return new VolunteerContractsMainDisplayIndexResponse(contracts, lastCreatedContract, volunteer.Fullname, volunteer.Id);
         }
     }
 
@@ -40,13 +44,15 @@ namespace BucuriaDarului.Contexts.VolunteerContractContexts
     public class VolunteerContractsMainDisplayIndexResponse
     {
         public List<VolunteerContract> Contracts { get; set; }
+        public VolunteerContract LastCreatedContract { get; set; }
         public string NameOfVolunteer { get; set; }
         public string Query { get; set; }
         public string VolunteerId { get; set; }
 
-        public VolunteerContractsMainDisplayIndexResponse(List<VolunteerContract> contracts, string nameOfVolunteer, string volunteerId)
+        public VolunteerContractsMainDisplayIndexResponse(List<VolunteerContract> contracts, VolunteerContract lastCreatedContract, string nameOfVolunteer, string volunteerId)
         {
             Contracts = contracts;
+            LastCreatedContract = lastCreatedContract;
             NameOfVolunteer = nameOfVolunteer;
             VolunteerId = volunteerId;
         }

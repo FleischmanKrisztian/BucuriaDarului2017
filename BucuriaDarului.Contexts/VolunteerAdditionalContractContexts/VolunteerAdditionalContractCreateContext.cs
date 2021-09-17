@@ -59,7 +59,7 @@ namespace BucuriaDarului.Contexts.VolunteerAdditionalContractContexts
                 response.Message += "Please enter a valid Creation Date!";
             }
             else
-                contract.ExpirationDate = request.ExpirationDate.AddDays(1);
+                contract.CreationDate = request.CreationDate;
             if (request.ExpirationDate < DateTime.MinValue.AddYears(3))
             {
                 response.IsValid = false;

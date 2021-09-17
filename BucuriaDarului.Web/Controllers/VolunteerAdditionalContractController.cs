@@ -33,13 +33,6 @@ namespace BucuriaDarului.Web.Controllers
             return View(model);
         }
 
-        //public ActionResult ContractExp()
-        //{
-        //    var nrOfDays = UniversalFunctions.GetNumberOfDaysBeforeExpiration(TempData);
-        //    var contractExpirationContext = new VolunteerContractsExpirationContext(new VolunteerContractExpirationGateway());
-        //    var contracts = contractExpirationContext.Execute(nrOfDays);
-        //    return View(contracts);
-        //}
 
         [HttpGet]
         public ActionResult Create(string idOfVolunteerContract, string message)

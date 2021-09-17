@@ -7,6 +7,12 @@ namespace BucuriaDarului.Gateway.VolunteerContractGateways
 {
     public class VolunteerContractIndexDisplayGateway : IVolunteerContractMainDisplayGateway
     {
+        //public VolunteerContract GetLastVolunteerContract()
+        //{
+        //    var lastContract = ListVolunteerContractGateway.GetLastVolunteerContracts();
+        //    return lastContract;
+        //}
+
         public List<VolunteerContract> GetListVolunteerContracts()
         {
             var contracts = ListVolunteerContractGateway.GetListVolunteerContracts();
